@@ -2,6 +2,10 @@
 PPU_INC = 1
 
 .global ppu_vblank_nop
+.global ppu_load_palette_bg
+.global ppu_load_chr_amount
+.global ppu_safely_disable_graphics
+.global ppu_safely_enable_graphics
 
 ;bit positions for PPU control register $2000
 PPU0_EXECUTE_NMI = 7

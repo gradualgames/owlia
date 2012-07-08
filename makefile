@@ -18,6 +18,9 @@ NES_FILE        = $(OUTPUT_NAME).nes
 
 #Core source files
 FILES           += main \
+                   map0 \
+                   controller \
+                   map \
                    soundengine \
                    ppu \
                    zp \

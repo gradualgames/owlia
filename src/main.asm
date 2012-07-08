@@ -1,6 +1,8 @@
 .include "ppu.inc"
 .include "zp.inc"
 .include "ram.inc"
+.include "map.inc"
+.include "map0.inc"
 
 .segment "HEADER"
 .byte "NES",$1a   ;iNES header
@@ -50,8 +52,117 @@ reset:
   upload_ppu_2000
   upload_ppu_2001
 
-  ;initialize various modules which require a guaranteed initial state
+  ;initialize
+  jsr ppu_safely_disable_graphics
+  
+  lda #<map0_chr
+  sta w0
+  lda #>map0_chr
+  sta w0+1
+  jsr ppu_load_chr_amount
+  
+  lda #<palette
+  sta w0
+  lda #>palette
+  sta w0+1
+  wait_vblank
+  jsr ppu_load_palette_bg
+  
+  jsr ppu_safely_enable_graphics
+  
+  ;initialize variables
+  lda #0
+  sta vblank_data_ready
+  
+  lda #0
+  sta row_ready
+  lda #0
+  sta column_ready
+  
+  lda #<nametable_and_attribute_update_ppu
+  sta vblank_routine
+  lda #>nametable_and_attribute_update_ppu
+  sta vblank_routine+1
+  
+  lda #$20
+  sta camera_nametable_hibyte
+  
+  lda #(16*0)
+  sta camera_x
+  lda #0
+  sta camera_x+1
+  lda #(16*0)
+  sta camera_y
+  lda #0
+  sta camera_y+1
+  
+  lda #(16*0)
+  sta camera_scroll_x
+  lda #(232)
+  sta camera_scroll_y
+  
+  lda #<metatile_table_attributes
+  sta metatile_table_attributes_address
+  lda #>metatile_table_attributes
+  sta metatile_table_attributes_address+1
+  
+  lda #<metatile_table_top_left_tiles
+  sta metatile_table_top_left_tiles_address
+  lda #>metatile_table_top_left_tiles
+  sta metatile_table_top_left_tiles_address+1
+  
+  lda #<metatile_table_top_right_tiles
+  sta metatile_table_top_right_tiles_address
+  lda #>metatile_table_top_right_tiles
+  sta metatile_table_top_right_tiles_address+1
+  
+  lda #<metatile_table_bottom_left_tiles
+  sta metatile_table_bottom_left_tiles_address
+  lda #>metatile_table_bottom_left_tiles
+  sta metatile_table_bottom_left_tiles_address+1
 
+  lda #<metatile_table_bottom_right_tiles
+  sta metatile_table_bottom_right_tiles_address
+  lda #>metatile_table_bottom_right_tiles
+  sta metatile_table_bottom_right_tiles_address+1
+  
+  lda #<big_metatile_table_top_left
+  sta big_metatile_table_top_left_address
+  lda #>big_metatile_table_top_left
+  sta big_metatile_table_top_left_address+1
+  
+  lda #<big_metatile_table_top_right
+  sta big_metatile_table_top_right_address
+  lda #>big_metatile_table_top_right
+  sta big_metatile_table_top_right_address+1
+
+  lda #<big_metatile_table_bottom_left
+  sta big_metatile_table_bottom_left_address
+  lda #>big_metatile_table_bottom_left
+  sta big_metatile_table_bottom_left_address+1
+  
+  lda #<big_metatile_table_bottom_right
+  sta big_metatile_table_bottom_right_address
+  lda #>big_metatile_table_bottom_right
+  sta big_metatile_table_bottom_right_address+1
+  
+  lda #<rle_compressed_map
+  sta w0
+  lda #>rle_compressed_map
+  sta w0+1
+  jsr decompress_rle_map
+  
+  ;jsr fill_nametable_rows
+  
+  ;jmp vertical_scrolling_test
+  
+  jsr fill_nametable_columns
+  
+  ;jmp horizontal_scrolling_test
+  
+  jmp fourway_scrolling_test
+  
+  
 loop:
 
   jmp loop

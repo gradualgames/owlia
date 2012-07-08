@@ -1,6 +1,73 @@
 .include "ram.inc"
 
+.segment "BSS"
+
 ppu_2000: .res 1
 ppu_2001: .res 1
 ppu_2005: .res 2
 ppu_2006: .res 2
+
+buffer_controller: .res 8
+
+map_width: .res 1
+map_height: .res 1
+map_address: .res 2
+metatile_table_attributes_address:         .res 2
+metatile_table_top_left_tiles_address:     .res 2
+metatile_table_top_right_tiles_address:    .res 2
+metatile_table_bottom_left_tiles_address:  .res 2
+metatile_table_bottom_right_tiles_address: .res 2
+big_metatile_table_top_left_address: .res 2
+big_metatile_table_top_right_address: .res 2
+big_metatile_table_bottom_left_address: .res 2
+big_metatile_table_bottom_right_address: .res 2
+decompressed_map: .res 1024
+decompressed_map_end:
+
+camera_x: .res 2
+camera_y: .res 2
+
+camera_scroll_x: .res 1
+camera_scroll_y: .res 1
+camera_nametable_hibyte: .res 1
+
+row_ready: .res 1
+column_ready: .res 1
+
+intermediate_attribute_row_buffer: .res 17
+
+nametable_row_buffer: .res 34
+
+name_table1_row_start_x: .res 1
+name_table1_row_length:  .res 1
+
+name_table2_row_start_x: .res 1
+name_table2_row_length:  .res 1
+
+name_table1_row_vram_offset: .res 2
+name_table2_row_vram_offset: .res 2
+
+attribute_table1: .res 64
+attribute_table2: .res 64
+
+attribute_table1_row_offset:  .res 1
+attribute_table1_row_length:  .res 1
+
+attribute_table2_row_offset:  .res 1
+attribute_table2_row_length:  .res 1
+
+attribute_table1_row_vram_length: .res 1
+attribute_table2_row_vram_length: .res 1
+
+attribute_table1_row_vram_offset: .res 2
+attribute_table2_row_vram_offset: .res 2
+
+intermediate_attribute_column_buffer: .res 15
+
+nametable_column_buffer: .res 30
+
+nametable_column_vram_offset: .res 2
+
+attribute_column_vram_offset: .res 2
+
+attribute_column_offset: .res 1
