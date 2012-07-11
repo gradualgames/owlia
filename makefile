@@ -19,6 +19,7 @@ NES_FILE        = $(OUTPUT_NAME).nes
 #Core source files
 FILES           += main \
                    map0 \
+                   spritesheet0 \
                    controller \
                    map \
                    soundengine \
