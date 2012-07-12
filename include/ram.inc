@@ -21,11 +21,6 @@ RAM_INC = 1
 .global big_metatile_table_bottom_right_address
 .global map_width
 .global map_height
-.global decompressed_map             ;a 64x64 map of indices into the currently loaded map.
-                                     ;can be used with big_metatiles or just metatiles
-                                     ;depending on whether this is a large map chunk or a
-                                     ;single screen map chunk.
-.global decompressed_map_end
 
 .global camera_x  ;camera x position relative to top left corner of map
 .global camera_y  ;camera y position relative to top left corner of map

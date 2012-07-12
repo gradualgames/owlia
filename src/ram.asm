@@ -21,8 +21,6 @@ big_metatile_table_top_left_address: .res 2
 big_metatile_table_top_right_address: .res 2
 big_metatile_table_bottom_left_address: .res 2
 big_metatile_table_bottom_right_address: .res 2
-decompressed_map: .res 1024
-decompressed_map_end:
 
 camera_x: .res 2
 camera_y: .res 2

@@ -146,11 +146,10 @@ reset:
   lda #>big_metatile_table_bottom_right
   sta big_metatile_table_bottom_right_address+1
   
-  lda #<rle_compressed_map
-  sta w0
-  lda #>rle_compressed_map
-  sta w0+1
-  jsr decompress_rle_map
+  lda #<map
+  sta map_address
+  lda #>map
+  sta map_address+1
   
   ;jsr fill_nametable_rows
   

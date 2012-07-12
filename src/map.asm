@@ -27,110 +27,6 @@ mod15lut:
   .byte 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
   .byte 0
 
-.proc decompress_rle_map
-rle_compressed_map_address = w0
-current_map_value = b0
-decompressed_map_offset = w1
-
-  ;point at beginning of decompressed map
-  lda #<decompressed_map
-  sta decompressed_map_offset
-  lda #>decompressed_map
-  sta decompressed_map_offset+1
-  
-  ;index is always 0, we're moving 16 bit pointers around in this routine
-  ldy #0
-  
-next_rle:
-  ;get a value from the rle compressed map
-  lda (rle_compressed_map_address),y
-  sta current_map_value
-  
-  ;test the rle flag
-  lda current_map_value
-  and #$80
-  beq value_only
-value_and_count:
-
-  ;erase rle flag
-  lda current_map_value
-  and #$7f
-  sta current_map_value
-  
-  ;increment pointer into rle map to get count
-  clc
-  lda rle_compressed_map_address
-  adc #$01
-  sta rle_compressed_map_address
-  lda rle_compressed_map_address+1
-  adc #$00
-  sta rle_compressed_map_address+1
-  
-  ;get count
-  lda (rle_compressed_map_address),y
-  tax
-
-: lda current_map_value
-  sta (decompressed_map_offset),y
-  
-  ;move along in the decompressed map
-  clc
-  lda decompressed_map_offset
-  adc #$01
-  sta decompressed_map_offset
-  lda decompressed_map_offset+1
-  adc #$00
-  sta decompressed_map_offset+1
-  
-  dex
-  bne :-
-  
-  ;increment pointer into rle map to get next value
-  clc
-  lda rle_compressed_map_address
-  adc #$01
-  sta rle_compressed_map_address
-  lda rle_compressed_map_address+1
-  adc #$00
-  sta rle_compressed_map_address+1
-  
-  jmp done
-value_only:
-
-  lda current_map_value
-  sta (decompressed_map_offset),y
-  
-  ;move along in the decompressed map
-  clc
-  lda decompressed_map_offset
-  adc #$01
-  sta decompressed_map_offset
-  lda decompressed_map_offset+1
-  adc #$00
-  sta decompressed_map_offset+1
-  
-  ;increment pointer into rle map to get next value
-  clc
-  lda rle_compressed_map_address
-  adc #$01
-  sta rle_compressed_map_address
-  lda rle_compressed_map_address+1
-  adc #$00
-  sta rle_compressed_map_address+1
-
-done:
-
-  lda decompressed_map_offset
-  cmp #<decompressed_map_end
-  bne next_rle
-  lda decompressed_map_offset+1
-  cmp #>decompressed_map_end
-  bne next_rle
-  
-  rts
-
-.endproc
-  
 .proc horizontal_scrolling_test
 
 loop:
@@ -992,14 +888,13 @@ data_not_ready:
 
 .endproc
 
-map_decode_row = big_map_decode_row_decompressed
+map_decode_row = big_map_decode_row_compressed
 ;map_decode_row = map_decode_row_uncompressed
-map_decode_column = big_map_decode_column_decompressed
+map_decode_column = big_map_decode_column_compressed
 ;map_decode_column = map_decode_column_uncompressed
 
-;decodes a single row of metatiles from a big (4 screen by 4 screen)
-;decompressed map stored at decompressed_map in ram
-.proc big_map_decode_row_decompressed
+;decodes a single row of metatiles from a big (4 screen by 4 screen) map
+.proc big_map_decode_row_compressed
 map_x = w0
 map_y = w1
 map_x_in_big_metatile_coordinates = w3
@@ -1027,7 +922,7 @@ big_metatile_table_top_right_address_zp = w13
 big_metatile_table_bottom_left_address_zp = w14
 big_metatile_table_bottom_right_address_zp = w15
 
-decompressed_map_offset = w16
+compressed_map_offset = w16
 
   ;copy various table addresses to zp
   lda metatile_table_attributes_address
@@ -1221,43 +1116,43 @@ done:
   
   ;calculate map offset
   lda map_y_in_big_metatile_coordinates
-  sta decompressed_map_offset
+  sta compressed_map_offset
   lda map_y_in_big_metatile_coordinates+1
-  sta decompressed_map_offset+1
+  sta compressed_map_offset+1
   
   ;shift map y in big metatile coordinates left by 5 to multiply by 32
-  ;after this, decompressed_map_offset will be the offset of the row
+  ;after this, compressed_map_offset will be the offset of the row
   ;in which we want to begin decoding
-  lda decompressed_map_offset+1
-  asl decompressed_map_offset
+  lda compressed_map_offset+1
+  asl compressed_map_offset
   rol
-  asl decompressed_map_offset
+  asl compressed_map_offset
   rol
-  asl decompressed_map_offset
+  asl compressed_map_offset
   rol
-  asl decompressed_map_offset
+  asl compressed_map_offset
   rol
-  asl decompressed_map_offset
+  asl compressed_map_offset
   rol
-  sta decompressed_map_offset+1
+  sta compressed_map_offset+1
   
   ;add on map y in big metatile coordinates
   clc
-  lda decompressed_map_offset
+  lda compressed_map_offset
   adc map_x_in_big_metatile_coordinates
-  sta decompressed_map_offset
-  lda decompressed_map_offset+1
+  sta compressed_map_offset
+  lda compressed_map_offset+1
   adc map_x_in_big_metatile_coordinates+1
-  sta decompressed_map_offset+1
+  sta compressed_map_offset+1
   
-  ;add on base address of decompressed map
+  ;add on base address of compressed map
   clc
-  lda decompressed_map_offset
-  adc #<decompressed_map
-  sta decompressed_map_offset
-  lda decompressed_map_offset+1
-  adc #>decompressed_map
-  sta decompressed_map_offset+1
+  lda compressed_map_offset
+  adc map_address
+  sta compressed_map_offset
+  lda compressed_map_offset+1
+  adc map_address+1
+  sta compressed_map_offset+1
   
   lda #0
   sta nametable_row_buffer_offset
@@ -1267,9 +1162,9 @@ done:
   
 next_metatile:
   
-  ;load an index into the big metatile arrays from the decompressed map
+  ;load an index into the big metatile arrays from the compressed map
   ldy #0
-  lda (decompressed_map_offset),y
+  lda (compressed_map_offset),y
   sta metatile_index
   
   lda odd_metatile_row_flag
@@ -1367,12 +1262,12 @@ done:
   sta intermediate_attribute_row_buffer,x
   
   clc
-  lda decompressed_map_offset
+  lda compressed_map_offset
   adc odd_metatile_column_flag
-  sta decompressed_map_offset
-  lda decompressed_map_offset+1
+  sta compressed_map_offset
+  lda compressed_map_offset+1
   adc #$00
-  sta decompressed_map_offset+1
+  sta compressed_map_offset+1
   
   ;flip the column even/odd flag
   lda odd_metatile_column_flag
@@ -1610,8 +1505,8 @@ done:
   
 .endproc
 
-;decodes a column from the decompressed map
-.proc big_map_decode_column_decompressed
+;decodes a column from the compressed map
+.proc big_map_decode_column_compressed
 map_x = w0
 map_y = w1
 map_x_in_big_metatile_coordinates = w3
@@ -1639,7 +1534,7 @@ big_metatile_table_top_right_address_zp = w13
 big_metatile_table_bottom_left_address_zp = w14
 big_metatile_table_bottom_right_address_zp = w15
 
-decompressed_map_offset = w16
+compressed_map_offset = w16
 
   ;copy various table addresses to zp
   lda metatile_table_attributes_address
@@ -1862,43 +1757,43 @@ done:
   
   ;calculate map offset
   lda map_y_in_big_metatile_coordinates
-  sta decompressed_map_offset
+  sta compressed_map_offset
   lda map_y_in_big_metatile_coordinates+1
-  sta decompressed_map_offset+1
+  sta compressed_map_offset+1
   
   ;shift map y in big metatile coordinates left by 5 to multiply by 32
-  ;after this, decompressed_map_offset will be the offset of the row
+  ;after this, compressed_map_offset will be the offset of the row
   ;in which we want to begin decoding
-  lda decompressed_map_offset+1
-  asl decompressed_map_offset
+  lda compressed_map_offset+1
+  asl compressed_map_offset
   rol
-  asl decompressed_map_offset
+  asl compressed_map_offset
   rol
-  asl decompressed_map_offset
+  asl compressed_map_offset
   rol
-  asl decompressed_map_offset
+  asl compressed_map_offset
   rol
-  asl decompressed_map_offset
+  asl compressed_map_offset
   rol
-  sta decompressed_map_offset+1
+  sta compressed_map_offset+1
   
   ;add on map y in big metatile coordinates
   clc
-  lda decompressed_map_offset
+  lda compressed_map_offset
   adc map_x_in_big_metatile_coordinates
-  sta decompressed_map_offset
-  lda decompressed_map_offset+1
+  sta compressed_map_offset
+  lda compressed_map_offset+1
   adc map_x_in_big_metatile_coordinates+1
-  sta decompressed_map_offset+1
+  sta compressed_map_offset+1
   
-  ;add on base address of decompressed map
+  ;add on base address of compressed map
   clc
-  lda decompressed_map_offset
-  adc #<decompressed_map
-  sta decompressed_map_offset
-  lda decompressed_map_offset+1
-  adc #>decompressed_map
-  sta decompressed_map_offset+1
+  lda compressed_map_offset
+  adc map_address
+  sta compressed_map_offset
+  lda compressed_map_offset+1
+  adc map_address+1
+  sta compressed_map_offset+1
   
   ldx map_y_in_metatile_coordinates
   lda mod15lut,x
@@ -1911,9 +1806,9 @@ done:
   
 next_metatile:
   
-  ;load an index into the big metatile arrays from the decompressed map
+  ;load an index into the big metatile arrays from the compressed map
   ldy #0
-  lda (decompressed_map_offset),y
+  lda (compressed_map_offset),y
   sta metatile_index
   
   ldy metatile_index
@@ -2008,12 +1903,12 @@ done:
   sta intermediate_attribute_column_buffer,x
   
   clc
-  lda decompressed_map_offset
+  lda compressed_map_offset
   adc odd_metatile_row_flag
-  sta decompressed_map_offset
-  lda decompressed_map_offset+1
+  sta compressed_map_offset
+  lda compressed_map_offset+1
   adc #$00
-  sta decompressed_map_offset+1
+  sta compressed_map_offset+1
   
   ;flip the row even/odd flag
   lda odd_metatile_row_flag
