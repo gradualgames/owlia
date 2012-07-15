@@ -1,6 +1,8 @@
 .ifndef RAM_INC
 RAM_INC = 1
 
+MAX_ENTITIES = 8
+
 .global sprite
 .global next_sprite_address
 .global sprite_group_offset
@@ -8,6 +10,32 @@ RAM_INC = 1
 .global animation_object
 .global current_animation_definition
 .global current_sprite_flags
+
+.global entity_type
+.global entity_flags
+.global entity_state
+.global entity_action
+.global entity_spawn_x_lo
+.global entity_spawn_x_hi
+.global entity_spawn_y_lo
+.global entity_spawn_y_hi
+.global entity_x_lo
+.global entity_x_hi
+.global entity_y_lo
+.global entity_y_hi
+.global entity_sprite_group_offset
+.global entity_animation_frame
+.global entity_animation_counter
+.global entity_animation_address_lo
+.global entity_animation_address_hi
+.global entity_local0
+.global entity_local1
+.global entity_local2
+.global entity_local3
+.global entity_local4
+.global entity_local5
+.global entity_local6
+.global entity_local7
 
 .global ppu_2000
 .global ppu_2001

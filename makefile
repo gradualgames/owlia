@@ -21,6 +21,8 @@ FILES           += zp \
                    ram \
                    main \
                    map0 \
+                   entities \
+                   entity \
                    spritesheet0 \
                    controller \
                    map \

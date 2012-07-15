@@ -14,6 +14,25 @@
 
 .endproc
 
+;explicitly draws frame b0 of animation def at w2
+.proc sprite_draw_animation_frame
+frame = b0
+animation_rom_address = w2
+
+  ldy frame
+  iny
+  iny
+  lda (animation_rom_address),y
+  sta w0
+  iny
+  lda (animation_rom_address),y
+  sta w0+1
+  jsr sprite_draw_metasprite
+
+  rts
+
+.endproc
+
 ;draws the current frame of the animation at w1
 ;against the animation frames at w2. The user is expected
 ;to adjust the address of the animation being drawn to

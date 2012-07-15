@@ -7,6 +7,7 @@
 .include "sprite.inc"
 .include "spritesheet0.inc"
 .include "soundengine.inc"
+.include "entity.inc"
 
 .segment "CODE"
 
@@ -457,6 +458,12 @@ SPEED = 4
   lda #0
   sta camera_y+1
   
+  jsr entity_init_all
+  
+  lda #0
+  sta b0
+  jsr entity_spawn
+  
   lda #<animation_object
   sta w1
   lda #>animation_object
@@ -600,8 +607,12 @@ done_scrolling:
   lda current_sprite_flags
   sta b2
   
-  jsr sprite_draw_animation
+  ;jsr sprite_draw_animation
 
+  jsr entity_update_all
+  
+  jsr entity_draw_all
+  
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
   
@@ -611,7 +622,7 @@ done_scrolling:
   
   jmp loop
 
-.proc right_handler
+right_handler:
 
   lda #SPEED
   sta b0
@@ -652,9 +663,7 @@ done_scrolling:
   
   rts
   
-.endproc
-  
-.proc left_handler
+left_handler:
 
   lda #SPEED
   sta b0
@@ -693,9 +702,7 @@ done_scrolling:
   
   rts
   
-.endproc
-  
-.proc up_handler
+up_handler:
 
   lda #SPEED
   sta b0
@@ -734,9 +741,7 @@ done_scrolling:
   
   rts
   
-.endproc
-  
-.proc down_handler
+down_handler:
 
   lda #SPEED
   sta b0
@@ -778,9 +783,7 @@ done_scrolling:
   
   rts
   
-.endproc
-  
-.proc up_and_right_handler
+up_and_right_handler:
 
   lda buffer_controller+buttons::_right
   and #$01
@@ -843,9 +846,7 @@ not_right_and_up:
 
   rts
 
-.endproc
-  
-.proc up_and_left_handler
+up_and_left_handler:
 
   lda buffer_controller+buttons::_left
   and #$01
@@ -908,9 +909,7 @@ not_left_and_up:
 
   rts
 
-.endproc
-  
-.proc down_and_right_handler
+down_and_right_handler:
 
   lda buffer_controller+buttons::_right
   and #$01
@@ -976,9 +975,7 @@ not_right_and_down:
 
   rts
 
-.endproc
-  
-.proc down_and_left_handler
+down_and_left_handler:
 
   lda buffer_controller+buttons::_left
   and #$01
@@ -1043,7 +1040,5 @@ not_right_and_down:
 not_left_and_down:
 
   rts
-  
-.endproc
-  
+
 .endproc

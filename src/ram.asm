@@ -10,6 +10,32 @@ animation_object: .res 2
 current_animation_definition: .res 2
 current_sprite_flags: .res 1
 
+entity_type:                 .res MAX_ENTITIES
+entity_flags:                .res MAX_ENTITIES
+entity_state:                .res MAX_ENTITIES
+entity_action:               .res MAX_ENTITIES
+entity_spawn_x_lo:           .res MAX_ENTITIES
+entity_spawn_x_hi:           .res MAX_ENTITIES
+entity_spawn_y_lo:           .res MAX_ENTITIES
+entity_spawn_y_hi:           .res MAX_ENTITIES
+entity_x_lo:                 .res MAX_ENTITIES
+entity_x_hi:                 .res MAX_ENTITIES
+entity_y_lo:                 .res MAX_ENTITIES
+entity_y_hi:                 .res MAX_ENTITIES
+entity_sprite_group_offset:  .res MAX_ENTITIES
+entity_animation_frame:      .res MAX_ENTITIES
+entity_animation_counter:    .res MAX_ENTITIES
+entity_animation_address_lo: .res MAX_ENTITIES
+entity_animation_address_hi: .res MAX_ENTITIES
+entity_local0:               .res MAX_ENTITIES
+entity_local1:               .res MAX_ENTITIES
+entity_local2:               .res MAX_ENTITIES
+entity_local3:               .res MAX_ENTITIES
+entity_local4:               .res MAX_ENTITIES
+entity_local5:               .res MAX_ENTITIES
+entity_local6:               .res MAX_ENTITIES
+entity_local7:               .res MAX_ENTITIES
+
 ppu_2000: .res 1
 ppu_2001: .res 1
 ppu_2005: .res 2
