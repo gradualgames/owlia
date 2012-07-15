@@ -62,22 +62,19 @@ WalkSide1:
   .byte $18,$23,$00,$08,$00
 
 WalkUp:
-  .byte $0a
+  .byte $06, $04
   .word WalkUp0
   .word WalkUp1
-  .word $0000
 
 WalkDown:
-  .byte $0a
+  .byte $06, $04
   .word WalkDown0
   .word WalkDown1
-  .word $0000
 
 WalkSide:
-  .byte $0a
+  .byte $06, $04
   .word WalkSide0
   .word WalkSide1
-  .word $0000
 
 Hero_chr:
   .word $0240

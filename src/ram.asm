@@ -6,6 +6,10 @@ sprite: .res 256
 next_sprite_address: .res 1
 sprite_group_offset: .res 1
 
+animation_object: .res 2
+current_animation_definition: .res 2
+current_sprite_flags: .res 1
+
 ppu_2000: .res 1
 ppu_2001: .res 1
 ppu_2005: .res 2

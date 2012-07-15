@@ -456,6 +456,18 @@ SPEED = 4
   sta camera_y
   lda #0
   sta camera_y+1
+  
+  lda #<animation_object
+  sta w1
+  lda #>animation_object
+  sta w1+1
+  lda #<WalkSide
+  sta w2
+  sta current_animation_definition
+  lda #>WalkSide
+  sta w2+1
+  sta current_animation_definition+1
+  jsr sprite_reset_animation
 
 loop:
   ;wait til data has been consumed by nmi routine
@@ -468,6 +480,8 @@ loop:
   
   jsr sound_update
   jsr sound_upload
+  
+  jsr sprite_clear_all
   
   jsr controller_read
   
@@ -573,8 +587,21 @@ done_scrolling:
   sta b2
   lda #0
   sta sprite_group_offset
-  jsr sprite_draw_metasprite
   
+  lda #<animation_object
+  sta w1
+  lda #>animation_object
+  sta w1+1
+  lda current_animation_definition
+  sta w2
+  lda current_animation_definition+1
+  sta w2+1
+  
+  lda current_sprite_flags
+  sta b2
+  
+  jsr sprite_draw_animation
+
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
   
@@ -607,6 +634,22 @@ done_scrolling:
   lda #1
   sta column_ready
   
+  lda #<animation_object
+  sta w1
+  lda #>animation_object
+  sta w1+1
+  lda #<WalkSide
+  sta current_animation_definition
+  sta w2
+  lda #>WalkSide
+  sta current_animation_definition+1
+  sta w2+1
+  
+  lda #0
+  sta current_sprite_flags
+  
+  jsr sprite_update_animation
+  
   rts
   
 .endproc
@@ -632,6 +675,22 @@ done_scrolling:
   lda #1
   sta column_ready
   
+  lda #<animation_object
+  sta w1
+  lda #>animation_object
+  sta w1+1
+  lda #<WalkSide
+  sta current_animation_definition
+  sta w2
+  lda #>WalkSide
+  sta current_animation_definition+1
+  sta w2+1
+  
+  lda #%01000000
+  sta current_sprite_flags
+  
+  jsr sprite_update_animation
+  
   rts
   
 .endproc
@@ -656,6 +715,22 @@ done_scrolling:
   jsr map_process_intermediate_attribute_row_buffer
   lda #1
   sta row_ready
+  
+  lda #<animation_object
+  sta w1
+  lda #>animation_object
+  sta w1+1
+  lda #<WalkUp
+  sta current_animation_definition
+  sta w2
+  lda #>WalkUp
+  sta current_animation_definition+1
+  sta w2+1
+  
+  lda #0
+  sta current_sprite_flags
+  
+  jsr sprite_update_animation
   
   rts
   
@@ -685,6 +760,22 @@ done_scrolling:
   lda #1
   sta row_ready
 
+  lda #<animation_object
+  sta w1
+  lda #>animation_object
+  sta w1+1
+  lda #<WalkDown
+  sta current_animation_definition
+  sta w2
+  lda #>WalkDown
+  sta current_animation_definition+1
+  sta w2+1
+  
+  lda #0
+  sta current_sprite_flags
+  
+  jsr sprite_update_animation
+  
   rts
   
 .endproc
@@ -737,6 +828,16 @@ done_scrolling:
   jsr map_process_intermediate_attribute_row_buffer
   lda #1
   sta row_ready
+  
+  lda #<animation_object
+  sta w1
+  lda #>animation_object
+  sta w1+1
+  lda current_animation_definition
+  sta w2
+  lda current_animation_definition+1
+  sta w2+1
+  jsr sprite_update_animation
   
 not_right_and_up:
 
@@ -792,6 +893,16 @@ not_right_and_up:
   jsr map_process_intermediate_attribute_row_buffer
   lda #1
   sta row_ready
+  
+  lda #<animation_object
+  sta w1
+  lda #>animation_object
+  sta w1+1
+  lda current_animation_definition
+  sta w2
+  lda current_animation_definition+1
+  sta w2+1
+  jsr sprite_update_animation
   
 not_left_and_up:
 
@@ -851,6 +962,16 @@ not_left_and_up:
   lda #1
   sta row_ready
   
+  lda #<animation_object
+  sta w1
+  lda #>animation_object
+  sta w1+1
+  lda current_animation_definition
+  sta w2
+  lda current_animation_definition+1
+  sta w2+1
+  jsr sprite_update_animation
+  
 not_right_and_down:
 
   rts
@@ -908,6 +1029,16 @@ not_right_and_down:
   jsr map_process_intermediate_attribute_row_buffer
   lda #1
   sta row_ready
+  
+  lda #<animation_object
+  sta w1
+  lda #>animation_object
+  sta w1+1
+  lda current_animation_definition
+  sta w2
+  lda current_animation_definition+1
+  sta w2+1
+  jsr sprite_update_animation
   
 not_left_and_down:
 
