@@ -1,6 +1,10 @@
 .ifndef RAM_INC
 RAM_INC = 1
 
+.global sprite
+.global next_sprite_address
+.global sprite_group_offset
+
 .global ppu_2000
 .global ppu_2001
 .global ppu_2002

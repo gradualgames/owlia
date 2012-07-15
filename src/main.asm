@@ -3,6 +3,10 @@
 .include "ram.inc"
 .include "map.inc"
 .include "map0.inc"
+.include "spritesheet0.inc"
+.include "test_code.inc"
+.include "sprite.inc"
+.include "soundengine.inc"
 
 .segment "HEADER"
 .byte "NES",$1a   ;iNES header
@@ -49,15 +53,42 @@ reset:
   set_ppu_2000_bit PPU0_EXECUTE_NMI
   set_ppu_2001_bit PPU1_SPRITE_CLIPPING
   set_ppu_2001_bit PPU1_BACKGROUND_CLIPPING
+  clear_ppu_2000_bit PPU0_BACKGROUND_PATTERN_TABLE_ADDRESS
+  set_ppu_2000_bit PPU0_SPRITE_PATTERN_TABLE_ADDRESS
   upload_ppu_2000
   upload_ppu_2001
 
   ;initialize
   jsr ppu_safely_disable_graphics
   
+  jsr sprite_module_init
+  
+  jsr sound_initialize
+  
+  lda #<song1
+  sta sound_param_word_1
+  lda #>song1
+  sta sound_param_word_1+1
+  jsr song_initialize
+  
+  lda #$00
+  sta $2006
+  sta $2006
+
   lda #<map0_chr
   sta w0
   lda #>map0_chr
+  sta w0+1
+  jsr ppu_load_chr_amount
+  
+  lda #$10
+  sta $2006
+  lda #$00
+  sta $2006
+  
+  lda #<Hero_chr
+  sta w0
+  lda #>Hero_chr
   sta w0+1
   jsr ppu_load_chr_amount
   
@@ -66,7 +97,7 @@ reset:
   lda #>palette
   sta w0+1
   wait_vblank
-  jsr ppu_load_palette_bg
+  jsr ppu_load_palette
   
   jsr ppu_safely_enable_graphics
   

@@ -34,6 +34,23 @@
 
 .endproc
 
+;expects w0 to have address of palette
+.proc ppu_load_palette
+  ldy #0
+  lda #$3F
+  sta $2006
+  lda #$00
+  sta $2006
+  ldx #$00
+: lda (w0),y
+  sta $2007
+  inx
+  iny
+  cpx #$20
+  bne :-
+  rts
+.endproc
+
 .proc ppu_load_palette_bg
   ldy #0
   lda #$3F
