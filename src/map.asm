@@ -29,50 +29,6 @@ mod15lut:
   .byte 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
   .byte 0
 
-.proc nametable_and_attribute_update_ppu
-
-  lda vblank_data_ready
-  beq data_not_ready
-  
-  jsr sprite_update_all
-  
-  lda column_ready
-  beq :+
-  jsr map_upload_column_ppu
-  jsr map_upload_attribute_table_column_ppu
-  lda #0
-  sta column_ready
-:
-  
-  lda row_ready
-  beq :+
-  jsr map_upload_row_ppu
-  jsr map_upload_attribute_table_row_ppu
-  lda #0
-  sta row_ready
-:
-  
-  lda camera_nametable_hibyte
-  sta ppu_2006
-  lda #$00
-  sta ppu_2006+1
-  lda camera_scroll_x
-  sta ppu_2005
-  lda camera_scroll_y
-  sta ppu_2005+1
-  
-  upload_ppu_2006
-  upload_ppu_2005
-  
-  lda #0
-  sta vblank_data_ready
-  
-data_not_ready:
-
-  rts
-
-.endproc
-
 map_decode_row = big_map_decode_row
 map_decode_column = big_map_decode_column
 
@@ -1816,6 +1772,50 @@ done:
   rts
 .endproc
 
+.proc nametable_and_attribute_update_ppu
+
+  lda vblank_data_ready
+  beq data_not_ready
+  
+  jsr sprite_update_all
+  
+  lda column_ready
+  beq :+
+  jsr map_upload_column_ppu
+  jsr map_upload_attribute_table_column_ppu
+  lda #0
+  sta column_ready
+:
+  
+  lda row_ready
+  beq :+
+  jsr map_upload_row_ppu
+  jsr map_upload_attribute_table_row_ppu
+  lda #0
+  sta row_ready
+:
+  
+  lda camera_nametable_hibyte
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  lda camera_scroll_x
+  sta ppu_2005
+  lda camera_scroll_y
+  sta ppu_2005+1
+  
+  upload_ppu_2006
+  upload_ppu_2005
+  
+  lda #0
+  sta vblank_data_ready
+  
+data_not_ready:
+
+  rts
+
+.endproc
+
 ;uploads the contents of the current row buffer to the ppu.
 .proc map_upload_row_ppu
 
@@ -2079,54 +2079,4 @@ done:
 
   rts
 
-.endproc
-  
-.proc map_upload_attribute_table1
-
-  ;point directly to attribute table
-  lda #$23
-  sta ppu_2006
-  lda #$C0
-  sta ppu_2006+1
-  upload_ppu_2006
-  
-  ldx #0
-  
-.scope
-loop:
-  lda attribute_table1,x
-  sta $2007
-  
-  inx
-  cpx #$40
-  bne loop
-.endscope
-
-  rts
-  
-.endproc
-
-.proc map_upload_attribute_table2
-
-  ;point directly to attribute table
-  lda #$27
-  sta ppu_2006
-  lda #$C0
-  sta ppu_2006+1
-  upload_ppu_2006
-  
-  ldx #0
-  
-.scope
-loop:
-  lda attribute_table2,x
-  sta $2007
-  
-  inx
-  cpx #$40
-  bne loop
-.endscope
-
-  rts
-  
 .endproc
