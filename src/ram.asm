@@ -23,6 +23,7 @@ entity_x_hi:                 .res MAX_ENTITIES
 entity_y_lo:                 .res MAX_ENTITIES
 entity_y_hi:                 .res MAX_ENTITIES
 entity_sprite_group_offset:  .res MAX_ENTITIES
+entity_sprite_flags:         .res MAX_ENTITIES
 entity_animation_frame:      .res MAX_ENTITIES
 entity_animation_counter:    .res MAX_ENTITIES
 entity_animation_address_lo: .res MAX_ENTITIES
@@ -56,9 +57,9 @@ big_metatile_table_top_right_address: .res 2
 big_metatile_table_bottom_left_address: .res 2
 big_metatile_table_bottom_right_address: .res 2
 
+camera_entity: .res 1
 camera_x: .res 2
 camera_y: .res 2
-
 camera_scroll_x: .res 1
 camera_scroll_y: .res 1
 camera_nametable_hibyte: .res 1

@@ -150,9 +150,12 @@ SPEED = 4
   
   jsr entity_init_all
   
+  ;spawn the hero entity
   lda #0
   sta b0
   jsr entity_spawn
+  
+  ;attach the camera to the entity instance at x
   
   lda #<animation_object
   sta w1
@@ -182,123 +185,92 @@ loop:
   
   jsr controller_read
   
-  lda buffer_controller+buttons::_up
-  and buffer_controller+buttons::_right
-  and #$01
-  bne up_and_right
+  ; lda buffer_controller+buttons::_up
+  ; and buffer_controller+buttons::_right
+  ; and #$01
+  ; bne up_and_right
   
-  lda buffer_controller+buttons::_up
-  and buffer_controller+buttons::_left
-  and #$01
-  bne up_and_left
+  ; lda buffer_controller+buttons::_up
+  ; and buffer_controller+buttons::_left
+  ; and #$01
+  ; bne up_and_left
   
-  lda buffer_controller+buttons::_down
-  and buffer_controller+buttons::_right
-  and #$01
-  bne down_and_right
+  ; lda buffer_controller+buttons::_down
+  ; and buffer_controller+buttons::_right
+  ; and #$01
+  ; bne down_and_right
   
-  lda buffer_controller+buttons::_down
-  and buffer_controller+buttons::_left
-  and #$01
-  bne down_and_left
+  ; lda buffer_controller+buttons::_down
+  ; and buffer_controller+buttons::_left
+  ; and #$01
+  ; bne down_and_left
   
-  lda buffer_controller+buttons::_right
-  and #$01
-  bne right
+  ; lda buffer_controller+buttons::_right
+  ; and #$01
+  ; bne right
   
-  lda buffer_controller+buttons::_left
-  and #$01
-  bne left
+  ; lda buffer_controller+buttons::_left
+  ; and #$01
+  ; bne left
   
-  lda buffer_controller+buttons::_up
-  and #$01
-  bne up
+  ; lda buffer_controller+buttons::_up
+  ; and #$01
+  ; bne up
   
-  lda buffer_controller+buttons::_down
-  and #$01
-  bne down
+  ; lda buffer_controller+buttons::_down
+  ; and #$01
+  ; bne down
   
-up_and_right:
+; up_and_right:
 
-  jsr up_and_right_handler
+  ; jsr up_and_right_handler
 
-  jmp done_scrolling
+  ; jmp done_scrolling
 
-up_and_left:
+; up_and_left:
 
-  jsr up_and_left_handler
+  ; jsr up_and_left_handler
   
-  jmp done_scrolling
+  ; jmp done_scrolling
   
-down_and_right:
+; down_and_right:
 
-  jsr down_and_right_handler
+  ; jsr down_and_right_handler
   
-  jmp done_scrolling
+  ; jmp done_scrolling
   
-down_and_left:
+; down_and_left:
 
-  jsr down_and_left_handler
+  ; jsr down_and_left_handler
   
-  jmp done_scrolling
+  ; jmp done_scrolling
   
-right:
+; right:
 
-  jsr right_handler
+  ; jsr right_handler
   
-  jmp done_scrolling
+  ; jmp done_scrolling
   
-left:
+; left:
 
-  jsr left_handler
+  ; jsr left_handler
   
-  jmp done_scrolling
+  ; jmp done_scrolling
   
-up:
+; up:
 
-  jsr up_handler
+  ; jsr up_handler
  
-  jmp done_scrolling
+  ; jmp done_scrolling
   
-down:
+; down:
 
-  jsr down_handler
+  ; jsr down_handler
   
-  jmp done_scrolling
+  ; jmp done_scrolling
   
-done_scrolling:
+; done_scrolling:
   
-  lda #<WalkSide0
-  sta w0
-  lda #>WalkSide0
-  sta w0+1
-  lda #112
-  sta w3
-  lda #0
-  sta w3+1
-  lda #120
-  sta w4
-  lda #0
-  sta w4+1
-  lda #0
-  sta b2
-  lda #0
-  sta sprite_group_offset
-  
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda current_animation_definition
-  sta w2
-  lda current_animation_definition+1
-  sta w2+1
-  
-  lda current_sprite_flags
-  sta b2
-  
-  ;jsr sprite_draw_animation
-
   jsr entity_update_all
   
   jsr entity_draw_all
@@ -312,424 +284,424 @@ done_scrolling:
   
   jmp loop
 
-right_handler:
+; right_handler:
 
-  lda #SPEED
-  sta b0
-  jsr increment_camera_x
+  ; lda #SPEED
+  ; sta b0
+  ; jsr increment_camera_x
   
-  clc
-  lda camera_x
-  adc #$00
-  sta w0
-  lda camera_x+1
-  adc #$01
-  sta w0+1
+  ; clc
+  ; lda camera_x
+  ; adc #$00
+  ; sta w0
+  ; lda camera_x+1
+  ; adc #$01
+  ; sta w0+1
 
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_column
-  jsr map_process_intermediate_attribute_column_buffer
-  lda #1
-  sta column_ready
+  ; lda camera_y
+  ; sta w1
+  ; lda camera_y+1
+  ; sta w1+1
+  ; jsr map_decode_column
+  ; jsr map_process_intermediate_attribute_column_buffer
+  ; lda #1
+  ; sta column_ready
   
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda #<WalkSide
-  sta current_animation_definition
-  sta w2
-  lda #>WalkSide
-  sta current_animation_definition+1
-  sta w2+1
+  ; lda #<animation_object
+  ; sta w1
+  ; lda #>animation_object
+  ; sta w1+1
+  ; lda #<WalkSide
+  ; sta current_animation_definition
+  ; sta w2
+  ; lda #>WalkSide
+  ; sta current_animation_definition+1
+  ; sta w2+1
   
-  lda #0
-  sta current_sprite_flags
+  ; lda #0
+  ; sta current_sprite_flags
   
-  jsr sprite_update_animation
+  ; jsr sprite_update_animation
   
-  rts
+  ; rts
   
-left_handler:
+; left_handler:
 
-  lda #SPEED
-  sta b0
-  jsr decrement_camera_x
+  ; lda #SPEED
+  ; sta b0
+  ; jsr decrement_camera_x
   
-  clc
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
+  ; clc
+  ; lda camera_x
+  ; sta w0
+  ; lda camera_x+1
+  ; sta w0+1
 
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_column
-  jsr map_process_intermediate_attribute_column_buffer
-  lda #1
-  sta column_ready
+  ; lda camera_y
+  ; sta w1
+  ; lda camera_y+1
+  ; sta w1+1
+  ; jsr map_decode_column
+  ; jsr map_process_intermediate_attribute_column_buffer
+  ; lda #1
+  ; sta column_ready
   
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda #<WalkSide
-  sta current_animation_definition
-  sta w2
-  lda #>WalkSide
-  sta current_animation_definition+1
-  sta w2+1
+  ; lda #<animation_object
+  ; sta w1
+  ; lda #>animation_object
+  ; sta w1+1
+  ; lda #<WalkSide
+  ; sta current_animation_definition
+  ; sta w2
+  ; lda #>WalkSide
+  ; sta current_animation_definition+1
+  ; sta w2+1
   
-  lda #%01000000
-  sta current_sprite_flags
+  ; lda #%01000000
+  ; sta current_sprite_flags
   
-  jsr sprite_update_animation
+  ; jsr sprite_update_animation
   
-  rts
+  ; rts
   
-up_handler:
+; up_handler:
 
-  lda #SPEED
-  sta b0
-  jsr decrement_camera_y
+  ; lda #SPEED
+  ; sta b0
+  ; jsr decrement_camera_y
   
-  clc
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
+  ; clc
+  ; lda camera_x
+  ; sta w0
+  ; lda camera_x+1
+  ; sta w0+1
 
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
-  lda #1
-  sta row_ready
+  ; lda camera_y
+  ; sta w1
+  ; lda camera_y+1
+  ; sta w1+1
+  ; jsr map_decode_row
+  ; jsr map_process_intermediate_attribute_row_buffer
+  ; lda #1
+  ; sta row_ready
   
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda #<WalkUp
-  sta current_animation_definition
-  sta w2
-  lda #>WalkUp
-  sta current_animation_definition+1
-  sta w2+1
+  ; lda #<animation_object
+  ; sta w1
+  ; lda #>animation_object
+  ; sta w1+1
+  ; lda #<WalkUp
+  ; sta current_animation_definition
+  ; sta w2
+  ; lda #>WalkUp
+  ; sta current_animation_definition+1
+  ; sta w2+1
   
-  lda #0
-  sta current_sprite_flags
+  ; lda #0
+  ; sta current_sprite_flags
   
-  jsr sprite_update_animation
+  ; jsr sprite_update_animation
   
-  rts
+  ; rts
   
-down_handler:
+; down_handler:
 
-  lda #SPEED
-  sta b0
-  jsr increment_camera_y
+  ; lda #SPEED
+  ; sta b0
+  ; jsr increment_camera_y
   
-  clc
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
+  ; clc
+  ; lda camera_x
+  ; sta w0
+  ; lda camera_x+1
+  ; sta w0+1
 
-  clc
-  lda camera_y
-  adc #224
-  sta w1
-  lda camera_y+1
-  adc #$00
-  sta w1+1
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
-  lda #1
-  sta row_ready
+  ; clc
+  ; lda camera_y
+  ; adc #224
+  ; sta w1
+  ; lda camera_y+1
+  ; adc #$00
+  ; sta w1+1
+  ; jsr map_decode_row
+  ; jsr map_process_intermediate_attribute_row_buffer
+  ; lda #1
+  ; sta row_ready
 
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda #<WalkDown
-  sta current_animation_definition
-  sta w2
-  lda #>WalkDown
-  sta current_animation_definition+1
-  sta w2+1
+  ; lda #<animation_object
+  ; sta w1
+  ; lda #>animation_object
+  ; sta w1+1
+  ; lda #<WalkDown
+  ; sta current_animation_definition
+  ; sta w2
+  ; lda #>WalkDown
+  ; sta current_animation_definition+1
+  ; sta w2+1
   
-  lda #0
-  sta current_sprite_flags
+  ; lda #0
+  ; sta current_sprite_flags
   
-  jsr sprite_update_animation
+  ; jsr sprite_update_animation
   
-  rts
+  ; rts
   
-up_and_right_handler:
+; up_and_right_handler:
 
-  lda buffer_controller+buttons::_right
-  and #$01
-  beq not_right_and_up
-  lda buffer_controller+buttons::_up
-  and #$01
-  beq not_right_and_up
-  ;right and up
+  ; lda buffer_controller+buttons::_right
+  ; and #$01
+  ; beq not_right_and_up
+  ; lda buffer_controller+buttons::_up
+  ; and #$01
+  ; beq not_right_and_up
+  ; ;right and up
   
-  lda #SPEED
-  sta b0
-  jsr increment_camera_x
+  ; lda #SPEED
+  ; sta b0
+  ; jsr increment_camera_x
   
-  clc
-  lda camera_x
-  adc #$00
-  sta w0
-  lda camera_x+1
-  adc #$01
-  sta w0+1
+  ; clc
+  ; lda camera_x
+  ; adc #$00
+  ; sta w0
+  ; lda camera_x+1
+  ; adc #$01
+  ; sta w0+1
 
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_column
-  jsr map_process_intermediate_attribute_column_buffer
-  lda #1
-  sta column_ready
+  ; lda camera_y
+  ; sta w1
+  ; lda camera_y+1
+  ; sta w1+1
+  ; jsr map_decode_column
+  ; jsr map_process_intermediate_attribute_column_buffer
+  ; lda #1
+  ; sta column_ready
   
-  lda #SPEED
-  sta b0
-  jsr decrement_camera_y
+  ; lda #SPEED
+  ; sta b0
+  ; jsr decrement_camera_y
   
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
+  ; lda camera_x
+  ; sta w0
+  ; lda camera_x+1
+  ; sta w0+1
 
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
-  lda #1
-  sta row_ready
+  ; lda camera_y
+  ; sta w1
+  ; lda camera_y+1
+  ; sta w1+1
+  ; jsr map_decode_row
+  ; jsr map_process_intermediate_attribute_row_buffer
+  ; lda #1
+  ; sta row_ready
   
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda current_animation_definition
-  sta w2
-  lda current_animation_definition+1
-  sta w2+1
-  jsr sprite_update_animation
+  ; lda #<animation_object
+  ; sta w1
+  ; lda #>animation_object
+  ; sta w1+1
+  ; lda current_animation_definition
+  ; sta w2
+  ; lda current_animation_definition+1
+  ; sta w2+1
+  ; jsr sprite_update_animation
   
-not_right_and_up:
+; not_right_and_up:
 
-  rts
+  ; rts
 
-up_and_left_handler:
+; up_and_left_handler:
 
-  lda buffer_controller+buttons::_left
-  and #$01
-  beq not_left_and_up
-  lda buffer_controller+buttons::_up
-  and #$01
-  beq not_left_and_up
-  ;left and up
+  ; lda buffer_controller+buttons::_left
+  ; and #$01
+  ; beq not_left_and_up
+  ; lda buffer_controller+buttons::_up
+  ; and #$01
+  ; beq not_left_and_up
+  ; ;left and up
   
-  lda #SPEED
-  sta b0
-  jsr decrement_camera_x
+  ; lda #SPEED
+  ; sta b0
+  ; jsr decrement_camera_x
   
-  clc
-  lda camera_x
-  adc #$00
-  sta w0
-  lda camera_x+1
-  adc #$00
-  sta w0+1
+  ; clc
+  ; lda camera_x
+  ; adc #$00
+  ; sta w0
+  ; lda camera_x+1
+  ; adc #$00
+  ; sta w0+1
 
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_column
-  jsr map_process_intermediate_attribute_column_buffer
-  lda #1
-  sta column_ready
+  ; lda camera_y
+  ; sta w1
+  ; lda camera_y+1
+  ; sta w1+1
+  ; jsr map_decode_column
+  ; jsr map_process_intermediate_attribute_column_buffer
+  ; lda #1
+  ; sta column_ready
   
-  lda #SPEED
-  sta b0
-  jsr decrement_camera_y
+  ; lda #SPEED
+  ; sta b0
+  ; jsr decrement_camera_y
   
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
+  ; lda camera_x
+  ; sta w0
+  ; lda camera_x+1
+  ; sta w0+1
 
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
-  lda #1
-  sta row_ready
+  ; lda camera_y
+  ; sta w1
+  ; lda camera_y+1
+  ; sta w1+1
+  ; jsr map_decode_row
+  ; jsr map_process_intermediate_attribute_row_buffer
+  ; lda #1
+  ; sta row_ready
   
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda current_animation_definition
-  sta w2
-  lda current_animation_definition+1
-  sta w2+1
-  jsr sprite_update_animation
+  ; lda #<animation_object
+  ; sta w1
+  ; lda #>animation_object
+  ; sta w1+1
+  ; lda current_animation_definition
+  ; sta w2
+  ; lda current_animation_definition+1
+  ; sta w2+1
+  ; jsr sprite_update_animation
   
-not_left_and_up:
+; not_left_and_up:
 
-  rts
+  ; rts
 
-down_and_right_handler:
+; down_and_right_handler:
 
-  lda buffer_controller+buttons::_right
-  and #$01
-  beq not_right_and_down
-  lda buffer_controller+buttons::_down
-  and #$01
-  beq not_right_and_down
-  ;right and down
+  ; lda buffer_controller+buttons::_right
+  ; and #$01
+  ; beq not_right_and_down
+  ; lda buffer_controller+buttons::_down
+  ; and #$01
+  ; beq not_right_and_down
+  ; ;right and down
   
-  lda #SPEED
-  sta b0
-  jsr increment_camera_x
+  ; lda #SPEED
+  ; sta b0
+  ; jsr increment_camera_x
   
-  clc
-  lda camera_x
-  adc #$00
-  sta w0
-  lda camera_x+1
-  adc #$01
-  sta w0+1
+  ; clc
+  ; lda camera_x
+  ; adc #$00
+  ; sta w0
+  ; lda camera_x+1
+  ; adc #$01
+  ; sta w0+1
 
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_column
-  jsr map_process_intermediate_attribute_column_buffer
-  lda #1
-  sta column_ready
+  ; lda camera_y
+  ; sta w1
+  ; lda camera_y+1
+  ; sta w1+1
+  ; jsr map_decode_column
+  ; jsr map_process_intermediate_attribute_column_buffer
+  ; lda #1
+  ; sta column_ready
   
-  lda #SPEED
-  sta b0
-  jsr increment_camera_y
+  ; lda #SPEED
+  ; sta b0
+  ; jsr increment_camera_y
   
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
+  ; lda camera_x
+  ; sta w0
+  ; lda camera_x+1
+  ; sta w0+1
 
-  clc
-  lda camera_y
-  adc #224
-  sta w1
-  lda camera_y+1
-  adc #$00
-  sta w1+1
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
-  lda #1
-  sta row_ready
+  ; clc
+  ; lda camera_y
+  ; adc #224
+  ; sta w1
+  ; lda camera_y+1
+  ; adc #$00
+  ; sta w1+1
+  ; jsr map_decode_row
+  ; jsr map_process_intermediate_attribute_row_buffer
+  ; lda #1
+  ; sta row_ready
   
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda current_animation_definition
-  sta w2
-  lda current_animation_definition+1
-  sta w2+1
-  jsr sprite_update_animation
+  ; lda #<animation_object
+  ; sta w1
+  ; lda #>animation_object
+  ; sta w1+1
+  ; lda current_animation_definition
+  ; sta w2
+  ; lda current_animation_definition+1
+  ; sta w2+1
+  ; jsr sprite_update_animation
   
-not_right_and_down:
+; not_right_and_down:
 
-  rts
+  ; rts
 
-down_and_left_handler:
+; down_and_left_handler:
 
-  lda buffer_controller+buttons::_left
-  and #$01
-  beq not_left_and_down
-  lda buffer_controller+buttons::_down
-  and #$01
-  beq not_left_and_down
-  ;left and down
+  ; lda buffer_controller+buttons::_left
+  ; and #$01
+  ; beq not_left_and_down
+  ; lda buffer_controller+buttons::_down
+  ; and #$01
+  ; beq not_left_and_down
+  ; ;left and down
   
-  lda #SPEED
-  sta b0
-  jsr decrement_camera_x
+  ; lda #SPEED
+  ; sta b0
+  ; jsr decrement_camera_x
   
-  clc
-  lda camera_x
-  adc #$00
-  sta w0
-  lda camera_x+1
-  adc #$00
-  sta w0+1
+  ; clc
+  ; lda camera_x
+  ; adc #$00
+  ; sta w0
+  ; lda camera_x+1
+  ; adc #$00
+  ; sta w0+1
 
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_column
-  jsr map_process_intermediate_attribute_column_buffer
-  lda #1
-  sta column_ready
+  ; lda camera_y
+  ; sta w1
+  ; lda camera_y+1
+  ; sta w1+1
+  ; jsr map_decode_column
+  ; jsr map_process_intermediate_attribute_column_buffer
+  ; lda #1
+  ; sta column_ready
   
-  lda #SPEED
-  sta b0
-  jsr increment_camera_y
+  ; lda #SPEED
+  ; sta b0
+  ; jsr increment_camera_y
   
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
+  ; lda camera_x
+  ; sta w0
+  ; lda camera_x+1
+  ; sta w0+1
 
-  clc
-  lda camera_y
-  adc #224
-  sta w1
-  lda camera_y+1
-  adc #$00
-  sta w1+1
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
-  lda #1
-  sta row_ready
+  ; clc
+  ; lda camera_y
+  ; adc #224
+  ; sta w1
+  ; lda camera_y+1
+  ; adc #$00
+  ; sta w1+1
+  ; jsr map_decode_row
+  ; jsr map_process_intermediate_attribute_row_buffer
+  ; lda #1
+  ; sta row_ready
   
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda current_animation_definition
-  sta w2
-  lda current_animation_definition+1
-  sta w2+1
-  jsr sprite_update_animation
+  ; lda #<animation_object
+  ; sta w1
+  ; lda #>animation_object
+  ; sta w1+1
+  ; lda current_animation_definition
+  ; sta w2
+  ; lda current_animation_definition+1
+  ; sta w2+1
+  ; jsr sprite_update_animation
   
-not_left_and_down:
+; not_left_and_down:
 
-  rts
+  ; rts
 
 .endproc
 

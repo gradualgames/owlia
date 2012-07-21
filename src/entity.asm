@@ -130,6 +130,9 @@ spawn_y = w1
   lda entity_sprite_group_offset,x
   sta sprite_group_offset
   
+  lda entity_sprite_flags,x
+  sta b2
+  
   lda entity_animation_frame,x
   sta b0
   lda entity_animation_address_lo,x

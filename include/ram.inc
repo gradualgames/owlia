@@ -24,6 +24,7 @@ MAX_ENTITIES = 8
 .global entity_y_lo
 .global entity_y_hi
 .global entity_sprite_group_offset
+.global entity_sprite_flags
 .global entity_animation_frame
 .global entity_animation_counter
 .global entity_animation_address_lo
@@ -58,9 +59,9 @@ MAX_ENTITIES = 8
 .global map_width
 .global map_height
 
+.global camera_entity  ;index of entity instance which the camera is currently following
 .global camera_x  ;camera x position relative to top left corner of map
 .global camera_y  ;camera y position relative to top left corner of map
-
 .global camera_scroll_x
 .global camera_scroll_y
 .global camera_nametable_hibyte

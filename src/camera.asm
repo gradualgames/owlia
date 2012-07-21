@@ -4,6 +4,25 @@
 
 .segment "CODE"
 
+;assumes x register points to entity instance to attach to (follow)
+.proc attach_camera_to_entity
+
+  stx camera_entity
+
+  rts
+
+.endproc
+
+;follows the entity at camera_entity whenever it moves outside of a
+;hard-coded rectangular area
+.proc update_camera
+
+  ldx camera_entity
+
+  rts
+
+.endproc
+
 ;assumes b0 to contain amount to increment camera x by
 ;assumes b0 to be a power of 2
 .proc increment_camera_x
