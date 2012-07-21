@@ -20,14 +20,16 @@ NES_FILE        = $(OUTPUT_NAME).nes
 FILES           += zp \
                    ram \
                    main \
+                   play_state\
                    map0 \
+                   camera \
                    entities \
                    entity \
                    spritesheet0 \
                    controller \
                    map \
-                   test_code \
                    soundengine \
+                   music \
                    ppu \
                    sprite
 

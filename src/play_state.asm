@@ -1,453 +1,143 @@
-.include "test_code.inc"
-.include "map.inc"
-.include "ram.inc"
-.include "zp.inc"
-.include "ppu.inc"
+.include "play_state.inc"
 .include "controller.inc"
+.include "ppu.inc"
+.include "zp.inc"
+.include "ram.inc"
+.include "map.inc"
+.include "map0.inc"
 .include "sprite.inc"
-.include "spritesheet0.inc"
-.include "soundengine.inc"
 .include "entity.inc"
+.include "soundengine.inc"
+.include "camera.inc"
+.include "spritesheet0.inc"
+.include "music.inc"
 
 .segment "CODE"
 
-song1:
-.scope
-  .word Square1
-  .word Square2
-  .word Triangle
-  .word Noise
-  .word volume_envelopes
-  .word pitch_envelopes
-  .word duty_envelopes
-
-volume_envelopes:
-  .word volume_envelope_0
-  .word volume_envelope_1
-  .word volume_envelope_2
-  .word volume_envelope_3
-  .word volume_envelope_4
-
-pitch_envelopes:
-  .word pitch_envelope_0
-  .word pitch_envelope_1
-
-duty_envelopes:
-  .word duty_envelope_0
-
-volume_envelope_0:
-  .byte 0, ENV_STOP
-
-volume_envelope_1:
-  .byte 15, ENV_LOOP
-volume_envelope_2:
-  .byte 9,9,8,8,7,6,5,4,3,2,ENV_STOP
-volume_envelope_3:
-  .byte 8,8,7,8,8,0,ENV_STOP
-volume_envelope_4:
-  .byte 4,3,2,1,0,ENV_STOP
-
-pitch_envelope_0:
-  .byte 0, ENV_LOOP
-pitch_envelope_1:
-  .byte 28,45,55,68,78,90,0,ENV_STOP
-
-duty_envelope_0:
-  .byte 0, ENV_LOOP
-
-Square1:
-  .byte STV,2,STP,0,SDU,0,STL,20,G2,C2,A2,C2,F2,C2,G2,C2,B2,C2,C3,C2,A2,C2,B2,C2
-
-  .byte GOT
-  .word Square1
-
-Square2:
-  .byte STV,2,STP,0,SDU,0,STL,10,G3,F3,E3,B3,STL,40,G3,STL,10,E3,STL,20,F3,STL,50,G3
-  .byte STL,10,B3,G3,B3,E3,F3,STL,30,C4,STL,10,E3,STL,20,D3,STL,50,E3
-  .byte GOT
-  .word Square2
-
-Triangle:
-  .byte STV,3,STP,1,SDU,0,STL,80,D4,D4,D4,D4
-  .byte GOT
-  .word Triangle
-
-Noise:
-  .byte STV,0,STL,20,A0,STV,4,STP,0,SDU,0,STL,80,2,2,2,STL,60,2
-  .byte GOT
-  .word Noise
-.endscope
-
-.proc horizontal_scrolling_test
-
-loop:
-  ;wait til data has been consumed by nmi routine
-:
-  lda vblank_data_ready
-  bne :-
-  
-  lda #1
-  sta b0
-  jsr increment_camera_x
-  
-  ;prepare data
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_column
-  jsr map_process_intermediate_attribute_column_buffer
-  lda #1
-  sta column_ready
-
-  ;tell nmi routine data is ready to consume
-  lda #1
-  sta vblank_data_ready
-  
-  jmp loop
-
-.endproc
-
-.proc fill_nametable_columns
-
-  ;wait til data has been consumed by nmi routine
-:
-  lda vblank_data_ready
-  bne :-
-  
-  ;prepare data
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_column
-  jsr map_process_intermediate_attribute_column_buffer
-  lda #1
-  sta column_ready
-
-  clc
-  lda camera_x
-  adc #$08
-  sta camera_x
-  lda camera_x+1
-  adc #$00
-  sta camera_x+1
-
-  lda camera_x+1
-  cmp #1
-  bne :+
-  
-  ;tell nmi routine data is ready to consume
-  lda #1
-  sta vblank_data_ready
-  
-  rts
-:
-  
-  ;tell nmi routine data is ready to consume
-  lda #1
-  sta vblank_data_ready
-  
-  jmp :--
-
-  rts
-
-.endproc
-  
-.proc fill_nametable_rows
-
-fill_nametable_loop:
-  ;wait til data has been consumed by nmi routine
-:
-  lda vblank_data_ready
-  bne :-
-  
-  ;prepare data
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
-  lda #1
-  sta row_ready
-  
-  clc
-  lda camera_y
-  adc #$08
-  sta camera_y
-  lda camera_y+1
-  adc #$00
-  sta camera_y+1
-  
-  lda camera_y
-  cmp #240
-  beq bottom_row
-not_bottom_row:
-  
-  jmp done
-bottom_row:
-
-  ;tell nmi routine data is ready to consume
-  lda #1
-  sta vblank_data_ready
-
-  rts
-
-done:
-  
-  ; clear_ppu_2001_bit PPU1_DISPLAY_TYPE
-  ; upload_ppu_2001
-  
-  ;tell nmi routine data is ready to consume
-  lda #1
-  sta vblank_data_ready
-
-  jmp fill_nametable_loop
-
-.endproc
-
-.proc vertical_scrolling_test
-
-  ;wait til data has been consumed by nmi routine
-:
-  lda vblank_data_ready
-  bne :-
-  
-  lda #1
-  sta b0
-  jsr increment_camera_y
-  
-  ;prepare data
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
-  lda #1
-  sta row_ready
-    
-  ;tell nmi routine data is ready to consume
-  lda #1
-  sta vblank_data_ready
-  
-  jmp :-
-
-.endproc
-
-;assumes b0 to contain amount to increment camera x by
-;assumes b0 to be a power of 2
-.proc increment_camera_x
-
-  ;increment camera x
-  lda camera_x+1
-  cmp #3
-  bne :+
-  lda camera_x
-  cmp #0
-  beq :++
-:
-  clc
-  lda camera_x
-  adc b0
-  sta camera_x
-  lda camera_x+1
-  adc #$00
-  sta camera_x+1
-  
-  jsr increment_camera_scroll_x
-:
-  
-  rts
-
-.endproc
-
-;assumes b0 to contain amount to decrement camera x by
-;assumes b0 to be a power of 2
-.proc decrement_camera_x
-
-  ;decrement camera x
-  lda camera_x+1
-  bne :+
-  lda camera_x
-  beq :++
-:
-  sec
-  lda camera_x
-  sbc b0
-  sta camera_x
-  lda camera_x+1
-  sbc #$00
-  sta camera_x+1
-  
-  jsr decrement_camera_scroll_x
-:
-  
-  rts
-
-.endproc
-
-;assumes b0 to contain amount to increment camera y by
-;assumes b0 to be a power of 2
-.proc increment_camera_y
-
-  ;increment camera y
-  lda camera_y+1
-  cmp #3
-  bne :+
-  lda camera_y
-  cmp #32
-  beq :++
-:
-  clc
-  lda camera_y
-  adc b0
-  sta camera_y
-  lda camera_y+1
-  adc #$00
-  sta camera_y+1
-  
-  jsr increment_camera_scroll_y
-:
-
-  rts
-
-.endproc
-
-;assumes b0 to contain amount to decrement camera y by
-;assumes b0 to be a power of 2
-.proc decrement_camera_y
-
-  ;decrement camera y
-  lda camera_y+1
-  cmp #$00
-  bne :+
-  lda camera_y
-  cmp #$00
-  beq :++
-:
-  sec
-  lda camera_y
-  sbc b0
-  sta camera_y
-  lda camera_y+1
-  sbc #$00
-  sta camera_y+1
-  
-  jsr decrement_camera_scroll_y
-:
-  
-  rts
-
-.endproc
-
-;assumes b0 to contain amount to increment camera scroll x by
-;assumes b0 to be a power of 2
-.proc increment_camera_scroll_x
-
-  ;increment camera x scroll
-  clc
-  lda camera_scroll_x
-  adc b0
-  sta camera_scroll_x
-  bcc :+
-  ;flip the nametable bit
-  lda camera_nametable_hibyte
-  eor #%00000100
-  sta camera_nametable_hibyte
-:
-
-  rts
-
-.endproc
-
-;assumes b0 to contain amount to decrement camera scroll x by
-;assumes b0 to be a power of 2
-.proc decrement_camera_scroll_x
-
-  ;decrement camera x scroll
-  sec
-  lda camera_scroll_x
-  sbc b0
-  sta camera_scroll_x
-  bcs :+
-  ;flip the nametable bit
-  lda camera_nametable_hibyte
-  eor #%00000100
-  sta camera_nametable_hibyte
-:
-
-  rts
-
-.endproc
-
-;assumes b0 to contain amount to increment camera scroll y by
-;assumes b0 to be a power of 2
-.proc increment_camera_scroll_y
-
-  ;increment camera y scroll
-  clc
-  lda camera_scroll_y
-  adc b0
-  sta camera_scroll_y
-  
-  sec
-  lda camera_scroll_y
-  sbc #240
-  lda #0
-  sbc #0
-  bmi :+
-  
-  lda camera_scroll_y
-  sbc #240
-  sta camera_scroll_y
-:
-
-  rts
-
-.endproc
-
-;assumes b0 to contain amount to decrement camera scroll y by
-;assumes b0 to be a power of 2
-.proc decrement_camera_scroll_y
-
-  ;decrement camera y scroll
-  sec
-  lda camera_scroll_y
-  sbc b0
-  sta camera_scroll_y
-  bcs :+
-  
-  clc
-  lda #240
-  adc camera_scroll_y
-  sta camera_scroll_y
-  
-:
-  
-  rts
-
-.endproc
-
-.proc fourway_scrolling_test
+.proc play_state
 SPEED = 4
+
+  ;initialize
+  jsr ppu_safely_disable_graphics
+  
+  lda #<song1
+  sta sound_param_word_1
+  lda #>song1
+  sta sound_param_word_1+1
+  jsr song_initialize
+  
+  lda #$00
+  sta $2006
+  sta $2006
+
+  lda #<map0_chr
+  sta w0
+  lda #>map0_chr
+  sta w0+1
+  jsr ppu_load_chr_amount
+  
+  lda #$10
+  sta $2006
+  lda #$00
+  sta $2006
+  
+  lda #<Hero_chr
+  sta w0
+  lda #>Hero_chr
+  sta w0+1
+  jsr ppu_load_chr_amount
+  
+  lda #<palette
+  sta w0
+  lda #>palette
+  sta w0+1
+  wait_vblank
+  jsr ppu_load_palette
+  
+  jsr ppu_safely_enable_graphics
+  
+  ;initialize variables
+  lda #0
+  sta vblank_data_ready
+  
+  lda #0
+  sta row_ready
+  lda #0
+  sta column_ready
+  
+  lda #<nametable_and_attribute_update_ppu
+  sta vblank_routine
+  lda #>nametable_and_attribute_update_ppu
+  sta vblank_routine+1
+  
+  lda #$20
+  sta camera_nametable_hibyte
+  
+  lda #(16*0)
+  sta camera_x
+  lda #0
+  sta camera_x+1
+  lda #(16*0)
+  sta camera_y
+  lda #0
+  sta camera_y+1
+  
+  lda #(16*0)
+  sta camera_scroll_x
+  lda #(232)
+  sta camera_scroll_y
+  
+  lda #<metatile_table_attributes
+  sta metatile_table_attributes_address
+  lda #>metatile_table_attributes
+  sta metatile_table_attributes_address+1
+  
+  lda #<metatile_table_top_left_tiles
+  sta metatile_table_top_left_tiles_address
+  lda #>metatile_table_top_left_tiles
+  sta metatile_table_top_left_tiles_address+1
+  
+  lda #<metatile_table_top_right_tiles
+  sta metatile_table_top_right_tiles_address
+  lda #>metatile_table_top_right_tiles
+  sta metatile_table_top_right_tiles_address+1
+  
+  lda #<metatile_table_bottom_left_tiles
+  sta metatile_table_bottom_left_tiles_address
+  lda #>metatile_table_bottom_left_tiles
+  sta metatile_table_bottom_left_tiles_address+1
+
+  lda #<metatile_table_bottom_right_tiles
+  sta metatile_table_bottom_right_tiles_address
+  lda #>metatile_table_bottom_right_tiles
+  sta metatile_table_bottom_right_tiles_address+1
+  
+  lda #<big_metatile_table_top_left
+  sta big_metatile_table_top_left_address
+  lda #>big_metatile_table_top_left
+  sta big_metatile_table_top_left_address+1
+  
+  lda #<big_metatile_table_top_right
+  sta big_metatile_table_top_right_address
+  lda #>big_metatile_table_top_right
+  sta big_metatile_table_top_right_address+1
+
+  lda #<big_metatile_table_bottom_left
+  sta big_metatile_table_bottom_left_address
+  lda #>big_metatile_table_bottom_left
+  sta big_metatile_table_bottom_left_address+1
+  
+  lda #<big_metatile_table_bottom_right
+  sta big_metatile_table_bottom_right_address
+  lda #>big_metatile_table_bottom_right
+  sta big_metatile_table_bottom_right_address+1
+  
+  lda #<map
+  sta map_address
+  lda #>map
+  sta map_address+1
+
+  jsr fill_nametable_columns
 
   lda #(16*0)
   sta camera_x
@@ -1040,5 +730,112 @@ down_and_left_handler:
 not_left_and_down:
 
   rts
+
+.endproc
+
+.proc fill_nametable_columns
+
+  ;wait til data has been consumed by nmi routine
+:
+  lda vblank_data_ready
+  bne :-
+  
+  ;prepare data
+  lda camera_x
+  sta w0
+  lda camera_x+1
+  sta w0+1
+  lda camera_y
+  sta w1
+  lda camera_y+1
+  sta w1+1
+  jsr map_decode_column
+  jsr map_process_intermediate_attribute_column_buffer
+  lda #1
+  sta column_ready
+
+  clc
+  lda camera_x
+  adc #$08
+  sta camera_x
+  lda camera_x+1
+  adc #$00
+  sta camera_x+1
+
+  lda camera_x+1
+  cmp #1
+  bne :+
+  
+  ;tell nmi routine data is ready to consume
+  lda #1
+  sta vblank_data_ready
+  
+  rts
+:
+  
+  ;tell nmi routine data is ready to consume
+  lda #1
+  sta vblank_data_ready
+  
+  jmp :--
+
+  rts
+
+.endproc
+  
+.proc fill_nametable_rows
+
+fill_nametable_loop:
+  ;wait til data has been consumed by nmi routine
+:
+  lda vblank_data_ready
+  bne :-
+  
+  ;prepare data
+  lda camera_x
+  sta w0
+  lda camera_x+1
+  sta w0+1
+  lda camera_y
+  sta w1
+  lda camera_y+1
+  sta w1+1
+  jsr map_decode_row
+  jsr map_process_intermediate_attribute_row_buffer
+  lda #1
+  sta row_ready
+  
+  clc
+  lda camera_y
+  adc #$08
+  sta camera_y
+  lda camera_y+1
+  adc #$00
+  sta camera_y+1
+  
+  lda camera_y
+  cmp #240
+  beq bottom_row
+not_bottom_row:
+  
+  jmp done
+bottom_row:
+
+  ;tell nmi routine data is ready to consume
+  lda #1
+  sta vblank_data_ready
+
+  rts
+
+done:
+  
+  ; clear_ppu_2001_bit PPU1_DISPLAY_TYPE
+  ; upload_ppu_2001
+  
+  ;tell nmi routine data is ready to consume
+  lda #1
+  sta vblank_data_ready
+
+  jmp fill_nametable_loop
 
 .endproc

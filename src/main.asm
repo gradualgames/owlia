@@ -4,7 +4,7 @@
 .include "map.inc"
 .include "map0.inc"
 .include "spritesheet0.inc"
-.include "test_code.inc"
+.include "play_state.inc"
 .include "sprite.inc"
 .include "soundengine.inc"
 
@@ -58,144 +58,12 @@ reset:
   upload_ppu_2000
   upload_ppu_2001
 
-  ;initialize
-  jsr ppu_safely_disable_graphics
-  
+  ;initialize modules
   jsr sprite_module_init
   
   jsr sound_initialize
   
-  lda #<song1
-  sta sound_param_word_1
-  lda #>song1
-  sta sound_param_word_1+1
-  jsr song_initialize
-  
-  lda #$00
-  sta $2006
-  sta $2006
-
-  lda #<map0_chr
-  sta w0
-  lda #>map0_chr
-  sta w0+1
-  jsr ppu_load_chr_amount
-  
-  lda #$10
-  sta $2006
-  lda #$00
-  sta $2006
-  
-  lda #<Hero_chr
-  sta w0
-  lda #>Hero_chr
-  sta w0+1
-  jsr ppu_load_chr_amount
-  
-  lda #<palette
-  sta w0
-  lda #>palette
-  sta w0+1
-  wait_vblank
-  jsr ppu_load_palette
-  
-  jsr ppu_safely_enable_graphics
-  
-  ;initialize variables
-  lda #0
-  sta vblank_data_ready
-  
-  lda #0
-  sta row_ready
-  lda #0
-  sta column_ready
-  
-  lda #<nametable_and_attribute_update_ppu
-  sta vblank_routine
-  lda #>nametable_and_attribute_update_ppu
-  sta vblank_routine+1
-  
-  lda #$20
-  sta camera_nametable_hibyte
-  
-  lda #(16*0)
-  sta camera_x
-  lda #0
-  sta camera_x+1
-  lda #(16*0)
-  sta camera_y
-  lda #0
-  sta camera_y+1
-  
-  lda #(16*0)
-  sta camera_scroll_x
-  lda #(232)
-  sta camera_scroll_y
-  
-  lda #<metatile_table_attributes
-  sta metatile_table_attributes_address
-  lda #>metatile_table_attributes
-  sta metatile_table_attributes_address+1
-  
-  lda #<metatile_table_top_left_tiles
-  sta metatile_table_top_left_tiles_address
-  lda #>metatile_table_top_left_tiles
-  sta metatile_table_top_left_tiles_address+1
-  
-  lda #<metatile_table_top_right_tiles
-  sta metatile_table_top_right_tiles_address
-  lda #>metatile_table_top_right_tiles
-  sta metatile_table_top_right_tiles_address+1
-  
-  lda #<metatile_table_bottom_left_tiles
-  sta metatile_table_bottom_left_tiles_address
-  lda #>metatile_table_bottom_left_tiles
-  sta metatile_table_bottom_left_tiles_address+1
-
-  lda #<metatile_table_bottom_right_tiles
-  sta metatile_table_bottom_right_tiles_address
-  lda #>metatile_table_bottom_right_tiles
-  sta metatile_table_bottom_right_tiles_address+1
-  
-  lda #<big_metatile_table_top_left
-  sta big_metatile_table_top_left_address
-  lda #>big_metatile_table_top_left
-  sta big_metatile_table_top_left_address+1
-  
-  lda #<big_metatile_table_top_right
-  sta big_metatile_table_top_right_address
-  lda #>big_metatile_table_top_right
-  sta big_metatile_table_top_right_address+1
-
-  lda #<big_metatile_table_bottom_left
-  sta big_metatile_table_bottom_left_address
-  lda #>big_metatile_table_bottom_left
-  sta big_metatile_table_bottom_left_address+1
-  
-  lda #<big_metatile_table_bottom_right
-  sta big_metatile_table_bottom_right_address
-  lda #>big_metatile_table_bottom_right
-  sta big_metatile_table_bottom_right_address+1
-  
-  lda #<map
-  sta map_address
-  lda #>map
-  sta map_address+1
-  
-  ;jsr fill_nametable_rows
-  
-  ;jmp vertical_scrolling_test
-  
-  jsr fill_nametable_columns
-  
-  ;jmp horizontal_scrolling_test
-  
-  jmp fourway_scrolling_test
-  
-  
-loop:
-
-  jmp loop
+  jmp play_state
 
 vblank:
 

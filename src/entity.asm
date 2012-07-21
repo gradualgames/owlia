@@ -99,20 +99,34 @@ spawn_y = w1
 : lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_TEST
   beq :+
-  ;if we arrive here, we've found a living entity. Draw its animation.
+  ;if we arrive here, we've found a living entity. Test to see if it is drawable.
+  lda entity_flags,x
+  and #ENTITY_FLAGS_DRAWABLE_TEST
+  beq :+
+  ;the entity is drawable so proceed to calculate screen coords and draw its animation
   
   lda entity_animation_address_lo,x
   sta w0
   lda entity_animation_address_hi,x
   sta w0+1
-  lda #112
+  
+  ;calculate screen coordinates based on the camera coordinates
+  sec
+  lda entity_x_lo,x
+  sbc camera_x
   sta w3
-  lda #0
+  lda entity_x_hi,x
+  sbc camera_x+1
   sta w3+1
-  lda #120
+  
+  sec
+  lda entity_y_lo,x
+  sbc camera_y
   sta w4
-  lda #0
+  lda entity_y_hi,x
+  sbc camera_y+1
   sta w4+1
+  
   lda entity_sprite_group_offset,x
   sta sprite_group_offset
   
