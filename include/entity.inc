@@ -5,6 +5,7 @@ ENTITY_INC = 1
 .global entity_spawn
 .global entity_update_all
 .global entity_draw_all
+.global entity_update_animation
 
 ENTITY_FLAGS_ALIVE_SET     = %00000001
 ENTITY_FLAGS_ALIVE_TEST    = ENTITY_FLAGS_ALIVE_SET

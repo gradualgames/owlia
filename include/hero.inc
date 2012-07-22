@@ -61,7 +61,7 @@ hero_state_main:
   lda buffer_controller+buttons::_left
   and #%00000011
   cmp #%00000011
-  bne :+
+  bne skip_left
   
   sec
   lda entity_x_lo,x
@@ -71,12 +71,20 @@ hero_state_main:
   sbc #$00
   sta entity_x_hi,x
   
-:
+  lda #%01000000
+  sta entity_sprite_flags,x
+  
+  lda #<WalkSide
+  sta entity_animation_address_lo,x
+  lda #>WalkSide
+  sta entity_animation_address_hi,x
+
+skip_left:
 
   lda buffer_controller+buttons::_right
   and #%00000011
   cmp #%00000011
-  bne :+
+  bne skip_right
   
   clc
   lda entity_x_lo,x
@@ -86,12 +94,20 @@ hero_state_main:
   adc #$00
   sta entity_x_hi,x
   
-:
+  lda #%00000000
+  sta entity_sprite_flags,x
+  
+  lda #<WalkSide
+  sta entity_animation_address_lo,x
+  lda #>WalkSide
+  sta entity_animation_address_hi,x
+
+skip_right:
 
   lda buffer_controller+buttons::_up
   and #%00000011
   cmp #%00000011
-  bne :+
+  bne skip_up
   
   sec
   lda entity_y_lo,x
@@ -101,12 +117,17 @@ hero_state_main:
   sbc #$00
   sta entity_y_hi,x
   
-:
+  lda #<WalkUp
+  sta entity_animation_address_lo,x
+  lda #>WalkUp
+  sta entity_animation_address_hi,x
+
+skip_up:
 
   lda buffer_controller+buttons::_down
   and #%00000011
   cmp #%00000011
-  bne :+
+  bne skip_down
   
   clc
   lda entity_y_lo,x
@@ -116,7 +137,14 @@ hero_state_main:
   adc #$00
   sta entity_y_hi,x
   
-:
+  lda #<WalkDown
+  sta entity_animation_address_lo,x
+  lda #>WalkDown
+  sta entity_animation_address_hi,x
+
+skip_down:
+
+  jsr entity_update_animation
 
   rts
 

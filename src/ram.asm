@@ -6,10 +6,6 @@ sprite: .res 256
 next_sprite_address: .res 1
 sprite_group_offset: .res 1
 
-animation_object: .res 2
-current_animation_definition: .res 2
-current_sprite_flags: .res 1
-
 entity_type:                 .res MAX_ENTITIES
 entity_flags:                .res MAX_ENTITIES
 entity_state:                .res MAX_ENTITIES

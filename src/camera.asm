@@ -1,6 +1,7 @@
 .include "camera.inc"
 .include "zp.inc"
 .include "ram.inc"
+.include "map.inc"
 
 .segment "CODE"
 
@@ -16,8 +17,162 @@
 ;follows the entity at camera_entity whenever it moves outside of a
 ;hard-coded rectangular area
 .proc update_camera
+CAMERA_HORIZ_SIZE = 80
+CAMERA_VERT_SIZE = 80
+camera_right_x = w4
+camera_left_x = w5
+camera_top_y = w6
+camera_bottom_y = w7
+camera_increment = b0
 
   ldx camera_entity
+
+  clc
+  lda camera_x
+  adc #(256 - CAMERA_HORIZ_SIZE)
+  sta camera_right_x
+  lda camera_x+1
+  adc #$00
+  sta camera_right_x+1
+  
+  ldx camera_entity
+  sec
+  lda entity_x_lo,x
+  sbc camera_right_x
+  sta camera_increment
+  lda entity_x_hi,x
+  sbc camera_right_x+1
+  bmi skip_follow_right
+  
+  jsr increment_camera_x
+  
+  clc
+  lda camera_x
+  adc #$00
+  sta w0
+  lda camera_x+1
+  adc #$01
+  sta w0+1
+  lda camera_y
+  sta w1
+  lda camera_y+1
+  sta w1+1
+  jsr map_decode_column
+  jsr map_process_intermediate_attribute_column_buffer
+  lda #1
+  sta column_ready
+  jmp skip_follow_left
+skip_follow_right:
+  
+  clc
+  lda camera_x
+  adc #(CAMERA_HORIZ_SIZE)
+  sta camera_left_x
+  lda camera_x+1
+  adc #$00
+  sta camera_left_x+1
+  
+  ldx camera_entity
+  sec
+  lda camera_left_x
+  sbc entity_x_lo,x
+  sta camera_increment
+  lda camera_left_x+1
+  sbc entity_x_hi,x
+  bmi skip_follow_left
+  
+  jsr decrement_camera_x
+  
+  clc
+  lda camera_x
+  sta w0
+  lda camera_x+1
+  sta w0+1
+
+  lda camera_y
+  sta w1
+  lda camera_y+1
+  sta w1+1
+  jsr map_decode_column
+  jsr map_process_intermediate_attribute_column_buffer
+  lda #1
+  sta column_ready
+skip_follow_left:
+
+  clc
+  lda camera_y
+  adc #(240 - CAMERA_VERT_SIZE)
+  sta camera_bottom_y
+  lda camera_y+1
+  adc #$00
+  sta camera_bottom_y+1
+  
+  ldx camera_entity
+  sec
+  lda entity_y_lo,x
+  sbc camera_bottom_y
+  sta camera_increment
+  lda entity_y_hi,x
+  sbc camera_bottom_y+1
+  bmi skip_follow_down
+  
+  jsr increment_camera_y
+  
+  clc
+  lda camera_x
+  sta w0
+  lda camera_x+1
+  sta w0+1
+
+  clc
+  lda camera_y
+  adc #224
+  sta w1
+  lda camera_y+1
+  adc #$00
+  sta w1+1
+  jsr map_decode_row
+  jsr map_process_intermediate_attribute_row_buffer
+  lda #1
+  sta row_ready
+  jmp skip_follow_up
+skip_follow_down:
+  
+  clc
+  lda camera_y
+  adc #(CAMERA_VERT_SIZE)
+  sta camera_top_y
+  lda camera_y+1
+  adc #$00
+  sta camera_top_y+1
+  
+  ldx camera_entity
+  sec
+  lda camera_top_y
+  sbc entity_y_lo,x
+  sta camera_increment
+  lda camera_top_y+1
+  sbc entity_y_hi,x
+  bmi skip_follow_up
+  
+  jsr decrement_camera_y
+  
+  clc
+  lda camera_x
+  sta w0
+  lda camera_x+1
+  sta w0+1
+
+  lda camera_y
+  sta w1
+  lda camera_y+1
+  sta w1+1
+  jsr map_decode_row
+  jsr map_process_intermediate_attribute_row_buffer
+  lda #1
+  sta row_ready
+  
+skip_follow_up:
 
   rts
 

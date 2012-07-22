@@ -15,7 +15,7 @@
 .segment "CODE"
 
 .proc play_state
-SPEED = 4
+SPEED = 1
 
   ;initialize
   jsr ppu_safely_disable_graphics
@@ -156,19 +156,8 @@ SPEED = 4
   jsr entity_spawn
   
   ;attach the camera to the entity instance at x
+  jsr attach_camera_to_entity
   
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda #<WalkSide
-  sta w2
-  sta current_animation_definition
-  lda #>WalkSide
-  sta w2+1
-  sta current_animation_definition+1
-  jsr sprite_reset_animation
-
 loop:
   ;wait til data has been consumed by nmi routine
 :
@@ -185,32 +174,10 @@ loop:
   
   jsr controller_read
   
-  lda buffer_controller+buttons::_right
-  and #$01
-  beq :+
-  jsr right_handler
-:
-  
-  lda buffer_controller+buttons::_left
-  and #$01
-  beq :+
-  jsr left_handler
-:
-  
-  lda buffer_controller+buttons::_up
-  and #$01
-  beq :+
-  jsr up_handler
-:
-  
-  lda buffer_controller+buttons::_down
-  and #$01
-  beq :+
-  jsr down_handler
-:
-  
   jsr entity_update_all
   
+  jsr update_camera
+
   jsr entity_draw_all
   
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE
@@ -221,167 +188,6 @@ loop:
   sta vblank_data_ready
   
   jmp loop
-
-right_handler:
-
-  lda #SPEED
-  sta b0
-  jsr increment_camera_x
-  
-  clc
-  lda camera_x
-  adc #$00
-  sta w0
-  lda camera_x+1
-  adc #$01
-  sta w0+1
-
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_column
-  jsr map_process_intermediate_attribute_column_buffer
-  lda #1
-  sta column_ready
-  
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda #<WalkSide
-  sta current_animation_definition
-  sta w2
-  lda #>WalkSide
-  sta current_animation_definition+1
-  sta w2+1
-  
-  lda #0
-  sta current_sprite_flags
-  
-  jsr sprite_update_animation
-  
-  rts
-  
-left_handler:
-
-  lda #SPEED
-  sta b0
-  jsr decrement_camera_x
-  
-  clc
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
-
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_column
-  jsr map_process_intermediate_attribute_column_buffer
-  lda #1
-  sta column_ready
-  
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda #<WalkSide
-  sta current_animation_definition
-  sta w2
-  lda #>WalkSide
-  sta current_animation_definition+1
-  sta w2+1
-  
-  lda #%01000000
-  sta current_sprite_flags
-  
-  jsr sprite_update_animation
-  
-  rts
-  
-up_handler:
-
-  lda #SPEED
-  sta b0
-  jsr decrement_camera_y
-  
-  clc
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
-
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
-  lda #1
-  sta row_ready
-  
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda #<WalkUp
-  sta current_animation_definition
-  sta w2
-  lda #>WalkUp
-  sta current_animation_definition+1
-  sta w2+1
-  
-  lda #0
-  sta current_sprite_flags
-  
-  jsr sprite_update_animation
-  
-  rts
-  
-down_handler:
-
-  lda #SPEED
-  sta b0
-  jsr increment_camera_y
-  
-  clc
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
-
-  clc
-  lda camera_y
-  adc #224
-  sta w1
-  lda camera_y+1
-  adc #$00
-  sta w1+1
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
-  lda #1
-  sta row_ready
-
-  lda #<animation_object
-  sta w1
-  lda #>animation_object
-  sta w1+1
-  lda #<WalkDown
-  sta current_animation_definition
-  sta w2
-  lda #>WalkDown
-  sta current_animation_definition+1
-  sta w2+1
-  
-  lda #0
-  sta current_sprite_flags
-  
-  jsr sprite_update_animation
-  
-  rts
 
 .endproc
 

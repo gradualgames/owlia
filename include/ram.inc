@@ -7,10 +7,6 @@ MAX_ENTITIES = 8
 .global next_sprite_address
 .global sprite_group_offset
 
-.global animation_object
-.global current_animation_definition
-.global current_sprite_flags
-
 .global entity_type
 .global entity_flags
 .global entity_state

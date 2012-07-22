@@ -149,3 +149,38 @@ spawn_y = w1
   rts
 
 .endproc
+
+;updates the current entity's animation
+;assumes x is pointing to the current entity instance
+.proc entity_update_animation
+animation_rom_address = w2
+
+  dec entity_animation_counter,x
+  bne :+
+  
+  ;reset the counter
+  ldy #animation_rom::frame_delay
+  lda (animation_rom_address),y
+  sta entity_animation_counter,x
+  
+  ;advance the frame
+  clc
+  lda entity_animation_frame,x
+  adc #2
+  sta entity_animation_frame,x
+  
+  ldy #animation_rom::frame_count
+  cmp (animation_rom_address),y
+  bne :+
+  
+  ;reset to frame zero
+  lda #0
+  sta entity_animation_frame,x
+  
+:
+
+  rts
+
+  rts
+
+.endproc
