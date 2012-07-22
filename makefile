@@ -31,6 +31,7 @@ FILES           += zp \
                    soundengine \
                    music \
                    ppu \
+                   mapper \
                    sprite
 
 OBJECT_FILES    = $(addprefix $(BIN_DIR)/,$(addsuffix .o, $(FILES)))
