@@ -1,6 +1,6 @@
 .include "map_data.inc"
 
-.segment "ROM00"
+.segment "ROM02"
 
 palette:
   .byte $0d,$19,$1b,$3a,$0d,$19,$16,$27,$0d,$19,$28,$20,$00,$00,$00,$00

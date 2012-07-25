@@ -13,6 +13,7 @@
 .include "sprite_chr_data.inc"
 .include "music_data.inc"
 .include "bg_chr_data.inc"
+.include "mapper.inc"
 
 .segment "CODE"
 
@@ -22,6 +23,20 @@ SPEED = 1
   ;initialize
   jsr ppu_safely_disable_graphics
   
+  ;setup bank numbers
+  lda #1
+  sta music_bank
+  
+  lda #0
+  sta entities_bank
+  lda #2
+  sta map_bank
+  lda #0
+  sta sprites_and_animations_bank
+  
+  lda music_bank
+  sta mapper_bank_next
+  jsr mapper_switch_bank
   lda #<song1
   sta sound_param_word_1
   lda #>song1
@@ -32,6 +47,10 @@ SPEED = 1
   sta $2006
   sta $2006
 
+  lda #0
+  sta mapper_bank_next
+  jsr mapper_switch_bank
+  
   lda #<map0_chr
   sta w0
   lda #>map0_chr
@@ -49,6 +68,9 @@ SPEED = 1
   sta w0+1
   jsr ppu_load_chr_amount
   
+  lda map_bank
+  sta mapper_bank_next
+  jsr mapper_switch_bank
   lda #<palette
   sta w0
   lda #>palette
@@ -139,8 +161,15 @@ SPEED = 1
   lda #>map
   sta map_address+1
 
+  lda map_bank
+  sta mapper_bank_next
+  jsr mapper_switch_bank
   jsr fill_nametable_columns
 
+  lda entities_bank
+  sta mapper_bank_next
+  jsr mapper_switch_bank
+  
   lda #(16*0)
   sta camera_x
   lda #0
@@ -169,6 +198,9 @@ loop:
   set_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
   
+  lda music_bank
+  sta mapper_bank_next
+  jsr mapper_switch_bank
   jsr sound_update
   jsr sound_upload
   
@@ -176,10 +208,19 @@ loop:
   
   jsr controller_read
   
+  lda entities_bank
+  sta mapper_bank_next
+  jsr mapper_switch_bank
   jsr entity_update_all
   
+  lda map_bank
+  sta mapper_bank_next
+  jsr mapper_switch_bank
   jsr update_camera
-
+  
+  lda sprites_and_animations_bank
+  sta mapper_bank_next
+  jsr mapper_switch_bank
   jsr entity_draw_all
   
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE

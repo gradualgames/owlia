@@ -10,6 +10,11 @@ MAX_ENTITIES = 8
 .global mapper_bank_next
 .global mapper_bank_current
 
+.global music_bank
+.global map_bank
+.global entities_bank
+.global sprites_and_animations_bank
+
 .global entity_type
 .global entity_flags
 .global entity_state
