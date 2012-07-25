@@ -10,7 +10,9 @@
 .include "soundengine.inc"
 .include "camera.inc"
 .include "sprites_and_animations_data.inc"
+.include "sprite_chr_data.inc"
 .include "music_data.inc"
+.include "bg_chr_data.inc"
 
 .segment "CODE"
 
@@ -41,9 +43,9 @@ SPEED = 1
   lda #$00
   sta $2006
   
-  lda #<Hero_chr
+  lda #<hero_chr
   sta w0
-  lda #>Hero_chr
+  lda #>hero_chr
   sta w0+1
   jsr ppu_load_chr_amount
   

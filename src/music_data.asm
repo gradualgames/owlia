@@ -1,7 +1,7 @@
 .include "music_data.inc"
 .include "soundengine.inc"
 
-.segment "CODE"
+.segment "ROM00"
 
 song1:
 .scope

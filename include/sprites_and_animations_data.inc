@@ -12,6 +12,4 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global WalkDown
 .global WalkSide
 
-.global Hero_chr
-
 .endif

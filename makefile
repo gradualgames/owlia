@@ -30,6 +30,8 @@ FILES           += zp \
                    mapper \
                    sprite \
                    entities \
+                   sprite_chr_data \
+                   bg_chr_data \
                    music_data \
                    map_data \
                    sprites_and_animations_data
