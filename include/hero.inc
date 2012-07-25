@@ -1,6 +1,6 @@
 .include "zp.inc"
 .include "ram.inc"
-.include "spritesheet0.inc"
+.include "sprites_and_animations_data.inc"
 .include "entity.inc"
 .include "controller.inc"
 

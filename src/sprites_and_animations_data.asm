@@ -1,4 +1,4 @@
-.include "spritesheet0.inc"
+.include "sprites_and_animations_data.inc"
 
 WalkUp0:
   .byte $08

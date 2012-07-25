@@ -21,18 +21,18 @@ FILES           += zp \
                    ram \
                    main \
                    play_state\
-                   map0 \
                    camera \
-                   entities \
                    entity \
-                   spritesheet0 \
                    controller \
                    map \
                    soundengine \
-                   music \
                    ppu \
                    mapper \
-                   sprite
+                   sprite \
+                   entities \
+                   music_data \
+                   map_data \
+                   sprites_and_animations_data
 
 OBJECT_FILES    = $(addprefix $(BIN_DIR)/,$(addsuffix .o, $(FILES)))
 LST_FILES       = $(addprefix $(SRC_DIR)/,$(addsuffix .lst, $(FILES)))

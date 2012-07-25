@@ -1,4 +1,4 @@
-.include "map0.inc"
+.include "map_data.inc"
 
 .segment "ROM00"
 

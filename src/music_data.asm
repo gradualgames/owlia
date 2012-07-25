@@ -1,4 +1,4 @@
-.include "music.inc"
+.include "music_data.inc"
 .include "soundengine.inc"
 
 .segment "CODE"

@@ -4,13 +4,13 @@
 .include "zp.inc"
 .include "ram.inc"
 .include "map.inc"
-.include "map0.inc"
+.include "map_data.inc"
 .include "sprite.inc"
 .include "entity.inc"
 .include "soundengine.inc"
 .include "camera.inc"
-.include "spritesheet0.inc"
-.include "music.inc"
+.include "sprites_and_animations_data.inc"
+.include "music_data.inc"
 
 .segment "CODE"
 

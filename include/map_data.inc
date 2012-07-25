@@ -1,5 +1,5 @@
-.ifndef MAP0_INC
-MAP0_INC = 1
+.ifndef MAP_DATA_INC
+MAP_DATA_INC = 1
 
 .global palette
 .global map0_chr
