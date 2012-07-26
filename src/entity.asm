@@ -156,9 +156,7 @@ spawn_y = w1
 .proc entity_update_animation
 animation_rom_address = w2
 
-  lda sprites_and_animations_bank
-  sta mapper_bank_next
-  jsr mapper_switch_bank
+  switch_bank_yreg sprites_and_animations_bank
 
   dec entity_animation_counter,x
   bne :+
@@ -184,9 +182,7 @@ animation_rom_address = w2
   
 :
 
-  lda entities_bank
-  sta mapper_bank_next
-  jsr mapper_switch_bank
+  switch_bank_yreg entities_bank
 
   rts
 

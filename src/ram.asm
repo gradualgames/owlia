@@ -6,9 +6,6 @@ sprite: .res 256
 next_sprite_address: .res 1
 sprite_group_offset: .res 1
 
-mapper_bank_next: .res 1
-mapper_bank_current: .res 1
-
 music_bank: .res 1
 map_bank: .res 1
 entities_bank: .res 1

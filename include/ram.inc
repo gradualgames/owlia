@@ -7,9 +7,6 @@ MAX_ENTITIES = 8
 .global next_sprite_address
 .global sprite_group_offset
 
-.global mapper_bank_next
-.global mapper_bank_current
-
 .global music_bank
 .global map_bank
 .global entities_bank
