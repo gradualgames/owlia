@@ -24,14 +24,14 @@ SPEED = 1
   jsr ppu_safely_disable_graphics
   
   ;setup bank numbers
-  lda #1
+  lda #0
   sta music_bank
   
-  lda #0
+  lda #1
   sta entities_bank
   lda #2
   sta map_bank
-  lda #0
+  lda #3
   sta sprites_and_animations_bank
   
   lda music_bank
@@ -47,7 +47,7 @@ SPEED = 1
   sta $2006
   sta $2006
 
-  lda #0
+  lda #7
   sta mapper_bank_next
   jsr mapper_switch_bank
   
@@ -61,6 +61,10 @@ SPEED = 1
   sta $2006
   lda #$00
   sta $2006
+  
+  lda #6
+  sta mapper_bank_next
+  jsr mapper_switch_bank
   
   lda #<hero_chr
   sta w0

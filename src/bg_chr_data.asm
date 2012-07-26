@@ -1,6 +1,6 @@
 .include "bg_chr_data.inc"
 
-.segment "ROM00"
+.segment "ROM07"
 
 map0_chr:
   .word $0510

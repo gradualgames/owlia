@@ -144,6 +144,10 @@ skip_up:
 
 skip_down:
 
+  lda entity_animation_address_lo,x
+  sta w2
+  lda entity_animation_address_hi,x
+  sta w2+1
   jsr entity_update_animation
 
   rts

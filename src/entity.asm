@@ -3,6 +3,7 @@
 .include "ram.inc"
 .include "zp.inc"
 .include "sprite.inc"
+.include "mapper.inc"
 
 .segment "CODE"
 
@@ -155,6 +156,10 @@ spawn_y = w1
 .proc entity_update_animation
 animation_rom_address = w2
 
+  lda sprites_and_animations_bank
+  sta mapper_bank_next
+  jsr mapper_switch_bank
+
   dec entity_animation_counter,x
   bne :+
   
@@ -179,7 +184,9 @@ animation_rom_address = w2
   
 :
 
-  rts
+  lda entities_bank
+  sta mapper_bank_next
+  jsr mapper_switch_bank
 
   rts
 

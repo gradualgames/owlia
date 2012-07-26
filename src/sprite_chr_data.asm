@@ -1,6 +1,6 @@
 .include "sprite_chr_data.inc"
 
-.segment "ROM00"
+.segment "ROM06"
 
 hero_chr:
   .word $0240

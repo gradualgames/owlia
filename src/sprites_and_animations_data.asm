@@ -1,6 +1,6 @@
 .include "sprites_and_animations_data.inc"
 
-.segment "ROM00"
+.segment "ROM03"
 
 WalkUp0:
   .byte $08

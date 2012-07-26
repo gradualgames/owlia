@@ -1,6 +1,6 @@
 .include "entities.inc"
 
-.segment "CODE"
+.segment "ROM01"
 
 .include "hero.inc"
 
