@@ -34,6 +34,7 @@ FILES           += zp \
                    bg_chr_data \
                    music_data \
                    map_data \
+                   areas \
                    sprites_and_animations_data
 
 OBJECT_FILES    = $(addprefix $(BIN_DIR)/,$(addsuffix .o, $(FILES)))

@@ -14,42 +14,49 @@
 .include "music_data.inc"
 .include "bg_chr_data.inc"
 .include "mapper.inc"
+.include "areas.inc"
 
 .segment "CODE"
 
-.proc play_state
-SPEED = 1
+;assumes w0 contains address of area to load
+;transitions directly to play state by spilling into it, this is NOT a routine
+play_state_load_area:
+area_address = w2
 
   ;initialize
   jsr ppu_safely_disable_graphics
   
   ;setup bank numbers
-  lda #0
+  ldy #area::music_bank
+  lda (area_address),y
   sta music_bank
   
-  lda #1
+  ldy #area::entities_bank
+  lda (area_address),y
   sta entities_bank
-  lda #2
-  sta map_bank
-  lda #3
-  sta sprites_and_animations_bank
   
-  switch_bank_yreg music_bank
-  lda #<song1
-  sta sound_param_word_1
-  lda #>song1
-  sta sound_param_word_1+1
-  jsr song_initialize
+  ldy #area::map_bank
+  lda (area_address),y
+  sta map_bank
+  
+  ldy #area::sprites_and_animations_bank
+  lda (area_address),y
+  sta sprites_and_animations_bank
   
   lda #$00
   sta $2006
   sta $2006
 
-  switch_bank_yreg #7
-  
-  lda #<map0_chr
+  ldy #area::bg_chr_bank
+  lda (area_address),y
+  tay
+  switch_bank_y
+
+  ldy #area::bg_chr_address
+  lda (area_address),y
   sta w0
-  lda #>map0_chr
+  iny
+  lda (area_address),y
   sta w0+1
   jsr ppu_load_chr_amount
   
@@ -58,23 +65,36 @@ SPEED = 1
   lda #$00
   sta $2006
   
-  switch_bank_yreg #6
-  
+  ldy #area::sprite_chr_bank
+  lda (area_address),y
+  tay
+  switch_bank_y
+
   lda #<hero_chr
   sta w0
   lda #>hero_chr
   sta w0+1
   jsr ppu_load_chr_amount
   
-  switch_bank_yreg map_bank
-  lda #<palette
+  switch_bank_ldy map_bank
+  
+  ldy #area::palette_address
+  lda (area_address),y
   sta w0
-  lda #>palette
+  iny
+  lda (area_address),y
   sta w0+1
   wait_vblank
   jsr ppu_load_palette
   
   jsr ppu_safely_enable_graphics
+  
+  switch_bank_ldy music_bank
+  lda #<song1
+  sta sound_param_word_1
+  lda #>song1
+  sta sound_param_word_1+1
+  jsr song_initialize
   
   ;initialize variables
   lda #0
@@ -93,63 +113,92 @@ SPEED = 1
   lda #$20
   sta camera_nametable_hibyte
   
-  lda #(16*0)
+  ldy #area::camera_start_x
+  lda (area_address),y
   sta camera_x
-  lda #0
+  
+  iny
+  lda (area_address),y
   sta camera_x+1
-  lda #(16*0)
+
+  ldy #area::camera_start_y
+  lda (area_address),y
   sta camera_y
-  lda #0
+  
+  iny
+  lda (area_address),y
   sta camera_y+1
   
-  lda #(16*0)
+  ldy #area::camera_start_scroll_x
+  lda (area_address),y
   sta camera_scroll_x
-  lda #(232)
+  
+  ldy #area::camera_start_scroll_y
+  lda (area_address),y
   sta camera_scroll_y
   
-  lda #<metatile_table_attributes
+
+  ldy #area::metatile_table_attributes_address
+  lda (area_address),y
   sta metatile_table_attributes_address
-  lda #>metatile_table_attributes
+  iny
+  lda (area_address),y
   sta metatile_table_attributes_address+1
   
-  lda #<metatile_table_top_left_tiles
+  ldy #area::metatile_table_top_left_tiles_address
+  lda (area_address),y
   sta metatile_table_top_left_tiles_address
-  lda #>metatile_table_top_left_tiles
+  iny
+  lda (area_address),y
   sta metatile_table_top_left_tiles_address+1
   
-  lda #<metatile_table_top_right_tiles
+  ldy #area::metatile_table_top_right_tiles_address
+  lda (area_address),y
   sta metatile_table_top_right_tiles_address
-  lda #>metatile_table_top_right_tiles
+  iny
+  lda (area_address),y
   sta metatile_table_top_right_tiles_address+1
   
-  lda #<metatile_table_bottom_left_tiles
+  ldy #area::metatile_table_bottom_left_tiles_address
+  lda (area_address),y
   sta metatile_table_bottom_left_tiles_address
-  lda #>metatile_table_bottom_left_tiles
+  iny
+  lda (area_address),y
   sta metatile_table_bottom_left_tiles_address+1
 
-  lda #<metatile_table_bottom_right_tiles
+  ldy #area::metatile_table_bottom_right_tiles_address
+  lda (area_address),y
   sta metatile_table_bottom_right_tiles_address
-  lda #>metatile_table_bottom_right_tiles
+  iny
+  lda (area_address),y
   sta metatile_table_bottom_right_tiles_address+1
   
-  lda #<big_metatile_table_top_left
+  ldy #area::big_metatile_table_top_left_address
+  lda (area_address),y
   sta big_metatile_table_top_left_address
-  lda #>big_metatile_table_top_left
+  iny
+  lda (area_address),y
   sta big_metatile_table_top_left_address+1
   
-  lda #<big_metatile_table_top_right
+  ldy #area::big_metatile_table_top_right_address
+  lda (area_address),y
   sta big_metatile_table_top_right_address
-  lda #>big_metatile_table_top_right
+  iny
+  lda (area_address),y
   sta big_metatile_table_top_right_address+1
 
-  lda #<big_metatile_table_bottom_left
+  ldy #area::big_metatile_table_bottom_left_address
+  lda (area_address),y
   sta big_metatile_table_bottom_left_address
-  lda #>big_metatile_table_bottom_left
+  iny
+  lda (area_address),y
   sta big_metatile_table_bottom_left_address+1
   
-  lda #<big_metatile_table_bottom_right
+  ldy #area::big_metatile_table_bottom_right_address
+  lda (area_address),y
   sta big_metatile_table_bottom_right_address
-  lda #>big_metatile_table_bottom_right
+  iny
+  lda (area_address),y
   sta big_metatile_table_bottom_right_address+1
   
   lda #<map
@@ -157,10 +206,10 @@ SPEED = 1
   lda #>map
   sta map_address+1
 
-  switch_bank_yreg map_bank
+  switch_bank_ldy map_bank
   jsr fill_nametable_columns
 
-  switch_bank_yreg entities_bank
+  switch_bank_ldy entities_bank
   
   lda #(16*0)
   sta camera_x
@@ -180,7 +229,9 @@ SPEED = 1
   
   ;attach the camera to the entity instance at x
   jsr attach_camera_to_entity
-  
+
+play_state:
+
 loop:
   ;wait til data has been consumed by nmi routine
 :
@@ -190,7 +241,7 @@ loop:
   set_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
   
-  switch_bank_yreg music_bank
+  switch_bank_ldy music_bank
   jsr sound_update
   jsr sound_upload
   
@@ -198,13 +249,13 @@ loop:
   
   jsr controller_read
   
-  switch_bank_yreg entities_bank
+  switch_bank_ldy entities_bank
   jsr entity_update_all
   
-  switch_bank_yreg map_bank
+  switch_bank_ldy map_bank
   jsr update_camera
   
-  switch_bank_yreg sprites_and_animations_bank
+  switch_bank_ldy sprites_and_animations_bank
   jsr entity_draw_all
   
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE
@@ -215,9 +266,7 @@ loop:
   sta vblank_data_ready
   
   jmp loop
-
-.endproc
-
+  
 .proc fill_nametable_columns
 
   ;wait til data has been consumed by nmi routine

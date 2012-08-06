@@ -7,6 +7,7 @@
 .include "play_state.inc"
 .include "sprite.inc"
 .include "soundengine.inc"
+.include "areas.inc"
 
 .segment "HEADER"
 .byte "NES",$1a   ;iNES header
@@ -63,7 +64,11 @@ reset:
   
   jsr sound_initialize
   
-  jmp play_state
+  lda #<village_area
+  sta w2
+  lda #>village_area
+  sta w2+1
+  jmp play_state_load_area
 
 vblank:
 
