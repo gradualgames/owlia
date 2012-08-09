@@ -15,8 +15,45 @@
 .include "bg_chr_data.inc"
 .include "mapper.inc"
 .include "areas.inc"
+.include "entities.inc"
 
 .segment "CODE"
+
+.proc load_entity_types_chr
+entity_types_address = w3
+entity_types_index = b0
+
+  ;get count for number of entity types in this area
+  ldy #0
+  lda (entity_types_address),y
+  ;put it in x for counting
+  tax
+
+  ;point at the first entry in the entity types array
+  iny
+  sty entity_types_index
+  
+next_entity_type:
+
+  ;get next entity type index
+  ldy entity_types_index
+  lda (entity_types_address),y
+
+  tay
+  lda entity_defs_chr_address_lo,y
+  sta w0
+  lda entity_defs_chr_address_hi,y
+  sta w0+1
+  jsr ppu_load_chr_amount
+  
+  inc entity_types_index
+  
+  dex
+  bne next_entity_type
+
+  rts
+
+.endproc
 
 ;assumes w0 contains address of area to load
 ;transitions directly to play state by spilling into it, this is NOT a routine
@@ -70,11 +107,14 @@ area_address = w2
   tay
   switch_bank_y
 
-  lda #<hero_chr
-  sta w0
-  lda #>hero_chr
-  sta w0+1
-  jsr ppu_load_chr_amount
+  ldy #area::entity_types_address
+  lda (area_address),y
+  sta w3
+  iny
+  lda (area_address),y
+  sta w3+1
+  
+  jsr load_entity_types_chr
   
   switch_bank_ldy map_bank
   
@@ -201,9 +241,11 @@ area_address = w2
   lda (area_address),y
   sta big_metatile_table_bottom_right_address+1
   
-  lda #<map
+  ldy #area::map_address
+  lda (area_address),y
   sta map_address
-  lda #>map
+  iny
+  lda (area_address),y
   sta map_address+1
 
   switch_bank_ldy map_bank
