@@ -55,6 +55,39 @@ next_entity_type:
 
 .endproc
 
+.proc load_area_camera_vars
+
+  lda #$20
+  sta camera_nametable_hibyte
+  
+  ldy #area::camera_start_x
+  lda (area_address),y
+  sta camera_x
+  
+  iny
+  lda (area_address),y
+  sta camera_x+1
+
+  ldy #area::camera_start_y
+  lda (area_address),y
+  sta camera_y
+  
+  iny
+  lda (area_address),y
+  sta camera_y+1
+  
+  ldy #area::camera_start_scroll_x
+  lda (area_address),y
+  sta camera_scroll_x
+  
+  ldy #area::camera_start_scroll_y
+  lda (area_address),y
+  sta camera_scroll_y
+
+  rts
+
+.endproc
+
 ;assumes w0 contains address of area to load
 ;transitions directly to play state by spilling into it, this is NOT a routine
 play_state_load_area:
@@ -150,33 +183,7 @@ area_address = w2
   lda #>nametable_and_attribute_update_ppu
   sta vblank_routine+1
   
-  lda #$20
-  sta camera_nametable_hibyte
-  
-  ldy #area::camera_start_x
-  lda (area_address),y
-  sta camera_x
-  
-  iny
-  lda (area_address),y
-  sta camera_x+1
-
-  ldy #area::camera_start_y
-  lda (area_address),y
-  sta camera_y
-  
-  iny
-  lda (area_address),y
-  sta camera_y+1
-  
-  ldy #area::camera_start_scroll_x
-  lda (area_address),y
-  sta camera_scroll_x
-  
-  ldy #area::camera_start_scroll_y
-  lda (area_address),y
-  sta camera_scroll_y
-  
+  jsr load_area_camera_vars
 
   ldy #area::metatile_table_attributes_address
   lda (area_address),y
@@ -249,18 +256,24 @@ area_address = w2
   sta map_address+1
 
   switch_bank_ldy map_bank
-  jsr fill_nametable_columns
+  
+  ;save area address, fill_nametable_columns destroys most local vars
+  lda area_address
+  pha
+  lda area_address+1
+  pha
 
+  jsr fill_nametable_columns
+  
+  ;restore area address so we can re-load camera vars
+  pla
+  sta area_address+1
+  pla
+  sta area_address
+  
   switch_bank_ldy entities_bank
   
-  lda #(16*0)
-  sta camera_x
-  lda #0
-  sta camera_x+1
-  lda #(16*0)
-  sta camera_y
-  lda #0
-  sta camera_y+1
+  jsr load_area_camera_vars
   
   jsr entity_init_all
   
