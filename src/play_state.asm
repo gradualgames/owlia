@@ -418,9 +418,6 @@ bottom_row:
 
 done:
   
-  ; clear_ppu_2001_bit PPU1_DISPLAY_TYPE
-  ; upload_ppu_2001
-  
   signal_vblank_data_ready
 
   jmp fill_nametable_loop
