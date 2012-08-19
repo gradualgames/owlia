@@ -91,7 +91,6 @@ next_entity_type:
 ;assumes w0 contains address of area to load
 ;transitions directly to play state by spilling into it, this is NOT a routine
 play_state_load_area:
-area_address = w2
 
   ;initialize
   jsr ppu_safely_disable_graphics
@@ -261,19 +260,7 @@ area_address = w2
 
   switch_bank_ldy map_bank
   
-  ;save area address, fill_nametable_columns destroys most local vars
-  lda area_address
-  pha
-  lda area_address+1
-  pha
-
   jsr fill_nametable_columns
-  
-  ;restore area address so we can re-load camera vars
-  pla
-  sta area_address+1
-  pla
-  sta area_address
   
   ldy #area::palette_address
   lda (area_address),y

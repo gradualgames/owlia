@@ -37,5 +37,7 @@ w18: .res 2
 w19: .res 2
 w20: .res 2
 
+area_address: .res 2
+
 vblank_routine: .res 2
 vblank_data_ready: .res 1

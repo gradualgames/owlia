@@ -36,6 +36,8 @@ ZP_INC = 1
 .globalzp w19
 .globalzp w20
 
+.globalzp area_address
+
 .globalzp vblank_routine
 .globalzp vblank_data_ready
 
