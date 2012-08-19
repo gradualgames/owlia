@@ -268,8 +268,6 @@ area_address = w2
   pha
 
   jsr fill_nametable_columns
-
-  wait_vblank_data_ready
   
   ;restore area address so we can re-load camera vars
   pla
@@ -337,6 +335,7 @@ loop:
   
 .proc fill_nametable_columns
 
+loop:
   wait_vblank_data_ready
   
   ;prepare data
@@ -363,16 +362,18 @@ loop:
 
   lda camera_x+1
   cmp #1
-  bne :+
+  bne not_finished
   
   signal_vblank_data_ready
+  
+  wait_vblank_data_ready
   
   rts
-:
+not_finished:
   
   signal_vblank_data_ready
   
-  jmp :--
+  jmp loop
 
 .endproc
   

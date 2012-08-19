@@ -143,18 +143,22 @@ PPU1_DISPLAY_TYPE = 0
 
 .macro wait_vblank
 
-:
+.scope
+wait:
   bit $2002
-  bpl :-
-
+  bpl wait
+.endscope
+  
 .endmacro
 
 .macro wait_vblank_data_ready
 
   ;wait til data has been consumed by nmi routine
-:
+.scope
+wait:
   lda vblank_data_ready
-  bne :-
+  bne wait
+.endscope
 
 .endmacro
 
