@@ -7,6 +7,11 @@ PPU_INC = 1
 .global ppu_load_chr_amount
 .global ppu_safely_disable_graphics
 .global ppu_safely_enable_graphics
+.global ppu_load_dynamic_palette_brightness
+.global ppu_fade_in_palette
+.global ppu_fade_out_palette
+
+FADING_SPEED = 5
 
 ;bit positions for PPU control register $2000
 PPU0_EXECUTE_NMI = 7
@@ -141,6 +146,23 @@ PPU1_DISPLAY_TYPE = 0
 :
   bit $2002
   bpl :-
+
+.endmacro
+
+.macro wait_vblank_data_ready
+
+  ;wait til data has been consumed by nmi routine
+:
+  lda vblank_data_ready
+  bne :-
+
+.endmacro
+
+.macro signal_vblank_data_ready
+
+  ;tell nmi routine data is ready to consume
+  lda #1
+  sta vblank_data_ready
 
 .endmacro
 

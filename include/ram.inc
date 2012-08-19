@@ -45,6 +45,8 @@ MAX_ENTITIES = 8
 .global ppu_2005
 .global ppu_2006
 
+.global dynamic_palette
+
 .global buffer_controller
 
 .global map_address

@@ -43,6 +43,8 @@ ppu_2001: .res 1
 ppu_2005: .res 2
 ppu_2006: .res 2
 
+dynamic_palette: .res 32
+
 buffer_controller: .res 8
 
 map_width: .res 1

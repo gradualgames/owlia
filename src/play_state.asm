@@ -151,13 +151,17 @@ area_address = w2
   
   switch_bank_ldy map_bank
   
-  ldy #area::palette_address
-  lda (area_address),y
-  sta w0
-  iny
-  lda (area_address),y
-  sta w0+1
+  ;load dynamic palette faded out so that fade in doesn't cause funkiness
   wait_vblank
+  lda #0
+  sta b3
+  jsr ppu_load_dynamic_palette_brightness
+
+  lda #<dynamic_palette
+  sta w0
+  lda #>dynamic_palette
+  sta w0+1
+
   jsr ppu_load_palette
   
   jsr ppu_safely_enable_graphics
@@ -264,12 +268,22 @@ area_address = w2
   pha
 
   jsr fill_nametable_columns
+
+  wait_vblank_data_ready
   
   ;restore area address so we can re-load camera vars
   pla
   sta area_address+1
   pla
   sta area_address
+  
+  ldy #area::palette_address
+  lda (area_address),y
+  sta w0
+  iny
+  lda (area_address),y
+  sta w0+1
+  jsr ppu_fade_in_palette
   
   switch_bank_ldy entities_bank
   
@@ -288,13 +302,12 @@ area_address = w2
 play_state:
 
 loop:
-  ;wait til data has been consumed by nmi routine
-:
-  lda vblank_data_ready
-  bne :-
+  wait_vblank_data_ready
   
+  .ifdef CPU_USAGE
   set_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
+  .endif
   
   switch_bank_ldy music_bank
   jsr sound_update
@@ -313,21 +326,18 @@ loop:
   switch_bank_ldy sprites_and_animations_bank
   jsr entity_draw_all
   
+  .ifdef CPU_USAGE
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
+  .endif
   
-  ;tell nmi routine data is ready to consume
-  lda #1
-  sta vblank_data_ready
+  signal_vblank_data_ready
   
   jmp loop
   
 .proc fill_nametable_columns
 
-  ;wait til data has been consumed by nmi routine
-:
-  lda vblank_data_ready
-  bne :-
+  wait_vblank_data_ready
   
   ;prepare data
   lda camera_x
@@ -355,31 +365,22 @@ loop:
   cmp #1
   bne :+
   
-  ;tell nmi routine data is ready to consume
-  lda #1
-  sta vblank_data_ready
+  signal_vblank_data_ready
   
   rts
 :
   
-  ;tell nmi routine data is ready to consume
-  lda #1
-  sta vblank_data_ready
+  signal_vblank_data_ready
   
   jmp :--
-
-  rts
 
 .endproc
   
 .proc fill_nametable_rows
 
 fill_nametable_loop:
-  ;wait til data has been consumed by nmi routine
-:
-  lda vblank_data_ready
-  bne :-
-  
+  wait_vblank_data_ready
+
   ;prepare data
   lda camera_x
   sta w0
@@ -410,9 +411,7 @@ not_bottom_row:
   jmp done
 bottom_row:
 
-  ;tell nmi routine data is ready to consume
-  lda #1
-  sta vblank_data_ready
+  signal_vblank_data_ready
 
   rts
 
@@ -421,9 +420,7 @@ done:
   ; clear_ppu_2001_bit PPU1_DISPLAY_TYPE
   ; upload_ppu_2001
   
-  ;tell nmi routine data is ready to consume
-  lda #1
-  sta vblank_data_ready
+  signal_vblank_data_ready
 
   jmp fill_nametable_loop
 
