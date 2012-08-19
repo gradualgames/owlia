@@ -165,13 +165,6 @@ play_state_load_area:
   
   jsr ppu_safely_enable_graphics
   
-  switch_bank_ldy music_bank
-  lda #<song1
-  sta sound_param_word_1
-  lda #>song1
-  sta sound_param_word_1+1
-  jsr song_initialize
-  
   ;initialize variables
   lda #0
   sta vblank_data_ready
@@ -262,14 +255,6 @@ play_state_load_area:
   
   jsr fill_nametable_columns
   
-  ldy #area::palette_address
-  lda (area_address),y
-  sta w0
-  iny
-  lda (area_address),y
-  sta w0+1
-  jsr ppu_fade_in_palette
-  
   switch_bank_ldy entities_bank
   
   jsr load_area_camera_vars
@@ -284,9 +269,56 @@ play_state_load_area:
   ;attach the camera to the entity instance at x
   jsr attach_camera_to_entity
 
+  ;execute a single frame to get entities onscreen before palette fade in and music
+  jsr play_frame_no_control_no_music
+  
+  switch_bank_ldy map_bank
+  ldy #area::palette_address
+  lda (area_address),y
+  sta w0
+  iny
+  lda (area_address),y
+  sta w0+1
+  jsr ppu_fade_in_palette
+  
+  switch_bank_ldy music_bank
+  lda #<song1
+  sta sound_param_word_1
+  lda #>song1
+  sta sound_param_word_1+1
+  jsr song_initialize
+  
 play_state:
 
 loop:
+
+  jsr play_frame
+  
+  jmp loop
+  
+.proc play_frame_no_control_no_music
+
+  wait_vblank_data_ready
+  
+  jsr sprite_clear_all
+  
+  switch_bank_ldy entities_bank
+  jsr entity_update_all
+  
+  switch_bank_ldy map_bank
+  jsr update_camera
+  
+  switch_bank_ldy sprites_and_animations_bank
+  jsr entity_draw_all
+  
+  signal_vblank_data_ready
+
+  rts
+
+.endproc
+  
+.proc play_frame
+
   wait_vblank_data_ready
   
   .ifdef CPU_USAGE
@@ -317,8 +349,10 @@ loop:
   .endif
   
   signal_vblank_data_ready
-  
-  jmp loop
+
+  rts
+
+.endproc
   
 .proc fill_nametable_columns
 
