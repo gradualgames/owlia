@@ -162,7 +162,7 @@ wait:
 
 .endmacro
 
-.macro signal_vblank_data_ready
+.macro set_vblank_data_ready
 
   ;tell nmi routine data is ready to consume
   lda #1

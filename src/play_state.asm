@@ -311,7 +311,7 @@ loop:
   switch_bank_ldy sprites_and_animations_bank
   jsr entity_draw_all
   
-  signal_vblank_data_ready
+  set_vblank_data_ready
 
   rts
 
@@ -348,7 +348,7 @@ loop:
   upload_ppu_2001
   .endif
   
-  signal_vblank_data_ready
+  set_vblank_data_ready
 
   rts
 
@@ -385,14 +385,14 @@ loop:
   cmp #1
   bne not_finished
   
-  signal_vblank_data_ready
+  set_vblank_data_ready
   
   wait_vblank_data_ready
   
   rts
 not_finished:
   
-  signal_vblank_data_ready
+  set_vblank_data_ready
   
   jmp loop
 
@@ -433,13 +433,13 @@ not_bottom_row:
   jmp done
 bottom_row:
 
-  signal_vblank_data_ready
+  set_vblank_data_ready
 
   rts
 
 done:
   
-  signal_vblank_data_ready
+  set_vblank_data_ready
 
   jmp fill_nametable_loop
 
