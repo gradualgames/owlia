@@ -8,6 +8,12 @@
 
 .segment "CODE"
 
+areas_lo:
+  .byte <village_area
+  
+areas_hi:
+  .byte >village_area
+
 village_entities:
   .byte 1  ;count
   .byte 0

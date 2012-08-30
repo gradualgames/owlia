@@ -28,6 +28,12 @@ AREAS_INC = 1
   big_metatile_table_bottom_right_address .word
 .endstruct
 
+.global areas_lo
+.global areas_hi
+
 .global village_area
+
+area_index_village = 0
+area_index_house = 1
 
 .endif
