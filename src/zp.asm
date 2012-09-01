@@ -38,6 +38,7 @@ w19: .res 2
 w20: .res 2
 
 map_address: .res 2
+metatile_table_properties_address:         .res 2
 metatile_table_attributes_address:         .res 2
 metatile_table_top_left_tiles_address:     .res 2
 metatile_table_top_right_tiles_address:    .res 2

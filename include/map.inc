@@ -11,6 +11,7 @@ ACTION_NOP          = $00
 ACTION_GOTO_AREA    = $01
 ACTION_SPAWN_ENTITY = $02
 
+.global map_test_collision
 .global nametable_and_attribute_update_ppu
 .global map_process_intermediate_attribute_row_buffer
 .global map_decode_row

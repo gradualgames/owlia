@@ -5,6 +5,7 @@
 .include "controller.inc"
 .include "sprite.inc"
 .include "soundengine.inc"
+.include "mapper.inc"
 
 .segment "CODE"
 
@@ -31,6 +32,9 @@ mod15lut:
 
 ;returns the properties byte for the metatile inside which the input point resides
 ;expects w0 and w1 to contain the X and Y coordinate of the point to test.
+;expects to always be called from the current entities_bank, and will always switch
+;returns metatile properties byte in b0
+;temporarily to map_bank before switching back to entities_bank.
 .proc map_test_collision
 map_x = w0
 map_y = w1
@@ -38,8 +42,222 @@ map_x_in_big_metatile_coordinates = w3
 map_y_in_big_metatile_coordinates = w4
 map_x_in_metatile_coordinates = w5
 map_y_in_metatile_coordinates = w6
+metatile_properties = b0
+
+map_offset = w16
+
+  ;we need to see the map data for the duration of this routine
+  switch_bank_ldy map_bank
+
+  ;calculate useful transformations of map_x and map_y
+  lda map_x
+  sta map_x_in_metatile_coordinates
+  lda map_x+1
+  sta map_x_in_metatile_coordinates+1
+  
+  lda map_y
+  sta map_y_in_metatile_coordinates
+  lda map_y+1
+  sta map_y_in_metatile_coordinates+1
+  
+  lda map_x_in_metatile_coordinates
+  lsr map_x_in_metatile_coordinates+1
+  ror
+  lsr map_x_in_metatile_coordinates+1
+  ror
+  lsr map_x_in_metatile_coordinates+1
+  ror
+  lsr map_x_in_metatile_coordinates+1
+  ror
+  sta map_x_in_metatile_coordinates
+
+  lda map_y_in_metatile_coordinates
+  lsr map_y_in_metatile_coordinates+1
+  ror
+  lsr map_y_in_metatile_coordinates+1
+  ror
+  lsr map_y_in_metatile_coordinates+1
+  ror
+  lsr map_y_in_metatile_coordinates+1
+  ror
+  sta map_y_in_metatile_coordinates
+  
+  lda map_x_in_metatile_coordinates
+  sta map_x_in_big_metatile_coordinates
+  lda map_x_in_metatile_coordinates+1
+  sta map_x_in_big_metatile_coordinates+1
+  
+  lda map_x_in_big_metatile_coordinates
+  lsr map_x_in_big_metatile_coordinates+1
+  ror
+  sta map_x_in_big_metatile_coordinates
+  
+  lda map_y_in_metatile_coordinates
+  sta map_y_in_big_metatile_coordinates
+  lda map_y_in_metatile_coordinates+1
+  sta map_y_in_big_metatile_coordinates+1
+  
+  lda map_y_in_big_metatile_coordinates
+  lsr map_y_in_big_metatile_coordinates+1
+  ror
+  sta map_y_in_big_metatile_coordinates
+
+  ;now modify the metatile coordinates to only be an offset within the big metatile
+  lda map_x_in_metatile_coordinates
+  and #%00000001
+  sta map_x_in_metatile_coordinates
+  
+  lda map_y_in_metatile_coordinates
+  and #%00000001
+  sta map_y_in_metatile_coordinates
+  
+  ;calculate map offset
+  lda map_y_in_big_metatile_coordinates
+  sta map_offset
+  lda map_y_in_big_metatile_coordinates+1
+  sta map_offset+1
+  
+  ;shift map y in big metatile coordinates left by 5 to multiply by 32
+  ;after this, map_offset will be the offset of the row
+  ;in which we want to begin decoding
+  lda map_offset+1
+  asl map_offset
+  rol
+  asl map_offset
+  rol
+  asl map_offset
+  rol
+  asl map_offset
+  rol
+  asl map_offset
+  rol
+  sta map_offset+1
+  
+  ;add on map y in big metatile coordinates
+  clc
+  lda map_offset
+  adc map_x_in_big_metatile_coordinates
+  sta map_offset
+  lda map_offset+1
+  adc map_x_in_big_metatile_coordinates+1
+  sta map_offset+1
+  
+  ;add on base address of map
+  clc
+  lda map_offset
+  adc map_address
+  sta map_offset
+  lda map_offset+1
+  adc map_address+1
+  sta map_offset+1
+  
+.scope
+  lda map_x_in_metatile_coordinates
+  bne right_side
+left_side:
+
+  .scope
+  lda map_y_in_metatile_coordinates
+  bne bottom_half
+top_half:
+
+  ;top left case
+  
+  ;get the big metatile index
+  ldy #0
+  lda (map_offset),y
+  ;lookup metatile index
+  tay
+  lda (big_metatile_table_top_left_address),y
+  tay
+  ;get metatile properties byte and return
+  lda (metatile_table_properties_address),y
+  sta metatile_properties
+  
+  ;switch back to entities bank before returning
+  switch_bank_ldy entities_bank
+  
+  rts
+
+  jmp done
+bottom_half:
+
+  ;bottom left case
+  
+  ;get the big metatile index
+  ldy #0
+  lda (map_offset),y
+  ;lookup metatile index
+  tay
+  lda (big_metatile_table_bottom_left_address),y
+  tay
+  ;get metatile properties byte and return
+  lda (metatile_table_properties_address),y
+  sta metatile_properties
+  
+  ;switch back to entities bank before returning
+  switch_bank_ldy entities_bank
 
   rts
+
+done:
+  .endscope
+
+  jmp done
+right_side:
+
+  .scope
+  lda map_y_in_metatile_coordinates
+  bne bottom_half
+top_half:
+
+  ;top right case
+  
+  ;get the big metatile index
+  ldy #0
+  lda (map_offset),y
+  ;lookup metatile index
+  tay
+  lda (big_metatile_table_top_right_address),y
+  tay
+  ;get metatile properties byte and return
+  lda (metatile_table_properties_address),y
+  sta metatile_properties
+  
+  ;switch back to entities bank before returning
+  switch_bank_ldy entities_bank
+
+  rts
+
+  jmp done
+bottom_half:
+
+  ;bottom right case
+  
+  ;get the big metatile index
+  ldy #0
+  lda (map_offset),y
+  ;lookup metatile index
+  tay
+  lda (big_metatile_table_bottom_right_address),y
+  tay
+  ;get metatile properties byte and return
+  lda (metatile_table_properties_address),y
+  sta metatile_properties
+  
+  ;switch back to entities bank before returning
+  switch_bank_ldy entities_bank
+
+  rts
+
+done:
+  .endscope
+
+done:
+.endscope
+
+  ;there are four cases with an rts above, no ending
+  ;rts is needed
 
 .endproc
   

@@ -34,6 +34,7 @@ village_area:
   .word song1
   .word palette
   .word map
+  .word metatile_table_properties
   .word metatile_table_attributes
   .word metatile_table_top_left_tiles
   .word metatile_table_top_right_tiles

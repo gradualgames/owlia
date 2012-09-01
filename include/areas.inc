@@ -17,6 +17,7 @@ AREAS_INC = 1
   song_address .word
   palette_address .word
   map_address .word
+  metatile_table_properties_address .word
   metatile_table_attributes_address .word
   metatile_table_top_left_tiles_address .word
   metatile_table_top_right_tiles_address .word

@@ -128,6 +128,16 @@ spawn_y = w1
   sbc camera_y+1
   sta w4+1
   
+  ;subtract 8 to correct for the needed nametable offset to straddle metatile updates
+  ;between the topmost row of nametable tiles and the bottommost row of nametable tiles
+  clc
+  lda w4
+  adc #$08
+  sta w4
+  lda w4+1
+  adc #$00
+  sta w4+1
+  
   lda entity_sprite_group_offset,x
   sta sprite_group_offset
   

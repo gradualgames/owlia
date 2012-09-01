@@ -3,6 +3,7 @@
 .include "sprites_and_animations_data.inc"
 .include "entity.inc"
 .include "controller.inc"
+.include "map.inc"
 
 .ifndef HERO_INC
 HERO_INC = 1
@@ -63,6 +64,10 @@ hero_state_main:
   cmp #%00000011
   bne skip_left
   
+  lda entity_x_lo,x
+  ora entity_x_hi,x
+  beq skip_left
+  
   sec
   lda entity_x_lo,x
   sbc #$02
@@ -84,6 +89,22 @@ skip_left:
   lda buffer_controller+buttons::_right
   and #%00000011
   cmp #%00000011
+  bne skip_right
+  
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+  
+  jsr map_test_collision
+  
+  lda b0
+  and #FLAG_SOLID
   bne skip_right
   
   clc
@@ -108,6 +129,10 @@ skip_right:
   and #%00000011
   cmp #%00000011
   bne skip_up
+  
+  lda entity_y_lo,x
+  ora entity_y_hi,x
+  beq skip_up
   
   sec
   lda entity_y_lo,x

@@ -181,6 +181,13 @@ play_state_load_area:
   
   jsr load_area_camera_vars
 
+  ldy #area::metatile_table_properties_address
+  lda (area_address),y
+  sta metatile_table_properties_address
+  iny
+  lda (area_address),y
+  sta metatile_table_properties_address+1
+  
   ldy #area::metatile_table_attributes_address
   lda (area_address),y
   sta metatile_table_attributes_address
