@@ -37,6 +37,17 @@ w18: .res 2
 w19: .res 2
 w20: .res 2
 
+map_address: .res 2
+metatile_table_attributes_address:         .res 2
+metatile_table_top_left_tiles_address:     .res 2
+metatile_table_top_right_tiles_address:    .res 2
+metatile_table_bottom_left_tiles_address:  .res 2
+metatile_table_bottom_right_tiles_address: .res 2
+big_metatile_table_top_left_address: .res 2
+big_metatile_table_top_right_address: .res 2
+big_metatile_table_bottom_left_address: .res 2
+big_metatile_table_bottom_right_address: .res 2
+
 area_address: .res 2
 
 vblank_routine: .res 2

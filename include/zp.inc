@@ -36,6 +36,17 @@ ZP_INC = 1
 .globalzp w19
 .globalzp w20
 
+.globalzp map_address
+.globalzp metatile_table_attributes_address
+.globalzp metatile_table_top_left_tiles_address
+.globalzp metatile_table_top_right_tiles_address
+.globalzp metatile_table_bottom_left_tiles_address
+.globalzp metatile_table_bottom_right_tiles_address
+.globalzp big_metatile_table_top_left_address
+.globalzp big_metatile_table_top_right_address
+.globalzp big_metatile_table_bottom_left_address
+.globalzp big_metatile_table_bottom_right_address
+
 .globalzp area_address
 
 .globalzp vblank_routine

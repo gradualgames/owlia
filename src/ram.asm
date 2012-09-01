@@ -49,16 +49,6 @@ buffer_controller: .res 8
 
 map_width: .res 1
 map_height: .res 1
-map_address: .res 2
-metatile_table_attributes_address:         .res 2
-metatile_table_top_left_tiles_address:     .res 2
-metatile_table_top_right_tiles_address:    .res 2
-metatile_table_bottom_left_tiles_address:  .res 2
-metatile_table_bottom_right_tiles_address: .res 2
-big_metatile_table_top_left_address: .res 2
-big_metatile_table_top_right_address: .res 2
-big_metatile_table_bottom_left_address: .res 2
-big_metatile_table_bottom_right_address: .res 2
 
 camera_entity: .res 1
 camera_x: .res 2

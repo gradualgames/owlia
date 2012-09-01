@@ -29,6 +29,20 @@ mod15lut:
   .byte 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
   .byte 0
 
+;returns the properties byte for the metatile inside which the input point resides
+;expects w0 and w1 to contain the X and Y coordinate of the point to test.
+.proc map_test_collision
+map_x = w0
+map_y = w1
+map_x_in_big_metatile_coordinates = w3
+map_y_in_big_metatile_coordinates = w4
+map_x_in_metatile_coordinates = w5
+map_y_in_metatile_coordinates = w6
+
+  rts
+
+.endproc
+  
 map_decode_row = big_map_decode_row
 map_decode_column = big_map_decode_column
 
@@ -51,63 +65,7 @@ intermediate_attribute_row_buffer_offset = b9
 metatile_counter = b10
 metatile_index = b11
 
-metatile_table_attributes_address_zp = w7
-metatile_table_top_left_tiles_address_zp = w8
-metatile_table_top_right_tiles_address_zp = w9
-metatile_table_bottom_left_tiles_address_zp = w10
-metatile_table_bottom_right_tiles_address_zp = w11
-big_metatile_table_top_left_address_zp = w12
-big_metatile_table_top_right_address_zp = w13
-big_metatile_table_bottom_left_address_zp = w14
-big_metatile_table_bottom_right_address_zp = w15
-
 map_offset = w16
-
-  ;copy various table addresses to zp
-  lda metatile_table_attributes_address
-  sta metatile_table_attributes_address_zp
-  lda metatile_table_attributes_address+1
-  sta metatile_table_attributes_address_zp+1
-
-  lda metatile_table_top_left_tiles_address
-  sta metatile_table_top_left_tiles_address_zp
-  lda metatile_table_top_left_tiles_address+1
-  sta metatile_table_top_left_tiles_address_zp+1
-
-  lda metatile_table_top_right_tiles_address
-  sta metatile_table_top_right_tiles_address_zp
-  lda metatile_table_top_right_tiles_address+1
-  sta metatile_table_top_right_tiles_address_zp+1
-
-  lda metatile_table_bottom_left_tiles_address
-  sta metatile_table_bottom_left_tiles_address_zp
-  lda metatile_table_bottom_left_tiles_address+1
-  sta metatile_table_bottom_left_tiles_address_zp+1
-  
-  lda metatile_table_bottom_right_tiles_address
-  sta metatile_table_bottom_right_tiles_address_zp
-  lda metatile_table_bottom_right_tiles_address+1
-  sta metatile_table_bottom_right_tiles_address_zp+1
-  
-  lda big_metatile_table_top_left_address
-  sta big_metatile_table_top_left_address_zp
-  lda big_metatile_table_top_left_address+1
-  sta big_metatile_table_top_left_address_zp+1
-  
-  lda big_metatile_table_top_right_address
-  sta big_metatile_table_top_right_address_zp
-  lda big_metatile_table_top_right_address+1
-  sta big_metatile_table_top_right_address_zp+1
-  
-  lda big_metatile_table_bottom_left_address
-  sta big_metatile_table_bottom_left_address_zp
-  lda big_metatile_table_bottom_left_address+1
-  sta big_metatile_table_bottom_left_address_zp+1
-  
-  lda big_metatile_table_bottom_right_address
-  sta big_metatile_table_bottom_right_address_zp
-  lda big_metatile_table_bottom_right_address+1
-  sta big_metatile_table_bottom_right_address_zp+1
   
   ;calculate useful transformations of map_x and map_y
   lda map_x
@@ -320,7 +278,7 @@ odd:
   
   ;lookup little metatile from bottom right of big metatile
   ldy metatile_index
-  lda (big_metatile_table_bottom_right_address_zp),y
+  lda (big_metatile_table_bottom_right_address),y
   sta metatile_index
   
   jmp done
@@ -330,7 +288,7 @@ even:
 
   ;lookup little metatile from bottom left of big metatile
   ldy metatile_index
-  lda (big_metatile_table_bottom_left_address_zp),y
+  lda (big_metatile_table_bottom_left_address),y
   sta metatile_index
   
 done:
@@ -348,7 +306,7 @@ odd:
 
   ;lookup little metatile from top right of big metatile
   ldy metatile_index
-  lda (big_metatile_table_top_right_address_zp),y
+  lda (big_metatile_table_top_right_address),y
   sta metatile_index
   
   jmp done
@@ -358,7 +316,7 @@ even:
 
   ;lookup little metatile from top left of big metatile
   ldy metatile_index
-  lda (big_metatile_table_top_left_address_zp),y
+  lda (big_metatile_table_top_left_address),y
   sta metatile_index
 
 done:
@@ -374,29 +332,29 @@ done:
 odd:
 
   ldy metatile_index
-  lda (metatile_table_bottom_left_tiles_address_zp),y
+  lda (metatile_table_bottom_left_tiles_address),y
   ldx nametable_row_buffer_offset
   sta nametable_row_buffer,x
   
-  lda (metatile_table_bottom_right_tiles_address_zp),y
+  lda (metatile_table_bottom_right_tiles_address),y
   sta nametable_row_buffer+1,x
 
   jmp done
 even:
 
   ldy metatile_index
-  lda (metatile_table_top_left_tiles_address_zp),y
+  lda (metatile_table_top_left_tiles_address),y
   ldx nametable_row_buffer_offset
   sta nametable_row_buffer,x
   
-  lda (metatile_table_top_right_tiles_address_zp),y
+  lda (metatile_table_top_right_tiles_address),y
   sta nametable_row_buffer+1,x
 
 done:
 .endscope
   
   ldy metatile_index
-  lda (metatile_table_attributes_address_zp),y
+  lda (metatile_table_attributes_address),y
   ldx intermediate_attribute_row_buffer_offset
   sta intermediate_attribute_row_buffer,x
   
@@ -659,63 +617,53 @@ intermediate_attribute_column_buffer_offset = b9
 metatile_counter = b10
 metatile_index = b11
 
-metatile_table_attributes_address_zp = w7
-metatile_table_top_left_tiles_address_zp = w8
-metatile_table_top_right_tiles_address_zp = w9
-metatile_table_bottom_left_tiles_address_zp = w10
-metatile_table_bottom_right_tiles_address_zp = w11
-big_metatile_table_top_left_address_zp = w12
-big_metatile_table_top_right_address_zp = w13
-big_metatile_table_bottom_left_address_zp = w14
-big_metatile_table_bottom_right_address_zp = w15
-
 map_offset = w16
 
   ;copy various table addresses to zp
   lda metatile_table_attributes_address
-  sta metatile_table_attributes_address_zp
+  sta metatile_table_attributes_address
   lda metatile_table_attributes_address+1
-  sta metatile_table_attributes_address_zp+1
+  sta metatile_table_attributes_address+1
 
   lda metatile_table_top_left_tiles_address
-  sta metatile_table_top_left_tiles_address_zp
+  sta metatile_table_top_left_tiles_address
   lda metatile_table_top_left_tiles_address+1
-  sta metatile_table_top_left_tiles_address_zp+1
+  sta metatile_table_top_left_tiles_address+1
 
   lda metatile_table_top_right_tiles_address
-  sta metatile_table_top_right_tiles_address_zp
+  sta metatile_table_top_right_tiles_address
   lda metatile_table_top_right_tiles_address+1
-  sta metatile_table_top_right_tiles_address_zp+1
+  sta metatile_table_top_right_tiles_address+1
 
   lda metatile_table_bottom_left_tiles_address
-  sta metatile_table_bottom_left_tiles_address_zp
+  sta metatile_table_bottom_left_tiles_address
   lda metatile_table_bottom_left_tiles_address+1
-  sta metatile_table_bottom_left_tiles_address_zp+1
+  sta metatile_table_bottom_left_tiles_address+1
   
   lda metatile_table_bottom_right_tiles_address
-  sta metatile_table_bottom_right_tiles_address_zp
+  sta metatile_table_bottom_right_tiles_address
   lda metatile_table_bottom_right_tiles_address+1
-  sta metatile_table_bottom_right_tiles_address_zp+1
+  sta metatile_table_bottom_right_tiles_address+1
   
   lda big_metatile_table_top_left_address
-  sta big_metatile_table_top_left_address_zp
+  sta big_metatile_table_top_left_address
   lda big_metatile_table_top_left_address+1
-  sta big_metatile_table_top_left_address_zp+1
+  sta big_metatile_table_top_left_address+1
   
   lda big_metatile_table_top_right_address
-  sta big_metatile_table_top_right_address_zp
+  sta big_metatile_table_top_right_address
   lda big_metatile_table_top_right_address+1
-  sta big_metatile_table_top_right_address_zp+1
+  sta big_metatile_table_top_right_address+1
   
   lda big_metatile_table_bottom_left_address
-  sta big_metatile_table_bottom_left_address_zp
+  sta big_metatile_table_bottom_left_address
   lda big_metatile_table_bottom_left_address+1
-  sta big_metatile_table_bottom_left_address_zp+1
+  sta big_metatile_table_bottom_left_address+1
   
   lda big_metatile_table_bottom_right_address
-  sta big_metatile_table_bottom_right_address_zp
+  sta big_metatile_table_bottom_right_address
   lda big_metatile_table_bottom_right_address+1
-  sta big_metatile_table_bottom_right_address_zp+1
+  sta big_metatile_table_bottom_right_address+1
   
   ;calculate useful transformations of map_x and map_y
   lda map_x
@@ -961,7 +909,7 @@ odd:
   ;bottom right
   
   ;lookup little metatile from bottom right of big metatile
-  lda (big_metatile_table_bottom_right_address_zp),y
+  lda (big_metatile_table_bottom_right_address),y
   sta metatile_index
   
   jmp done
@@ -970,7 +918,7 @@ even:
   ;bottom left
 
   ;lookup little metatile from bottom left of big metatile
-  lda (big_metatile_table_bottom_left_address_zp),y
+  lda (big_metatile_table_bottom_left_address),y
   sta metatile_index
   
 done:
@@ -987,7 +935,7 @@ odd:
   ;top right
 
   ;lookup little metatile from top right of big metatile
-  lda (big_metatile_table_top_right_address_zp),y
+  lda (big_metatile_table_top_right_address),y
   sta metatile_index
   
   jmp done
@@ -996,7 +944,7 @@ even:
   ;top left
 
   ;lookup little metatile from top left of big metatile
-  lda (big_metatile_table_top_left_address_zp),y
+  lda (big_metatile_table_top_left_address),y
   sta metatile_index
 
 done:
@@ -1013,27 +961,27 @@ done:
   beq even
 odd:
 
-  lda (metatile_table_top_right_tiles_address_zp),y
+  lda (metatile_table_top_right_tiles_address),y
   ldx nametable_column_buffer_offset
   sta nametable_column_buffer,x
   
-  lda (metatile_table_bottom_right_tiles_address_zp),y
+  lda (metatile_table_bottom_right_tiles_address),y
   sta nametable_column_buffer+1,x
 
   jmp done
 even:
 
-  lda (metatile_table_top_left_tiles_address_zp),y
+  lda (metatile_table_top_left_tiles_address),y
   ldx nametable_column_buffer_offset
   sta nametable_column_buffer,x
   
-  lda (metatile_table_bottom_left_tiles_address_zp),y
+  lda (metatile_table_bottom_left_tiles_address),y
   sta nametable_column_buffer+1,x
 
 done:
 .endscope
   
-  lda (metatile_table_attributes_address_zp),y
+  lda (metatile_table_attributes_address),y
   ldx intermediate_attribute_column_buffer_offset
   sta intermediate_attribute_column_buffer,x
   

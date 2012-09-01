@@ -49,16 +49,6 @@ MAX_ENTITIES = 8
 
 .global buffer_controller
 
-.global map_address
-.global metatile_table_attributes_address
-.global metatile_table_top_left_tiles_address
-.global metatile_table_top_right_tiles_address
-.global metatile_table_bottom_left_tiles_address
-.global metatile_table_bottom_right_tiles_address
-.global big_metatile_table_top_left_address
-.global big_metatile_table_top_right_address
-.global big_metatile_table_bottom_left_address
-.global big_metatile_table_bottom_right_address
 .global map_width
 .global map_height
 
