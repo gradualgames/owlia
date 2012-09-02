@@ -40,6 +40,7 @@ camera_increment = b0
   lda entity_x_lo,x
   sbc camera_right_x
   sta camera_increment
+  beq skip_follow_right
   lda entity_x_hi,x
   sbc camera_right_x+1
   bmi skip_follow_right
@@ -77,6 +78,7 @@ skip_follow_right:
   lda camera_left_x
   sbc entity_x_lo,x
   sta camera_increment
+  beq skip_follow_left
   lda camera_left_x+1
   sbc entity_x_hi,x
   bmi skip_follow_left
@@ -112,6 +114,7 @@ skip_follow_left:
   lda entity_y_lo,x
   sbc camera_bottom_y
   sta camera_increment
+  beq skip_follow_down
   lda entity_y_hi,x
   sbc camera_bottom_y+1
   bmi skip_follow_down
@@ -151,6 +154,7 @@ skip_follow_down:
   lda camera_top_y
   sbc entity_y_lo,x
   sta camera_increment
+  beq skip_follow_up
   lda camera_top_y+1
   sbc entity_y_hi,x
   bmi skip_follow_up
