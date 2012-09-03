@@ -46,6 +46,7 @@ camera_increment = b0
   bmi skip_follow_right
   
   jsr increment_camera_x
+  beq skip_follow_right
   
   clc
   lda camera_x
@@ -84,6 +85,7 @@ skip_follow_right:
   bmi skip_follow_left
   
   jsr decrement_camera_x
+  beq skip_follow_left
   
   clc
   lda camera_x
@@ -120,6 +122,7 @@ skip_follow_left:
   bmi skip_follow_down
   
   jsr increment_camera_y
+  beq skip_follow_down
   
   clc
   lda camera_x
@@ -160,6 +163,7 @@ skip_follow_down:
   bmi skip_follow_up
   
   jsr decrement_camera_y
+  beq skip_follow_up
   
   clc
   lda camera_x
@@ -184,6 +188,7 @@ skip_follow_up:
 
 ;assumes b0 to contain amount to increment camera x by
 ;assumes b0 to be a power of 2
+;returns accumulator with 1 for success, 0 for nop
 .proc increment_camera_x
 
   ;increment camera x
@@ -203,14 +208,20 @@ skip_follow_up:
   sta camera_x+1
   
   jsr increment_camera_scroll_x
-:
   
+  ;flag that increment succeeded
+  lda #1
+  rts
+:
+  ;flag that increment no-oped
+  lda #0
   rts
 
 .endproc
 
 ;assumes b0 to contain amount to decrement camera x by
 ;assumes b0 to be a power of 2
+;returns accumulator with 1 for success, 0 for nop
 .proc decrement_camera_x
 
   ;decrement camera x
@@ -228,14 +239,20 @@ skip_follow_up:
   sta camera_x+1
   
   jsr decrement_camera_scroll_x
+
+  ;flag that increment succeeded
+  lda #1
+  rts
 :
-  
+  ;flag that increment no-oped
+  lda #0
   rts
 
 .endproc
 
 ;assumes b0 to contain amount to increment camera y by
 ;assumes b0 to be a power of 2
+;returns accumulator with 1 for success, 0 for nop
 .proc increment_camera_y
 
   ;increment camera y
@@ -255,14 +272,20 @@ skip_follow_up:
   sta camera_y+1
   
   jsr increment_camera_scroll_y
-:
 
+  ;flag that increment succeeded
+  lda #1
+  rts
+:
+  ;flag that increment no-oped
+  lda #0
   rts
 
 .endproc
 
 ;assumes b0 to contain amount to decrement camera y by
 ;assumes b0 to be a power of 2
+;returns accmulator with 1 for success, 0 for nop
 .proc decrement_camera_y
 
   ;decrement camera y
@@ -282,8 +305,13 @@ skip_follow_up:
   sta camera_y+1
   
   jsr decrement_camera_scroll_y
+
+  ;flag that increment succeeded
+  lda #1
+  rts
 :
-  
+  ;flag that increment no-oped
+  lda #0
   rts
 
 .endproc
