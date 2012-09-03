@@ -1985,6 +1985,9 @@ data_not_ready:
 ;uploads the contents of the current row buffer to the ppu.
 .proc map_upload_row_ppu
 
+  clear_ppu_2000_bit PPU0_ADDRESS_INCREMENT
+  upload_ppu_2000
+
   lda name_table1_row_vram_offset
   sta ppu_2006+1
   lda name_table1_row_vram_offset+1
@@ -2064,14 +2067,14 @@ loop:
   bne loop
 .endscope
   
-  clear_ppu_2000_bit PPU0_ADDRESS_INCREMENT
-  upload_ppu_2000
-  
   rts
 
 .endproc
   
 .proc map_upload_attribute_table_row_ppu
+
+  clear_ppu_2000_bit PPU0_ADDRESS_INCREMENT
+  upload_ppu_2000
 
 .scope
   lda attribute_table1_row_vram_offset
@@ -2239,9 +2242,6 @@ write_to_attribute_table2:
   
 done:
 .endscope
-  
-  clear_ppu_2000_bit PPU0_ADDRESS_INCREMENT
-  upload_ppu_2000
 
   rts
 

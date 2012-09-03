@@ -264,9 +264,6 @@ fading_loop:
   pla
   sta w0
 
-  set_ppu_2000_bit PPU0_ADDRESS_INCREMENT
-  upload_ppu_2000
-
   ;restore 2006 and 2005 to what we had written them to previously
   upload_ppu_2006
   upload_ppu_2005
