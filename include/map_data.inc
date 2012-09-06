@@ -1,17 +1,30 @@
 .ifndef MAP_DATA_INC
 MAP_DATA_INC = 1
 
-.global palette
-.global map
-.global big_metatile_table_bottom_right
-.global big_metatile_table_bottom_left
-.global big_metatile_table_top_right
-.global big_metatile_table_top_left
-.global metatile_table_properties
-.global metatile_table_attributes
-.global metatile_table_bottom_right_tiles
-.global metatile_table_bottom_left_tiles
-.global metatile_table_top_right_tiles
-.global metatile_table_top_left_tiles
+.global village_palette
+.global village_map
+.global village_big_metatile_table_bottom_right
+.global village_big_metatile_table_bottom_left
+.global village_big_metatile_table_top_right
+.global village_big_metatile_table_top_left
+.global village_metatile_table_properties
+.global village_metatile_table_attributes
+.global village_metatile_table_bottom_right_tiles
+.global village_metatile_table_bottom_left_tiles
+.global village_metatile_table_top_right_tiles
+.global village_metatile_table_top_left_tiles
+
+.global house1_palette
+.global house1_map
+.global house1_big_metatile_table_bottom_right
+.global house1_big_metatile_table_bottom_left
+.global house1_big_metatile_table_top_right
+.global house1_big_metatile_table_top_left
+.global house1_metatile_table_properties
+.global house1_metatile_table_attributes
+.global house1_metatile_table_bottom_right_tiles
+.global house1_metatile_table_bottom_left_tiles
+.global house1_metatile_table_top_right_tiles
+.global house1_metatile_table_top_left_tiles
 
 .endif

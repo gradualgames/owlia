@@ -33,6 +33,7 @@ AREAS_INC = 1
 .global areas_hi
 
 .global village_area
+.global house1_area
 
 area_index_village = 0
 area_index_house = 1

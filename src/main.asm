@@ -64,9 +64,10 @@ reset:
   
   jsr sound_initialize
   
-  lda #<village_area
+  ldx #area_index_village
+  lda areas_lo,x
   sta area_address
-  lda #>village_area
+  lda areas_hi,x
   sta area_address+1
   jmp play_state_load_area
 
