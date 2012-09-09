@@ -104,9 +104,9 @@ skip_left:
   
   jsr map_test_collision
   
-  lda b0
-  and #FLAG_SOLID
-  bne skip_right
+  ;lda b0
+  ;and #FLAG_SOLID
+  ;bne skip_right
   
   clc
   lda entity_x_lo,x
@@ -149,9 +149,9 @@ skip_right:
   
   lda b0
   and #ISOLATE_ACTION_MASK
+dbg1:
   cmp #ACTION_GOTO_AREA
   bne not_goto_area
-
   lda #ACTION_GOTO_AREA
   sta state_control_params+play_state_control::action
   
@@ -160,6 +160,10 @@ skip_right:
   
 not_goto_area:
   
+  ; lda b0
+  ; and #FLAG_SOLID
+  ; bne skip_up
+
   sec
   lda entity_y_lo,x
   sbc #$02
@@ -179,6 +183,40 @@ skip_up:
   and #%00000011
   cmp #%00000011
   bne skip_down
+  
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  
+  clc
+  lda entity_y_lo,x
+  adc #$20
+  sta w1
+  lda entity_y_hi,x
+  adc #$00
+  sta w1+1
+  
+  jsr map_test_collision
+  
+  .scope
+  lda b0
+  and #ISOLATE_ACTION_MASK
+dbg1:
+  cmp #ACTION_GOTO_AREA
+  bne not_goto_area
+  lda #ACTION_GOTO_AREA
+  sta state_control_params+play_state_control::action
+  
+  lda b1
+  sta state_control_params+play_state_control::param
+  
+not_goto_area:
+  .endscope
+  
+  ;lda b0
+  ;and #FLAG_SOLID
+  ;bne skip_down
   
   clc
   lda entity_y_lo,x
