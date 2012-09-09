@@ -35,6 +35,7 @@ village_area:
   .word village_palette
   .word village_map
   .word village_metatile_table_properties
+  .word village_metatile_table_params
   .word village_metatile_table_attributes
   .word village_metatile_table_top_left_tiles
   .word village_metatile_table_top_right_tiles
@@ -66,6 +67,7 @@ house1_area:
   .word house1_palette
   .word house1_map
   .word house1_metatile_table_properties
+  .word house1_metatile_table_params
   .word house1_metatile_table_attributes
   .word house1_metatile_table_top_left_tiles
   .word house1_metatile_table_top_right_tiles

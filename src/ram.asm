@@ -11,6 +11,8 @@ map_bank: .res 1
 entities_bank: .res 1
 sprites_and_animations_bank: .res 1
 
+state_control_params: .res 8
+
 entity_type:                 .res MAX_ENTITIES
 entity_flags:                .res MAX_ENTITIES
 entity_state:                .res MAX_ENTITIES

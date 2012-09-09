@@ -4,6 +4,7 @@
 .include "entity.inc"
 .include "controller.inc"
 .include "map.inc"
+.include "play_state.inc"
 
 .ifndef HERO_INC
 HERO_INC = 1
@@ -90,7 +91,7 @@ skip_left:
   and #%00000011
   cmp #%00000011
   bne skip_right
-  
+
   lda entity_x_lo,x
   sta w0
   lda entity_x_hi,x
@@ -133,6 +134,31 @@ skip_right:
   lda entity_y_lo,x
   ora entity_y_hi,x
   beq skip_up
+  
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+  
+  jsr map_test_collision
+  
+  lda b0
+  and #ISOLATE_ACTION_MASK
+  cmp #ACTION_GOTO_AREA
+  bne not_goto_area
+
+  lda #ACTION_GOTO_AREA
+  sta state_control_params+play_state_control::action
+  
+  lda b1
+  sta state_control_params+play_state_control::param
+  
+not_goto_area:
   
   sec
   lda entity_y_lo,x

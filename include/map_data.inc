@@ -8,6 +8,7 @@ MAP_DATA_INC = 1
 .global village_big_metatile_table_top_right
 .global village_big_metatile_table_top_left
 .global village_metatile_table_properties
+.global village_metatile_table_params
 .global village_metatile_table_attributes
 .global village_metatile_table_bottom_right_tiles
 .global village_metatile_table_bottom_left_tiles
@@ -21,6 +22,7 @@ MAP_DATA_INC = 1
 .global house1_big_metatile_table_top_right
 .global house1_big_metatile_table_top_left
 .global house1_metatile_table_properties
+.global house1_metatile_table_params
 .global house1_metatile_table_attributes
 .global house1_metatile_table_bottom_right_tiles
 .global house1_metatile_table_bottom_left_tiles

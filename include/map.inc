@@ -5,6 +5,8 @@ MAP_INC = 1
 FLAG_HURT  = $20
 FLAG_SOLID = $10
 
+ISOLATE_ACTION_MASK = $0f
+
 ;used for a metatile to signify what action it can perform with its associated param
 ;there can only be 16 of these counting the nop.
 ACTION_NOP          = $00

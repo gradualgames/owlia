@@ -12,6 +12,8 @@ MAX_ENTITIES = 8
 .global entities_bank
 .global sprites_and_animations_bank
 
+.global state_control_params
+
 .global entity_type
 .global entity_flags
 .global entity_state

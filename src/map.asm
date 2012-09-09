@@ -43,6 +43,7 @@ map_y_in_big_metatile_coordinates = w4
 map_x_in_metatile_coordinates = w5
 map_y_in_metatile_coordinates = w6
 metatile_properties = b0
+metatile_param = b1
 
 map_offset = w16
 
@@ -170,9 +171,11 @@ top_half:
   tay
   lda (big_metatile_table_top_left_address),y
   tay
-  ;get metatile properties byte and return
+  ;get metatile properties byte and param byte and return
   lda (metatile_table_properties_address),y
   sta metatile_properties
+  lda (metatile_table_params_address),y
+  sta metatile_param
   
   ;switch back to entities bank before returning
   switch_bank_ldy entities_bank
@@ -191,9 +194,11 @@ bottom_half:
   tay
   lda (big_metatile_table_bottom_left_address),y
   tay
-  ;get metatile properties byte and return
+  ;get metatile properties byte and param byte and return
   lda (metatile_table_properties_address),y
   sta metatile_properties
+  lda (metatile_table_params_address),y
+  sta metatile_param
   
   ;switch back to entities bank before returning
   switch_bank_ldy entities_bank
@@ -220,9 +225,11 @@ top_half:
   tay
   lda (big_metatile_table_top_right_address),y
   tay
-  ;get metatile properties byte and return
+  ;get metatile properties byte and param byte and return
   lda (metatile_table_properties_address),y
   sta metatile_properties
+  lda (metatile_table_params_address),y
+  sta metatile_param
   
   ;switch back to entities bank before returning
   switch_bank_ldy entities_bank
@@ -241,9 +248,11 @@ bottom_half:
   tay
   lda (big_metatile_table_bottom_right_address),y
   tay
-  ;get metatile properties byte and return
+  ;get metatile properties byte and param byte and return
   lda (metatile_table_properties_address),y
   sta metatile_properties
+  lda (metatile_table_params_address),y
+  sta metatile_param
   
   ;switch back to entities bank before returning
   switch_bank_ldy entities_bank

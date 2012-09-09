@@ -188,6 +188,13 @@ play_state_load_area:
   lda (area_address),y
   sta metatile_table_properties_address+1
   
+  ldy #area::metatile_table_params_address
+  lda (area_address),y
+  sta metatile_table_params_address
+  iny
+  lda (area_address),y
+  sta metatile_table_params_address+1
+  
   ldy #area::metatile_table_attributes_address
   lda (area_address),y
   sta metatile_table_attributes_address
@@ -277,7 +284,22 @@ play_state_load_area:
   jsr attach_camera_to_entity
 
   ;execute a single frame to get entities onscreen before palette fade in and music
-  jsr play_frame_no_control_no_music
+  .scope execute_single_frame
+  wait_vblank_data_ready
+  
+  jsr sprite_clear_all
+  
+  switch_bank_ldy entities_bank
+  jsr entity_update_all
+  
+  switch_bank_ldy map_bank
+  jsr update_camera
+  
+  switch_bank_ldy sprites_and_animations_bank
+  jsr entity_draw_all
+  
+  set_vblank_data_ready
+  .endscope
   
   switch_bank_ldy map_bank
   ldy #area::palette_address
@@ -297,36 +319,12 @@ play_state_load_area:
   
 play_state:
 
-loop:
-
-  jsr play_frame
-  
-  jmp loop
-  
-.proc play_frame_no_control_no_music
-
+  .scope play_frame
   wait_vblank_data_ready
   
-  jsr sprite_clear_all
-  
-  switch_bank_ldy entities_bank
-  jsr entity_update_all
-  
-  switch_bank_ldy map_bank
-  jsr update_camera
-  
-  switch_bank_ldy sprites_and_animations_bank
-  jsr entity_draw_all
-  
-  set_vblank_data_ready
-
-  rts
-
-.endproc
-  
-.proc play_frame
-
-  wait_vblank_data_ready
+  lda state_control_params+play_state_control::action
+  cmp #ACTION_GOTO_AREA
+  beq execute_goto_area_action
   
   .ifdef CPU_USAGE
   set_ppu_2001_bit PPU1_DISPLAY_TYPE
@@ -356,10 +354,37 @@ loop:
   .endif
   
   set_vblank_data_ready
+  .endscope
+  
+  jmp play_state
+  
+execute_goto_area_action:
 
-  rts
+  ;fade out from current palette
+  switch_bank_ldy map_bank
+  ldy #area::palette_address
+  lda (area_address),y
+  sta w0
+  iny
+  lda (area_address),y
+  sta w0+1
+  jsr ppu_fade_out_palette
 
-.endproc
+  ;load the area to jump to
+  ldx state_control_params+play_state_control::param
+  lda areas_lo,x
+  sta area_address
+  lda areas_hi,x
+  sta area_address+1
+  
+  ;now that we know the area, make sure the state control
+  ;param is nop again
+  lda #ACTION_NOP
+  sta state_control_params+play_state_control::action
+  lda #0
+  sta state_control_params+play_state_control::param
+  
+  jmp play_state_load_area
   
 .proc fill_nametable_columns
 
