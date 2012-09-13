@@ -50,6 +50,7 @@ ZP_INC = 1
 .globalzp big_metatile_table_bottom_right_address
 
 .globalzp area_address
+.globalzp location_address
 
 .globalzp vblank_routine
 .globalzp vblank_data_ready

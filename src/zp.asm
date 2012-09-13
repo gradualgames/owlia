@@ -51,6 +51,7 @@ big_metatile_table_bottom_left_address: .res 2
 big_metatile_table_bottom_right_address: .res 2
 
 area_address: .res 2
+location_address: .res 2
 
 vblank_routine: .res 2
 vblank_data_ready: .res 1

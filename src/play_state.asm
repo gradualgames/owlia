@@ -60,38 +60,47 @@ next_entity_type:
   lda #$20
   sta camera_nametable_hibyte
   
-  ldy #area::camera_start_x
-  lda (area_address),y
+  ldy #location::camera_start_x
+  lda (location_address),y
   sta camera_x
   
   iny
-  lda (area_address),y
+  lda (location_address),y
   sta camera_x+1
 
-  ldy #area::camera_start_y
-  lda (area_address),y
+  ldy #location::camera_start_y
+  lda (location_address),y
   sta camera_y
   
   iny
-  lda (area_address),y
+  lda (location_address),y
   sta camera_y+1
   
-  ldy #area::camera_start_scroll_x
-  lda (area_address),y
+  ldy #location::camera_start_scroll_x
+  lda (location_address),y
   sta camera_scroll_x
   
-  ldy #area::camera_start_scroll_y
-  lda (area_address),y
+  ldy #location::camera_start_scroll_y
+  lda (location_address),y
   sta camera_scroll_y
 
   rts
 
 .endproc
 
-;assumes w0 contains address of area to load
+;assumes location_address contains address of location to load
 ;transitions directly to play state by spilling into it, this is NOT a routine
-play_state_load_area:
+play_state_load_location:
 
+  ;figure out what area to look at from the current locatiojn
+  ldy #location::area_index
+  lda (location_address),y
+  tax
+  lda areas_lo,x
+  sta area_address
+  lda areas_hi,x
+  sta area_address+1
+  
   ;initialize
   jsr ppu_safely_disable_graphics
   
@@ -323,8 +332,8 @@ play_state:
   wait_vblank_data_ready
   
   lda state_control_params+play_state_control::action
-  cmp #ACTION_GOTO_AREA
-  beq execute_goto_area_action
+  cmp #ACTION_GOTO_LOCATION_GROUP1
+  beq execute_goto_location_group1_action
   
   .ifdef CPU_USAGE
   set_ppu_2001_bit PPU1_DISPLAY_TYPE
@@ -358,7 +367,7 @@ play_state:
   
   jmp play_state
   
-execute_goto_area_action:
+execute_goto_location_group1_action:
 
   ;fade out from current palette
   switch_bank_ldy map_bank
@@ -370,12 +379,12 @@ execute_goto_area_action:
   sta w0+1
   jsr ppu_fade_out_palette
 
-  ;load the area to jump to
+  ;load the location to transition to
   ldx state_control_params+play_state_control::param
-  lda areas_lo,x
-  sta area_address
-  lda areas_hi,x
-  sta area_address+1
+  lda locations_lo,x
+  sta location_address
+  lda locations_hi,x
+  sta location_address+1
   
   ;now that we know the area, make sure the state control
   ;param is nop again
@@ -384,7 +393,7 @@ execute_goto_area_action:
   lda #0
   sta state_control_params+play_state_control::param
   
-  jmp play_state_load_area
+  jmp play_state_load_location
   
 .proc fill_nametable_columns
 

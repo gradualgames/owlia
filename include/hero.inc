@@ -150,15 +150,15 @@ skip_right:
   lda b0
   and #ISOLATE_ACTION_MASK
 dbg1:
-  cmp #ACTION_GOTO_AREA
-  bne not_goto_area
-  lda #ACTION_GOTO_AREA
+  cmp #ACTION_GOTO_LOCATION_GROUP1
+  bne not_goto_location
+  lda #ACTION_GOTO_LOCATION_GROUP1
   sta state_control_params+play_state_control::action
   
   lda b1
   sta state_control_params+play_state_control::param
   
-not_goto_area:
+not_goto_location:
   
   ; lda b0
   ; and #FLAG_SOLID
@@ -203,15 +203,15 @@ skip_up:
   lda b0
   and #ISOLATE_ACTION_MASK
 dbg1:
-  cmp #ACTION_GOTO_AREA
-  bne not_goto_area
-  lda #ACTION_GOTO_AREA
+  cmp #ACTION_GOTO_LOCATION_GROUP1
+  bne not_goto_location
+  lda #ACTION_GOTO_LOCATION_GROUP1
   sta state_control_params+play_state_control::action
   
   lda b1
   sta state_control_params+play_state_control::param
   
-not_goto_area:
+not_goto_location:
   .endscope
   
   ;lda b0

@@ -88,7 +88,7 @@ metatile_table_properties:
 .byte ($10 | ACTION_NOP)
 .byte ($10 | ACTION_NOP)
 .byte ($10 | ACTION_NOP)
-.byte ($10 | ACTION_GOTO_AREA)
+.byte ($10 | ACTION_GOTO_LOCATION_GROUP1)
 
 
 metatile_table_params:
@@ -163,7 +163,7 @@ metatile_table_params:
 .byte $00
 .byte $00
 .byte $00
-.byte area_index_house
+.byte location_index_house1_exit
 
 
 metatile_table_attributes:

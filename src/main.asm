@@ -70,12 +70,12 @@ reset:
   lda #0
   sta state_control_params+play_state_control::param
   
-  ldx #area_index_house
-  lda areas_lo,x
-  sta area_address
-  lda areas_hi,x
-  sta area_address+1
-  jmp play_state_load_area
+  ldx #location_index_village_house1_entrance
+  lda locations_lo,x
+  sta location_address
+  lda locations_hi,x
+  sta location_address+1
+  jmp play_state_load_location
 
 vblank:
 
