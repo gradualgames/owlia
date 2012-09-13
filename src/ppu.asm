@@ -151,17 +151,16 @@ fading_loop:
   ;wait for vblank
   ldx #FADING_SPEED
 :
-  ;wait til data has been consumed by nmi routine
-  lda vblank_data_ready
-  bne :-
-  
-  ;signal vblank routine to consume next palette step
-  lda #1
-  sta vblank_data_ready
-  
+  wait_vblank_data_ready
+  set_vblank_data_ready
   dex
   bne :-
 
+  ;do one more wait to make sure the vblank clears the ready
+  ;flag, so that when we restore the old vblank routine, we
+  ;don't upload unprepared garbage data!
+  wait_vblank_data_ready
+  
   inc palette_step
   lda palette_step
   cmp #5
@@ -206,20 +205,19 @@ fading_loop:
   ;wait for vblank
   ldx #FADING_SPEED
 :
-  ;wait til data has been consumed by nmi routine
-  lda vblank_data_ready
-  bne :-
-  
-  ;signal vblank routine to consume next palette step
-  lda #1
-  sta vblank_data_ready
-  
+  wait_vblank_data_ready
+  set_vblank_data_ready
   dex
   bne :-
 
   dec palette_step
   bpl fading_loop
-
+  
+  ;do one more wait to make sure the vblank clears the ready
+  ;flag, so that when we restore the old vblank routine, we
+  ;don't upload unprepared garbage data!
+  wait_vblank_data_ready
+  
   ;restore previous nmi routine
   pla
   sta vblank_routine+1

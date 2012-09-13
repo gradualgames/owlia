@@ -70,7 +70,7 @@ reset:
   lda #0
   sta state_control_params+play_state_control::param
   
-  ldx #area_index_village
+  ldx #area_index_house
   lda areas_lo,x
   sta area_address
   lda areas_hi,x
