@@ -32,6 +32,8 @@ AREAS_INC = 1
   camera_start_y .word
   camera_start_scroll_x .byte
   camera_start_scroll_y .byte
+  hero_start_x .word
+  hero_start_y .word
 .endstruct
 
 ;****************************************************************

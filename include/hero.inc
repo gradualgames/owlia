@@ -33,15 +33,6 @@ hero_state_init:
   ora #ENTITY_FLAGS_DRAWABLE_SET
   sta entity_flags,x
   
-  lda #50
-  sta entity_x_lo,x
-  lda #0
-  sta entity_x_hi,x
-  lda #50
-  sta entity_y_lo,x
-  lda #0
-  sta entity_y_hi,x
-  
   lda #0
   sta entity_animation_frame,x
   lda #1
@@ -191,7 +182,7 @@ skip_up:
   
   clc
   lda entity_y_lo,x
-  adc #$20
+  adc #$18
   sta w1
   lda entity_y_hi,x
   adc #$00

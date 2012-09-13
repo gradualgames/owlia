@@ -187,8 +187,6 @@ play_state_load_location:
   sta vblank_routine
   lda #>nametable_and_attribute_update_ppu
   sta vblank_routine+1
-  
-  jsr load_area_camera_vars
 
   ldy #area::metatile_table_properties_address
   lda (area_address),y
@@ -276,11 +274,11 @@ play_state_load_location:
 
   switch_bank_ldy map_bank
   
-  jsr fill_nametable_columns
-  
-  switch_bank_ldy entities_bank
-  
   jsr load_area_camera_vars
+  
+  jsr fill_nametable_rows
+ 
+  switch_bank_ldy entities_bank
   
   jsr entity_init_all
   
@@ -288,6 +286,21 @@ play_state_load_location:
   lda #0
   sta b0
   jsr entity_spawn
+  
+  ;load his initial location
+  ldy #location::hero_start_x
+  lda (location_address),y
+  sta entity_x_lo,x
+  iny
+  lda (location_address),y
+  sta entity_x_hi,x
+  
+  ldy #location::hero_start_y
+  lda (location_address),y
+  sta entity_y_lo,x
+  iny
+  lda (location_address),y
+  sta entity_y_hi,x
   
   ;attach the camera to the entity instance at x
   jsr attach_camera_to_entity
@@ -440,48 +453,69 @@ not_finished:
 .endproc
   
 .proc fill_nametable_rows
+  
+  lda camera_x
+  sta w0
+  
+  lda camera_x+1
+  sta w0+1
 
+  lda camera_y
+  sta w1
+  
+  lda camera_y+1
+  sta w1+1
+
+  lda #30
+  sta b0
+  
 fill_nametable_loop:
   wait_vblank_data_ready
 
   ;prepare data
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
+
+  lda w0
+  pha
+  lda w0+1
+  pha
+  lda w1
+  pha
+  lda w1+1
+  pha
+  lda b0
+  pha
+  
   jsr map_decode_row
   jsr map_process_intermediate_attribute_row_buffer
   lda #1
   sta row_ready
   
+  pla
+  sta b0
+  pla
+  sta w1+1
+  pla
+  sta w1
+  pla
+  sta w0+1
+  pla
+  sta w0
+  
   clc
-  lda camera_y
+  lda w1
   adc #$08
-  sta camera_y
-  lda camera_y+1
+  sta w1
+  lda w1+1
   adc #$00
-  sta camera_y+1
+  sta w1+1
   
-  lda camera_y
-  cmp #240
-  beq bottom_row
-not_bottom_row:
-  
-  jmp done
-bottom_row:
-
   set_vblank_data_ready
-
+  
+  dec b0
+  bne fill_nametable_loop
+  
+  wait_vblank_data_ready
+  
   rts
-
-done:
   
-  set_vblank_data_ready
-
-  jmp fill_nametable_loop
-
 .endproc
