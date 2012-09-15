@@ -6,11 +6,13 @@ MAPPER_INC = 1
 .macro switch_bank_y
   lda bank_table,y  ;read a byte from the banktable
   sta bank_table,y  ;and write it back, switching banks at $8000
+  sta current_bank
 .endmacro
 
 .macro switch_bank_x
   lda bank_table,x  ;read a byte from the banktable
   sta bank_table,x  ;and write it back, switching banks at $8000
+  sta current_bank
 .endmacro
 
 ;uses y register to perform UnROM bankswitching using bank_table
@@ -18,6 +20,7 @@ MAPPER_INC = 1
   ldy bank
   lda bank_table,y  ;read a byte from the banktable
   sta bank_table,y  ;and write it back, switching banks at $8000
+  sta current_bank
 .endmacro
 
 ;uses x register to perform UnROM bankswitching using bank_table
@@ -25,6 +28,7 @@ MAPPER_INC = 1
   ldx bank
   lda bank_table,x  ;read a byte from the banktable
   sta bank_table,x  ;and write it back, switching banks at $8000
+  sta current_bank
 .endmacro
   
 .endif

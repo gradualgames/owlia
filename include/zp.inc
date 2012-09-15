@@ -52,6 +52,8 @@ ZP_INC = 1
 .globalzp area_address
 .globalzp location_address
 
+.globalzp current_bank
+
 .globalzp vblank_routine
 .globalzp vblank_data_ready
 

@@ -160,7 +160,8 @@ play_state_load_location:
   switch_bank_ldy map_bank
   
   ;load dynamic palette faded out so that fade in doesn't cause funkiness
-  wait_vblank
+  set_vblank_data_ready
+  wait_vblank_data_ready
   lda #0
   sta b3
   jsr ppu_load_dynamic_palette_brightness
@@ -332,12 +333,24 @@ play_state_load_location:
   sta w0+1
   jsr ppu_fade_in_palette
   
+  ;load area song if different from current song
+  ldy #area::song_address
+  lda (area_address),y
+  sbc song_address
+  iny
+  lda (area_address),y
+  sbc song_address+1
+  beq same_song
+  
   switch_bank_ldy music_bank
-  lda #<song1
-  sta sound_param_word_1
-  lda #>song1
-  sta sound_param_word_1+1
-  jsr song_initialize
+  ldy #area::song_address
+  lda (area_address),y
+  sta song_address
+  iny
+  lda (area_address),y
+  sta song_address+1
+   jsr song_initialize
+same_song:
   
 play_state:
 
@@ -352,10 +365,6 @@ play_state:
   set_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
   .endif
-  
-  switch_bank_ldy music_bank
-  jsr sound_update
-  jsr sound_upload
   
   jsr sprite_clear_all
   
@@ -485,6 +494,7 @@ fill_nametable_loop:
   lda b0
   pha
   
+  switch_bank_ldy map_bank
   jsr map_decode_row
   jsr map_process_intermediate_attribute_row_buffer
   lda #1

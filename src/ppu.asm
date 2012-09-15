@@ -2,11 +2,25 @@
 .include "ram.inc"
 .include "ppu.inc"
 .include "sprite.inc"
+.include "mapper.inc"
+.include "soundengine.inc"
 
 .segment "CODE"
 
-;nmi routine which does nothing.
+;nmi routine which does nothing except continue music driver
 .proc ppu_vblank_nop
+
+  lda current_bank
+  pha
+  switch_bank_ldy music_bank
+  jsr sound_update
+  jsr sound_upload
+  pla
+  sta current_bank
+  switch_bank_ldy current_bank
+  
+  lda #0
+  sta vblank_data_ready
 
   rts
 
@@ -14,11 +28,18 @@
 
 .proc ppu_safely_disable_graphics
 
+  ;set nop vblank routine
+  lda #<ppu_vblank_nop
+  sta vblank_routine
+  lda #>ppu_vblank_nop
+  sta vblank_routine+1
+
   ;turn off sprite visibility
   clear_ppu_2001_bit PPU1_SPRITE_VISIBILITY
   ;turn off background visibility
   clear_ppu_2001_bit PPU1_BACKGROUND_VISIBILITY
-  wait_vblank
+  set_vblank_data_ready
+  wait_vblank_data_ready
   upload_ppu_2001
   rts
 
@@ -26,10 +47,17 @@
 
 .proc ppu_safely_enable_graphics
 
+  ;set nop vblank routine
+  lda #<ppu_vblank_nop
+  sta vblank_routine
+  lda #>ppu_vblank_nop
+  sta vblank_routine+1
+
   ;turn sprite and background visibility on
   set_ppu_2001_bit PPU1_SPRITE_VISIBILITY
   set_ppu_2001_bit PPU1_BACKGROUND_VISIBILITY
-  wait_vblank
+  set_vblank_data_ready
+  wait_vblank_data_ready
   upload_ppu_2001
   rts
 
@@ -144,6 +172,7 @@ palette_step = b4
 fading_loop:
 
   ;load up the dynamic palette with brightness in b3
+  switch_bank_ldy map_bank
   lda palette_step
   sta b3
   jsr ppu_load_dynamic_palette_brightness
@@ -198,6 +227,7 @@ palette_step = b4
 fading_loop:
 
   ;load up the dynamic palette with brightness in b3
+  switch_bank_ldy map_bank
   lda palette_step
   sta b3
   jsr ppu_load_dynamic_palette_brightness
@@ -265,6 +295,10 @@ fading_loop:
   ;restore 2006 and 2005 to what we had written them to previously
   upload_ppu_2006
   upload_ppu_2005
+  
+  switch_bank_ldy music_bank
+  jsr sound_update
+  jsr sound_upload
   
   lda #0
   sta vblank_data_ready

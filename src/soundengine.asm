@@ -28,6 +28,9 @@ apu_data_ready: .res 1
 apu_square_1_old: .res 1
 apu_square_2_old: .res 1
 
+;original song address
+song_address: .res 2
+
 .segment "BSS"
 
 ;streams
@@ -687,11 +690,10 @@ volume_stop:
   rts
 .endproc
 
-;expects sound_param_word_1 to contain address of a song definition,
+;expects song_address to contain address of a song definition,
 ;assumed to be four addresses to initialize streams on, for square1, square2, triangle and noise.
 ;any addresses found to be zero will not initialize that channel.
 .proc song_initialize
-song_address = sound_param_word_1
 
   ;save index regs
   tya

@@ -14,6 +14,7 @@ SOUNDENGINE_INC = 1
 .globalzp base_address_pitch_envelopes
 .globalzp base_address_duty_envelopes
 .globalzp stream_byte
+.globalzp song_address
 
 .global sound_initialize
 .global sound_stop
