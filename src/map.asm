@@ -1982,14 +1982,14 @@ done:
   upload_ppu_2006
   upload_ppu_2005
   
-  switch_bank_ldy music_bank
-  jsr sound_update
-  jsr sound_upload
-  
   lda #0
   sta vblank_data_ready
   
 data_not_ready:
+
+  switch_bank_ldy music_bank
+  jsr sound_update
+  jsr sound_upload
 
   rts
 

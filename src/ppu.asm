@@ -9,6 +9,9 @@
 
 ;nmi routine which does nothing except continue music driver
 .proc ppu_vblank_nop
+  
+  lda #0
+  sta vblank_data_ready
 
   lda current_bank
   pha
@@ -19,9 +22,6 @@
   sta current_bank
   switch_bank_ldy current_bank
   
-  lda #0
-  sta vblank_data_ready
-
   rts
 
 .endproc
@@ -259,11 +259,6 @@ fading_loop:
 
 ;nmi routine for uploading the dynamic palette
 .proc ppu_upload_dynamic_palette_ppu
-  pha
-  tya
-  pha
-  txa
-  pha
 
   lda vblank_data_ready
   beq :+
@@ -296,19 +291,13 @@ fading_loop:
   upload_ppu_2006
   upload_ppu_2005
   
-  switch_bank_ldy music_bank
-  jsr sound_update
-  jsr sound_upload
-  
   lda #0
   sta vblank_data_ready
 :
 
-  pla
-  tax
-  pla
-  tay
-  pla
+  switch_bank_ldy music_bank
+  jsr sound_update
+  jsr sound_upload
 
   rts
 .endproc
