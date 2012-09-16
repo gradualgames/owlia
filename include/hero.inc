@@ -51,6 +51,31 @@ hero_state_init:
 
 hero_state_main:
 
+  lda buffer_controller+buttons::_a
+  and #%00000011
+  cmp #%00000001
+  bne skip_sfx_test
+  
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_test
+  sta sound_param_word_0
+  lda #>sfx_test
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+skip_sfx_test:
+
   lda buffer_controller+buttons::_left
   and #%00000011
   cmp #%00000011

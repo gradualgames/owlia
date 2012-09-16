@@ -16,14 +16,27 @@ SOUNDENGINE_INC = 1
 .globalzp stream_byte
 .globalzp song_address
 
+;these are base addresses for song streams (first four streams)
+.global song_base_address_volume_envelopes
+.global song_base_address_pitch_envelopes
+.global song_base_address_duty_envelopes
+
+;these are base addresses for sfx streams (all streams after the first four)
+.global sfx_base_address_volume_envelopes
+.global sfx_base_address_pitch_envelopes
+.global sfx_base_address_duty_envelopes
+
 .global sound_initialize
 .global sound_stop
 .global sound_update
 .global sound_upload
 .global song_initialize
+.global sfx_initialize
 .global stream_initialize
 .global stream_update
 
+;The max number of streams we support. The engine assumes the first
+;four streams are music, so this number must never be less than four!
 MAX_STREAMS = 8
 
   ;****************************************************************

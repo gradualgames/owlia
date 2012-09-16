@@ -8,6 +8,7 @@
 .include "sprite.inc"
 .include "soundengine.inc"
 .include "areas.inc"
+.include "sfx_data.inc"
 
 .segment "HEADER"
 .byte "NES",$1a   ;iNES header
@@ -63,6 +64,12 @@ reset:
   jsr sprite_module_init
   
   jsr sound_initialize
+  
+  lda #<sfx_set1
+  sta sound_param_word_0
+  lda #>sfx_set1
+  sta sound_param_word_0+1
+  jsr sfx_initialize
   
   ;set up state control struct for the "nop" action
   lda #ACTION_NOP

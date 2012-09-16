@@ -33,6 +33,13 @@ song_address: .res 2
 
 .segment "BSS"
 
+song_base_address_volume_envelopes: .res 2
+song_base_address_pitch_envelopes: .res 2
+song_base_address_duty_envelopes: .res 2
+sfx_base_address_volume_envelopes: .res 2
+sfx_base_address_pitch_envelopes: .res 2
+sfx_base_address_duty_envelopes: .res 2
+
 ;streams
 stream_active:             .res MAX_STREAMS
 stream_length:             .res MAX_STREAMS
@@ -111,13 +118,26 @@ loop:
   lda #0
   sta apu_data_ready
 
-  ;copy all streams' register sets to apu registers for upload
+  ;first copy all music streams, or the first four streams
+  lda song_base_address_volume_envelopes
+  sta base_address_volume_envelopes
+  lda song_base_address_volume_envelopes+1
+  sta base_address_volume_envelopes+1
+  lda song_base_address_pitch_envelopes
+  sta base_address_pitch_envelopes
+  lda song_base_address_pitch_envelopes+1
+  sta base_address_pitch_envelopes+1
+  lda song_base_address_duty_envelopes
+  sta base_address_duty_envelopes
+  lda song_base_address_duty_envelopes+1
+  sta base_address_duty_envelopes+1
+  
   ldx #0
-stream_register_copy_loop:
+song_stream_register_copy_loop:
 
   ;load whether this stream is active
   lda stream_active,x
-  beq stream_not_active
+  beq song_stream_not_active
 
   ;update the stream
   jsr stream_update
@@ -137,12 +157,57 @@ stream_register_copy_loop:
   sta apu_register_sets+2,y
   lda stream_channel_register_4,x
   sta apu_register_sets+3,y
-stream_not_active:
+song_stream_not_active:
+
+  inx
+  cpx #4
+  bne song_stream_register_copy_loop
+
+  ;next, copy all sfx streams, or the last four streams
+  lda sfx_base_address_volume_envelopes
+  sta base_address_volume_envelopes
+  lda sfx_base_address_volume_envelopes+1
+  sta base_address_volume_envelopes+1
+  lda sfx_base_address_pitch_envelopes
+  sta base_address_pitch_envelopes
+  lda sfx_base_address_pitch_envelopes+1
+  sta base_address_pitch_envelopes+1
+  lda sfx_base_address_duty_envelopes
+  sta base_address_duty_envelopes
+  lda sfx_base_address_duty_envelopes+1
+  sta base_address_duty_envelopes+1
+  
+  ldx #4
+sfx_stream_register_copy_loop:
+
+  ;load whether this stream is active
+  lda stream_active,x
+  beq sfx_stream_not_active
+
+  ;update the stream
+  jsr stream_update
+
+  ;load channel number
+  lda stream_channel,x
+  ;multiply by four to get location within apu_register_sets
+  asl
+  asl
+  tay
+  ;copy the registers over
+  lda stream_channel_register_1,x
+  sta apu_register_sets,y
+  lda stream_channel_register_2,x
+  sta apu_register_sets+1,y
+  lda stream_channel_register_3,x
+  sta apu_register_sets+2,y
+  lda stream_channel_register_4,x
+  sta apu_register_sets+3,y
+sfx_stream_not_active:
 
   inx
   cpx #MAX_STREAMS
-  bne stream_register_copy_loop
-
+  bne sfx_stream_register_copy_loop
+  
   ;apu data ready
   lda #1
   sta apu_data_ready
@@ -768,26 +833,71 @@ no_noise:
   ;load volume envelopes
   iny
   lda (song_address),y
-  sta base_address_volume_envelopes
+  sta song_base_address_volume_envelopes
   iny
   lda (song_address),y
-  sta base_address_volume_envelopes+1
+  sta song_base_address_volume_envelopes+1
 
   ;load pitch envelopes
   iny
   lda (song_address),y
-  sta base_address_pitch_envelopes
+  sta song_base_address_pitch_envelopes
   iny
   lda (song_address),y
-  sta base_address_pitch_envelopes+1
+  sta song_base_address_pitch_envelopes+1
 
   ;load duty envelopes
   iny
   lda (song_address),y
-  sta base_address_duty_envelopes
+  sta song_base_address_duty_envelopes
   iny
   lda (song_address),y
-  sta base_address_duty_envelopes+1
+  sta song_base_address_duty_envelopes+1
+
+  ;restore index regs
+  pla
+  tax
+  pla
+  tay
+  
+  rts
+
+.endproc
+
+;expects sound_param_word_0 to contain address of a sfx defnition,
+;assumed to be three addresses for volume envelopes, pitch envelopes and duty envelopes.
+.proc sfx_initialize
+sfx_address = sound_param_word_0
+
+  ;save index regs
+  tya
+  pha
+  txa
+  pha
+
+  ;load volume envelopes
+  ldy #0
+  lda (sfx_address),y
+  sta sfx_base_address_volume_envelopes
+  iny
+  lda (sfx_address),y
+  sta sfx_base_address_volume_envelopes+1
+
+  ;load pitch envelopes
+  iny
+  lda (sfx_address),y
+  sta sfx_base_address_pitch_envelopes
+  iny
+  lda (sfx_address),y
+  sta sfx_base_address_pitch_envelopes+1
+
+  ;load duty envelopes
+  iny
+  lda (sfx_address),y
+  sta sfx_base_address_duty_envelopes
+  iny
+  lda (sfx_address),y
+  sta sfx_base_address_duty_envelopes+1
 
   ;restore index regs
   pla
