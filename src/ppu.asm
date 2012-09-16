@@ -13,14 +13,7 @@
   lda #0
   sta vblank_data_ready
 
-  lda current_bank
-  pha
-  switch_bank_ldy music_bank
-  jsr sound_update
-  jsr sound_upload
-  pla
-  sta current_bank
-  switch_bank_ldy current_bank
+  safe_soundengine_update
   
   rts
 
@@ -295,9 +288,7 @@ fading_loop:
   sta vblank_data_ready
 :
 
-  switch_bank_ldy music_bank
-  jsr sound_update
-  jsr sound_upload
+  safe_soundengine_update
 
   rts
 .endproc

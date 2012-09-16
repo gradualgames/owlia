@@ -917,8 +917,8 @@ sfx_address = sound_param_word_0
 channel = sound_param_byte_0
 starting_read_address = sound_param_word_0
 
-  ;set stream to be active
-  lda #1
+  ;set stream to be inactive while initializing
+  lda #0
   sta stream_active,x
 
   ;set a default note length (20 frames)
@@ -947,6 +947,10 @@ starting_read_address = sound_param_word_0
   lda starting_read_address+1
   sta stream_read_address_hi,x
 
+  ;set stream to be active
+  lda #1
+  sta stream_active,x
+  
   rts
 .endproc
 

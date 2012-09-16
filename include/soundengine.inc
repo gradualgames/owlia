@@ -194,4 +194,19 @@ soundeffect_two = 5
 
 .endmacro
 
+;this macro updates the sound engine safely. It is intended to
+;be used at the end of an nmi routine, after ppu synchronization.
+.macro safe_soundengine_update
+
+  lda current_bank
+  pha
+  switch_bank_ldy music_bank
+  jsr sound_update
+  jsr sound_upload
+  pla
+  sta current_bank
+  switch_bank_ldy current_bank
+
+.endmacro
+
 .endif

@@ -349,7 +349,7 @@ play_state_load_location:
   iny
   lda (area_address),y
   sta song_address+1
-   jsr song_initialize
+  jsr song_initialize
 same_song:
   
 play_state:
