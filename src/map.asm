@@ -2164,9 +2164,6 @@ write_to_attribute_table1:
   lda ppu_2006+1
   adc #$08
   sta ppu_2006+1
-  lda ppu_2006
-  adc #$00
-  sta ppu_2006
   upload_ppu_2006
   
   lda attribute_table1+8,y
@@ -2178,9 +2175,6 @@ write_to_attribute_table1:
   lda ppu_2006+1
   adc #$08
   sta ppu_2006+1
-  lda ppu_2006
-  adc #$00
-  sta ppu_2006
   upload_ppu_2006
   
   lda attribute_table1+(8*2),y
@@ -2192,9 +2186,6 @@ write_to_attribute_table1:
   lda ppu_2006+1
   adc #$08
   sta ppu_2006+1
-  lda ppu_2006
-  adc #$00
-  sta ppu_2006
   upload_ppu_2006
   
   lda attribute_table1+(8*3),y
@@ -2215,9 +2206,6 @@ write_to_attribute_table2:
   lda ppu_2006+1
   adc #$08
   sta ppu_2006+1
-  lda ppu_2006
-  adc #$00
-  sta ppu_2006
   upload_ppu_2006
   
   lda attribute_table2+8,y
@@ -2229,9 +2217,6 @@ write_to_attribute_table2:
   lda ppu_2006+1
   adc #$08
   sta ppu_2006+1
-  lda ppu_2006
-  adc #$00
-  sta ppu_2006
   upload_ppu_2006
   
   lda attribute_table2+(8*2),y
@@ -2243,9 +2228,6 @@ write_to_attribute_table2:
   lda ppu_2006+1
   adc #$08
   sta ppu_2006+1
-  lda ppu_2006
-  adc #$00
-  sta ppu_2006
   upload_ppu_2006
   
   lda attribute_table2+(8*3),y
