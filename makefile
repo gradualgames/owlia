@@ -46,7 +46,7 @@ MAP_FILE        = $(OUTPUT_NAME).map
 DEBUG_FILE      = $(OUTPUT_NAME).dbg
 
 #Switches
-INCLUDE_FLAGS = -I include -I include/maps
+INCLUDE_FLAGS = -I include -I include/maps -I include/entities
 
 ASSEMBLER_FLAGS = -g -l $(INCLUDE_FLAGS) -o
 ifdef DEMO
