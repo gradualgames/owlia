@@ -36,6 +36,7 @@ FILES           += zp \
                    sfx_data \
                    map_data \
                    areas \
+                   locations \
                    sprites_and_animations_data
 
 OBJECT_FILES    = $(addprefix $(BIN_DIR)/,$(addsuffix .o, $(FILES)))

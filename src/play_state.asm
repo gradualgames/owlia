@@ -15,6 +15,7 @@
 .include "bg_chr_data.inc"
 .include "mapper.inc"
 .include "areas.inc"
+.include "locations.inc"
 .include "entities.inc"
 
 .segment "CODE"

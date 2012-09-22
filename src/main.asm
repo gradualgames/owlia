@@ -8,6 +8,7 @@
 .include "sprite.inc"
 .include "soundengine.inc"
 .include "areas.inc"
+.include "locations.inc"
 .include "sfx_data.inc"
 
 .segment "HEADER"
