@@ -9,8 +9,51 @@
 .ifndef HERO_INC
 HERO_INC = 1
 
+HERO_WIDTH = $10
+HERO_HEIGHT = $18
+
 HERO_STATE_INIT = 0
 HERO_STATE_MAIN = 1
+
+HERO_SPEED = $02
+
+.macro test_collision_and_process_action x_offset_lo, x_offset_hi, y_offset_lo, y_offset_hi, destination_if_solid
+
+  clc
+  lda entity_x_lo,x
+  adc #x_offset_lo
+  sta w0
+  lda entity_x_hi,x
+  adc #x_offset_hi
+  sta w0+1
+  
+  clc
+  lda entity_y_lo,x
+  adc #y_offset_lo
+  sta w1
+  lda entity_y_hi,x
+  adc #y_offset_hi
+  sta w1+1
+  
+  jsr map_test_collision
+
+  .scope
+  lda b0
+  and #ISOLATE_ACTION_MASK
+  cmp #ACTION_GOTO_LOCATION_GROUP1
+  bne skip_goto_location
+  lda #ACTION_GOTO_LOCATION_GROUP1
+  sta state_control_params+play_state_control::action
+  lda b1
+  sta state_control_params+play_state_control::param
+skip_goto_location:
+  .endscope
+  
+  lda b0
+  and #FLAG_SOLID
+  bne destination_if_solid
+
+.endmacro
 
 direction_handlers_lo:
   .byte <hero_direction_nop_handler
@@ -143,185 +186,6 @@ skip_sfx_test:
   lda entity_animation_address_hi,x
   sta w2+1
   jsr entity_update_animation
-  
-  ; lda buffer_controller+buttons::_left
-  ; and #%00000011
-  ; cmp #%00000011
-  ; bne skip_left
-  
-  ; lda entity_x_lo,x
-  ; ora entity_x_hi,x
-  ; beq skip_left
-  
-  ; sec
-  ; lda entity_x_lo,x
-  ; sbc #$02
-  ; sta entity_x_lo,x
-  ; lda entity_x_hi,x
-  ; sbc #$00
-  ; sta entity_x_hi,x
-  
-  ; lda #%01000000
-  ; sta entity_sprite_flags,x
-  
-  ; lda #<WalkSide
-  ; sta entity_animation_address_lo,x
-  ; lda #>WalkSide
-  ; sta entity_animation_address_hi,x
-
-; skip_left:
-
-  ; lda buffer_controller+buttons::_right
-  ; and #%00000011
-  ; cmp #%00000011
-  ; bne skip_right
-
-  ; lda entity_x_lo,x
-  ; sta w0
-  ; lda entity_x_hi,x
-  ; sta w0+1
-  
-  ; lda entity_y_lo,x
-  ; sta w1
-  ; lda entity_y_hi,x
-  ; sta w1+1
-  
-  ; jsr map_test_collision
-  
-  ; ;lda b0
-  ; ;and #FLAG_SOLID
-  ; ;bne skip_right
-  
-  ; clc
-  ; lda entity_x_lo,x
-  ; adc #$02
-  ; sta entity_x_lo,x
-  ; lda entity_x_hi,x
-  ; adc #$00
-  ; sta entity_x_hi,x
-  
-  ; lda #%00000000
-  ; sta entity_sprite_flags,x
-  
-  ; lda #<WalkSide
-  ; sta entity_animation_address_lo,x
-  ; lda #>WalkSide
-  ; sta entity_animation_address_hi,x
-
-; skip_right:
-
-  ; lda buffer_controller+buttons::_up
-  ; and #%00000011
-  ; cmp #%00000011
-  ; bne skip_up
-  
-  ; lda entity_y_lo,x
-  ; ora entity_y_hi,x
-  ; beq skip_up
-  
-  ; lda entity_x_lo,x
-  ; sta w0
-  ; lda entity_x_hi,x
-  ; sta w0+1
-  
-  ; lda entity_y_lo,x
-  ; sta w1
-  ; lda entity_y_hi,x
-  ; sta w1+1
-  
-  ; jsr map_test_collision
-  
-  ; lda b0
-  ; and #ISOLATE_ACTION_MASK
-; dbg1:
-  ; cmp #ACTION_GOTO_LOCATION_GROUP1
-  ; bne not_goto_location
-  ; lda #ACTION_GOTO_LOCATION_GROUP1
-  ; sta state_control_params+play_state_control::action
-  
-  ; lda b1
-  ; sta state_control_params+play_state_control::param
-  
-; not_goto_location:
-  
-  ; ; lda b0
-  ; ; and #FLAG_SOLID
-  ; ; bne skip_up
-
-  ; sec
-  ; lda entity_y_lo,x
-  ; sbc #$02
-  ; sta entity_y_lo,x
-  ; lda entity_y_hi,x
-  ; sbc #$00
-  ; sta entity_y_hi,x
-  
-  ; lda #<WalkUp
-  ; sta entity_animation_address_lo,x
-  ; lda #>WalkUp
-  ; sta entity_animation_address_hi,x
-
-; skip_up:
-
-  ; lda buffer_controller+buttons::_down
-  ; and #%00000011
-  ; cmp #%00000011
-  ; bne skip_down
-  
-  ; lda entity_x_lo,x
-  ; sta w0
-  ; lda entity_x_hi,x
-  ; sta w0+1
-  
-  ; clc
-  ; lda entity_y_lo,x
-  ; adc #$18
-  ; sta w1
-  ; lda entity_y_hi,x
-  ; adc #$00
-  ; sta w1+1
-  
-  ; jsr map_test_collision
-  
-  ; .scope
-  ; lda b0
-  ; and #ISOLATE_ACTION_MASK
-; dbg1:
-  ; cmp #ACTION_GOTO_LOCATION_GROUP1
-  ; bne not_goto_location
-  ; lda #ACTION_GOTO_LOCATION_GROUP1
-  ; sta state_control_params+play_state_control::action
-  
-  ; lda b1
-  ; sta state_control_params+play_state_control::param
-  
-; not_goto_location:
-  ; .endscope
-  
-  ; ;lda b0
-  ; ;and #FLAG_SOLID
-  ; ;bne skip_down
-  
-  ; clc
-  ; lda entity_y_lo,x
-  ; adc #$02
-  ; sta entity_y_lo,x
-  ; lda entity_y_hi,x
-  ; adc #$00
-  ; sta entity_y_hi,x
-  
-  ; lda #<WalkDown
-  ; sta entity_animation_address_lo,x
-  ; lda #>WalkDown
-  ; sta entity_animation_address_hi,x
-
-; skip_down:
-
-  ; lda entity_animation_address_lo,x
-  ; sta w2
-  ; lda entity_animation_address_hi,x
-  ; sta w2+1
-  ; jsr entity_update_animation
 
   rts
 
@@ -334,9 +198,21 @@ hero_direction_nop_handler:
   
 hero_direction_right_handler:
 
+  lda #<WalkSide
+  sta entity_animation_address_lo,x
+  lda #>WalkSide
+  sta entity_animation_address_hi,x
+
+  .scope
+  test_collision_and_process_action HERO_WIDTH, 0, (HERO_HEIGHT/2), 0, found_collision_right_side
+  test_collision_and_process_action HERO_WIDTH, 0, HERO_HEIGHT, 0, found_collision_right_side
+
+found_collision_right_side:
+  bne skip_direction_right_handler
+  
   clc
   lda entity_x_lo,x
-  adc #$02
+  adc #HERO_SPEED
   sta entity_x_lo,x
   lda entity_x_hi,x
   adc #$00
@@ -344,19 +220,26 @@ hero_direction_right_handler:
 
   lda #%00000000
   sta entity_sprite_flags,x
-  
-  lda #<WalkSide
-  sta entity_animation_address_lo,x
-  lda #>WalkSide
-  sta entity_animation_address_hi,x
+
+skip_direction_right_handler:
+  .endscope
   
   rts
   
 hero_direction_left_handler:
 
+  lda #<WalkSide
+  sta entity_animation_address_lo,x
+  lda #>WalkSide
+  sta entity_animation_address_hi,x
+
+  .scope
+  test_collision_and_process_action $ff, $ff, (HERO_HEIGHT/2), 0, skip_direction_left_handler
+  test_collision_and_process_action $ff, $ff, (HERO_HEIGHT-1), 0, skip_direction_left_handler
+  
   sec
   lda entity_x_lo,x
-  sbc #$02
+  sbc #HERO_SPEED
   sta entity_x_lo,x
   lda entity_x_hi,x
   sbc #$00
@@ -365,125 +248,186 @@ hero_direction_left_handler:
   lda #%01000000
   sta entity_sprite_flags,x
   
-  lda #<WalkSide
-  sta entity_animation_address_lo,x
-  lda #>WalkSide
-  sta entity_animation_address_hi,x
+skip_direction_left_handler:
+  .endscope
   
   rts
   
 hero_direction_down_handler:
 
-  clc
-  lda entity_y_lo,x
-  adc #$02
-  sta entity_y_lo,x
-  lda entity_y_hi,x
-  adc #$00
-  sta entity_y_hi,x
-
   lda #<WalkDown
   sta entity_animation_address_lo,x
   lda #>WalkDown
   sta entity_animation_address_hi,x
+
+  .scope
+  test_collision_and_process_action 0, 0, (HERO_HEIGHT), 0, skip_direction_down_handler
+  test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, skip_direction_down_handler
+  
+  clc
+  lda entity_y_lo,x
+  adc #HERO_SPEED
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  adc #$00
+  sta entity_y_hi,x
+skip_direction_down_handler:
+  .endscope
   
   rts
   
 hero_direction_down_and_right_handler:
 
+  .scope
+  test_collision_and_process_action 0, 0, (HERO_HEIGHT), 0, found_collision_down_side
+  test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
+  
   clc
   lda entity_y_lo,x
-  adc #$02
+  adc #HERO_SPEED
   sta entity_y_lo,x
   lda entity_y_hi,x
   adc #$00
   sta entity_y_hi,x
-
+found_collision_down_side:
+  
+  test_collision_and_process_action (HERO_WIDTH), 0, (HERO_HEIGHT/2), 0, found_collision_right_side
+  test_collision_and_process_action (HERO_WIDTH), 0, (HERO_HEIGHT-1), 0, found_collision_right_side
+  
   clc
   lda entity_x_lo,x
-  adc #$02
+  adc #HERO_SPEED
   sta entity_x_lo,x
   lda entity_x_hi,x
   adc #$00
   sta entity_x_hi,x
+found_collision_right_side:
+  .endscope
   
   rts
   
 hero_direction_down_and_left_handler:
 
+  .scope
+  
+  test_collision_and_process_action 0, 0, (HERO_HEIGHT), 0, found_collision_down_side
+  test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
+  
   clc
   lda entity_y_lo,x
-  adc #$02
+  adc #HERO_SPEED
   sta entity_y_lo,x
   lda entity_y_hi,x
   adc #$00
   sta entity_y_hi,x
+found_collision_down_side:
+  
+  test_collision_and_process_action $ff, $ff, (HERO_HEIGHT/2-1), 0, found_collision_left_side
+  test_collision_and_process_action $ff, $ff, (HERO_HEIGHT-1), 0, found_collision_left_side
   
   sec
   lda entity_x_lo,x
-  sbc #$02
+  sbc #HERO_SPEED
   sta entity_x_lo,x
   lda entity_x_hi,x
   sbc #$00
   sta entity_x_hi,x
+found_collision_left_side:
+  .endscope
 
   rts
   
 hero_direction_up_handler:
 
-  sec
-  lda entity_y_lo,x
-  sbc #$02
-  sta entity_y_lo,x
-  lda entity_y_hi,x
-  sbc #$00
-  sta entity_y_hi,x
-  
   lda #<WalkUp
   sta entity_animation_address_lo,x
   lda #>WalkUp
   sta entity_animation_address_hi,x
 
-  rts
-  
-hero_direction_up_and_right_handler:
+  .scope
+  test_collision_and_process_action 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
+  test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
 
+found_collision_up_side:
+  bne skip_direction_up_handler
+  
   sec
   lda entity_y_lo,x
-  sbc #$02
+  sbc #HERO_SPEED
   sta entity_y_lo,x
   lda entity_y_hi,x
   sbc #$00
   sta entity_y_hi,x
+
+skip_direction_up_handler:
+  .endscope
+
+  rts
   
+hero_direction_up_and_right_handler:
+
+  .scope
+  test_collision_and_process_action 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
+  test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
+
+  sec
+  lda entity_y_lo,x
+  sbc #HERO_SPEED
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  sbc #$00
+  sta entity_y_hi,x
+found_collision_up_side:
+  
+  test_collision_and_process_action (HERO_WIDTH), 0, (HERO_HEIGHT/2), 0, found_collision_right_side
+  test_collision_and_process_action (HERO_WIDTH), 0, (HERO_HEIGHT-1), 0, found_collision_right_side
+
   clc
   lda entity_x_lo,x
-  adc #$02
+  adc #HERO_SPEED
   sta entity_x_lo,x
   lda entity_x_hi,x
   adc #$00
   sta entity_x_hi,x
 
+found_collision_right_side:
+  
+skip_direction_up_and_right_handler:
+
+  .endscope
+
   rts
   
 hero_direction_up_and_left_handler:
 
+  .scope
+  test_collision_and_process_action 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
+  test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side  
+  
   sec
   lda entity_y_lo,x
-  sbc #$02
+  sbc #HERO_SPEED
   sta entity_y_lo,x
   lda entity_y_hi,x
   sbc #$00
   sta entity_y_hi,x
+  
+found_collision_up_side:
+
+  test_collision_and_process_action $ff, $ff, (HERO_HEIGHT/2), 0, found_collision_left_side
+  test_collision_and_process_action $ff, $ff, (HERO_HEIGHT-1), 0, found_collision_left_side  
 
   sec
   lda entity_x_lo,x
-  sbc #$02
+  sbc #HERO_SPEED
   sta entity_x_lo,x
   lda entity_x_hi,x
   sbc #$00
   sta entity_x_hi,x
+found_collision_left_side:
+  
+  .endscope
   
   rts
-  
+
 .endif
