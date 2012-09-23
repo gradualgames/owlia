@@ -198,6 +198,9 @@ hero_direction_nop_handler:
   
 hero_direction_right_handler:
 
+  lda #%00000000
+  sta entity_sprite_flags,x
+
   lda #<WalkSide
   sta entity_animation_address_lo,x
   lda #>WalkSide
@@ -218,15 +221,15 @@ found_collision_right_side:
   adc #$00
   sta entity_x_hi,x
 
-  lda #%00000000
-  sta entity_sprite_flags,x
-
 skip_direction_right_handler:
   .endscope
   
   rts
   
 hero_direction_left_handler:
+
+  lda #%01000000
+  sta entity_sprite_flags,x
 
   lda #<WalkSide
   sta entity_animation_address_lo,x
@@ -245,9 +248,6 @@ hero_direction_left_handler:
   sbc #$00
   sta entity_x_hi,x
 
-  lda #%01000000
-  sta entity_sprite_flags,x
-  
 skip_direction_left_handler:
   .endscope
   
