@@ -12,6 +12,42 @@ HERO_INC = 1
 HERO_STATE_INIT = 0
 HERO_STATE_MAIN = 1
 
+direction_handlers_lo:
+  .byte <hero_direction_nop_handler
+  .byte <hero_direction_right_handler
+  .byte <hero_direction_left_handler
+  .byte <hero_direction_nop_handler
+  .byte <hero_direction_down_handler
+  .byte <hero_direction_down_and_right_handler
+  .byte <hero_direction_down_and_left_handler
+  .byte <hero_direction_nop_handler
+  .byte <hero_direction_up_handler
+  .byte <hero_direction_up_and_right_handler
+  .byte <hero_direction_up_and_left_handler
+  .byte <hero_direction_nop_handler
+  .byte <hero_direction_nop_handler
+  .byte <hero_direction_nop_handler
+  .byte <hero_direction_nop_handler
+  .byte <hero_direction_nop_handler
+
+direction_handlers_hi:
+  .byte >hero_direction_nop_handler
+  .byte >hero_direction_right_handler
+  .byte >hero_direction_left_handler
+  .byte >hero_direction_nop_handler
+  .byte >hero_direction_down_handler
+  .byte >hero_direction_down_and_right_handler
+  .byte >hero_direction_down_and_left_handler
+  .byte >hero_direction_nop_handler
+  .byte >hero_direction_up_handler
+  .byte >hero_direction_up_and_right_handler
+  .byte >hero_direction_up_and_left_handler
+  .byte >hero_direction_nop_handler
+  .byte >hero_direction_nop_handler
+  .byte >hero_direction_nop_handler
+  .byte >hero_direction_nop_handler
+  .byte >hero_direction_nop_handler
+  
 hero_lo:
   .byte <hero_state_init
   .byte <hero_state_main
@@ -76,15 +112,248 @@ hero_state_main:
 
 skip_sfx_test:
 
+  ;get up, down, left, right into a single bit field
+  lda #0
+  sta b0
+  lda buffer_controller+buttons::_up
+  ror
+  rol b0
+  lda buffer_controller+buttons::_down
+  ror
+  rol b0
   lda buffer_controller+buttons::_left
-  and #%00000011
-  cmp #%00000011
-  bne skip_left
+  ror
+  rol b0
+  lda buffer_controller+buttons::_right
+  ror
+  rol b0
   
+  ;use this as an index into a direction handlers lut
+  ldy b0
+  lda direction_handlers_lo,y
+  sta w0
+  lda direction_handlers_hi,y
+  sta w0+1
+  jsr indirect_jsr_w0
+
+  ;update the hero's animation. In the future, this will
+  ;be based on the current state of attacking or walking
+  lda entity_animation_address_lo,x
+  sta w2
+  lda entity_animation_address_hi,x
+  sta w2+1
+  jsr entity_update_animation
+  
+  ; lda buffer_controller+buttons::_left
+  ; and #%00000011
+  ; cmp #%00000011
+  ; bne skip_left
+  
+  ; lda entity_x_lo,x
+  ; ora entity_x_hi,x
+  ; beq skip_left
+  
+  ; sec
+  ; lda entity_x_lo,x
+  ; sbc #$02
+  ; sta entity_x_lo,x
+  ; lda entity_x_hi,x
+  ; sbc #$00
+  ; sta entity_x_hi,x
+  
+  ; lda #%01000000
+  ; sta entity_sprite_flags,x
+  
+  ; lda #<WalkSide
+  ; sta entity_animation_address_lo,x
+  ; lda #>WalkSide
+  ; sta entity_animation_address_hi,x
+
+; skip_left:
+
+  ; lda buffer_controller+buttons::_right
+  ; and #%00000011
+  ; cmp #%00000011
+  ; bne skip_right
+
+  ; lda entity_x_lo,x
+  ; sta w0
+  ; lda entity_x_hi,x
+  ; sta w0+1
+  
+  ; lda entity_y_lo,x
+  ; sta w1
+  ; lda entity_y_hi,x
+  ; sta w1+1
+  
+  ; jsr map_test_collision
+  
+  ; ;lda b0
+  ; ;and #FLAG_SOLID
+  ; ;bne skip_right
+  
+  ; clc
+  ; lda entity_x_lo,x
+  ; adc #$02
+  ; sta entity_x_lo,x
+  ; lda entity_x_hi,x
+  ; adc #$00
+  ; sta entity_x_hi,x
+  
+  ; lda #%00000000
+  ; sta entity_sprite_flags,x
+  
+  ; lda #<WalkSide
+  ; sta entity_animation_address_lo,x
+  ; lda #>WalkSide
+  ; sta entity_animation_address_hi,x
+
+; skip_right:
+
+  ; lda buffer_controller+buttons::_up
+  ; and #%00000011
+  ; cmp #%00000011
+  ; bne skip_up
+  
+  ; lda entity_y_lo,x
+  ; ora entity_y_hi,x
+  ; beq skip_up
+  
+  ; lda entity_x_lo,x
+  ; sta w0
+  ; lda entity_x_hi,x
+  ; sta w0+1
+  
+  ; lda entity_y_lo,x
+  ; sta w1
+  ; lda entity_y_hi,x
+  ; sta w1+1
+  
+  ; jsr map_test_collision
+  
+  ; lda b0
+  ; and #ISOLATE_ACTION_MASK
+; dbg1:
+  ; cmp #ACTION_GOTO_LOCATION_GROUP1
+  ; bne not_goto_location
+  ; lda #ACTION_GOTO_LOCATION_GROUP1
+  ; sta state_control_params+play_state_control::action
+  
+  ; lda b1
+  ; sta state_control_params+play_state_control::param
+  
+; not_goto_location:
+  
+  ; ; lda b0
+  ; ; and #FLAG_SOLID
+  ; ; bne skip_up
+
+  ; sec
+  ; lda entity_y_lo,x
+  ; sbc #$02
+  ; sta entity_y_lo,x
+  ; lda entity_y_hi,x
+  ; sbc #$00
+  ; sta entity_y_hi,x
+  
+  ; lda #<WalkUp
+  ; sta entity_animation_address_lo,x
+  ; lda #>WalkUp
+  ; sta entity_animation_address_hi,x
+
+; skip_up:
+
+  ; lda buffer_controller+buttons::_down
+  ; and #%00000011
+  ; cmp #%00000011
+  ; bne skip_down
+  
+  ; lda entity_x_lo,x
+  ; sta w0
+  ; lda entity_x_hi,x
+  ; sta w0+1
+  
+  ; clc
+  ; lda entity_y_lo,x
+  ; adc #$18
+  ; sta w1
+  ; lda entity_y_hi,x
+  ; adc #$00
+  ; sta w1+1
+  
+  ; jsr map_test_collision
+  
+  ; .scope
+  ; lda b0
+  ; and #ISOLATE_ACTION_MASK
+; dbg1:
+  ; cmp #ACTION_GOTO_LOCATION_GROUP1
+  ; bne not_goto_location
+  ; lda #ACTION_GOTO_LOCATION_GROUP1
+  ; sta state_control_params+play_state_control::action
+  
+  ; lda b1
+  ; sta state_control_params+play_state_control::param
+  
+; not_goto_location:
+  ; .endscope
+  
+  ; ;lda b0
+  ; ;and #FLAG_SOLID
+  ; ;bne skip_down
+  
+  ; clc
+  ; lda entity_y_lo,x
+  ; adc #$02
+  ; sta entity_y_lo,x
+  ; lda entity_y_hi,x
+  ; adc #$00
+  ; sta entity_y_hi,x
+  
+  ; lda #<WalkDown
+  ; sta entity_animation_address_lo,x
+  ; lda #>WalkDown
+  ; sta entity_animation_address_hi,x
+
+; skip_down:
+
+  ; lda entity_animation_address_lo,x
+  ; sta w2
+  ; lda entity_animation_address_hi,x
+  ; sta w2+1
+  ; jsr entity_update_animation
+
+  rts
+
+indirect_jsr_w0:
+  jmp (w0)
+  
+hero_direction_nop_handler:
+
+  rts
+  
+hero_direction_right_handler:
+
+  clc
   lda entity_x_lo,x
-  ora entity_x_hi,x
-  beq skip_left
+  adc #$02
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc #$00
+  sta entity_x_hi,x
+
+  lda #%00000000
+  sta entity_sprite_flags,x
   
+  lda #<WalkSide
+  sta entity_animation_address_lo,x
+  lda #>WalkSide
+  sta entity_animation_address_hi,x
+  
+  rts
+  
+hero_direction_left_handler:
+
   sec
   lda entity_x_lo,x
   sbc #$02
@@ -92,7 +361,7 @@ skip_sfx_test:
   lda entity_x_hi,x
   sbc #$00
   sta entity_x_hi,x
-  
+
   lda #%01000000
   sta entity_sprite_flags,x
   
@@ -100,30 +369,36 @@ skip_sfx_test:
   sta entity_animation_address_lo,x
   lda #>WalkSide
   sta entity_animation_address_hi,x
-
-skip_left:
-
-  lda buffer_controller+buttons::_right
-  and #%00000011
-  cmp #%00000011
-  bne skip_right
-
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
   
+  rts
+  
+hero_direction_down_handler:
+
+  clc
   lda entity_y_lo,x
-  sta w1
+  adc #$02
+  sta entity_y_lo,x
   lda entity_y_hi,x
-  sta w1+1
+  adc #$00
+  sta entity_y_hi,x
+
+  lda #<WalkDown
+  sta entity_animation_address_lo,x
+  lda #>WalkDown
+  sta entity_animation_address_hi,x
   
-  jsr map_test_collision
+  rts
   
-  ;lda b0
-  ;and #FLAG_SOLID
-  ;bne skip_right
-  
+hero_direction_down_and_right_handler:
+
+  clc
+  lda entity_y_lo,x
+  adc #$02
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  adc #$00
+  sta entity_y_hi,x
+
   clc
   lda entity_x_lo,x
   adc #$02
@@ -132,53 +407,29 @@ skip_left:
   adc #$00
   sta entity_x_hi,x
   
-  lda #%00000000
-  sta entity_sprite_flags,x
+  rts
   
-  lda #<WalkSide
-  sta entity_animation_address_lo,x
-  lda #>WalkSide
-  sta entity_animation_address_hi,x
+hero_direction_down_and_left_handler:
 
-skip_right:
-
-  lda buffer_controller+buttons::_up
-  and #%00000011
-  cmp #%00000011
-  bne skip_up
-  
+  clc
   lda entity_y_lo,x
-  ora entity_y_hi,x
-  beq skip_up
-  
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-  
-  lda entity_y_lo,x
-  sta w1
+  adc #$02
+  sta entity_y_lo,x
   lda entity_y_hi,x
-  sta w1+1
+  adc #$00
+  sta entity_y_hi,x
   
-  jsr map_test_collision
+  sec
+  lda entity_x_lo,x
+  sbc #$02
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  sbc #$00
+  sta entity_x_hi,x
+
+  rts
   
-  lda b0
-  and #ISOLATE_ACTION_MASK
-dbg1:
-  cmp #ACTION_GOTO_LOCATION_GROUP1
-  bne not_goto_location
-  lda #ACTION_GOTO_LOCATION_GROUP1
-  sta state_control_params+play_state_control::action
-  
-  lda b1
-  sta state_control_params+play_state_control::param
-  
-not_goto_location:
-  
-  ; lda b0
-  ; and #FLAG_SOLID
-  ; bne skip_up
+hero_direction_up_handler:
 
   sec
   lda entity_y_lo,x
@@ -193,68 +444,46 @@ not_goto_location:
   lda #>WalkUp
   sta entity_animation_address_hi,x
 
-skip_up:
+  rts
+  
+hero_direction_up_and_right_handler:
 
-  lda buffer_controller+buttons::_down
-  and #%00000011
-  cmp #%00000011
-  bne skip_down
-  
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-  
-  clc
+  sec
   lda entity_y_lo,x
-  adc #$18
-  sta w1
-  lda entity_y_hi,x
-  adc #$00
-  sta w1+1
-  
-  jsr map_test_collision
-  
-  .scope
-  lda b0
-  and #ISOLATE_ACTION_MASK
-dbg1:
-  cmp #ACTION_GOTO_LOCATION_GROUP1
-  bne not_goto_location
-  lda #ACTION_GOTO_LOCATION_GROUP1
-  sta state_control_params+play_state_control::action
-  
-  lda b1
-  sta state_control_params+play_state_control::param
-  
-not_goto_location:
-  .endscope
-  
-  ;lda b0
-  ;and #FLAG_SOLID
-  ;bne skip_down
-  
-  clc
-  lda entity_y_lo,x
-  adc #$02
+  sbc #$02
   sta entity_y_lo,x
   lda entity_y_hi,x
-  adc #$00
+  sbc #$00
   sta entity_y_hi,x
   
-  lda #<WalkDown
-  sta entity_animation_address_lo,x
-  lda #>WalkDown
-  sta entity_animation_address_hi,x
-
-skip_down:
-
-  lda entity_animation_address_lo,x
-  sta w2
-  lda entity_animation_address_hi,x
-  sta w2+1
-  jsr entity_update_animation
+  clc
+  lda entity_x_lo,x
+  adc #$02
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc #$00
+  sta entity_x_hi,x
 
   rts
+  
+hero_direction_up_and_left_handler:
 
+  sec
+  lda entity_y_lo,x
+  sbc #$02
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  sbc #$00
+  sta entity_y_hi,x
+
+  sec
+  lda entity_x_lo,x
+  sbc #$02
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  sbc #$00
+  sta entity_x_hi,x
+  
+  rts
+  
 .endif
