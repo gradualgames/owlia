@@ -205,7 +205,7 @@ hero_direction_right_handler:
 
   .scope
   test_collision_and_process_action HERO_WIDTH, 0, (HERO_HEIGHT/2), 0, found_collision_right_side
-  test_collision_and_process_action HERO_WIDTH, 0, HERO_HEIGHT, 0, found_collision_right_side
+  test_collision_and_process_action HERO_WIDTH, 0, HERO_HEIGHT-1, 0, found_collision_right_side
 
 found_collision_right_side:
   bne skip_direction_right_handler
