@@ -17,6 +17,8 @@ HERO_STATE_MAIN = 1
 
 HERO_SPEED = $02
 
+hero_previous_direction = entity_local0
+
 .macro test_collision_and_process_action x_offset_lo, x_offset_hi, y_offset_lo, y_offset_hi, destination_if_solid
 
   clc
@@ -54,6 +56,12 @@ skip_goto_location:
   bne destination_if_solid
 
 .endmacro
+
+HERO_DIRECTION_NOP = 0
+HERO_DIRECTION_RIGHT = 1
+HERO_DIRECTION_LEFT = 2
+HERO_DIRECTION_DOWN = 4
+HERO_DIRECTION_UP = 8
 
 direction_handlers_lo:
   .byte <hero_direction_nop_handler
@@ -125,6 +133,9 @@ hero_state_init:
   sta entity_animation_address_lo,x
   lda #>WalkSide
   sta entity_animation_address_hi,x
+  
+  lda #0
+  sta hero_previous_direction,x
   
   rts
 
@@ -224,6 +235,9 @@ found_collision_right_side:
 skip_direction_right_handler:
   .endscope
   
+  lda #HERO_DIRECTION_RIGHT
+  sta hero_previous_direction,x
+  
   rts
   
 hero_direction_left_handler:
@@ -251,6 +265,9 @@ hero_direction_left_handler:
 skip_direction_left_handler:
   .endscope
   
+  lda #HERO_DIRECTION_LEFT
+  sta hero_previous_direction,x
+  
   rts
   
 hero_direction_down_handler:
@@ -274,11 +291,30 @@ hero_direction_down_handler:
 skip_direction_down_handler:
   .endscope
   
+  lda #HERO_DIRECTION_DOWN
+  sta hero_previous_direction,x
+  
   rts
   
 hero_direction_down_and_right_handler:
 
   .scope
+  ;validate that previous direction was down or right.
+  ;if not, the animation is wrong, replace it with default down
+  lda hero_previous_direction,x
+  cmp #HERO_DIRECTION_DOWN
+  beq legal_direction
+  cmp #HERO_DIRECTION_RIGHT
+  beq legal_direction
+illegal_direction:
+
+  lda #<WalkDown
+  sta entity_animation_address_lo,x
+  lda #>WalkDown
+  sta entity_animation_address_hi,x
+  
+legal_direction:
+  
   test_collision_and_process_action 0, 0, (HERO_HEIGHT), 0, found_collision_down_side
   test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
   
@@ -309,6 +345,21 @@ found_collision_right_side:
 hero_direction_down_and_left_handler:
 
   .scope
+  ;validate that previous direction was down or left.
+  ;if not, the animation is wrong, replace it with default down
+  lda hero_previous_direction,x
+  cmp #HERO_DIRECTION_DOWN
+  beq legal_direction
+  cmp #HERO_DIRECTION_LEFT
+  beq legal_direction
+illegal_direction:
+
+  lda #<WalkDown
+  sta entity_animation_address_lo,x
+  lda #>WalkDown
+  sta entity_animation_address_hi,x
+  
+legal_direction:
   
   test_collision_and_process_action 0, 0, (HERO_HEIGHT), 0, found_collision_down_side
   test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
@@ -362,11 +413,29 @@ found_collision_up_side:
 skip_direction_up_handler:
   .endscope
 
+  lda #HERO_DIRECTION_UP
+  sta hero_previous_direction,x
+  
   rts
   
 hero_direction_up_and_right_handler:
 
   .scope
+  ;validate that previous direction was up or right.
+  ;if not, the animation is wrong, replace it with default up
+  lda hero_previous_direction,x
+  cmp #HERO_DIRECTION_UP
+  beq legal_direction
+  cmp #HERO_DIRECTION_RIGHT
+  beq legal_direction
+illegal_direction:
+
+  lda #<WalkUp
+  sta entity_animation_address_lo,x
+  lda #>WalkUp
+  sta entity_animation_address_hi,x
+legal_direction:
+
   test_collision_and_process_action 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
   test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
 
@@ -401,6 +470,21 @@ skip_direction_up_and_right_handler:
 hero_direction_up_and_left_handler:
 
   .scope
+  ;validate that previous direction was up or left.
+  ;if not, the animation is wrong, replace it with default up
+  lda hero_previous_direction,x
+  cmp #HERO_DIRECTION_UP
+  beq legal_direction
+  cmp #HERO_DIRECTION_LEFT
+  beq legal_direction
+illegal_direction:
+
+  lda #<WalkUp
+  sta entity_animation_address_lo,x
+  lda #>WalkUp
+  sta entity_animation_address_hi,x
+legal_direction:
+
   test_collision_and_process_action 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
   test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side  
   
