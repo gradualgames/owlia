@@ -18,8 +18,11 @@ HERO_STATE_MAIN = 1
 HERO_SPEED = $02
 
 hero_previous_direction = entity_local0
+hero_collision_properties1 = entity_local1
+hero_collision_properties2 = entity_local2
+hero_collision_param = entity_local3
 
-.macro test_collision_and_process_action x_offset_lo, x_offset_hi, y_offset_lo, y_offset_hi, destination_if_solid
+.macro get_map_properties_and_param x_offset_lo, x_offset_hi, y_offset_lo, y_offset_hi, hero_collision_properties
 
   clc
   lda entity_x_lo,x
@@ -38,20 +41,18 @@ hero_previous_direction = entity_local0
   sta w1+1
   
   jsr map_test_collision
-
-  .scope
-  lda b0
-  and #ISOLATE_ACTION_MASK
-  cmp #ACTION_GOTO_LOCATION_GROUP1
-  bne skip_goto_location
-  lda #ACTION_GOTO_LOCATION_GROUP1
-  sta state_control_params+play_state_control::action
-  lda b1
-  sta state_control_params+play_state_control::param
-skip_goto_location:
-  .endscope
   
   lda b0
+  sta hero_collision_properties,x
+  lda b1
+  sta hero_collision_param,x
+
+.endmacro
+
+.macro process_collision destination_if_solid
+
+  lda hero_collision_properties1,x
+  ora hero_collision_properties2,x
   and #FLAG_SOLID
   bne destination_if_solid
 
@@ -136,6 +137,9 @@ hero_state_init:
   
   lda #0
   sta hero_previous_direction,x
+  sta hero_collision_properties1,x
+  sta hero_collision_properties2,x
+  sta hero_collision_param,x
   
   rts
 
@@ -190,6 +194,22 @@ skip_sfx_test:
   sta w0+1
   jsr indirect_jsr_w0
 
+  ;see if both actions we collected from collision tests are the same.
+  lda hero_collision_properties1,x
+  cmp hero_collision_properties2,x
+  bne skip_execute_action
+  ;execute them if so
+  
+  lda hero_collision_properties1,x
+  and #ISOLATE_ACTION_MASK
+  cmp #ACTION_GOTO_LOCATION_GROUP1
+  bne skip_execute_action
+  lda #ACTION_GOTO_LOCATION_GROUP1
+  sta state_control_params+play_state_control::action
+  lda hero_collision_param,x
+  sta state_control_params+play_state_control::param
+skip_execute_action:
+  
   ;update the hero's animation. In the future, this will
   ;be based on the current state of attacking or walking
   lda entity_animation_address_lo,x
@@ -218,12 +238,11 @@ hero_direction_right_handler:
   sta entity_animation_address_hi,x
 
   .scope
-  test_collision_and_process_action HERO_WIDTH, 0, (HERO_HEIGHT/2), 0, found_collision_right_side
-  test_collision_and_process_action HERO_WIDTH, 0, HERO_HEIGHT-1, 0, found_collision_right_side
+  get_map_properties_and_param HERO_WIDTH, 0, (HERO_HEIGHT/2), 0, hero_collision_properties1
+  get_map_properties_and_param HERO_WIDTH, 0, HERO_HEIGHT-1, 0, hero_collision_properties2
 
-found_collision_right_side:
-  bne skip_direction_right_handler
-  
+  process_collision skip_direction_right_handler
+
   clc
   lda entity_x_lo,x
   adc #HERO_SPEED
@@ -251,8 +270,10 @@ hero_direction_left_handler:
   sta entity_animation_address_hi,x
 
   .scope
-  test_collision_and_process_action $ff, $ff, (HERO_HEIGHT/2), 0, skip_direction_left_handler
-  test_collision_and_process_action $ff, $ff, (HERO_HEIGHT-1), 0, skip_direction_left_handler
+  get_map_properties_and_param $ff, $ff, (HERO_HEIGHT/2), 0, hero_collision_properties1
+  get_map_properties_and_param $ff, $ff, (HERO_HEIGHT-1), 0, hero_collision_properties2
+  
+  process_collision skip_direction_left_handler
   
   sec
   lda entity_x_lo,x
@@ -278,8 +299,10 @@ hero_direction_down_handler:
   sta entity_animation_address_hi,x
 
   .scope
-  test_collision_and_process_action 0, 0, (HERO_HEIGHT), 0, skip_direction_down_handler
-  test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, skip_direction_down_handler
+  get_map_properties_and_param 0, 0, (HERO_HEIGHT), 0, hero_collision_properties1
+  get_map_properties_and_param HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, hero_collision_properties2
+  
+  process_collision skip_direction_down_handler
   
   clc
   lda entity_y_lo,x
@@ -315,8 +338,10 @@ illegal_direction:
   
 legal_direction:
   
-  test_collision_and_process_action 0, 0, (HERO_HEIGHT), 0, found_collision_down_side
-  test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
+  get_map_properties_and_param 0, 0, (HERO_HEIGHT), 0, hero_collision_properties1
+  get_map_properties_and_param HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, hero_collision_properties2
+  
+  process_collision found_collision_down_side
   
   clc
   lda entity_y_lo,x
@@ -327,8 +352,10 @@ legal_direction:
   sta entity_y_hi,x
 found_collision_down_side:
   
-  test_collision_and_process_action (HERO_WIDTH), 0, (HERO_HEIGHT/2), 0, found_collision_right_side
-  test_collision_and_process_action (HERO_WIDTH), 0, (HERO_HEIGHT-1), 0, found_collision_right_side
+  get_map_properties_and_param (HERO_WIDTH), 0, (HERO_HEIGHT/2), 0, hero_collision_properties1
+  get_map_properties_and_param (HERO_WIDTH), 0, (HERO_HEIGHT-1), 0, hero_collision_properties2
+  
+  process_collision found_collision_right_side
   
   clc
   lda entity_x_lo,x
@@ -361,8 +388,10 @@ illegal_direction:
   
 legal_direction:
   
-  test_collision_and_process_action 0, 0, (HERO_HEIGHT), 0, found_collision_down_side
-  test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
+  get_map_properties_and_param 0, 0, (HERO_HEIGHT), 0, hero_collision_properties1
+  get_map_properties_and_param HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, hero_collision_properties2
+  
+  process_collision found_collision_down_side
   
   clc
   lda entity_y_lo,x
@@ -373,8 +402,10 @@ legal_direction:
   sta entity_y_hi,x
 found_collision_down_side:
   
-  test_collision_and_process_action $ff, $ff, (HERO_HEIGHT/2-1), 0, found_collision_left_side
-  test_collision_and_process_action $ff, $ff, (HERO_HEIGHT-1), 0, found_collision_left_side
+  get_map_properties_and_param $ff, $ff, (HERO_HEIGHT/2-1), 0, hero_collision_properties1
+  get_map_properties_and_param $ff, $ff, (HERO_HEIGHT-1), 0, hero_collision_properties2
+  
+  process_collision found_collision_left_side
   
   sec
   lda entity_x_lo,x
@@ -396,11 +427,10 @@ hero_direction_up_handler:
   sta entity_animation_address_hi,x
 
   .scope
-  test_collision_and_process_action 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
-  test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
+  get_map_properties_and_param 0, 0, (HERO_HEIGHT/2-1), 0, hero_collision_properties1
+  get_map_properties_and_param HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, hero_collision_properties2
 
-found_collision_up_side:
-  bne skip_direction_up_handler
+  process_collision found_collision_up_side
   
   sec
   lda entity_y_lo,x
@@ -409,8 +439,7 @@ found_collision_up_side:
   lda entity_y_hi,x
   sbc #$00
   sta entity_y_hi,x
-
-skip_direction_up_handler:
+found_collision_up_side:
   .endscope
 
   lda #HERO_DIRECTION_UP
@@ -436,9 +465,11 @@ illegal_direction:
   sta entity_animation_address_hi,x
 legal_direction:
 
-  test_collision_and_process_action 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
-  test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
+  get_map_properties_and_param 0, 0, (HERO_HEIGHT/2-1), 0, hero_collision_properties1
+  get_map_properties_and_param HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, hero_collision_properties2
 
+  process_collision found_collision_up_side
+  
   sec
   lda entity_y_lo,x
   sbc #HERO_SPEED
@@ -448,9 +479,11 @@ legal_direction:
   sta entity_y_hi,x
 found_collision_up_side:
   
-  test_collision_and_process_action (HERO_WIDTH), 0, (HERO_HEIGHT/2), 0, found_collision_right_side
-  test_collision_and_process_action (HERO_WIDTH), 0, (HERO_HEIGHT-1), 0, found_collision_right_side
+  get_map_properties_and_param (HERO_WIDTH), 0, (HERO_HEIGHT/2), 0, hero_collision_properties1
+  get_map_properties_and_param (HERO_WIDTH), 0, (HERO_HEIGHT-1), 0, hero_collision_properties2
 
+  process_collision found_collision_right_side
+  
   clc
   lda entity_x_lo,x
   adc #HERO_SPEED
@@ -460,8 +493,6 @@ found_collision_up_side:
   sta entity_x_hi,x
 
 found_collision_right_side:
-  
-skip_direction_up_and_right_handler:
 
   .endscope
 
@@ -485,8 +516,10 @@ illegal_direction:
   sta entity_animation_address_hi,x
 legal_direction:
 
-  test_collision_and_process_action 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
-  test_collision_and_process_action HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side  
+  get_map_properties_and_param 0, 0, (HERO_HEIGHT/2-1), 0, hero_collision_properties1
+  get_map_properties_and_param HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, hero_collision_properties2
+  
+  process_collision found_collision_up_side
   
   sec
   lda entity_y_lo,x
@@ -498,8 +531,10 @@ legal_direction:
   
 found_collision_up_side:
 
-  test_collision_and_process_action $ff, $ff, (HERO_HEIGHT/2), 0, found_collision_left_side
-  test_collision_and_process_action $ff, $ff, (HERO_HEIGHT-1), 0, found_collision_left_side  
+  get_map_properties_and_param $ff, $ff, (HERO_HEIGHT/2), 0, hero_collision_properties1
+  get_map_properties_and_param $ff, $ff, (HERO_HEIGHT-1), 0, hero_collision_properties2
+  
+  process_collision found_collision_left_side
 
   sec
   lda entity_x_lo,x
