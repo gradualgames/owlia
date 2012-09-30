@@ -9,6 +9,9 @@ LOCATIONS_INC = 1
   camera_start_scroll_y .byte
   hero_start_x .word
   hero_start_y .word
+  on_enter_sfx_address .word
+  on_enter_sfx_channel .byte
+  on_enter_sfx_stream  .byte
 .endstruct
 
 ;****************************************************************

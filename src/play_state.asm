@@ -392,6 +392,30 @@ play_state:
   
 execute_goto_location_group1_action:
 
+  ;load the location to transition to
+  ldx state_control_params+play_state_control::param
+  lda locations_lo,x
+  sta location_address
+  lda locations_hi,x
+  sta location_address+1
+
+  ;play associated sound effect with this location
+  ldy #location::on_enter_sfx_address
+  lda (location_address),y
+  sta sound_param_word_0
+  iny
+  lda (location_address),y
+  sta sound_param_word_0+1
+
+  ldy #location::on_enter_sfx_channel
+  lda (location_address),y
+  sta sound_param_byte_0
+
+  ldy #location::on_enter_sfx_stream
+  lda (location_address),y
+  tax
+  jsr stream_initialize
+
   ;fade out from current palette
   switch_bank_ldy map_bank
   ldy #area::palette_address
@@ -401,13 +425,6 @@ execute_goto_location_group1_action:
   lda (area_address),y
   sta w0+1
   jsr ppu_fade_out_palette
-
-  ;load the location to transition to
-  ldx state_control_params+play_state_control::param
-  lda locations_lo,x
-  sta location_address
-  lda locations_hi,x
-  sta location_address+1
   
   ;now that we know the area, make sure the state control
   ;param is nop again
