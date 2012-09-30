@@ -421,7 +421,7 @@ hero_direction_up_handler:
   sta entity_animation_address_hi,x
 
   .scope
-  test_action (HERO_WIDTH/2), 0, $ff, $ff
+  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2-1), 0
   test_collision 0, 0, (HERO_HEIGHT/2-1), 0, skip_direction_up_handler
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, skip_direction_up_handler
 
@@ -459,7 +459,7 @@ illegal_direction:
   sta entity_animation_address_hi,x
 legal_direction:
 
-  test_action (HERO_WIDTH/2), 0, $ff, $ff
+  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2-1), 0
   test_collision 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
 
@@ -509,7 +509,7 @@ illegal_direction:
   sta entity_animation_address_hi,x
 legal_direction:
 
-  test_action (HERO_WIDTH/2), 0, $ff, $ff
+  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2-1), 0
   test_collision 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side  
   
