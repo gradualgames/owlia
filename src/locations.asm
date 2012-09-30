@@ -24,7 +24,7 @@ START_Y = 6
   .byte (16*START_X)     ;camera_scroll_start_x .byte
   .byte (16*START_Y-8)     ;camera_scroll_start_y .byte
   .word (16*START_X+128)       ;hero_start_x .word
-  .word (16*START_Y+128) ;hero_start_y .word
+  .word (16*START_Y+136) ;hero_start_y .word
 .endscope
 
 house1_area_exit_location:
@@ -37,5 +37,5 @@ START_Y = 4
   .byte (16*START_X)     ;camera_scroll_start_x .byte
   .byte (16*START_Y-8)     ;camera_scroll_start_y .byte
   .word (16*START_X+128)       ;hero_start_x .word
-  .word (16*START_Y+128) ;hero_start_y .word
+  .word (16*START_Y+136) ;hero_start_y .word
 .endscope
