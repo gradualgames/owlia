@@ -58,7 +58,8 @@ next_entity_type:
 
 .proc load_area_camera_vars
 
-  lda #$20
+  ldy #location::nametable_start_hibyte
+  lda (location_address),y
   sta camera_nametable_hibyte
   
   ldy #location::camera_start_x

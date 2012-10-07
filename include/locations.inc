@@ -3,6 +3,7 @@ LOCATIONS_INC = 1
 
 .struct location
   area_index .byte
+  nametable_start_hibyte .byte
   camera_start_x .word
   camera_start_y .word
   camera_start_scroll_x .byte

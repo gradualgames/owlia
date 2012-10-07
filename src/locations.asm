@@ -21,6 +21,7 @@ village_area_house1_entrance_location:
 START_X = 8
 START_Y = 6
   .byte area_index_village
+  .byte $20              ;nametable_start_hibyte .byte
   .word (16*START_X)     ;camera_start_x .word
   .word (16*START_Y)     ;camera_start_y .word
   .byte (16*START_X)     ;camera_scroll_start_x .byte
@@ -37,6 +38,7 @@ house1_area_exit_location:
 START_X = 0
 START_Y = 4
   .byte area_index_house
+  .byte $20              ;nametable_start_hibyte .byte
   .word (16*START_X)     ;camera_start_x .word
   .word (16*START_Y)     ;camera_start_y .word
   .byte (16*START_X)     ;camera_scroll_start_x .byte
@@ -53,12 +55,15 @@ overworld_area_entrance_location:
 START_X = 0
 START_Y = 0
   .byte area_index_overworld
-  .word (16*START_X)     ;camera_start_x .word
+  .byte $24              ;nametable_start_hibyte .byte
+  .byte (16*START_X)     ;camera_start_x .word (lo)
+  .byte 3                ;camera_start_x .word (hi)
   .word (16*START_Y)     ;camera_start_y .word
   .byte (16*START_X)     ;camera_scroll_start_x .byte
   .byte (16*START_Y-24)     ;camera_scroll_start_y .byte
-  .word (16*START_X+128)       ;hero_start_x .word
-  .word (16*START_Y) ;hero_start_y .word
+  .byte (16*START_X+240)       ;hero_start_x .word (lo)
+  .byte 3                      ;hero_start_x .word (hi)
+  .word (16*5) ;hero_start_y .word
   .word sfx_door
   .byte 3
   .byte soundeffect_one
