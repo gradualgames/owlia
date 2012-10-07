@@ -32,5 +32,6 @@ LOCATIONS_INC = 1
 ;****************************************************************
 location_index_village_house1_entrance = 0
 location_index_house1_exit = 1
+location_index_overworld_entrance = 2
 
 .endif

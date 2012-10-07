@@ -20,3 +20,8 @@ area_includes
 area_includes
 .include "house1.inc"
 .endscope
+
+.scope
+area_includes
+.include "overworld.inc"
+.endscope

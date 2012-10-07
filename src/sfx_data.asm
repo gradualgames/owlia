@@ -50,5 +50,5 @@ sfx_test:
   .byte TRM
 
 sfx_door:
-  .byte STV, 3,STP,0,SDU,0,STL,6,10,STL,255,15,STL,123,15
+  .byte STV, 3,STP,0,SDU,0,STL,6,10,15
   .byte TRM

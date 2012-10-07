@@ -12,10 +12,10 @@
 ;Area LUTs
 ;****************************************************************
 areas_lo:
-  .byte <village_area,<house1_area
+  .byte <village_area,<house1_area,<overworld_area
   
 areas_hi:
-  .byte >village_area,>house1_area
+  .byte >village_area,>house1_area,>overworld_area
 
 ;****************************************************************
 ;Area definitions.
@@ -73,5 +73,33 @@ house1_area:
   .word house1_big_metatile_table_bottom_right
 
 house1_entities:
+  .byte 1  ;count
+  .byte 0
+
+overworld_area:
+  .byte 0   ;music_bank .byte
+  .byte 1   ;entities_bank .byte
+  .byte 2   ;map_bank .byte
+  .byte 3   ;sprites_and_animations_bank .byte
+  .byte 7   ;bg_chr_bank .byte
+  .byte 6   ;sprite_chr_bank .byte
+  .word map1_chr
+  .word overworld_entities
+  .word song1
+  .word overworld_palette
+  .word overworld_map
+  .word overworld_metatile_table_properties
+  .word overworld_metatile_table_params
+  .word overworld_metatile_table_attributes
+  .word overworld_metatile_table_top_left_tiles
+  .word overworld_metatile_table_top_right_tiles
+  .word overworld_metatile_table_bottom_left_tiles
+  .word overworld_metatile_table_bottom_right_tiles
+  .word overworld_big_metatile_table_top_left
+  .word overworld_big_metatile_table_top_right
+  .word overworld_big_metatile_table_bottom_left
+  .word overworld_big_metatile_table_bottom_right
+
+overworld_entities:
   .byte 1  ;count
   .byte 0

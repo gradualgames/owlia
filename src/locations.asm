@@ -9,9 +9,9 @@
 ;Location LUTs
 ;****************************************************************
 locations_lo:
-  .byte <village_area_house1_entrance_location, <house1_area_exit_location
+  .byte <village_area_house1_entrance_location, <house1_area_exit_location, <overworld_area_entrance_location
 locations_hi:
-  .byte >village_area_house1_entrance_location, >house1_area_exit_location
+  .byte >village_area_house1_entrance_location, >house1_area_exit_location, >overworld_area_entrance_location
 
 ;****************************************************************
 ;Location definitions.
@@ -43,6 +43,22 @@ START_Y = 4
   .byte (16*START_Y-8)     ;camera_scroll_start_y .byte
   .word (16*START_X+128)       ;hero_start_x .word
   .word (16*START_Y+136) ;hero_start_y .word
+  .word sfx_door
+  .byte 3
+  .byte soundeffect_one
+.endscope
+
+overworld_area_entrance_location:
+.scope
+START_X = 0
+START_Y = 1
+  .byte area_index_overworld
+  .word (16*START_X)     ;camera_start_x .word
+  .word (16*START_Y)     ;camera_start_y .word
+  .byte (16*START_X)     ;camera_scroll_start_x .byte
+  .byte (16*START_Y-8)     ;camera_scroll_start_y .byte
+  .word (16*START_X+128)       ;hero_start_x .word
+  .word (16*START_Y) ;hero_start_y .word
   .word sfx_door
   .byte 3
   .byte soundeffect_one

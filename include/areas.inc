@@ -37,6 +37,7 @@ AREAS_INC = 1
 ;****************************************************************
 .global village_area
 .global house1_area
+.global overworld_area
 
 ;****************************************************************
 ;Constants for names of areas, to make it easy to tie things
@@ -44,5 +45,6 @@ AREAS_INC = 1
 ;****************************************************************
 area_index_village = 0
 area_index_house = 1
+area_index_overworld = 2
 
 .endif
