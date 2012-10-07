@@ -240,6 +240,7 @@ hero_direction_right_handler:
   sta entity_animation_address_hi,x
 
   .scope
+  test_action HERO_WIDTH, 0, (HERO_HEIGHT/2), 0
   test_collision HERO_WIDTH, 0, (HERO_HEIGHT/2), 0, found_collision_right_side
   test_collision HERO_WIDTH, 0, HERO_HEIGHT-1, 0, found_collision_right_side
 
@@ -273,6 +274,7 @@ hero_direction_left_handler:
   sta entity_animation_address_hi,x
 
   .scope
+  test_action $ff, $ff, (HERO_HEIGHT/2), 0
   test_collision $ff, $ff, (HERO_HEIGHT/2), 0, skip_direction_left_handler
   test_collision $ff, $ff, (HERO_HEIGHT-1), 0, skip_direction_left_handler
   

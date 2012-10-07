@@ -51,12 +51,12 @@ START_Y = 4
 overworld_area_entrance_location:
 .scope
 START_X = 0
-START_Y = 1
+START_Y = 0
   .byte area_index_overworld
   .word (16*START_X)     ;camera_start_x .word
   .word (16*START_Y)     ;camera_start_y .word
   .byte (16*START_X)     ;camera_scroll_start_x .byte
-  .byte (16*START_Y-8)     ;camera_scroll_start_y .byte
+  .byte (16*START_Y-24)     ;camera_scroll_start_y .byte
   .word (16*START_X+128)       ;hero_start_x .word
   .word (16*START_Y) ;hero_start_y .word
   .word sfx_door
