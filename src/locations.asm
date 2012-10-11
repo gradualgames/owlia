@@ -16,55 +16,27 @@ locations_hi:
 ;****************************************************************
 ;Location definitions.
 ;****************************************************************
-village_area_house1_entrance_location:
+.macro define_location area_index, camera_start_x, camera_start_y, hero_offset_x, hero_offset_y, sfx_address, sfx_channel, sfx_stream
 .scope
-START_X = 8
-START_Y = 6
-  .byte area_index_village
-  .byte $20              ;nametable_start_hibyte .byte
-  .word (16*START_X)     ;camera_start_x .word
-  .word (16*START_Y)     ;camera_start_y .word
-  .byte (16*START_X)     ;camera_scroll_start_x .byte
-  .byte (16*START_Y-8)     ;camera_scroll_start_y .byte
-  .word (16*START_X+128)       ;hero_start_x .word
-  .word (16*START_Y+136) ;hero_start_y .word
-  .word sfx_door
-  .byte 3
-  .byte soundeffect_one
+  .byte area_index                              ;area_index .byte
+  .byte $20 | ((>(16*camera_start_x) & 1) << 2) ;nametable_start_hibyte .byte
+  .word (16*camera_start_x)                     ;camera_start_x .word
+  .word (16*camera_start_y)                     ;camera_start_y .word
+  .byte <(16*camera_start_x)                    ;camera_start_scroll_x .byte
+  .byte (232 + (16*camera_start_y)) .MOD 240    ;camera_start_scroll_y .byte
+  .word (16*camera_start_x+hero_offset_x)       ;hero_start_x .word
+  .word (16*camera_start_y+hero_offset_y)       ;hero_start_y .word
+  .word sfx_address                             ;on_enter_sfx_address .word
+  .byte sfx_channel                             ;on_enter_sfx_channel .byte
+  .byte sfx_stream                              ;on_enter_sfx_stream  .byte
 .endscope
+.endmacro
+
+village_area_house1_entrance_location:
+define_location area_index_village, 8, 6, 128, 136, sfx_door, 3, soundeffect_one
 
 house1_area_exit_location:
-.scope
-START_X = 0
-START_Y = 4
-  .byte area_index_house
-  .byte $20              ;nametable_start_hibyte .byte
-  .word (16*START_X)     ;camera_start_x .word
-  .word (16*START_Y)     ;camera_start_y .word
-  .byte (16*START_X)     ;camera_scroll_start_x .byte
-  .byte (16*START_Y-8)     ;camera_scroll_start_y .byte
-  .word (16*START_X+128)       ;hero_start_x .word
-  .word (16*START_Y+136) ;hero_start_y .word
-  .word sfx_door
-  .byte 3
-  .byte soundeffect_one
-.endscope
+define_location area_index_house, 0, 4, 128, 136, sfx_door, 3, soundeffect_one
 
 overworld_area_entrance_location:
-.scope
-START_X = 0
-START_Y = 0
-  .byte area_index_overworld
-  .byte $24              ;nametable_start_hibyte .byte
-  .byte (16*START_X)     ;camera_start_x .word (lo)
-  .byte 3                ;camera_start_x .word (hi)
-  .word (16*START_Y)     ;camera_start_y .word
-  .byte (16*START_X)     ;camera_scroll_start_x .byte
-  .byte (16*START_Y-24)     ;camera_scroll_start_y .byte
-  .byte (16*START_X+240)       ;hero_start_x .word (lo)
-  .byte 3                      ;hero_start_x .word (hi)
-  .word (16*5) ;hero_start_y .word
-  .word sfx_door
-  .byte 3
-  .byte soundeffect_one
-.endscope
+define_location area_index_overworld, 48, 0, 240, 24, sfx_door, 3, soundeffect_one
