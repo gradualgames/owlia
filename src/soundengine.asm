@@ -917,6 +917,10 @@ sfx_address = sound_param_word_0
 channel = sound_param_byte_0
 starting_read_address = sound_param_word_0
 
+  lda starting_read_address
+  ora starting_read_address+1
+  beq null_starting_read_address
+
   ;set stream to be inactive while initializing
   lda #0
   sta stream_active,x
@@ -950,6 +954,7 @@ starting_read_address = sound_param_word_0
   ;set stream to be active
   lda #1
   sta stream_active,x
+null_starting_read_address:
   
   rts
 .endproc

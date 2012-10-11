@@ -23,4 +23,4 @@ house1_area_exit_location:
 define_location area_index_house, 0, 4, 128, 136, sfx_door, 3, soundeffect_one
 
 overworld_area_entrance_location:
-define_location area_index_overworld, 48, 0, 240, 24, sfx_door, 3, soundeffect_one
+define_location area_index_overworld, 48, 0, 240, 24, 0, 0, 0
