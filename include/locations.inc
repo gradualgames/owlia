@@ -16,7 +16,6 @@ LOCATIONS_INC = 1
 .endstruct
 
 .macro define_location area_index, camera_start_x, camera_start_y, hero_offset_x, hero_offset_y, sfx_address, sfx_channel, sfx_stream
-.scope
   .byte area_index                              ;area_index .byte
   .byte $20 | ((>(16*camera_start_x) & 1) << 2) ;nametable_start_hibyte .byte
   .word (16*camera_start_x)                     ;camera_start_x .word
@@ -28,7 +27,6 @@ LOCATIONS_INC = 1
   .word sfx_address                             ;on_enter_sfx_address .word
   .byte sfx_channel                             ;on_enter_sfx_channel .byte
   .byte sfx_stream                              ;on_enter_sfx_stream  .byte
-.endscope
 .endmacro
 
 ;****************************************************************
