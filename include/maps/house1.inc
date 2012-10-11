@@ -1,17 +1,3 @@
-house1_palette = palette
-house1_metatile_table_properties = metatile_table_properties
-house1_metatile_table_params = metatile_table_params
-house1_metatile_table_attributes = metatile_table_attributes
-house1_metatile_table_top_left_tiles = metatile_table_top_left_tiles
-house1_metatile_table_top_right_tiles = metatile_table_top_right_tiles
-house1_metatile_table_bottom_left_tiles = metatile_table_bottom_left_tiles
-house1_metatile_table_bottom_right_tiles = metatile_table_bottom_right_tiles
-house1_big_metatile_table_top_left = big_metatile_table_top_left
-house1_big_metatile_table_top_right = big_metatile_table_top_right
-house1_big_metatile_table_bottom_left = big_metatile_table_bottom_left
-house1_big_metatile_table_bottom_right = big_metatile_table_bottom_right
-house1_map = map
-
 palette:
   .byte $0d,$07,$27,$37,$0d,$1b,$2b,$37,$0d,$0d,$10,$20,$00,$00,$00,$00
   .byte $0d,$0d,$14,$35,$0d,$00,$00,$00,$0d,$00,$00,$00,$0d,$00,$00,$00

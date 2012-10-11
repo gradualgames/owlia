@@ -1,17 +1,3 @@
-village_palette = palette
-village_metatile_table_properties = metatile_table_properties
-village_metatile_table_params = metatile_table_params
-village_metatile_table_attributes = metatile_table_attributes
-village_metatile_table_top_left_tiles = metatile_table_top_left_tiles
-village_metatile_table_top_right_tiles = metatile_table_top_right_tiles
-village_metatile_table_bottom_left_tiles = metatile_table_bottom_left_tiles
-village_metatile_table_bottom_right_tiles = metatile_table_bottom_right_tiles
-village_big_metatile_table_top_left = big_metatile_table_top_left
-village_big_metatile_table_top_right = big_metatile_table_top_right
-village_big_metatile_table_bottom_left = big_metatile_table_bottom_left
-village_big_metatile_table_bottom_right = big_metatile_table_bottom_right
-village_map = map
-
 palette:
   .byte $0d,$19,$1b,$3a,$0d,$19,$16,$27,$0d,$19,$28,$20,$00,$00,$00,$00
   .byte $0d,$0d,$14,$35,$0d,$00,$00,$00,$0d,$00,$00,$00,$0d,$00,$00,$00

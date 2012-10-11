@@ -1,17 +1,3 @@
-overworld_palette = palette
-overworld_metatile_table_properties = metatile_table_properties
-overworld_metatile_table_params = metatile_table_params
-overworld_metatile_table_attributes = metatile_table_attributes
-overworld_metatile_table_top_left_tiles = metatile_table_top_left_tiles
-overworld_metatile_table_top_right_tiles = metatile_table_top_right_tiles
-overworld_metatile_table_bottom_left_tiles = metatile_table_bottom_left_tiles
-overworld_metatile_table_bottom_right_tiles = metatile_table_bottom_right_tiles
-overworld_big_metatile_table_top_left = big_metatile_table_top_left
-overworld_big_metatile_table_top_right = big_metatile_table_top_right
-overworld_big_metatile_table_bottom_left = big_metatile_table_bottom_left
-overworld_big_metatile_table_bottom_right = big_metatile_table_bottom_right
-overworld_map = map
-
 palette:
   .byte $0d,$19,$18,$2a,$0d,$0d,$27,$20,$0d,$18,$2a,$37,$00,$00,$00,$00
   .byte $0d,$0d,$14,$35,$0d,$00,$00,$00,$0d,$00,$00,$00,$0d,$00,$00,$00
