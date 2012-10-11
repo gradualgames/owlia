@@ -47,8 +47,10 @@ LOCATIONS_INC = 1
 ;Constants for names of locations, to make it easy to tie things
 ;together in the source code
 ;****************************************************************
-location_index_village_house1_entrance = 0
-location_index_house1_exit = 1
-location_index_overworld_entrance = 2
+.enum
+location_index_village_house1_entrance
+location_index_house1_exit
+location_index_overworld_entrance
+.endenum
 
 .endif

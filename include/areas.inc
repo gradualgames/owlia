@@ -43,8 +43,10 @@ AREAS_INC = 1
 ;Constants for names of areas, to make it easy to tie things
 ;together in the source code
 ;****************************************************************
-area_index_village = 0
-area_index_house = 1
-area_index_overworld = 2
+.enum
+area_index_village
+area_index_house
+area_index_overworld
+.endenum
 
 .endif

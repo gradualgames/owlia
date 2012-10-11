@@ -11,11 +11,13 @@
 ;****************************************************************
 ;Area LUTs
 ;****************************************************************
+.define areas village_area, house1_area, overworld_area
+
 areas_lo:
-  .byte <village_area,<house1_area,<overworld_area
+  .lobytes areas
   
 areas_hi:
-  .byte >village_area,>house1_area,>overworld_area
+  .hibytes areas
 
 ;****************************************************************
 ;Area definitions.

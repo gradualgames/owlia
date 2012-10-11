@@ -8,10 +8,12 @@
 ;****************************************************************
 ;Location LUTs
 ;****************************************************************
+.define locations village_area_house1_entrance_location, house1_area_exit_location, overworld_area_entrance_location
+
 locations_lo:
-  .byte <village_area_house1_entrance_location, <house1_area_exit_location, <overworld_area_entrance_location
+  .lobytes locations
 locations_hi:
-  .byte >village_area_house1_entrance_location, >house1_area_exit_location, >overworld_area_entrance_location
+  .hibytes locations
 
 ;****************************************************************
 ;Location definitions.
