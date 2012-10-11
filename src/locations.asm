@@ -1,3 +1,4 @@
+.linecont +
 .include "areas.inc"
 .include "locations.inc"
 .include "sfx_data.inc"
@@ -8,7 +9,10 @@
 ;****************************************************************
 ;Location LUTs
 ;****************************************************************
-.define locations village_area_house1_entrance_location, house1_area_exit_location, overworld_area_entrance_location
+.define locations \
+    village_area_house1_entrance_location, \
+    house1_area_exit_location, \
+    overworld_area_entrance_location
 
 locations_lo:
   .lobytes locations

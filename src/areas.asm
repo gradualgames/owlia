@@ -1,3 +1,4 @@
+.linecont +
 .include "areas.inc"
 .include "map_data.inc"
 .include "bg_chr_data.inc"
@@ -11,7 +12,10 @@
 ;****************************************************************
 ;Area LUTs
 ;****************************************************************
-.define areas village_area, house1_area, overworld_area
+.define areas \
+    village_area, \
+    house1_area, \
+    overworld_area
 
 areas_lo:
   .lobytes areas
