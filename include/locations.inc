@@ -49,6 +49,7 @@ LOCATIONS_INC = 1
 ;****************************************************************
 .enum
 location_index_village_house1_entrance
+location_index_village_west_entrance
 location_index_house1_exit
 location_index_overworld_entrance
 .endenum
