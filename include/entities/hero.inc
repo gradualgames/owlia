@@ -341,6 +341,7 @@ illegal_direction:
 legal_direction:
   
   test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT), 0
+  test_action HERO_WIDTH, 0, (HERO_HEIGHT/2), 0
   test_collision 0, 0, (HERO_HEIGHT), 0, found_collision_down_side
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
   
@@ -388,6 +389,7 @@ illegal_direction:
 legal_direction:
   
   test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT), 0
+  test_action $ff, $ff, (HERO_HEIGHT/2), 0
   test_collision 0, 0, (HERO_HEIGHT), 0, found_collision_down_side
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
   
@@ -462,6 +464,7 @@ illegal_direction:
 legal_direction:
 
   test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2-1), 0
+  test_action HERO_WIDTH, 0, (HERO_HEIGHT/2), 0
   test_collision 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
 
@@ -512,6 +515,7 @@ illegal_direction:
 legal_direction:
 
   test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2-1), 0
+  test_action $ff, $ff, (HERO_HEIGHT/2), 0
   test_collision 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side  
   
