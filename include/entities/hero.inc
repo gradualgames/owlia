@@ -149,12 +149,6 @@ hero_state_init:
   
   lda #0
   sta entity_sprite_group_offset,x
-  sta entity_sprite_flags,x
-  
-  lda #<WalkSide
-  sta entity_animation_address_lo,x
-  lda #>WalkSide
-  sta entity_animation_address_hi,x
   
   lda #0
   sta hero_previous_direction,x

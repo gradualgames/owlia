@@ -290,7 +290,7 @@ play_state_load_location:
   sta b0
   jsr entity_spawn
   
-  ;load his initial location
+  ;load her initial location
   ldy #location::hero_start_x
   lda (location_address),y
   sta entity_x_lo,x
@@ -304,6 +304,18 @@ play_state_load_location:
   iny
   lda (location_address),y
   sta entity_y_hi,x
+  
+  ;load her initial animation address and sprite flags
+  ldy #location::hero_animation_address
+  lda (location_address),y
+  sta entity_animation_address_lo,x
+  iny
+  lda (location_address),y
+  sta entity_animation_address_hi,x
+  
+  ldy #location::hero_sprite_flags
+  lda (location_address),y
+  sta entity_sprite_flags,x
   
   ;attach the camera to the entity instance at x
   jsr attach_camera_to_entity
