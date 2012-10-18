@@ -26,6 +26,8 @@ MAX_ENTITIES = 8
 .global entity_x_hi
 .global entity_y_lo
 .global entity_y_hi
+.global entity_width
+.global entity_height
 .global entity_sprite_group_offset
 .global entity_sprite_flags
 .global entity_animation_frame
