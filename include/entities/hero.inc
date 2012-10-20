@@ -1,3 +1,4 @@
+.linecont +
 .include "zp.inc"
 .include "ram.inc"
 .include "sprites_and_animations_data.inc"
@@ -12,12 +13,16 @@ HERO_INC = 1
 HERO_WIDTH = $10
 HERO_HEIGHT = $18
 
-HERO_STATE_INIT = 0
-HERO_STATE_MAIN = 1
+HERO_STATE_INIT   = 0
+HERO_STATE_MAIN   = 1
+HERO_STATE_ATTACK = 2
+
+HERO_STATE_ATTACK_LENGTH = 10
 
 HERO_SPEED = $02
 
 hero_previous_direction = entity_local0
+hero_state_counter = entity_local1
 
 .macro test_collision x_offset_lo, x_offset_hi, y_offset_lo, y_offset_hi, destination_if_solid
 
@@ -121,14 +126,18 @@ direction_handlers_hi:
   .byte >hero_direction_nop_handler
   .byte >hero_direction_nop_handler
   
+  
+.define hero_states \
+    hero_state_init, \
+    hero_state_main, \
+    hero_state_attack
+
 hero_lo:
-  .byte <hero_state_init
-  .byte <hero_state_main
+  .lobytes hero_states
 
 hero_hi:
-  .byte >hero_state_init
-  .byte >hero_state_main
-  
+  .hibytes hero_states
+
 hero_update:
 
   entity_state_switchboard hero_lo, hero_hi
@@ -161,6 +170,12 @@ hero_state_main:
   and #%00000011
   cmp #%00000001
   bne skip_sfx_test
+  
+  lda #HERO_STATE_ATTACK
+  sta entity_state,x
+  
+  lda #HERO_STATE_ATTACK_LENGTH
+  sta hero_state_counter,x
   
   ;play a sound
   txa
@@ -216,6 +231,60 @@ skip_sfx_test:
 
   rts
 
+hero_state_attack:
+
+  dec hero_state_counter,x
+  bne attack_not_done
+  
+  .scope
+  lda hero_previous_direction,x
+
+  cmp #HERO_DIRECTION_DOWN
+  bne not_down
+  lda #<FightDown
+  sta entity_animation_address_lo,x
+  lda #>FightDown
+  sta entity_animation_address_hi,x
+  jmp done
+not_down:
+
+  cmp #HERO_DIRECTION_UP
+  bne not_up
+  lda #<FightUp
+  sta entity_animation_address_lo,x
+  lda #>FightUp
+  sta entity_animation_address_hi,x
+  jmp done
+not_up:
+
+  cmp #HERO_DIRECTION_LEFT
+  bne not_left
+  lda #<FightSide
+  sta entity_animation_address_lo,x
+  lda #>FightSide
+  sta entity_animation_address_hi,x
+  jmp done
+not_left:
+
+  cmp #HERO_DIRECTION_RIGHT
+  bne not_right
+  lda #<FightSide
+  sta entity_animation_address_lo,x
+  lda #>FightSide
+  sta entity_animation_address_hi,x
+  jmp done
+not_right:
+
+done:
+  .endscope
+  
+  lda #HERO_STATE_MAIN
+  sta entity_state,x
+  
+attack_not_done:
+
+  rts
+  
 indirect_jsr_w0:
   jmp (w0)
   
