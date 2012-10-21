@@ -17,6 +17,7 @@
 .include "areas.inc"
 .include "locations.inc"
 .include "entities.inc"
+.include "hero_constants.inc"
 
 .segment "CODE"
 
@@ -33,7 +34,7 @@ entity_types_index = b0
   ;point at the first entry in the entity types array
   iny
   sty entity_types_index
-  
+
 next_entity_type:
 
   ;get next entity type index
@@ -46,9 +47,9 @@ next_entity_type:
   lda entity_defs_chr_address_hi,y
   sta w0+1
   jsr ppu_load_chr_amount
-  
+
   inc entity_types_index
-  
+
   dex
   bne next_entity_type
 
@@ -61,11 +62,11 @@ next_entity_type:
   ldy #location::nametable_start_hibyte
   lda (location_address),y
   sta camera_nametable_hibyte
-  
+
   ldy #location::camera_start_x
   lda (location_address),y
   sta camera_x
-  
+
   iny
   lda (location_address),y
   sta camera_x+1
@@ -73,15 +74,15 @@ next_entity_type:
   ldy #location::camera_start_y
   lda (location_address),y
   sta camera_y
-  
+
   iny
   lda (location_address),y
   sta camera_y+1
-  
+
   ldy #location::camera_start_scroll_x
   lda (location_address),y
   sta camera_scroll_x
-  
+
   ldy #location::camera_start_scroll_y
   lda (location_address),y
   sta camera_scroll_y
@@ -102,27 +103,27 @@ play_state_load_location:
   sta area_address
   lda areas_hi,x
   sta area_address+1
-  
+
   ;initialize
   jsr ppu_safely_disable_graphics
-  
+
   ;setup bank numbers
   ldy #area::music_bank
   lda (area_address),y
   sta music_bank
-  
+
   ldy #area::entities_bank
   lda (area_address),y
   sta entities_bank
-  
+
   ldy #area::map_bank
   lda (area_address),y
   sta map_bank
-  
+
   ldy #area::sprites_and_animations_bank
   lda (area_address),y
   sta sprites_and_animations_bank
-  
+
   lda #$00
   sta $2006
   sta $2006
@@ -139,12 +140,12 @@ play_state_load_location:
   lda (area_address),y
   sta w0+1
   jsr ppu_load_chr_amount
-  
+
   lda #$10
   sta $2006
   lda #$00
   sta $2006
-  
+
   ldy #area::sprite_chr_bank
   lda (area_address),y
   tay
@@ -156,11 +157,11 @@ play_state_load_location:
   iny
   lda (area_address),y
   sta w3+1
-  
+
   jsr load_entity_types_chr
-  
+
   switch_bank_ldy map_bank
-  
+
   ;load dynamic palette faded out so that fade in doesn't cause funkiness
   set_vblank_data_ready
   wait_vblank_data_ready
@@ -174,18 +175,18 @@ play_state_load_location:
   sta w0+1
 
   jsr ppu_load_palette
-  
+
   jsr ppu_safely_enable_graphics
-  
+
   ;initialize variables
   lda #0
   sta vblank_data_ready
-  
+
   lda #0
   sta row_ready
   lda #0
   sta column_ready
-  
+
   lda #<nametable_and_attribute_update_ppu
   sta vblank_routine
   lda #>nametable_and_attribute_update_ppu
@@ -197,35 +198,35 @@ play_state_load_location:
   iny
   lda (area_address),y
   sta metatile_table_properties_address+1
-  
+
   ldy #area::metatile_table_params_address
   lda (area_address),y
   sta metatile_table_params_address
   iny
   lda (area_address),y
   sta metatile_table_params_address+1
-  
+
   ldy #area::metatile_table_attributes_address
   lda (area_address),y
   sta metatile_table_attributes_address
   iny
   lda (area_address),y
   sta metatile_table_attributes_address+1
-  
+
   ldy #area::metatile_table_top_left_tiles_address
   lda (area_address),y
   sta metatile_table_top_left_tiles_address
   iny
   lda (area_address),y
   sta metatile_table_top_left_tiles_address+1
-  
+
   ldy #area::metatile_table_top_right_tiles_address
   lda (area_address),y
   sta metatile_table_top_right_tiles_address
   iny
   lda (area_address),y
   sta metatile_table_top_right_tiles_address+1
-  
+
   ldy #area::metatile_table_bottom_left_tiles_address
   lda (area_address),y
   sta metatile_table_bottom_left_tiles_address
@@ -239,14 +240,14 @@ play_state_load_location:
   iny
   lda (area_address),y
   sta metatile_table_bottom_right_tiles_address+1
-  
+
   ldy #area::big_metatile_table_top_left_address
   lda (area_address),y
   sta big_metatile_table_top_left_address
   iny
   lda (area_address),y
   sta big_metatile_table_top_left_address+1
-  
+
   ldy #area::big_metatile_table_top_right_address
   lda (area_address),y
   sta big_metatile_table_top_right_address
@@ -260,14 +261,14 @@ play_state_load_location:
   iny
   lda (area_address),y
   sta big_metatile_table_bottom_left_address+1
-  
+
   ldy #area::big_metatile_table_bottom_right_address
   lda (area_address),y
   sta big_metatile_table_bottom_right_address
   iny
   lda (area_address),y
   sta big_metatile_table_bottom_right_address+1
-  
+
   ldy #area::map_address
   lda (area_address),y
   sta map_address
@@ -276,20 +277,20 @@ play_state_load_location:
   sta map_address+1
 
   switch_bank_ldy map_bank
-  
+
   jsr load_area_camera_vars
-  
+
   jsr fill_nametable_rows
- 
+
   switch_bank_ldy entities_bank
-  
+
   jsr entity_init_all
-  
+
   ;spawn the hero entity
   lda #0
   sta b0
   jsr entity_spawn
-  
+
   ;load her initial location
   ldy #location::hero_start_x
   lda (location_address),y
@@ -297,47 +298,40 @@ play_state_load_location:
   iny
   lda (location_address),y
   sta entity_x_hi,x
-  
+
   ldy #location::hero_start_y
   lda (location_address),y
   sta entity_y_lo,x
   iny
   lda (location_address),y
   sta entity_y_hi,x
-  
-  ;load her initial animation address and sprite flags
-  ldy #location::hero_animation_address
+
+  ;load her initial direction
+  ldy #location::hero_direction
   lda (location_address),y
-  sta entity_animation_address_lo,x
-  iny
-  lda (location_address),y
-  sta entity_animation_address_hi,x
-  
-  ldy #location::hero_sprite_flags
-  lda (location_address),y
-  sta entity_sprite_flags,x
-  
+  sta hero_previous_direction,x
+
   ;attach the camera to the entity instance at x
   jsr attach_camera_to_entity
 
   ;execute a single frame to get entities onscreen before palette fade in and music
   .scope execute_single_frame
   wait_vblank_data_ready
-  
+
   jsr sprite_clear_all
-  
+
   switch_bank_ldy entities_bank
   jsr entity_update_all
-  
+
   switch_bank_ldy map_bank
   jsr update_camera
-  
+
   switch_bank_ldy sprites_and_animations_bank
   jsr entity_draw_all
-  
+
   set_vblank_data_ready
   .endscope
-  
+
   switch_bank_ldy map_bank
   ldy #area::palette_address
   lda (area_address),y
@@ -346,7 +340,7 @@ play_state_load_location:
   lda (area_address),y
   sta w0+1
   jsr ppu_fade_in_palette
-  
+
   ;load area song if different from current song
   ldy #area::song_address
   lda (area_address),y
@@ -355,7 +349,7 @@ play_state_load_location:
   lda (area_address),y
   sbc song_address+1
   beq same_song
-  
+
   switch_bank_ldy music_bank
   ldy #area::song_address
   lda (area_address),y
@@ -365,44 +359,44 @@ play_state_load_location:
   sta song_address+1
   jsr song_initialize
 same_song:
-  
+
 play_state:
 
   .scope play_frame
   wait_vblank_data_ready
-  
+
   lda state_control_params+play_state_control::action
   cmp #ACTION_GOTO_LOCATION_GROUP1
   beq execute_goto_location_group1_action
-  
+
   .ifdef CPU_USAGE
   set_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
   .endif
-  
+
   jsr sprite_clear_all
-  
+
   jsr controller_read
-  
+
   switch_bank_ldy entities_bank
   jsr entity_update_all
-  
+
   switch_bank_ldy map_bank
   jsr update_camera
-  
+
   switch_bank_ldy sprites_and_animations_bank
   jsr entity_draw_all
-  
+
   .ifdef CPU_USAGE
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
   .endif
-  
+
   set_vblank_data_ready
   .endscope
-  
+
   jmp play_state
-  
+
 execute_goto_location_group1_action:
 
   ;load the location to transition to
@@ -438,21 +432,21 @@ execute_goto_location_group1_action:
   lda (area_address),y
   sta w0+1
   jsr ppu_fade_out_palette
-  
+
   ;now that we know the area, make sure the state control
   ;param is nop again
   lda #ACTION_NOP
   sta state_control_params+play_state_control::action
   lda #0
   sta state_control_params+play_state_control::param
-  
+
   jmp play_state_load_location
-  
+
 .proc fill_nametable_columns
 
 loop:
   wait_vblank_data_ready
-  
+
   ;prepare data
   lda camera_x
   sta w0
@@ -478,37 +472,37 @@ loop:
   lda camera_x+1
   cmp #1
   bne not_finished
-  
+
   set_vblank_data_ready
-  
+
   wait_vblank_data_ready
-  
+
   rts
 not_finished:
-  
+
   set_vblank_data_ready
-  
+
   jmp loop
 
 .endproc
-  
+
 .proc fill_nametable_rows
-  
+
   lda camera_x
   sta w0
-  
+
   lda camera_x+1
   sta w0+1
 
   lda camera_y
   sta w1
-  
+
   lda camera_y+1
   sta w1+1
 
   lda #30
   sta b0
-  
+
 fill_nametable_loop:
   wait_vblank_data_ready
 
@@ -524,13 +518,13 @@ fill_nametable_loop:
   pha
   lda b0
   pha
-  
+
   switch_bank_ldy map_bank
   jsr map_decode_row
   jsr map_process_intermediate_attribute_row_buffer
   lda #1
   sta row_ready
-  
+
   pla
   sta b0
   pla
@@ -541,7 +535,7 @@ fill_nametable_loop:
   sta w0+1
   pla
   sta w0
-  
+
   clc
   lda w1
   adc #$08
@@ -549,14 +543,14 @@ fill_nametable_loop:
   lda w1+1
   adc #$00
   sta w1+1
-  
+
   set_vblank_data_ready
-  
+
   dec b0
   bne fill_nametable_loop
-  
+
   wait_vblank_data_ready
-  
+
   rts
-  
+
 .endproc

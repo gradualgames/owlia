@@ -6,23 +6,10 @@
 .include "controller.inc"
 .include "map.inc"
 .include "play_state.inc"
+.include "hero_constants.inc"
 
 .ifndef HERO_INC
 HERO_INC = 1
-
-HERO_WIDTH = $10
-HERO_HEIGHT = $18
-
-HERO_STATE_INIT   = 0
-HERO_STATE_MAIN   = 1
-HERO_STATE_ATTACK = 2
-
-HERO_STATE_ATTACK_LENGTH = 20
-
-HERO_SPEED = $02
-
-hero_previous_direction = entity_local0
-hero_state_counter = entity_local1
 
 .macro test_collision x_offset_lo, x_offset_hi, y_offset_lo, y_offset_hi, destination_if_solid
 
@@ -83,11 +70,6 @@ skip_goto_location:
   .endscope
 
 .endmacro
-
-HERO_DIRECTION_RIGHT = 0
-HERO_DIRECTION_LEFT = 1
-HERO_DIRECTION_DOWN = 2
-HERO_DIRECTION_UP = 3
 
 .define direction_handlers \
   hero_direction_nop_handler,\
@@ -168,9 +150,6 @@ hero_state_init:
 
   lda #0
   sta entity_sprite_group_offset,x
-
-  lda #0
-  sta hero_previous_direction,x
 
   rts
 

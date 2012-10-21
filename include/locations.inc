@@ -13,11 +13,10 @@ LOCATIONS_INC = 1
   on_enter_sfx_address .word
   on_enter_sfx_channel .byte
   on_enter_sfx_stream  .byte
-  hero_animation_address .word
-  hero_sprite_flags .byte
+  hero_direction .byte
 .endstruct
 
-.macro define_location area_index, camera_start_x, camera_start_y, hero_offset_x, hero_offset_y, sfx_address, sfx_channel, sfx_stream, hero_animation_address, hero_sprite_flags
+.macro define_location area_index, camera_start_x, camera_start_y, hero_offset_x, hero_offset_y, sfx_address, sfx_channel, sfx_stream, hero_direction
   .byte area_index                              ;area_index .byte
   .byte $20 | ((>(16*camera_start_x) & 1) << 2) ;nametable_start_hibyte .byte
   .word (16*camera_start_x)                     ;camera_start_x .word
@@ -29,8 +28,7 @@ LOCATIONS_INC = 1
   .word sfx_address                             ;on_enter_sfx_address .word
   .byte sfx_channel                             ;on_enter_sfx_channel .byte
   .byte sfx_stream                              ;on_enter_sfx_stream  .byte
-  .word hero_animation_address                  ;hero_animation_address .word
-  .byte hero_sprite_flags                       ;hero_sprite_flags .byte
+  .word hero_direction                          ;hero_direction .byte
 .endmacro
 
 ;****************************************************************
