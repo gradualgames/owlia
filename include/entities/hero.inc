@@ -17,7 +17,7 @@ HERO_STATE_INIT   = 0
 HERO_STATE_MAIN   = 1
 HERO_STATE_ATTACK = 2
 
-HERO_STATE_ATTACK_LENGTH = 10
+HERO_STATE_ATTACK_LENGTH = 20
 
 HERO_SPEED = $02
 
@@ -33,7 +33,7 @@ hero_state_counter = entity_local1
   lda entity_x_hi,x
   adc #x_offset_hi
   sta w0+1
-  
+
   clc
   lda entity_y_lo,x
   adc #y_offset_lo
@@ -41,7 +41,7 @@ hero_state_counter = entity_local1
   lda entity_y_hi,x
   adc #y_offset_hi
   sta w1+1
-  
+
   jsr map_test_collision
 
   lda b0
@@ -59,7 +59,7 @@ hero_state_counter = entity_local1
   lda entity_x_hi,x
   adc #x_offset_hi
   sta w0+1
-  
+
   clc
   lda entity_y_lo,x
   adc #y_offset_lo
@@ -67,7 +67,7 @@ hero_state_counter = entity_local1
   lda entity_y_hi,x
   adc #y_offset_hi
   sta w1+1
-  
+
   jsr map_test_collision
 
   .scope
@@ -84,49 +84,59 @@ skip_goto_location:
 
 .endmacro
 
-HERO_DIRECTION_NOP = 0
-HERO_DIRECTION_RIGHT = 1
-HERO_DIRECTION_LEFT = 2
-HERO_DIRECTION_DOWN = 4
-HERO_DIRECTION_UP = 8
+HERO_DIRECTION_RIGHT = 0
+HERO_DIRECTION_LEFT = 1
+HERO_DIRECTION_DOWN = 2
+HERO_DIRECTION_UP = 3
+
+.define direction_handlers \
+  hero_direction_nop_handler,\
+  hero_direction_right_handler,\
+  hero_direction_left_handler,\
+  hero_direction_nop_handler,\
+  hero_direction_down_handler,\
+  hero_direction_down_and_right_handler,\
+  hero_direction_down_and_left_handler,\
+  hero_direction_nop_handler,\
+  hero_direction_up_handler,\
+  hero_direction_up_and_right_handler,\
+  hero_direction_up_and_left_handler,\
+  hero_direction_nop_handler,\
+  hero_direction_nop_handler,\
+  hero_direction_nop_handler,\
+  hero_direction_nop_handler,\
+  hero_direction_nop_handler
 
 direction_handlers_lo:
-  .byte <hero_direction_nop_handler
-  .byte <hero_direction_right_handler
-  .byte <hero_direction_left_handler
-  .byte <hero_direction_nop_handler
-  .byte <hero_direction_down_handler
-  .byte <hero_direction_down_and_right_handler
-  .byte <hero_direction_down_and_left_handler
-  .byte <hero_direction_nop_handler
-  .byte <hero_direction_up_handler
-  .byte <hero_direction_up_and_right_handler
-  .byte <hero_direction_up_and_left_handler
-  .byte <hero_direction_nop_handler
-  .byte <hero_direction_nop_handler
-  .byte <hero_direction_nop_handler
-  .byte <hero_direction_nop_handler
-  .byte <hero_direction_nop_handler
+  .lobytes direction_handlers
 
 direction_handlers_hi:
-  .byte >hero_direction_nop_handler
-  .byte >hero_direction_right_handler
-  .byte >hero_direction_left_handler
-  .byte >hero_direction_nop_handler
-  .byte >hero_direction_down_handler
-  .byte >hero_direction_down_and_right_handler
-  .byte >hero_direction_down_and_left_handler
-  .byte >hero_direction_nop_handler
-  .byte >hero_direction_up_handler
-  .byte >hero_direction_up_and_right_handler
-  .byte >hero_direction_up_and_left_handler
-  .byte >hero_direction_nop_handler
-  .byte >hero_direction_nop_handler
-  .byte >hero_direction_nop_handler
-  .byte >hero_direction_nop_handler
-  .byte >hero_direction_nop_handler
-  
-  
+  .hibytes direction_handlers
+
+.define main_animation_addresses\
+  WalkSide,\
+  WalkSide,\
+  WalkDown,\
+  WalkUp
+
+main_animation_addresses_lo:
+  .lobytes main_animation_addresses
+
+main_animation_addresses_hi:
+  .hibytes main_animation_addresses
+
+.define attack_animation_addresses\
+  FightSide,\
+  FightSide,\
+  FightDown,\
+  FightUp
+
+attack_animation_addresses_lo:
+  .lobytes attack_animation_addresses
+
+attack_animation_addresses_hi:
+  .hibytes attack_animation_addresses
+
 .define hero_states \
     hero_state_init, \
     hero_state_main, \
@@ -150,18 +160,18 @@ hero_state_init:
   lda entity_flags,x
   ora #ENTITY_FLAGS_DRAWABLE_SET
   sta entity_flags,x
-  
+
   lda #0
   sta entity_animation_frame,x
   lda #1
   sta entity_animation_counter,x
-  
+
   lda #0
   sta entity_sprite_group_offset,x
-  
+
   lda #0
   sta hero_previous_direction,x
-  
+
   rts
 
 hero_state_main:
@@ -169,14 +179,14 @@ hero_state_main:
   lda buffer_controller+buttons::_a
   and #%00000011
   cmp #%00000001
-  bne skip_sfx_test
-  
+  bne skip_attack_test
+
   lda #HERO_STATE_ATTACK
   sta entity_state,x
-  
+
   lda #HERO_STATE_ATTACK_LENGTH
   sta hero_state_counter,x
-  
+
   ;play a sound
   txa
   pha
@@ -195,7 +205,7 @@ hero_state_main:
   pla
   tax
 
-skip_sfx_test:
+skip_attack_test:
 
   ;get up, down, left, right into a single bit field
   lda #0
@@ -212,7 +222,7 @@ skip_sfx_test:
   lda buffer_controller+buttons::_right
   ror
   rol b0
-  
+
   ;use this as an index into a direction handlers lut
   ldy b0
   lda direction_handlers_lo,y
@@ -221,8 +231,14 @@ skip_sfx_test:
   sta w0+1
   jsr indirect_jsr_w0
 
-  ;update the hero's animation. In the future, this will
-  ;be based on the current state of attacking or walking
+  ;get the direction we're facing and look up the animation address
+  lda hero_previous_direction,x
+  tay
+  lda main_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda main_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+
   lda entity_animation_address_lo,x
   sta w2
   lda entity_animation_address_hi,x
@@ -235,72 +251,38 @@ hero_state_attack:
 
   dec hero_state_counter,x
   bne attack_not_done
-  
-  .scope
-  lda hero_previous_direction,x
 
-  cmp #HERO_DIRECTION_DOWN
-  bne not_down
-  lda #<FightDown
-  sta entity_animation_address_lo,x
-  lda #>FightDown
-  sta entity_animation_address_hi,x
-  jmp done
-not_down:
-
-  cmp #HERO_DIRECTION_UP
-  bne not_up
-  lda #<FightUp
-  sta entity_animation_address_lo,x
-  lda #>FightUp
-  sta entity_animation_address_hi,x
-  jmp done
-not_up:
-
-  cmp #HERO_DIRECTION_LEFT
-  bne not_left
-  lda #<FightSide
-  sta entity_animation_address_lo,x
-  lda #>FightSide
-  sta entity_animation_address_hi,x
-  jmp done
-not_left:
-
-  cmp #HERO_DIRECTION_RIGHT
-  bne not_right
-  lda #<FightSide
-  sta entity_animation_address_lo,x
-  lda #>FightSide
-  sta entity_animation_address_hi,x
-  jmp done
-not_right:
-
-done:
-  .endscope
-  
   lda #HERO_STATE_MAIN
   sta entity_state,x
-  
+
 attack_not_done:
 
+  lda hero_previous_direction,x
+  tay
+  lda attack_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda attack_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+
+  lda entity_animation_address_lo,x
+  sta w2
+  lda entity_animation_address_hi,x
+  sta w2+1
+  jsr entity_update_animation
+
   rts
-  
+
 indirect_jsr_w0:
   jmp (w0)
-  
+
 hero_direction_nop_handler:
 
   rts
-  
+
 hero_direction_right_handler:
 
   lda #%00000000
   sta entity_sprite_flags,x
-
-  lda #<WalkSide
-  sta entity_animation_address_lo,x
-  lda #>WalkSide
-  sta entity_animation_address_hi,x
 
   .scope
   test_action HERO_WIDTH, 0, (HERO_HEIGHT/2), 0
@@ -309,7 +291,7 @@ hero_direction_right_handler:
 
 found_collision_right_side:
   bne skip_direction_right_handler
-  
+
   clc
   lda entity_x_lo,x
   adc #HERO_SPEED
@@ -320,27 +302,22 @@ found_collision_right_side:
 
 skip_direction_right_handler:
   .endscope
-  
+
   lda #HERO_DIRECTION_RIGHT
   sta hero_previous_direction,x
-  
+
   rts
-  
+
 hero_direction_left_handler:
 
   lda #%01000000
   sta entity_sprite_flags,x
 
-  lda #<WalkSide
-  sta entity_animation_address_lo,x
-  lda #>WalkSide
-  sta entity_animation_address_hi,x
-
   .scope
   test_action $ff, $ff, (HERO_HEIGHT/2), 0
   test_collision $ff, $ff, (HERO_HEIGHT/2), 0, skip_direction_left_handler
   test_collision $ff, $ff, (HERO_HEIGHT-1), 0, skip_direction_left_handler
-  
+
   sec
   lda entity_x_lo,x
   sbc #HERO_SPEED
@@ -351,24 +328,19 @@ hero_direction_left_handler:
 
 skip_direction_left_handler:
   .endscope
-  
+
   lda #HERO_DIRECTION_LEFT
   sta hero_previous_direction,x
-  
-  rts
-  
-hero_direction_down_handler:
 
-  lda #<WalkDown
-  sta entity_animation_address_lo,x
-  lda #>WalkDown
-  sta entity_animation_address_hi,x
+  rts
+
+hero_direction_down_handler:
 
   .scope
   test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT), 0
   test_collision 0, 0, (HERO_HEIGHT), 0, skip_direction_down_handler
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, skip_direction_down_handler
-  
+
   clc
   lda entity_y_lo,x
   adc #HERO_SPEED
@@ -378,12 +350,12 @@ hero_direction_down_handler:
   sta entity_y_hi,x
 skip_direction_down_handler:
   .endscope
-  
+
   lda #HERO_DIRECTION_DOWN
   sta hero_previous_direction,x
-  
+
   rts
-  
+
 hero_direction_down_and_right_handler:
 
   .scope
@@ -396,18 +368,16 @@ hero_direction_down_and_right_handler:
   beq legal_direction
 illegal_direction:
 
-  lda #<WalkDown
-  sta entity_animation_address_lo,x
-  lda #>WalkDown
-  sta entity_animation_address_hi,x
-  
+  lda #HERO_DIRECTION_DOWN
+  sta hero_previous_direction,x
+
 legal_direction:
-  
+
   test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT), 0
   test_action HERO_WIDTH, 0, (HERO_HEIGHT/2), 0
   test_collision 0, 0, (HERO_HEIGHT), 0, found_collision_down_side
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
-  
+
   clc
   lda entity_y_lo,x
   adc #HERO_SPEED
@@ -416,10 +386,10 @@ legal_direction:
   adc #$00
   sta entity_y_hi,x
 found_collision_down_side:
-  
+
   test_collision (HERO_WIDTH), 0, (HERO_HEIGHT/2), 0, found_collision_right_side
   test_collision (HERO_WIDTH), 0, (HERO_HEIGHT-1), 0, found_collision_right_side
-  
+
   clc
   lda entity_x_lo,x
   adc #HERO_SPEED
@@ -429,9 +399,9 @@ found_collision_down_side:
   sta entity_x_hi,x
 found_collision_right_side:
   .endscope
-  
+
   rts
-  
+
 hero_direction_down_and_left_handler:
 
   .scope
@@ -444,18 +414,16 @@ hero_direction_down_and_left_handler:
   beq legal_direction
 illegal_direction:
 
-  lda #<WalkDown
-  sta entity_animation_address_lo,x
-  lda #>WalkDown
-  sta entity_animation_address_hi,x
-  
+  lda #HERO_DIRECTION_DOWN
+  sta hero_previous_direction,x
+
 legal_direction:
-  
+
   test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT), 0
   test_action $ff, $ff, (HERO_HEIGHT/2), 0
   test_collision 0, 0, (HERO_HEIGHT), 0, found_collision_down_side
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
-  
+
   clc
   lda entity_y_lo,x
   adc #HERO_SPEED
@@ -464,10 +432,10 @@ legal_direction:
   adc #$00
   sta entity_y_hi,x
 found_collision_down_side:
-  
+
   test_collision $ff, $ff, (HERO_HEIGHT/2-1), 0, found_collision_left_side
   test_collision $ff, $ff, (HERO_HEIGHT-1), 0, found_collision_left_side
-  
+
   sec
   lda entity_x_lo,x
   sbc #HERO_SPEED
@@ -479,13 +447,8 @@ found_collision_left_side:
   .endscope
 
   rts
-  
-hero_direction_up_handler:
 
-  lda #<WalkUp
-  sta entity_animation_address_lo,x
-  lda #>WalkUp
-  sta entity_animation_address_hi,x
+hero_direction_up_handler:
 
   .scope
   test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2-1), 0
@@ -505,9 +468,9 @@ skip_direction_up_handler:
 
   lda #HERO_DIRECTION_UP
   sta hero_previous_direction,x
-  
+
   rts
-  
+
 hero_direction_up_and_right_handler:
 
   .scope
@@ -520,10 +483,9 @@ hero_direction_up_and_right_handler:
   beq legal_direction
 illegal_direction:
 
-  lda #<WalkUp
-  sta entity_animation_address_lo,x
-  lda #>WalkUp
-  sta entity_animation_address_hi,x
+  lda #HERO_DIRECTION_UP
+  sta hero_previous_direction,x
+
 legal_direction:
 
   test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2-1), 0
@@ -539,7 +501,7 @@ legal_direction:
   sbc #$00
   sta entity_y_hi,x
 found_collision_up_side:
-  
+
   test_collision (HERO_WIDTH), 0, (HERO_HEIGHT/2), 0, found_collision_right_side
   test_collision (HERO_WIDTH), 0, (HERO_HEIGHT-1), 0, found_collision_right_side
 
@@ -552,13 +514,13 @@ found_collision_up_side:
   sta entity_x_hi,x
 
 found_collision_right_side:
-  
+
 skip_direction_up_and_right_handler:
 
   .endscope
 
   rts
-  
+
 hero_direction_up_and_left_handler:
 
   .scope
@@ -571,17 +533,16 @@ hero_direction_up_and_left_handler:
   beq legal_direction
 illegal_direction:
 
-  lda #<WalkUp
-  sta entity_animation_address_lo,x
-  lda #>WalkUp
-  sta entity_animation_address_hi,x
+  lda #HERO_DIRECTION_UP
+  sta hero_previous_direction,x
+
 legal_direction:
 
   test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2-1), 0
   test_action $ff, $ff, (HERO_HEIGHT/2), 0
   test_collision 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
-  test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side  
-  
+  test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
+
   sec
   lda entity_y_lo,x
   sbc #HERO_SPEED
@@ -589,11 +550,11 @@ legal_direction:
   lda entity_y_hi,x
   sbc #$00
   sta entity_y_hi,x
-  
+
 found_collision_up_side:
 
   test_collision $ff, $ff, (HERO_HEIGHT/2), 0, found_collision_left_side
-  test_collision $ff, $ff, (HERO_HEIGHT-1), 0, found_collision_left_side  
+  test_collision $ff, $ff, (HERO_HEIGHT-1), 0, found_collision_left_side
 
   sec
   lda entity_x_lo,x
@@ -603,9 +564,9 @@ found_collision_up_side:
   sbc #$00
   sta entity_x_hi,x
 found_collision_left_side:
-  
+
   .endscope
-  
+
   rts
 
 .endif
