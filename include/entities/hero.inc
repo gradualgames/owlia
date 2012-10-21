@@ -148,6 +148,9 @@ hero_lo:
 hero_hi:
   .hibytes hero_states
 
+sprite_flags_direction:
+  .byte %00000000, %01000000, %00000000, %00000000
+  
 hero_update:
 
   entity_state_switchboard hero_lo, hero_hi
@@ -161,10 +164,7 @@ hero_state_init:
   ora #ENTITY_FLAGS_DRAWABLE_SET
   sta entity_flags,x
 
-  lda #0
-  sta entity_animation_frame,x
-  lda #1
-  sta entity_animation_counter,x
+  jsr entity_reset_animation
 
   lda #0
   sta entity_sprite_group_offset,x
@@ -187,6 +187,15 @@ hero_state_main:
   lda #HERO_STATE_ATTACK_LENGTH
   sta hero_state_counter,x
 
+  lda hero_previous_direction,x
+  tay
+  lda attack_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda attack_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+
+  jsr entity_reset_animation
+  
   ;play a sound
   txa
   pha
@@ -204,6 +213,8 @@ hero_state_main:
 
   pla
   tax
+  
+  rts
 
 skip_attack_test:
 
@@ -238,6 +249,9 @@ skip_attack_test:
   sta entity_animation_address_lo,x
   lda main_animation_addresses_hi,y
   sta entity_animation_address_hi,x
+  
+  lda sprite_flags_direction,y
+  sta entity_sprite_flags,x
 
   lda entity_animation_address_lo,x
   sta w2
@@ -248,28 +262,23 @@ skip_attack_test:
   rts
 
 hero_state_attack:
-
-  dec hero_state_counter,x
-  bne attack_not_done
-
-  lda #HERO_STATE_MAIN
-  sta entity_state,x
-
-attack_not_done:
-
-  lda hero_previous_direction,x
-  tay
-  lda attack_animation_addresses_lo,y
-  sta entity_animation_address_lo,x
-  lda attack_animation_addresses_hi,y
-  sta entity_animation_address_hi,x
-
+  
   lda entity_animation_address_lo,x
   sta w2
   lda entity_animation_address_hi,x
   sta w2+1
   jsr entity_update_animation
 
+  dec hero_state_counter,x
+  bne attack_not_done
+
+  jsr entity_reset_animation
+  
+  lda #HERO_STATE_MAIN
+  sta entity_state,x
+
+attack_not_done:
+  
   rts
 
 indirect_jsr_w0:
@@ -280,9 +289,6 @@ hero_direction_nop_handler:
   rts
 
 hero_direction_right_handler:
-
-  lda #%00000000
-  sta entity_sprite_flags,x
 
   .scope
   test_action HERO_WIDTH, 0, (HERO_HEIGHT/2), 0
@@ -309,9 +315,6 @@ skip_direction_right_handler:
   rts
 
 hero_direction_left_handler:
-
-  lda #%01000000
-  sta entity_sprite_flags,x
 
   .scope
   test_action $ff, $ff, (HERO_HEIGHT/2), 0
