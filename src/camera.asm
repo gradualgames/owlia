@@ -34,7 +34,7 @@ camera_increment = b0
   lda camera_x+1
   adc #$00
   sta camera_right_x+1
-  
+
   ldx camera_entity
   sec
   lda entity_x_lo,x
@@ -44,10 +44,10 @@ camera_increment = b0
   lda entity_x_hi,x
   sbc camera_right_x+1
   bmi skip_follow_right
-  
+
   jsr increment_camera_x
   beq skip_follow_right
-  
+
   clc
   lda camera_x
   adc #$00
@@ -65,7 +65,7 @@ camera_increment = b0
   sta column_ready
   jmp skip_follow_left
 skip_follow_right:
-  
+
   clc
   lda camera_x
   adc #(CAMERA_HORIZ_SIZE)
@@ -73,7 +73,7 @@ skip_follow_right:
   lda camera_x+1
   adc #$00
   sta camera_left_x+1
-  
+
   ldx camera_entity
   sec
   lda camera_left_x
@@ -83,10 +83,10 @@ skip_follow_right:
   lda camera_left_x+1
   sbc entity_x_hi,x
   bmi skip_follow_left
-  
+
   jsr decrement_camera_x
   beq skip_follow_left
-  
+
   clc
   lda camera_x
   sta w0
@@ -110,7 +110,7 @@ skip_follow_left:
   lda camera_y+1
   adc #$00
   sta camera_bottom_y+1
-  
+
   ldx camera_entity
   sec
   lda entity_y_lo,x
@@ -120,10 +120,10 @@ skip_follow_left:
   lda entity_y_hi,x
   sbc camera_bottom_y+1
   bmi skip_follow_down
-  
+
   jsr increment_camera_y
   beq skip_follow_down
-  
+
   clc
   lda camera_x
   sta w0
@@ -143,7 +143,7 @@ skip_follow_left:
   sta row_ready
   jmp skip_follow_up
 skip_follow_down:
-  
+
   clc
   lda camera_y
   adc #(CAMERA_VERT_SIZE)
@@ -151,7 +151,7 @@ skip_follow_down:
   lda camera_y+1
   adc #$00
   sta camera_top_y+1
-  
+
   ldx camera_entity
   sec
   lda camera_top_y
@@ -161,10 +161,10 @@ skip_follow_down:
   lda camera_top_y+1
   sbc entity_y_hi,x
   bmi skip_follow_up
-  
+
   jsr decrement_camera_y
   beq skip_follow_up
-  
+
   clc
   lda camera_x
   sta w0
@@ -179,7 +179,7 @@ skip_follow_down:
   jsr map_process_intermediate_attribute_row_buffer
   lda #1
   sta row_ready
-  
+
 skip_follow_up:
 
   rts
@@ -206,9 +206,9 @@ skip_follow_up:
   lda camera_x+1
   adc #$00
   sta camera_x+1
-  
+
   jsr increment_camera_scroll_x
-  
+
   ;flag that increment succeeded
   lda #1
   rts
@@ -237,7 +237,7 @@ skip_follow_up:
   lda camera_x+1
   sbc #$00
   sta camera_x+1
-  
+
   jsr decrement_camera_scroll_x
 
   ;flag that increment succeeded
@@ -270,7 +270,7 @@ skip_follow_up:
   lda camera_y+1
   adc #$00
   sta camera_y+1
-  
+
   jsr increment_camera_scroll_y
 
   ;flag that increment succeeded
@@ -303,7 +303,7 @@ skip_follow_up:
   lda camera_y+1
   sbc #$00
   sta camera_y+1
-  
+
   jsr decrement_camera_scroll_y
 
   ;flag that increment succeeded
@@ -365,14 +365,14 @@ skip_follow_up:
   lda camera_scroll_y
   adc b0
   sta camera_scroll_y
-  
+
   sec
   lda camera_scroll_y
   sbc #240
   lda #0
   sbc #0
   bmi :+
-  
+
   lda camera_scroll_y
   sbc #240
   sta camera_scroll_y
@@ -392,14 +392,14 @@ skip_follow_up:
   sbc b0
   sta camera_scroll_y
   bcs :+
-  
+
   clc
   lda #240
   adc camera_scroll_y
   sta camera_scroll_y
-  
+
 :
-  
+
   rts
 
 .endproc

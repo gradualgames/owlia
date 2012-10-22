@@ -19,7 +19,7 @@
 
 areas_lo:
   .lobytes areas
-  
+
 areas_hi:
   .hibytes areas
 

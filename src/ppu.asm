@@ -9,12 +9,12 @@
 
 ;nmi routine which does nothing except continue music driver
 .proc ppu_vblank_nop
-  
+
   lda #0
   sta vblank_data_ready
 
   safe_soundengine_update
-  
+
   rts
 
 .endproc
@@ -182,7 +182,7 @@ fading_loop:
   ;flag, so that when we restore the old vblank routine, we
   ;don't upload unprepared garbage data!
   wait_vblank_data_ready
-  
+
   inc palette_step
   lda palette_step
   cmp #5
@@ -235,12 +235,12 @@ fading_loop:
 
   dec palette_step
   bpl fading_loop
-  
+
   ;do one more wait to make sure the vblank clears the ready
   ;flag, so that when we restore the old vblank routine, we
   ;don't upload unprepared garbage data!
   wait_vblank_data_ready
-  
+
   ;restore previous nmi routine
   pla
   sta vblank_routine+1
@@ -283,7 +283,7 @@ fading_loop:
   ;restore 2006 and 2005 to what we had written them to previously
   upload_ppu_2006
   upload_ppu_2005
-  
+
   lda #0
   sta vblank_data_ready
 :
@@ -354,7 +354,7 @@ input_brightness = b3
 
   ;return adjusted color
   sta color
-  
+
   ;restore x
   pla
   tax
@@ -365,7 +365,7 @@ return_black:
 
   lda #$0e
   sta color
-  
+
   ;restore x
   pla
   tax

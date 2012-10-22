@@ -14,7 +14,7 @@ sfx_volume_envelope_1:
 
 sfx_volume_envelope_2:
   .byte 10,7,5,4,0,ENV_STOP
-  
+
 sfx_pitch_envelope_0:
   .byte 0, ENV_LOOP
 
@@ -44,7 +44,7 @@ sfx_set1:
   .word sfx_volume_envelopes
   .word sfx_pitch_envelopes
   .word sfx_duty_envelopes
-  
+
 sfx_test:
   .byte STV, 2, STP, 0, SDU, 0, STL, 50, 5
   .byte TRM

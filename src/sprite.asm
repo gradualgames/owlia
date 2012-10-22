@@ -69,7 +69,7 @@ animation_rom_address = w2
   ldy #animation_ram::frame
   lda #0
   sta (animation_ram_address),y
-  
+
   rts
 
 .endproc
@@ -79,32 +79,32 @@ animation_rom_address = w2
 .proc sprite_update_animation
 animation_ram_address = w1
 animation_rom_address = w2
-  
+
   ldy #animation_ram::counter ;same as animation_rom::frame_delay
   sec
   lda (animation_ram_address),y
   sbc #1
   sta (animation_ram_address),y
   bne :+
-  
+
   ;reset the counter
   lda (animation_rom_address),y
   sta (animation_ram_address),y
-  
+
   ;advance the frame
   ldy #animation_ram::frame   ;same as animation_rom::frame_count
   clc
   lda (animation_ram_address),y
   adc #2
   sta (animation_ram_address),y
-  
+
   cmp (animation_rom_address),y
   bne :+
-  
+
   ;reset to frame zero
   lda #0
   sta (animation_ram_address),y
-  
+
 :
 
   rts

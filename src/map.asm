@@ -55,12 +55,12 @@ map_offset = w16
   sta map_x_in_metatile_coordinates
   lda map_x+1
   sta map_x_in_metatile_coordinates+1
-  
+
   lda map_y
   sta map_y_in_metatile_coordinates
   lda map_y+1
   sta map_y_in_metatile_coordinates+1
-  
+
   lda map_x_in_metatile_coordinates
   lsr map_x_in_metatile_coordinates+1
   ror
@@ -82,22 +82,22 @@ map_offset = w16
   lsr map_y_in_metatile_coordinates+1
   ror
   sta map_y_in_metatile_coordinates
-  
+
   lda map_x_in_metatile_coordinates
   sta map_x_in_big_metatile_coordinates
   lda map_x_in_metatile_coordinates+1
   sta map_x_in_big_metatile_coordinates+1
-  
+
   lda map_x_in_big_metatile_coordinates
   lsr map_x_in_big_metatile_coordinates+1
   ror
   sta map_x_in_big_metatile_coordinates
-  
+
   lda map_y_in_metatile_coordinates
   sta map_y_in_big_metatile_coordinates
   lda map_y_in_metatile_coordinates+1
   sta map_y_in_big_metatile_coordinates+1
-  
+
   lda map_y_in_big_metatile_coordinates
   lsr map_y_in_big_metatile_coordinates+1
   ror
@@ -107,17 +107,17 @@ map_offset = w16
   lda map_x_in_metatile_coordinates
   and #%00000001
   sta map_x_in_metatile_coordinates
-  
+
   lda map_y_in_metatile_coordinates
   and #%00000001
   sta map_y_in_metatile_coordinates
-  
+
   ;calculate map offset
   lda map_y_in_big_metatile_coordinates
   sta map_offset
   lda map_y_in_big_metatile_coordinates+1
   sta map_offset+1
-  
+
   ;shift map y in big metatile coordinates left by 5 to multiply by 32
   ;after this, map_offset will be the offset of the row
   ;in which we want to begin decoding
@@ -133,7 +133,7 @@ map_offset = w16
   asl map_offset
   rol
   sta map_offset+1
-  
+
   ;add on map y in big metatile coordinates
   clc
   lda map_offset
@@ -142,7 +142,7 @@ map_offset = w16
   lda map_offset+1
   adc map_x_in_big_metatile_coordinates+1
   sta map_offset+1
-  
+
   ;add on base address of map
   clc
   lda map_offset
@@ -151,7 +151,7 @@ map_offset = w16
   lda map_offset+1
   adc map_address+1
   sta map_offset+1
-  
+
 .scope
   lda map_x_in_metatile_coordinates
   bne right_side
@@ -163,7 +163,7 @@ left_side:
 top_half:
 
   ;top left case
-  
+
   ;get the big metatile index
   ldy #0
   lda (map_offset),y
@@ -176,17 +176,17 @@ top_half:
   sta metatile_properties
   lda (metatile_table_params_address),y
   sta metatile_param
-  
+
   ;switch back to entities bank before returning
   switch_bank_ldy entities_bank
-  
+
   rts
 
   jmp done
 bottom_half:
 
   ;bottom left case
-  
+
   ;get the big metatile index
   ldy #0
   lda (map_offset),y
@@ -199,7 +199,7 @@ bottom_half:
   sta metatile_properties
   lda (metatile_table_params_address),y
   sta metatile_param
-  
+
   ;switch back to entities bank before returning
   switch_bank_ldy entities_bank
 
@@ -217,7 +217,7 @@ right_side:
 top_half:
 
   ;top right case
-  
+
   ;get the big metatile index
   ldy #0
   lda (map_offset),y
@@ -230,7 +230,7 @@ top_half:
   sta metatile_properties
   lda (metatile_table_params_address),y
   sta metatile_param
-  
+
   ;switch back to entities bank before returning
   switch_bank_ldy entities_bank
 
@@ -240,7 +240,7 @@ top_half:
 bottom_half:
 
   ;bottom right case
-  
+
   ;get the big metatile index
   ldy #0
   lda (map_offset),y
@@ -253,7 +253,7 @@ bottom_half:
   sta metatile_properties
   lda (metatile_table_params_address),y
   sta metatile_param
-  
+
   ;switch back to entities bank before returning
   switch_bank_ldy entities_bank
 
@@ -269,7 +269,7 @@ done:
   ;rts is needed
 
 .endproc
-  
+
 map_decode_row = big_map_decode_row
 map_decode_column = big_map_decode_column
 
@@ -293,18 +293,18 @@ metatile_counter = b10
 metatile_index = b11
 
 map_offset = w16
-  
+
   ;calculate useful transformations of map_x and map_y
   lda map_x
   sta map_x_in_metatile_coordinates
   lda map_x+1
   sta map_x_in_metatile_coordinates+1
-  
+
   lda map_y
   sta map_y_in_metatile_coordinates
   lda map_y+1
   sta map_y_in_metatile_coordinates+1
-  
+
   lda map_x_in_metatile_coordinates
   lsr map_x_in_metatile_coordinates+1
   ror
@@ -326,22 +326,22 @@ map_offset = w16
   lsr map_y_in_metatile_coordinates+1
   ror
   sta map_y_in_metatile_coordinates
-  
+
   lda map_x_in_metatile_coordinates
   sta map_x_in_big_metatile_coordinates
   lda map_x_in_metatile_coordinates+1
   sta map_x_in_big_metatile_coordinates+1
-  
+
   lda map_x_in_big_metatile_coordinates
   lsr map_x_in_big_metatile_coordinates+1
   ror
   sta map_x_in_big_metatile_coordinates
-  
+
   lda map_y_in_metatile_coordinates
   sta map_y_in_big_metatile_coordinates
   lda map_y_in_metatile_coordinates+1
   sta map_y_in_big_metatile_coordinates+1
-  
+
   lda map_y_in_big_metatile_coordinates
   lsr map_y_in_big_metatile_coordinates+1
   ror
@@ -354,7 +354,7 @@ map_offset = w16
   sta map_x_in_nametable_coordinates
 
   ;calculate map_y_in_nametable_coordinates
-  
+
   ;use lo byte of y metatile coord to get mod15 value. only use lo byte,
   ;but this will constrain the vertical height of the map to roughly 18 screens
   ;which should be fine for our purposes.
@@ -386,7 +386,7 @@ even:
   sta odd_nametable_row_flag
 done:
 .endscope
-  
+
   ;calculate whether we're on an even or an odd metatile row
   lda map_y_in_metatile_coordinates
   and #$01
@@ -401,7 +401,7 @@ even:
   sta odd_metatile_row_flag
 done:
 .endscope
-  
+
   ;calculate whether we're on an even or an odd metatile column
   lda map_x_in_metatile_coordinates
   and #$01
@@ -416,11 +416,11 @@ even:
   sta odd_metatile_column_flag
 done:
 .endscope
-  
+
   ;calculate name_table1_row_start_x, name_table1_row_length,
   ;name_table2_row_start_x, name_table2_row_length using
   ;map_x_in_nametable_coordinates and map_y_in_nametable_coordinates
-  
+
 .scope
   lda map_x+1
   and #$01
@@ -428,22 +428,22 @@ done:
 odd:
 
   jsr calculate_nametable_row_params_odd
-  
+
   jmp done
 even:
 
   jsr calculate_nametable_row_params_even
-  
+
 done:
 
 .endscope
-  
+
   ;calculate map offset
   lda map_y_in_big_metatile_coordinates
   sta map_offset
   lda map_y_in_big_metatile_coordinates+1
   sta map_offset+1
-  
+
   ;shift map y in big metatile coordinates left by 5 to multiply by 32
   ;after this, map_offset will be the offset of the row
   ;in which we want to begin decoding
@@ -459,7 +459,7 @@ done:
   asl map_offset
   rol
   sta map_offset+1
-  
+
   ;add on map y in big metatile coordinates
   clc
   lda map_offset
@@ -468,7 +468,7 @@ done:
   lda map_offset+1
   adc map_x_in_big_metatile_coordinates+1
   sta map_offset+1
-  
+
   ;add on base address of map
   clc
   lda map_offset
@@ -477,20 +477,20 @@ done:
   lda map_offset+1
   adc map_address+1
   sta map_offset+1
-  
+
   lda #0
   sta nametable_row_buffer_offset
   sta intermediate_attribute_row_buffer_offset
   lda #17
   sta metatile_counter
-  
+
 next_metatile:
-  
+
   ;load an index into the big metatile arrays from the map
   ldy #0
   lda (map_offset),y
   sta metatile_index
-  
+
   lda odd_metatile_row_flag
 .scope
   beq even
@@ -502,12 +502,12 @@ odd:
 odd:
 
   ;bottom right
-  
+
   ;lookup little metatile from bottom right of big metatile
   ldy metatile_index
   lda (big_metatile_table_bottom_right_address),y
   sta metatile_index
-  
+
   jmp done
 even:
 
@@ -517,7 +517,7 @@ even:
   ldy metatile_index
   lda (big_metatile_table_bottom_left_address),y
   sta metatile_index
-  
+
 done:
 .endscope
 
@@ -535,7 +535,7 @@ odd:
   ldy metatile_index
   lda (big_metatile_table_top_right_address),y
   sta metatile_index
-  
+
   jmp done
 even:
 
@@ -548,10 +548,10 @@ even:
 
 done:
 .endscope
-  
+
 done:
 .endscope
-  
+
   lda odd_nametable_row_flag
   and #$01
 .scope
@@ -562,7 +562,7 @@ odd:
   lda (metatile_table_bottom_left_tiles_address),y
   ldx nametable_row_buffer_offset
   sta nametable_row_buffer,x
-  
+
   lda (metatile_table_bottom_right_tiles_address),y
   sta nametable_row_buffer+1,x
 
@@ -573,18 +573,18 @@ even:
   lda (metatile_table_top_left_tiles_address),y
   ldx nametable_row_buffer_offset
   sta nametable_row_buffer,x
-  
+
   lda (metatile_table_top_right_tiles_address),y
   sta nametable_row_buffer+1,x
 
 done:
 .endscope
-  
+
   ldy metatile_index
   lda (metatile_table_attributes_address),y
   ldx intermediate_attribute_row_buffer_offset
   sta intermediate_attribute_row_buffer,x
-  
+
   clc
   lda map_offset
   adc odd_metatile_column_flag
@@ -592,21 +592,21 @@ done:
   lda map_offset+1
   adc #$00
   sta map_offset+1
-  
+
   ;flip the column even/odd flag
   lda odd_metatile_column_flag
   eor #$01
   sta odd_metatile_column_flag
-  
+
   ;increment offsets in the various buffers
   inc nametable_row_buffer_offset
   inc nametable_row_buffer_offset
   inc intermediate_attribute_row_buffer_offset
-  
+
   ;loop based on metatile unit counter
   dec metatile_counter
   bne next_metatile
-  
+
   rts
 
 calculate_nametable_row_params_even:
@@ -618,36 +618,36 @@ calculate_nametable_row_params_even:
   lda #32
   sbc map_x_in_nametable_coordinates
   sta name_table1_row_length
-  
+
   sec
   lda #34
   sbc name_table1_row_length
   sta name_table2_row_length
-  
+
   lda name_table1_row_length
   sta name_table2_row_start_x
-  
+
   ;calculate vram start offset for name_table1. this is $2000 + map_y_in_nametable_coordinates * 32 + map_x_in_nametable_coordinates
-  
+
   lda map_y_in_nametable_coordinates
   sta name_table1_row_vram_offset
   lda #$00
   sta name_table1_row_vram_offset+1
-  
+
   ;multiply row start y by 32
   lda name_table1_row_vram_offset+1
   asl name_table1_row_vram_offset
-  rol 
+  rol
   asl name_table1_row_vram_offset
-  rol 
+  rol
   asl name_table1_row_vram_offset
-  rol 
+  rol
   asl name_table1_row_vram_offset
-  rol 
+  rol
   asl name_table1_row_vram_offset
-  rol 
+  rol
   sta name_table1_row_vram_offset+1
-  
+
   ;add on map_x_in_nametable_coordinates
   clc
   lda name_table1_row_vram_offset
@@ -656,7 +656,7 @@ calculate_nametable_row_params_even:
   lda name_table1_row_vram_offset+1
   adc #$00
   sta name_table1_row_vram_offset+1
-  
+
   ;add on nametable_vram_offset
   clc
   lda name_table1_row_vram_offset
@@ -665,7 +665,7 @@ calculate_nametable_row_params_even:
   lda name_table1_row_vram_offset+1
   adc #$00
   sta name_table1_row_vram_offset+1
-  
+
   ;add on $2000
   clc
   lda name_table1_row_vram_offset
@@ -674,28 +674,28 @@ calculate_nametable_row_params_even:
   lda name_table1_row_vram_offset+1
   adc #$20
   sta name_table1_row_vram_offset+1
-  
+
   ;calculate vram start offset for name_table2. this is $2400 + map_y_in_nametable_coordinates * 32
-  
+
   lda map_y_in_nametable_coordinates
   sta name_table2_row_vram_offset
   lda #$00
   sta name_table2_row_vram_offset+1
-  
+
   ;multiply row start y by 32
   lda name_table2_row_vram_offset+1
   asl name_table2_row_vram_offset
-  rol 
+  rol
   asl name_table2_row_vram_offset
-  rol 
+  rol
   asl name_table2_row_vram_offset
-  rol 
+  rol
   asl name_table2_row_vram_offset
-  rol 
+  rol
   asl name_table2_row_vram_offset
-  rol 
+  rol
   sta name_table2_row_vram_offset+1
-  
+
   ;add on nametable_vram_offset
   clc
   lda name_table2_row_vram_offset
@@ -704,7 +704,7 @@ calculate_nametable_row_params_even:
   lda name_table2_row_vram_offset+1
   adc #$00
   sta name_table2_row_vram_offset+1
-  
+
   ;add on $2400
   clc
   lda name_table2_row_vram_offset
@@ -713,7 +713,7 @@ calculate_nametable_row_params_even:
   lda name_table2_row_vram_offset+1
   adc #$24
   sta name_table2_row_vram_offset+1
-  
+
   rts
 
 calculate_nametable_row_params_odd:
@@ -725,36 +725,36 @@ calculate_nametable_row_params_odd:
   lda #32
   sbc map_x_in_nametable_coordinates
   sta name_table2_row_length
-  
+
   sec
   lda #34
   sbc name_table2_row_length
   sta name_table1_row_length
-  
+
   lda name_table2_row_length
   sta name_table1_row_start_x
 
   ;calculate vram start offset for name_table2. this is $2400 + map_y_in_nametable_coordinates * 32 + map_x_in_nametable_coordinates
-  
+
   lda map_y_in_nametable_coordinates
   sta name_table2_row_vram_offset
   lda #$00
   sta name_table2_row_vram_offset+1
-  
+
   ;multiply row start y by 32
   lda name_table2_row_vram_offset+1
   asl name_table2_row_vram_offset
-  rol 
+  rol
   asl name_table2_row_vram_offset
-  rol 
+  rol
   asl name_table2_row_vram_offset
-  rol 
+  rol
   asl name_table2_row_vram_offset
-  rol 
+  rol
   asl name_table2_row_vram_offset
-  rol 
+  rol
   sta name_table2_row_vram_offset+1
-  
+
   ;add on map_x_in_nametable_coordinates
   clc
   lda name_table2_row_vram_offset
@@ -763,7 +763,7 @@ calculate_nametable_row_params_odd:
   lda name_table2_row_vram_offset+1
   adc #$00
   sta name_table2_row_vram_offset+1
-  
+
   ;add on nametable_vram_offset
   clc
   lda name_table2_row_vram_offset
@@ -772,7 +772,7 @@ calculate_nametable_row_params_odd:
   lda name_table2_row_vram_offset+1
   adc #$00
   sta name_table2_row_vram_offset+1
-  
+
   ;add on $2400
   clc
   lda name_table2_row_vram_offset
@@ -781,28 +781,28 @@ calculate_nametable_row_params_odd:
   lda name_table2_row_vram_offset+1
   adc #$24
   sta name_table2_row_vram_offset+1
-  
+
   ;calculate vram start offset for name_table1. this is $2000 + map_y_in_nametable_coordinates * 32
-  
+
   lda map_y_in_nametable_coordinates
   sta name_table1_row_vram_offset
   lda #$00
   sta name_table1_row_vram_offset+1
-  
+
   ;multiply row start y by 32
   lda name_table1_row_vram_offset+1
   asl name_table1_row_vram_offset
-  rol 
+  rol
   asl name_table1_row_vram_offset
-  rol 
+  rol
   asl name_table1_row_vram_offset
-  rol 
+  rol
   asl name_table1_row_vram_offset
-  rol 
+  rol
   asl name_table1_row_vram_offset
-  rol 
+  rol
   sta name_table1_row_vram_offset+1
-  
+
   ;add on nametable_vram_offset
   clc
   lda name_table1_row_vram_offset
@@ -811,7 +811,7 @@ calculate_nametable_row_params_odd:
   lda name_table1_row_vram_offset+1
   adc #$00
   sta name_table1_row_vram_offset+1
-  
+
   ;add on $2000
   clc
   lda name_table1_row_vram_offset
@@ -822,7 +822,7 @@ calculate_nametable_row_params_odd:
   sta name_table1_row_vram_offset+1
 
   rts
-  
+
 .endproc
 
 ;decodes a column from the map
@@ -866,43 +866,43 @@ map_offset = w16
   sta metatile_table_bottom_left_tiles_address
   lda metatile_table_bottom_left_tiles_address+1
   sta metatile_table_bottom_left_tiles_address+1
-  
+
   lda metatile_table_bottom_right_tiles_address
   sta metatile_table_bottom_right_tiles_address
   lda metatile_table_bottom_right_tiles_address+1
   sta metatile_table_bottom_right_tiles_address+1
-  
+
   lda big_metatile_table_top_left_address
   sta big_metatile_table_top_left_address
   lda big_metatile_table_top_left_address+1
   sta big_metatile_table_top_left_address+1
-  
+
   lda big_metatile_table_top_right_address
   sta big_metatile_table_top_right_address
   lda big_metatile_table_top_right_address+1
   sta big_metatile_table_top_right_address+1
-  
+
   lda big_metatile_table_bottom_left_address
   sta big_metatile_table_bottom_left_address
   lda big_metatile_table_bottom_left_address+1
   sta big_metatile_table_bottom_left_address+1
-  
+
   lda big_metatile_table_bottom_right_address
   sta big_metatile_table_bottom_right_address
   lda big_metatile_table_bottom_right_address+1
   sta big_metatile_table_bottom_right_address+1
-  
+
   ;calculate useful transformations of map_x and map_y
   lda map_x
   sta map_x_in_metatile_coordinates
   lda map_x+1
   sta map_x_in_metatile_coordinates+1
-  
+
   lda map_y
   sta map_y_in_metatile_coordinates
   lda map_y+1
   sta map_y_in_metatile_coordinates+1
-  
+
   lda map_x_in_metatile_coordinates
   lsr map_x_in_metatile_coordinates+1
   ror
@@ -924,22 +924,22 @@ map_offset = w16
   lsr map_y_in_metatile_coordinates+1
   ror
   sta map_y_in_metatile_coordinates
-  
+
   lda map_x_in_metatile_coordinates
   sta map_x_in_big_metatile_coordinates
   lda map_x_in_metatile_coordinates+1
   sta map_x_in_big_metatile_coordinates+1
-  
+
   lda map_x_in_big_metatile_coordinates
   lsr map_x_in_big_metatile_coordinates+1
   ror
   sta map_x_in_big_metatile_coordinates
-  
+
   lda map_y_in_metatile_coordinates
   sta map_y_in_big_metatile_coordinates
   lda map_y_in_metatile_coordinates+1
   sta map_y_in_big_metatile_coordinates+1
-  
+
   lda map_y_in_big_metatile_coordinates
   lsr map_y_in_big_metatile_coordinates+1
   ror
@@ -952,7 +952,7 @@ map_offset = w16
   sta map_x_in_nametable_coordinates
 
   ;calculate map_y_in_nametable_coordinates
-  
+
   ;use lo byte of y metatile coord to get mod15 value. only use lo byte,
   ;but this will constrain the vertical height of the map to roughly 18 screens
   ;which should be fine for our purposes.
@@ -984,7 +984,7 @@ even:
   sta odd_nametable_column_flag
 done:
 .endscope
-  
+
   ;calculate whether we're on an even or an odd metatile row
   lda map_y_in_metatile_coordinates
   and #$01
@@ -999,7 +999,7 @@ even:
   sta odd_metatile_row_flag
 done:
 .endscope
-  
+
   ;calculate whether we're on an even or an odd metatile column
   lda map_x_in_metatile_coordinates
   and #$01
@@ -1014,7 +1014,7 @@ even:
   sta odd_metatile_column_flag
 done:
 .endscope
-  
+
 ; -calculate vram offset for vblank routine
 ; this is just map_x in nametable coordinates
 ; plus the base of the nametable we're writing to.
@@ -1025,7 +1025,7 @@ done:
   sta nametable_column_vram_offset
   lda #$00
   sta nametable_column_vram_offset+1
-  
+
   lda map_x+1
   and #$01
 .scope
@@ -1040,7 +1040,7 @@ odd:
   lda nametable_column_vram_offset+1
   adc #$24
   sta nametable_column_vram_offset+1
-  
+
   jmp done
 even:
 
@@ -1052,10 +1052,10 @@ even:
   lda nametable_column_vram_offset+1
   adc #$20
   sta nametable_column_vram_offset+1
-  
+
 done:
 .endscope
-  
+
   ;add on nametable_vram_offset to get correct column
   clc
   lda nametable_column_vram_offset
@@ -1064,13 +1064,13 @@ done:
   lda nametable_column_vram_offset+1
   adc #$00
   sta nametable_column_vram_offset+1
-  
+
   ;calculate map offset
   lda map_y_in_big_metatile_coordinates
   sta map_offset
   lda map_y_in_big_metatile_coordinates+1
   sta map_offset+1
-  
+
   ;shift map y in big metatile coordinates left by 5 to multiply by 32
   ;after this, map_offset will be the offset of the row
   ;in which we want to begin decoding
@@ -1086,7 +1086,7 @@ done:
   asl map_offset
   rol
   sta map_offset+1
-  
+
   ;add on map y in big metatile coordinates
   clc
   lda map_offset
@@ -1095,7 +1095,7 @@ done:
   lda map_offset+1
   adc map_x_in_big_metatile_coordinates+1
   sta map_offset+1
-  
+
   ;add on base address of map
   clc
   lda map_offset
@@ -1104,7 +1104,7 @@ done:
   lda map_offset+1
   adc map_address+1
   sta map_offset+1
-  
+
   ldx map_y_in_metatile_coordinates
   lda mod15lut,x
   sta intermediate_attribute_column_buffer_offset
@@ -1113,16 +1113,16 @@ done:
 
   lda #15
   sta metatile_counter
-  
+
 next_metatile:
-  
+
   ;load an index into the big metatile arrays from the map
   ldy #0
   lda (map_offset),y
   sta metatile_index
-  
+
   ldy metatile_index
-  
+
   lda odd_metatile_row_flag
 .scope
   beq even
@@ -1134,11 +1134,11 @@ odd:
 odd:
 
   ;bottom right
-  
+
   ;lookup little metatile from bottom right of big metatile
   lda (big_metatile_table_bottom_right_address),y
   sta metatile_index
-  
+
   jmp done
 even:
 
@@ -1147,7 +1147,7 @@ even:
   ;lookup little metatile from bottom left of big metatile
   lda (big_metatile_table_bottom_left_address),y
   sta metatile_index
-  
+
 done:
 .endscope
 
@@ -1164,7 +1164,7 @@ odd:
   ;lookup little metatile from top right of big metatile
   lda (big_metatile_table_top_right_address),y
   sta metatile_index
-  
+
   jmp done
 even:
 
@@ -1176,12 +1176,12 @@ even:
 
 done:
 .endscope
-  
+
 done:
 .endscope
 
   ldy metatile_index
-  
+
   lda odd_nametable_column_flag
   and #%00000001
 .scope
@@ -1191,7 +1191,7 @@ odd:
   lda (metatile_table_top_right_tiles_address),y
   ldx nametable_column_buffer_offset
   sta nametable_column_buffer,x
-  
+
   lda (metatile_table_bottom_right_tiles_address),y
   sta nametable_column_buffer+1,x
 
@@ -1201,17 +1201,17 @@ even:
   lda (metatile_table_top_left_tiles_address),y
   ldx nametable_column_buffer_offset
   sta nametable_column_buffer,x
-  
+
   lda (metatile_table_bottom_left_tiles_address),y
   sta nametable_column_buffer+1,x
 
 done:
 .endscope
-  
+
   lda (metatile_table_attributes_address),y
   ldx intermediate_attribute_column_buffer_offset
   sta intermediate_attribute_column_buffer,x
-  
+
   clc
   lda map_offset
   adc odd_metatile_row_flag
@@ -1219,12 +1219,12 @@ done:
   lda map_offset+1
   adc #$00
   sta map_offset+1
-  
+
   ;flip the row even/odd flag
   lda odd_metatile_row_flag
   eor #%00100000
   sta odd_metatile_row_flag
-  
+
   ;increment offsets in the various buffers
   inc intermediate_attribute_column_buffer_offset
   ldx intermediate_attribute_column_buffer_offset
@@ -1232,11 +1232,11 @@ done:
   sta intermediate_attribute_column_buffer_offset
   asl
   sta nametable_column_buffer_offset
-  
+
   ;loop based on metatile unit counter
   dec metatile_counter
   bne next_metatile
-  
+
   rts
 
 .endproc
@@ -1259,7 +1259,7 @@ attribute_table_row_address = w5
 
   ;calculate some useful transformations of map_x and map_y
   ;for later use
-  
+
   ;only need low byte to get screen attribute and metatile coordinates from X,
   ;since modulus of 16 can be computed so easily this way.
   lda map_x
@@ -1271,14 +1271,14 @@ attribute_table_row_address = w5
   sta map_x_in_metatile_coordinates
   lsr
   sta map_x_in_attribute_coordinates
-  
+
   ;must use all lower 8 bits of camera y in metatile coordinates in order to look
   ;up modulus of 15 to get correct metatile and attribute Y coordinate for nametable.
   lda map_y
   sta map_y_in_metatile_coordinates
   lda map_y+1
   sta map_y_in_metatile_coordinates+1
-  
+
   lda map_y_in_metatile_coordinates
   lsr map_y_in_metatile_coordinates+1
   ror
@@ -1289,14 +1289,14 @@ attribute_table_row_address = w5
   lsr map_y_in_metatile_coordinates+1
   ror
   sta map_y_in_metatile_coordinates
-  
+
   lda map_y_in_metatile_coordinates
   tax
   lda mod15lut,x
   sta map_y_in_metatile_coordinates
   lsr
   sta map_y_in_attribute_coordinates
-  
+
 ; -calculate attribute_table1_row_start_x, attribute_table1_row_start_y,
 ; attribute_table1_row_length, attribute_table2_row_start_x,
 ; attribute_table2_row_start_y, and attribute_table2_row_length, based on
@@ -1341,7 +1341,7 @@ odd:
 
   lda #$01
   sta even_odd
-  
+
 ; -calculate current mask for ANDing out the bits we want to replace
 ; within the attribute buffer.
   lda #%11001100
@@ -1354,7 +1354,7 @@ even:
 
   lda #$00
   sta even_odd
-  
+
 ; -calculate current mask for ANDing out the bits we want to replace
 ; within the attribute buffer.
 
@@ -1384,7 +1384,7 @@ odd:
   adc #$01
   lsr
   sta attribute_table2_row_vram_length
-  
+
   ;calculate start row offsets for nametable 1 and 2
   lda map_y_in_attribute_coordinates
   asl
@@ -1394,7 +1394,7 @@ odd:
   clc
   adc map_x_in_attribute_coordinates
   sta attribute_table2_row_offset
-  
+
   ;calculate vram offset for both attribute tables
   clc
   lda #$C0
@@ -1402,16 +1402,16 @@ odd:
   sta attribute_table1_row_vram_offset
   lda #$23
   sta attribute_table1_row_vram_offset+1
-  
+
   clc
   lda #$C0
   adc attribute_table2_row_offset
   sta attribute_table2_row_vram_offset
   lda #$27
   sta attribute_table2_row_vram_offset+1
-  
+
   ;now we can easily figure out the length for the opposite nametable
-  
+
   lda #17
   sec
   sbc attribute_table2_row_length
@@ -1425,7 +1425,7 @@ odd:
   ldx #$00
   jsr process_attribute_table2
   jsr process_attribute_table1
-  
+
   jmp done
 even:
 
@@ -1434,13 +1434,13 @@ even:
   sec
   sbc map_x_in_metatile_coordinates
   sta attribute_table1_row_length
-  
+
   ;calculate vram length (divide by 2 to change from metatile to attribute length)
   clc
   adc #$01
   lsr
   sta attribute_table1_row_vram_length
-  
+
   ;calculate start row offsets for nametable 1 and 2
   lda map_y_in_attribute_coordinates
   asl
@@ -1450,7 +1450,7 @@ even:
   clc
   adc map_x_in_attribute_coordinates
   sta attribute_table1_row_offset
-  
+
   ;calculate vram offset for both attribute tables
   clc
   lda #$C0
@@ -1458,16 +1458,16 @@ even:
   sta attribute_table1_row_vram_offset
   lda #$23
   sta attribute_table1_row_vram_offset+1
-  
+
   clc
   lda #$C0
   adc attribute_table2_row_offset
   sta attribute_table2_row_vram_offset
   lda #$27
   sta attribute_table2_row_vram_offset+1
-  
+
   ;now we can easily figure out the length for the opposite nametable
-  
+
   lda #17
   sec
   sbc attribute_table1_row_length
@@ -1481,13 +1481,13 @@ even:
   ldx #$00
   jsr process_attribute_table1
   jsr process_attribute_table2
-  
+
 done:
 
 .endscope
 
   rts
-  
+
 process_attribute_table1:
 
 .scope
@@ -1495,10 +1495,10 @@ process_attribute_table1:
 ; start loop (using variables calculated for the first attribute table)
 
   ; load offset into attribute table1
-  
+
   lda attribute_table1_row_offset
   sta attribute_row_index
-  
+
   lda attribute_table1_row_length
   sta attribute_length_counter
   beq skip_intermediate_attribute_row_buffer_loop
@@ -1507,64 +1507,64 @@ intermediate_attribute_row_buffer_loop:
 
   ; -load intermediate attribute row value.
   lda intermediate_attribute_row_buffer,x
-  
+
   ; -apply nybble mask.
-  
+
   and nybble_mask
-  
+
   ; -store this value temporarily to OR into the attribute table later
   sta new_attribute_value
-  
+
   ; -we're not done finishing off new_attribute_value, still need to shift
   ; left by shift_amount. Note: Originally we used shift_amount thinking
   ; that asl var would shift by the value in var, but asl only shifts left
   ; by one bit so we use it as a flag, here.
   lda even_odd
   beq do_not_shift_left
-  
+
   asl new_attribute_value
   asl new_attribute_value
-  
+
 do_not_shift_left:
-  
+
   ; -load existing attribute byte from attribute table.
-  
+
   ldy attribute_row_index
   lda attribute_table1,y
-  
+
   ; -apply erase mask to erase bits we want to replace.
-  
+
   and erase_mask
-  
+
   ; -or the bits into the attribute table.
-  
+
   ora new_attribute_value
-  
+
   ; -store modified attribute back into the table.
-  
+
   sta attribute_table1,y
-  
+
   ; -increment index in intermediate attribute row buffer.
   inx
-  
+
   clc
   lda attribute_row_index
   adc even_odd
   sta attribute_row_index
-  
+
   ; -switch to opposite erase mask
-  
+
   lda erase_mask
   eor #$ff
   ora opposite_nybble_mask
   sta erase_mask
-  
+
   ; -flip even odd flag
-  
+
   lda even_odd
   eor #$01
   sta even_odd
-  
+
   ; -test attribute row index for whether we're done with this loop
   dec attribute_length_counter
   bne intermediate_attribute_row_buffer_loop
@@ -1578,78 +1578,78 @@ process_attribute_table2:
 .scope
 
   ; load offset into attribute table 2
-  
+
   lda attribute_table2_row_offset
   sta attribute_row_index
-  
+
   lda attribute_table2_row_length
   sta attribute_length_counter
   beq skip_intermediate_attribute_row_buffer_loop
-  
+
 ; start loop (using variables calculated for the second attribute table)
 
 intermediate_attribute_row_buffer_loop:
 
   ; -load intermediate attribute row value.
   lda intermediate_attribute_row_buffer,x
-  
+
   ; -apply nybble mask.
-  
+
   and nybble_mask
-  
+
   ; -store this value temporarily to OR into the attribute table later
   sta new_attribute_value
-  
+
   ; -we're not done finishing off new_attribute_value, still need to shift
   ; left by shift_amount. Note: Originally we used shift_amount thinking
   ; that asl var would shift by the value in var, but asl only shifts left
   ; by one bit so we use it as a flag, here.
   lda even_odd
   beq do_not_shift_left
-  
+
   asl new_attribute_value
   asl new_attribute_value
-  
+
 do_not_shift_left:
-  
+
   ; -load existing attribute byte from attribute table.
-  
+
   ldy attribute_row_index
   lda attribute_table2,y
-  
+
   ; -apply erase mask to erase bits we want to replace.
-  
+
   and erase_mask
-  
+
   ; -or the bits into the attribute table.
-  
+
   ora new_attribute_value
-  
+
   ; -store modified attribute back into the table.
-  
+
   sta attribute_table2,y
-  
+
   ; -increment index in intermediate attribute row buffer.
   inx
-  
+
   clc
   lda attribute_row_index
   adc even_odd
   sta attribute_row_index
-  
+
   ; -switch to opposite erase mask
-  
+
   lda erase_mask
   eor #$ff
   ora opposite_nybble_mask
   sta erase_mask
-  
+
   ; -flip even odd flag
-  
+
   lda even_odd
   eor #$01
   sta even_odd
-  
+
   ; -test attribute row index for whether we're done with this loop
   dec attribute_length_counter
   bne intermediate_attribute_row_buffer_loop
@@ -1680,7 +1680,7 @@ attribute_table_address = w6
 
   ;calculate some useful transformations of map_x and map_y
   ;for later use
-  
+
   ;only need low byte to get screen attribute and metatile coordinates from X,
   ;since modulus of 16 can be computed so easily this way.
   lda map_x
@@ -1692,14 +1692,14 @@ attribute_table_address = w6
   sta map_x_in_metatile_coordinates
   lsr
   sta map_x_in_attribute_coordinates
-  
+
   ;must use all lower 8 bits of camera y in metatile coordinates in order to look
   ;up modulus of 15 to get correct metatile and attribute Y coordinate for nametable.
   lda map_y
   sta map_y_in_metatile_coordinates
   lda map_y+1
   sta map_y_in_metatile_coordinates+1
-  
+
   lda map_y_in_metatile_coordinates
   lsr map_y_in_metatile_coordinates+1
   ror
@@ -1710,7 +1710,7 @@ attribute_table_address = w6
   lsr map_y_in_metatile_coordinates+1
   ror
   sta map_y_in_metatile_coordinates
-  
+
   lda map_y_in_metatile_coordinates
   tax
   lda mod15lut,x
@@ -1757,7 +1757,7 @@ odd:
   lda #$27
   adc #$00
   sta attribute_column_vram_offset+1
-  
+
   lda #<attribute_table2
   sta attribute_table_address
   lda #>attribute_table2
@@ -1773,7 +1773,7 @@ even:
   lda #$23
   adc #$00
   sta attribute_column_vram_offset+1
-  
+
   lda #<attribute_table1
   sta attribute_table_address
   lda #>attribute_table1
@@ -1828,7 +1828,7 @@ odd:
 
   lda #$01
   sta even_odd
-  
+
   jmp done
 even:
 
@@ -1837,7 +1837,7 @@ even:
   and nybble_mask
   eor #$ff
   sta erase_mask
-  
+
   lda #$00
   sta even_odd
 
@@ -1847,53 +1847,53 @@ done:
 ; -we will count down from 15
   lda #$0f
   sta attribute_length_counter
-  
+
 loop:
 
   ; -load intermediate attribute row value.
   ldx intermediate_attribute_column_index
   lda intermediate_attribute_column_buffer,x
-  
+
   ; -apply nybble mask.
-  
+
   and nybble_mask
-  
+
   ; -store this value temporarily to OR into the attribute table later
   sta new_attribute_value
-  
+
   ; -we're not done finishing off new_attribute_value, still need to shift
   ; left by shift_amount. Note: Originally we used shift_amount thinking
   ; that asl var would shift by the value in var, but asl only shifts left
   ; by one bit so we use it as a flag, here.
   lda even_odd
   beq do_not_shift_left
-  
+
   asl new_attribute_value
   asl new_attribute_value
-  
+
 do_not_shift_left:
-  
+
   ; -load existing attribute byte from attribute table.
-  
+
   ldy attribute_column_index
   lda (attribute_table_address),y
-  
+
   ; -apply erase mask to erase bits we want to replace.
-  
+
   and erase_mask
-  
+
   ; -or the bits into the attribute table.
-  
+
   ora new_attribute_value
-  
+
   ; -store modified attribute back into the table.
-  
+
   sta (attribute_table_address),y
 
   ; -increment the intermediate attribute column index.
   ; if we wrap, do not negate the nybble mask or erase
   ; mask. if not, negate them.
-  
+
   inc intermediate_attribute_column_index
   lda intermediate_attribute_column_index
   cmp #15
@@ -1923,14 +1923,14 @@ done:
 
 ; -use map_y_in_metatile_coordinates to determine which
 ;  attribute row to write to.
-  
+
   inc map_y_in_metatile_coordinates
   ldx map_y_in_metatile_coordinates
   lda mod15lut,x
   sta map_y_in_metatile_coordinates
   lsr
   sta map_y_in_attribute_coordinates
-  
+
   lda map_y_in_attribute_coordinates
   ;multply by 8 to get correct row
   asl
@@ -1940,7 +1940,7 @@ done:
   clc
   adc map_x_in_attribute_coordinates
   sta attribute_column_index
-  
+
   dec attribute_length_counter
   bne loop
 
@@ -1951,9 +1951,9 @@ done:
 
   lda vblank_data_ready
   beq data_not_ready
-  
+
   jsr sprite_update_all
-  
+
   lda column_ready
   beq :+
   jsr map_upload_column_ppu
@@ -1961,7 +1961,7 @@ done:
   lda #0
   sta column_ready
 :
-  
+
   lda row_ready
   beq :+
   jsr map_upload_row_ppu
@@ -1969,7 +1969,7 @@ done:
   lda #0
   sta row_ready
 :
-  
+
   lda camera_nametable_hibyte
   sta ppu_2006
   lda #$00
@@ -1978,13 +1978,13 @@ done:
   sta ppu_2005
   lda camera_scroll_y
   sta ppu_2005+1
-  
+
   upload_ppu_2006
   upload_ppu_2005
-  
+
   lda #0
   sta vblank_data_ready
-  
+
 data_not_ready:
 
   safe_soundengine_update
@@ -2005,54 +2005,54 @@ data_not_ready:
   sta ppu_2006
 
   upload_ppu_2006
-  
+
   ;copy row buffer directly to nametable
   ldx name_table1_row_start_x
   ldy name_table1_row_length
   beq row1_invisible
-  
+
 .scope
 next:
 
   lda nametable_row_buffer,x
   sta $2007
-  
+
   inx
 
   dey
   bne next
 .endscope
 row1_invisible:
-  
+
   lda name_table2_row_vram_offset
   sta ppu_2006+1
   lda name_table2_row_vram_offset+1
   sta ppu_2006
 
   upload_ppu_2006
-  
+
   ;copy row buffer directly to nametable
   ldx name_table2_row_start_x
   ldy name_table2_row_length
   beq row2_invisible
-  
+
 .scope
 next:
 
   lda nametable_row_buffer,x
   sta $2007
-  
+
   inx
 
   dey
   bne next
 .endscope
 row2_invisible:
-  
+
   rts
 
 .endproc
-  
+
 ;copies nametable_column_buffer to ppu
 .proc map_upload_column_ppu
 
@@ -2067,21 +2067,21 @@ row2_invisible:
 
   ldx #$00
   ldy #30
-  
+
 .scope
 loop:
   lda nametable_column_buffer,x
   sta $2007
-  
+
   inx
   dey
   bne loop
 .endscope
-  
+
   rts
 
 .endproc
-  
+
 .proc map_upload_attribute_table_row_ppu
 
   clear_ppu_2000_bit PPU0_ADDRESS_INCREMENT
@@ -2093,7 +2093,7 @@ loop:
   lda attribute_table1_row_vram_offset+1
   sta ppu_2006
   upload_ppu_2006
-  
+
   ldx attribute_table1_row_offset
   ldy attribute_table1_row_vram_length
   beq done
@@ -2101,7 +2101,7 @@ loop:
 
   lda attribute_table1,x
   sta $2007
-  
+
   inx
   dey
   bne loop
@@ -2114,7 +2114,7 @@ done:
   lda attribute_table2_row_vram_offset+1
   sta ppu_2006
   upload_ppu_2006
-  
+
   ldx attribute_table2_row_offset
   ldy attribute_table2_row_vram_length
   beq done
@@ -2122,7 +2122,7 @@ loop:
 
   lda attribute_table2,x
   sta $2007
-  
+
   inx
   dey
   bne loop
@@ -2132,7 +2132,7 @@ done:
   rts
 
 .endproc
-  
+
 .proc map_upload_attribute_table_column_ppu
 
   lda attribute_column_vram_offset
@@ -2140,10 +2140,10 @@ done:
   lda attribute_column_vram_offset+1
   sta ppu_2006
   upload_ppu_2006
-  
+
   set_ppu_2000_bit PPU0_ADDRESS_INCREMENT
   upload_ppu_2000
-  
+
   lda attribute_column_vram_offset+1
   cmp #$27
 .scope
@@ -2151,19 +2151,19 @@ done:
   jmp  write_to_attribute_table2
 :
 write_to_attribute_table1:
-  
+
   ldy attribute_column_offset
   lda attribute_table1,y
   sta $2007
   lda attribute_table1+32,y
   sta $2007
-  
+
   clc
   lda ppu_2006+1
   adc #$08
   sta ppu_2006+1
   upload_ppu_2006
-  
+
   lda attribute_table1+8,y
   sta $2007
   lda attribute_table1+(32+8),y
@@ -2174,38 +2174,38 @@ write_to_attribute_table1:
   adc #$08
   sta ppu_2006+1
   upload_ppu_2006
-  
+
   lda attribute_table1+(8*2),y
   sta $2007
   lda attribute_table1+(32+8*2),y
   sta $2007
-  
+
   clc
   lda ppu_2006+1
   adc #$08
   sta ppu_2006+1
   upload_ppu_2006
-  
+
   lda attribute_table1+(8*3),y
   sta $2007
   lda attribute_table1+(32+8*3),y
   sta $2007
-  
+
   jmp done
 write_to_attribute_table2:
-  
+
   ldy attribute_column_offset
   lda attribute_table2,y
   sta $2007
   lda attribute_table2+32,y
   sta $2007
-  
+
   clc
   lda ppu_2006+1
   adc #$08
   sta ppu_2006+1
   upload_ppu_2006
-  
+
   lda attribute_table2+8,y
   sta $2007
   lda attribute_table2+(32+8),y
@@ -2216,23 +2216,23 @@ write_to_attribute_table2:
   adc #$08
   sta ppu_2006+1
   upload_ppu_2006
-  
+
   lda attribute_table2+(8*2),y
   sta $2007
   lda attribute_table2+(32+8*2),y
   sta $2007
-  
+
   clc
   lda ppu_2006+1
   adc #$08
   sta ppu_2006+1
   upload_ppu_2006
-  
+
   lda attribute_table2+(8*3),y
   sta $2007
   lda attribute_table2+(32+8*3),y
   sta $2007
-  
+
 done:
 .endscope
 

@@ -104,7 +104,7 @@ loop:
   ;restore x
   pla
   tax
-  
+
   rts
 .endproc
 
@@ -131,7 +131,7 @@ loop:
   sta base_address_duty_envelopes
   lda song_base_address_duty_envelopes+1
   sta base_address_duty_envelopes+1
-  
+
   ldx #0
 song_stream_register_copy_loop:
 
@@ -176,7 +176,7 @@ song_stream_not_active:
   sta base_address_duty_envelopes
   lda sfx_base_address_duty_envelopes+1
   sta base_address_duty_envelopes+1
-  
+
   ldx #4
 sfx_stream_register_copy_loop:
 
@@ -207,7 +207,7 @@ sfx_stream_not_active:
   inx
   cpx #MAX_STREAMS
   bne sfx_stream_register_copy_loop
-  
+
   ;apu data ready
   lda #1
   sta apu_data_ready
@@ -285,7 +285,7 @@ stream_callback_table_hi: .hibytes stream_callback_table
   lda note_table_hi,y
   sta stream_channel_register_4,x
 skip_load_note:
-  
+
   ;load volume index
   lda stream_volume_index,x
   asl
@@ -600,7 +600,7 @@ volume_stop:
   sta sound_local_word_0
   lda stream_read_address_hi,x
   sta sound_local_word_0+1
-  
+
   ;get length parameter
   ldy #1
   lda (sound_local_word_0),y
@@ -613,21 +613,21 @@ volume_stop:
   sta stream_volume_index,x
   lda #0
   sta stream_volume_offset,x
-  
+
   ;get pitch envelope index
   iny
   lda (sound_local_word_0),y
   sta stream_pitch_index,x
   lda #0
   sta stream_pitch_offset,x
-  
+
   ;get duty envelope index
   iny
   lda (sound_local_word_0),y
   sta stream_duty_index,x
   lda #0
   sta stream_duty_offset,x
-  
+
   ;now advance the stream read address to point to last parameter.
   ;all other callbacks have only one parameter---and they are pointing
   ;to it by the end of the routine. the read address is then advanced to
@@ -639,10 +639,10 @@ volume_stop:
   lda stream_read_address_hi,x
   adc #0
   sta stream_read_address_hi,x
-  
+
   rts
 .endproc
-  
+
 .proc stream_set_volume_envelope
 
   advance_stream_read_address
@@ -859,7 +859,7 @@ no_noise:
   tax
   pla
   tay
-  
+
   rts
 
 .endproc
@@ -904,7 +904,7 @@ sfx_address = sound_param_word_0
   tax
   pla
   tay
-  
+
   rts
 
 .endproc
@@ -955,7 +955,7 @@ starting_read_address = sound_param_word_0
   lda #1
   sta stream_active,x
 null_starting_read_address:
-  
+
   rts
 .endproc
 
