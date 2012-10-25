@@ -51,8 +51,9 @@ village_area:
   .word village_big_metatile_table_bottom_right
 
 village_entities:
-  .byte 1  ;count
-  .byte 0
+  .byte 2  ;count
+  .byte entity_index_hero
+  .byte entity_index_tiger
 
 house1_area:
   .byte 0   ;music_bank .byte
@@ -79,8 +80,9 @@ house1_area:
   .word house1_big_metatile_table_bottom_right
 
 house1_entities:
-  .byte 1  ;count
-  .byte 0
+  .byte 2  ;count
+  .byte entity_index_hero
+  .byte entity_index_tiger
 
 overworld_area:
   .byte 0   ;music_bank .byte
@@ -107,5 +109,6 @@ overworld_area:
   .word overworld_big_metatile_table_bottom_right
 
 overworld_entities:
-  .byte 1  ;count
-  .byte 0
+  .byte 2  ;count
+  .byte entity_index_hero
+  .byte entity_index_tiger

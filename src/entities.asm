@@ -1,20 +1,37 @@
+.linecont +
 .include "entities.inc"
 .include "sprite_chr_data.inc"
 .include "soundengine.inc"
 .include "sfx_data.inc"
+.include "zp.inc"
+.include "ram.inc"
+.include "sprites_and_animations_data.inc"
+.include "entity.inc"
+.include "controller.inc"
+.include "map.inc"
+.include "play_state.inc"
 
 .segment "CODE"
 
+.define entity_defs_update_address \
+  hero_update, \
+  tiger_update
+
+.define entity_defs_chr_address \
+  hero_chr, \
+  Tiger_chr
+
 entity_defs_update_address_lo:
-  .byte <hero_update
+  .lobytes entity_defs_update_address
 entity_defs_update_address_hi:
-  .byte >hero_update
+  .hibytes entity_defs_update_address
 
 entity_defs_chr_address_lo:
-  .byte <hero_chr
+  .lobytes entity_defs_chr_address
 entity_defs_chr_address_hi:
-  .byte >hero_chr
+  .hibytes entity_defs_chr_address
 
 .segment "ROM01"
 
 .include "hero.inc"
+.include "tiger.inc"

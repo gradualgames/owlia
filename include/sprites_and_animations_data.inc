@@ -21,4 +21,15 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global FightDown
 .global FightUp
 
+.global TigerWalkSide0
+.global TigerWalkSide1
+.global TigerWalkUp0
+.global TigerWalkUp1
+.global TigerWalkDown0
+.global TigerWalkDown1
+
+.global TigerWalkSide
+.global TigerWalkUp
+.global TigerWalkDown
+
 .endif

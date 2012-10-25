@@ -1,11 +1,4 @@
 .linecont +
-.include "zp.inc"
-.include "ram.inc"
-.include "sprites_and_animations_data.inc"
-.include "entity.inc"
-.include "controller.inc"
-.include "map.inc"
-.include "play_state.inc"
 .include "hero_constants.inc"
 
 .ifndef HERO_INC

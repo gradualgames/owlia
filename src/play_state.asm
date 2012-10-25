@@ -287,7 +287,7 @@ play_state_load_location:
   jsr entity_init_all
 
   ;spawn the hero entity
-  lda #0
+  lda #entity_index_hero
   sta b0
   jsr entity_spawn
 
@@ -313,6 +313,20 @@ play_state_load_location:
 
   ;attach the camera to the entity instance at x
   jsr attach_camera_to_entity
+
+  ;hard coded entity test.
+  lda #entity_index_tiger
+  sta b0
+  jsr entity_spawn
+
+  lda #100
+  sta entity_x_lo,x
+  lda #0
+  sta entity_x_hi,x
+  lda #100
+  sta entity_y_lo,x
+  lda #0
+  sta entity_y_hi,x
 
   ;execute a single frame to get entities onscreen before palette fade in and music
   .scope execute_single_frame
