@@ -125,7 +125,7 @@ hero_hi:
 
 sprite_flags_direction:
   .byte %00000000, %01000000, %00000000, %00000000
-  
+
 hero_update:
 
   entity_state_switchboard hero_lo, hero_hi
@@ -140,6 +140,16 @@ hero_state_init:
   sta entity_flags,x
 
   jsr entity_reset_animation
+
+  lda hero_previous_direction,x
+  tay
+  lda main_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda main_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+
+  lda #0
+  sta entity_sprite_flags,x
 
   lda #0
   sta entity_sprite_group_offset,x
@@ -167,7 +177,7 @@ hero_state_main:
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
-  
+
   ;play a sound
   txa
   pha
@@ -185,7 +195,7 @@ hero_state_main:
 
   pla
   tax
-  
+
   rts
 
 skip_attack_test:
@@ -221,7 +231,7 @@ skip_attack_test:
   sta entity_animation_address_lo,x
   lda main_animation_addresses_hi,y
   sta entity_animation_address_hi,x
-  
+
   lda sprite_flags_direction,y
   sta entity_sprite_flags,x
 
@@ -234,7 +244,7 @@ skip_attack_test:
   rts
 
 hero_state_attack:
-  
+
   lda entity_animation_address_lo,x
   sta w2
   lda entity_animation_address_hi,x
@@ -245,12 +255,12 @@ hero_state_attack:
   bne attack_not_done
 
   jsr entity_reset_animation
-  
+
   lda #HERO_STATE_MAIN
   sta entity_state,x
 
 attack_not_done:
-  
+
   rts
 
 indirect_jsr_w0:
