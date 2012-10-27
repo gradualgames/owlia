@@ -16,6 +16,8 @@ MAX_ENTITIES = 8
 
 .global state_control_params
 
+.global entity_type_chr_offsets
+
 .global entity_type
 .global entity_flags
 .global entity_state

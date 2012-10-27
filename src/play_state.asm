@@ -21,9 +21,14 @@
 
 .segment "CODE"
 
-.proc load_entity_types_chr
+.proc load_entity_types
 entity_types_address = w3
+chr_amount = w2
+chr_offset = b1
 entity_types_index = b0
+
+  lda #0
+  sta chr_offset
 
   ;get count for number of entity types in this area
   ldy #0
@@ -41,13 +46,48 @@ next_entity_type:
   ldy entity_types_index
   lda (entity_types_address),y
 
+  ;get the address of this entity's chr data
   tay
   lda entity_defs_chr_address_lo,y
   sta w0
   lda entity_defs_chr_address_hi,y
   sta w0+1
+  
+  ;store the current chr offset in entity_types_chr_offsets array
+  lda chr_offset
+  sta entity_type_chr_offsets,y
+  
+  ;load the number of bytes in this chr chunk before loading it. we will use
+  ;it to calculate the chr offset for this entity type.
+  ldy #0
+  lda (w0),y
+  sta w2
+  iny
+  lda (w0),y
+  sta w2+1
+  
   jsr ppu_load_chr_amount
 
+  ;shift right the number of bytes that was in the chr chunk by 4 to divide
+  ;by 16 (number of bytes in a chr tile) to get the count in chr tile units.
+  lda w2
+  lsr w2+1
+  ror
+  lsr w2+1
+  ror
+  lsr w2+1
+  ror
+  lsr w2+1
+  ror
+  sta w2
+  
+  ;add lo byte to chr_offset so the next entity can store its offset in the
+  ;entity_type_chr_offsets array in ram
+  clc
+  lda chr_offset
+  adc w2
+  sta chr_offset
+  
   inc entity_types_index
 
   dex
@@ -236,7 +276,7 @@ play_state_load_location:
   lda (area_address),y
   sta w3+1
 
-  jsr load_entity_types_chr
+  jsr load_entity_types
 
   switch_bank_ldy map_bank
 
