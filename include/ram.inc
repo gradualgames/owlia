@@ -11,6 +11,8 @@ MAX_ENTITIES = 8
 .global map_bank
 .global entities_bank
 .global sprites_and_animations_bank
+.global bg_chr_bank
+.global sprite_chr_bank
 
 .global state_control_params
 

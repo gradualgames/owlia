@@ -34,6 +34,7 @@ village_area:
   .byte 7   ;bg_chr_bank .byte
   .byte 6   ;sprite_chr_bank .byte
   .word map0_chr
+  .word village_entity_types
   .word village_entities
   .word song1
   .word village_palette
@@ -50,10 +51,14 @@ village_area:
   .word village_big_metatile_table_bottom_left
   .word village_big_metatile_table_bottom_right
 
-village_entities:
+village_entity_types:
   .byte 2  ;count
   .byte entity_index_hero
   .byte entity_index_tiger
+
+village_entities:
+  .byte 1  ;count
+  .byte entity_index_tiger, 10, 10
 
 house1_area:
   .byte 0   ;music_bank .byte
@@ -63,6 +68,7 @@ house1_area:
   .byte 7   ;bg_chr_bank .byte
   .byte 6   ;sprite_chr_bank .byte
   .word house1_chr
+  .word house1_entity_types
   .word house1_entities
   .word song1
   .word house1_palette
@@ -79,10 +85,13 @@ house1_area:
   .word house1_big_metatile_table_bottom_left
   .word house1_big_metatile_table_bottom_right
 
-house1_entities:
+house1_entity_types:
   .byte 2  ;count
   .byte entity_index_hero
   .byte entity_index_tiger
+
+house1_entities:
+  .byte 0  ;count
 
 overworld_area:
   .byte 0   ;music_bank .byte
@@ -92,6 +101,7 @@ overworld_area:
   .byte 7   ;bg_chr_bank .byte
   .byte 6   ;sprite_chr_bank .byte
   .word map1_chr
+  .word overworld_entity_types
   .word overworld_entities
   .word song1
   .word overworld_palette
@@ -108,7 +118,10 @@ overworld_area:
   .word overworld_big_metatile_table_bottom_left
   .word overworld_big_metatile_table_bottom_right
 
-overworld_entities:
+overworld_entity_types:
   .byte 2  ;count
   .byte entity_index_hero
   .byte entity_index_tiger
+
+overworld_entities:
+  .byte 0  ;count

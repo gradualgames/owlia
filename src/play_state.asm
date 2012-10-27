@@ -57,6 +57,80 @@ next_entity_type:
 
 .endproc
 
+.proc spawn_entities
+entities_address = w3
+entities_index = b1
+entities_count = b2
+
+  ;get count for number of entity instances in this area
+  ldy #0
+  lda (entities_address),y
+  sta entities_count
+  beq no_entities
+
+  ;store the index into the entities array
+  sty entities_index
+
+next_entity_instance:
+
+  ;point at next entity
+  inc entities_index
+
+  ;get next entity index
+  ldy entities_index
+  lda (entities_address),y
+
+  ;spawn the entity
+  sta b0
+  jsr entity_spawn
+
+  ;get the x coordinate (metatile units)
+  iny
+  lda (entities_address),y
+  sta entity_x_lo,x
+  lda #0
+  sta entity_x_hi,x
+  ;get the y coordinate (metatile units)
+  iny
+  lda (entities_address),y
+  sta entity_y_lo,x
+  lda #0
+  sta entity_y_hi,x
+
+  sty entities_index
+
+  ;now shift left the entity's x and y coordinates by 4 to multiply by 16
+  ;to get correct map coordinates based on initial metatile coordinates.
+  lda entity_x_hi,x
+  asl entity_x_lo,x
+  rol
+  asl entity_x_lo,x
+  rol
+  asl entity_x_lo,x
+  rol
+  asl entity_x_lo,x
+  rol
+  sta entity_x_hi,x
+
+  lda entity_y_hi,x
+  asl entity_y_lo,x
+  rol
+  asl entity_y_lo,x
+  rol
+  asl entity_y_lo,x
+  rol
+  asl entity_y_lo,x
+  rol
+  sta entity_y_hi,x
+
+  dec entities_count
+  bne next_entity_instance
+no_entities:
+
+  rts
+
+.endproc
+
 .proc load_area_camera_vars
 
   ldy #location::nametable_start_hibyte
@@ -95,7 +169,7 @@ next_entity_type:
 ;transitions directly to play state by spilling into it, this is NOT a routine
 play_state_load_location:
 
-  ;figure out what area to look at from the current locatiojn
+  ;figure out what area to look at from the current location
   ldy #location::area_index
   lda (location_address),y
   tax
@@ -103,9 +177,6 @@ play_state_load_location:
   sta area_address
   lda areas_hi,x
   sta area_address+1
-
-  ;initialize
-  jsr ppu_safely_disable_graphics
 
   ;setup bank numbers
   ldy #area::music_bank
@@ -124,13 +195,22 @@ play_state_load_location:
   lda (area_address),y
   sta sprites_and_animations_bank
 
+  ldy #area::bg_chr_bank
+  lda (area_address),y
+  sta bg_chr_bank
+
+  ldy #area::sprite_chr_bank
+  lda (area_address),y
+  sta sprite_chr_bank
+
+  ;initialize
+  jsr ppu_safely_disable_graphics
+
   lda #$00
   sta $2006
   sta $2006
 
-  ldy #area::bg_chr_bank
-  lda (area_address),y
-  tay
+  ldy bg_chr_bank
   switch_bank_y
 
   ldy #area::bg_chr_address
@@ -146,9 +226,7 @@ play_state_load_location:
   lda #$00
   sta $2006
 
-  ldy #area::sprite_chr_bank
-  lda (area_address),y
-  tay
+  ldy sprite_chr_bank
   switch_bank_y
 
   ldy #area::entity_types_address
@@ -314,19 +392,15 @@ play_state_load_location:
   ;attach the camera to the entity instance at x
   jsr attach_camera_to_entity
 
-  ;hard coded entity test.
-  lda #entity_index_tiger
-  sta b0
-  jsr entity_spawn
+  ;spawn all non-hero entities in area
+  ldy #area::entity_instances_address
+  lda (area_address),y
+  sta w3
+  iny
+  lda (area_address),y
+  sta w3+1
 
-  lda #100
-  sta entity_x_lo,x
-  lda #0
-  sta entity_x_hi,x
-  lda #100
-  sta entity_y_lo,x
-  lda #0
-  sta entity_y_hi,x
+  jsr spawn_entities
 
   ;execute a single frame to get entities onscreen before palette fade in and music
   .scope execute_single_frame

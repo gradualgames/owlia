@@ -148,7 +148,7 @@ hero_state_init:
   lda main_animation_addresses_hi,y
   sta entity_animation_address_hi,x
 
-  lda #0
+  lda sprite_flags_direction,y
   sta entity_sprite_flags,x
 
   lda #0

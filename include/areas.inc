@@ -10,6 +10,7 @@ AREAS_INC = 1
   sprite_chr_bank .byte
   bg_chr_address .word
   entity_types_address .word
+  entity_instances_address .word
   song_address .word
   palette_address .word
   map_address .word
