@@ -24,6 +24,7 @@ FILES           += zp \
                    camera \
                    entity \
                    controller \
+                   geotests \
                    map \
                    soundengine \
                    ppu \
