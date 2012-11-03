@@ -15,7 +15,6 @@
 
 : sta entity_flags,x
   sta entity_state,x
-  sta entity_action,x
 
   dex
   bne :-

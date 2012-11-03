@@ -20,7 +20,6 @@ entity_type_chr_offsets: .res 64
 entity_type:                 .res MAX_ENTITIES
 entity_flags:                .res MAX_ENTITIES
 entity_state:                .res MAX_ENTITIES
-entity_action:               .res MAX_ENTITIES
 entity_spawn_x_lo:           .res MAX_ENTITIES
 entity_spawn_x_hi:           .res MAX_ENTITIES
 entity_spawn_y_lo:           .res MAX_ENTITIES
@@ -29,8 +28,6 @@ entity_x_lo:                 .res MAX_ENTITIES
 entity_x_hi:                 .res MAX_ENTITIES
 entity_y_lo:                 .res MAX_ENTITIES
 entity_y_hi:                 .res MAX_ENTITIES
-entity_width:                .res MAX_ENTITIES
-entity_height:               .res MAX_ENTITIES
 entity_sprite_group_offset:  .res MAX_ENTITIES
 entity_sprite_flags:         .res MAX_ENTITIES
 entity_animation_frame:      .res MAX_ENTITIES
