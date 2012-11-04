@@ -17,7 +17,7 @@
   sta entity_state,x
 
   dex
-  bne :-
+  bpl :-
 
   rts
 
@@ -40,7 +40,7 @@ spawn_y = w1
   beq :+
 
   dex
-  bne :-
+  bpl :-
 :
   ;x now points at a dead entity
 
@@ -81,7 +81,7 @@ spawn_y = w1
   jsr indirect_jsr_entity_update
 :
   dex
-  bne :--
+  bpl :--
 
   rts
 
@@ -154,7 +154,7 @@ spawn_y = w1
 
 :
   dex
-  bne :--
+  bpl :--
 
   rts
 
