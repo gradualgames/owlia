@@ -43,6 +43,19 @@ entity_local5:               .res MAX_ENTITIES
 entity_local6:               .res MAX_ENTITIES
 entity_local7:               .res MAX_ENTITIES
 
+hero_flags:                .res 1
+hero_state:                .res 1
+hero_x_lo:                 .res 1
+hero_x_hi:                 .res 1
+hero_y_lo:                 .res 1
+hero_y_hi:                 .res 1
+hero_sprite_group_offset:  .res 1
+hero_sprite_flags:         .res 1
+hero_animation_object:     .res 2
+hero_animation_address:    .res 2
+hero_previous_direction:   .res 1
+hero_state_counter:        .res 1
+
 ppu_2000: .res 1
 ppu_2001: .res 1
 ppu_2005: .res 2
@@ -55,7 +68,6 @@ buffer_controller: .res 8
 map_width: .res 1
 map_height: .res 1
 
-camera_entity: .res 1
 camera_x: .res 2
 camera_y: .res 2
 camera_scroll_x: .res 1

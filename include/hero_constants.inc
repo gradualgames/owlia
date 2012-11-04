@@ -16,9 +16,6 @@ HERO_STATE_ATTACK_LENGTH = 20
 
 HERO_SPEED = $02
 
-hero_previous_direction = entity_local0
-hero_state_counter = entity_local1
-
 .enum
 HERO_DIRECTION_RIGHT
 HERO_DIRECTION_LEFT

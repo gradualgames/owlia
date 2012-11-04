@@ -44,6 +44,19 @@ MAX_ENTITIES = 8
 .global entity_local6
 .global entity_local7
 
+.global hero_flags
+.global hero_state
+.global hero_x_lo
+.global hero_x_hi
+.global hero_y_lo
+.global hero_y_hi
+.global hero_sprite_group_offset
+.global hero_sprite_flags
+.global hero_animation_object
+.global hero_animation_address
+.global hero_previous_direction
+.global hero_state_counter
+
 .global ppu_2000
 .global ppu_2001
 .global ppu_2002
@@ -57,7 +70,6 @@ MAX_ENTITIES = 8
 .global map_width
 .global map_height
 
-.global camera_entity  ;index of entity instance which the camera is currently following
 .global camera_x  ;camera x position relative to top left corner of map
 .global camera_y  ;camera y position relative to top left corner of map
 .global camera_scroll_x
@@ -106,9 +118,9 @@ MAX_ENTITIES = 8
 .global nametable_column_buffer      ;60 byte column buffer, contains tile data for a screen
                                      ;-tall metatile column
 .global nametable_column_vram_offset ;vram offset for where to start copying nametable column to
-                                    
+
 .global attribute_column_vram_offset ;vram offset for invalidated attribute column
-                                    
+
 .global attribute_column_offset      ;offset within attribute table buffer from which to begin copying column
 
 .endif

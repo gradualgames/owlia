@@ -1,6 +1,7 @@
 .include "zp.inc"
 .include "ram.inc"
 .include "sprite.inc"
+.include "mapper.inc"
 
 .segment "CODE"
 
@@ -58,14 +59,15 @@ animation_rom_address = w2
 .endproc
 
 ;resets the animation_ram object at w1
-;against the animation_rom definition at w2
 .proc sprite_reset_animation
 animation_ram_address = w1
-animation_rom_address = w2
 
-  ldy #animation_rom::frame_delay ;same as animation_ram::counter
-  lda (animation_rom_address),y
+  ;reset the counter
+  ldy #animation_ram::counter
+  lda #1
   sta (animation_ram_address),y
+
+  ;reset to frame zero
   ldy #animation_ram::frame
   lda #0
   sta (animation_ram_address),y
@@ -79,6 +81,8 @@ animation_rom_address = w2
 .proc sprite_update_animation
 animation_ram_address = w1
 animation_rom_address = w2
+
+  switch_bank_ldy sprites_and_animations_bank
 
   ldy #animation_ram::counter ;same as animation_rom::frame_delay
   sec
@@ -106,6 +110,8 @@ animation_rom_address = w2
   sta (animation_ram_address),y
 
 :
+
+  switch_bank_ldy entities_bank
 
   rts
 

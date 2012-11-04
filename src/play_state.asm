@@ -17,6 +17,7 @@
 .include "areas.inc"
 .include "locations.inc"
 .include "entities.inc"
+.include "hero.inc"
 .include "hero_constants.inc"
 
 .segment "CODE"
@@ -52,11 +53,11 @@ next_entity_type:
   sta w0
   lda entity_defs_chr_address_hi,y
   sta w0+1
-  
+
   ;store the current chr offset in entity_types_chr_offsets array
   lda chr_offset
   sta entity_type_chr_offsets,y
-  
+
   ;load the number of bytes in this chr chunk before loading it. we will use
   ;it to calculate the chr offset for this entity type.
   ldy #0
@@ -65,7 +66,7 @@ next_entity_type:
   iny
   lda (w0),y
   sta w2+1
-  
+
   jsr ppu_load_chr_amount
 
   ;shift right the number of bytes that was in the chr chunk by 4 to divide
@@ -80,14 +81,14 @@ next_entity_type:
   lsr w2+1
   ror
   sta w2
-  
+
   ;add lo byte to chr_offset so the next entity can store its offset in the
   ;entity_type_chr_offsets array in ram
   clc
   lda chr_offset
   adc w2
   sta chr_offset
-  
+
   inc entity_types_index
 
   dex
@@ -404,33 +405,27 @@ play_state_load_location:
 
   jsr entity_init_all
 
-  ;spawn the hero entity
-  lda #entity_index_hero
-  sta b0
-  jsr entity_spawn
-
+  ;initialize the hero entity
+  jsr hero_init
   ;load her initial location
   ldy #location::hero_start_x
   lda (location_address),y
-  sta entity_x_lo,x
+  sta hero_x_lo
   iny
   lda (location_address),y
-  sta entity_x_hi,x
+  sta hero_x_hi
 
   ldy #location::hero_start_y
   lda (location_address),y
-  sta entity_y_lo,x
+  sta hero_y_lo
   iny
   lda (location_address),y
-  sta entity_y_hi,x
+  sta hero_y_hi
 
   ;load her initial direction
   ldy #location::hero_direction
   lda (location_address),y
-  sta hero_previous_direction,x
-
-  ;attach the camera to the entity instance at x
-  jsr attach_camera_to_entity
+  sta hero_previous_direction
 
   ;spawn all non-hero entities in area
   ldy #area::entity_instances_address
@@ -451,11 +446,15 @@ play_state_load_location:
   switch_bank_ldy entities_bank
   jsr entity_update_all
 
+  jsr hero_update
+
   switch_bank_ldy map_bank
   jsr update_camera
 
   switch_bank_ldy sprites_and_animations_bank
   jsr entity_draw_all
+
+  jsr hero_draw
 
   set_vblank_data_ready
   .endscope
@@ -509,11 +508,15 @@ play_state:
   switch_bank_ldy entities_bank
   jsr entity_update_all
 
+  jsr hero_update
+
   switch_bank_ldy map_bank
   jsr update_camera
 
   switch_bank_ldy sprites_and_animations_bank
   jsr entity_draw_all
+
+  jsr hero_draw
 
   .ifdef CPU_USAGE
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE

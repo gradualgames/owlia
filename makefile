@@ -30,6 +30,7 @@ FILES           += zp \
                    ppu \
                    mapper \
                    sprite \
+                   hero \
                    entities \
                    sprite_chr_data \
                    bg_chr_data \
@@ -68,6 +69,7 @@ NAMELIST_GENERATOR_FLAGS = -rom $(NES_FILE) \
                            -nl ram STACK    0100 \
                            -nl ram BSS      0200 \
                            -nl 1   ROM01    8000 \
+                           -nl 3   ROM03    8000 \
                            -nl 15  CODE     C000 \
                            -map $(MAP_FILE) \
                            $(addprefix -lst ,$(LST_FILES))

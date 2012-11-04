@@ -5,16 +5,7 @@
 
 .segment "CODE"
 
-;assumes x register points to entity instance to attach to (follow)
-.proc attach_camera_to_entity
-
-  stx camera_entity
-
-  rts
-
-.endproc
-
-;follows the entity at camera_entity whenever it moves outside of a
+;follows the hero entity whenever it moves outside of a
 ;hard-coded rectangular area
 .proc update_camera
 CAMERA_HORIZ_SIZE = 80
@@ -25,8 +16,6 @@ camera_top_y = w6
 camera_bottom_y = w7
 camera_increment = b0
 
-  ldx camera_entity
-
   clc
   lda camera_x
   adc #(256 - CAMERA_HORIZ_SIZE)
@@ -35,13 +24,12 @@ camera_increment = b0
   adc #$00
   sta camera_right_x+1
 
-  ldx camera_entity
   sec
-  lda entity_x_lo,x
+  lda hero_x_lo
   sbc camera_right_x
   sta camera_increment
   beq skip_follow_right
-  lda entity_x_hi,x
+  lda hero_x_hi
   sbc camera_right_x+1
   bmi skip_follow_right
 
@@ -74,14 +62,13 @@ skip_follow_right:
   adc #$00
   sta camera_left_x+1
 
-  ldx camera_entity
   sec
   lda camera_left_x
-  sbc entity_x_lo,x
+  sbc hero_x_lo
   sta camera_increment
   beq skip_follow_left
   lda camera_left_x+1
-  sbc entity_x_hi,x
+  sbc hero_x_hi
   bmi skip_follow_left
 
   jsr decrement_camera_x
@@ -111,13 +98,12 @@ skip_follow_left:
   adc #$00
   sta camera_bottom_y+1
 
-  ldx camera_entity
   sec
-  lda entity_y_lo,x
+  lda hero_y_lo
   sbc camera_bottom_y
   sta camera_increment
   beq skip_follow_down
-  lda entity_y_hi,x
+  lda hero_y_hi
   sbc camera_bottom_y+1
   bmi skip_follow_down
 
@@ -152,14 +138,13 @@ skip_follow_down:
   adc #$00
   sta camera_top_y+1
 
-  ldx camera_entity
   sec
   lda camera_top_y
-  sbc entity_y_lo,x
+  sbc hero_y_lo
   sta camera_increment
   beq skip_follow_up
   lda camera_top_y+1
-  sbc entity_y_hi,x
+  sbc hero_y_hi
   bmi skip_follow_up
 
   jsr decrement_camera_y
