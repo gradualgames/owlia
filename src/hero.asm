@@ -342,7 +342,7 @@ hero_state_attack:
 
   lda hero_animation_address
   sta w2
-  lda hero_animation_address
+  lda hero_animation_address+1
   sta w2+1
   jsr sprite_update_animation
 
