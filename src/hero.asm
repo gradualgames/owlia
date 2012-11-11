@@ -204,6 +204,18 @@ hero_hi:
 sprite_flags_direction:
   .byte %00000000, %01000000, %00000000, %00000000
 
+attack_rect_offset_x_lo:
+  .byte 16, -16, 0, 0
+
+attack_rect_offset_x_hi:
+  .byte 0, $ff, 0, 0
+
+attack_rect_offset_y_lo:
+  .byte 4, 4, 24, -16
+
+attack_rect_offset_y_hi:
+  .byte 0, 0, 0, $ff
+
 hero_update:
 
   lda hero_state
@@ -257,6 +269,10 @@ hero_state_main:
   and #%00000011
   cmp #%00000001
   bne skip_attack_test
+
+  lda hero_flags
+  ora #HERO_FLAGS_DEADLY_SET
+  sta hero_flags
 
   lda #HERO_STATE_ATTACK
   sta hero_state
@@ -349,21 +365,26 @@ skip_attack_test:
 
 hero_state_attack:
 
-  lda hero_flags
-  ora #HERO_FLAGS_DEADLY_SET
-  sta hero_flags
-
-  lda hero_x_lo
+  ;compute top left of attack rect based on direction
+  ldy hero_previous_direction
+  clc
+  lda attack_rect_offset_x_lo,y
+  adc hero_x_lo
   sta hero_attack_rect_x
-  lda hero_x_hi
+  lda attack_rect_offset_x_hi,y
+  adc hero_x_hi
   sta hero_attack_rect_x+1
-  lda hero_y_lo
+  
+  clc
+  lda attack_rect_offset_y_lo,y
+  adc hero_y_lo
   sta hero_attack_rect_y
-  lda hero_y_hi
+  lda attack_rect_offset_y_hi,y
+  adc hero_y_hi
   sta hero_attack_rect_y+1
-  lda #HERO_WIDTH
+  
+  lda #16
   sta hero_attack_rect_width
-  lda #HERO_HEIGHT
   sta hero_attack_rect_height
 
   lda #<hero_animation_object
