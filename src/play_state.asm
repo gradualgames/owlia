@@ -444,17 +444,15 @@ play_state_load_location:
   jsr sprite_clear_all
 
   switch_bank_ldy entities_bank
-  jsr entity_update_all
-
   jsr hero_update
+  jsr entity_update_all
 
   switch_bank_ldy map_bank
   jsr update_camera
 
   switch_bank_ldy sprites_and_animations_bank
-  jsr entity_draw_all
-
   jsr hero_draw
+  jsr entity_draw_all
 
   set_vblank_data_ready
   .endscope
@@ -506,17 +504,15 @@ play_state:
   jsr controller_read
 
   switch_bank_ldy entities_bank
-  jsr entity_update_all
-
   jsr hero_update
+  jsr entity_update_all
 
   switch_bank_ldy map_bank
   jsr update_camera
 
   switch_bank_ldy sprites_and_animations_bank
-  jsr entity_draw_all
-
   jsr hero_draw
+  jsr entity_draw_all
 
   .ifdef CPU_USAGE
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE

@@ -28,6 +28,8 @@ entity_x_lo:                 .res MAX_ENTITIES
 entity_x_hi:                 .res MAX_ENTITIES
 entity_y_lo:                 .res MAX_ENTITIES
 entity_y_hi:                 .res MAX_ENTITIES
+entity_width:                .res MAX_ENTITIES
+entity_height:               .res MAX_ENTITIES
 entity_sprite_group_offset:  .res MAX_ENTITIES
 entity_sprite_flags:         .res MAX_ENTITIES
 entity_animation_frame:      .res MAX_ENTITIES
@@ -43,18 +45,30 @@ entity_local5:               .res MAX_ENTITIES
 entity_local6:               .res MAX_ENTITIES
 entity_local7:               .res MAX_ENTITIES
 
-hero_flags:                .res 1
-hero_state:                .res 1
-hero_x_lo:                 .res 1
-hero_x_hi:                 .res 1
-hero_y_lo:                 .res 1
-hero_y_hi:                 .res 1
-hero_sprite_group_offset:  .res 1
-hero_sprite_flags:         .res 1
-hero_animation_object:     .res 2
-hero_animation_address:    .res 2
-hero_previous_direction:   .res 1
-hero_state_counter:        .res 1
+hero_flags:                  .res 1
+hero_state:                  .res 1
+hero_x_lo:                   .res 1
+hero_x_hi:                   .res 1
+hero_y_lo:                   .res 1
+hero_y_hi:                   .res 1
+hero_width:                  .res 1
+hero_height:                 .res 1
+hero_sprite_group_offset:    .res 1
+hero_sprite_flags:           .res 1
+hero_animation_object:       .res 2
+hero_animation_address:      .res 2
+hero_previous_direction:     .res 1
+hero_state_counter:          .res 1
+
+hero_attack_rect_x:          .res 2
+hero_attack_rect_y:          .res 2
+hero_attack_rect_width:      .res 1
+hero_attack_rect_height:     .res 1
+
+hero_familiar_rect_x:        .res 2
+hero_familiar_rect_y:        .res 2
+hero_familiar_rect_width:    .res 1
+hero_familiar_rect_height:   .res 1
 
 ppu_2000: .res 1
 ppu_2001: .res 1

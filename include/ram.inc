@@ -29,6 +29,8 @@ MAX_ENTITIES = 8
 .global entity_x_hi
 .global entity_y_lo
 .global entity_y_hi
+.global entity_width
+.global entity_height
 .global entity_sprite_group_offset
 .global entity_sprite_flags
 .global entity_animation_frame
@@ -50,12 +52,24 @@ MAX_ENTITIES = 8
 .global hero_x_hi
 .global hero_y_lo
 .global hero_y_hi
+.global hero_width
+.global hero_height
 .global hero_sprite_group_offset
 .global hero_sprite_flags
 .global hero_animation_object
 .global hero_animation_address
 .global hero_previous_direction
 .global hero_state_counter
+
+.global hero_attack_rect_x
+.global hero_attack_rect_y
+.global hero_attack_rect_width
+.global hero_attack_rect_height
+
+.global hero_familiar_rect_x
+.global hero_familiar_rect_y
+.global hero_familiar_rect_width
+.global hero_familiar_rect_height
 
 .global ppu_2000
 .global ppu_2001

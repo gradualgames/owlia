@@ -16,9 +16,8 @@
 
 .proc hero_init
 
-  lda #0
+  lda #HERO_STATE_INIT
   sta hero_state
-  sta hero_flags
 
   rts
 
@@ -69,6 +68,16 @@
   sta w2+1
 
   jsr sprite_draw_animation
+  rts
+
+.endproc
+
+;clears zero flag if hero is deadly, set it if not.
+.proc hero_is_deadly
+
+  lda hero_flags
+  and #HERO_FLAGS_DEADLY_TEST
+
   rts
 
 .endproc
@@ -210,9 +219,14 @@ hero_state_init:
   lda #HERO_STATE_MAIN
   sta hero_state
 
-  lda hero_flags
-  ora #ENTITY_FLAGS_DRAWABLE_SET
+  lda #0
   sta hero_flags
+  sta hero_attack_rect_x
+  sta hero_attack_rect_x+1
+  sta hero_attack_rect_y
+  sta hero_attack_rect_y+1
+  sta hero_attack_rect_width
+  sta hero_attack_rect_height
 
   ldy hero_previous_direction
   lda main_animation_addresses_lo,y
@@ -335,6 +349,23 @@ skip_attack_test:
 
 hero_state_attack:
 
+  lda hero_flags
+  ora #HERO_FLAGS_DEADLY_SET
+  sta hero_flags
+
+  lda hero_x_lo
+  sta hero_attack_rect_x
+  lda hero_x_hi
+  sta hero_attack_rect_x+1
+  lda hero_y_lo
+  sta hero_attack_rect_y
+  lda hero_y_hi
+  sta hero_attack_rect_y+1
+  lda #HERO_WIDTH
+  sta hero_attack_rect_width
+  lda #HERO_HEIGHT
+  sta hero_attack_rect_height
+
   lda #<hero_animation_object
   sta w1
   lda #>hero_animation_object
@@ -355,6 +386,10 @@ hero_state_attack:
   sta w1+1
 
   jsr sprite_reset_animation
+
+  lda hero_flags
+  and #HERO_FLAGS_DEADLY_CLEAR
+  sta hero_flags
 
   lda #HERO_STATE_MAIN
   sta hero_state

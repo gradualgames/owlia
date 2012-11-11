@@ -27,6 +27,11 @@ tiger_state_init:
   ora #ENTITY_FLAGS_DRAWABLE_SET
   sta entity_flags,x
 
+  lda #16
+  sta entity_width,x
+  lda #24
+  sta entity_height,x
+
   lda #<TigerWalkSide
   sta entity_animation_address_lo,x
   lda #>TigerWalkSide
@@ -48,6 +53,18 @@ tiger_state_init:
   rts
 
 tiger_state_main:
+
+  jsr hero_is_deadly
+  beq hero_not_deadly
+
+  jsr entity_test_hero_attack_rect
+  bne hero_not_deadly
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+hero_not_deadly:
 
   lda #<TigerWalkSide
   sta w2

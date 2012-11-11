@@ -4,8 +4,45 @@
 .include "zp.inc"
 .include "sprite.inc"
 .include "mapper.inc"
+.include "geotests.inc"
 
 .segment "CODE"
+
+.proc entity_test_hero_attack_rect
+
+  ;transfer entity rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda entity_x_lo,x
+  sta w2
+  lda entity_x_hi,x
+  sta w2+1
+  lda entity_y_lo,x
+  sta w3
+  lda entity_y_hi,x
+  sta w3+1
+  lda entity_width,x
+  sta b2
+  lda entity_height,x
+  sta b3
+
+  ;transfer Hitbox rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda hero_attack_rect_x
+  sta w4
+  lda hero_attack_rect_x+1
+  sta w4+1
+  lda hero_attack_rect_y
+  sta w5
+  lda hero_attack_rect_y+1
+  sta w5+1
+  lda hero_attack_rect_width
+  sta b4
+  lda hero_attack_rect_height
+  sta b5
+
+  jsr geotests_rect_in_rect_16bit
+
+  rts
+
+.endproc
 
 ;clears flags, state, and action for all entities
 .proc entity_init_all

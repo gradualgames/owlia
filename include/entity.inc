@@ -7,15 +7,17 @@ ENTITY_INC = 1
 .global entity_draw_all
 .global entity_reset_animation
 .global entity_update_animation
+.global entity_test_hero_attack_rect
 
 ENTITY_FLAGS_ALIVE_SET     = %00000001
-ENTITY_FLAGS_ALIVE_TEST    = ENTITY_FLAGS_ALIVE_SET
-                             
+ENTITY_FLAGS_ALIVE_TEST    = %00000001
+ENTITY_FLAGS_ALIVE_CLEAR   = %11111110
+
 ENTITY_FLAGS_SOLID_SET     = %00000010
-ENTITY_FLAGS_SOLID_TEST    = ENTITY_FLAGS_SOLID_SET
+ENTITY_FLAGS_SOLID_TEST    = %00000010
 
 ENTITY_FLAGS_DRAWABLE_SET  = %00000100
-ENTITY_FLAGS_DRAWABLE_TEST = ENTITY_FLAGS_DRAWABLE_SET
+ENTITY_FLAGS_DRAWABLE_TEST = %00000100
 
 .macro entity_state_switchboard jump_table_lo, jump_table_hi
 
