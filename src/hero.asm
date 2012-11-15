@@ -399,6 +399,16 @@ skip_attack_test:
   sta w0+1
   jsr indirect_jsr_w0
 
+  ;get the opposite direction we're facing and look up the animation address
+  lda hero_previous_direction
+  tay
+  lda hero_opposite_direction,y
+  tay
+  lda main_animation_addresses_lo,y
+  sta hero_animation_address
+  lda main_animation_addresses_hi,y
+  sta hero_animation_address+1
+
   dec hero_knockback_counter
 
   jmp skip_choose_direction_handler_from_controller
@@ -431,6 +441,15 @@ hero_not_knockback:
   lda direction_handlers_hi,y
   sta w0+1
   jsr indirect_jsr_w0
+
+  ;get the direction we're facing and look up the animation address
+  lda hero_previous_direction
+  tay
+  lda main_animation_addresses_lo,y
+  sta hero_animation_address
+  lda main_animation_addresses_hi,y
+  sta hero_animation_address+1
+
 skip_choose_direction_handler_from_controller:
 
   ;advance the current invincibility frames state if the counter is nonzero
@@ -440,14 +459,6 @@ skip_choose_direction_handler_from_controller:
   dec hero_invincibility_counter
 
 hero_not_invincible:
-
-  ;get the direction we're facing and look up the animation address
-  lda hero_previous_direction
-  tay
-  lda main_animation_addresses_lo,y
-  sta hero_animation_address
-  lda main_animation_addresses_hi,y
-  sta hero_animation_address+1
 
   lda sprite_flags_direction,y
   sta hero_sprite_flags
