@@ -399,7 +399,7 @@ skip_attack_test:
   sta w0+1
   jsr indirect_jsr_w0
 
-  ;get the opposite direction we're facing and look up the animation address
+  ;get the opposite direction we're being knocked in and look up the animation for it
   lda hero_previous_direction
   tay
   lda hero_opposite_direction,y
@@ -409,7 +409,23 @@ skip_attack_test:
   lda main_animation_addresses_hi,y
   sta hero_animation_address+1
 
+  ;decrement the knockback counter
   dec hero_knockback_counter
+
+  ;on zero, flip the direction the hero is facing permanently
+  bne hero_knockback_counter_not_zero
+
+  lda hero_previous_direction
+  tay
+  lda hero_opposite_direction,y
+  sta hero_previous_direction
+  tay
+  lda main_animation_addresses_lo,y
+  sta hero_animation_address
+  lda main_animation_addresses_hi,y
+  sta hero_animation_address+1
+
+hero_knockback_counter_not_zero:
 
   jmp skip_choose_direction_handler_from_controller
 
