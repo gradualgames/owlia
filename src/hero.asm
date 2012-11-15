@@ -23,6 +23,45 @@
 
 .endproc
 
+;sets up the hero's state to start flashing invincibility frames and
+;get knocked back in a certain direction for a few frames.
+;expects b0 to contain cardinal direction to knock the hero back in.
+;it is expected to be one of the four HERO_DIRECTION enum values. A
+;negative value means to knock the hero in the opposite direction that
+;she is facing.
+.proc hero_hurt
+hero_knockback_direction = b0
+
+  ; -if hero_invincibility_counter is 0
+  lda hero_invincibility_counter
+  bne hero_invincible
+  ; -if cardinal direction param is none,
+  lda hero_knockback_direction
+  bpl skip_lookup_opposite_direction
+    ; -look up opposite direction for hero_previous_direction.
+  ldy hero_previous_direction
+  lda hero_opposite_direction,y
+  tay
+skip_lookup_opposite_direction:
+  ; -look up direction handlers index from hero_knockback_direction
+  lda hero_direction_to_direction_handlers_index,y
+  ; -store this in hero_knockback_direction
+  sta hero_knockback_direction_handler
+  ; -set hero_knockback_counter
+  lda #HERO_KNOCKBACK_LENGTH
+  sta hero_knockback_counter
+  ; -set hero_invincibility_counter
+  lda #HERO_INVINCIBILITY_LENGTH
+  sta hero_invincibility_counter
+  ; -set hero speed while hurt
+  lda #HERO_KNOCKBACK_SPEED
+  sta hero_speed
+hero_invincible:
+
+  rts
+
+.endproc
+
 .proc hero_draw
 
   ;calculate screen coordinates based on the camera coordinates
@@ -166,6 +205,9 @@ direction_handlers_lo:
 direction_handlers_hi:
   .hibytes direction_handlers
 
+hero_direction_to_direction_handlers_index:
+  .byte 1, 2, 4, 8
+
 .define main_animation_addresses\
   WalkSide,\
   WalkSide,\
@@ -200,6 +242,12 @@ hero_lo:
 
 hero_hi:
   .hibytes hero_states
+
+hero_opposite_direction:
+  .byte HERO_DIRECTION_LEFT
+  .byte HERO_DIRECTION_RIGHT
+  .byte HERO_DIRECTION_UP
+  .byte HERO_DIRECTION_DOWN
 
 sprite_flags_direction:
   .byte %00000000, %01000000, %00000000, %00000000
@@ -240,6 +288,14 @@ hero_state_init:
   sta hero_attack_rect_width
   sta hero_attack_rect_height
 
+  lda #HERO_WIDTH
+  sta hero_width
+  lda #HERO_HEIGHT
+  sta hero_height
+
+  lda #HERO_SPEED
+  sta hero_speed
+
   ldy hero_previous_direction
   lda main_animation_addresses_lo,y
   sta hero_animation_address
@@ -260,6 +316,10 @@ hero_state_init:
   tay
   lda entity_type_chr_offsets,y
   sta hero_sprite_group_offset
+
+  lda #0
+  sta hero_invincibility_counter
+  sta hero_knockback_counter
 
   rts
 
@@ -316,6 +376,28 @@ hero_state_main:
 
 skip_attack_test:
 
+  ;check to see if hero is hurt. if not, use controller to choose
+  ;direction handler. if so, use hero_knockback_direction_handler to choose
+  ;the direction handler.
+  lda hero_knockback_counter
+  beq hero_not_knockback
+
+  lda #HERO_KNOCKBACK_SPEED
+  sta hero_speed
+
+  ldy hero_knockback_direction_handler
+  lda direction_handlers_lo,y
+  sta w0
+  lda direction_handlers_hi,y
+  sta w0+1
+  jsr indirect_jsr_w0
+
+  dec hero_knockback_counter
+
+  jmp skip_choose_direction_handler_from_controller
+
+hero_not_knockback:
+
   ;get up, down, left, right into a single bit field
   lda #0
   sta b0
@@ -332,6 +414,9 @@ skip_attack_test:
   ror
   rol b0
 
+  lda #HERO_SPEED
+  sta hero_speed
+
   ;use this as an index into a direction handlers lut
   ldy b0
   lda direction_handlers_lo,y
@@ -339,6 +424,15 @@ skip_attack_test:
   lda direction_handlers_hi,y
   sta w0+1
   jsr indirect_jsr_w0
+skip_choose_direction_handler_from_controller:
+
+  ;advance the current invincibility frames state if the counter is nonzero
+  lda hero_invincibility_counter
+  beq hero_not_invincible
+
+  dec hero_invincibility_counter
+
+hero_not_invincible:
 
   ;get the direction we're facing and look up the animation address
   lda hero_previous_direction
@@ -374,7 +468,7 @@ hero_state_attack:
   lda attack_rect_offset_x_hi,y
   adc hero_x_hi
   sta hero_attack_rect_x+1
-  
+
   clc
   lda attack_rect_offset_y_lo,y
   adc hero_y_lo
@@ -382,7 +476,7 @@ hero_state_attack:
   lda attack_rect_offset_y_hi,y
   adc hero_y_hi
   sta hero_attack_rect_y+1
-  
+
   lda #16
   sta hero_attack_rect_width
   sta hero_attack_rect_height
@@ -438,7 +532,7 @@ found_collision_right_side:
 
   clc
   lda hero_x_lo
-  adc #HERO_SPEED
+  adc hero_speed
   sta hero_x_lo
   lda hero_x_hi
   adc #$00
@@ -461,7 +555,7 @@ hero_direction_left_handler:
 
   sec
   lda hero_x_lo
-  sbc #HERO_SPEED
+  sbc hero_speed
   sta hero_x_lo
   lda hero_x_hi
   sbc #$00
@@ -484,7 +578,7 @@ hero_direction_down_handler:
 
   clc
   lda hero_y_lo
-  adc #HERO_SPEED
+  adc hero_speed
   sta hero_y_lo
   lda hero_y_hi
   adc #$00
@@ -521,7 +615,7 @@ legal_direction:
 
   clc
   lda hero_y_lo
-  adc #HERO_SPEED
+  adc hero_speed
   sta hero_y_lo
   lda hero_y_hi
   adc #$00
@@ -533,7 +627,7 @@ found_collision_down_side:
 
   clc
   lda hero_x_lo
-  adc #HERO_SPEED
+  adc hero_speed
   sta hero_x_lo
   lda hero_x_hi
   adc #$00
@@ -567,7 +661,7 @@ legal_direction:
 
   clc
   lda hero_y_lo
-  adc #HERO_SPEED
+  adc hero_speed
   sta hero_y_lo
   lda hero_y_hi
   adc #$00
@@ -579,7 +673,7 @@ found_collision_down_side:
 
   sec
   lda hero_x_lo
-  sbc #HERO_SPEED
+  sbc hero_speed
   sta hero_x_lo
   lda hero_x_hi
   sbc #$00
@@ -598,7 +692,7 @@ hero_direction_up_handler:
 
   sec
   lda hero_y_lo
-  sbc #HERO_SPEED
+  sbc hero_speed
   sta hero_y_lo
   lda hero_y_hi
   sbc #$00
@@ -636,7 +730,7 @@ legal_direction:
 
   sec
   lda hero_y_lo
-  sbc #HERO_SPEED
+  sbc hero_speed
   sta hero_y_lo
   lda hero_y_hi
   sbc #$00
@@ -648,7 +742,7 @@ found_collision_up_side:
 
   clc
   lda hero_x_lo
-  adc #HERO_SPEED
+  adc hero_speed
   sta hero_x_lo
   lda hero_x_hi
   adc #$00
@@ -686,7 +780,7 @@ legal_direction:
 
   sec
   lda hero_y_lo
-  sbc #HERO_SPEED
+  sbc hero_speed
   sta hero_y_lo
   lda hero_y_hi
   sbc #$00
@@ -699,7 +793,7 @@ found_collision_up_side:
 
   sec
   lda hero_x_lo
-  sbc #HERO_SPEED
+  sbc hero_speed
   sta hero_x_lo
   lda hero_x_hi
   sbc #$00

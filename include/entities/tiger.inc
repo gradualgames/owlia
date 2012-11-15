@@ -66,6 +66,15 @@ tiger_state_main:
 
 hero_not_deadly:
 
+  jsr entity_test_hero_rect
+  bne entity_not_hitting_hero
+
+  lda #$ff
+  sta b0
+  jsr hero_hurt
+
+entity_not_hitting_hero:
+
   lda #<TigerWalkSide
   sta w2
   lda #>TigerWalkSide

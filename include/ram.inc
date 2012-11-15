@@ -48,18 +48,24 @@ MAX_ENTITIES = 8
 
 .global hero_flags
 .global hero_state
+.global hero_x
 .global hero_x_lo
 .global hero_x_hi
+.global hero_y
 .global hero_y_lo
 .global hero_y_hi
 .global hero_width
 .global hero_height
+.global hero_speed
 .global hero_sprite_group_offset
 .global hero_sprite_flags
 .global hero_animation_object
 .global hero_animation_address
 .global hero_previous_direction
 .global hero_state_counter
+.global hero_invincibility_counter
+.global hero_knockback_counter
+.global hero_knockback_direction_handler
 
 .global hero_attack_rect_x
 .global hero_attack_rect_y
