@@ -52,8 +52,9 @@ village_area:
   .word village_big_metatile_table_bottom_right
 
 village_entity_types:
-  .byte 2  ;count
+  .byte 3  ;count
   .byte entity_index_hero
+  .byte entity_index_familiar
   .byte entity_index_tiger
 
 village_entities:
@@ -86,8 +87,9 @@ house1_area:
   .word house1_big_metatile_table_bottom_right
 
 house1_entity_types:
-  .byte 2  ;count
+  .byte 3  ;count
   .byte entity_index_hero
+  .byte entity_index_familiar
   .byte entity_index_tiger
 
 house1_entities:
@@ -119,8 +121,9 @@ overworld_area:
   .word overworld_big_metatile_table_bottom_right
 
 overworld_entity_types:
-  .byte 2  ;count
+  .byte 3  ;count
   .byte entity_index_hero
+  .byte entity_index_familiar
   .byte entity_index_tiger
 
 overworld_entities:

@@ -31,6 +31,7 @@ FILES           += zp \
                    mapper \
                    sprite \
                    hero \
+                   familiar \
                    entities \
                    sprite_chr_data \
                    bg_chr_data \

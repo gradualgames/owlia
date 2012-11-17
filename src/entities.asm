@@ -13,12 +13,16 @@
 
 .segment "CODE"
 
+;update routines for entities. The hero and familiar are left blank because
+;they only use the entity system for loading CHR graphics.
 .define entity_defs_update_address \
-  hero_update, \
+  0, \
+  0, \
   tiger_update
 
 .define entity_defs_chr_address \
   hero_chr, \
+  Familiar_chr, \
   Tiger_chr
 
 entity_defs_update_address_lo:
@@ -34,4 +38,5 @@ entity_defs_chr_address_hi:
 .segment "ROM01"
 
 .include "hero.inc"
+.include "familiar.inc"
 .include "tiger.inc"

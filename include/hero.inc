@@ -1,4 +1,3 @@
-.linecont +
 .include "hero_constants.inc"
 
 .ifndef HERO_INC

@@ -8,6 +8,7 @@ ENTITIES_INC = 1
 
 .enum
 entity_index_hero
+entity_index_familiar
 entity_index_tiger
 .endenum
 

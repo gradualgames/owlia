@@ -71,10 +71,20 @@ hero_attack_rect_y:          .res 2
 hero_attack_rect_width:      .res 1
 hero_attack_rect_height:     .res 1
 
-hero_familiar_rect_x:        .res 2
-hero_familiar_rect_y:        .res 2
-hero_familiar_rect_width:    .res 1
-hero_familiar_rect_height:   .res 1
+familiar_flags:                   .res 1
+familiar_state:                   .res 1
+familiar_x:                       .res 2
+familiar_y:                       .res 2
+familiar_width:                   .res 1
+familiar_height:                  .res 1
+familiar_rect_x:                  .res 2
+familiar_rect_y:                  .res 2
+familiar_rect_width:              .res 1
+familiar_rect_height:             .res 1
+familiar_sprite_group_offset:     .res 1
+familiar_sprite_flags:            .res 1
+familiar_animation_object:        .res 2
+familiar_animation_address:       .res 2
 
 ppu_2000: .res 1
 ppu_2001: .res 1

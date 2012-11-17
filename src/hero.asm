@@ -1,7 +1,9 @@
+.linecont +
 .include "hero.inc"
 .include "hero_constants.inc"
 .include "entity.inc"
 .include "entities.inc"
+.include "familiar.inc"
 .include "ram.inc"
 .include "zp.inc"
 .include "play_state.inc"
@@ -333,6 +335,15 @@ hero_state_init:
   rts
 
 hero_state_main:
+
+  lda buffer_controller+buttons::_b
+  and #%00000011
+  cmp #%00000001
+  bne skip_spawn_familiar_test
+
+  jsr familiar_spawn
+
+skip_spawn_familiar_test:
 
   lda buffer_controller+buttons::_a
   and #%00000011

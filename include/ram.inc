@@ -72,10 +72,20 @@ MAX_ENTITIES = 8
 .global hero_attack_rect_width
 .global hero_attack_rect_height
 
-.global hero_familiar_rect_x
-.global hero_familiar_rect_y
-.global hero_familiar_rect_width
-.global hero_familiar_rect_height
+.global familiar_flags
+.global familiar_state
+.global familiar_x
+.global familiar_y
+.global familiar_width
+.global familiar_height
+.global familiar_rect_x
+.global familiar_rect_y
+.global familiar_rect_width
+.global familiar_rect_height
+.global familiar_sprite_group_offset
+.global familiar_sprite_flags
+.global familiar_animation_object
+.global familiar_animation_address
 
 .global ppu_2000
 .global ppu_2001

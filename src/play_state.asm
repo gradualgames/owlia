@@ -19,6 +19,8 @@
 .include "entities.inc"
 .include "hero.inc"
 .include "hero_constants.inc"
+.include "familiar.inc"
+.include "familiar_constants.inc"
 
 .segment "CODE"
 
@@ -427,6 +429,9 @@ play_state_load_location:
   lda (location_address),y
   sta hero_previous_direction
 
+  ;initialize the familiar entity
+  jsr familiar_init
+  
   ;spawn all non-hero entities in area
   ldy #area::entity_instances_address
   lda (area_address),y
@@ -445,6 +450,7 @@ play_state_load_location:
 
   switch_bank_ldy entities_bank
   jsr hero_update
+  jsr familiar_update
   jsr entity_update_all
 
   switch_bank_ldy map_bank
@@ -452,6 +458,7 @@ play_state_load_location:
 
   switch_bank_ldy sprites_and_animations_bank
   jsr hero_draw
+  jsr familiar_draw
   jsr entity_draw_all
 
   set_vblank_data_ready
@@ -505,6 +512,7 @@ play_state:
 
   switch_bank_ldy entities_bank
   jsr hero_update
+  jsr familiar_update
   jsr entity_update_all
 
   switch_bank_ldy map_bank
@@ -512,6 +520,7 @@ play_state:
 
   switch_bank_ldy sprites_and_animations_bank
   jsr hero_draw
+  jsr familiar_draw
   jsr entity_draw_all
 
   .ifdef CPU_USAGE
