@@ -306,8 +306,10 @@ hero_state_init:
   ldy hero_previous_direction
   lda main_animation_addresses_lo,y
   sta hero_animation_address
+  sta w2
   lda main_animation_addresses_hi,y
   sta hero_animation_address+1
+  sta w2+1
 
   lda #<hero_animation_object
   sta w1
@@ -351,8 +353,10 @@ hero_state_main:
   tay
   lda attack_animation_addresses_lo,y
   sta hero_animation_address
+  sta w2
   lda attack_animation_addresses_hi,y
   sta hero_animation_address+1
+  sta w2+1
 
   lda #<hero_animation_object
   sta w1
@@ -528,6 +532,14 @@ hero_state_attack:
 
   dec hero_state_counter
   bne attack_not_done
+
+  ;get the direction we're facing and look up the animation address
+  lda hero_previous_direction
+  tay
+  lda main_animation_addresses_lo,y
+  sta hero_animation_address
+  lda main_animation_addresses_hi,y
+  sta hero_animation_address+1
 
   lda #<hero_animation_object
   sta w1

@@ -244,13 +244,23 @@ spawn_y = w1
 .proc entity_reset_animation
 animation_rom_address = w2
 
+  switch_bank_ldy sprites_and_animations_bank
+
+  lda entity_animation_address_lo,x
+  sta animation_rom_address
+  lda entity_animation_address_hi,x
+  sta animation_rom_address+1
+
   ;reset the counter
-  lda #1
+  ldy #animation_rom::frame_delay
+  lda (animation_rom_address),y
   sta entity_animation_counter,x
 
   ;reset to frame zero
   lda #0
   sta entity_animation_frame,x
+
+  switch_bank_ldy entities_bank
 
   rts
 
@@ -262,6 +272,11 @@ animation_rom_address = w2
 animation_rom_address = w2
 
   switch_bank_ldy sprites_and_animations_bank
+
+  lda entity_animation_address_lo,x
+  sta animation_rom_address
+  lda entity_animation_address_hi,x
+  sta animation_rom_address+1
 
   dec entity_animation_counter,x
   bne :+

@@ -75,10 +75,6 @@ hero_not_deadly:
 
 entity_not_hitting_hero:
 
-  lda #<TigerWalkSide
-  sta w2
-  lda #>TigerWalkSide
-  sta w2+1
   jsr entity_update_animation
 
   rts

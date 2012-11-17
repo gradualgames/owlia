@@ -58,19 +58,31 @@ animation_rom_address = w2
 
 .endproc
 
-;resets the animation_ram object at w1
+;resets the animation_ram object at w1 using
+;the frame_delay member of w2
 .proc sprite_reset_animation
 animation_ram_address = w1
+animation_rom_address = w2
+
+  ;save calling bank
+  lda current_bank
+  pha
+  switch_bank_ldy sprites_and_animations_bank
 
   ;reset the counter
-  ldy #animation_ram::counter
-  lda #1
+  ldy #animation_ram::counter ;same as animation_rom::frame_delay
+  lda (animation_rom_address),y
   sta (animation_ram_address),y
 
   ;reset to frame zero
   ldy #animation_ram::frame
   lda #0
   sta (animation_ram_address),y
+
+  ;restore calling bank
+  pla
+  sta current_bank
+  switch_bank_ldy current_bank
 
   rts
 
@@ -82,6 +94,9 @@ animation_ram_address = w1
 animation_ram_address = w1
 animation_rom_address = w2
 
+  ;save calling bank
+  lda current_bank
+  pha
   switch_bank_ldy sprites_and_animations_bank
 
   ldy #animation_ram::counter ;same as animation_rom::frame_delay
@@ -111,7 +126,10 @@ animation_rom_address = w2
 
 :
 
-  switch_bank_ldy entities_bank
+  ;restore calling bank
+  pla
+  sta current_bank
+  switch_bank_ldy current_bank
 
   rts
 
