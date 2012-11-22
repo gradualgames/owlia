@@ -412,22 +412,22 @@ play_state_load_location:
   ;load her initial location
   ldy #location::hero_start_x
   lda (location_address),y
-  sta hero_x_lo
+  sta hero_x
   iny
   lda (location_address),y
-  sta hero_x_hi
+  sta hero_x+1
 
   ldy #location::hero_start_y
   lda (location_address),y
-  sta hero_y_lo
+  sta hero_y
   iny
   lda (location_address),y
-  sta hero_y_hi
+  sta hero_y+1
 
   ;load her initial direction
   ldy #location::hero_direction
   lda (location_address),y
-  sta hero_previous_direction
+  sta hero_direction
 
   ;initialize the familiar entity
   jsr familiar_init

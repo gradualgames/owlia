@@ -40,8 +40,8 @@ hero_knockback_direction = b0
   ; -if cardinal direction param is none,
   lda hero_knockback_direction
   bpl skip_lookup_opposite_direction
-    ; -look up opposite direction for hero_previous_direction.
-  ldy hero_previous_direction
+    ; -look up opposite direction for hero_direction.
+  ldy hero_direction
   lda hero_opposite_direction,y
   tay
 skip_lookup_opposite_direction:
@@ -59,12 +59,12 @@ skip_lookup_opposite_direction:
   lda #HERO_KNOCKBACK_SPEED
   sta hero_speed
   ;make certain the hero moves on a power of 2 grid when getting knocked back
-  lda hero_x_lo
+  lda hero_x
   and #HERO_KNOCKBACK_COORDINATE_MASK
-  sta hero_x_lo
-  lda hero_y_lo
+  sta hero_x
+  lda hero_y
   and #HERO_KNOCKBACK_COORDINATE_MASK
-  sta hero_y_lo
+  sta hero_y
 hero_invincible:
 
   rts
@@ -75,18 +75,18 @@ hero_invincible:
 
   ;calculate screen coordinates based on the camera coordinates
   sec
-  lda hero_x_lo
+  lda hero_x
   sbc camera_x
   sta w3
-  lda hero_x_hi
+  lda hero_x+1
   sbc camera_x+1
   sta w3+1
 
   sec
-  lda hero_y_lo
+  lda hero_y
   sbc camera_y
   sta w4
-  lda hero_y_hi
+  lda hero_y+1
   sbc camera_y+1
   sta w4+1
 
@@ -133,18 +133,18 @@ hero_invincible:
 .macro test_collision x_offset_lo, x_offset_hi, y_offset_lo, y_offset_hi, destination_if_solid
 
   clc
-  lda hero_x_lo
+  lda hero_x
   adc #x_offset_lo
   sta w0
-  lda hero_x_hi
+  lda hero_x+1
   adc #x_offset_hi
   sta w0+1
 
   clc
-  lda hero_y_lo
+  lda hero_y
   adc #y_offset_lo
   sta w1
-  lda hero_y_hi
+  lda hero_y+1
   adc #y_offset_hi
   sta w1+1
 
@@ -159,18 +159,18 @@ hero_invincible:
 .macro test_action x_offset_lo, x_offset_hi, y_offset_lo, y_offset_hi
 
   clc
-  lda hero_x_lo
+  lda hero_x
   adc #x_offset_lo
   sta w0
-  lda hero_x_hi
+  lda hero_x+1
   adc #x_offset_hi
   sta w0+1
 
   clc
-  lda hero_y_lo
+  lda hero_y
   adc #y_offset_lo
   sta w1
-  lda hero_y_hi
+  lda hero_y+1
   adc #y_offset_hi
   sta w1+1
 
@@ -317,7 +317,7 @@ hero_state_init:
   lda #HERO_SPEED
   sta hero_speed
 
-  ldy hero_previous_direction
+  ldy hero_direction
   lda main_animation_addresses_lo,y
   sta hero_animation_address
   sta w2
@@ -331,7 +331,7 @@ hero_state_init:
   sta w1+1
   jsr sprite_reset_animation
 
-  ldy hero_previous_direction
+  ldy hero_direction
   lda sprite_flags_direction,y
   sta hero_sprite_flags
 
@@ -355,7 +355,7 @@ hero_state_main:
 
   jsr familiar_spawn
 
-  ldy hero_previous_direction
+  ldy hero_direction
   clc
   lda hero_x
   adc familiar_spawn_offset_x_lo,y
@@ -389,7 +389,7 @@ skip_spawn_familiar_test:
   lda #HERO_STATE_ATTACK_LENGTH
   sta hero_state_counter
 
-  lda hero_previous_direction
+  lda hero_direction
   tay
   lda attack_animation_addresses_lo,y
   sta hero_animation_address
@@ -444,7 +444,7 @@ skip_attack_test:
   jsr indirect_jsr_w0
 
   ;get the opposite direction we're being knocked in and look up the animation for it
-  lda hero_previous_direction
+  lda hero_direction
   tay
   lda hero_opposite_direction,y
   tay
@@ -459,10 +459,10 @@ skip_attack_test:
   ;on zero, flip the direction the hero is facing permanently
   bne hero_knockback_counter_not_zero
 
-  lda hero_previous_direction
+  lda hero_direction
   tay
   lda hero_opposite_direction,y
-  sta hero_previous_direction
+  sta hero_direction
   tay
   lda main_animation_addresses_lo,y
   sta hero_animation_address
@@ -503,7 +503,7 @@ hero_not_knockback:
   jsr indirect_jsr_w0
 
   ;get the direction we're facing and look up the animation address
-  lda hero_previous_direction
+  lda hero_direction
   tay
   lda main_animation_addresses_lo,y
   sta hero_animation_address
@@ -538,21 +538,21 @@ hero_not_invincible:
 hero_state_attack:
 
   ;compute top left of attack rect based on direction
-  ldy hero_previous_direction
+  ldy hero_direction
   clc
   lda attack_rect_offset_x_lo,y
-  adc hero_x_lo
+  adc hero_x
   sta hero_attack_rect_x
   lda attack_rect_offset_x_hi,y
-  adc hero_x_hi
+  adc hero_x+1
   sta hero_attack_rect_x+1
 
   clc
   lda attack_rect_offset_y_lo,y
-  adc hero_y_lo
+  adc hero_y
   sta hero_attack_rect_y
   lda attack_rect_offset_y_hi,y
-  adc hero_y_hi
+  adc hero_y+1
   sta hero_attack_rect_y+1
 
   lda #16
@@ -574,7 +574,7 @@ hero_state_attack:
   bne attack_not_done
 
   ;get the direction we're facing and look up the animation address
-  lda hero_previous_direction
+  lda hero_direction
   tay
   lda main_animation_addresses_lo,y
   sta hero_animation_address
@@ -617,18 +617,18 @@ found_collision_right_side:
   bne skip_direction_right_handler
 
   clc
-  lda hero_x_lo
+  lda hero_x
   adc hero_speed
-  sta hero_x_lo
-  lda hero_x_hi
+  sta hero_x
+  lda hero_x+1
   adc #$00
-  sta hero_x_hi
+  sta hero_x+1
 
 skip_direction_right_handler:
   .endscope
 
   lda #HERO_DIRECTION_RIGHT
-  sta hero_previous_direction
+  sta hero_direction
 
   rts
 
@@ -640,18 +640,18 @@ hero_direction_left_handler:
   test_collision $ff, $ff, (HERO_HEIGHT-1), 0, skip_direction_left_handler
 
   sec
-  lda hero_x_lo
+  lda hero_x
   sbc hero_speed
-  sta hero_x_lo
-  lda hero_x_hi
+  sta hero_x
+  lda hero_x+1
   sbc #$00
-  sta hero_x_hi
+  sta hero_x+1
 
 skip_direction_left_handler:
   .endscope
 
   lda #HERO_DIRECTION_LEFT
-  sta hero_previous_direction
+  sta hero_direction
 
   rts
 
@@ -663,17 +663,17 @@ hero_direction_down_handler:
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, skip_direction_down_handler
 
   clc
-  lda hero_y_lo
+  lda hero_y
   adc hero_speed
-  sta hero_y_lo
-  lda hero_y_hi
+  sta hero_y
+  lda hero_y+1
   adc #$00
-  sta hero_y_hi
+  sta hero_y+1
 skip_direction_down_handler:
   .endscope
 
   lda #HERO_DIRECTION_DOWN
-  sta hero_previous_direction
+  sta hero_direction
 
   rts
 
@@ -682,7 +682,7 @@ hero_direction_down_and_right_handler:
   .scope
   ;validate that previous direction was down or right.
   ;if not, the animation is wrong, replace it with default down
-  lda hero_previous_direction
+  lda hero_direction
   cmp #HERO_DIRECTION_DOWN
   beq legal_direction
   cmp #HERO_DIRECTION_RIGHT
@@ -690,7 +690,7 @@ hero_direction_down_and_right_handler:
 illegal_direction:
 
   lda #HERO_DIRECTION_DOWN
-  sta hero_previous_direction
+  sta hero_direction
 
 legal_direction:
 
@@ -700,24 +700,24 @@ legal_direction:
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
 
   clc
-  lda hero_y_lo
+  lda hero_y
   adc hero_speed
-  sta hero_y_lo
-  lda hero_y_hi
+  sta hero_y
+  lda hero_y+1
   adc #$00
-  sta hero_y_hi
+  sta hero_y+1
 found_collision_down_side:
 
   test_collision (HERO_WIDTH), 0, (HERO_HEIGHT/2), 0, found_collision_right_side
   test_collision (HERO_WIDTH), 0, (HERO_HEIGHT-1), 0, found_collision_right_side
 
   clc
-  lda hero_x_lo
+  lda hero_x
   adc hero_speed
-  sta hero_x_lo
-  lda hero_x_hi
+  sta hero_x
+  lda hero_x+1
   adc #$00
-  sta hero_x_hi
+  sta hero_x+1
 found_collision_right_side:
   .endscope
 
@@ -728,7 +728,7 @@ hero_direction_down_and_left_handler:
   .scope
   ;validate that previous direction was down or left.
   ;if not, the animation is wrong, replace it with default down
-  lda hero_previous_direction
+  lda hero_direction
   cmp #HERO_DIRECTION_DOWN
   beq legal_direction
   cmp #HERO_DIRECTION_LEFT
@@ -736,7 +736,7 @@ hero_direction_down_and_left_handler:
 illegal_direction:
 
   lda #HERO_DIRECTION_DOWN
-  sta hero_previous_direction
+  sta hero_direction
 
 legal_direction:
 
@@ -746,24 +746,24 @@ legal_direction:
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
 
   clc
-  lda hero_y_lo
+  lda hero_y
   adc hero_speed
-  sta hero_y_lo
-  lda hero_y_hi
+  sta hero_y
+  lda hero_y+1
   adc #$00
-  sta hero_y_hi
+  sta hero_y+1
 found_collision_down_side:
 
   test_collision $ff, $ff, (HERO_HEIGHT/2-1), 0, found_collision_left_side
   test_collision $ff, $ff, (HERO_HEIGHT-1), 0, found_collision_left_side
 
   sec
-  lda hero_x_lo
+  lda hero_x
   sbc hero_speed
-  sta hero_x_lo
-  lda hero_x_hi
+  sta hero_x
+  lda hero_x+1
   sbc #$00
-  sta hero_x_hi
+  sta hero_x+1
 found_collision_left_side:
   .endscope
 
@@ -777,18 +777,18 @@ hero_direction_up_handler:
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, skip_direction_up_handler
 
   sec
-  lda hero_y_lo
+  lda hero_y
   sbc hero_speed
-  sta hero_y_lo
-  lda hero_y_hi
+  sta hero_y
+  lda hero_y+1
   sbc #$00
-  sta hero_y_hi
+  sta hero_y+1
 
 skip_direction_up_handler:
   .endscope
 
   lda #HERO_DIRECTION_UP
-  sta hero_previous_direction
+  sta hero_direction
 
   rts
 
@@ -797,7 +797,7 @@ hero_direction_up_and_right_handler:
   .scope
   ;validate that previous direction was up or right.
   ;if not, the animation is wrong, replace it with default up
-  lda hero_previous_direction
+  lda hero_direction
   cmp #HERO_DIRECTION_UP
   beq legal_direction
   cmp #HERO_DIRECTION_RIGHT
@@ -805,7 +805,7 @@ hero_direction_up_and_right_handler:
 illegal_direction:
 
   lda #HERO_DIRECTION_UP
-  sta hero_previous_direction
+  sta hero_direction
 
 legal_direction:
 
@@ -815,24 +815,24 @@ legal_direction:
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
 
   sec
-  lda hero_y_lo
+  lda hero_y
   sbc hero_speed
-  sta hero_y_lo
-  lda hero_y_hi
+  sta hero_y
+  lda hero_y+1
   sbc #$00
-  sta hero_y_hi
+  sta hero_y+1
 found_collision_up_side:
 
   test_collision (HERO_WIDTH), 0, (HERO_HEIGHT/2), 0, found_collision_right_side
   test_collision (HERO_WIDTH), 0, (HERO_HEIGHT-1), 0, found_collision_right_side
 
   clc
-  lda hero_x_lo
+  lda hero_x
   adc hero_speed
-  sta hero_x_lo
-  lda hero_x_hi
+  sta hero_x
+  lda hero_x+1
   adc #$00
-  sta hero_x_hi
+  sta hero_x+1
 
 found_collision_right_side:
 
@@ -847,7 +847,7 @@ hero_direction_up_and_left_handler:
   .scope
   ;validate that previous direction was up or left.
   ;if not, the animation is wrong, replace it with default up
-  lda hero_previous_direction
+  lda hero_direction
   cmp #HERO_DIRECTION_UP
   beq legal_direction
   cmp #HERO_DIRECTION_LEFT
@@ -855,7 +855,7 @@ hero_direction_up_and_left_handler:
 illegal_direction:
 
   lda #HERO_DIRECTION_UP
-  sta hero_previous_direction
+  sta hero_direction
 
 legal_direction:
 
@@ -865,12 +865,12 @@ legal_direction:
   test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
 
   sec
-  lda hero_y_lo
+  lda hero_y
   sbc hero_speed
-  sta hero_y_lo
-  lda hero_y_hi
+  sta hero_y
+  lda hero_y+1
   sbc #$00
-  sta hero_y_hi
+  sta hero_y+1
 
 found_collision_up_side:
 
@@ -878,12 +878,12 @@ found_collision_up_side:
   test_collision $ff, $ff, (HERO_HEIGHT-1), 0, found_collision_left_side
 
   sec
-  lda hero_x_lo
+  lda hero_x
   sbc hero_speed
-  sta hero_x_lo
-  lda hero_x_hi
+  sta hero_x
+  lda hero_x+1
   sbc #$00
-  sta hero_x_hi
+  sta hero_x+1
 found_collision_left_side:
 
   .endscope

@@ -25,11 +25,11 @@ camera_increment = b0
   sta camera_right_x+1
 
   sec
-  lda hero_x_lo
+  lda hero_x
   sbc camera_right_x
   sta camera_increment
   beq skip_follow_right
-  lda hero_x_hi
+  lda hero_x+1
   sbc camera_right_x+1
   bmi skip_follow_right
 
@@ -64,11 +64,11 @@ skip_follow_right:
 
   sec
   lda camera_left_x
-  sbc hero_x_lo
+  sbc hero_x
   sta camera_increment
   beq skip_follow_left
   lda camera_left_x+1
-  sbc hero_x_hi
+  sbc hero_x+1
   bmi skip_follow_left
 
   jsr decrement_camera_x
@@ -99,11 +99,11 @@ skip_follow_left:
   sta camera_bottom_y+1
 
   sec
-  lda hero_y_lo
+  lda hero_y
   sbc camera_bottom_y
   sta camera_increment
   beq skip_follow_down
-  lda hero_y_hi
+  lda hero_y+1
   sbc camera_bottom_y+1
   bmi skip_follow_down
 
@@ -140,11 +140,11 @@ skip_follow_down:
 
   sec
   lda camera_top_y
-  sbc hero_y_lo
+  sbc hero_y
   sta camera_increment
   beq skip_follow_up
   lda camera_top_y+1
-  sbc hero_y_hi
+  sbc hero_y+1
   bmi skip_follow_up
 
   jsr decrement_camera_y
