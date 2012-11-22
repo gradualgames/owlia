@@ -355,6 +355,7 @@ hero_state_main:
 
   jsr familiar_spawn
 
+  ;parameterize the familiar's location and direction
   ldy hero_direction
   clc
   lda hero_x
@@ -371,6 +372,9 @@ hero_state_main:
   lda hero_y+1
   adc familiar_spawn_offset_y_hi,y
   sta familiar_y+1
+
+  lda hero_direction
+  sta familiar_direction
 
 skip_spawn_familiar_test:
 

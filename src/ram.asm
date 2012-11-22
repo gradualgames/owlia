@@ -81,6 +81,7 @@ familiar_sprite_group_offset:     .res 1
 familiar_sprite_flags:            .res 1
 familiar_animation_object:        .res 2
 familiar_animation_address:       .res 2
+familiar_direction:               .res 1
 
 ppu_2000: .res 1
 ppu_2001: .res 1

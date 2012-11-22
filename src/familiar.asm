@@ -89,6 +89,18 @@ familiar_not_alive:
 
 .endproc
 
+familiar_direction_speed_x_lo:
+  .byte FAMILIAR_SPEED, -FAMILIAR_SPEED, 0, 0
+
+familiar_direction_speed_x_hi:
+  .byte 0, -1, 0, 0
+
+familiar_direction_speed_y_lo:
+  .byte 0, 0, FAMILIAR_SPEED, -FAMILIAR_SPEED
+
+familiar_direction_speed_y_hi:
+  .byte 0, 0, 0, -1
+
 .define familiar_states \
     familiar_state_init, \
     familiar_state_main
@@ -144,6 +156,23 @@ familiar_state_init:
   rts
 
 familiar_state_main:
+
+  ldy familiar_direction
+  clc
+  lda familiar_x
+  adc familiar_direction_speed_x_lo,y
+  sta familiar_x
+  lda familiar_x+1
+  adc familiar_direction_speed_x_hi,y
+  sta familiar_x+1
+
+  clc
+  lda familiar_y
+  adc familiar_direction_speed_y_lo,y
+  sta familiar_y
+  lda familiar_y+1
+  adc familiar_direction_speed_y_hi,y
+  sta familiar_y+1
 
   lda familiar_animation_address
   sta w2

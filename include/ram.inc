@@ -82,6 +82,7 @@ MAX_ENTITIES = 8
 .global familiar_sprite_flags
 .global familiar_animation_object
 .global familiar_animation_address
+.global familiar_direction
 
 .global ppu_2000
 .global ppu_2001
