@@ -25,10 +25,21 @@
 
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
+  ora #FAMILIAR_FLAGS_DEADLY_SET
   sta familiar_flags
 
   lda #FAMILIAR_STATE_INIT
   sta familiar_state
+
+  rts
+
+.endproc
+
+;tests whether the familiar is deadly.
+.proc familiar_is_deadly
+
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_DEADLY_TEST
 
   rts
 
@@ -128,6 +139,11 @@ familiar_not_alive:
   rts
 
 familiar_state_init:
+
+  lda #FAMILIAR_WIDTH
+  sta familiar_width
+  lda #FAMILIAR_HEIGHT
+  sta familiar_height
 
   lda #<FamiliarFly
   sta familiar_animation_address

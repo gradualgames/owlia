@@ -9,6 +9,7 @@ ENTITY_INC = 1
 .global entity_update_animation
 .global entity_test_hero_attack_rect
 .global entity_test_hero_rect
+.global entity_test_familiar_rect
 
 ENTITY_FLAGS_ALIVE_SET     = %00000001
 ENTITY_FLAGS_ALIVE_TEST    = %00000001

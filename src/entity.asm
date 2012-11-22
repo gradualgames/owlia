@@ -8,6 +8,45 @@
 
 .segment "CODE"
 
+;compares entity's rect to familiar's rect.
+;when zero flag is set, this indicates a hit
+;when zero flag is clear, this indicates no hit
+.proc entity_test_familiar_rect
+
+  ;transfer entity rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda entity_x_lo,x
+  sta w2
+  lda entity_x_hi,x
+  sta w2+1
+  lda entity_y_lo,x
+  sta w3
+  lda entity_y_hi,x
+  sta w3+1
+  lda entity_width,x
+  sta b2
+  lda entity_height,x
+  sta b3
+
+  ;transfer familiar rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda familiar_x
+  sta w4
+  lda familiar_x+1
+  sta w4+1
+  lda familiar_y
+  sta w5
+  lda familiar_y+1
+  sta w5+1
+  lda familiar_width
+  sta b4
+  lda familiar_height
+  sta b5
+
+  jsr geotests_rect_in_rect_16bit
+
+  rts
+
+.endproc
+
 ;compares entity's rect to hero's attack rect.
 ;when zero flag is set, this indicates a hit
 ;when zero flag is clear, this indicates no hit

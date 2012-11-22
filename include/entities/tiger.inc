@@ -66,6 +66,18 @@ tiger_state_main:
 
 hero_not_deadly:
 
+  jsr familiar_is_deadly
+  beq familiar_not_deadly
+
+  jsr entity_test_familiar_rect
+  bne familiar_not_deadly
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+familiar_not_deadly:
+
   jsr entity_test_hero_rect
   bne entity_not_hitting_hero
 
