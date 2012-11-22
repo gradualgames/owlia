@@ -273,6 +273,18 @@ attack_rect_offset_y_lo:
 attack_rect_offset_y_hi:
   .byte 0, 0, 0, $ff
 
+familiar_spawn_offset_x_lo:
+  .byte 0, 0, 0, 0
+
+familiar_spawn_offset_x_hi:
+  .byte 0, 0, 0, 0
+
+familiar_spawn_offset_y_lo:
+  .byte 0, 0, 0, 0
+
+familiar_spawn_offset_y_hi:
+  .byte 0, 0, 0, 0
+
 hero_update:
 
   lda hero_state
@@ -342,6 +354,23 @@ hero_state_main:
   bne skip_spawn_familiar_test
 
   jsr familiar_spawn
+
+  ldy hero_previous_direction
+  clc
+  lda hero_x
+  adc familiar_spawn_offset_x_lo,y
+  sta familiar_x
+  lda hero_x+1
+  adc familiar_spawn_offset_x_hi,y
+  sta familiar_x+1
+
+  clc
+  lda hero_y
+  adc familiar_spawn_offset_y_lo,y
+  sta familiar_y
+  lda hero_y+1
+  adc familiar_spawn_offset_y_hi,y
+  sta familiar_y+1
 
 skip_spawn_familiar_test:
 
