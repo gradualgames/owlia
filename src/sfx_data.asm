@@ -15,6 +15,10 @@ sfx_volume_envelope_1:
 sfx_volume_envelope_2:
   .byte 10,7,5,4,0,ENV_STOP
 
+;flapping sound
+sfx_volume_envelope_3:
+  .byte 3,5,9,12,13,10,6,3,5,7,8,9,8,6,0,ENV_LOOP
+
 sfx_pitch_envelope_0:
   .byte 0, ENV_LOOP
 
@@ -31,6 +35,7 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_loud
   .word sfx_volume_envelope_1
   .word sfx_volume_envelope_2
+  .word sfx_volume_envelope_3
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_0
@@ -51,4 +56,8 @@ sfx_test:
 
 sfx_door:
   .byte STV, 3,STP,0,SDU,0,STL,6,10,15
+  .byte TRM
+
+sfx_flap:
+  .byte STV,4,STP,0,SDU,0,STL,45,9
   .byte TRM

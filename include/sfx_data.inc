@@ -8,5 +8,6 @@ SFX_DATA_INC = 1
 .global sfx_set1
 .global sfx_test
 .global sfx_door
+.global sfx_flap
 
 .endif

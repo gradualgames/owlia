@@ -6,6 +6,8 @@
 .include "sprites_and_animations_data.inc"
 .include "entities.inc"
 .include "sprite.inc"
+.include "soundengine.inc"
+.include "sfx_data.inc"
 
 .segment "CODE"
 
@@ -168,6 +170,24 @@ familiar_state_init:
 
   lda #FAMILIAR_STATE_MAIN
   sta familiar_state
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_flap
+  sta sound_param_word_0
+  lda #>sfx_flap
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
 
   rts
 
