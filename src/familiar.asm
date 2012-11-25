@@ -258,6 +258,10 @@ state_counter_not_zero:
 
 familiar_state_home_in_to_hero:
 
+  ;use b0 to count whether both X and Y are close enough
+  lda #0
+  sta b0
+
   .scope
   ;calculate distance between "goal" and X coordinate
   sec
@@ -267,6 +271,41 @@ familiar_state_home_in_to_hero:
   lda hero_x+1
   sbc familiar_x+1
   sta familiar_x_velocity+1
+
+  .scope
+  bmi hero_to_left
+hero_to_right:
+  ;velocity is positive
+  .scope
+  sec
+  lda #4
+  sbc familiar_x_velocity
+  lda #0
+  sbc familiar_x_velocity+1
+  bmi velocity_greater_than
+velocity_less_than:
+  ;x is close enough to kill the familiar
+  inc b0
+velocity_greater_than:
+  .endscope
+
+  jmp done
+hero_to_left:
+  ;velocity is negative
+  .scope
+  clc
+  lda #4
+  adc familiar_x_velocity
+  lda #0
+  adc familiar_x_velocity+1
+  bmi velocity_greater_than
+velocity_less_than:
+  ;x is close enough to kill the familiar
+  inc b0
+velocity_greater_than:
+  .endscope
+done:
+  .endscope
 
   ;do an 16 bit arithmetic left shift on this value
   asl familiar_x_velocity
@@ -287,6 +326,41 @@ familiar_state_home_in_to_hero:
   sbc familiar_y+1
   sta familiar_y_velocity+1
 
+  .scope
+  bmi hero_above
+hero_below:
+  ;velocity is positive
+  .scope
+  sec
+  lda #4
+  sbc familiar_y_velocity
+  lda #0
+  sbc familiar_y_velocity+1
+  bmi velocity_greater_than
+velocity_less_than:
+  ;y is close enough to kill the familiar
+  inc b0
+velocity_greater_than:
+  .endscope
+
+  jmp done
+hero_above:
+  ;velocity is negative
+  .scope
+  clc
+  lda #4
+  adc familiar_y_velocity
+  lda #0
+  adc familiar_y_velocity+1
+  bmi velocity_greater_than
+velocity_less_than:
+  ;y is close enough to kill the familiar
+  inc b0
+velocity_greater_than:
+  .endscope
+done:
+  .endscope
+
   ;do an 16 bit arithmetic left shift on this value
   asl familiar_y_velocity
   rol familiar_y_velocity+1
@@ -295,6 +369,16 @@ familiar_state_home_in_to_hero:
   asl familiar_y_velocity
   rol familiar_y_velocity+1
   .endscope
+
+  lda b0
+  cmp #2
+  bne do_not_kill_familiar
+
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_ALIVE_CLEAR
+  sta familiar_flags
+
+do_not_kill_familiar:
 
   jsr familiar_move
 
