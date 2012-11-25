@@ -413,9 +413,9 @@ skip_spawn_familiar_test:
   txa
   pha
 
-  lda #<sfx_test
+  lda #<sfx_sword
   sta sound_param_word_0
-  lda #>sfx_test
+  lda #>sfx_sword
   sta sound_param_word_0+1
 
   lda #3

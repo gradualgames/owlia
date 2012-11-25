@@ -21,6 +21,10 @@ sfx_volume_envelope_3:
 sfx_volume_envelope_4:
   .byte 3,5,9,12,13,10,6,3,5,7,8,9,8,6,0,ENV_LOOP
 
+;used for sword
+sfx_volume_envelope_5:
+  .byte 3,4,6,9,9,0,ENV_STOP
+
 sfx_pitch_envelope_0:
   .byte 0, ENV_LOOP
 
@@ -38,6 +42,7 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_2
   .word sfx_volume_envelope_3
   .word sfx_volume_envelope_4
+  .word sfx_volume_envelope_5
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_0
@@ -54,6 +59,10 @@ sfx_set1:
 
 sfx_test:
   .byte STV,2, STP, 0, SDU, 0, STL, 50, 5
+  .byte TRM
+
+sfx_sword:
+  .byte STV,5,STP,0,SDU,0,STL,255,8,STL,129,8
   .byte TRM
 
 sfx_door:
