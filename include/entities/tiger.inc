@@ -76,6 +76,8 @@ hero_not_deadly:
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
 
+  jsr familiar_hit_enemy
+
 familiar_not_deadly:
 
   jsr entity_test_hero_rect

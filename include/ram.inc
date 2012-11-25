@@ -70,8 +70,12 @@ MAX_ENTITIES = 8
 
 .global familiar_flags
 .global familiar_state
+.global familiar_x_fine
 .global familiar_x
+.global familiar_y_fine
 .global familiar_y
+.global familiar_x_velocity
+.global familiar_y_velocity
 .global familiar_width
 .global familiar_height
 .global familiar_rect_x
@@ -83,6 +87,7 @@ MAX_ENTITIES = 8
 .global familiar_animation_object
 .global familiar_animation_address
 .global familiar_direction
+.global familiar_state_counter
 
 .global ppu_2000
 .global ppu_2001

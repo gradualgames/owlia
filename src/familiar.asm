@@ -47,6 +47,17 @@
 
 .endproc
 
+;informs the familiar that it hit an enemy.
+.proc familiar_hit_enemy
+
+  ;home back in to the hero
+  lda #FAMILIAR_STATE_HOME_IN_TO_HERO
+  sta familiar_state
+
+  rts
+
+.endproc
+
 ;draws the familiar
 .proc familiar_draw
 
@@ -103,20 +114,21 @@ familiar_not_alive:
 .endproc
 
 familiar_direction_speed_x_lo:
-  .byte FAMILIAR_SPEED, -FAMILIAR_SPEED, 0, 0
+  .byte 0, 0, 0, 0
 
 familiar_direction_speed_x_hi:
-  .byte 0, -1, 0, 0
+  .byte FAMILIAR_SPEED, -FAMILIAR_SPEED, 0, 0
 
 familiar_direction_speed_y_lo:
-  .byte 0, 0, FAMILIAR_SPEED, -FAMILIAR_SPEED
+  .byte 0, 0, 0, 0
 
 familiar_direction_speed_y_hi:
-  .byte 0, 0, 0, -1
+  .byte 0, 0, FAMILIAR_SPEED, -FAMILIAR_SPEED
 
 .define familiar_states \
     familiar_state_init, \
-    familiar_state_main
+    familiar_state_main, \
+    familiar_state_home_in_to_hero
 
 familiar_lo:
   .lobytes familiar_states
@@ -142,11 +154,13 @@ familiar_not_alive:
 
 familiar_state_init:
 
+  ;initialize width and height
   lda #FAMILIAR_WIDTH
   sta familiar_width
   lda #FAMILIAR_HEIGHT
   sta familiar_height
 
+  ;use flying animation
   lda #<FamiliarFly
   sta familiar_animation_address
   sta w2
@@ -154,24 +168,41 @@ familiar_state_init:
   sta familiar_animation_address+1
   sta w2+1
 
+  ;reset animation object
   lda #<familiar_animation_object
   sta w1
   lda #>familiar_animation_object
   sta w1+1
   jsr sprite_reset_animation
 
+  ;load sprite group offset for the familiar
   lda #entity_index_familiar
   tay
   lda entity_type_chr_offsets,y
   sta familiar_sprite_group_offset
 
+  ;reset sprite flags
   lda #0
   sta familiar_sprite_flags
 
-  lda #FAMILIAR_STATE_MAIN
-  sta familiar_state
+  ;initialize x and y velocity
+  ldy familiar_direction
+  lda familiar_direction_speed_x_lo,y
+  sta familiar_x_velocity
+  lda familiar_direction_speed_x_hi,y
+  sta familiar_x_velocity+1
 
-  ;play a sound
+  lda familiar_direction_speed_y_lo,y
+  sta familiar_y_velocity
+  lda familiar_direction_speed_y_hi,y
+  sta familiar_y_velocity+1
+
+  ;initialize fine x and y coordinates
+  lda #0
+  sta familiar_x_fine
+  sta familiar_y_fine
+
+  ;play a flapping sound
   txa
   pha
 
@@ -189,26 +220,19 @@ familiar_state_init:
   pla
   tax
 
+  ;set the initial state counter
+  lda #FAMILIAR_STATE_MAIN_LENGTH
+  sta familiar_state_counter
+
+  ;done initializing, set main state
+  lda #FAMILIAR_STATE_MAIN
+  sta familiar_state
+
   rts
 
 familiar_state_main:
 
-  ldy familiar_direction
-  clc
-  lda familiar_x
-  adc familiar_direction_speed_x_lo,y
-  sta familiar_x
-  lda familiar_x+1
-  adc familiar_direction_speed_x_hi,y
-  sta familiar_x+1
-
-  clc
-  lda familiar_y
-  adc familiar_direction_speed_y_lo,y
-  sta familiar_y
-  lda familiar_y+1
-  adc familiar_direction_speed_y_hi,y
-  sta familiar_y+1
+  jsr familiar_move
 
   lda familiar_animation_address
   sta w2
@@ -221,5 +245,128 @@ familiar_state_main:
   sta w1+1
 
   jsr sprite_update_animation
+
+  dec familiar_state_counter
+  bne state_counter_not_zero
+
+  lda #FAMILIAR_STATE_HOME_IN_TO_HERO
+  sta familiar_state
+
+state_counter_not_zero:
+
+  rts
+
+familiar_state_home_in_to_hero:
+
+  .scope
+  ;calculate distance between "goal" and X coordinate
+  sec
+  lda hero_x
+  sbc familiar_x
+  sta familiar_x_velocity
+  lda hero_x+1
+  sbc familiar_x+1
+  sta familiar_x_velocity+1
+
+  ;do an 16 bit arithmetic left shift on this value
+  asl familiar_x_velocity
+  rol familiar_x_velocity+1
+  asl familiar_x_velocity
+  rol familiar_x_velocity+1
+  asl familiar_x_velocity
+  rol familiar_x_velocity+1
+  .endscope
+
+  .scope
+  ;calculate distance between "goal" and Y coordinate
+  sec
+  lda hero_y
+  sbc familiar_y
+  sta familiar_y_velocity
+  lda hero_y+1
+  sbc familiar_y+1
+  sta familiar_y_velocity+1
+
+  ;do an 16 bit arithmetic left shift on this value
+  asl familiar_y_velocity
+  rol familiar_y_velocity+1
+  asl familiar_y_velocity
+  rol familiar_y_velocity+1
+  asl familiar_y_velocity
+  rol familiar_y_velocity+1
+  .endscope
+
+  jsr familiar_move
+
+  lda familiar_animation_address
+  sta w2
+  lda familiar_animation_address+1
+  sta w2+1
+
+  lda #<familiar_animation_object
+  sta w1
+  lda #>familiar_animation_object
+  sta w1+1
+
+  jsr sprite_update_animation
+
+  rts
+
+familiar_move:
+
+  ;add 16 bit velocity to 24 bit coordinate with sign extension
+  .scope
+  clc
+  lda familiar_x_velocity
+  adc familiar_x_fine
+  sta familiar_x_fine
+  lda familiar_x_velocity+1
+  bmi sign_extend
+
+  adc familiar_x
+  sta familiar_x
+
+  lda familiar_x+1
+  adc #0
+  sta familiar_x+1
+
+  jmp done
+sign_extend:
+
+  adc familiar_x
+  sta familiar_x
+
+  lda familiar_x+1
+  adc #$ff
+  sta familiar_x+1
+done:
+  .endscope
+
+  .scope
+  clc
+  lda familiar_y_velocity
+  adc familiar_y_fine
+  sta familiar_y_fine
+  lda familiar_y_velocity+1
+  bmi sign_extend
+
+  adc familiar_y
+  sta familiar_y
+
+  lda familiar_y+1
+  adc #0
+  sta familiar_y+1
+
+  jmp done
+sign_extend:
+
+  adc familiar_y
+  sta familiar_y
+
+  lda familiar_y+1
+  adc #$ff
+  sta familiar_y+1
+done:
+  .endscope
 
   rts
