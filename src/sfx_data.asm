@@ -62,7 +62,7 @@ sfx_test:
   .byte TRM
 
 sfx_sword:
-  .byte STV,5,STP,0,SDU,0,STL,255,8,STL,129,8
+  .byte STV,5,STP,0,SDU,0,STL,6,8
   .byte TRM
 
 sfx_door:
