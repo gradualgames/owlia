@@ -18,11 +18,13 @@
 .define entity_defs_update_address \
   0, \
   0, \
+  explosion_update, \
   tiger_update
 
 .define entity_defs_chr_address \
   hero_chr, \
   Familiar_chr, \
+  explosion_chr, \
   Tiger_chr
 
 entity_defs_update_address_lo:
@@ -39,4 +41,5 @@ entity_defs_chr_address_hi:
 
 .include "hero.inc"
 .include "familiar.inc"
+.include "explosion.inc"
 .include "tiger.inc"

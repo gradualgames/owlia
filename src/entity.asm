@@ -170,9 +170,8 @@ spawn_y = w1
   lda #0
   sta entity_state,x
 
-  ;mark this entity as alive
-  lda entity_flags,x
-  ora #ENTITY_FLAGS_ALIVE_SET
+  ;mark this entity as alive, do not preserve any old flags in the field!
+  lda #ENTITY_FLAGS_ALIVE_SET
   sta entity_flags,x
 
   rts

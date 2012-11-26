@@ -38,4 +38,10 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global TigerWalkUp
 .global TigerWalkDown
 
+.global explosion0
+.global explosion1
+.global explosion2
+
+.global Explosion
+
 .endif

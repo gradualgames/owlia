@@ -64,6 +64,10 @@ tiger_state_main:
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
 
+  lda #entity_index_explosion
+  sta b0
+  jsr entity_spawn
+
 hero_not_deadly:
 
   jsr familiar_is_deadly
@@ -75,6 +79,10 @@ hero_not_deadly:
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
+
+  lda #entity_index_explosion
+  sta b0
+  jsr entity_spawn
 
   jsr familiar_hit_enemy
 

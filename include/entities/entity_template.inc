@@ -1,46 +1,55 @@
 .linecont +
-.ifndef ENTITY_INC
-ENTITY_INC = 1
+.ifndef TEMPLATE_INC
+TEMPLATE_INC = 1
 
 .enum
-ENTITY_STATE_INIT
-ENTITY_STATE_MAIN
+TEMPLATE_STATE_INIT
+TEMPLATE_STATE_MAIN
 .endenum
 
-.define entity_states \
-  entity_state_init, \
-  entity_state_main
+.define template_states \
+  template_state_init, \
+  template_state_main
 
-entity_lo:
-  .lobytes entity_states
+template_lo:
+  .lobytes template_states
 
-entity_hi:
-  .hibytes entity_states
+template_hi:
+  .hibytes template_states
 
-entity_update:
+template_update:
 
-  entity_state_switchboard entity_lo, entity_hi
+  entity_state_switchboard template_lo, template_hi
 
-entity_state_init:
+template_state_init:
 
   lda entity_flags,x
   ora #ENTITY_FLAGS_DRAWABLE_SET
   sta entity_flags,x
 
+  lda #<Template
+  sta entity_animation_address_lo,x
+  lda #>Template
+  sta entity_animation_address_hi,x
+
   jsr entity_reset_animation
 
-  lda #0
+  lda entity_type,x
+  tay
+  lda entity_type_chr_offsets,y
   sta entity_sprite_group_offset,x
 
   lda #$00
   sta entity_sprite_flags,x
 
-  lda #ENTITY_STATE_MAIN
+  lda #TEMPLATE_STATE_MAIN
   sta entity_state,x
 
   rts
 
-entity_state_main:
+template_state_main:
+
+  jsr entity_update_animation
 
   rts
 
