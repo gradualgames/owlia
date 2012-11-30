@@ -122,49 +122,49 @@ next_entity_instance:
   ;get next entity index
   ldy entities_index
   lda (entities_address),y
-
-  ;spawn the entity
   sta b0
-  jsr entity_spawn
 
   ;get the x coordinate (metatile units)
   iny
   lda (entities_address),y
-  sta entity_x_lo,x
+  sta w0
   lda #0
-  sta entity_x_hi,x
+  sta w0+1
   ;get the y coordinate (metatile units)
   iny
   lda (entities_address),y
-  sta entity_y_lo,x
+  sta w1
   lda #0
-  sta entity_y_hi,x
+  sta w1+1
 
   sty entities_index
 
   ;now shift left the entity's x and y coordinates by 4 to multiply by 16
   ;to get correct map coordinates based on initial metatile coordinates.
-  lda entity_x_hi,x
-  asl entity_x_lo,x
+  lda w0+1
+  asl w0
   rol
-  asl entity_x_lo,x
+  asl w0
   rol
-  asl entity_x_lo,x
+  asl w0
   rol
-  asl entity_x_lo,x
+  asl w0
   rol
-  sta entity_x_hi,x
+  asl w0+1
 
-  lda entity_y_hi,x
-  asl entity_y_lo,x
+  lda w1+1
+  asl w1
   rol
-  asl entity_y_lo,x
+  asl w1
   rol
-  asl entity_y_lo,x
+  asl w1
   rol
-  asl entity_y_lo,x
+  asl w1
   rol
-  sta entity_y_hi,x
+  sta w1+1
+
+  ;spawn the entity
+  jsr entity_spawn
 
   dec entities_count
   bne next_entity_instance

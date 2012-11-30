@@ -25,6 +25,10 @@ sfx_volume_envelope_4:
 sfx_volume_envelope_5:
   .byte 3,4,6,9,9,0,ENV_STOP
 
+;used for explosion
+sfx_volume_envelope_6:
+  .byte 15,10,6,2,0,0,ENV_STOP
+
 sfx_pitch_envelope_0:
   .byte 0, ENV_LOOP
 
@@ -43,6 +47,7 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_3
   .word sfx_volume_envelope_4
   .word sfx_volume_envelope_5
+  .word sfx_volume_envelope_6
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_0
@@ -71,4 +76,8 @@ sfx_door:
 
 sfx_flap:
   .byte STV,4,STP,0,SDU,0,STL,45,9
+  .byte TRM
+
+sfx_explosion:
+  .byte STV,6,STP,0,SDU,0,STL,2,3,4,6,8,10,11,13
   .byte TRM

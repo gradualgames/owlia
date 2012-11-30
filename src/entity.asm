@@ -166,6 +166,20 @@ spawn_y = w1
   lda type
   sta entity_type,x
 
+  lda spawn_x
+  sta entity_spawn_x_lo,x
+  sta entity_x_lo,x
+  lda spawn_x+1
+  sta entity_spawn_x_hi,x
+  sta entity_x_hi,x
+
+  lda spawn_y
+  sta entity_spawn_y_lo,x
+  sta entity_y_lo,x
+  lda spawn_y+1
+  sta entity_spawn_y_hi,x
+  sta entity_y_hi,x
+
   ;clear the entity state to 0 (the init state for all entities)
   lda #0
   sta entity_state,x

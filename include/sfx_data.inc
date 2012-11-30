@@ -10,5 +10,6 @@ SFX_DATA_INC = 1
 .global sfx_sword
 .global sfx_door
 .global sfx_flap
+.global sfx_explosion
 
 .endif
