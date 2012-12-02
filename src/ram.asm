@@ -15,6 +15,7 @@ sprite_chr_bank: .res 1
 
 state_control_params: .res 8
 
+textbox_and_font_chr_offset: .res 1
 entity_type_chr_offsets: .res 64
 
 entity_type:                 .res MAX_ENTITIES

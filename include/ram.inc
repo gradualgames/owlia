@@ -16,6 +16,7 @@ MAX_ENTITIES = 8
 
 .global state_control_params
 
+.global textbox_and_font_chr_offset
 .global entity_type_chr_offsets
 
 .global entity_type

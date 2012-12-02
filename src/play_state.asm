@@ -264,6 +264,45 @@ play_state_load_location:
   sta w0+1
   jsr ppu_load_chr_amount
 
+  ;load the textbox graphics. This is hardcoded because it is the same
+  ;for the entire game. The assumption here is that the background
+  ;graphics we use will never occupy so many tiles that we cannot
+  ;display a textbox or font.
+  lda #<textbox_chr
+  sta w0
+  lda #>textbox_chr
+  sta w0+1
+  jsr ppu_load_chr_amount
+
+  ;load the bg chr address again so we can pull out the count and intepret
+  ;it as the offset at which to find the textbox and font graphics.
+  ldy #area::bg_chr_address
+  lda (area_address),y
+  sta w0
+  iny
+  lda (area_address),y
+  sta w0+1
+  ;load the byte count
+  ldy #0
+  lda (w0),y
+  sta w1
+  iny
+  lda (w0),y
+  sta w1+1
+  ;shift right this 16 bit value to calculate number of tiles
+  lda w1
+  lsr w1+1
+  ror
+  lsr w1+1
+  ror
+  lsr w1+1
+  ror
+  lsr w1+1
+  ror
+  sta w1
+  ;lo byte of w1 should now be the correct offset for the textbox and font graphics
+  sta textbox_and_font_chr_offset
+  
   lda #$10
   sta $2006
   lda #$00
@@ -431,7 +470,7 @@ play_state_load_location:
 
   ;initialize the familiar entity
   jsr familiar_init
-  
+
   ;spawn all non-hero entities in area
   ldy #area::entity_instances_address
   lda (area_address),y
