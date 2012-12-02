@@ -11,6 +11,7 @@ entity_index_hero
 entity_index_familiar
 entity_index_explosion
 entity_index_tiger
+entity_index_npcman
 .endenum
 
 .endif

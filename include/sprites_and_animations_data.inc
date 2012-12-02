@@ -44,4 +44,15 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 
 .global Explosion
 
+.global NpcManWalkSide0
+.global NpcManWalkSide1
+.global NpcManWalkDown0
+.global NpcManWalkDown1
+.global NpcManWalkUp0
+.global NpcManWalkUp1
+
+.global NpcManWalkSide
+.global NpcManWalkDown
+.global NpcManWalkUp
+
 .endif

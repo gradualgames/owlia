@@ -5,5 +5,6 @@ SPRITE_CHR_INC = 1
 .global Familiar_chr
 .global Tiger_chr
 .global explosion_chr
+.global NpcMan_chr
 
 .endif

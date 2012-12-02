@@ -19,13 +19,15 @@
   0, \
   0, \
   explosion_update, \
-  tiger_update
+  tiger_update, \
+  npcman_update
 
 .define entity_defs_chr_address \
   hero_chr, \
   Familiar_chr, \
   explosion_chr, \
-  Tiger_chr
+  Tiger_chr, \
+  NpcMan_chr
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -43,3 +45,4 @@ entity_defs_chr_address_hi:
 .include "familiar.inc"
 .include "explosion.inc"
 .include "tiger.inc"
+.include "npcman.inc"

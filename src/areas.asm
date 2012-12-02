@@ -24,6 +24,17 @@ areas_hi:
   .hibytes areas
 
 ;****************************************************************
+;Area entity types.
+;****************************************************************
+entity_types:
+  .byte 5  ;count
+  .byte entity_index_hero
+  .byte entity_index_familiar
+  .byte entity_index_explosion
+  .byte entity_index_tiger
+  .byte entity_index_npcman
+
+;****************************************************************
 ;Area definitions.
 ;****************************************************************
 village_area:
@@ -34,7 +45,7 @@ village_area:
   .byte 7   ;bg_chr_bank .byte
   .byte 6   ;sprite_chr_bank .byte
   .word map0_chr
-  .word village_entity_types
+  .word entity_types
   .word village_entities
   .word song1
   .word village_palette
@@ -51,16 +62,10 @@ village_area:
   .word village_big_metatile_table_bottom_left
   .word village_big_metatile_table_bottom_right
 
-village_entity_types:
-  .byte 4  ;count
-  .byte entity_index_hero
-  .byte entity_index_familiar
-  .byte entity_index_explosion
-  .byte entity_index_tiger
-
 village_entities:
-  .byte 1  ;count
+  .byte 2  ;count
   .byte entity_index_tiger, 10, 10
+  .byte entity_index_npcman, 10, 14
 
 house1_area:
   .byte 0   ;music_bank .byte
@@ -70,7 +75,7 @@ house1_area:
   .byte 7   ;bg_chr_bank .byte
   .byte 6   ;sprite_chr_bank .byte
   .word house1_chr
-  .word house1_entity_types
+  .word entity_types
   .word house1_entities
   .word song1
   .word house1_palette
@@ -87,13 +92,6 @@ house1_area:
   .word house1_big_metatile_table_bottom_left
   .word house1_big_metatile_table_bottom_right
 
-house1_entity_types:
-  .byte 4  ;count
-  .byte entity_index_hero
-  .byte entity_index_familiar
-  .byte entity_index_explosion
-  .byte entity_index_tiger
-
 house1_entities:
   .byte 0  ;count
 
@@ -105,7 +103,7 @@ overworld_area:
   .byte 7   ;bg_chr_bank .byte
   .byte 6   ;sprite_chr_bank .byte
   .word map1_chr
-  .word overworld_entity_types
+  .word entity_types
   .word overworld_entities
   .word song1
   .word overworld_palette
@@ -121,13 +119,6 @@ overworld_area:
   .word overworld_big_metatile_table_top_right
   .word overworld_big_metatile_table_bottom_left
   .word overworld_big_metatile_table_bottom_right
-
-overworld_entity_types:
-  .byte 4  ;count
-  .byte entity_index_hero
-  .byte entity_index_familiar
-  .byte entity_index_explosion
-  .byte entity_index_tiger
 
 overworld_entities:
   .byte 0  ;count
