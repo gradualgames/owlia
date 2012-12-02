@@ -1,5 +1,6 @@
 .include "map_data.inc"
 .include "map.inc"
+.include "actions.inc"
 .include "areas.inc"
 .include "locations.inc"
 

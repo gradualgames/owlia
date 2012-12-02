@@ -8,6 +8,7 @@
 .include "zp.inc"
 .include "play_state.inc"
 .include "controller.inc"
+.include "actions.inc"
 .include "map.inc"
 .include "sprites_and_animations_data.inc"
 .include "soundengine.inc"
@@ -116,6 +117,16 @@ hero_invincible:
   sta w2+1
 
   jsr sprite_draw_animation
+  rts
+
+.endproc
+
+;clears zero flag if hero is moving, set it if not
+.proc hero_is_moving
+
+  lda hero_flags
+  and #HERO_FLAGS_MOVING_TEST
+
   rts
 
 .endproc
@@ -608,6 +619,10 @@ indirect_jsr_w0:
 
 hero_direction_nop_handler:
 
+  lda hero_flags
+  and #HERO_FLAGS_MOVING_CLEAR
+  sta hero_flags
+
   rts
 
 hero_direction_right_handler:
@@ -634,6 +649,10 @@ skip_direction_right_handler:
   lda #HERO_DIRECTION_RIGHT
   sta hero_direction
 
+  lda hero_flags
+  ora #HERO_FLAGS_MOVING_SET
+  sta hero_flags
+
   rts
 
 hero_direction_left_handler:
@@ -657,6 +676,10 @@ skip_direction_left_handler:
   lda #HERO_DIRECTION_LEFT
   sta hero_direction
 
+  lda hero_flags
+  ora #HERO_FLAGS_MOVING_SET
+  sta hero_flags
+
   rts
 
 hero_direction_down_handler:
@@ -678,6 +701,10 @@ skip_direction_down_handler:
 
   lda #HERO_DIRECTION_DOWN
   sta hero_direction
+
+  lda hero_flags
+  ora #HERO_FLAGS_MOVING_SET
+  sta hero_flags
 
   rts
 
@@ -725,6 +752,10 @@ found_collision_down_side:
 found_collision_right_side:
   .endscope
 
+  lda hero_flags
+  ora #HERO_FLAGS_MOVING_SET
+  sta hero_flags
+
   rts
 
 hero_direction_down_and_left_handler:
@@ -771,6 +802,10 @@ found_collision_down_side:
 found_collision_left_side:
   .endscope
 
+  lda hero_flags
+  ora #HERO_FLAGS_MOVING_SET
+  sta hero_flags
+
   rts
 
 hero_direction_up_handler:
@@ -793,6 +828,10 @@ skip_direction_up_handler:
 
   lda #HERO_DIRECTION_UP
   sta hero_direction
+
+  lda hero_flags
+  ora #HERO_FLAGS_MOVING_SET
+  sta hero_flags
 
   rts
 
@@ -844,6 +883,10 @@ skip_direction_up_and_right_handler:
 
   .endscope
 
+  lda hero_flags
+  ora #HERO_FLAGS_MOVING_SET
+  sta hero_flags
+
   rts
 
 hero_direction_up_and_left_handler:
@@ -891,5 +934,9 @@ found_collision_up_side:
 found_collision_left_side:
 
   .endscope
+
+  lda hero_flags
+  ora #HERO_FLAGS_MOVING_SET
+  sta hero_flags
 
   rts

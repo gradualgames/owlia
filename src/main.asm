@@ -1,6 +1,7 @@
 .include "ppu.inc"
 .include "zp.inc"
 .include "ram.inc"
+.include "actions.inc"
 .include "map.inc"
 .include "map_data.inc"
 .include "sprites_and_animations_data.inc"

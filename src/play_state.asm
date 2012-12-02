@@ -1,8 +1,10 @@
+.linecont +
 .include "play_state.inc"
 .include "controller.inc"
 .include "ppu.inc"
 .include "zp.inc"
 .include "ram.inc"
+.include "actions.inc"
 .include "map.inc"
 .include "map_data.inc"
 .include "sprite.inc"
@@ -208,6 +210,19 @@ no_entities:
 
 .endproc
 
+;a list of action handlers for the play state. This
+;must exactly reflect the actions enum in actions.inc.
+.define play_state_action_handlers \
+  play_state_action_nop, \
+  play_state_action_goto_location_group1, \
+  play_state_action_start_conversation
+
+play_state_action_handlers_lo:
+  .lobytes play_state_action_handlers
+
+play_state_action_handlers_hi:
+  .hibytes play_state_action_handlers
+
 ;assumes location_address contains address of location to load
 ;transitions directly to play state by spilling into it, this is NOT a routine
 play_state_load_location:
@@ -302,7 +317,7 @@ play_state_load_location:
   sta w1
   ;lo byte of w1 should now be the correct offset for the textbox and font graphics
   sta textbox_and_font_chr_offset
-  
+
   lda #$10
   sta $2006
   lda #$00
@@ -533,12 +548,17 @@ same_song:
 
 play_state:
 
-  .scope play_frame
   wait_vblank_data_ready
 
+  ;switchboard for controlling the play state logic
   lda state_control_params+play_state_control::action
-  cmp #ACTION_GOTO_LOCATION_GROUP1
-  beq execute_goto_location_group1_action
+  tay
+  lda play_state_action_handlers_lo,y
+  sta w0
+  lda play_state_action_handlers_hi,y
+  sta w0+1
+  jmp (w0)
+play_state_action_nop:
 
   .ifdef CPU_USAGE
   set_ppu_2001_bit PPU1_DISPLAY_TYPE
@@ -568,11 +588,10 @@ play_state:
   .endif
 
   set_vblank_data_ready
-  .endscope
 
   jmp play_state
 
-execute_goto_location_group1_action:
+play_state_action_goto_location_group1:
 
   ;load the location to transition to
   ldx state_control_params+play_state_control::param
@@ -616,6 +635,42 @@ execute_goto_location_group1_action:
   sta state_control_params+play_state_control::param
 
   jmp play_state_load_location
+
+play_state_action_start_conversation:
+
+  ;install blank nmi routine at first
+  lda #<ppu_vblank_nop
+  sta vblank_routine
+  lda #>ppu_vblank_nop
+  sta vblank_routine+1
+
+keep_testing_a:
+  wait_vblank_data_ready
+
+  jsr controller_read
+
+  set_vblank_data_ready
+
+  lda buffer_controller+buttons::_a
+  and #%00000011
+  cmp #%00000001
+  bne keep_testing_a
+
+  ;restore the ppu routine needed by the play state.
+  lda #<nametable_and_attribute_update_ppu
+  sta vblank_routine
+  lda #>nametable_and_attribute_update_ppu
+  sta vblank_routine+1
+
+  ;the user has finished advancing through the conversation, make
+  ;sure the play state control action is a nop as we return to the
+  ;regular play state.
+  lda #ACTION_NOP
+  sta state_control_params+play_state_control::action
+  lda #0
+  sta state_control_params+play_state_control::param
+
+  jmp play_state
 
 .proc fill_nametable_columns
 

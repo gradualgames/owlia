@@ -9,6 +9,7 @@
 .include "entity.inc"
 .include "controller.inc"
 .include "map.inc"
+.include "actions.inc"
 .include "play_state.inc"
 
 .segment "CODE"
