@@ -152,7 +152,7 @@ next_entity_instance:
   rol
   asl w0
   rol
-  asl w0+1
+  sta w0+1
 
   lda w1+1
   asl w1
