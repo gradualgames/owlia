@@ -25,13 +25,8 @@ HERO_KNOCKBACK_LENGTH = 5
 
 HERO_INVINCIBILITY_LENGTH = 40
 
-;knockback speed. This must be a power of 2 to work well with the map engine.
+;knockback speed.
 HERO_KNOCKBACK_SPEED = $04
-;this mask makes certain that the hero always moves on power 2 grids on the
-;map. It is used to cancel out the two lowest bits of the hero's x and y
-;coordinate. If knockback speed is changed to another power of 2, this mask
-;must be changed also.
-HERO_KNOCKBACK_COORDINATE_MASK = %11111100
 
 ;hero's normal walking speed. This must be a power of 2 to work well with the
 ;map engine.

@@ -59,13 +59,6 @@ skip_lookup_opposite_direction:
   ; -set hero speed while hurt
   lda #HERO_KNOCKBACK_SPEED
   sta hero_speed
-  ;make certain the hero moves on a power of 2 grid when getting knocked back
-  lda hero_x
-  and #HERO_KNOCKBACK_COORDINATE_MASK
-  sta hero_x
-  lda hero_y
-  and #HERO_KNOCKBACK_COORDINATE_MASK
-  sta hero_y
 hero_invincible:
 
   rts

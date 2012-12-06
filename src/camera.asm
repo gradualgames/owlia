@@ -176,14 +176,6 @@ skip_follow_up:
 ;returns accumulator with 1 for success, 0 for nop
 .proc increment_camera_x
 
-  ;increment camera x
-  lda camera_x+1
-  cmp #3
-  bne :+
-  lda camera_x
-  cmp #0
-  beq :++
-:
   clc
   lda camera_x
   adc b0
@@ -192,12 +184,30 @@ skip_follow_up:
   adc #$00
   sta camera_x+1
 
+  sec
+  lda #0
+  sbc camera_x
+  lda #3
+  sbc camera_x+1
+  bmi camera_x_past_boundary
+camera_x_not_past_boundary:
+
   jsr increment_camera_scroll_x
 
   ;flag that increment succeeded
   lda #1
   rts
-:
+
+camera_x_past_boundary:
+
+  ;reset camera x to known values at this boundary
+  lda #0
+  sta camera_x
+  lda #3
+  sta camera_x+1
+  lda #0
+  sta camera_scroll_x
+
   ;flag that increment no-oped
   lda #0
   rts
@@ -209,12 +219,6 @@ skip_follow_up:
 ;returns accumulator with 1 for success, 0 for nop
 .proc decrement_camera_x
 
-  ;decrement camera x
-  lda camera_x+1
-  bne :+
-  lda camera_x
-  beq :++
-:
   sec
   lda camera_x
   sbc b0
@@ -222,15 +226,25 @@ skip_follow_up:
   lda camera_x+1
   sbc #$00
   sta camera_x+1
+  bpl camera_x_positive
+camera_x_negative:
+
+  ;if camera_x goes negative just reset it and the scroll to 0 (they are always in sync)
+  lda #0
+  sta camera_x
+  sta camera_x+1
+  sta camera_scroll_x
+
+  ;flag that increment no-oped
+  lda #0
+  rts
+
+camera_x_positive:
 
   jsr decrement_camera_scroll_x
 
   ;flag that increment succeeded
   lda #1
-  rts
-:
-  ;flag that increment no-oped
-  lda #0
   rts
 
 .endproc
@@ -240,14 +254,6 @@ skip_follow_up:
 ;returns accumulator with 1 for success, 0 for nop
 .proc increment_camera_y
 
-  ;increment camera y
-  lda camera_y+1
-  cmp #3
-  bne :+
-  lda camera_y
-  cmp #32
-  beq :++
-:
   clc
   lda camera_y
   adc b0
@@ -256,12 +262,30 @@ skip_follow_up:
   adc #$00
   sta camera_y+1
 
+  sec
+  lda #32
+  sbc camera_y
+  lda #3
+  sbc camera_y+1
+  bmi camera_y_past_boundary
+camera_y_not_past_boundary:
+
   jsr increment_camera_scroll_y
 
   ;flag that increment succeeded
   lda #1
   rts
-:
+
+camera_y_past_boundary:
+
+  ;reset camera x to known values at this boundary
+  lda #32
+  sta camera_y
+  lda #3
+  sta camera_y+1
+  lda #72
+  sta camera_scroll_y
+
   ;flag that increment no-oped
   lda #0
   rts
@@ -273,14 +297,6 @@ skip_follow_up:
 ;returns accmulator with 1 for success, 0 for nop
 .proc decrement_camera_y
 
-  ;decrement camera y
-  lda camera_y+1
-  cmp #$00
-  bne :+
-  lda camera_y
-  cmp #$00
-  beq :++
-:
   sec
   lda camera_y
   sbc b0
@@ -288,15 +304,26 @@ skip_follow_up:
   lda camera_y+1
   sbc #$00
   sta camera_y+1
+  bpl camera_y_positive
+camera_y_negative:
+
+  ;if camera_y goes negative just reset it and the scroll to 0 (they are always in sync)
+  lda #0
+  sta camera_y
+  sta camera_y+1
+  lda #232
+  sta camera_scroll_y
+
+  ;flag that increment no-oped
+  lda #0
+  rts
+
+camera_y_positive:
 
   jsr decrement_camera_scroll_y
 
   ;flag that increment succeeded
   lda #1
-  rts
-:
-  ;flag that increment no-oped
-  lda #0
   rts
 
 .endproc
