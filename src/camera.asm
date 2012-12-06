@@ -200,7 +200,7 @@ camera_x_not_past_boundary:
 
 camera_x_past_boundary:
 
-  ;reset camera x to known values at this boundary
+  ;reset camera_x and camera_scroll_x to known values at this boundary
   lda #0
   sta camera_x
   lda #3
@@ -278,7 +278,7 @@ camera_y_not_past_boundary:
 
 camera_y_past_boundary:
 
-  ;reset camera x to known values at this boundary
+  ;reset camera_y and camera_scroll_y to known values at this boundary
   lda #32
   sta camera_y
   lda #3
