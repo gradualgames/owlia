@@ -23,6 +23,7 @@
 .include "hero_constants.inc"
 .include "familiar.inc"
 .include "familiar_constants.inc"
+.include "textbox.inc"
 
 .segment "CODE"
 
@@ -638,11 +639,7 @@ play_state_action_goto_location_group1:
 
 play_state_action_start_conversation:
 
-  ;install blank nmi routine at first
-  lda #<ppu_vblank_nop
-  sta vblank_routine
-  lda #>ppu_vblank_nop
-  sta vblank_routine+1
+  jsr draw_textbox
 
 keep_testing_a:
   wait_vblank_data_ready
@@ -655,12 +652,6 @@ keep_testing_a:
   and #%00000011
   cmp #%00000001
   bne keep_testing_a
-
-  ;restore the ppu routine needed by the play state.
-  lda #<nametable_and_attribute_update_ppu
-  sta vblank_routine
-  lda #>nametable_and_attribute_update_ppu
-  sta vblank_routine+1
 
   ;the user has finished advancing through the conversation, make
   ;sure the play state control action is a nop as we return to the

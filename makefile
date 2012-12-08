@@ -26,6 +26,7 @@ FILES           += zp \
                    controller \
                    geotests \
                    map \
+                   textbox \
                    soundengine \
                    ppu \
                    mapper \
