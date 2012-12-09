@@ -49,6 +49,7 @@ village_area:
   .word village_entities
   .word song1
   .word village_palette
+  .byte $22 ;textbox_attribute
   .word village_map
   .word village_metatile_table_properties
   .word village_metatile_table_params
@@ -79,6 +80,7 @@ house1_area:
   .word house1_entities
   .word song1
   .word house1_palette
+  .byte $22 ;textbox_attribute
   .word house1_map
   .word house1_metatile_table_properties
   .word house1_metatile_table_params
@@ -107,6 +109,7 @@ overworld_area:
   .word overworld_entities
   .word song1
   .word overworld_palette
+  .byte $22 ;textbox_attribute
   .word overworld_map
   .word overworld_metatile_table_properties
   .word overworld_metatile_table_params

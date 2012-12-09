@@ -2,6 +2,7 @@
 .include "ram.inc"
 .include "zp.inc"
 .include "map.inc"
+.include "areas.inc"
 .include "ppu.inc"
 
 .segment "CODE"
@@ -126,6 +127,16 @@ draw_next_top_tile:
   adc #TOP_RIGHT_TILE_OFFSET
   sta nametable_row_buffer,x
 
+  ;fill the intermediate attribute row buffer with correct value
+  ldy #area::textbox_attribute
+  lda (area_address),y
+  ldx #16
+next_intermediate_attribute:
+  sta intermediate_attribute_row_buffer,x
+  dex
+  bpl next_intermediate_attribute
+  jsr map_process_intermediate_attribute_row_buffer
+
   rts
 
 .endproc
@@ -164,6 +175,17 @@ draw_next_top_tile:
   adc #RIGHT_TILE_OFFSET
   sta nametable_row_buffer,x
 
+  ;fill the intermediate attribute row buffer with correct value
+  ldy #area::textbox_attribute
+  lda (area_address),y
+  ldx #16
+next_intermediate_attribute:
+  sta intermediate_attribute_row_buffer,x
+  dex
+  bpl next_intermediate_attribute
+
+  jsr map_process_intermediate_attribute_row_buffer
+
   rts
 
 .endproc
@@ -201,6 +223,16 @@ draw_next_top_tile:
   lda textbox_and_font_chr_offset
   adc #BOTTOM_RIGHT_TILE_OFFSET
   sta nametable_row_buffer,x
+
+  ;fill the intermediate attribute row buffer with correct value
+  ldy #area::textbox_attribute
+  lda (area_address),y
+  ldx #16
+next_intermediate_attribute:
+  sta intermediate_attribute_row_buffer,x
+  dex
+  bpl next_intermediate_attribute
+  jsr map_process_intermediate_attribute_row_buffer
 
   rts
 

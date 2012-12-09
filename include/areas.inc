@@ -13,6 +13,7 @@ AREAS_INC = 1
   entity_instances_address .word
   song_address .word
   palette_address .word
+  textbox_attribute .byte
   map_address .word
   metatile_table_properties_address .word
   metatile_table_params_address .word

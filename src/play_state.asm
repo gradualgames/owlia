@@ -639,6 +639,8 @@ play_state_action_goto_location_group1:
 
 play_state_action_start_conversation:
 
+  jsr align_camera_to_metatile_boundary
+
   jsr draw_textbox
 
 keep_testing_a:
@@ -704,6 +706,96 @@ not_finished:
   set_vblank_data_ready
 
   jmp loop
+
+.endproc
+
+;decrements camera x and y coordinates, updates map rows and columns and
+;waits for the vblank data ready flag each frame until the camera is aligned
+;on a metatile boundary. This is used by the conversation engine to align the
+;map to a metatile boundary so the textbox is lined up on the screen perfectly.
+.proc align_camera_to_metatile_boundary
+
+keep_decrementing_camera_x:
+  wait_vblank_data_ready
+
+  lda camera_x
+  and #%00001111
+  beq camera_x_aligned
+
+  jsr sprite_clear_all
+
+  lda #2
+  sta b0
+  jsr decrement_camera_x
+
+  clc
+  lda camera_x
+  sta w0
+  lda camera_x+1
+  sta w0+1
+
+  lda camera_y
+  sta w1
+  lda camera_y+1
+  sta w1+1
+  switch_bank_ldy map_bank
+  jsr map_decode_column
+  jsr map_process_intermediate_attribute_column_buffer
+  lda #1
+  sta column_ready
+
+  switch_bank_ldy sprites_and_animations_bank
+  jsr hero_draw
+  jsr familiar_draw
+  jsr entity_draw_all
+
+  set_vblank_data_ready
+
+  jmp keep_decrementing_camera_x
+
+camera_x_aligned:
+
+keep_decrementing_camera_y:
+  wait_vblank_data_ready
+
+  lda camera_y
+  and #%00001111
+  beq camera_y_aligned
+
+  jsr sprite_clear_all
+
+  lda #1
+  sta b0
+  jsr decrement_camera_y
+
+  clc
+  lda camera_x
+  sta w0
+  lda camera_x+1
+  sta w0+1
+
+  lda camera_y
+  sta w1
+  lda camera_y+1
+  sta w1+1
+  switch_bank_ldy map_bank
+  jsr map_decode_row
+  jsr map_process_intermediate_attribute_row_buffer
+  lda #1
+  sta row_ready
+
+  switch_bank_ldy sprites_and_animations_bank
+  jsr hero_draw
+  jsr familiar_draw
+  jsr entity_draw_all
+
+  set_vblank_data_ready
+
+  jmp keep_decrementing_camera_y
+
+camera_y_aligned:
+
+  rts
 
 .endproc
 
