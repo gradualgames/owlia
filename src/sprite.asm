@@ -368,3 +368,23 @@ sprite_flipped_test_done:
   bne :-
   rts
 .endproc
+
+;this routine hides all sprites below the coordinate specified by b0
+.proc sprite_hide_all_below
+  ldx #$00
+: sec
+  lda b0
+  sbc sprite,x
+  lda #$00
+  sbc #$00
+  bpl boundary_below_sprite
+  lda #$ff
+  sta sprite,x
+boundary_below_sprite:
+  inx
+  inx
+  inx
+  inx
+  bne :-
+  rts
+.endproc

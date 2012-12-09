@@ -9,6 +9,7 @@ SPRITE_INC = 1
 .global sprite_update_animation
 .global sprite_update_all
 .global sprite_clear_all
+.global sprite_hide_all_below
 
 .struct sprite_struct
   ycoord .byte

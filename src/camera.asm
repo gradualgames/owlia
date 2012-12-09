@@ -2,6 +2,7 @@
 .include "zp.inc"
 .include "ram.inc"
 .include "map.inc"
+.include "hero_constants.inc"
 
 .segment "CODE"
 
@@ -56,7 +57,7 @@ skip_follow_right:
 
   clc
   lda camera_x
-  adc #(CAMERA_HORIZ_SIZE)
+  adc #(CAMERA_HORIZ_SIZE-HERO_WIDTH)
   sta camera_left_x
   lda camera_x+1
   adc #$00
@@ -132,7 +133,7 @@ skip_follow_down:
 
   clc
   lda camera_y
-  adc #(CAMERA_VERT_SIZE)
+  adc #(CAMERA_VERT_SIZE-HERO_HEIGHT)
   sta camera_top_y
   lda camera_y+1
   adc #$00

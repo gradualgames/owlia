@@ -5,6 +5,7 @@
 .include "areas.inc"
 .include "ppu.inc"
 .include "mapper.inc"
+.include "sprite.inc"
 
 .segment "CODE"
 
@@ -22,6 +23,10 @@
 
   wait_vblank_data_ready
 
+  lda #160
+  sta b0
+  jsr sprite_hide_all_below
+  
   switch_bank_ldy map_bank
 
   ;set up coordinates and draw top row
