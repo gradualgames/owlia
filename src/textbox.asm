@@ -4,6 +4,7 @@
 .include "map.inc"
 .include "areas.inc"
 .include "ppu.inc"
+.include "mapper.inc"
 
 .segment "CODE"
 
@@ -20,6 +21,8 @@
 .proc draw_textbox
 
   wait_vblank_data_ready
+
+  switch_bank_ldy map_bank
 
   ;set up coordinates and draw top row
   clc
@@ -91,6 +94,87 @@ next_middle_row:
 
 .endproc
 
+;erases the textbox area by decoding the map across the same
+;rows that the texbox occupied. Draw bottom up to make it
+;look cool.
+.proc erase_textbox
+
+  wait_vblank_data_ready
+
+  switch_bank_ldy map_bank
+
+  ;set up coordinates and draw top row
+  clc
+  lda camera_x
+  adc #0
+  sta w0
+  lda camera_x+1
+  adc #0
+  sta w0+1
+
+  clc
+  lda camera_y
+  adc #(16*10)
+  sta w1
+  lda camera_y+1
+  adc #0
+  sta w1+1
+  jsr map_decode_row
+  jsr map_process_intermediate_attribute_row_buffer
+  lda #1
+  sta row_ready
+
+  set_vblank_data_ready
+
+  ;draw all middle rows, incrementing y coordinate (w1)
+  ldx #6
+next_middle_row:
+  wait_vblank_data_ready
+
+  clc
+  lda w1
+  adc #$08
+  sta w1
+  lda w1+1
+  adc #$00
+  sta w1+1
+
+  ;save x, the map routines are destructive of most cpu state
+  txa
+  pha
+  jsr map_decode_row
+  jsr map_process_intermediate_attribute_row_buffer
+  ;restore x
+  pla
+  tax
+  lda #1
+  sta row_ready
+
+  set_vblank_data_ready
+
+  dex
+  bne next_middle_row
+
+  ;draw bottom row, incrementing y coordinate once (w1)
+  wait_vblank_data_ready
+
+  clc
+  lda w1
+  adc #$08
+  sta w1
+  lda w1+1
+  adc #$00
+  sta w1+1
+  jsr map_decode_row
+  jsr map_process_intermediate_attribute_row_buffer
+  lda #1
+  sta row_ready
+
+  set_vblank_data_ready
+
+  rts
+
+.endproc
 
 ;draws top row of textbox to the nametable_row_buffer by
 ;first decoding the map at X = w0 and Y = w1 and then

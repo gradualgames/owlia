@@ -655,6 +655,8 @@ keep_testing_a:
   cmp #%00000001
   bne keep_testing_a
 
+  jsr erase_textbox
+
   ;the user has finished advancing through the conversation, make
   ;sure the play state control action is a nop as we return to the
   ;regular play state.

@@ -2,6 +2,7 @@
 TEXTBOX_INC = 1
 
 .global draw_textbox
+.global erase_textbox
 .global draw_textbox_top_row
 .global draw_textbox_middle_row
 .global draw_textbox_bottom_row
