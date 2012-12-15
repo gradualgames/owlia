@@ -1,6 +1,8 @@
 .ifndef TEXTBOX_INC
 TEXTBOX_INC = 1
 
+.global test_conversation
+.global run_conversation
 .global draw_textbox
 .global erase_textbox
 .global draw_textbox_top_row
@@ -19,5 +21,65 @@ BOTTOM_LEFT_TILE_OFFSET  = 5
 BOTTOM_RIGHT_TILE_OFFSET = 6
 TOP_TILE_OFFSET          = 7
 BOTTOM_TILE_OFFSET       = 8
+
+;offsets of tiles in the textbox chr graphics font.
+;A few reserved literals, A, X, and Y had to be prefixed
+;with an underscore for use.
+.enum
+_A = 9
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+_X
+_Y
+Z
+_0
+_1
+_2
+_3
+_4
+_5
+_6
+_7
+_8
+_9
+CA ;CommA
+QE ;QuotE
+PD ;PerioD
+EN ;ExclamatioN
+QN ;QuestioN
+SC ;Semi-Colon
+CO ;ColoN
+OP ;Open Parentheses
+CP ;Closed Parentheses
+DH ;DasH
+.endenum
+
+SP = 4  ;space is the same offset as the middle tile (just a blank black tile)
+
+;conversation control characters
+EL = -1 ;end of line. This must ALWAYS be followed by a row number and some text to print!!!
+EP = -2 ;end of page
+WT = -3 ;wait for player to hit A button
+EC = -4 ;end of conversation
 
 .endif

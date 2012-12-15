@@ -643,17 +643,11 @@ play_state_action_start_conversation:
 
   jsr draw_textbox
 
-keep_testing_a:
-  wait_vblank_data_ready
-
-  jsr controller_read
-
-  set_vblank_data_ready
-
-  lda buffer_controller+buttons::_a
-  and #%00000011
-  cmp #%00000001
-  bne keep_testing_a
+  lda #<test_conversation
+  sta w0
+  lda #>test_conversation
+  sta w0+1
+  jsr run_conversation
 
   jsr erase_textbox
 

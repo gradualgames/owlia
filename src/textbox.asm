@@ -6,8 +6,190 @@
 .include "ppu.inc"
 .include "mapper.inc"
 .include "sprite.inc"
+.include "controller.inc"
 
 .segment "CODE"
+
+test_conversation:
+  .byte 1, H,E,L,L,O,SP,T,H,E,R,E,EN,WT,EL
+  .byte 2, I,SP,_A,M,SP,_A,SP,B,U,T,T,EN,WT,EL
+  .byte 3, _Y,O,U,SP,_A,R,E,SP,_A,SP,B,U,T,T,SP,_2,WT,EP,EL
+  .byte 1, W,E,SP,_A,R,E,SP,B,O,T,H,SP,B,U,T,T,S,PD,WT,EC
+
+;This routine takes an address of a conversation script as a
+;parameter in w0 and then reads the script to display text on
+;the text box and animate it at a reasonable speed, as well
+;as wait for the player to hit the A button when the script
+;says to. The script contains control characters for end of line,
+;end of page, end of conversation and wait for A button. end of
+;line characters (EL) must ALWAYS be followed by a row number.
+.proc run_conversation
+conversation_address = w0
+row_y_offset = b0
+
+  ;make sure any previous ppu uploads are complete before proceeding
+  wait_vblank_data_ready
+
+  ;Read row number. Reset row index
+  ldy #0
+read_next_row:
+  lda (conversation_address),y
+  ;Use row number to determine parameters to the draw_textbox_middle_row
+  ;routine.
+  ;multiply row number by 8
+  asl
+  asl
+  asl
+  ;add on Y coordinate of top of textbox
+  clc
+  adc #(16*10)
+  ;store the offset
+  sta row_y_offset
+
+  ;save local state---map decoding is very destructive
+  lda w0
+  pha
+  lda w0+1
+  pha
+  lda b0
+  pha
+  txa
+  pha
+  tya
+  pha
+
+  ;compute coordinates for row
+  clc
+  lda camera_x
+  adc #0
+  sta w0
+  lda camera_x+1
+  adc #0
+  sta w0+1
+
+  clc
+  lda camera_y
+  adc row_y_offset
+  sta w1
+  lda camera_y+1
+  adc #0
+  sta w1+1
+  ;Decode map at this row.
+  ;Call draw_textbox_middle_row at this row.
+  jsr draw_textbox_middle_row
+
+  ;restore local state
+  pla
+  tay
+  pla
+  tax
+  pla
+  sta b0
+  pla
+  sta w0+1
+  pla
+  sta w0
+
+  lda #1
+  sta row_ready
+  ldx #2
+  ;Read a character.
+read_next_character:
+  clc
+  lda conversation_address
+  adc #$01
+  sta conversation_address
+  lda conversation_address+1
+  adc #$00
+  sta conversation_address+1
+  lda (conversation_address),y
+  bmi interpret_control_character
+  ;If positive (it is just an offset into the font)
+interpret_font_character:
+  ;Draw the character to the nametable row buffer (see sub routine)
+  clc
+  adc textbox_and_font_chr_offset
+  sta nametable_row_buffer,x
+  inx
+  ;Sync with vblank so the animation is reasonable.
+  wait_vblank_data_ready
+  lda #1
+  sta row_ready
+  set_vblank_data_ready
+  jmp read_next_character
+  ;If negative (it is a control character)
+interpret_control_character:
+  cmp #WT
+  beq wait
+  cmp #EL
+  beq advance_to_next_row
+  cmp #EP
+  beq clear_textbox
+  cmp #EC
+  beq end_conversation
+wait:
+  ;If it is WT, just wait til user hits A button.
+  wait_vblank_data_ready
+
+  jsr controller_read
+
+  set_vblank_data_ready
+
+  lda buffer_controller+buttons::_a
+  and #%00000011
+  cmp #%00000001
+  bne wait
+
+  ;read next character
+  jmp read_next_character
+advance_to_next_row:
+  ;If it is EL, advance the conversation read address and read next character
+  ;as a row number.
+  clc
+  lda conversation_address
+  adc #$01
+  sta conversation_address
+  lda conversation_address+1
+  adc #$00
+  sta conversation_address+1
+  ;interpret next character as a row number and start a new line
+  jmp read_next_row
+clear_textbox:
+  ;If it is EP, redraw the textbox blank (see sub routine)
+  ;save local state---map decoding is very destructive
+  lda w0
+  pha
+  lda w0+1
+  pha
+  lda b0
+  pha
+  txa
+  pha
+  tya
+  pha
+
+  jsr draw_textbox
+
+  ;restore local state
+  pla
+  tay
+  pla
+  tax
+  pla
+  sta b0
+  pla
+  sta w0+1
+  pla
+  sta w0
+
+  ;read next character
+  jmp read_next_character
+
+end_conversation:
+  ;If it is EC, exit the whole algorithm
+  rts
+
+.endproc
 
 ;draws the whole textbox by using the helper routines
 ;draw_textbox_top_row, draw_textbox_middle_row, and
@@ -26,7 +208,7 @@
   lda #160
   sta b0
   jsr sprite_hide_all_below
-  
+
   switch_bank_ldy map_bank
 
   ;set up coordinates and draw top row
