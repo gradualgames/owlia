@@ -24,6 +24,7 @@
 .include "familiar.inc"
 .include "familiar_constants.inc"
 .include "textbox.inc"
+.include "conversation_data.inc"
 
 .segment "CODE"
 
@@ -169,6 +170,13 @@ next_entity_instance:
   ;spawn the entity
   jsr entity_spawn
 
+  ;get the param for the entity (entity specific, often NPC conversation index)
+  ldy entities_index
+  iny
+  lda (entities_address),y
+  sta entity_param,x
+  sty entities_index
+
   dec entities_count
   bne next_entity_instance
 no_entities:
@@ -261,6 +269,10 @@ play_state_load_location:
   ldy #area::sprite_chr_bank
   lda (area_address),y
   sta sprite_chr_bank
+
+  ldy #area::conversations_bank
+  lda (area_address),y
+  sta conversations_bank
 
   ;initialize
   jsr ppu_safely_disable_graphics
@@ -643,9 +655,12 @@ play_state_action_start_conversation:
 
   jsr draw_textbox
 
-  lda #<test_conversation
+  ;when an NPC starts a conversation, the NPC specifies the index of a
+  ;conversation to load, load it here.
+  ldx state_control_params+play_state_control::param
+  lda conversations_lo,x
   sta w0
-  lda #>test_conversation
+  lda conversations_hi,x
   sta w0+1
   jsr run_conversation
 

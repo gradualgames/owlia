@@ -27,6 +27,7 @@ FILES           += zp \
                    geotests \
                    map \
                    textbox \
+                   conversation_data \
                    soundengine \
                    ppu \
                    mapper \

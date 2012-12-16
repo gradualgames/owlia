@@ -13,6 +13,7 @@ MAX_ENTITIES = 8
 .global sprites_and_animations_bank
 .global bg_chr_bank
 .global sprite_chr_bank
+.global conversations_bank
 
 .global state_control_params
 
@@ -38,6 +39,7 @@ MAX_ENTITIES = 8
 .global entity_animation_counter
 .global entity_animation_address_lo
 .global entity_animation_address_hi
+.global entity_param
 .global entity_local0
 .global entity_local1
 .global entity_local2

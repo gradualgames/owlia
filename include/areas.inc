@@ -8,6 +8,7 @@ AREAS_INC = 1
   sprites_and_animations_bank .byte
   bg_chr_bank .byte
   sprite_chr_bank .byte
+  conversations_bank .byte
   bg_chr_address .word
   entity_types_address .word
   entity_instances_address .word

@@ -86,7 +86,7 @@ done:
   ;enter conversation mode
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
-  lda #0
+  lda entity_param,x
   sta state_control_params+play_state_control::param
 
 do_not_start_conversation:

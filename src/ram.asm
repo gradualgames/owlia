@@ -12,6 +12,7 @@ entities_bank: .res 1
 sprites_and_animations_bank: .res 1
 bg_chr_bank: .res 1
 sprite_chr_bank: .res 1
+conversations_bank: .res 1
 
 state_control_params: .res 8
 
@@ -37,6 +38,7 @@ entity_animation_frame:      .res MAX_ENTITIES
 entity_animation_counter:    .res MAX_ENTITIES
 entity_animation_address_lo: .res MAX_ENTITIES
 entity_animation_address_hi: .res MAX_ENTITIES
+entity_param:                .res MAX_ENTITIES
 entity_local0:               .res MAX_ENTITIES
 entity_local1:               .res MAX_ENTITIES
 entity_local2:               .res MAX_ENTITIES

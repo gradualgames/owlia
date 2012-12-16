@@ -10,12 +10,6 @@
 
 .segment "CODE"
 
-test_conversation:
-  .byte 1, H,E,L,L,O,SP,T,H,E,R,E,EN,WT,EL
-  .byte 2, I,SP,_A,M,SP,_A,SP,B,U,T,T,EN,WT,EL
-  .byte 3, _Y,O,U,SP,_A,R,E,SP,_A,SP,B,U,T,T,SP,_2,WT,EP,EL
-  .byte 1, W,E,SP,_A,R,E,SP,B,O,T,H,SP,B,U,T,T,S,PD,WT,EC
-
 ;This routine takes an address of a conversation script as a
 ;parameter in w0 and then reads the script to display text on
 ;the text box and animate it at a reasonable speed, as well
@@ -30,6 +24,8 @@ row_y_offset = b0
   ;make sure any previous ppu uploads are complete before proceeding
   wait_vblank_data_ready
 
+  switch_bank_ldy conversations_bank
+  
   ;Read row number. Reset row index
   ldy #0
 read_next_row:
@@ -76,7 +72,9 @@ read_next_row:
   sta w1+1
   ;Decode map at this row.
   ;Call draw_textbox_middle_row at this row.
+  switch_bank_ldy map_bank
   jsr draw_textbox_middle_row
+  switch_bank_ldy conversations_bank
 
   ;restore local state
   pla
@@ -168,7 +166,9 @@ clear_textbox:
   tya
   pha
 
+  switch_bank_ldy map_bank
   jsr draw_textbox
+  switch_bank_ldy conversations_bank
 
   ;restore local state
   pla

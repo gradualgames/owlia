@@ -145,6 +145,8 @@
 ;b0 is assumed to be the type of entity to spawn
 ;w0 is assumed to be the 16 bit x coordinate at which to spawn the entity
 ;w1 is assumed to be the 16 bit y coordinate at which to spawn the entity
+;x can be used after calling this routine to modify some initial state of
+;the entity (parameterize it somehow)
 .proc entity_spawn
 type = b0
 spawn_x = w0
