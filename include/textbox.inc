@@ -52,26 +52,10 @@ W
 _X
 _Y
 Z
-_0
-_1
-_2
-_3
-_4
-_5
-_6
-_7
-_8
-_9
 CA ;CommA
-QE ;QuotE
 PD ;PerioD
 EN ;ExclamatioN
 QN ;QuestioN
-SC ;Semi-Colon
-CO ;ColoN
-OP ;Open Parentheses
-CP ;Closed Parentheses
-DH ;DasH
 .endenum
 
 SP = 4  ;space is the same offset as the middle tile (just a blank black tile)
