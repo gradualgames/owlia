@@ -51,7 +51,7 @@ village_area:
   .word village_entities
   .word song1
   .word village_palette
-  .byte $22 ;textbox_attribute
+  .byte $00 ;textbox_attribute
   .word village_map
   .word village_metatile_table_properties
   .word village_metatile_table_params
@@ -67,8 +67,8 @@ village_area:
 
 village_entities:
   .byte 2  ;count
-  .byte entity_index_tiger, 10, 10, 0
-  .byte entity_index_npcman, 10, 14, test_conversation_index
+  .byte entity_index_tiger, 6, 10, 0
+  .byte entity_index_npcman, 8, 14, test_conversation_index
 
 house1_area:
   .byte 0   ;music_bank .byte
@@ -83,7 +83,7 @@ house1_area:
   .word house1_entities
   .word song1
   .word house1_palette
-  .byte $22 ;textbox_attribute
+  .byte $00 ;textbox_attribute
   .word house1_map
   .word house1_metatile_table_properties
   .word house1_metatile_table_params
@@ -113,7 +113,7 @@ overworld_area:
   .word overworld_entities
   .word song1
   .word overworld_palette
-  .byte $22 ;textbox_attribute
+  .byte $00 ;textbox_attribute
   .word overworld_map
   .word overworld_metatile_table_properties
   .word overworld_metatile_table_params
