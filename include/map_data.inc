@@ -29,6 +29,20 @@ MAP_DATA_INC = 1
 .global house1_metatile_table_top_right_tiles
 .global house1_metatile_table_top_left_tiles
 
+.global inn_palette
+.global inn_map
+.global inn_big_metatile_table_bottom_right
+.global inn_big_metatile_table_bottom_left
+.global inn_big_metatile_table_top_right
+.global inn_big_metatile_table_top_left
+.global inn_metatile_table_properties
+.global inn_metatile_table_params
+.global inn_metatile_table_attributes
+.global inn_metatile_table_bottom_right_tiles
+.global inn_metatile_table_bottom_left_tiles
+.global inn_metatile_table_top_right_tiles
+.global inn_metatile_table_top_left_tiles
+
 .global overworld_palette
 .global overworld_map
 .global overworld_big_metatile_table_bottom_right

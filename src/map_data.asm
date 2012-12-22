@@ -41,6 +41,24 @@ house1_big_metatile_table_bottom_left = house1_data::big_metatile_table_bottom_l
 house1_big_metatile_table_bottom_right = house1_data::big_metatile_table_bottom_right
 house1_map = house1_data::map
 
+.scope inn_data
+.include "inn.inc"
+.endscope
+
+inn_palette = inn_data::palette
+inn_metatile_table_properties = inn_data::metatile_table_properties
+inn_metatile_table_params = inn_data::metatile_table_params
+inn_metatile_table_attributes = inn_data::metatile_table_attributes
+inn_metatile_table_top_left_tiles = inn_data::metatile_table_top_left_tiles
+inn_metatile_table_top_right_tiles = inn_data::metatile_table_top_right_tiles
+inn_metatile_table_bottom_left_tiles = inn_data::metatile_table_bottom_left_tiles
+inn_metatile_table_bottom_right_tiles = inn_data::metatile_table_bottom_right_tiles
+inn_big_metatile_table_top_left = inn_data::big_metatile_table_top_left
+inn_big_metatile_table_top_right = inn_data::big_metatile_table_top_right
+inn_big_metatile_table_bottom_left = inn_data::big_metatile_table_bottom_left
+inn_big_metatile_table_bottom_right = inn_data::big_metatile_table_bottom_right
+inn_map = inn_data::map
+
 .scope overworld_data
 .include "overworld.inc"
 .endscope
