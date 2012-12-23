@@ -531,6 +531,9 @@ hero_not_invincible:
   lda sprite_flags_direction,y
   sta hero_sprite_flags
 
+  lda hero_flags
+  and #HERO_FLAGS_MOVING_TEST
+  beq do_not_animate_hero
   lda #<hero_animation_object
   sta w1
   lda #>hero_animation_object
@@ -540,6 +543,7 @@ hero_not_invincible:
   lda hero_animation_address+1
   sta w2+1
   jsr sprite_update_animation
+do_not_animate_hero:
 
   rts
 
