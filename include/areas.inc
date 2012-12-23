@@ -50,6 +50,7 @@ AREAS_INC = 1
 area_index_village
 area_index_house
 area_index_inn
+area_index_housebl
 area_index_overworld
 .endenum
 
