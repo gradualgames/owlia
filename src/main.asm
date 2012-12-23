@@ -79,7 +79,7 @@ reset:
   lda #0
   sta state_control_params+play_state_control::param
 
-  ldx #location_index_inn_exit
+  ldx #location_index_village_house1_entrance
   lda locations_lo,x
   sta location_address
   lda locations_hi,x

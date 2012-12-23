@@ -31,6 +31,21 @@ LOCATIONS_INC = 1
   .word hero_direction                          ;hero_direction .byte
 .endmacro
 
+.macro define_centered_location area_index, camera_start_x, camera_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+  .byte area_index                                  ;area_index .byte
+  .byte $20 | ((>(16*(camera_start_x-8)) & 1) << 2) ;nametable_start_hibyte .byte
+  .word (16*(camera_start_x-8))                     ;camera_start_x .word
+  .word (16*(camera_start_y-7))                     ;camera_start_y .word
+  .byte <(16*(camera_start_x-8))                  ;camera_start_scroll_x .byte
+  .byte (232 + (16*(camera_start_y-7))) .MOD 240    ;camera_start_scroll_y .byte
+  .word (16*(camera_start_x-8)+128)                 ;hero_start_x .word
+  .word (16*(camera_start_y-7)+96)                  ;hero_start_y .word
+  .word sfx_address                                 ;on_enter_sfx_address .word
+  .byte sfx_channel                                 ;on_enter_sfx_channel .byte
+  .byte sfx_stream                                  ;on_enter_sfx_stream  .byte
+  .word hero_direction                              ;hero_direction .byte
+.endmacro
+
 ;****************************************************************
 ;Location LUTs
 ;****************************************************************

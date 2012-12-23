@@ -19,7 +19,7 @@ camera_increment = b0
 
   clc
   lda camera_x
-  adc #(256 - CAMERA_HORIZ_SIZE)
+  adc #(256 - CAMERA_HORIZ_SIZE - HERO_WIDTH)
   sta camera_right_x
   lda camera_x+1
   adc #$00
@@ -57,7 +57,7 @@ skip_follow_right:
 
   clc
   lda camera_x
-  adc #(CAMERA_HORIZ_SIZE-HERO_WIDTH)
+  adc #(CAMERA_HORIZ_SIZE)
   sta camera_left_x
   lda camera_x+1
   adc #$00
@@ -93,7 +93,7 @@ skip_follow_left:
 
   clc
   lda camera_y
-  adc #(240 - CAMERA_VERT_SIZE)
+  adc #(240 - CAMERA_VERT_SIZE - HERO_HEIGHT - 8)
   sta camera_bottom_y
   lda camera_y+1
   adc #$00
@@ -133,7 +133,7 @@ skip_follow_down:
 
   clc
   lda camera_y
-  adc #(CAMERA_VERT_SIZE-HERO_HEIGHT)
+  adc #(CAMERA_VERT_SIZE-8)
   sta camera_top_y
   lda camera_y+1
   adc #$00
