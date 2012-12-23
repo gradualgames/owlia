@@ -36,13 +36,6 @@ AREAS_INC = 1
 .global areas_hi
 
 ;****************************************************************
-;Location definitions.
-;****************************************************************
-.global village_area
-.global house1_area
-.global overworld_area
-
-;****************************************************************
 ;Constants for names of areas, to make it easy to tie things
 ;together in the source code
 ;****************************************************************
@@ -51,6 +44,7 @@ area_index_village
 area_index_house
 area_index_inn
 area_index_housebl
+area_index_housebr
 area_index_overworld
 .endenum
 

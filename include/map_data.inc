@@ -43,6 +43,20 @@ MAP_DATA_INC = 1
 .global housebl_metatile_table_top_right_tiles
 .global housebl_metatile_table_top_left_tiles
 
+.global housebr_palette
+.global housebr_map
+.global housebr_big_metatile_table_bottom_right
+.global housebr_big_metatile_table_bottom_left
+.global housebr_big_metatile_table_top_right
+.global housebr_big_metatile_table_top_left
+.global housebr_metatile_table_properties
+.global housebr_metatile_table_params
+.global housebr_metatile_table_attributes
+.global housebr_metatile_table_bottom_right_tiles
+.global housebr_metatile_table_bottom_left_tiles
+.global housebr_metatile_table_top_right_tiles
+.global housebr_metatile_table_top_left_tiles
+
 .global inn_palette
 .global inn_map
 .global inn_big_metatile_table_bottom_right

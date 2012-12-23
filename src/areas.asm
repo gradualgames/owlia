@@ -18,6 +18,7 @@
     house1_area, \
     inn_area, \
     housebl_area, \
+    housebr_area, \
     overworld_area
 
 areas_lo:
@@ -131,7 +132,37 @@ housebl_area:
 
 housebl_entities:
   .byte 0  ;count
-  
+
+housebr_area:
+  .byte 0   ;music_bank .byte
+  .byte 1   ;entities_bank .byte
+  .byte 2   ;map_bank .byte
+  .byte 3   ;sprites_and_animations_bank .byte
+  .byte 7   ;bg_chr_bank .byte
+  .byte 6   ;sprite_chr_bank .byte
+  .byte 3   ;conversations_bank .byte
+  .word house1_chr
+  .word entity_types
+  .word housebr_entities
+  .word song1
+  .word housebr_palette
+  .byte $00 ;textbox_attribute
+  .word housebr_map
+  .word housebr_metatile_table_properties
+  .word housebr_metatile_table_params
+  .word housebr_metatile_table_attributes
+  .word housebr_metatile_table_top_left_tiles
+  .word housebr_metatile_table_top_right_tiles
+  .word housebr_metatile_table_bottom_left_tiles
+  .word housebr_metatile_table_bottom_right_tiles
+  .word housebr_big_metatile_table_top_left
+  .word housebr_big_metatile_table_top_right
+  .word housebr_big_metatile_table_bottom_left
+  .word housebr_big_metatile_table_bottom_right
+
+housebr_entities:
+  .byte 0  ;count
+
 inn_area:
   .byte 0   ;music_bank .byte
   .byte 1   ;entities_bank .byte
