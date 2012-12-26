@@ -194,8 +194,6 @@ skip_goto_location:
 
 .endmacro
 
-.segment "ROM02"
-
 .define direction_handlers \
   hero_direction_nop_handler,\
   hero_direction_right_handler,\
@@ -290,6 +288,8 @@ familiar_spawn_offset_y_lo:
 
 familiar_spawn_offset_y_hi:
   .byte 0, 0, 0, 0
+
+.segment "ROM02"
 
 hero_update:
 
