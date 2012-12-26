@@ -77,6 +77,24 @@ housebr_big_metatile_table_bottom_left = housebr_data::big_metatile_table_bottom
 housebr_big_metatile_table_bottom_right = housebr_data::big_metatile_table_bottom_right
 housebr_map = housebr_data::map
 
+.scope housetr_data
+.include "housetr.inc"
+.endscope
+
+housetr_palette = housetr_data::palette
+housetr_metatile_table_properties = housetr_data::metatile_table_properties
+housetr_metatile_table_params = housetr_data::metatile_table_params
+housetr_metatile_table_attributes = housetr_data::metatile_table_attributes
+housetr_metatile_table_top_left_tiles = housetr_data::metatile_table_top_left_tiles
+housetr_metatile_table_top_right_tiles = housetr_data::metatile_table_top_right_tiles
+housetr_metatile_table_bottom_left_tiles = housetr_data::metatile_table_bottom_left_tiles
+housetr_metatile_table_bottom_right_tiles = housetr_data::metatile_table_bottom_right_tiles
+housetr_big_metatile_table_top_left = housetr_data::big_metatile_table_top_left
+housetr_big_metatile_table_top_right = housetr_data::big_metatile_table_top_right
+housetr_big_metatile_table_bottom_left = housetr_data::big_metatile_table_bottom_left
+housetr_big_metatile_table_bottom_right = housetr_data::big_metatile_table_bottom_right
+housetr_map = housetr_data::map
+
 .scope inn_data
 .include "inn.inc"
 .endscope

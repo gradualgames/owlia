@@ -46,6 +46,7 @@ area_index_inn
 area_index_store
 area_index_housebl
 area_index_housebr
+area_index_housetr
 area_index_overworld
 .endenum
 
