@@ -788,7 +788,7 @@ legal_direction:
   sta hero_y+1
 found_collision_down_side:
 
-  test_collision $ff, $ff, (HERO_HEIGHT/2-1), 0, found_collision_left_side
+  test_collision $ff, $ff, (HERO_HEIGHT/2), 0, found_collision_left_side
   test_collision $ff, $ff, (HERO_HEIGHT-1), 0, found_collision_left_side
 
   sec
