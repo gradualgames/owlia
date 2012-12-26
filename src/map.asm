@@ -47,6 +47,9 @@ metatile_param = b1
 
 map_offset = w16
 
+  ;save calling bank
+  lda current_bank
+  pha
   ;we need to see the map data for the duration of this routine
   switch_bank_ldy map_bank
 
@@ -177,8 +180,10 @@ top_half:
   lda (metatile_table_params_address),y
   sta metatile_param
 
-  ;switch back to entities bank before returning
-  switch_bank_ldy entities_bank
+  ;restore calling bank
+  pla
+  sta current_bank
+  switch_bank_ldy current_bank
 
   rts
 
@@ -200,8 +205,10 @@ bottom_half:
   lda (metatile_table_params_address),y
   sta metatile_param
 
-  ;switch back to entities bank before returning
-  switch_bank_ldy entities_bank
+  ;restore calling bank
+  pla
+  sta current_bank
+  switch_bank_ldy current_bank
 
   rts
 
@@ -231,8 +238,10 @@ top_half:
   lda (metatile_table_params_address),y
   sta metatile_param
 
-  ;switch back to entities bank before returning
-  switch_bank_ldy entities_bank
+  ;restore calling bank
+  pla
+  sta current_bank
+  switch_bank_ldy current_bank
 
   rts
 
@@ -254,8 +263,10 @@ bottom_half:
   lda (metatile_table_params_address),y
   sta metatile_param
 
-  ;switch back to entities bank before returning
-  switch_bank_ldy entities_bank
+  ;restore calling bank
+  pla
+  sta current_bank
+  switch_bank_ldy current_bank
 
   rts
 

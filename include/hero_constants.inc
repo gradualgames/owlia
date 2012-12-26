@@ -1,8 +1,7 @@
-.include "ram.inc"
-
 .ifndef HERO_CONSTANTS_INC
 HERO_CONSTANTS_INC = 1
 
+HERO_BANK = $02
 HERO_WIDTH = $10
 HERO_HEIGHT = $20
 

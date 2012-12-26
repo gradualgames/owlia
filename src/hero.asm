@@ -194,6 +194,8 @@ skip_goto_location:
 
 .endmacro
 
+.segment "ROM02"
+
 .define direction_handlers \
   hero_direction_nop_handler,\
   hero_direction_right_handler,\

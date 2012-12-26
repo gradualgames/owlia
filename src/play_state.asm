@@ -515,9 +515,12 @@ play_state_load_location:
 
   jsr sprite_clear_all
 
-  switch_bank_ldy entities_bank
+  switch_bank_ldy #HERO_BANK
   jsr hero_update
+  switch_bank_ldy #FAMILIAR_BANK
   jsr familiar_update
+
+  switch_bank_ldy entities_bank
   jsr entity_update_all
 
   switch_bank_ldy map_bank
@@ -582,9 +585,12 @@ play_state_action_nop:
 
   jsr controller_read
 
-  switch_bank_ldy entities_bank
+  switch_bank_ldy #HERO_BANK
   jsr hero_update
+  switch_bank_ldy #FAMILIAR_BANK
   jsr familiar_update
+
+  switch_bank_ldy entities_bank
   jsr entity_update_all
 
   switch_bank_ldy map_bank

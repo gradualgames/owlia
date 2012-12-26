@@ -113,6 +113,8 @@ familiar_not_alive:
 
 .endproc
 
+.segment "ROM02"
+
 familiar_direction_speed_x_lo:
   .byte 0, 0, 0, 0
 
