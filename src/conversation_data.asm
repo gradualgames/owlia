@@ -14,7 +14,7 @@ conversations_lo:
 conversations_hi:
   .hibytes conversations
 
-.segment "ROM03"
+.segment "ROM00"
 
 test_conversation:
   .byte 1, H,E,L,L,O,SP,T,H,E,R,E,EN,WT,EL

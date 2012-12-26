@@ -1,6 +1,6 @@
 .include "bg_chr_data.inc"
 
-.segment "ROM07"
+.segment "ROM01"
 
 textbox_chr:
   .word $0270

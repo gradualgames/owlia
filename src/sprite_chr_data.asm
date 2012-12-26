@@ -1,6 +1,6 @@
 .include "sprite_chr_data.inc"
 
-.segment "ROM06"
+.segment "ROM01"
 
 hero_chr:
   .word $05F0

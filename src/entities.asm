@@ -40,7 +40,7 @@ entity_defs_chr_address_lo:
 entity_defs_chr_address_hi:
   .hibytes entity_defs_chr_address
 
-.segment "ROM01"
+.segment "ROM00"
 
 .include "hero.inc"
 .include "familiar.inc"

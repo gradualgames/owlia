@@ -45,12 +45,12 @@ entity_types:
 ;****************************************************************
 village_area:
   .byte 0   ;music_bank .byte
-  .byte 1   ;entities_bank .byte
-  .byte 2   ;map_bank .byte
-  .byte 3   ;sprites_and_animations_bank .byte
-  .byte 7   ;bg_chr_bank .byte
-  .byte 6   ;sprite_chr_bank .byte
-  .byte 3   ;conversations_bank .byte
+  .byte 0   ;entities_bank .byte
+  .byte 0   ;map_bank .byte
+  .byte 0   ;sprites_and_animations_bank .byte
+  .byte 1   ;bg_chr_bank .byte
+  .byte 1   ;sprite_chr_bank .byte
+  .byte 0   ;conversations_bank .byte
   .word map0_chr
   .word entity_types
   .word village_entities
@@ -77,12 +77,12 @@ village_entities:
 
 house1_area:
   .byte 0   ;music_bank .byte
-  .byte 1   ;entities_bank .byte
-  .byte 2   ;map_bank .byte
-  .byte 3   ;sprites_and_animations_bank .byte
-  .byte 7   ;bg_chr_bank .byte
-  .byte 6   ;sprite_chr_bank .byte
-  .byte 3   ;conversations_bank .byte
+  .byte 0   ;entities_bank .byte
+  .byte 0   ;map_bank .byte
+  .byte 0   ;sprites_and_animations_bank .byte
+  .byte 1   ;bg_chr_bank .byte
+  .byte 1   ;sprite_chr_bank .byte
+  .byte 0   ;conversations_bank .byte
   .word house1_chr
   .word entity_types
   .word house1_entities
@@ -107,12 +107,12 @@ house1_entities:
 
 housebl_area:
   .byte 0   ;music_bank .byte
-  .byte 1   ;entities_bank .byte
-  .byte 2   ;map_bank .byte
-  .byte 3   ;sprites_and_animations_bank .byte
-  .byte 7   ;bg_chr_bank .byte
-  .byte 6   ;sprite_chr_bank .byte
-  .byte 3   ;conversations_bank .byte
+  .byte 0   ;entities_bank .byte
+  .byte 0   ;map_bank .byte
+  .byte 0   ;sprites_and_animations_bank .byte
+  .byte 1   ;bg_chr_bank .byte
+  .byte 1   ;sprite_chr_bank .byte
+  .byte 0   ;conversations_bank .byte
   .word house1_chr
   .word entity_types
   .word housebl_entities
@@ -137,12 +137,12 @@ housebl_entities:
 
 housebr_area:
   .byte 0   ;music_bank .byte
-  .byte 1   ;entities_bank .byte
-  .byte 2   ;map_bank .byte
-  .byte 3   ;sprites_and_animations_bank .byte
-  .byte 7   ;bg_chr_bank .byte
-  .byte 6   ;sprite_chr_bank .byte
-  .byte 3   ;conversations_bank .byte
+  .byte 0   ;entities_bank .byte
+  .byte 0   ;map_bank .byte
+  .byte 0   ;sprites_and_animations_bank .byte
+  .byte 1   ;bg_chr_bank .byte
+  .byte 1   ;sprite_chr_bank .byte
+  .byte 0   ;conversations_bank .byte
   .word house1_chr
   .word entity_types
   .word housebr_entities
@@ -167,12 +167,12 @@ housebr_entities:
 
 housetr_area:
   .byte 0   ;music_bank .byte
-  .byte 1   ;entities_bank .byte
-  .byte 2   ;map_bank .byte
-  .byte 3   ;sprites_and_animations_bank .byte
-  .byte 7   ;bg_chr_bank .byte
-  .byte 6   ;sprite_chr_bank .byte
-  .byte 3   ;conversations_bank .byte
+  .byte 0   ;entities_bank .byte
+  .byte 0   ;map_bank .byte
+  .byte 0   ;sprites_and_animations_bank .byte
+  .byte 1   ;bg_chr_bank .byte
+  .byte 1   ;sprite_chr_bank .byte
+  .byte 0   ;conversations_bank .byte
   .word house1_chr
   .word entity_types
   .word housetr_entities
@@ -197,12 +197,12 @@ housetr_entities:
 
 inn_area:
   .byte 0   ;music_bank .byte
-  .byte 1   ;entities_bank .byte
-  .byte 2   ;map_bank .byte
-  .byte 3   ;sprites_and_animations_bank .byte
-  .byte 7   ;bg_chr_bank .byte
-  .byte 6   ;sprite_chr_bank .byte
-  .byte 3   ;conversations_bank .byte
+  .byte 0   ;entities_bank .byte
+  .byte 0   ;map_bank .byte
+  .byte 0   ;sprites_and_animations_bank .byte
+  .byte 1   ;bg_chr_bank .byte
+  .byte 1   ;sprite_chr_bank .byte
+  .byte 0   ;conversations_bank .byte
   .word house1_chr
   .word entity_types
   .word inn_entities
@@ -227,12 +227,12 @@ inn_entities:
 
 store_area:
   .byte 0   ;music_bank .byte
-  .byte 1   ;entities_bank .byte
-  .byte 2   ;map_bank .byte
-  .byte 3   ;sprites_and_animations_bank .byte
-  .byte 7   ;bg_chr_bank .byte
-  .byte 6   ;sprite_chr_bank .byte
-  .byte 3   ;conversations_bank .byte
+  .byte 0   ;entities_bank .byte
+  .byte 0   ;map_bank .byte
+  .byte 0   ;sprites_and_animations_bank .byte
+  .byte 1   ;bg_chr_bank .byte
+  .byte 1   ;sprite_chr_bank .byte
+  .byte 0   ;conversations_bank .byte
   .word house1_chr
   .word entity_types
   .word store_entities
@@ -257,12 +257,12 @@ store_entities:
 
 overworld_area:
   .byte 0   ;music_bank .byte
-  .byte 1   ;entities_bank .byte
-  .byte 2   ;map_bank .byte
-  .byte 3   ;sprites_and_animations_bank .byte
-  .byte 7   ;bg_chr_bank .byte
-  .byte 6   ;sprite_chr_bank .byte
-  .byte 3   ;conversations_bank .byte
+  .byte 0   ;entities_bank .byte
+  .byte 0   ;map_bank .byte
+  .byte 0   ;sprites_and_animations_bank .byte
+  .byte 1   ;bg_chr_bank .byte
+  .byte 1   ;sprite_chr_bank .byte
+  .byte 0   ;conversations_bank .byte
   .word map1_chr
   .word entity_types
   .word overworld_entities
