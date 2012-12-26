@@ -16,6 +16,10 @@
     house1_area_exit_location, \
     village_area_inn_entrance_location, \
     inn_area_exit_location, \
+    village_area_weaponstore_entrance_location, \
+    weaponstore_area_exit_location, \
+    village_area_potionstore_entrance_location, \
+    potionstore_area_exit_location, \
     village_area_housebl_entrance_location, \
     housebl_area_exit_location, \
     village_area_housebr_entrance_location, \
@@ -42,6 +46,18 @@ define_centered_location area_index_village, 11, 35, sfx_door, 3, soundeffect_on
 
 inn_area_exit_location:
 define_centered_location area_index_inn, 25, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+
+village_area_weaponstore_entrance_location:
+define_centered_location area_index_village, 54, 35, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+
+weaponstore_area_exit_location:
+define_centered_location area_index_store, 25, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+
+village_area_potionstore_entrance_location:
+define_centered_location area_index_village, 51, 35, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+
+potionstore_area_exit_location:
+define_centered_location area_index_store, 13, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 
 village_area_housebl_entrance_location:
 define_centered_location area_index_village, 11, 55, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN

@@ -95,6 +95,24 @@ inn_big_metatile_table_bottom_left = inn_data::big_metatile_table_bottom_left
 inn_big_metatile_table_bottom_right = inn_data::big_metatile_table_bottom_right
 inn_map = inn_data::map
 
+.scope store_data
+.include "store.inc"
+.endscope
+
+store_palette = store_data::palette
+store_metatile_table_properties = store_data::metatile_table_properties
+store_metatile_table_params = store_data::metatile_table_params
+store_metatile_table_attributes = store_data::metatile_table_attributes
+store_metatile_table_top_left_tiles = store_data::metatile_table_top_left_tiles
+store_metatile_table_top_right_tiles = store_data::metatile_table_top_right_tiles
+store_metatile_table_bottom_left_tiles = store_data::metatile_table_bottom_left_tiles
+store_metatile_table_bottom_right_tiles = store_data::metatile_table_bottom_right_tiles
+store_big_metatile_table_top_left = store_data::big_metatile_table_top_left
+store_big_metatile_table_top_right = store_data::big_metatile_table_top_right
+store_big_metatile_table_bottom_left = store_data::big_metatile_table_bottom_left
+store_big_metatile_table_bottom_right = store_data::big_metatile_table_bottom_right
+store_map = store_data::map
+
 .scope overworld_data
 .include "overworld.inc"
 .endscope

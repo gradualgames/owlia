@@ -17,6 +17,7 @@
     village_area, \
     house1_area, \
     inn_area, \
+    store_area, \
     housebl_area, \
     housebr_area, \
     overworld_area
@@ -191,6 +192,36 @@ inn_area:
   .word inn_big_metatile_table_bottom_right
 
 inn_entities:
+  .byte 0  ;count
+
+store_area:
+  .byte 0   ;music_bank .byte
+  .byte 1   ;entities_bank .byte
+  .byte 2   ;map_bank .byte
+  .byte 3   ;sprites_and_animations_bank .byte
+  .byte 7   ;bg_chr_bank .byte
+  .byte 6   ;sprite_chr_bank .byte
+  .byte 3   ;conversations_bank .byte
+  .word house1_chr
+  .word entity_types
+  .word store_entities
+  .word song1
+  .word store_palette
+  .byte $00 ;textbox_attribute
+  .word store_map
+  .word store_metatile_table_properties
+  .word store_metatile_table_params
+  .word store_metatile_table_attributes
+  .word store_metatile_table_top_left_tiles
+  .word store_metatile_table_top_right_tiles
+  .word store_metatile_table_bottom_left_tiles
+  .word store_metatile_table_bottom_right_tiles
+  .word store_big_metatile_table_top_left
+  .word store_big_metatile_table_top_right
+  .word store_big_metatile_table_bottom_left
+  .word store_big_metatile_table_bottom_right
+
+store_entities:
   .byte 0  ;count
 
 overworld_area:
