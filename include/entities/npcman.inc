@@ -106,7 +106,8 @@ npcman_state_init:
   sta npcman_hero_still_in_rect,x
 
   ;seed the random number
-  lda hero_x
+  lda stream_read_address_lo
+  eor hero_x
   sta npcman_pseudo_random_number,x
 
   lda #NPCMAN_STATE_MAIN
@@ -160,7 +161,8 @@ noEor:
 do_not_use_as_direction:
 
   ;seed the random number
-  lda hero_x
+  lda stream_read_address_lo
+  eor hero_x
   sta npcman_pseudo_random_number,x
 
 npcman_frame_counter_not_zero:
@@ -261,6 +263,10 @@ keep_within_walk_rectangle:
   lda entity_spawn_x_hi,x
   sta entity_x_hi,x
 
+  ;stop npc from walking
+  lda #4
+  sta npcman_pseudo_random_number_sample,x
+
 not_left_of_rect:
 
   sec
@@ -277,6 +283,10 @@ not_left_of_rect:
   lda entity_spawn_x_hi,x
   adc #0
   sta entity_x_hi,x
+
+  ;stop npc from walking
+  lda #4
+  sta npcman_pseudo_random_number_sample,x
 
 not_right_of_rect:
 
@@ -295,6 +305,10 @@ not_right_of_rect:
   lda entity_spawn_y_hi,x
   sta entity_y_hi,x
 
+  ;stop npc from walking
+  lda #4
+  sta npcman_pseudo_random_number_sample,x
+
 not_above_rect:
 
   sec
@@ -311,6 +325,10 @@ not_above_rect:
   lda entity_spawn_y_hi,x
   adc #0
   sta entity_y_hi,x
+
+  ;stop npc from walking
+  lda #4
+  sta npcman_pseudo_random_number_sample,x
 
 not_below_rect:
 

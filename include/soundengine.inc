@@ -26,6 +26,10 @@ SOUNDENGINE_INC = 1
 .global sfx_base_address_pitch_envelopes
 .global sfx_base_address_duty_envelopes
 
+;this does not need to be exposed, but it is convenient for pseudo random number seeding, since
+;it is always moving even when the hero is not. Just hope we'll be careful with it ;)
+.global stream_read_address_lo
+
 .global sound_initialize
 .global sound_stop
 .global sound_update
