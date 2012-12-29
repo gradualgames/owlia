@@ -12,6 +12,7 @@ entity_index_familiar
 entity_index_explosion
 entity_index_tiger
 entity_index_npcman
+entity_index_npcwoman
 .endenum
 
 .endif

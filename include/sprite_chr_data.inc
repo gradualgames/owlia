@@ -6,5 +6,6 @@ SPRITE_CHR_INC = 1
 .global Tiger_chr
 .global explosion_chr
 .global NpcMan_chr
+.global NpcWoman_chr
 
 .endif

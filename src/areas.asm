@@ -33,12 +33,13 @@ areas_hi:
 ;Area entity types.
 ;****************************************************************
 entity_types:
-  .byte 5  ;count
+  .byte 6  ;count
   .byte entity_index_hero
   .byte entity_index_familiar
   .byte entity_index_explosion
   .byte entity_index_tiger
   .byte entity_index_npcman
+  .byte entity_index_npcwoman
 
 ;****************************************************************
 ;Area definitions.
@@ -103,7 +104,8 @@ house1_area:
   .word house1_big_metatile_table_bottom_right
 
 house1_entities:
-  .byte 0  ;count
+  .byte 1  ;count
+  .byte entity_index_npcwoman, 10, 15, test_conversation_index
 
 housebl_area:
   .byte 0   ;music_bank .byte

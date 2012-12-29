@@ -55,4 +55,15 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global NpcManWalkDown
 .global NpcManWalkUp
 
+.global NpcWomanWalkDown0
+.global NpcWomanWalkDown1
+.global NpcWomanWalkUp0
+.global NpcWomanWalkUp1
+.global NpcWomanWalkSide0
+.global NpcWomanWalkSide1
+
+.global NpcWomanWalkDown
+.global NpcWomanWalkUp
+.global NpcWomanWalkSide
+
 .endif
