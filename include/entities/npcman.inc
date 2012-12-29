@@ -7,7 +7,36 @@ NPCMAN_STATE_INIT
 NPCMAN_STATE_MAIN
 .endenum
 
+.enum
+NPCMAN_DIRECTION_RIGHT
+NPCMAN_DIRECTION_LEFT
+NPCMAN_DIRECTION_DOWN
+NPCMAN_DIRECTION_UP
+.endenum
+
 npcman_hero_still_in_rect = entity_local0
+npcman_direction = entity_local1
+
+npcman_opposite_direction:
+  .byte NPCMAN_DIRECTION_LEFT
+  .byte NPCMAN_DIRECTION_RIGHT
+  .byte NPCMAN_DIRECTION_UP
+  .byte NPCMAN_DIRECTION_DOWN
+
+.define npcman_animation_addresses\
+  NpcManWalkSide,\
+  NpcManWalkSide,\
+  NpcManWalkDown,\
+  NpcManWalkUp
+
+npcman_animation_addresses_lo:
+  .lobytes npcman_animation_addresses
+
+npcman_animation_addresses_hi:
+  .hibytes npcman_animation_addresses
+
+npcman_sprite_flags_direction:
+  .byte %00000000, %01000000, %00000000, %00000000
 
 .define npcman_states \
   npcman_state_init, \
@@ -29,10 +58,17 @@ npcman_state_init:
   ora #ENTITY_FLAGS_DRAWABLE_SET
   sta entity_flags,x
 
-  lda #<NpcManWalkSide
+  lda #NPCMAN_DIRECTION_LEFT
+  sta npcman_direction,x
+
+  ldy npcman_direction,x
+  lda npcman_animation_addresses_lo,y
   sta entity_animation_address_lo,x
-  lda #>NpcManWalkSide
+  lda npcman_animation_addresses_hi,y
   sta entity_animation_address_hi,x
+
+  lda npcman_sprite_flags_direction,y
+  sta entity_sprite_flags,x
 
   lda #16
   sta entity_width,x
@@ -48,9 +84,6 @@ npcman_state_init:
 
   lda #$00
   sta npcman_hero_still_in_rect,x
-
-  lda #$00
-  sta entity_sprite_flags,x
 
   lda #NPCMAN_STATE_MAIN
   sta entity_state,x
@@ -82,6 +115,18 @@ done:
   and #%00000011
   cmp #%00000001
   bne do_not_start_conversation
+
+  ;face the hero
+  ldy hero_direction
+  lda npcman_opposite_direction,y
+  sta npcman_direction,x
+  tay
+  lda npcman_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda npcman_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+  lda npcman_sprite_flags_direction,y
+  sta entity_sprite_flags,x
 
   ;enter conversation mode
   lda #ACTION_START_CONVERSATION

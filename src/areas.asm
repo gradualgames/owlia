@@ -73,7 +73,7 @@ village_area:
 village_entities:
   .byte 2  ;count
   .byte entity_index_tiger, 6, 10, 0
-  .byte entity_index_npcman, 8, 14, test_conversation_index
+  .byte entity_index_npcman, 8, 20, test_conversation_index
 
 house1_area:
   .byte 0   ;music_bank .byte
