@@ -14,8 +14,28 @@ NPCMAN_DIRECTION_DOWN
 NPCMAN_DIRECTION_UP
 .endenum
 
+NPCMAN_SPEED = 1
+
+NPCMAN_WALK_RECT_WIDTH  = 16 * 6
+NPCMAN_WALK_RECT_HEIGHT = 16 * 6
+
 npcman_hero_still_in_rect = entity_local0
 npcman_direction = entity_local1
+npcman_pseudo_random_number = entity_local2
+npcman_frame_counter = entity_local3
+npcman_pseudo_random_number_sample = entity_local4
+
+npcman_direction_speed_x_lo:
+  .byte NPCMAN_SPEED, -NPCMAN_SPEED, 0, 0
+
+npcman_direction_speed_x_hi:
+  .byte 0, $ff, 0, 0
+
+npcman_direction_speed_y_lo:
+  .byte 0, 0, NPCMAN_SPEED, -NPCMAN_SPEED
+
+npcman_direction_speed_y_hi:
+  .byte 0, 0, 0, $ff
 
 npcman_opposite_direction:
   .byte NPCMAN_DIRECTION_LEFT
@@ -85,12 +105,96 @@ npcman_state_init:
   lda #$00
   sta npcman_hero_still_in_rect,x
 
+  ;seed the random number
+  lda hero_x
+  sta npcman_pseudo_random_number,x
+
   lda #NPCMAN_STATE_MAIN
   sta entity_state,x
 
   rts
 
 npcman_state_main:
+
+  ;permute the pseudo random number
+: lda npcman_pseudo_random_number,x
+  beq doEor
+  asl
+  beq noEor ;if the input was $80, skip the EOR
+  bcc noEor
+doEor:
+  eor #$1d
+noEor:
+  sta npcman_pseudo_random_number,x
+  dey
+  bne :-
+
+  sta npcman_pseudo_random_number,x
+
+  ;decrement the frame counter
+  dec npcman_frame_counter,x
+  bne npcman_frame_counter_not_zero
+
+  ;sample lowest 6 bits of pseudo random number and use it as new frame counter
+  and #%00111111
+  sta npcman_frame_counter,x
+
+  ;sample lowest 3 bits of pseudo random number
+  and #%00000111
+  sta npcman_pseudo_random_number_sample,x
+  and #%00000100
+  bne do_not_use_as_direction
+
+  ;lowest 3 bits was between 0 and 3, use it as the new direction for the npc
+  lda npcman_pseudo_random_number_sample,x
+  sta npcman_direction,x
+
+  ;face in that direction
+  tay
+  lda npcman_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda npcman_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+  lda npcman_sprite_flags_direction,y
+  sta entity_sprite_flags,x
+do_not_use_as_direction:
+
+  ;seed the random number
+  lda hero_x
+  sta npcman_pseudo_random_number,x
+
+npcman_frame_counter_not_zero:
+
+  ;move the npc man in the direction he is facing if the random number sample is between 0 and 3
+  ;anything else is interpreted as a "pause."
+  lda npcman_pseudo_random_number_sample,x
+  and #%00000100
+  bne do_not_move
+
+  ;use direction as index into increment luts
+  ldy npcman_direction,x
+
+  clc
+  lda entity_x_lo,x
+  adc npcman_direction_speed_x_lo,y
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc npcman_direction_speed_x_hi,y
+  sta entity_x_hi,x
+
+  clc
+  lda entity_y_lo,x
+  adc npcman_direction_speed_y_lo,y
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  adc npcman_direction_speed_y_hi,y
+  sta entity_y_hi,x
+
+  jsr keep_within_walk_rectangle
+
+  jsr entity_update_animation
+
+do_not_move:
 
   jsr hero_is_moving
   beq do_not_start_conversation
@@ -136,7 +240,79 @@ done:
 
 do_not_start_conversation:
 
-  jsr entity_update_animation
+  rts
+
+keep_within_walk_rectangle:
+
+  ;make sure NPC does not stray outside of rectangle relative to spawn position
+
+  ;subtract spawn x from current x
+  sec
+  lda entity_x_lo,x
+  sbc entity_spawn_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sbc entity_spawn_x_hi,x
+  sta w0+1
+  bpl not_left_of_rect
+
+  lda entity_spawn_x_lo,x
+  sta entity_x_lo,x
+  lda entity_spawn_x_hi,x
+  sta entity_x_hi,x
+
+not_left_of_rect:
+
+  sec
+  lda w0
+  sbc #NPCMAN_WALK_RECT_WIDTH
+  lda w0+1
+  sbc #0
+  bmi not_right_of_rect
+
+  clc
+  lda entity_spawn_x_lo,x
+  adc #NPCMAN_WALK_RECT_WIDTH
+  sta entity_x_lo,x
+  lda entity_spawn_x_hi,x
+  adc #0
+  sta entity_x_hi,x
+
+not_right_of_rect:
+
+  ;subtract spawn y from current y
+  sec
+  lda entity_y_lo,x
+  sbc entity_spawn_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sbc entity_spawn_y_hi,x
+  sta w1+1
+  bpl not_above_rect
+
+  lda entity_spawn_y_lo,x
+  sta entity_y_lo,x
+  lda entity_spawn_y_hi,x
+  sta entity_y_hi,x
+
+not_above_rect:
+
+  sec
+  lda w1
+  sbc #NPCMAN_WALK_RECT_HEIGHT
+  lda w1+1
+  sbc #0
+  bmi not_below_rect
+
+  clc
+  lda entity_spawn_y_lo,x
+  adc #NPCMAN_WALK_RECT_HEIGHT
+  sta entity_y_lo,x
+  lda entity_spawn_y_hi,x
+  adc #0
+  sta entity_y_hi,x
+
+not_below_rect:
 
   rts
 
