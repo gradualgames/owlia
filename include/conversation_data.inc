@@ -5,8 +5,8 @@ CONVERSATION_DATA = 1
 .global conversations_hi
 
 .enum
-test_conversation_index
-another_conversation_index
+conversation_index_welcome_to_demo
+conversation_index_welcome_to_my_inn
 .endenum
 
 .endif

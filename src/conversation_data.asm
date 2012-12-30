@@ -5,8 +5,8 @@
 .segment "CODE"
 
 .define conversations \
-    test_conversation,\
-    another_conversation
+    welcome_to_demo, \
+    welcome_to_my_inn
 
 conversations_lo:
   .lobytes conversations
@@ -16,11 +16,16 @@ conversations_hi:
 
 .segment "ROM00"
 
-test_conversation:
-  .byte 1, H,E,L,L,O,SP,T,H,E,R,E,EN,WT,EL
-  .byte 2, I,SP,_A,M,SP,_A,SP,B,U,T,T,EN,WT,EL
-  .byte 3, _Y,O,U,SP,_A,R,E,SP,_A,SP,B,U,T,T,SP,T,O,O,CA,WT,EP,EL
-  .byte 1, W,E,SP,_A,R,E,SP,B,O,T,H,SP,B,U,T,T,S,PD,WT,EC
+welcome_to_demo:
+  .byte 1, W,E,L,C,O,M,E,EN,WT,EL
+  .byte 2, H,_A,V,E,SP,_A,SP,L,O,O,K,SP,_A,R,O,U,N,D,SP,_A,T,EL
+  .byte 3, T,H,I,S,SP,D,E,M,O,SP,O,F,SP,O,U,R,SP,I,N,EL
+  .byte 4, D,E,V,E,L,O,P,M,E,N,T,SP,T,I,T,L,E,EN,WT,EP,EL
+  .byte 1, D,O,SP,N,O,T,SP,F,O,R,G,E,T,EL
+  .byte 2, T,O,SP,T,R,_Y,SP,H,I,T,T,I,N,G,SP,B,O,T,H,WT,EL
+  .byte 3, _A,SP,_A,N,D,SP,B,SP,_A,N,D,PD,PD,PD,WT,EP,EL
+  .byte 1, V,I,S,I,T,SP,H,O,U,S,E,S,EN,WT,EC
 
-another_conversation:
-  .byte 1, W,E,L,C,O,M,E,SP,T,O,SP,O,U,R,SP,G,_A,M,E,EN,WT,EC
+welcome_to_my_inn:
+  .byte 1, W,E,L,C,O,M,E,SP,T,O,SP,M,_Y,SP,I,N,N,EN,WT,EL
+  .byte 2, M,_A,K,E,SP,_Y,O,U,R,S,E,L,F,SP,_A,T,SP,H,O,M,E,EN,WT,EC

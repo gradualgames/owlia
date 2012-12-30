@@ -74,7 +74,7 @@ village_area:
 village_entities:
   .byte 2  ;count
   .byte entity_index_tiger, 6, 10, 0
-  .byte entity_index_npcman, 8, 20, test_conversation_index
+  .byte entity_index_npcman, 8, 20, conversation_index_welcome_to_demo
 
 house1_area:
   .byte 0   ;music_bank .byte
@@ -105,7 +105,7 @@ house1_area:
 
 house1_entities:
   .byte 1  ;count
-  .byte entity_index_npcwoman, 9, 18, test_conversation_index
+  .byte entity_index_npcwoman, 9, 18, conversation_index_welcome_to_demo
 
 housebl_area:
   .byte 0   ;music_bank .byte
@@ -136,7 +136,7 @@ housebl_area:
 
 housebl_entities:
   .byte 1  ;count
-  .byte entity_index_npcwoman, 9, 18, test_conversation_index
+  .byte entity_index_npcwoman, 9, 18, conversation_index_welcome_to_demo
 
 housebr_area:
   .byte 0   ;music_bank .byte
@@ -167,7 +167,7 @@ housebr_area:
 
 housebr_entities:
   .byte 1  ;count
-  .byte entity_index_npcwoman, 9, 18, test_conversation_index
+  .byte entity_index_npcwoman, 9, 18, conversation_index_welcome_to_demo
 
 housetr_area:
   .byte 0   ;music_bank .byte
@@ -198,7 +198,7 @@ housetr_area:
 
 housetr_entities:
   .byte 1  ;count
-  .byte entity_index_npcwoman, 9, 18, test_conversation_index
+  .byte entity_index_npcwoman, 9, 18, conversation_index_welcome_to_demo
 
 inn_area:
   .byte 0   ;music_bank .byte
@@ -229,7 +229,7 @@ inn_area:
 
 inn_entities:
   .byte 1  ;count
-  .byte entity_index_npcwoman, 9, 18, test_conversation_index
+  .byte entity_index_npcwoman, 9, 18, conversation_index_welcome_to_my_inn
 
 store_area:
   .byte 0   ;music_bank .byte
@@ -260,7 +260,7 @@ store_area:
 
 store_entities:
   .byte 1  ;count
-  .byte entity_index_npcwoman, 9, 18, test_conversation_index
+  .byte entity_index_npcwoman, 9, 18, conversation_index_welcome_to_demo
 
 overworld_area:
   .byte 0   ;music_bank .byte
