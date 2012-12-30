@@ -392,6 +392,7 @@ done:
 
   lda familiar_flags
   and #FAMILIAR_FLAGS_ALIVE_CLEAR
+  and #FAMILIAR_FLAGS_DEADLY_CLEAR
   sta familiar_flags
 
 do_not_kill_familiar:
