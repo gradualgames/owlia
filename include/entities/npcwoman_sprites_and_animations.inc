@@ -71,8 +71,8 @@ NpcWomanWalkSide1:
   .byte $0c,$2b,$02,$08,$00
   .byte $14,$2c,$03,$00,$08
   .byte $14,$2d,$03,$08,$00
-  .byte $1c,$28,$03,$00,$08
-  .byte $1c,$29,$00,$08,$00
+  .byte $1c,$2e,$03,$00,$08
+  .byte $1c,$2f,$00,$08,$00
 
 NpcWomanWalkDown:
   .byte $0a,$04
