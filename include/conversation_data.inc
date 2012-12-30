@@ -6,6 +6,8 @@ CONVERSATION_DATA = 1
 
 .enum
 conversation_index_welcome_to_demo
+conversation_index_welcome_to_my_house
+conversation_index_welcome_to_my_store
 conversation_index_welcome_to_my_inn
 .endenum
 

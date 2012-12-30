@@ -6,6 +6,8 @@
 
 .define conversations \
     welcome_to_demo, \
+    welcome_to_my_house, \
+    welcome_to_my_store, \
     welcome_to_my_inn
 
 conversations_lo:
@@ -25,6 +27,15 @@ welcome_to_demo:
   .byte 2, T,O,SP,T,R,_Y,SP,H,I,T,T,I,N,G,SP,B,O,T,H,WT,EL
   .byte 3, _A,SP,_A,N,D,SP,B,SP,_A,N,D,PD,PD,PD,WT,EP,EL
   .byte 1, V,I,S,I,T,SP,H,O,U,S,E,S,EN,WT,EC
+
+welcome_to_my_house:
+  .byte 1, W,E,L,C,O,M,E,SP,T,O,SP,M,_Y,SP,H,O,U,S,E,EN,WT,EC
+
+welcome_to_my_store:
+  .byte 1, W,E,L,C,O,M,E,SP,T,O,SP,M,_Y,SP,S,T,O,R,E,EN,WT,EL
+  .byte 2, W,E,SP,_A,R,E,SP,S,T,I,L,L,SP,S,E,T,T,I,N,G,SP,U,P,CA,WT,EL
+  .byte 3, S,O,CA,SP,_Y,O,U,SP,C,_A,N,N,O,T,SP,B,U,_Y,SP,_A,N,_Y,T,H,I,N,G,EL
+  .byte 4, _Y,E,T,PD,WT,EC
 
 welcome_to_my_inn:
   .byte 1, W,E,L,C,O,M,E,SP,T,O,SP,M,_Y,SP,I,N,N,EN,WT,EL
