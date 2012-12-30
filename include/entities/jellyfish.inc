@@ -175,6 +175,50 @@ entity_not_hitting_hero:
   rol jellyfish_velocity_y_hi,x
   .endscope
 
+  .scope
+  lda jellyfish_velocity_x_lo,x
+  sta w0
+  lda jellyfish_velocity_x_hi,x
+  sta w0+1
+  bpl not_negative
+  ;find absolute value
+  lda w0
+  eor #$ff
+  adc #$01
+  sta w0
+  lda w0+1
+  eor #$ff
+  adc #$00
+  sta w0+1
+not_negative:
+  .endscope
+
+  .scope
+  lda jellyfish_velocity_y_lo,x
+  sta w1
+  lda jellyfish_velocity_y_hi,x
+  sta w1+1
+  bpl not_negative
+  ;find absolute value
+  lda w1
+  eor #$ff
+  adc #$01
+  sta w1
+  lda w1+1
+  eor #$ff
+  adc #$00
+  sta w1+1
+not_negative:
+  .endscope
+
+  .scope
+  lda w0+1
+  sbc #1
+  bpl do_not_move
+  lda w1+1
+  sbc #1
+  bpl do_not_move
+
   ;add 16 bit velocity to 24 bit coordinate with sign extension
   .scope
   clc
@@ -228,6 +272,9 @@ sign_extend:
   adc #$ff
   sta entity_y_hi,x
 done:
+  .endscope
+
+do_not_move:
   .endscope
 
   jsr entity_update_animation
