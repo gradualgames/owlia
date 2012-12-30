@@ -33,11 +33,12 @@ areas_hi:
 ;Area entity types.
 ;****************************************************************
 village_entity_types:
-  .byte 4  ;count
+  .byte 5  ;count
   .byte entity_index_hero
   .byte entity_index_familiar
   .byte entity_index_explosion
   .byte entity_index_npcman
+  .byte entity_index_jellyfish
 
 house_entity_types:
   .byte 3  ;count
@@ -76,7 +77,8 @@ village_area:
   .word village_big_metatile_table_bottom_right
 
 village_entities:
-  .byte 1  ;count
+  .byte 2  ;count
+  .byte entity_index_jellyfish, 6, 10, 0
   .byte entity_index_npcman, 8, 20, conversation_index_welcome_to_demo
 
 house1_area:

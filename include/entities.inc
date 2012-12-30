@@ -10,7 +10,7 @@ ENTITIES_INC = 1
 entity_index_hero
 entity_index_familiar
 entity_index_explosion
-entity_index_tiger
+entity_index_jellyfish
 entity_index_npcman
 entity_index_npcwoman
 .endenum

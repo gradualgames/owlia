@@ -20,7 +20,7 @@
   0, \
   0, \
   explosion_update, \
-  tiger_update, \
+  jellyfish_update, \
   npcman_update, \
   npcwoman_update
 
@@ -28,7 +28,7 @@
   hero_chr, \
   Familiar_chr, \
   explosion_chr, \
-  Tiger_chr, \
+  JellyFish_chr, \
   NpcMan_chr, \
   NpcWoman_chr
 
@@ -47,6 +47,6 @@ entity_defs_chr_address_hi:
 .include "hero.inc"
 .include "familiar.inc"
 .include "explosion.inc"
-.include "tiger.inc"
+.include "jellyfish.inc"
 .include "npcman.inc"
 .include "npcwoman.inc"

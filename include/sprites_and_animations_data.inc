@@ -12,9 +12,8 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global FamiliarFlyDown
 .global FamiliarFlyUp
 
-.global TigerWalkSide
-.global TigerWalkUp
-.global TigerWalkDown
+.global JellyFishFloat
+.global JellyFishAttack
 
 .global Explosion
 
