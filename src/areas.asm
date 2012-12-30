@@ -77,8 +77,12 @@ village_area:
   .word village_big_metatile_table_bottom_right
 
 village_entities:
-  .byte 2  ;count
-  .byte entity_index_jellyfish, 6, 10, 0
+  .byte 6  ;count
+  .byte entity_index_jellyfish, 25, 10, 0
+  .byte entity_index_jellyfish, 39, 10, 0
+  .byte entity_index_jellyfish, 31, 32, 0
+  .byte entity_index_jellyfish, 39, 53, 0
+  .byte entity_index_jellyfish, 20, 53, 0
   .byte entity_index_npcman, 8, 20, conversation_index_welcome_to_demo
 
 house1_area:
