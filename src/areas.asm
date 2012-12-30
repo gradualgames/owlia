@@ -105,7 +105,7 @@ house1_area:
 
 house1_entities:
   .byte 1  ;count
-  .byte entity_index_npcwoman, 10, 15, test_conversation_index
+  .byte entity_index_npcwoman, 9, 18, test_conversation_index
 
 housebl_area:
   .byte 0   ;music_bank .byte
@@ -135,7 +135,8 @@ housebl_area:
   .word housebl_big_metatile_table_bottom_right
 
 housebl_entities:
-  .byte 0  ;count
+  .byte 1  ;count
+  .byte entity_index_npcwoman, 9, 18, test_conversation_index
 
 housebr_area:
   .byte 0   ;music_bank .byte
@@ -165,7 +166,8 @@ housebr_area:
   .word housebr_big_metatile_table_bottom_right
 
 housebr_entities:
-  .byte 0  ;count
+  .byte 1  ;count
+  .byte entity_index_npcwoman, 9, 18, test_conversation_index
 
 housetr_area:
   .byte 0   ;music_bank .byte
@@ -195,7 +197,8 @@ housetr_area:
   .word housetr_big_metatile_table_bottom_right
 
 housetr_entities:
-  .byte 0  ;count
+  .byte 1  ;count
+  .byte entity_index_npcwoman, 9, 18, test_conversation_index
 
 inn_area:
   .byte 0   ;music_bank .byte
@@ -225,7 +228,8 @@ inn_area:
   .word inn_big_metatile_table_bottom_right
 
 inn_entities:
-  .byte 0  ;count
+  .byte 1  ;count
+  .byte entity_index_npcwoman, 9, 18, test_conversation_index
 
 store_area:
   .byte 0   ;music_bank .byte
@@ -255,7 +259,8 @@ store_area:
   .word store_big_metatile_table_bottom_right
 
 store_entities:
-  .byte 0  ;count
+  .byte 1  ;count
+  .byte entity_index_npcwoman, 9, 18, test_conversation_index
 
 overworld_area:
   .byte 0   ;music_bank .byte

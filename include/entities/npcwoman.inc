@@ -16,8 +16,8 @@ NPCWOMAN_DIRECTION_UP
 
 NPCWOMAN_SPEED = 1
 
-NPCWOMAN_WALK_RECT_WIDTH  = 16 * 3
-NPCWOMAN_WALK_RECT_HEIGHT = 16 * 3
+NPCWOMAN_WALK_RECT_WIDTH  = 16 * 8
+NPCWOMAN_WALK_RECT_HEIGHT = 16 * 2
 
 npcwoman_hero_still_in_rect = entity_local0
 npcwoman_direction = entity_local1
