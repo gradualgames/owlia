@@ -113,6 +113,21 @@ familiar_not_alive:
 
 .endproc
 
+.define familiar_animation_addresses\
+  FamiliarFlySide,\
+  FamiliarFlySide,\
+  FamiliarFlyDown,\
+  FamiliarFlyUp
+
+familiar_animation_addresses_lo:
+  .lobytes familiar_animation_addresses
+
+familiar_animation_addresses_hi:
+  .hibytes familiar_animation_addresses
+
+familiar_sprite_flags_direction:
+  .byte %00000000, %01000000, %00000000, %00000000
+
 familiar_direction_speed_x_lo:
   .byte 0, 0, 0, 0
 
@@ -163,12 +178,15 @@ familiar_state_init:
   sta familiar_height
 
   ;use flying animation
-  lda #<FamiliarFly
+  ldy familiar_direction
+  lda familiar_animation_addresses_lo,y
   sta familiar_animation_address
   sta w2
-  lda #>FamiliarFly
+  lda familiar_animation_addresses_hi,y
   sta familiar_animation_address+1
   sta w2+1
+  lda familiar_sprite_flags_direction,y
+  sta familiar_sprite_flags
 
   ;reset animation object
   lda #<familiar_animation_object
@@ -182,10 +200,6 @@ familiar_state_init:
   tay
   lda entity_type_chr_offsets,y
   sta familiar_sprite_group_offset
-
-  ;reset sprite flags
-  lda #0
-  sta familiar_sprite_flags
 
   ;initialize x and y velocity
   ldy familiar_direction
@@ -381,6 +395,93 @@ done:
   sta familiar_flags
 
 do_not_kill_familiar:
+
+  .scope
+  lda familiar_x_velocity
+  sta w0
+  lda familiar_x_velocity+1
+  sta w0+1
+  bpl not_negative
+  ;find absolute value
+  lda w0
+  eor #$ff
+  adc #$01
+  sta w0
+  lda w0+1
+  eor #$ff
+  adc #$00
+  sta w0+1
+not_negative:
+  .endscope
+
+  .scope
+  lda familiar_y_velocity
+  sta w1
+  lda familiar_y_velocity+1
+  sta w1+1
+  bpl not_negative
+  ;find absolute value
+  lda w1
+  eor #$ff
+  adc #$01
+  sta w1
+  lda w1+1
+  eor #$ff
+  adc #$00
+  sta w1+1
+not_negative:
+  .endscope
+
+  .scope
+  sec
+  lda w0
+  sbc w1
+  lda w0+1
+  sbc w1+1
+  bmi y_velocity_bigger
+x_velocity_bigger:
+
+  ;infer direction from homing velocity
+  .scope
+  lda familiar_x_velocity+1
+  bmi left
+right:
+  lda #FAMILIAR_DIRECTION_RIGHT
+  sta familiar_direction
+  jmp done
+left:
+  lda #FAMILIAR_DIRECTION_LEFT
+  sta familiar_direction
+done:
+  .endscope
+
+  jmp done
+y_velocity_bigger:
+  .scope
+  lda familiar_y_velocity+1
+  bmi up
+down:
+  lda #FAMILIAR_DIRECTION_DOWN
+  sta familiar_direction
+  jmp done
+up:
+  lda #FAMILIAR_DIRECTION_UP
+  sta familiar_direction
+done:
+  .endscope
+done:
+  .endscope
+
+  ;reload animation based on direction that is inferred from current homing velocity
+  ldy familiar_direction
+  lda familiar_animation_addresses_lo,y
+  sta familiar_animation_address
+  sta w2
+  lda familiar_animation_addresses_hi,y
+  sta familiar_animation_address+1
+  sta w2+1
+  lda familiar_sprite_flags_direction,y
+  sta familiar_sprite_flags
 
   jsr familiar_move
 
