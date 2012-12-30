@@ -82,7 +82,7 @@ npcwoman_state_init:
 
   lda #16
   sta entity_width,x
-  lda #24
+  lda #32
   sta entity_height,x
 
   jsr entity_reset_animation
