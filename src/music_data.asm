@@ -19,13 +19,35 @@ volume_envelopes:
   .word volume_envelope_2
   .word volume_envelope_3
   .word volume_envelope_4
+  .word 0
+  .word 0
+  .word 0
+  .word 0
+  .word 0
 
 pitch_envelopes:
   .word pitch_envelope_0
   .word pitch_envelope_1
+  .word 0
+  .word 0
+  .word 0
+  .word 0
+  .word 0
+  .word 0
+  .word 0
+  .word 0
 
 duty_envelopes:
   .word duty_envelope_0
+  .word 0
+  .word 0
+  .word 0
+  .word 0
+  .word 0
+  .word 0
+  .word 0
+  .word 0
+  .word 0
 
 volume_envelope_0:
   .byte 0, ENV_STOP
@@ -45,7 +67,7 @@ pitch_envelope_1:
   .byte 28,45,55,68,78,90,0,ENV_STOP
 
 duty_envelope_0:
-  .byte 0, ENV_LOOP
+  .byte 0, DUTY_ENV_LOOP
 
 Square1:
   .byte STV,2,STP,0,SDU,0,STL,20,G2,C2,A2,C2,F2,C2,G2,C2,B2,C2,C3,C2,A2,C2,B2,C2
