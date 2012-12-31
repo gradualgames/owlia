@@ -396,9 +396,9 @@ duty_code:
 
   ;load duty value for this frame, but hard code flags and duty for now
   lda (sound_local_word_0),y
-  cmp #ENV_STOP
+  cmp #DUTY_ENV_STOP
   beq duty_stop
-  cmp #ENV_LOOP
+  cmp #DUTY_ENV_LOOP
   bne skip_duty_loop
 
   ;we hit a loop opcode, reset offset and re-load value

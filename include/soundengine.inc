@@ -174,6 +174,12 @@ TRM = 6+OPCODES_BASE
 ENV_STOP = %10000000 ;-128
 ENV_LOOP = %01111111 ; 127
 
+;a different set of opcodes for stop and loop for duty cycle envelopes.
+;This is necessary since ENV_STOP can be intepreted as duty cycle = 2,
+;preventing users from using that setting.
+DUTY_ENV_STOP = %00111111
+DUTY_ENV_LOOP = %00101010
+
 ;note length constants
 
 _64TH    = 5
