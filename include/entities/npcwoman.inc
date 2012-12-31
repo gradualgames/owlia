@@ -68,7 +68,7 @@ npcwoman_state_init:
   ora #ENTITY_FLAGS_DRAWABLE_SET
   sta entity_flags,x
 
-  lda #NPCWOMAN_DIRECTION_LEFT
+  lda #NPCWOMAN_DIRECTION_DOWN
   sta npcwoman_direction,x
 
   ldy npcwoman_direction,x

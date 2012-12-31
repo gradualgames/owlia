@@ -78,7 +78,7 @@ npcman_state_init:
   ora #ENTITY_FLAGS_DRAWABLE_SET
   sta entity_flags,x
 
-  lda #NPCMAN_DIRECTION_LEFT
+  lda #NPCMAN_DIRECTION_DOWN
   sta npcman_direction,x
 
   ldy npcman_direction,x
