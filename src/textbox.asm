@@ -7,6 +7,8 @@
 .include "mapper.inc"
 .include "sprite.inc"
 .include "controller.inc"
+.include "soundengine.inc"
+.include "sfx_data.inc"
 
 .segment "CODE"
 
@@ -25,7 +27,7 @@ row_y_offset = b0
   wait_vblank_data_ready
 
   switch_bank_ldy conversations_bank
-  
+
   ;Read row number. Reset row index
   ldy #0
 read_next_row:
@@ -109,7 +111,30 @@ interpret_font_character:
   adc textbox_and_font_chr_offset
   sta nametable_row_buffer,x
   inx
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_text
+  sta sound_param_word_0
+  lda #>sfx_text
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
   ;Sync with vblank so the animation is reasonable.
+  wait_vblank_data_ready
+  set_vblank_data_ready
+  wait_vblank_data_ready
+  set_vblank_data_ready
   wait_vblank_data_ready
   lda #1
   sta row_ready
