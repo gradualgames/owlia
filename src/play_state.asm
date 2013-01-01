@@ -48,6 +48,9 @@
   rts
 .endproc
 
+;this routine loads all entity types for the current area, which
+;basically just means it will load all chr data for entities into
+;VRAM and remember where they were loaded in entity_defs_chr_address.
 .proc load_entity_types
 entity_types_address = w3
 chr_amount = w2
@@ -124,6 +127,7 @@ next_entity_type:
 
 .endproc
 
+;this routine spawns all entities for a given area.
 .proc spawn_entities
 entities_address = w3
 entities_index = b1
@@ -205,6 +209,7 @@ no_entities:
 
 .endproc
 
+;loads the starting values for the camera from the current location
 .proc load_area_camera_vars
 
   ldy #location::nametable_start_hibyte
@@ -252,8 +257,13 @@ play_state_action_handlers_lo:
 play_state_action_handlers_hi:
   .hibytes play_state_action_handlers
 
+;****************************************************************
+;This is a branch location and not a routine. It is used to
+;load all graphics and entities and music for a specific location
+;within a specific area definition. 
 ;assumes location_address contains address of location to load
-;transitions directly to play state by spilling into it, this is NOT a routine
+;transitions directly to play state by spilling into it.
+;****************************************************************
 play_state_load_location:
 
   ;figure out what area to look at from the current location
@@ -582,6 +592,14 @@ play_state_load_location:
   jsr song_initialize
 same_song:
 
+;****************************************************************
+;This branch location is the main game loop. It handles map
+;updates, entity updates, and hero and familiar updates. It also
+;handles state transitions to other locations, inventory screen,
+;store screen, etc. These transitions are usually triggered by
+;an entity setting an action and param combination in the play
+;state control params.
+;****************************************************************
 play_state:
 
   wait_vblank_data_ready
@@ -630,6 +648,15 @@ play_state_action_nop:
 
   jmp play_state
 
+;****************************************************************
+;This action handler loads a new location and jumps to the
+;play_state_load_location branch when all information about the
+;new location is ready. It also plays a sound effect associated
+;with the location if specified. This is usually used for going
+;through a door. It fades out the current palette. It also
+;restores the action and param to ACTION_NOP so the main game
+;loop will proceed normally once the new location is loaded.
+;****************************************************************
 play_state_action_goto_location_group1:
 
   ;load the location to transition to
@@ -675,6 +702,16 @@ play_state_action_goto_location_group1:
 
   jmp play_state_load_location
 
+;****************************************************************
+;This action handler starts displaying a conversation in a text
+;box near the bottom of the screen. It first calls a routine to
+;align the camera to a metatile boundary so that the textbox can
+;be drawn to the nametable and be lined up correctly. Then it
+;draws the textbox and runs the conversation script (specified
+;by the play state control param, loaded by an NPC or other
+;entity). Finally it erases the textbox and returns to the play
+;state.
+;****************************************************************
 play_state_action_start_conversation:
 
   jsr align_camera_to_metatile_boundary
@@ -701,50 +738,6 @@ play_state_action_start_conversation:
   sta state_control_params+play_state_control::param
 
   jmp play_state
-
-.proc fill_nametable_columns
-
-loop:
-  wait_vblank_data_ready
-
-  ;prepare data
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_column
-  jsr map_process_intermediate_attribute_column_buffer
-  lda #1
-  sta column_ready
-
-  clc
-  lda camera_x
-  adc #$08
-  sta camera_x
-  lda camera_x+1
-  adc #$00
-  sta camera_x+1
-
-  lda camera_x+1
-  cmp #1
-  bne not_finished
-
-  set_vblank_data_ready
-
-  wait_vblank_data_ready
-
-  rts
-not_finished:
-
-  set_vblank_data_ready
-
-  jmp loop
-
-.endproc
 
 ;decrements camera x and y coordinates, updates map rows and columns and
 ;waits for the vblank data ready flag each frame until the camera is aligned
@@ -835,7 +828,57 @@ camera_y_aligned:
   rts
 
 .endproc
+  
+;This routine uses the map decoding system to fill the screen
+;at a given location. This is used while loading a new location
+;with the palette faded out.
+.proc fill_nametable_columns
 
+loop:
+  wait_vblank_data_ready
+
+  ;prepare data
+  lda camera_x
+  sta w0
+  lda camera_x+1
+  sta w0+1
+  lda camera_y
+  sta w1
+  lda camera_y+1
+  sta w1+1
+  jsr map_decode_column
+  jsr map_process_intermediate_attribute_column_buffer
+  lda #1
+  sta column_ready
+
+  clc
+  lda camera_x
+  adc #$08
+  sta camera_x
+  lda camera_x+1
+  adc #$00
+  sta camera_x+1
+
+  lda camera_x+1
+  cmp #1
+  bne not_finished
+
+  set_vblank_data_ready
+
+  wait_vblank_data_ready
+
+  rts
+not_finished:
+
+  set_vblank_data_ready
+
+  jmp loop
+
+.endproc
+
+;This is an alternative routine for filling the screen. We
+;proably won't need to keep both of these so we can discard it
+;eventually.
 .proc fill_nametable_rows
 
   lda camera_x
