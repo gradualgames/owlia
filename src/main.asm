@@ -67,17 +67,13 @@ reset:
 
   jsr sound_initialize
 
+  jsr play_state_initialize
+
   lda #<sfx_set1
   sta sound_param_word_0
   lda #>sfx_set1
   sta sound_param_word_0+1
   jsr sfx_initialize
-
-  ;set up state control struct for the "nop" action
-  lda #ACTION_NOP
-  sta state_control_params+play_state_control::action
-  lda #0
-  sta state_control_params+play_state_control::param
 
   ldx #location_index_village_house1_entrance
   lda locations_lo,x

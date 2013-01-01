@@ -28,6 +28,26 @@
 
 .segment "CODE"
 
+;this routine must be called before using the play state when
+;the game boots up. It ensures that all play state specific
+;state is in a known state before proceeding (such as clearing
+;out the current song address)
+.proc play_state_initialize
+
+  ;set up state control struct for the "nop" action
+  lda #ACTION_NOP
+  sta state_control_params+play_state_control::action
+  lda #0
+  sta state_control_params+play_state_control::param
+
+  ;clear out song address so first song will get loaded
+  lda #0
+  sta song_address
+  sta song_address+1
+
+  rts
+.endproc
+
 .proc load_entity_types
 entity_types_address = w3
 chr_amount = w2
