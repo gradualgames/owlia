@@ -15,6 +15,8 @@ MAX_ENTITIES = 8
 .global sprite_chr_bank
 .global conversations_bank
 
+.global textbox_attribute
+
 .global state_control_params
 
 .global textbox_and_font_chr_offset

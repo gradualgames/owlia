@@ -1,6 +1,8 @@
 .ifndef AREAS_INC
 AREAS_INC = 1
 
+AREAS_BANK = 2
+
 .struct area
   music_bank .byte
   entities_bank .byte

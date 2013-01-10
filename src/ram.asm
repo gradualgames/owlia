@@ -14,6 +14,8 @@ bg_chr_bank: .res 1
 sprite_chr_bank: .res 1
 conversations_bank: .res 1
 
+textbox_attribute: .res 1
+
 state_control_params: .res 8
 
 textbox_and_font_chr_offset: .res 1

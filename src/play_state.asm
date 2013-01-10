@@ -61,6 +61,7 @@ entity_types_index = b0
   sta chr_offset
 
   ;get count for number of entity types in this area
+  switch_bank_ldy #AREAS_BANK
   ldy #0
   lda (entity_types_address),y
   ;put it in x for counting
@@ -89,6 +90,7 @@ next_entity_type:
 
   ;load the number of bytes in this chr chunk before loading it. we will use
   ;it to calculate the chr offset for this entity type.
+  switch_bank_ldy sprite_chr_bank
   ldy #0
   lda (w0),y
   sta w2
@@ -97,6 +99,7 @@ next_entity_type:
   sta w2+1
 
   jsr ppu_load_chr_amount
+  switch_bank_ldy #AREAS_BANK
 
   ;shift right the number of bytes that was in the chr chunk by 4 to divide
   ;by 16 (number of bytes in a chr tile) to get the count in chr tile units.
@@ -132,6 +135,8 @@ next_entity_type:
 entities_address = w3
 entities_index = b1
 entities_count = b2
+
+  switch_bank_ldy #AREAS_BANK
 
   ;get count for number of entity instances in this area
   ldy #0
@@ -276,6 +281,7 @@ play_state_load_location:
   sta area_address+1
 
   ;setup bank numbers
+  switch_bank_ldy #AREAS_BANK
   ldy #area::music_bank
   lda (area_address),y
   sta music_bank
@@ -304,6 +310,11 @@ play_state_load_location:
   lda (area_address),y
   sta conversations_bank
 
+  ;load other variables we need
+  ldy #area::textbox_attribute
+  lda (area_address),y
+  sta textbox_attribute
+  
   ;initialize
   jsr ppu_safely_disable_graphics
 
@@ -311,15 +322,13 @@ play_state_load_location:
   sta $2006
   sta $2006
 
-  ldy bg_chr_bank
-  switch_bank_y
-
   ldy #area::bg_chr_address
   lda (area_address),y
   sta w0
   iny
   lda (area_address),y
   sta w0+1
+  switch_bank_ldy bg_chr_bank
   jsr ppu_load_chr_amount
 
   ;load the textbox graphics. This is hardcoded because it is the same
@@ -334,12 +343,14 @@ play_state_load_location:
 
   ;load the bg chr address again so we can pull out the count and intepret
   ;it as the offset at which to find the textbox and font graphics.
+  switch_bank_ldy #AREAS_BANK
   ldy #area::bg_chr_address
   lda (area_address),y
   sta w0
   iny
   lda (area_address),y
   sta w0+1
+  switch_bank_ldy bg_chr_bank
   ;load the byte count
   ldy #0
   lda (w0),y
@@ -366,16 +377,13 @@ play_state_load_location:
   lda #$00
   sta $2006
 
-  ldy sprite_chr_bank
-  switch_bank_y
-
+  switch_bank_ldy #AREAS_BANK
   ldy #area::entity_types_address
   lda (area_address),y
   sta w3
   iny
   lda (area_address),y
   sta w3+1
-
   jsr load_entity_types
 
   switch_bank_ldy map_bank
@@ -410,6 +418,7 @@ play_state_load_location:
   lda #>nametable_and_attribute_update_ppu
   sta vblank_routine+1
 
+  switch_bank_ldy #AREAS_BANK
   ldy #area::metatile_table_properties_address
   lda (area_address),y
   sta metatile_table_properties_address
@@ -530,6 +539,7 @@ play_state_load_location:
   jsr familiar_init
 
   ;spawn all non-hero entities in area
+  switch_bank_ldy #AREAS_BANK
   ldy #area::entity_instances_address
   lda (area_address),y
   sta w3
@@ -564,16 +574,18 @@ play_state_load_location:
   set_vblank_data_ready
   .endscope
 
-  switch_bank_ldy map_bank
+  switch_bank_ldy #AREAS_BANK
   ldy #area::palette_address
   lda (area_address),y
   sta w0
   iny
   lda (area_address),y
   sta w0+1
+  switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
 
   ;load area song if different from current song
+  switch_bank_ldy #AREAS_BANK
   ldy #area::song_address
   lda (area_address),y
   sbc song_address
@@ -582,13 +594,13 @@ play_state_load_location:
   sbc song_address+1
   beq same_song
 
-  switch_bank_ldy music_bank
   ldy #area::song_address
   lda (area_address),y
   sta song_address
   iny
   lda (area_address),y
   sta song_address+1
+  switch_bank_ldy music_bank
   jsr song_initialize
 same_song:
 
@@ -684,13 +696,14 @@ play_state_action_goto_location_group1:
   jsr stream_initialize
 
   ;fade out from current palette
-  switch_bank_ldy map_bank
+  switch_bank_ldy #AREAS_BANK
   ldy #area::palette_address
   lda (area_address),y
   sta w0
   iny
   lda (area_address),y
   sta w0+1
+  switch_bank_ldy map_bank
   jsr ppu_fade_out_palette
 
   ;now that we know the area, make sure the state control

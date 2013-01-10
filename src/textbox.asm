@@ -424,8 +424,7 @@ draw_next_top_tile:
   sta nametable_row_buffer,x
 
   ;fill the intermediate attribute row buffer with correct value
-  ldy #area::textbox_attribute
-  lda (area_address),y
+  lda textbox_attribute
   ldx #16
 next_intermediate_attribute:
   sta intermediate_attribute_row_buffer,x
@@ -472,8 +471,7 @@ draw_next_top_tile:
   sta nametable_row_buffer,x
 
   ;fill the intermediate attribute row buffer with correct value
-  ldy #area::textbox_attribute
-  lda (area_address),y
+  lda textbox_attribute
   ldx #16
 next_intermediate_attribute:
   sta intermediate_attribute_row_buffer,x
@@ -521,8 +519,7 @@ draw_next_top_tile:
   sta nametable_row_buffer,x
 
   ;fill the intermediate attribute row buffer with correct value
-  ldy #area::textbox_attribute
-  lda (area_address),y
+  lda textbox_attribute
   ldx #16
 next_intermediate_attribute:
   sta intermediate_attribute_row_buffer,x
