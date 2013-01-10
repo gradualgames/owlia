@@ -1,6 +1,8 @@
 .ifndef LOCATIONS_INC
 LOCATIONS_INC = 1
 
+LOCATIONS_BANK = 2
+
 .struct location
   area_index .byte
   nametable_start_hibyte .byte

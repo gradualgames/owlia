@@ -217,6 +217,7 @@ no_entities:
 ;loads the starting values for the camera from the current location
 .proc load_area_camera_vars
 
+  switch_bank_ldy #LOCATIONS_BANK
   ldy #location::nametable_start_hibyte
   lda (location_address),y
   sta camera_nametable_hibyte
@@ -272,6 +273,7 @@ play_state_action_handlers_hi:
 play_state_load_location:
 
   ;figure out what area to look at from the current location
+  switch_bank_ldy #LOCATIONS_BANK
   ldy #location::area_index
   lda (location_address),y
   tax
@@ -516,6 +518,7 @@ play_state_load_location:
   ;initialize the hero entity
   jsr hero_init
   ;load her initial location
+  switch_bank_ldy #LOCATIONS_BANK
   ldy #location::hero_start_x
   lda (location_address),y
   sta hero_x
@@ -679,6 +682,7 @@ play_state_action_goto_location_group1:
   sta location_address+1
 
   ;play associated sound effect with this location
+  switch_bank_ldy #LOCATIONS_BANK
   ldy #location::on_enter_sfx_address
   lda (location_address),y
   sta sound_param_word_0
