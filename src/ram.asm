@@ -40,7 +40,6 @@ entity_animation_frame:      .res MAX_ENTITIES
 entity_animation_counter:    .res MAX_ENTITIES
 entity_animation_address_lo: .res MAX_ENTITIES
 entity_animation_address_hi: .res MAX_ENTITIES
-entity_param:                .res MAX_ENTITIES
 entity_local0:               .res MAX_ENTITIES
 entity_local1:               .res MAX_ENTITIES
 entity_local2:               .res MAX_ENTITIES
@@ -49,6 +48,7 @@ entity_local4:               .res MAX_ENTITIES
 entity_local5:               .res MAX_ENTITIES
 entity_local6:               .res MAX_ENTITIES
 entity_local7:               .res MAX_ENTITIES
+entity_local8:               .res MAX_ENTITIES
 
 hero_flags:                       .res 1
 hero_state:                       .res 1

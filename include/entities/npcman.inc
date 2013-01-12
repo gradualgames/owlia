@@ -19,10 +19,11 @@ NPCMAN_SPEED = 1
 NPCMAN_WALK_RECT_WIDTH  = 16 * 6
 NPCMAN_WALK_RECT_HEIGHT = 16 * 6
 
-npcman_direction = entity_local0
-npcman_pseudo_random_number = entity_local1
-npcman_frame_counter = entity_local2
-npcman_pseudo_random_number_sample = entity_local3
+npcman_conversation = entity_local0
+npcman_direction = entity_local1
+npcman_pseudo_random_number = entity_local2
+npcman_frame_counter = entity_local3
+npcman_pseudo_random_number_sample = entity_local4
 
 npcman_direction_speed_x_lo:
   .byte NPCMAN_SPEED, -NPCMAN_SPEED, 0, 0
@@ -220,7 +221,7 @@ do_not_move:
   ;enter conversation mode
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
-  lda entity_param,x
+  lda npcman_conversation,x
   sta state_control_params+play_state_control::param
 
 do_not_start_conversation:

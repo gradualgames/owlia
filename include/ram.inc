@@ -41,7 +41,6 @@ MAX_ENTITIES = 8
 .global entity_animation_counter
 .global entity_animation_address_lo
 .global entity_animation_address_hi
-.global entity_param
 .global entity_local0
 .global entity_local1
 .global entity_local2
@@ -50,6 +49,7 @@ MAX_ENTITIES = 8
 .global entity_local5
 .global entity_local6
 .global entity_local7
+.global entity_local8
 
 .global hero_flags
 .global hero_state

@@ -203,7 +203,7 @@ next_entity_instance:
   ldy entities_index
   iny
   lda (entities_address),y
-  sta entity_param,x
+  sta entity_local0,x
   sty entities_index
 
   dec entities_count

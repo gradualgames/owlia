@@ -19,11 +19,12 @@ NPCWOMAN_SPEED = 1
 NPCWOMAN_WALK_RECT_WIDTH  = 16 * 8
 NPCWOMAN_WALK_RECT_HEIGHT = 16 * 2
 
-npcwoman_hero_still_in_rect = entity_local0
-npcwoman_direction = entity_local1
-npcwoman_pseudo_random_number = entity_local2
-npcwoman_frame_counter = entity_local3
-npcwoman_pseudo_random_number_sample = entity_local4
+npcwoman_conversation = entity_local0
+npcwoman_hero_still_in_rect = entity_local1
+npcwoman_direction = entity_local2
+npcwoman_pseudo_random_number = entity_local3
+npcwoman_frame_counter = entity_local4
+npcwoman_pseudo_random_number_sample = entity_local5
 
 npcwoman_direction_speed_x_lo:
   .byte NPCWOMAN_SPEED, -NPCWOMAN_SPEED, 0, 0
@@ -227,7 +228,7 @@ done:
   ;enter conversation mode
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
-  lda entity_param,x
+  lda npcwoman_conversation,x
   sta state_control_params+play_state_control::param
 
 do_not_start_conversation:
