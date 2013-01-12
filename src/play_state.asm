@@ -135,6 +135,7 @@ next_entity_type:
 entities_address = w3
 entities_index = b1
 entities_count = b2
+entities_params_count = b3
 
   switch_bank_ldy #AREAS_BANK
 
@@ -199,16 +200,67 @@ next_entity_instance:
   ;spawn the entity
   jsr entity_spawn
 
-  ;get the param for the entity (entity specific, often NPC conversation index)
-  ldy entities_index
-  iny
-  lda (entities_address),y
-  sta entity_local0,x
-  sty entities_index
+  jsr get_entity_params
 
   dec entities_count
   bne next_entity_instance
 no_entities:
+
+  rts
+
+get_entity_params:
+
+  ;get params count for the entity
+  ldy entities_index
+  iny
+  lda (entities_address),y
+  sta entities_params_count
+
+  beq no_more_params
+  ;get the params for the entity (entity specific, often NPC conversation index)
+
+  iny
+  lda (entities_address),y
+  sta entity_local0,x
+
+  dec entities_params_count
+  beq no_more_params
+
+  iny
+  lda (entities_address),y
+  sta entity_local1,x
+
+  dec entities_params_count
+  beq no_more_params
+
+  iny
+  lda (entities_address),y
+  sta entity_local2,x
+
+  dec entities_params_count
+  beq no_more_params
+
+  iny
+  lda (entities_address),y
+  sta entity_local3,x
+
+  dec entities_params_count
+  beq no_more_params
+
+  iny
+  lda (entities_address),y
+  sta entity_local4,x
+
+  dec entities_params_count
+  beq no_more_params
+
+  iny
+  lda (entities_address),y
+  sta entity_local5,x
+
+no_more_params:
+
+  sty entities_index
 
   rts
 
@@ -266,7 +318,7 @@ play_state_action_handlers_hi:
 ;****************************************************************
 ;This is a branch location and not a routine. It is used to
 ;load all graphics and entities and music for a specific location
-;within a specific area definition. 
+;within a specific area definition.
 ;assumes location_address contains address of location to load
 ;transitions directly to play state by spilling into it.
 ;****************************************************************
@@ -316,7 +368,7 @@ play_state_load_location:
   ldy #area::textbox_attribute
   lda (area_address),y
   sta textbox_attribute
-  
+
   ;initialize
   jsr ppu_safely_disable_graphics
 
@@ -845,7 +897,7 @@ camera_y_aligned:
   rts
 
 .endproc
-  
+
 ;This routine uses the map decoding system to fill the screen
 ;at a given location. This is used while loading a new location
 ;with the palette faded out.
