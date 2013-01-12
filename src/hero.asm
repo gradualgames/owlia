@@ -184,6 +184,32 @@ do_not_draw:
 
 .endmacro
 
+.macro test_not_collision x_offset_lo, x_offset_hi, y_offset_lo, y_offset_hi, destination_if_not_solid
+
+  clc
+  lda hero_x
+  adc #x_offset_lo
+  sta w0
+  lda hero_x+1
+  adc #x_offset_hi
+  sta w0+1
+
+  clc
+  lda hero_y
+  adc #y_offset_lo
+  sta w1
+  lda hero_y+1
+  adc #y_offset_hi
+  sta w1+1
+
+  jsr map_test_collision
+
+  lda b0
+  and #FLAG_SOLID
+  beq destination_if_not_solid
+
+.endmacro
+
 .macro test_action x_offset_lo, x_offset_hi, y_offset_lo, y_offset_hi
 
   clc
@@ -652,12 +678,48 @@ hero_direction_right_handler:
 
   .scope
   test_action HERO_WIDTH, 0, (HERO_HEIGHT/2), 0
-  test_collision HERO_WIDTH, 0, (HERO_HEIGHT/2), 0, found_collision_right_side
-  test_collision HERO_WIDTH, 0, HERO_HEIGHT-1, 0, found_collision_right_side
 
-found_collision_right_side:
-  bne skip_direction_right_handler
+  ;collect collision information in a local variable
+  ;we use b2 because the below code calls map_test_collision which uses
+  ;b0 and b1.
+  collision_flags = b2
+  lda #0
+  sta collision_flags
 
+  ;test top right of the hero
+  test_not_collision HERO_WIDTH, 0, (HERO_HEIGHT/2), 0, no_top_right_collision
+
+  ;set the 0th bit of the collision flags variable
+  lda collision_flags
+  ora #%00000001
+  sta collision_flags
+
+no_top_right_collision:
+
+  ;test bottom right of the hero
+  test_not_collision HERO_WIDTH, 0, HERO_HEIGHT-1, 0, no_bottom_right_collision
+
+  ;set the 1st bit of the collision flags variable
+  lda collision_flags
+  ora #%00000010
+  sta collision_flags
+
+no_bottom_right_collision:
+
+  ;now we can easily choose which branch to execute (actually move right,
+  ;slide up, or slide down)
+
+  lda collision_flags
+  cmp #%00000000
+  beq move_right
+  cmp #%00000001
+  beq slide_down
+  cmp #%00000010
+  beq slide_up
+  ;only case remaining is that both collision tests succeeded. skip
+  ;every case handler.
+  jmp done
+move_right:
   clc
   lda hero_x
   adc hero_speed
@@ -665,8 +727,29 @@ found_collision_right_side:
   lda hero_x+1
   adc #$00
   sta hero_x+1
+  jmp done
+slide_up:
 
-skip_direction_right_handler:
+  sec
+  lda hero_y
+  sbc hero_speed
+  sta hero_y
+  lda hero_y+1
+  sbc #$00
+  sta hero_y+1
+
+  jmp done
+slide_down:
+
+  clc
+  lda hero_y
+  adc hero_speed
+  sta hero_y
+  lda hero_y+1
+  adc #$00
+  sta hero_y+1
+
+done:
   .endscope
 
   lda #HERO_DIRECTION_RIGHT
@@ -682,9 +765,48 @@ hero_direction_left_handler:
 
   .scope
   test_action $ff, $ff, (HERO_HEIGHT/2), 0
-  test_collision $ff, $ff, (HERO_HEIGHT/2), 0, skip_direction_left_handler
-  test_collision $ff, $ff, (HERO_HEIGHT-1), 0, skip_direction_left_handler
 
+  ;collect collision information in a local variable
+  ;we use b2 because the below code calls map_test_collision which uses
+  ;b0 and b1.
+  collision_flags = b2
+  lda #0
+  sta collision_flags
+
+  ;test top left of the hero
+  test_not_collision $ff, $ff, (HERO_HEIGHT/2), 0,  no_top_left_collision
+
+  ;set the 0th bit of the collision flags variable
+  lda collision_flags
+  ora #%00000001
+  sta collision_flags
+
+no_top_left_collision:
+
+  ;test bottom left of the hero
+  test_not_collision $ff, $ff, (HERO_HEIGHT-1), 0, no_bottom_left_collision
+
+  ;set the 1st bit of the collision flags variable
+  lda collision_flags
+  ora #%00000010
+  sta collision_flags
+
+no_bottom_left_collision:
+
+  ;now we can easily choose which branch to execute (actually move left,
+  ;slide up, or slide down)
+
+  lda collision_flags
+  cmp #%00000000
+  beq move_left
+  cmp #%00000001
+  beq slide_down
+  cmp #%00000010
+  beq slide_up
+  ;only case remaining is that both collision tests succeeded. skip
+  ;every case handler.
+  jmp done
+move_left:
   sec
   lda hero_x
   sbc hero_speed
@@ -692,8 +814,29 @@ hero_direction_left_handler:
   lda hero_x+1
   sbc #$00
   sta hero_x+1
+  jmp done
+slide_up:
 
-skip_direction_left_handler:
+  sec
+  lda hero_y
+  sbc hero_speed
+  sta hero_y
+  lda hero_y+1
+  sbc #$00
+  sta hero_y+1
+
+  jmp done
+slide_down:
+
+  clc
+  lda hero_y
+  adc hero_speed
+  sta hero_y
+  lda hero_y+1
+  adc #$00
+  sta hero_y+1
+
+done:
   .endscope
 
   lda #HERO_DIRECTION_LEFT
@@ -709,9 +852,48 @@ hero_direction_down_handler:
 
   .scope
   test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT), 0
-  test_collision 0, 0, (HERO_HEIGHT), 0, skip_direction_down_handler
-  test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, skip_direction_down_handler
 
+  ;collect collision information in a local variable
+  ;we use b2 because the below code calls map_test_collision which uses
+  ;b0 and b1.
+  collision_flags = b2
+  lda #0
+  sta collision_flags
+
+  ;test bottom left of the hero
+  test_not_collision 0, 0, (HERO_HEIGHT), 0, no_bottom_left_collision
+
+  ;set the 0th bit of the collision flags variable
+  lda collision_flags
+  ora #%00000001
+  sta collision_flags
+
+no_bottom_left_collision:
+
+  ;test bottom right of the hero
+  test_not_collision HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, no_bottom_right_collision
+
+  ;set the 1st bit of the collision flags variable
+  lda collision_flags
+  ora #%00000010
+  sta collision_flags
+
+no_bottom_right_collision:
+
+  ;now we can easily choose which branch to execute (actually move down,
+  ;slide left, or slide right)
+
+  lda collision_flags
+  cmp #%00000000
+  beq move_down
+  cmp #%00000001
+  beq slide_right
+  cmp #%00000010
+  beq slide_left
+  ;only case remaining is that both collision tests succeeded. skip
+  ;every case handler.
+  jmp done
+move_down:
   clc
   lda hero_y
   adc hero_speed
@@ -719,7 +901,29 @@ hero_direction_down_handler:
   lda hero_y+1
   adc #$00
   sta hero_y+1
-skip_direction_down_handler:
+  jmp done
+slide_right:
+
+  clc
+  lda hero_x
+  adc hero_speed
+  sta hero_x
+  lda hero_x+1
+  adc #$00
+  sta hero_x+1
+
+  jmp done
+slide_left:
+
+  sec
+  lda hero_x
+  sbc hero_speed
+  sta hero_x
+  lda hero_x+1
+  sbc #$00
+  sta hero_x+1
+
+done:
   .endscope
 
   lda #HERO_DIRECTION_DOWN
@@ -835,9 +1039,48 @@ hero_direction_up_handler:
 
   .scope
   test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2-1), 0
-  test_collision 0, 0, (HERO_HEIGHT/2-1), 0, skip_direction_up_handler
-  test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, skip_direction_up_handler
 
+  ;collect collision information in a local variable
+  ;we use b2 because the below code calls map_test_collision which uses
+  ;b0 and b1.
+  collision_flags = b2
+  lda #0
+  sta collision_flags
+
+  ;test top left of the hero
+  test_not_collision 0, 0, (HERO_HEIGHT/2-1), 0, no_top_left_collision
+
+  ;set the 0th bit of the collision flags variable
+  lda collision_flags
+  ora #%00000001
+  sta collision_flags
+
+no_top_left_collision:
+
+  ;test top right of the hero
+  test_not_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, no_top_right_collision
+
+  ;set the 1st bit of the collision flags variable
+  lda collision_flags
+  ora #%00000010
+  sta collision_flags
+
+no_top_right_collision:
+
+  ;now we can easily choose which branch to execute (actually move up,
+  ;slide left, or slide right)
+
+  lda collision_flags
+  cmp #%00000000
+  beq move_up
+  cmp #%00000001
+  beq slide_right
+  cmp #%00000010
+  beq slide_left
+  ;only case remaining is that both collision tests succeeded. skip
+  ;every case handler.
+  jmp done
+move_up:
   sec
   lda hero_y
   sbc hero_speed
@@ -845,8 +1088,29 @@ hero_direction_up_handler:
   lda hero_y+1
   sbc #$00
   sta hero_y+1
+  jmp done
+slide_right:
 
-skip_direction_up_handler:
+  clc
+  lda hero_x
+  adc hero_speed
+  sta hero_x
+  lda hero_x+1
+  adc #$00
+  sta hero_x+1
+
+  jmp done
+slide_left:
+
+  sec
+  lda hero_x
+  sbc hero_speed
+  sta hero_x
+  lda hero_x+1
+  sbc #$00
+  sta hero_x+1
+
+done:
   .endscope
 
   lda #HERO_DIRECTION_UP
