@@ -37,6 +37,7 @@ SOUNDENGINE_INC = 1
 .global song_initialize
 .global sfx_initialize
 .global stream_initialize
+.global stream_stop
 .global stream_update
 
 ;The max number of streams we support. The engine assumes the first

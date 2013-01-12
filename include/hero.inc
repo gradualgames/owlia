@@ -9,5 +9,6 @@ HERO_INC = 1
 .global hero_is_deadly
 .global hero_is_moving
 .global hero_hurt
+.global hero_cancel_attack
 
 .endif

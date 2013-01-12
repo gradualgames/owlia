@@ -959,6 +959,16 @@ null_starting_read_address:
   rts
 .endproc
 
+;stops a stream from playing
+;assumes x contains the index of the stream to kill
+.proc stream_stop
+
+  lda #0
+  sta stream_active,x
+  rts
+
+.endproc
+
 ;updates a single stream
 ;expects x to be pointing to a stream instance as an offset from streams
 .proc stream_update

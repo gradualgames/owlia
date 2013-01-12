@@ -19,11 +19,10 @@ NPCMAN_SPEED = 1
 NPCMAN_WALK_RECT_WIDTH  = 16 * 6
 NPCMAN_WALK_RECT_HEIGHT = 16 * 6
 
-npcman_hero_still_in_rect = entity_local0
-npcman_direction = entity_local1
-npcman_pseudo_random_number = entity_local2
-npcman_frame_counter = entity_local3
-npcman_pseudo_random_number_sample = entity_local4
+npcman_direction = entity_local0
+npcman_pseudo_random_number = entity_local1
+npcman_frame_counter = entity_local2
+npcman_pseudo_random_number_sample = entity_local3
 
 npcman_direction_speed_x_lo:
   .byte NPCMAN_SPEED, -NPCMAN_SPEED, 0, 0
@@ -101,9 +100,6 @@ npcman_state_init:
   tay
   lda entity_type_chr_offsets,y
   sta entity_sprite_group_offset,x
-
-  lda #$00
-  sta npcman_hero_still_in_rect,x
 
   ;seed the random number
   lda stream_read_address_lo
@@ -198,29 +194,16 @@ npcman_frame_counter_not_zero:
 
 do_not_move:
 
-  jsr hero_is_moving
-  beq do_not_start_conversation
-
-  ;test whether hero intersects npc's rect and rotate the result
-  ;into npcman_hero_still_in_rect. This makes it easy to detect
-  ;a transition into the npc's rect and a transition out.
-  .scope
   jsr entity_test_hero_rect
-  bne not_in_hero_rect
-in_hero_rect:
-  lda #$01
-  jmp done
-not_in_hero_rect:
-  lda #$00
-done:
-  ror
-  rol npcman_hero_still_in_rect,x
-  .endscope
+  bne do_not_start_conversation
 
-  lda npcman_hero_still_in_rect,x
+  lda buffer_controller+buttons::_a
   and #%00000011
   cmp #%00000001
   bne do_not_start_conversation
+
+  ;cancel the hero's attack, overriding the default a button behavior.
+  jsr hero_cancel_attack
 
   ;face the hero
   ldy hero_direction

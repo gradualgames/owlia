@@ -84,6 +84,103 @@ hero_invincible:
 
 .endproc
 
+;sets up the attack state to begin executing on
+;the next frame. By default, this is what is called
+;when the a button is pressed. Entities can override
+;this behavior by calling another state setup routine
+;to cancel the attack.
+.proc hero_attack
+
+  lda hero_flags
+  ora #HERO_FLAGS_DEADLY_SET
+  sta hero_flags
+
+  lda #HERO_STATE_ATTACK
+  sta hero_state
+
+  lda #HERO_STATE_ATTACK_LENGTH
+  sta hero_state_counter
+
+  lda hero_direction
+  tay
+  lda attack_animation_addresses_lo,y
+  sta hero_animation_address
+  sta w2
+  lda attack_animation_addresses_hi,y
+  sta hero_animation_address+1
+  sta w2+1
+
+  lda #<hero_animation_object
+  sta w1
+  lda #>hero_animation_object
+  sta w1+1
+
+  jsr sprite_reset_animation
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_sword
+  sta sound_param_word_0
+  lda #>sfx_sword
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  rts
+
+.endproc
+
+;used by NPCs to cancel the default behavior from hitting the
+;a button which is to attack. This restores the state to a normal
+;walking state, and also stops the sound effect that was loaded
+;by the attack routine from playing.
+.proc hero_cancel_attack
+
+  ;get the direction we're facing and look up the animation address
+  lda hero_direction
+  tay
+  lda main_animation_addresses_lo,y
+  sta hero_animation_address
+  lda main_animation_addresses_hi,y
+  sta hero_animation_address+1
+
+  lda #<hero_animation_object
+  sta w1
+  lda #>hero_animation_object
+  sta w1+1
+
+  jsr sprite_reset_animation
+
+  lda hero_flags
+  and #HERO_FLAGS_DEADLY_CLEAR
+  sta hero_flags
+
+  lda #HERO_STATE_MAIN
+  sta hero_state
+
+  ;cancel the attack sound
+  txa
+  pha
+
+  ldx #soundeffect_one
+  jsr stream_stop
+
+  pla
+  tax
+
+  rts
+
+.endproc
+
 .proc hero_draw
 
   lda hero_invincibility_counter
@@ -439,49 +536,7 @@ skip_spawn_familiar_test:
   cmp #%00000001
   bne skip_attack_test
 
-  lda hero_flags
-  ora #HERO_FLAGS_DEADLY_SET
-  sta hero_flags
-
-  lda #HERO_STATE_ATTACK
-  sta hero_state
-
-  lda #HERO_STATE_ATTACK_LENGTH
-  sta hero_state_counter
-
-  lda hero_direction
-  tay
-  lda attack_animation_addresses_lo,y
-  sta hero_animation_address
-  sta w2
-  lda attack_animation_addresses_hi,y
-  sta hero_animation_address+1
-  sta w2+1
-
-  lda #<hero_animation_object
-  sta w1
-  lda #>hero_animation_object
-  sta w1+1
-
-  jsr sprite_reset_animation
-
-  ;play a sound
-  txa
-  pha
-
-  lda #<sfx_sword
-  sta sound_param_word_0
-  lda #>sfx_sword
-  sta sound_param_word_0+1
-
-  lda #3
-  sta sound_param_byte_0
-
-  ldx #soundeffect_one
-  jsr stream_initialize
-
-  pla
-  tax
+  jsr hero_attack
 
   rts
 
