@@ -50,7 +50,7 @@
 
 ;this routine loads all entity types for the current area, which
 ;basically just means it will load all chr data for entities into
-;VRAM and remember where they were loaded in entity_defs_chr_address.
+;VRAM and remember where they were loaded in sprite_chr_group_addresses.
 .proc load_entity_types
 entity_types_address = w3
 chr_amount = w2
@@ -79,9 +79,9 @@ next_entity_type:
 
   ;get the address of this entity's chr data
   tay
-  lda entity_defs_chr_address_lo,y
+  lda sprite_chr_group_addresses_lo,y
   sta w0
-  lda entity_defs_chr_address_hi,y
+  lda sprite_chr_group_addresses_hi,y
   sta w0+1
 
   ;store the current chr offset in entity_types_chr_offsets array

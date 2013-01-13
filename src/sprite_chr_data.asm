@@ -1,4 +1,20 @@
+.linecont +
 .include "sprite_chr_data.inc"
+
+.segment "CODE"
+
+.define sprite_chr_group_addresses \
+  hero_chr, \
+  Familiar_chr, \
+  explosion_chr, \
+  JellyFish_chr, \
+  NpcMan_chr, \
+  NpcWoman_chr
+
+sprite_chr_group_addresses_lo:
+  .lobytes sprite_chr_group_addresses
+sprite_chr_group_addresses_hi:
+  .hibytes sprite_chr_group_addresses
 
 .segment "ROM01"
 

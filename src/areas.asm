@@ -36,17 +36,17 @@ areas_hi:
 ;****************************************************************
 village_entity_types:
   .byte 5  ;count
-  .byte entity_chr_index_hero
-  .byte entity_chr_index_familiar
-  .byte entity_chr_index_explosion
-  .byte entity_chr_index_npcman
-  .byte entity_chr_index_jellyfish
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_npcman
+  .byte sprite_chr_group_index_jellyfish
 
 house_entity_types:
   .byte 3  ;count
-  .byte entity_chr_index_hero
-  .byte entity_chr_index_familiar
-  .byte entity_chr_index_npcwoman
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_npcwoman
 
 ;****************************************************************
 ;Area definitions.
@@ -80,12 +80,12 @@ village_area:
 
 village_entities:
   .byte 6  ;count
-  .byte entity_index_jellyfish, 25, 10, entity_chr_index_jellyfish, 0
-  .byte entity_index_jellyfish, 39, 10, entity_chr_index_jellyfish, 0
-  .byte entity_index_jellyfish, 31, 32, entity_chr_index_jellyfish, 0
-  .byte entity_index_jellyfish, 39, 53, entity_chr_index_jellyfish, 0
-  .byte entity_index_jellyfish, 20, 53, entity_chr_index_jellyfish, 0
-  .byte entity_index_npcman, 8, 20, entity_chr_index_npcman, 1, conversation_index_welcome_to_demo
+  .byte entity_index_jellyfish, 25, 10, sprite_chr_group_index_jellyfish, 0
+  .byte entity_index_jellyfish, 39, 10, sprite_chr_group_index_jellyfish, 0
+  .byte entity_index_jellyfish, 31, 32, sprite_chr_group_index_jellyfish, 0
+  .byte entity_index_jellyfish, 39, 53, sprite_chr_group_index_jellyfish, 0
+  .byte entity_index_jellyfish, 20, 53, sprite_chr_group_index_jellyfish, 0
+  .byte entity_index_npcman, 8, 20, sprite_chr_group_index_npcman, 1, conversation_index_welcome_to_demo
 
 house1_area:
   .byte 0   ;music_bank .byte
@@ -116,7 +116,7 @@ house1_area:
 
 house1_entities:
   .byte 1  ;count
-  .byte entity_index_npcwoman, 9, 18, entity_chr_index_npcwoman, 1, conversation_index_welcome_to_my_house
+  .byte entity_index_npcwoman, 9, 18, sprite_chr_group_index_npcwoman, 1, conversation_index_welcome_to_my_house
 
 housebl_area:
   .byte 0   ;music_bank .byte
@@ -147,7 +147,7 @@ housebl_area:
 
 housebl_entities:
   .byte 1  ;count
-  .byte entity_index_npcwoman, 9, 18, entity_chr_index_npcwoman, 1, conversation_index_welcome_to_my_house
+  .byte entity_index_npcwoman, 9, 18, sprite_chr_group_index_npcwoman, 1, conversation_index_welcome_to_my_house
 
 housebr_area:
   .byte 0   ;music_bank .byte
@@ -178,7 +178,7 @@ housebr_area:
 
 housebr_entities:
   .byte 1  ;count
-  .byte entity_index_npcwoman, 9, 18, entity_chr_index_npcwoman, 1, conversation_index_welcome_to_my_house
+  .byte entity_index_npcwoman, 9, 18, sprite_chr_group_index_npcwoman, 1, conversation_index_welcome_to_my_house
 
 housetr_area:
   .byte 0   ;music_bank .byte
@@ -209,7 +209,7 @@ housetr_area:
 
 housetr_entities:
   .byte 1  ;count
-  .byte entity_index_npcwoman, 9, 18, entity_chr_index_npcwoman, 1, conversation_index_welcome_to_my_house
+  .byte entity_index_npcwoman, 9, 18, sprite_chr_group_index_npcwoman, 1, conversation_index_welcome_to_my_house
 
 inn_area:
   .byte 0   ;music_bank .byte
@@ -240,7 +240,7 @@ inn_area:
 
 inn_entities:
   .byte 1  ;count
-  .byte entity_index_npcwoman, 9, 18, entity_chr_index_npcwoman, 1, conversation_index_welcome_to_my_inn
+  .byte entity_index_npcwoman, 9, 18, sprite_chr_group_index_npcwoman, 1, conversation_index_welcome_to_my_inn
 
 store_area:
   .byte 0   ;music_bank .byte
@@ -271,7 +271,7 @@ store_area:
 
 store_entities:
   .byte 1  ;count
-  .byte entity_index_npcwoman, 9, 18, entity_chr_index_npcwoman, 1, conversation_index_welcome_to_my_store
+  .byte entity_index_npcwoman, 9, 18, sprite_chr_group_index_npcwoman, 1, conversation_index_welcome_to_my_store
 
 overworld_area:
   .byte 0   ;music_bank .byte

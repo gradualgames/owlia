@@ -2,7 +2,7 @@
 .include "hero.inc"
 .include "hero_constants.inc"
 .include "entity.inc"
-.include "entities.inc"
+.include "sprite_chr_data.inc"
 .include "familiar.inc"
 .include "ram.inc"
 .include "zp.inc"
@@ -488,7 +488,7 @@ hero_state_init:
   lda sprite_flags_direction,y
   sta hero_sprite_flags
 
-  lda #entity_chr_index_hero
+  lda #sprite_chr_group_index_hero
   tay
   lda entity_type_chr_offsets,y
   sta hero_sprite_group_offset

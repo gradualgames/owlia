@@ -44,7 +44,7 @@ explosion_state_init:
 
   jsr entity_reset_animation
 
-  ldy #entity_chr_index_explosion
+  ldy #sprite_chr_group_index_explosion
   lda entity_type_chr_offsets,y
   sta entity_sprite_group_offset,x
 

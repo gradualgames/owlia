@@ -4,7 +4,7 @@
 .include "ram.inc"
 .include "zp.inc"
 .include "sprites_and_animations_data.inc"
-.include "entities.inc"
+.include "sprite_chr_data.inc"
 .include "sprite.inc"
 .include "soundengine.inc"
 .include "sfx_data.inc"
@@ -196,7 +196,7 @@ familiar_state_init:
   jsr sprite_reset_animation
 
   ;load sprite group offset for the familiar
-  lda #entity_chr_index_familiar
+  lda #sprite_chr_group_index_familiar
   tay
   lda entity_type_chr_offsets,y
   sta familiar_sprite_group_offset

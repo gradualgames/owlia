@@ -17,30 +17,15 @@
 ;update routines for entities. The hero and familiar are left blank because
 ;they only use the entity system for loading CHR graphics.
 .define entity_defs_update_address \
-  0, \
-  0, \
   explosion_update, \
   jellyfish_update, \
   npcman_update, \
   npcwoman_update
 
-.define entity_defs_chr_address \
-  hero_chr, \
-  Familiar_chr, \
-  explosion_chr, \
-  JellyFish_chr, \
-  NpcMan_chr, \
-  NpcWoman_chr
-
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
 entity_defs_update_address_hi:
   .hibytes entity_defs_update_address
-
-entity_defs_chr_address_lo:
-  .lobytes entity_defs_chr_address
-entity_defs_chr_address_hi:
-  .hibytes entity_defs_chr_address
 
 .segment "ROM00"
 

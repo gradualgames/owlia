@@ -3,25 +3,12 @@ ENTITIES_INC = 1
 
 .global entity_defs_update_address_lo
 .global entity_defs_update_address_hi
-.global entity_defs_chr_address_lo
-.global entity_defs_chr_address_hi
 
 .enum
-entity_index_hero
-entity_index_familiar
 entity_index_explosion
 entity_index_jellyfish
 entity_index_npcman
 entity_index_npcwoman
-.endenum
-
-.enum
-entity_chr_index_hero
-entity_chr_index_familiar
-entity_chr_index_explosion
-entity_chr_index_jellyfish
-entity_chr_index_npcman
-entity_chr_index_npcwoman
 .endenum
 
 .endif
