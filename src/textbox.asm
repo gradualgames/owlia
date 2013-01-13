@@ -230,10 +230,6 @@ end_conversation:
 
   wait_vblank_data_ready
 
-  lda #160
-  sta b0
-  jsr sprite_hide_all_below
-
   switch_bank_ldy map_bank
 
   ;set up coordinates and draw top row

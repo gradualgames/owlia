@@ -794,6 +794,10 @@ play_state_action_start_conversation:
 
   jsr align_camera_to_metatile_boundary
 
+  lda #160
+  sta b0
+  jsr sprite_hide_all_below
+
   jsr draw_textbox
 
   ;when an NPC starts a conversation, the NPC specifies the index of a
