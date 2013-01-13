@@ -150,8 +150,10 @@ hero_invincible:
   tay
   lda main_animation_addresses_lo,y
   sta hero_animation_address
+  sta w2
   lda main_animation_addresses_hi,y
   sta hero_animation_address+1
+  sta w2+1
 
   lda #<hero_animation_object
   sta w1
