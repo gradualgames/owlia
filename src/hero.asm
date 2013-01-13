@@ -488,7 +488,7 @@ hero_state_init:
   lda sprite_flags_direction,y
   sta hero_sprite_flags
 
-  lda #entity_index_hero
+  lda #entity_chr_index_hero
   tay
   lda entity_type_chr_offsets,y
   sta hero_sprite_group_offset

@@ -196,7 +196,7 @@ familiar_state_init:
   jsr sprite_reset_animation
 
   ;load sprite group offset for the familiar
-  lda #entity_index_familiar
+  lda #entity_chr_index_familiar
   tay
   lda entity_type_chr_offsets,y
   sta familiar_sprite_group_offset

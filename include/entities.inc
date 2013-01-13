@@ -15,4 +15,13 @@ entity_index_npcman
 entity_index_npcwoman
 .endenum
 
+.enum
+entity_chr_index_hero
+entity_chr_index_familiar
+entity_chr_index_explosion
+entity_chr_index_jellyfish
+entity_chr_index_npcman
+entity_chr_index_npcwoman
+.endenum
+
 .endif

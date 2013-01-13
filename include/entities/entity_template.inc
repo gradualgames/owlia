@@ -34,10 +34,11 @@ template_state_init:
 
   jsr entity_reset_animation
 
-  lda entity_type,x
-  tay
-  lda entity_type_chr_offsets,y
-  sta entity_sprite_group_offset,x
+  ;some entities are parameterized for graphics set, ones
+  ;that are always hard coded should set their chr offset here
+  ;ldy #entity_chr_index_template
+  ;lda entity_type_chr_offsets,y
+  ;sta entity_sprite_group_offset,x
 
   lda #$00
   sta entity_sprite_flags,x

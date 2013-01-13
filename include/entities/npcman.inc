@@ -97,11 +97,6 @@ npcman_state_init:
 
   jsr entity_reset_animation
 
-  lda entity_type,x
-  tay
-  lda entity_type_chr_offsets,y
-  sta entity_sprite_group_offset,x
-
   ;seed the random number
   lda stream_read_address_lo
   eor hero_x

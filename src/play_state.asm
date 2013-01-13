@@ -200,6 +200,15 @@ next_entity_instance:
   ;spawn the entity
   jsr entity_spawn
 
+  ;get chr offset for this entity
+  ldy entities_index
+  iny
+  lda (entities_address),y
+  sty entities_index
+  tay
+  lda entity_type_chr_offsets,y
+  sta entity_sprite_group_offset,x
+
   jsr get_entity_params
 
   dec entities_count
