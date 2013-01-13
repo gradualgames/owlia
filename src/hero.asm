@@ -433,10 +433,10 @@ familiar_spawn_offset_x_hi:
   .byte 0, 0, 0, 0
 
 familiar_spawn_offset_y_lo:
-  .byte 0, 0, 0, 0
+  .byte 0, 0, 1, $ff
 
 familiar_spawn_offset_y_hi:
-  .byte 0, 0, 0, 0
+  .byte 0, 0, 0, $ff
 
 .segment "ROM02"
 

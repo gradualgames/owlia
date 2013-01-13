@@ -711,8 +711,22 @@ play_state_action_nop:
   jsr update_camera
 
   switch_bank_ldy sprites_and_animations_bank
+  .scope
+  sec
+  lda hero_y
+  sbc familiar_y
+  lda hero_y+1
+  sbc familiar_y+1
+  bmi familiar_above_hero
+familiar_below_hero:
   jsr hero_draw
   jsr familiar_draw
+  jmp done
+familiar_above_hero:
+  jsr familiar_draw
+  jsr hero_draw
+done:
+  .endscope
   jsr entity_draw_all
 
   .ifdef CPU_USAGE
