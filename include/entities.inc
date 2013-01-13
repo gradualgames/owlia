@@ -7,8 +7,7 @@ ENTITIES_INC = 1
 .enum
 entity_index_explosion
 entity_index_jellyfish
-entity_index_npcman
-entity_index_npcwoman
+entity_index_npc
 .endenum
 
 .endif

@@ -1,93 +1,63 @@
 .linecont +
-.ifndef NPCMAN_INC
-NPCMAN_INC = 1
+.ifndef NPC_INC
+NPC_INC = 1
 
 .enum
-NPCMAN_STATE_INIT
-NPCMAN_STATE_MAIN
+NPC_STATE_INIT
+NPC_STATE_MAIN
 .endenum
 
 .enum
-NPCMAN_DIRECTION_RIGHT
-NPCMAN_DIRECTION_LEFT
-NPCMAN_DIRECTION_DOWN
-NPCMAN_DIRECTION_UP
+NPC_DIRECTION_RIGHT
+NPC_DIRECTION_LEFT
+NPC_DIRECTION_DOWN
+NPC_DIRECTION_UP
 .endenum
 
-NPCMAN_SPEED = 1
+NPC_SPEED = 1
 
-NPCMAN_WALK_RECT_WIDTH  = 16 * 6
-NPCMAN_WALK_RECT_HEIGHT = 16 * 6
+npc_conversation = entity_local0
+npc_graphics_set = entity_local1
+npc_walk_rect_width = entity_local2
+npc_walk_rect_height = entity_local3
+npc_direction = entity_local4
+npc_pseudo_random_number = entity_local5
+npc_frame_counter = entity_local6
+npc_pseudo_random_number_sample = entity_local7
 
-npcman_conversation = entity_local0
-npcman_direction = entity_local1
-npcman_pseudo_random_number = entity_local2
-npcman_frame_counter = entity_local3
-npcman_pseudo_random_number_sample = entity_local4
+.define npc_states \
+  npc_state_init, \
+  npc_state_main
 
-npcman_direction_speed_x_lo:
-  .byte NPCMAN_SPEED, -NPCMAN_SPEED, 0, 0
+npc_lo:
+  .lobytes npc_states
 
-npcman_direction_speed_x_hi:
-  .byte 0, $ff, 0, 0
+npc_hi:
+  .hibytes npc_states
 
-npcman_direction_speed_y_lo:
-  .byte 0, 0, NPCMAN_SPEED, -NPCMAN_SPEED
+npc_update:
 
-npcman_direction_speed_y_hi:
-  .byte 0, 0, 0, $ff
+  entity_state_switchboard npc_lo, npc_hi
 
-npcman_opposite_direction:
-  .byte NPCMAN_DIRECTION_LEFT
-  .byte NPCMAN_DIRECTION_RIGHT
-  .byte NPCMAN_DIRECTION_UP
-  .byte NPCMAN_DIRECTION_DOWN
-
-.define npcman_animation_addresses\
-  NpcManWalkSide,\
-  NpcManWalkSide,\
-  NpcManWalkDown,\
-  NpcManWalkUp
-
-npcman_animation_addresses_lo:
-  .lobytes npcman_animation_addresses
-
-npcman_animation_addresses_hi:
-  .hibytes npcman_animation_addresses
-
-npcman_sprite_flags_direction:
-  .byte %00000000, %01000000, %00000000, %00000000
-
-.define npcman_states \
-  npcman_state_init, \
-  npcman_state_main
-
-npcman_lo:
-  .lobytes npcman_states
-
-npcman_hi:
-  .hibytes npcman_states
-
-npcman_update:
-
-  entity_state_switchboard npcman_lo, npcman_hi
-
-npcman_state_init:
+npc_state_init:
 
   lda entity_flags,x
   ora #ENTITY_FLAGS_DRAWABLE_SET
   sta entity_flags,x
 
-  lda #NPCMAN_DIRECTION_DOWN
-  sta npcman_direction,x
+  lda #NPC_DIRECTION_DOWN
+  sta npc_direction,x
 
-  ldy npcman_direction,x
-  lda npcman_animation_addresses_lo,y
+  clc
+  lda npc_direction,x
+  adc npc_graphics_set,x
+  tay
+  lda npc_animation_addresses_lo,y
   sta entity_animation_address_lo,x
-  lda npcman_animation_addresses_hi,y
+  lda npc_animation_addresses_hi,y
   sta entity_animation_address_hi,x
 
-  lda npcman_sprite_flags_direction,y
+  lda npc_sprite_flags_direction,y
   sta entity_sprite_flags,x
 
   lda #16
@@ -100,17 +70,17 @@ npcman_state_init:
   ;seed the random number
   lda stream_read_address_lo
   eor hero_x
-  sta npcman_pseudo_random_number,x
+  sta npc_pseudo_random_number,x
 
-  lda #NPCMAN_STATE_MAIN
+  lda #NPC_STATE_MAIN
   sta entity_state,x
 
   rts
 
-npcman_state_main:
+npc_state_main:
 
   ;permute the pseudo random number
-: lda npcman_pseudo_random_number,x
+: lda npc_pseudo_random_number,x
   beq doEor
   asl
   beq noEor ;if the input was $80, skip the EOR
@@ -118,70 +88,72 @@ npcman_state_main:
 doEor:
   eor #$1d
 noEor:
-  sta npcman_pseudo_random_number,x
+  sta npc_pseudo_random_number,x
   dey
   bne :-
 
-  sta npcman_pseudo_random_number,x
+  sta npc_pseudo_random_number,x
 
   ;decrement the frame counter
-  dec npcman_frame_counter,x
-  bne npcman_frame_counter_not_zero
+  dec npc_frame_counter,x
+  bne npc_frame_counter_not_zero
 
   ;sample lowest 6 bits of pseudo random number and use it as new frame counter
   and #%00111111
-  sta npcman_frame_counter,x
+  sta npc_frame_counter,x
 
   ;sample lowest 3 bits of pseudo random number
   and #%00000111
-  sta npcman_pseudo_random_number_sample,x
+  sta npc_pseudo_random_number_sample,x
   and #%00000100
   bne do_not_use_as_direction
 
   ;lowest 3 bits was between 0 and 3, use it as the new direction for the npc
-  lda npcman_pseudo_random_number_sample,x
-  sta npcman_direction,x
+  lda npc_pseudo_random_number_sample,x
+  sta npc_direction,x
 
   ;face in that direction
+  clc
+  adc npc_graphics_set,x
   tay
-  lda npcman_animation_addresses_lo,y
+  lda npc_animation_addresses_lo,y
   sta entity_animation_address_lo,x
-  lda npcman_animation_addresses_hi,y
+  lda npc_animation_addresses_hi,y
   sta entity_animation_address_hi,x
-  lda npcman_sprite_flags_direction,y
+  lda npc_sprite_flags_direction,y
   sta entity_sprite_flags,x
 do_not_use_as_direction:
 
   ;seed the random number
   lda stream_read_address_lo
   eor hero_x
-  sta npcman_pseudo_random_number,x
+  sta npc_pseudo_random_number,x
 
-npcman_frame_counter_not_zero:
+npc_frame_counter_not_zero:
 
   ;move the npc man in the direction he is facing if the random number sample is between 0 and 3
   ;anything else is interpreted as a "pause."
-  lda npcman_pseudo_random_number_sample,x
+  lda npc_pseudo_random_number_sample,x
   and #%00000100
   bne do_not_move
 
   ;use direction as index into increment luts
-  ldy npcman_direction,x
+  ldy npc_direction,x
 
   clc
   lda entity_x_lo,x
-  adc npcman_direction_speed_x_lo,y
+  adc npc_direction_speed_x_lo,y
   sta entity_x_lo,x
   lda entity_x_hi,x
-  adc npcman_direction_speed_x_hi,y
+  adc npc_direction_speed_x_hi,y
   sta entity_x_hi,x
 
   clc
   lda entity_y_lo,x
-  adc npcman_direction_speed_y_lo,y
+  adc npc_direction_speed_y_lo,y
   sta entity_y_lo,x
   lda entity_y_hi,x
-  adc npcman_direction_speed_y_hi,y
+  adc npc_direction_speed_y_hi,y
   sta entity_y_hi,x
 
   jsr keep_within_walk_rectangle
@@ -203,20 +175,22 @@ do_not_move:
 
   ;face the hero
   ldy hero_direction
-  lda npcman_opposite_direction,y
-  sta npcman_direction,x
+  lda npc_opposite_direction,y
+  sta npc_direction,x
+  clc
+  adc npc_graphics_set,x
   tay
-  lda npcman_animation_addresses_lo,y
+  lda npc_animation_addresses_lo,y
   sta entity_animation_address_lo,x
-  lda npcman_animation_addresses_hi,y
+  lda npc_animation_addresses_hi,y
   sta entity_animation_address_hi,x
-  lda npcman_sprite_flags_direction,y
+  lda npc_sprite_flags_direction,y
   sta entity_sprite_flags,x
 
   ;enter conversation mode
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
-  lda npcman_conversation,x
+  lda npc_conversation,x
   sta state_control_params+play_state_control::param
 
 do_not_start_conversation:
@@ -244,20 +218,20 @@ keep_within_walk_rectangle:
 
   ;stop npc from walking
   lda #4
-  sta npcman_pseudo_random_number_sample,x
+  sta npc_pseudo_random_number_sample,x
 
 not_left_of_rect:
 
   sec
   lda w0
-  sbc #NPCMAN_WALK_RECT_WIDTH
+  sbc npc_walk_rect_width,x
   lda w0+1
   sbc #0
   bmi not_right_of_rect
 
   clc
   lda entity_spawn_x_lo,x
-  adc #NPCMAN_WALK_RECT_WIDTH
+  adc npc_walk_rect_width,x
   sta entity_x_lo,x
   lda entity_spawn_x_hi,x
   adc #0
@@ -265,7 +239,7 @@ not_left_of_rect:
 
   ;stop npc from walking
   lda #4
-  sta npcman_pseudo_random_number_sample,x
+  sta npc_pseudo_random_number_sample,x
 
 not_right_of_rect:
 
@@ -286,20 +260,20 @@ not_right_of_rect:
 
   ;stop npc from walking
   lda #4
-  sta npcman_pseudo_random_number_sample,x
+  sta npc_pseudo_random_number_sample,x
 
 not_above_rect:
 
   sec
   lda w1
-  sbc #NPCMAN_WALK_RECT_HEIGHT
+  sbc npc_walk_rect_height,x
   lda w1+1
   sbc #0
   bmi not_below_rect
 
   clc
   lda entity_spawn_y_lo,x
-  adc #NPCMAN_WALK_RECT_HEIGHT
+  adc npc_walk_rect_height,x
   sta entity_y_lo,x
   lda entity_spawn_y_hi,x
   adc #0
@@ -307,7 +281,7 @@ not_above_rect:
 
   ;stop npc from walking
   lda #4
-  sta npcman_pseudo_random_number_sample,x
+  sta npc_pseudo_random_number_sample,x
 
 not_below_rect:
 

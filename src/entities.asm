@@ -19,8 +19,7 @@
 .define entity_defs_update_address \
   explosion_update, \
   jellyfish_update, \
-  npcman_update, \
-  npcwoman_update
+  npc_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -29,9 +28,46 @@ entity_defs_update_address_hi:
 
 .segment "ROM00"
 
+npc_direction_speed_x_lo:
+  .byte NPC_SPEED, -NPC_SPEED, 0, 0
+
+npc_direction_speed_x_hi:
+  .byte 0, $ff, 0, 0
+
+npc_direction_speed_y_lo:
+  .byte 0, 0, NPC_SPEED, -NPC_SPEED
+
+npc_direction_speed_y_hi:
+  .byte 0, 0, 0, $ff
+
+npc_opposite_direction:
+  .byte NPC_DIRECTION_LEFT
+  .byte NPC_DIRECTION_RIGHT
+  .byte NPC_DIRECTION_UP
+  .byte NPC_DIRECTION_DOWN
+
+.define npc_animation_addresses\
+  NpcManWalkSide,\
+  NpcManWalkSide,\
+  NpcManWalkDown,\
+  NpcManWalkUp, \
+  NpcWomanWalkSide,\
+  NpcWomanWalkSide,\
+  NpcWomanWalkDown,\
+  NpcWomanWalkUp
+
+npc_animation_addresses_lo:
+  .lobytes npc_animation_addresses
+
+npc_animation_addresses_hi:
+  .hibytes npc_animation_addresses
+
+npc_sprite_flags_direction:
+  .byte %00000000, %01000000, %00000000, %00000000
+  .byte %00000000, %01000000, %00000000, %00000000
+
 .include "hero.inc"
 .include "familiar.inc"
 .include "explosion.inc"
 .include "jellyfish.inc"
-.include "npcman.inc"
-.include "npcwoman.inc"
+.include "npc.inc"
