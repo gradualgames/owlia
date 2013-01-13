@@ -37,7 +37,7 @@ template_state_init:
   ;some entities are parameterized for graphics set, ones
   ;that are always hard coded should set their chr offset here
   ;ldy #sprite_chr_group_index_template
-  ;lda entity_type_chr_offsets,y
+  ;lda sprite_chr_group_offsets,y
   ;sta entity_sprite_group_offset,x
 
   lda #$00

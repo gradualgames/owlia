@@ -198,7 +198,7 @@ familiar_state_init:
   ;load sprite group offset for the familiar
   lda #sprite_chr_group_index_familiar
   tay
-  lda entity_type_chr_offsets,y
+  lda sprite_chr_group_offsets,y
   sta familiar_sprite_group_offset
 
   ;initialize x and y velocity

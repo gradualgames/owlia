@@ -34,7 +34,7 @@ areas_hi:
 ;****************************************************************
 ;Area entity types.
 ;****************************************************************
-village_entity_types:
+village_sprite_chr_groups:
   .byte 5  ;count
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -42,7 +42,7 @@ village_entity_types:
   .byte sprite_chr_group_index_npcman
   .byte sprite_chr_group_index_jellyfish
 
-house_entity_types:
+house_sprite_chr_groups:
   .byte 3  ;count
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -60,7 +60,7 @@ village_area:
   .byte 1   ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word map0_chr
-  .word village_entity_types
+  .word village_sprite_chr_groups
   .word village_entities
   .word song1
   .word village_palette
@@ -96,7 +96,7 @@ house1_area:
   .byte 1   ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word house1_chr
-  .word house_entity_types
+  .word house_sprite_chr_groups
   .word house1_entities
   .word song1
   .word house1_palette
@@ -127,7 +127,7 @@ housebl_area:
   .byte 1   ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word house1_chr
-  .word house_entity_types
+  .word house_sprite_chr_groups
   .word housebl_entities
   .word song1
   .word housebl_palette
@@ -158,7 +158,7 @@ housebr_area:
   .byte 1   ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word house1_chr
-  .word house_entity_types
+  .word house_sprite_chr_groups
   .word housebr_entities
   .word song1
   .word housebr_palette
@@ -189,7 +189,7 @@ housetr_area:
   .byte 1   ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word house1_chr
-  .word house_entity_types
+  .word house_sprite_chr_groups
   .word housetr_entities
   .word song1
   .word housetr_palette
@@ -220,7 +220,7 @@ inn_area:
   .byte 1   ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word house1_chr
-  .word house_entity_types
+  .word house_sprite_chr_groups
   .word inn_entities
   .word song1
   .word inn_palette
@@ -251,7 +251,7 @@ store_area:
   .byte 1   ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word house1_chr
-  .word house_entity_types
+  .word house_sprite_chr_groups
   .word store_entities
   .word song1
   .word store_palette
@@ -282,7 +282,7 @@ overworld_area:
   .byte 1   ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word map1_chr
-  .word house_entity_types
+  .word house_sprite_chr_groups
   .word overworld_entities
   .word song1
   .word overworld_palette

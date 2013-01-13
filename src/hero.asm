@@ -490,7 +490,7 @@ hero_state_init:
 
   lda #sprite_chr_group_index_hero
   tay
-  lda entity_type_chr_offsets,y
+  lda sprite_chr_group_offsets,y
   sta hero_sprite_group_offset
 
   lda #0

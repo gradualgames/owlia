@@ -48,14 +48,14 @@
   rts
 .endproc
 
-;this routine loads all entity types for the current area, which
+;this routine loads all sprite chr groups for the current area, which
 ;basically just means it will load all chr data for entities into
 ;VRAM and remember where they were loaded in sprite_chr_group_addresses.
-.proc load_entity_types
-entity_types_address = w3
+.proc load_sprite_chr_groups
+sprite_chr_groups_address = w3
 chr_amount = w2
 chr_offset = b1
-entity_types_index = b0
+sprite_chr_groups_index = b0
 
   lda #0
   sta chr_offset
@@ -63,19 +63,19 @@ entity_types_index = b0
   ;get count for number of entity types in this area
   switch_bank_ldy #AREAS_BANK
   ldy #0
-  lda (entity_types_address),y
+  lda (sprite_chr_groups_address),y
   ;put it in x for counting
   tax
 
   ;point at the first entry in the entity types array
   iny
-  sty entity_types_index
+  sty sprite_chr_groups_index
 
 next_entity_type:
 
   ;get next entity type index
-  ldy entity_types_index
-  lda (entity_types_address),y
+  ldy sprite_chr_groups_index
+  lda (sprite_chr_groups_address),y
 
   ;get the address of this entity's chr data
   tay
@@ -84,9 +84,9 @@ next_entity_type:
   lda sprite_chr_group_addresses_hi,y
   sta w0+1
 
-  ;store the current chr offset in entity_types_chr_offsets array
+  ;store the current chr offset in sprite_chr_groups_chr_offsets array
   lda chr_offset
-  sta entity_type_chr_offsets,y
+  sta sprite_chr_group_offsets,y
 
   ;load the number of bytes in this chr chunk before loading it. we will use
   ;it to calculate the chr offset for this entity type.
@@ -115,13 +115,13 @@ next_entity_type:
   sta w2
 
   ;add lo byte to chr_offset so the next entity can store its offset in the
-  ;entity_type_chr_offsets array in ram
+  ;sprite_chr_group_offsets array in ram
   clc
   lda chr_offset
   adc w2
   sta chr_offset
 
-  inc entity_types_index
+  inc sprite_chr_groups_index
 
   dex
   bne next_entity_type
@@ -206,7 +206,7 @@ next_entity_instance:
   lda (entities_address),y
   sty entities_index
   tay
-  lda entity_type_chr_offsets,y
+  lda sprite_chr_group_offsets,y
   sta entity_sprite_group_offset,x
 
   jsr get_entity_params
@@ -441,13 +441,13 @@ play_state_load_location:
   sta $2006
 
   switch_bank_ldy #AREAS_BANK
-  ldy #area::entity_types_address
+  ldy #area::sprite_chr_groups_address
   lda (area_address),y
   sta w3
   iny
   lda (area_address),y
   sta w3+1
-  jsr load_entity_types
+  jsr load_sprite_chr_groups
 
   switch_bank_ldy map_bank
 
