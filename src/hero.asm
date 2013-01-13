@@ -185,9 +185,9 @@ hero_invincible:
 
 .proc hero_draw
 
-  lda hero_invincibility_counter
-  and #%00000010
-  bne do_not_draw
+  lda hero_flags
+  and #HERO_FLAGS_DRAWABLE_TEST
+  beq do_not_draw
   ;calculate screen coordinates based on the camera coordinates
   sec
   lda hero_x
@@ -455,8 +455,9 @@ hero_state_init:
   lda #HERO_STATE_MAIN
   sta hero_state
 
-  lda #0
+  lda #HERO_FLAGS_DRAWABLE_SET
   sta hero_flags
+  lda #0
   sta hero_attack_rect_x
   sta hero_attack_rect_x+1
   sta hero_attack_rect_y
@@ -634,6 +635,10 @@ skip_choose_direction_handler_from_controller:
   beq hero_not_invincible
 
   dec hero_invincibility_counter
+  
+  lda hero_flags
+  eor #HERO_FLAGS_DRAWABLE_SET
+  sta hero_flags
 
 hero_not_invincible:
 

@@ -24,6 +24,7 @@ npc_direction = entity_local4
 npc_pseudo_random_number = entity_local5
 npc_frame_counter = entity_local6
 npc_pseudo_random_number_sample = entity_local7
+npc_hero_still_in_rect = entity_local8
 
 .define npc_states \
   npc_state_init, \
@@ -47,6 +48,9 @@ npc_state_init:
 
   lda #NPC_DIRECTION_DOWN
   sta npc_direction,x
+
+  lda #0
+  sta npc_hero_still_in_rect,x
 
   clc
   lda npc_direction,x
@@ -162,13 +166,68 @@ npc_frame_counter_not_zero:
 
 do_not_move:
 
+  ;test whether hero intersects npc's rect and rotate the result
+  ;into npcman_hero_still_in_rect. This makes it easy to detect
+  ;a transition into the npc's rect and a transition out.
+  .scope
   jsr entity_test_hero_rect
-  bne do_not_start_conversation
+  bne not_in_hero_rect
+in_hero_rect:
+  lda #$01
+  jmp done
+not_in_hero_rect:
+  lda #$00
+done:
+  ror
+  rol npc_hero_still_in_rect,x
+  .endscope
+
+  lda npc_hero_still_in_rect,x
+  and #%00000011
+  cmp #%00000010
+  bne do_not_reset_drawable_flags
+
+  lda entity_flags,x
+  ora #ENTITY_FLAGS_DRAWABLE_SET
+  sta entity_flags,x
+
+  lda hero_flags
+  ora #HERO_FLAGS_DRAWABLE_SET
+  sta hero_flags
+
+do_not_reset_drawable_flags:
+
+  lda npc_hero_still_in_rect,x
+  and #%00000001
+  beq do_not_start_conversation
+
+  lda entity_flags,x
+  eor #ENTITY_FLAGS_DRAWABLE_SET
+  sta entity_flags,x
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_DRAWABLE_TEST
+  eor #ENTITY_FLAGS_DRAWABLE_SET
+  sta b0
+
+  lda hero_flags
+  and #HERO_FLAGS_DRAWABLE_CLEAR
+  ora b0
+  sta hero_flags
 
   lda buffer_controller+buttons::_a
   and #%00000011
   cmp #%00000001
   bne do_not_start_conversation
+
+  ;make sure both the npc and the hero are drawable
+  lda entity_flags,x
+  ora #ENTITY_FLAGS_DRAWABLE_SET
+  sta entity_flags,x
+
+  lda hero_flags
+  ora #HERO_FLAGS_DRAWABLE_SET
+  sta hero_flags
 
   ;cancel the hero's attack, overriding the default a button behavior.
   jsr hero_cancel_attack
