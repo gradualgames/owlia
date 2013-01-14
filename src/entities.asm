@@ -11,6 +11,7 @@
 .include "map.inc"
 .include "actions.inc"
 .include "play_state.inc"
+.include "geotests.inc"
 
 .segment "CODE"
 

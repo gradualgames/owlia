@@ -26,6 +26,23 @@
 
 .endproc
 
+.proc hero_face_in_current_direction
+
+  lda hero_direction
+  tay
+  lda main_animation_addresses_lo,y
+  sta hero_animation_address
+  sta w2
+  lda main_animation_addresses_hi,y
+  sta hero_animation_address+1
+  sta w2+1
+  lda sprite_flags_direction,y
+  sta hero_sprite_flags
+
+  rts
+
+.endproc
+
 ;sets up the hero's state to start flashing invincibility frames and
 ;get knocked back in a certain direction for a few frames.
 ;expects b0 to contain cardinal direction to knock the hero back in.
@@ -635,7 +652,7 @@ skip_choose_direction_handler_from_controller:
   beq hero_not_invincible
 
   dec hero_invincibility_counter
-  
+
   lda hero_flags
   eor #HERO_FLAGS_DRAWABLE_SET
   sta hero_flags

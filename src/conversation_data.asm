@@ -19,7 +19,7 @@ conversations_hi:
 .segment "ROM00"
 
 welcome_to_demo:
-  .byte 1, W,E,L,C,O,M,E,EN,WT,EL
+  .byte 1, W,E,L,C,O,M,E,EN,WT,EC
   .byte 2, H,_A,V,E,SP,_A,SP,L,O,O,K,SP,_A,R,O,U,N,D,SP,_A,T,EL
   .byte 3, T,H,I,S,SP,D,E,M,O,SP,O,F,SP,O,U,R,SP,I,N,EL
   .byte 4, D,E,V,E,L,O,P,M,E,N,T,SP,T,I,T,L,E,EN,WT,EP,EL
