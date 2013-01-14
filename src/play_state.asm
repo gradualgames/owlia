@@ -572,8 +572,6 @@ play_state_load_location:
 
   jsr fill_nametable_rows
 
-  switch_bank_ldy entities_bank
-
   jsr entity_init_all
 
   ;initialize the hero entity
@@ -619,20 +617,11 @@ play_state_load_location:
 
   jsr sprite_clear_all
 
-  switch_bank_ldy #HERO_BANK
-  jsr hero_update
-  switch_bank_ldy #FAMILIAR_BANK
-  jsr familiar_update
-
-  switch_bank_ldy entities_bank
   jsr entity_update_all
 
   switch_bank_ldy map_bank
   jsr update_camera
 
-  switch_bank_ldy sprites_and_animations_bank
-  jsr hero_draw
-  jsr familiar_draw
   jsr entity_draw_all
 
   set_vblank_data_ready
@@ -699,34 +688,11 @@ play_state_action_nop:
 
   jsr controller_read
 
-  switch_bank_ldy #HERO_BANK
-  jsr hero_update
-  switch_bank_ldy #FAMILIAR_BANK
-  jsr familiar_update
-
-  switch_bank_ldy entities_bank
   jsr entity_update_all
 
   switch_bank_ldy map_bank
   jsr update_camera
 
-  switch_bank_ldy sprites_and_animations_bank
-  .scope
-  sec
-  lda hero_y
-  sbc familiar_y
-  lda hero_y+1
-  sbc familiar_y+1
-  bmi familiar_above_hero
-familiar_below_hero:
-  jsr hero_draw
-  jsr familiar_draw
-  jmp done
-familiar_above_hero:
-  jsr familiar_draw
-  jsr hero_draw
-done:
-  .endscope
   jsr entity_draw_all
 
   .ifdef CPU_USAGE
@@ -870,9 +836,6 @@ keep_decrementing_camera_x:
   lda #1
   sta column_ready
 
-  switch_bank_ldy sprites_and_animations_bank
-  jsr hero_draw
-  jsr familiar_draw
   jsr entity_draw_all
 
   set_vblank_data_ready
@@ -910,9 +873,6 @@ keep_decrementing_camera_y:
   lda #1
   sta row_ready
 
-  switch_bank_ldy sprites_and_animations_bank
-  jsr hero_draw
-  jsr familiar_draw
   jsr entity_draw_all
 
   set_vblank_data_ready

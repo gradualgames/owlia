@@ -1,5 +1,9 @@
 .include "entity.inc"
 .include "entities.inc"
+.include "hero.inc"
+.include "hero_constants.inc"
+.include "familiar.inc"
+.include "familiar_constants.inc"
 .include "ram.inc"
 .include "zp.inc"
 .include "sprite.inc"
@@ -198,6 +202,14 @@ spawn_y = w1
 ;entities.
 .proc entity_update_all
 
+  ;update the two player entities
+  switch_bank_ldy #HERO_BANK
+  jsr hero_update
+  switch_bank_ldy #FAMILIAR_BANK
+  jsr familiar_update
+
+  switch_bank_ldy entities_bank
+
   ;iterate over all entities
   ldx #(MAX_ENTITIES-1)
 
@@ -225,6 +237,26 @@ spawn_y = w1
 .endproc
 
 .proc entity_draw_all
+
+  switch_bank_ldy sprites_and_animations_bank
+
+  ;sort and display the high priority player entities
+  .scope
+  sec
+  lda hero_y
+  sbc familiar_y
+  lda hero_y+1
+  sbc familiar_y+1
+  bmi familiar_above_hero
+familiar_below_hero:
+  jsr hero_draw
+  jsr familiar_draw
+  jmp done
+familiar_above_hero:
+  jsr familiar_draw
+  jsr hero_draw
+done:
+  .endscope
 
   ;iterate over all entities
   ldx #(MAX_ENTITIES-1)
