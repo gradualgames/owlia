@@ -30,9 +30,7 @@ jellyfish_update:
 
 jellyfish_state_init:
 
-  lda entity_flags,x
-  ora #ENTITY_FLAGS_DRAWABLE_SET
-  sta entity_flags,x
+  jsr entity_set_drawable_unsorted
 
   lda #16
   sta entity_width,x

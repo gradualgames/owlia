@@ -22,6 +22,8 @@ MAX_ENTITIES = 8
 .global textbox_and_font_chr_offset
 .global sprite_chr_group_offsets
 
+.global sorted_entity_index
+
 .global entity_type
 .global entity_flags
 .global entity_state

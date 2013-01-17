@@ -21,6 +21,8 @@ state_control_params: .res 8
 textbox_and_font_chr_offset: .res 1
 sprite_chr_group_offsets: .res 64
 
+sorted_entity_index: .res 1
+
 entity_type:                 .res MAX_ENTITIES
 entity_flags:                .res MAX_ENTITIES
 entity_state:                .res MAX_ENTITIES

@@ -32,7 +32,6 @@ npc_direction = entity_local4
 npc_pseudo_random_number = entity_local5
 npc_frame_counter = entity_local6
 npc_pseudo_random_number_sample = entity_local7
-npc_hero_still_in_rect = entity_local8
 
 .define npc_states \
   npc_state_init, \
@@ -50,15 +49,10 @@ npc_update:
 
 npc_state_init:
 
-  lda entity_flags,x
-  ora #ENTITY_FLAGS_DRAWABLE_SET
-  sta entity_flags,x
+  jsr entity_set_drawable_unsorted
 
   lda #NPC_DIRECTION_DOWN
   sta npc_direction,x
-
-  lda #0
-  sta npc_hero_still_in_rect,x
 
   clc
   lda npc_direction,x
@@ -174,63 +168,27 @@ npc_frame_counter_not_zero:
 
 do_not_move:
 
-  ;test whether hero intersects npc's rect and rotate the result
-  ;into npcman_hero_still_in_rect. This makes it easy to detect
-  ;a transition into the npc's rect and a transition out.
-  .scope
+  ;set unsorted by default. Then test against hero and familiar to
+  ;see if the npc should be sorted with them.
+  jsr entity_set_drawable_unsorted
+
+  ;test npc's own rect against hero and familiar to see if the npc
+  ;ought to be sorted with them
+  jsr entity_test_familiar_rect
+  bne not_intersecting_familiar
+
+  jsr entity_set_drawable_sorted
+
+not_intersecting_familiar:
+
   jsr entity_test_hero_rect
-  bne not_in_hero_rect
-in_hero_rect:
-  lda #$01
-  jmp done
-not_in_hero_rect:
-  lda #$00
-done:
-  ror
-  rol npc_hero_still_in_rect,x
-  .endscope
+  bne not_intersecting_hero
 
-  ;stop flashing npc and hero when their rectangles part
-  lda npc_hero_still_in_rect,x
-  and #%00000011
-  cmp #%00000010
-  bne do_not_reset_drawable_flags
+  jsr entity_set_drawable_sorted
 
-  lda entity_flags,x
-  ora #ENTITY_FLAGS_DRAWABLE_SET
-  sta entity_flags,x
+not_intersecting_hero:
 
-  lda hero_flags
-  ora #HERO_FLAGS_DRAWABLE_SET
-  sta hero_flags
-
-do_not_reset_drawable_flags:
-
-  ;flash hero and npc when they are intersected
-  lda npc_hero_still_in_rect,x
-  and #%00000001
-  beq do_not_flash_hero_and_npc
-
-  lda entity_flags,x
-  eor #ENTITY_FLAGS_DRAWABLE_SET
-  sta entity_flags,x
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_DRAWABLE_TEST
-  eor #ENTITY_FLAGS_DRAWABLE_SET
-  sta b0
-
-  lda hero_flags
-  and #HERO_FLAGS_DRAWABLE_CLEAR
-  ora b0
-  sta hero_flags
-do_not_flash_hero_and_npc:
-
-  ;now, if hero rect is in npc rect, skip testing the conversation rectangle
-  lda npc_hero_still_in_rect,x
-  and #%00000001
-  bne do_not_test_conversation_rect
-
+  ;test hero against npc's conversation rect
   sec
   lda entity_x_lo,x
   sbc #NPC_CONVERSATION_RECT_X_OFFSET
@@ -278,15 +236,13 @@ do_not_flash_hero_and_npc:
 
 do_not_start_conversation:
 
-do_not_test_conversation_rect:
-
   rts
 
 start_conversation:
 
   ;make sure both the npc and the hero are drawable
   lda entity_flags,x
-  ora #ENTITY_FLAGS_DRAWABLE_SET
+  ora #ENTITY_FLAGS_DRAWABLE_UNSORTED_SET
   sta entity_flags,x
 
   lda hero_flags
