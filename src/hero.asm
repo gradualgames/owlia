@@ -15,6 +15,7 @@
 .include "sfx_data.inc"
 .include "sprite.inc"
 .include "geotests.inc"
+.include "camera.inc"
 
 .segment "CODE"
 
@@ -275,11 +276,11 @@ does_not_intersect_textbox:
   sbc camera_y+1
   sta hero_screen_y+1
 
-  ;subtract 8 to correct for the needed nametable offset to straddle metatile updates
-  ;between the topmost row of nametable tiles and the bottommost row of nametable tiles
+  ;add camera screen origin to the screen coordinates. This is needed
+  ;because the camera screen origin is not at 0,0, it is at 0,8.
   clc
   lda hero_screen_y
-  adc #$08
+  adc #CAMERA_SCREEN_ORIGIN_Y
   sta hero_screen_y
   lda hero_screen_y+1
   adc #$00
