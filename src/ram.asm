@@ -34,6 +34,10 @@ entity_x_lo:                 .res MAX_ENTITIES
 entity_x_hi:                 .res MAX_ENTITIES
 entity_y_lo:                 .res MAX_ENTITIES
 entity_y_hi:                 .res MAX_ENTITIES
+entity_screen_x_lo:          .res MAX_ENTITIES
+entity_screen_x_hi:          .res MAX_ENTITIES
+entity_screen_y_lo:          .res MAX_ENTITIES
+entity_screen_y_hi:          .res MAX_ENTITIES
 entity_width:                .res MAX_ENTITIES
 entity_height:               .res MAX_ENTITIES
 entity_sprite_group_offset:  .res MAX_ENTITIES
@@ -56,6 +60,8 @@ hero_flags:                       .res 1
 hero_state:                       .res 1
 hero_x:                           .res 2
 hero_y:                           .res 2
+hero_screen_x:                    .res 2
+hero_screen_y:                    .res 2
 hero_width:                       .res 1
 hero_height:                      .res 1
 hero_speed:                       .res 1
@@ -82,6 +88,8 @@ familiar_y_fine:                  .res 1
 familiar_y:                       .res 2
 familiar_x_velocity:              .res 2
 familiar_y_velocity:              .res 2
+familiar_screen_x:                .res 2
+familiar_screen_y:                .res 2
 familiar_width:                   .res 1
 familiar_height:                  .res 1
 familiar_rect_x:                  .res 2

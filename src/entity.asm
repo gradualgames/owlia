@@ -269,6 +269,131 @@ spawn_y = w1
 
 .endproc
 
+;used before a textbox is displayed. Checks each entity against the textbox rect,
+;and then aligns it to the nearest nametable boundary. This is to be used before
+;hiding sprites that intersect with the textbox.
+.proc align_all_entities_to_nametable_tile_boundary
+
+  jsr hero_align_to_nametable_boundary
+  jsr familiar_align_to_nametable_boundary
+
+  ;iterate over all entities
+  ldx #(MAX_ENTITIES-1)
+
+:
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq entity_not_alive
+
+  ;transfer entity rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda entity_screen_x_lo,x
+  sta w2
+  lda entity_screen_x_hi,x
+  sta w2+1
+  lda entity_screen_y_lo,x
+  sta w3
+  lda entity_screen_y_hi,x
+  sta w3+1
+  lda entity_width,x
+  sta b2
+  lda entity_height,x
+  sta b3
+
+  ;transfer textbox rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda #0
+  sta w4
+  lda #0
+  sta w4+1
+  lda #160
+  sta w5
+  lda #0
+  sta w5+1
+  lda #255
+  sta b4
+  lda #80
+  sta b5
+
+  jsr geotests_rect_in_rect_16bit
+  bne does_not_intersect_textbox
+
+  lda entity_screen_y_lo,x
+  and #%00000100
+  bne round_up
+round_down:
+  lda entity_screen_y_lo,x
+  and #%11111000
+  sec
+  sbc #$01
+  sta entity_screen_y_lo,x
+  jmp done
+round_up:
+  lda entity_screen_y_lo,x
+  and #%11111000
+  clc
+  adc #$07
+  sta entity_screen_y_lo,x
+done:
+
+does_not_intersect_textbox:
+
+entity_not_alive:
+
+  dex
+  bpl :-
+
+  rts
+
+.endproc
+
+;compute screen coordinates for all entities
+.proc entity_calculate_screen_coordinates_all
+
+  jsr hero_calculate_screen_coordinates
+  jsr familiar_calculate_screen_coordinates
+
+  ;iterate over all entities
+  ldx #(MAX_ENTITIES-1)
+
+:
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq entity_not_alive
+
+  ;calculate screen coordinates based on the camera coordinates
+  sec
+  lda entity_x_lo,x
+  sbc camera_x
+  sta entity_screen_x_lo,x
+  lda entity_x_hi,x
+  sbc camera_x+1
+  sta entity_screen_x_hi,x
+
+  sec
+  lda entity_y_lo,x
+  sbc camera_y
+  sta entity_screen_y_lo,x
+  lda entity_y_hi,x
+  sbc camera_y+1
+  sta entity_screen_y_hi,x
+
+  ;subtract 8 to correct for the needed nametable offset to straddle metatile updates
+  ;between the topmost row of nametable tiles and the bottommost row of nametable tiles
+  clc
+  lda entity_screen_y_lo,x
+  adc #$08
+  sta entity_screen_y_lo,x
+  lda entity_screen_y_hi,x
+  adc #$00
+  sta entity_screen_y_hi,x
+entity_not_alive:
+
+  dex
+  bpl :-
+  rts
+
+.endproc
+
 .proc entity_draw_all
 
   switch_bank_ldy sprites_and_animations_bank
@@ -322,31 +447,15 @@ done:
   lda entity_animation_address_hi,x
   sta w0+1
 
-  ;calculate screen coordinates based on the camera coordinates
-  sec
-  lda entity_x_lo,x
-  sbc camera_x
+  ;get screen coordinates from entity
+  lda entity_screen_x_lo,x
   sta w3
-  lda entity_x_hi,x
-  sbc camera_x+1
+  lda entity_screen_x_hi,x
   sta w3+1
 
-  sec
-  lda entity_y_lo,x
-  sbc camera_y
+  lda entity_screen_y_lo,x
   sta w4
-  lda entity_y_hi,x
-  sbc camera_y+1
-  sta w4+1
-
-  ;subtract 8 to correct for the needed nametable offset to straddle metatile updates
-  ;between the topmost row of nametable tiles and the bottommost row of nametable tiles
-  clc
-  lda w4
-  adc #$08
-  sta w4
-  lda w4+1
-  adc #$00
+  lda entity_screen_y_hi,x
   sta w4+1
 
   lda entity_sprite_group_offset,x
@@ -376,31 +485,15 @@ draw_entity:
   lda entity_animation_address_hi,x
   sta w0+1
 
-  ;calculate screen coordinates based on the camera coordinates
-  sec
-  lda entity_x_lo,x
-  sbc camera_x
+  ;get screen coordinates from entity
+  lda entity_screen_x_lo,x
   sta w3
-  lda entity_x_hi,x
-  sbc camera_x+1
+  lda entity_screen_x_hi,x
   sta w3+1
 
-  sec
-  lda entity_y_lo,x
-  sbc camera_y
+  lda entity_screen_y_lo,x
   sta w4
-  lda entity_y_hi,x
-  sbc camera_y+1
-  sta w4+1
-
-  ;subtract 8 to correct for the needed nametable offset to straddle metatile updates
-  ;between the topmost row of nametable tiles and the bottommost row of nametable tiles
-  clc
-  lda w4
-  adc #$08
-  sta w4
-  lda w4+1
-  adc #$00
+  lda entity_screen_y_hi,x
   sta w4+1
 
   lda entity_sprite_group_offset,x

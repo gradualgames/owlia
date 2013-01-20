@@ -374,24 +374,7 @@ sprite_flipped_test_done:
 ;this routine hides all sprites below the coordinate specified by b0
 .proc sprite_hide_all_below
   ldx #$00
-: lda sprite,x
-  and #%00000100
-  bne round_up
-round_down:
-  lda sprite,x
-  and #%11111000
-  sec
-  sbc #$01
-  sta sprite,x
-  jmp done
-round_up:
-  lda sprite,x
-  and #%11111000
-  clc
-  adc #$07
-  sta sprite,x
-done:
-  sec
+: sec
   lda b0
   sbc sprite,x
   lda #$00

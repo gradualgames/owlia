@@ -35,6 +35,10 @@ MAX_ENTITIES = 8
 .global entity_x_hi
 .global entity_y_lo
 .global entity_y_hi
+.global entity_screen_x_lo
+.global entity_screen_x_hi
+.global entity_screen_y_lo
+.global entity_screen_y_hi
 .global entity_width
 .global entity_height
 .global entity_sprite_group_offset
@@ -57,6 +61,8 @@ MAX_ENTITIES = 8
 .global hero_state
 .global hero_x
 .global hero_y
+.global hero_screen_x
+.global hero_screen_y
 .global hero_width
 .global hero_height
 .global hero_speed
@@ -83,6 +89,8 @@ MAX_ENTITIES = 8
 .global familiar_y
 .global familiar_x_velocity
 .global familiar_y_velocity
+.global familiar_screen_x
+.global familiar_screen_y
 .global familiar_width
 .global familiar_height
 .global familiar_rect_x

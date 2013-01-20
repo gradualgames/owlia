@@ -14,6 +14,7 @@
 .include "soundengine.inc"
 .include "sfx_data.inc"
 .include "sprite.inc"
+.include "geotests.inc"
 
 .segment "CODE"
 
@@ -200,36 +201,109 @@ hero_invincible:
 
 .endproc
 
+.proc hero_align_to_nametable_boundary
+
+  ;transfer hero rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda hero_screen_x
+  sta w2
+  lda hero_screen_x+1
+  sta w2+1
+  lda hero_screen_y
+  sta w3
+  lda hero_screen_y+1
+  sta w3+1
+  lda hero_width
+  sta b2
+  lda hero_height
+  sta b3
+
+  ;transfer textbox rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda #0
+  sta w4
+  lda #0
+  sta w4+1
+  lda #160
+  sta w5
+  lda #0
+  sta w5+1
+  lda #255
+  sta b4
+  lda #80
+  sta b5
+
+  jsr geotests_rect_in_rect_16bit
+  bne does_not_intersect_textbox
+
+  lda hero_screen_y
+  and #%00000100
+  bne round_up
+round_down:
+  lda hero_screen_y
+  and #%11111000
+  sec
+  sbc #$01
+  sta hero_screen_y
+  jmp done
+round_up:
+  lda hero_screen_y
+  and #%11111000
+  clc
+  adc #$07
+  sta hero_screen_y
+done:
+
+does_not_intersect_textbox:
+  rts
+
+.endproc
+
+.proc hero_calculate_screen_coordinates
+
+  sec
+  lda hero_x
+  sbc camera_x
+  sta hero_screen_x
+  lda hero_x+1
+  sbc camera_x+1
+  sta hero_screen_x+1
+
+  sec
+  lda hero_y
+  sbc camera_y
+  sta hero_screen_y
+  lda hero_y+1
+  sbc camera_y+1
+  sta hero_screen_y+1
+
+  ;subtract 8 to correct for the needed nametable offset to straddle metatile updates
+  ;between the topmost row of nametable tiles and the bottommost row of nametable tiles
+  clc
+  lda hero_screen_y
+  adc #$08
+  sta hero_screen_y
+  lda hero_screen_y+1
+  adc #$00
+  sta hero_screen_y+1
+
+  rts
+
+.endproc
+
 .proc hero_draw
 
   lda hero_flags
   and #HERO_FLAGS_DRAWABLE_TEST
   beq do_not_draw
-  ;calculate screen coordinates based on the camera coordinates
-  sec
-  lda hero_x
-  sbc camera_x
+
+  ;get screen coordinates
+  lda hero_screen_x
   sta w3
-  lda hero_x+1
-  sbc camera_x+1
+  lda hero_screen_x+1
   sta w3+1
 
-  sec
-  lda hero_y
-  sbc camera_y
+  lda hero_screen_y
   sta w4
-  lda hero_y+1
-  sbc camera_y+1
-  sta w4+1
-
-  ;subtract 8 to correct for the needed nametable offset to straddle metatile updates
-  ;between the topmost row of nametable tiles and the bottommost row of nametable tiles
-  clc
-  lda w4
-  adc #$08
-  sta w4
-  lda w4+1
-  adc #$00
+  lda hero_screen_y+1
   sta w4+1
 
   lda hero_sprite_group_offset

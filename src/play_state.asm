@@ -622,6 +622,8 @@ play_state_load_location:
   switch_bank_ldy map_bank
   jsr update_camera
 
+  jsr entity_calculate_screen_coordinates_all
+
   jsr entity_draw_all
 
   set_vblank_data_ready
@@ -692,6 +694,8 @@ play_state_action_nop:
 
   switch_bank_ldy map_bank
   jsr update_camera
+
+  jsr entity_calculate_screen_coordinates_all
 
   jsr entity_draw_all
 
@@ -774,9 +778,19 @@ play_state_action_start_conversation:
 
   jsr align_camera_to_metatile_boundary
 
+  jsr align_all_entities_to_nametable_tile_boundary
+
+  wait_vblank_data_ready
+
+  jsr sprite_clear_all
+
+  jsr entity_draw_all
+
   lda #160
   sta b0
   jsr sprite_hide_all_below
+
+  set_vblank_data_ready
 
   jsr draw_textbox
 
@@ -836,6 +850,8 @@ keep_decrementing_camera_x:
   lda #1
   sta column_ready
 
+  jsr entity_calculate_screen_coordinates_all
+
   jsr entity_draw_all
 
   set_vblank_data_ready
@@ -872,6 +888,8 @@ keep_decrementing_camera_y:
   jsr map_process_intermediate_attribute_row_buffer
   lda #1
   sta row_ready
+
+  jsr entity_calculate_screen_coordinates_all
 
   jsr entity_draw_all
 
