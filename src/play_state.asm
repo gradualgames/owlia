@@ -805,9 +805,6 @@ play_state_action_start_conversation:
 
   jsr erase_textbox
 
-  ;restore the camera's original position
-  jsr restore_camera_position_before_alignment
-  
   ;the user has finished advancing through the conversation, make
   ;sure the play state control action is a nop as we return to the
   ;regular play state.
@@ -824,16 +821,41 @@ play_state_action_start_conversation:
 ;map to a metatile boundary so the textbox is lined up on the screen perfectly.
 .proc align_camera_to_metatile_boundary
 
-  lda #0
-  sta state_control_params+play_state_control::align_x
-  sta state_control_params+play_state_control::align_y
+  .scope
+  lda camera_x
+  and #%00001000
+  beq keep_decrementing_camera_x
+keep_incrementing_camera_x:
+  wait_vblank_data_ready
+
+  lda camera_x
+  and #%00001111
+  beq done
+
+  jsr sprite_clear_all
+
+  lda #1
+  sta b0
+  jsr increment_camera_x
+
+  jsr decode_map_column
+
+  jsr entity_calculate_screen_coordinates_all
+
+  jsr entity_draw_all
+
+  set_vblank_data_ready
+
+  jmp keep_incrementing_camera_x
+
+  jmp done
 
 keep_decrementing_camera_x:
   wait_vblank_data_ready
 
   lda camera_x
   and #%00001111
-  beq camera_x_aligned
+  beq done
 
   jsr sprite_clear_all
 
@@ -841,24 +863,7 @@ keep_decrementing_camera_x:
   sta b0
   jsr decrement_camera_x
 
-  ;remember how far we align x
-  inc state_control_params+play_state_control::align_x
-
-  clc
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
-
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  switch_bank_ldy map_bank
-  jsr map_decode_column
-  jsr map_process_intermediate_attribute_column_buffer
-  lda #1
-  sta column_ready
+  jsr decode_map_column
 
   jsr entity_calculate_screen_coordinates_all
 
@@ -867,15 +872,41 @@ keep_decrementing_camera_x:
   set_vblank_data_ready
 
   jmp keep_decrementing_camera_x
+done:
+  .endscope
 
-camera_x_aligned:
+  .scope
+  lda camera_y
+  and #%00001000
+  beq keep_decrementing_camera_y
+keep_incrementing_camera_y:
+  wait_vblank_data_ready
 
+  lda camera_y
+  and #%00001111
+  beq done
+
+  jsr sprite_clear_all
+
+  lda #1
+  sta b0
+  jsr increment_camera_y
+
+  jsr decode_map_row
+
+  jsr entity_calculate_screen_coordinates_all
+
+  jsr entity_draw_all
+
+  set_vblank_data_ready
+
+  jmp keep_incrementing_camera_y
 keep_decrementing_camera_y:
   wait_vblank_data_ready
 
   lda camera_y
   and #%00001111
-  beq camera_y_aligned
+  beq done
 
   jsr sprite_clear_all
 
@@ -883,24 +914,7 @@ keep_decrementing_camera_y:
   sta b0
   jsr decrement_camera_y
 
-  ;remember how far we align y
-  inc state_control_params+play_state_control::align_y
-
-  clc
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
-
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  switch_bank_ldy map_bank
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
-  lda #1
-  sta row_ready
+  jsr decode_map_row
 
   jsr entity_calculate_screen_coordinates_all
 
@@ -909,29 +923,12 @@ keep_decrementing_camera_y:
   set_vblank_data_ready
 
   jmp keep_decrementing_camera_y
-
-camera_y_aligned:
+done:
+  .endscope
 
   rts
 
-.endproc
-
-;to be used after a conversation. Restores the camera's position to where
-;it was before aligning to the metatile grid. Uses play state control params
-;align_x and align_y, remembered from aligning to the metatile grid.
-.proc restore_camera_position_before_alignment
-
-keep_restoring_camera_x:
-  lda state_control_params+play_state_control::align_x
-  beq done_restoring_camera_x
-
-  wait_vblank_data_ready
-
-  jsr sprite_clear_all
-
-  lda #1
-  sta b0
-  jsr increment_camera_x
+decode_map_row:
 
   clc
   lda camera_x
@@ -949,28 +946,9 @@ keep_restoring_camera_x:
   lda #1
   sta row_ready
 
-  jsr entity_calculate_screen_coordinates_all
+  rts
 
-  jsr entity_draw_all
-
-  set_vblank_data_ready
-
-  dec state_control_params+play_state_control::align_x
-  bne keep_restoring_camera_x
-
-done_restoring_camera_x:
-
-keep_restoring_camera_y:
-  lda state_control_params+play_state_control::align_y
-  beq done_restoring_camera_y
-
-  wait_vblank_data_ready
-
-  jsr sprite_clear_all
-
-  lda #1
-  sta b0
-  jsr increment_camera_y
+decode_map_column:
 
   clc
   lda camera_x
@@ -987,17 +965,6 @@ keep_restoring_camera_y:
   jsr map_process_intermediate_attribute_column_buffer
   lda #1
   sta column_ready
-
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  set_vblank_data_ready
-
-  dec state_control_params+play_state_control::align_y
-  bne keep_restoring_camera_y
-
-done_restoring_camera_y:
 
   rts
 

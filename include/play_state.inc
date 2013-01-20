@@ -8,8 +8,6 @@ PLAY_STATE_INC = 1
 .struct play_state_control
   action .byte
   param  .byte
-  align_x .byte
-  align_y .byte
 .endstruct
 
 .endif
