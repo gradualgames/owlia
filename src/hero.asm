@@ -201,7 +201,7 @@ hero_invincible:
 
 .endproc
 
-.proc hero_align_to_nametable_boundary
+.proc align_hero_if_occluded_by_textbox
 
   ;transfer hero rectangle to w2 = left and w3 = top and b2 = width and b3 = height
   lda hero_screen_x

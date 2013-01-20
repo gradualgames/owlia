@@ -3,7 +3,7 @@ FAMILIAR_INC = 1
 
 .global familiar_init
 .global familiar_spawn
-.global familiar_align_to_nametable_boundary
+.global align_familiar_if_occluded_by_textbox
 .global familiar_calculate_screen_coordinates
 .global familiar_draw
 .global familiar_update

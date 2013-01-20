@@ -778,7 +778,7 @@ play_state_action_start_conversation:
 
   jsr align_camera_to_metatile_boundary
 
-  jsr align_all_entities_to_nametable_tile_boundary
+  jsr align_entities_if_occluded_by_textbox
 
   wait_vblank_data_ready
 

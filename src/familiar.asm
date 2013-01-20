@@ -91,7 +91,7 @@
 
 .endproc
 
-.proc familiar_align_to_nametable_boundary
+.proc align_familiar_if_occluded_by_textbox
 
   ;transfer familiar rectangle to w2 = left and w3 = top and b2 = width and b3 = height
   lda familiar_screen_x

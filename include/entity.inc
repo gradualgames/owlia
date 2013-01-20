@@ -4,7 +4,7 @@ ENTITY_INC = 1
 .global entity_init_all
 .global entity_spawn
 .global entity_update_all
-.global align_all_entities_to_nametable_tile_boundary
+.global align_entities_if_occluded_by_textbox
 .global entity_calculate_screen_coordinates_all
 .global entity_draw_all
 .global entity_reset_animation

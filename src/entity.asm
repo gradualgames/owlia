@@ -272,10 +272,10 @@ spawn_y = w1
 ;used before a textbox is displayed. Checks each entity against the textbox rect,
 ;and then aligns it to the nearest nametable boundary. This is to be used before
 ;hiding sprites that intersect with the textbox.
-.proc align_all_entities_to_nametable_tile_boundary
+.proc align_entities_if_occluded_by_textbox
 
-  jsr hero_align_to_nametable_boundary
-  jsr familiar_align_to_nametable_boundary
+  jsr align_hero_if_occluded_by_textbox
+  jsr align_familiar_if_occluded_by_textbox
 
   ;iterate over all entities
   ldx #(MAX_ENTITIES-1)
