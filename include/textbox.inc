@@ -1,6 +1,11 @@
 .ifndef TEXTBOX_INC
 TEXTBOX_INC = 1
 
+TEXTBOX_SCREEN_X = 0
+TEXTBOX_SCREEN_Y = 160
+TEXTBOX_WIDTH = 255
+TEXTBOX_HEIGHT = 80
+
 .global test_conversation
 .global run_conversation
 .global draw_textbox

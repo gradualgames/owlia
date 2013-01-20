@@ -10,6 +10,7 @@
 .include "mapper.inc"
 .include "geotests.inc"
 .include "camera.inc"
+.include "textbox.inc"
 
 .segment "CODE"
 
@@ -302,17 +303,17 @@ spawn_y = w1
   sta b3
 
   ;transfer textbox rectangle to w4 = left and w5 = top and b4 = width and b5 = height
-  lda #0
+  lda #TEXTBOX_SCREEN_X
   sta w4
   lda #0
   sta w4+1
-  lda #160
+  lda #TEXTBOX_SCREEN_Y
   sta w5
   lda #0
   sta w5+1
-  lda #255
+  lda #TEXTBOX_WIDTH
   sta b4
-  lda #80
+  lda #TEXTBOX_HEIGHT
   sta b5
 
   jsr geotests_rect_in_rect_16bit
