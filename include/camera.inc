@@ -6,8 +6,10 @@ CAMERA_INC = 1
 ;NTSC overscan don't obscure the origin when we're scrolled right up
 ;against it. This origin should be added to the screen coordinates of all
 ;metasprites so that they line up with the map.
+;Note we subtract 1 to account for the Y-coordinate-1 quirk of the PPU
+;when interpreting sprite coordinates.
 CAMERA_SCREEN_ORIGIN_X = 0
-CAMERA_SCREEN_ORIGIN_Y = 8
+CAMERA_SCREEN_ORIGIN_Y = 7
 
 .global update_camera
 .global attach_camera_to_entity
