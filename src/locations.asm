@@ -26,8 +26,8 @@
     housebr_area_exit_location, \
     village_area_housetr_entrance_location, \
     housetr_area_exit_location, \
-    village_area_west_entrance_location, \
-    overworld_area_entrance_location
+    village_area_bottom_entrance_location, \
+    overworld_area_top_entrance_location
 
 locations_lo:
   .lobytes locations
@@ -81,8 +81,8 @@ define_centered_location area_index_village, 51, 14, sfx_door, 3, soundeffect_on
 housetr_area_exit_location:
 define_centered_location area_index_housetr, 14, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 
-village_area_west_entrance_location:
-define_location area_index_village, 0, 0, 16, 136, 0, 0, 0, HERO_DIRECTION_RIGHT
+village_area_bottom_entrance_location:
+define_bottom_centered_location area_index_village, 31, 62, 0, 0, 0, HERO_DIRECTION_UP
 
-overworld_area_entrance_location:
-define_location area_index_overworld, 48, 0, 224, 96, 0, 0, 0, HERO_DIRECTION_LEFT
+overworld_area_top_entrance_location:
+define_top_centered_location area_index_overworld, 27, 1, 0, 0, 0, HERO_DIRECTION_DOWN
