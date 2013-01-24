@@ -48,7 +48,7 @@ LOCATIONS_BANK = 2
   .word hero_direction                              ;hero_direction .byte
 .endmacro
 
-.macro define_bottom_centered_location area_index, camera_start_x, camera_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+.macro define_south_location area_index, camera_start_x, camera_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
   .byte area_index                                  ;area_index .byte
   .byte $20 | ((>(16*(camera_start_x-8)) & 1) << 2) ;nametable_start_hibyte .byte
   .word (16*(camera_start_x-8))                     ;camera_start_x .word
@@ -63,7 +63,7 @@ LOCATIONS_BANK = 2
   .word hero_direction                              ;hero_direction .byte
 .endmacro
 
-.macro define_top_centered_location area_index, camera_start_x, camera_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+.macro define_north_location area_index, camera_start_x, camera_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
   .byte area_index                                  ;area_index .byte
   .byte $20 | ((>(16*(camera_start_x-8)) & 1) << 2) ;nametable_start_hibyte .byte
   .word (16*(camera_start_x-8))                     ;camera_start_x .word

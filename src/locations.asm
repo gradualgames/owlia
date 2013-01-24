@@ -82,7 +82,7 @@ housetr_area_exit_location:
 define_centered_location area_index_housetr, 14, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 
 village_area_bottom_entrance_location:
-define_bottom_centered_location area_index_village, 31, 62, 0, 0, 0, HERO_DIRECTION_UP
+define_south_location area_index_village, 31, 62, 0, 0, 0, HERO_DIRECTION_UP
 
 overworld_area_top_entrance_location:
-define_top_centered_location area_index_overworld, 27, 1, 0, 0, 0, HERO_DIRECTION_DOWN
+define_north_location area_index_overworld, 27, 1, 0, 0, 0, HERO_DIRECTION_DOWN
