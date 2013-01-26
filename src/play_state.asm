@@ -629,16 +629,6 @@ play_state_load_location:
   set_vblank_data_ready
   .endscope
 
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::palette_address
-  lda (area_address),y
-  sta w0
-  iny
-  lda (area_address),y
-  sta w0+1
-  switch_bank_ldy map_bank
-  jsr ppu_fade_in_palette
-
   ;load area song if different from current song
   switch_bank_ldy #AREAS_BANK
   ldy #area::song_address
@@ -658,6 +648,16 @@ play_state_load_location:
   switch_bank_ldy music_bank
   jsr song_initialize
 same_song:
+
+  switch_bank_ldy #AREAS_BANK
+  ldy #area::palette_address
+  lda (area_address),y
+  sta w0
+  iny
+  lda (area_address),y
+  sta w0+1
+  switch_bank_ldy map_bank
+  jsr ppu_fade_in_palette
 
 ;****************************************************************
 ;This branch location is the main game loop. It handles map
