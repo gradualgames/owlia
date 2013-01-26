@@ -21,7 +21,8 @@
     housebl_area, \
     housebr_area, \
     housetr_area, \
-    overworld_area
+    overworld_area, \
+    dungeon_area
 
 areas_lo:
   .lobytes areas
@@ -301,4 +302,34 @@ overworld_area:
   .word overworld_big_metatile_table_bottom_right
 
 overworld_entities:
+  .byte 0  ;count
+
+dungeon_area:
+  .byte 0   ;music_bank .byte
+  .byte 0   ;entities_bank .byte
+  .byte 1   ;map_bank .byte
+  .byte 0   ;sprites_and_animations_bank .byte
+  .byte 1   ;bg_chr_bank .byte
+  .byte 1   ;sprite_chr_bank .byte
+  .byte 0   ;conversations_bank .byte
+  .word dungeon_chr
+  .word house_sprite_chr_groups
+  .word dungeon_entities
+  .word song1
+  .word dungeon_palette
+  .byte $00 ;textbox_attribute
+  .word dungeon_map
+  .word dungeon_metatile_table_properties
+  .word dungeon_metatile_table_params
+  .word dungeon_metatile_table_attributes
+  .word dungeon_metatile_table_top_left_tiles
+  .word dungeon_metatile_table_top_right_tiles
+  .word dungeon_metatile_table_bottom_left_tiles
+  .word dungeon_metatile_table_bottom_right_tiles
+  .word dungeon_big_metatile_table_top_left
+  .word dungeon_big_metatile_table_top_right
+  .word dungeon_big_metatile_table_bottom_left
+  .word dungeon_big_metatile_table_bottom_right
+
+dungeon_entities:
   .byte 0  ;count

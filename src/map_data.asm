@@ -148,3 +148,23 @@ overworld_big_metatile_table_top_right = overworld_data::big_metatile_table_top_
 overworld_big_metatile_table_bottom_left = overworld_data::big_metatile_table_bottom_left
 overworld_big_metatile_table_bottom_right = overworld_data::big_metatile_table_bottom_right
 overworld_map = overworld_data::map
+
+.segment "ROM01"
+
+.scope dungeon_data
+.include "dungeon.inc"
+.endscope
+
+dungeon_palette = dungeon_data::palette
+dungeon_metatile_table_properties = dungeon_data::metatile_table_properties
+dungeon_metatile_table_params = dungeon_data::metatile_table_params
+dungeon_metatile_table_attributes = dungeon_data::metatile_table_attributes
+dungeon_metatile_table_top_left_tiles = dungeon_data::metatile_table_top_left_tiles
+dungeon_metatile_table_top_right_tiles = dungeon_data::metatile_table_top_right_tiles
+dungeon_metatile_table_bottom_left_tiles = dungeon_data::metatile_table_bottom_left_tiles
+dungeon_metatile_table_bottom_right_tiles = dungeon_data::metatile_table_bottom_right_tiles
+dungeon_big_metatile_table_top_left = dungeon_data::big_metatile_table_top_left
+dungeon_big_metatile_table_top_right = dungeon_data::big_metatile_table_top_right
+dungeon_big_metatile_table_bottom_left = dungeon_data::big_metatile_table_bottom_left
+dungeon_big_metatile_table_bottom_right = dungeon_data::big_metatile_table_bottom_right
+dungeon_map = dungeon_data::map

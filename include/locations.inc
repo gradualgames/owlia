@@ -111,6 +111,8 @@ location_index_village_housetr_entrance
 location_index_housetr_exit
 location_index_village_bottom_entrance
 location_index_overworld_top_entrance
+location_index_dungeon_area_start
+location_index_dungeon_entrance
 .endenum
 
 .endif

@@ -27,7 +27,9 @@
     village_area_housetr_entrance_location, \
     housetr_area_exit_location, \
     village_area_bottom_entrance_location, \
-    overworld_area_top_entrance_location
+    overworld_area_top_entrance_location, \
+    dungeon_area_start_location, \
+    dungeon_entrance_location
 
 locations_lo:
   .lobytes locations
@@ -86,3 +88,9 @@ define_south_location area_index_village, 31, 62, 0, 0, 0, HERO_DIRECTION_UP
 
 overworld_area_top_entrance_location:
 define_north_location area_index_overworld, 27, 1, 0, 0, 0, HERO_DIRECTION_DOWN
+
+dungeon_area_start_location:
+define_location area_index_dungeon, 0, 2, 128 - 16, 96 + 16, 0, 0, 0, HERO_DIRECTION_UP
+
+dungeon_entrance_location:
+define_centered_location area_index_overworld, 30, 13, 0, 0, 0, HERO_DIRECTION_DOWN

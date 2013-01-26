@@ -32,7 +32,7 @@ metatile_table_properties:
 .byte ($10 | ACTION_NOP)
 .byte ($00 | ACTION_NOP)
 .byte ($10 | ACTION_NOP)
-.byte ($10 | ACTION_NOP)
+.byte ($10 | ACTION_GOTO_LOCATION_GROUP1)
 
 
 metatile_table_params:
@@ -65,7 +65,7 @@ metatile_table_params:
 .byte $00
 .byte $00
 .byte $00
-.byte $00
+.byte location_index_dungeon_area_start
 
 
 metatile_table_attributes:
