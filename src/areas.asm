@@ -63,7 +63,7 @@ village_area:
   .word map0_chr
   .word village_sprite_chr_groups
   .word village_entities
-  .word song1
+  .word song3
   .word village_palette
   .byte $00 ;textbox_attribute
   .word village_map
@@ -99,7 +99,7 @@ house1_area:
   .word house1_chr
   .word house_sprite_chr_groups
   .word house1_entities
-  .word song1
+  .word song3
   .word house1_palette
   .byte $00 ;textbox_attribute
   .word house1_map
@@ -130,7 +130,7 @@ housebl_area:
   .word house1_chr
   .word house_sprite_chr_groups
   .word housebl_entities
-  .word song1
+  .word song3
   .word housebl_palette
   .byte $00 ;textbox_attribute
   .word housebl_map
@@ -161,7 +161,7 @@ housebr_area:
   .word house1_chr
   .word house_sprite_chr_groups
   .word housebr_entities
-  .word song1
+  .word song3
   .word housebr_palette
   .byte $00 ;textbox_attribute
   .word housebr_map
@@ -192,7 +192,7 @@ housetr_area:
   .word house1_chr
   .word house_sprite_chr_groups
   .word housetr_entities
-  .word song1
+  .word song3
   .word housetr_palette
   .byte $00 ;textbox_attribute
   .word housetr_map
@@ -223,7 +223,7 @@ inn_area:
   .word house1_chr
   .word house_sprite_chr_groups
   .word inn_entities
-  .word song1
+  .word song3
   .word inn_palette
   .byte $00 ;textbox_attribute
   .word inn_map
@@ -254,7 +254,7 @@ store_area:
   .word house1_chr
   .word house_sprite_chr_groups
   .word store_entities
-  .word song1
+  .word song3
   .word store_palette
   .byte $00 ;textbox_attribute
   .word store_map
@@ -315,7 +315,7 @@ dungeon_area:
   .word dungeon_chr
   .word house_sprite_chr_groups
   .word dungeon_entities
-  .word song1
+  .word song2
   .word dungeon_palette
   .byte $00 ;textbox_attribute
   .word dungeon_map
