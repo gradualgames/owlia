@@ -8,6 +8,7 @@ ENTITIES_INC = 1
 entity_index_explosion
 entity_index_jellyfish
 entity_index_npc
+entity_index_key
 .endenum
 
 .endif

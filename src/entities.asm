@@ -20,7 +20,8 @@
 .define entity_defs_update_address \
   explosion_update, \
   jellyfish_update, \
-  npc_update
+  npc_update, \
+  key_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -72,3 +73,4 @@ npc_sprite_flags_direction:
 .include "explosion.inc"
 .include "jellyfish.inc"
 .include "npc.inc"
+.include "key.inc"

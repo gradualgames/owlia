@@ -8,3 +8,4 @@
 .include "explosion_sprites_and_animations.inc"
 .include "npcman_sprites_and_animations.inc"
 .include "npcwoman_sprites_and_animations.inc"
+.include "key_sprites_and_animations.inc"

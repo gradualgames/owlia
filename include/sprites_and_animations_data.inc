@@ -25,4 +25,6 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global NpcWomanWalkUp
 .global NpcWomanWalkSide
 
+.global Key
+
 .endif

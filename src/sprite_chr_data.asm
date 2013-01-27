@@ -9,7 +9,8 @@
   explosion_chr, \
   JellyFish_chr, \
   NpcMan_chr, \
-  NpcWoman_chr
+  NpcWoman_chr, \
+  Key_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -272,3 +273,8 @@ NpcWoman_chr:
   .byte $f8,$fc,$7c,$3e,$3e,$1e,$42,$8c,$f0,$78,$98,$dc,$cc,$e0,$bc,$70
   .byte $67,$1f,$03,$01,$00,$00,$00,$00,$18,$00,$00,$00,$00,$00,$00,$00
   .byte $f8,$f0,$f8,$f8,$00,$00,$00,$00,$00,$20,$40,$00,$00,$00,$00,$00
+
+Key_chr:
+  .word $0020
+  .byte $04,$42,$a1,$c1,$c1,$01,$87,$08,$38,$7c,$c6,$82,$82,$fe,$f8,$10
+  .byte $08,$08,$08,$48,$08,$08,$08,$08,$10,$10,$10,$70,$70,$30,$70,$10

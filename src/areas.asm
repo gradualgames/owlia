@@ -49,6 +49,12 @@ house_sprite_chr_groups:
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_npcwoman
 
+dungeon_sprite_chr_groups:
+  .byte 3  ;count
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_key
+
 ;****************************************************************
 ;Area definitions.
 ;****************************************************************
@@ -313,7 +319,7 @@ dungeon_area:
   .byte 1   ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word dungeon_chr
-  .word house_sprite_chr_groups
+  .word dungeon_sprite_chr_groups
   .word dungeon_entities
   .word song2
   .word dungeon_palette
@@ -332,4 +338,5 @@ dungeon_area:
   .word dungeon_big_metatile_table_bottom_right
 
 dungeon_entities:
-  .byte 0  ;count
+  .byte 1  ;count
+  .byte entity_index_key, 5, 5, 0, 0
