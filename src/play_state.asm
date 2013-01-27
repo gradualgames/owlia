@@ -632,6 +632,7 @@ play_state_load_location:
   ;load area song if different from current song
   switch_bank_ldy #AREAS_BANK
   ldy #area::song_address
+  sec
   lda (area_address),y
   sbc song_address
   iny
