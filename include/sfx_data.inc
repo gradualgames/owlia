@@ -12,5 +12,6 @@ SFX_DATA_INC = 1
 .global sfx_flap
 .global sfx_explosion
 .global sfx_text
+.global sfx_get_key
 
 .endif

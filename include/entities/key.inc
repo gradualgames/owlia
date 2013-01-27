@@ -55,6 +55,24 @@ key_state_main:
   jsr entity_test_hero_rect
   bne entity_not_hitting_hero
 
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_get_key
+  sta sound_param_word_0
+  lda #>sfx_get_key
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
   jsr hero_set_has_key
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
