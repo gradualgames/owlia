@@ -3,7 +3,12 @@ LOCATIONS_INC = 1
 
 LOCATIONS_BANK = 2
 
+LOCATION_FLAGS_IS_LOCKED_SET   = %00000001
+LOCATION_FLAGS_IS_LOCKED_TEST  = %00000001
+LOCATION_FLAGS_IS_LOCKED_CLEAR = %11111110
+
 .struct location
+  flags .byte
   area_index .byte
   nametable_start_hibyte .byte
   camera_start_x .word
@@ -18,7 +23,8 @@ LOCATIONS_BANK = 2
   hero_direction .byte
 .endstruct
 
-.macro define_location area_index, camera_start_x, camera_start_y, hero_offset_x, hero_offset_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+.macro define_location flags, area_index, camera_start_x, camera_start_y, hero_offset_x, hero_offset_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+  .byte flags                                   ;flags      .byte
   .byte area_index                              ;area_index .byte
   .byte $20 | ((>(16*camera_start_x) & 1) << 2) ;nametable_start_hibyte .byte
   .word (16*camera_start_x)                     ;camera_start_x .word
@@ -33,7 +39,8 @@ LOCATIONS_BANK = 2
   .word hero_direction                          ;hero_direction .byte
 .endmacro
 
-.macro define_centered_location area_index, camera_start_x, camera_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+.macro define_centered_location flags, area_index, camera_start_x, camera_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+  .byte flags                                       ;flags      .byte
   .byte area_index                                  ;area_index .byte
   .byte $20 | ((>(16*(camera_start_x-8)) & 1) << 2) ;nametable_start_hibyte .byte
   .word (16*(camera_start_x-8))                     ;camera_start_x .word
@@ -48,7 +55,8 @@ LOCATIONS_BANK = 2
   .word hero_direction                              ;hero_direction .byte
 .endmacro
 
-.macro define_south_location area_index, camera_start_x, camera_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+.macro define_south_location flags, area_index, camera_start_x, camera_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+  .byte flags                                       ;flags      .byte
   .byte area_index                                  ;area_index .byte
   .byte $20 | ((>(16*(camera_start_x-8)) & 1) << 2) ;nametable_start_hibyte .byte
   .word (16*(camera_start_x-8))                     ;camera_start_x .word
@@ -63,7 +71,8 @@ LOCATIONS_BANK = 2
   .word hero_direction                              ;hero_direction .byte
 .endmacro
 
-.macro define_north_location area_index, camera_start_x, camera_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+.macro define_north_location flags, area_index, camera_start_x, camera_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+  .byte flags                                       ;flags      .byte
   .byte area_index                                  ;area_index .byte
   .byte $20 | ((>(16*(camera_start_x-8)) & 1) << 2) ;nametable_start_hibyte .byte
   .word (16*(camera_start_x-8))                     ;camera_start_x .word
@@ -113,6 +122,8 @@ location_index_village_bottom_entrance
 location_index_overworld_top_entrance
 location_index_dungeon_area_start
 location_index_dungeon_entrance
+location_index_dungeon_room_a
+location_index_dungeon_room_b
 .endenum
 
 .endif

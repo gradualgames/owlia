@@ -727,6 +727,31 @@ play_state_action_goto_location_group1:
   lda locations_hi,x
   sta location_address+1
 
+  ;first check to see if it is locked
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::flags
+  lda (location_address),y
+  and #LOCATION_FLAGS_IS_LOCKED_TEST
+  beq location_not_locked
+
+  ;this location is locked, test to see if the hero has a key
+  lda hero_flags
+  and #HERO_FLAGS_HAS_KEY_TEST
+  ;if the hero has key, continue to load the location
+  bne hero_has_key
+
+  ;if the hero does not have a key, we start a conversation
+  ;saying the door is locked
+  lda #ACTION_START_CONVERSATION
+  sta state_control_params+play_state_control::action
+  lda #conversation_index_door_is_locked
+  sta state_control_params+play_state_control::param
+
+  jmp play_state_action_start_conversation
+
+location_not_locked:
+hero_has_key:
+
   ;play associated sound effect with this location
   switch_bank_ldy #LOCATIONS_BANK
   ldy #location::on_enter_sfx_address

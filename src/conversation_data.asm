@@ -8,7 +8,8 @@
     welcome_to_demo, \
     welcome_to_my_house, \
     welcome_to_my_store, \
-    welcome_to_my_inn
+    welcome_to_my_inn, \
+    door_is_locked
 
 conversations_lo:
   .lobytes conversations
@@ -40,3 +41,6 @@ welcome_to_my_store:
 welcome_to_my_inn:
   .byte 1, W,E,L,C,O,M,E,SP,T,O,SP,M,_Y,SP,I,N,N,EN,WT,EL
   .byte 2, M,_A,K,E,SP,_Y,O,U,R,S,E,L,F,SP,_A,T,SP,H,O,M,E,EN,WT,EC
+
+door_is_locked:
+  .byte 1, T,H,I,S,SP,D,O,O,R,SP,I,S,SP,L,O,C,K,E,D,EN,WT,EC

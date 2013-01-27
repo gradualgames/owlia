@@ -75,7 +75,7 @@ reset:
   sta sound_param_word_0+1
   jsr sfx_initialize
 
-  ldx #location_index_dungeon_area_start
+  ldx #location_index_dungeon_room_a
   lda locations_lo,x
   sta location_address
   lda locations_hi,x
