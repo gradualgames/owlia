@@ -23,7 +23,7 @@ key_update:
 
 key_state_init:
 
-  jsr entity_set_drawable_sorted
+  jsr entity_set_drawable_unsorted
 
   lda #<Key
   sta entity_animation_address_lo,x
@@ -39,12 +39,29 @@ key_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
+  lda #$08
+  sta entity_width,x
+  lda #$10
+  sta entity_height,x
+
   lda #KEY_STATE_MAIN
   sta entity_state,x
 
   rts
 
 key_state_main:
+
+  .scope
+  jsr entity_test_hero_rect
+  bne entity_not_hitting_hero
+
+  jsr hero_set_has_key
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+entity_not_hitting_hero:
+  .endscope
 
   jsr entity_update_animation
 

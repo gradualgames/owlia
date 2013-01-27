@@ -405,6 +405,9 @@ entity_not_alive:
   .scope
   ldx sorted_entity_index
   lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq sort_hero_and_familiar
+  lda entity_flags,x
   and #ENTITY_FLAGS_DRAWABLE_SORTED_TEST
   beq sort_hero_and_familiar
 sort_hero_familiar_and_entity:

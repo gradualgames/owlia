@@ -13,5 +13,7 @@ HERO_INC = 1
 .global hero_is_moving
 .global hero_hurt
 .global hero_cancel_attack
+.global hero_set_has_key
+.global hero_clear_has_key
 
 .endif
