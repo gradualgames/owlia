@@ -92,13 +92,13 @@ overworld_area_top_entrance_location:
 define_north_location 0, area_index_overworld, 27, 1, 0, 0, 0, HERO_DIRECTION_DOWN
 
 dungeon_area_start_location:
-define_location 0, area_index_dungeon, 0, 2, 128 - 16, 96 + 16, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+define_location 0, area_index_dungeon, 0, 2, 7, 9, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 
 dungeon_entrance_location:
 define_centered_location 0, area_index_overworld, 30, 13, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 
 dungeon_room_a_location:
-define_location LOCATION_FLAGS_IS_LOCKED_SET, area_index_dungeon, 0, 0, 128 - 16, 16 * 2, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+define_location LOCATION_FLAGS_IS_LOCKED_SET, area_index_dungeon, 0, 0, 7, 2, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 
 dungeon_room_b_location:
 define_centered_location LOCATION_FLAGS_IS_LOCKED_SET, area_index_dungeon, 26, 10, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP

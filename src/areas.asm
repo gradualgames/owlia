@@ -338,5 +338,6 @@ dungeon_area:
   .word dungeon_big_metatile_table_bottom_right
 
 dungeon_entities:
-  .byte 1  ;count
+  .byte 2  ;count
   .byte entity_index_key, 5, 5, 0, 0
+  .byte entity_index_key, 25, 5, 0, 0
