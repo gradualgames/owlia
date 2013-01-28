@@ -65,7 +65,7 @@ metatile_table_params:
 .byte $00
 .byte $00
 .byte $00
-.byte location_index_dungeon_area_start
+.byte location_index_dungeon_entrance
 
 
 metatile_table_attributes:

@@ -52,7 +52,7 @@ metatile_table_params:
 .byte $00
 .byte $00
 .byte $00
-.byte location_index_dungeon_entrance
+.byte location_index_overworld_dungeon_entrance
 .byte $00
 .byte $00
 .byte location_index_dungeon_room_a
