@@ -700,6 +700,13 @@ play_state_action_nop:
 
   jsr entity_draw_all
 
+  ;test controller for system logic that entities never
+  ;need to care about such as the paused state.
+  lda buffer_controller+buttons::_start
+  and #%00000011
+  cmp #%00000001
+  beq pause_state_init
+
   .ifdef CPU_USAGE
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
@@ -708,6 +715,80 @@ play_state_action_nop:
   set_vblank_data_ready
 
   jmp play_state
+
+;****************************************************************
+;This branch location is the pause state. Branch to
+;pause_state_init to put the game into a paused state.
+;pause_state_init will swap the vblank routine for the paused
+;vblank routine, which does nothing. Then, the pause state loop
+;will just read the controller and sync with vblank waiting for
+;an "off to on" transition on the start button to leave the
+;pause state. Upon exiting the loop it will restore the normal
+;play state vblank routine and then jump to play_state.
+;****************************************************************
+pause_state_init:
+
+  set_vblank_data_ready
+
+  wait_vblank_data_ready
+
+  ;switch to pause state vblank routine
+  lda #<pause_ppu
+  sta vblank_routine
+  lda #>pause_ppu
+  sta vblank_routine+1
+
+  set_vblank_data_ready
+
+pause_state:
+
+  wait_vblank_data_ready
+
+  jsr controller_read
+
+  ;test for start button to be hit again to exit the paused state
+  lda buffer_controller+buttons::_start
+  and #%00000011
+  cmp #%00000001
+  beq pause_state_exit
+
+  set_vblank_data_ready
+
+  jmp pause_state
+
+pause_state_exit:
+
+  set_vblank_data_ready
+
+  ;restore the play state vblank routine
+  wait_vblank_data_ready
+  lda #<nametable_and_attribute_update_ppu
+  sta vblank_routine
+  lda #>nametable_and_attribute_update_ppu
+  sta vblank_routine+1
+  set_vblank_data_ready
+
+  jmp play_state
+
+;this is the vblank routine for the pause state.
+.proc pause_ppu
+
+  lda vblank_data_ready
+  beq data_not_ready
+
+  lda #0
+  sta vblank_data_ready
+
+data_not_ready:
+
+  ;does not require music data from another bank. All this
+  ;does is upload what is currently in the registers, and then
+  ;clears them, ensuring that sound cuts out during the paused state.
+  jsr sound_upload
+
+  rts
+
+.endproc
 
 ;****************************************************************
 ;This action handler loads a new location and jumps to the
