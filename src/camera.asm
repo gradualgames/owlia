@@ -177,6 +177,11 @@ skip_follow_up:
 ;returns accumulator with 1 for success, 0 for nop
 .proc increment_camera_x
 
+  lda camera_x_scrolling_enabled
+  bne scrolling_enabled
+  rts
+scrolling_enabled:
+
   clc
   lda camera_x
   adc b0
@@ -220,6 +225,11 @@ camera_x_past_boundary:
 ;returns accumulator with 1 for success, 0 for nop
 .proc decrement_camera_x
 
+  lda camera_x_scrolling_enabled
+  bne scrolling_enabled
+  rts
+scrolling_enabled:
+
   sec
   lda camera_x
   sbc b0
@@ -254,6 +264,11 @@ camera_x_positive:
 ;assumes b0 to be a power of 2
 ;returns accumulator with 1 for success, 0 for nop
 .proc increment_camera_y
+
+  lda camera_y_scrolling_enabled
+  bne scrolling_enabled
+  rts
+scrolling_enabled:
 
   clc
   lda camera_y
@@ -297,6 +312,11 @@ camera_y_past_boundary:
 ;assumes b0 to be a power of 2
 ;returns accmulator with 1 for success, 0 for nop
 .proc decrement_camera_y
+
+  lda camera_y_scrolling_enabled
+  bne scrolling_enabled
+  rts
+scrolling_enabled:
 
   sec
   lda camera_y

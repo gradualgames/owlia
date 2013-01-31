@@ -307,6 +307,35 @@ no_more_params:
   lda (location_address),y
   sta camera_scroll_y
 
+  .scope
+  ldy #location::flags
+  lda (location_address),y
+  and #LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_TEST
+  bne disable_x_scrolling
+enable_x_scrolling:
+  lda #1
+  sta camera_x_scrolling_enabled
+  jmp done
+disable_x_scrolling:
+  lda #0
+  sta camera_x_scrolling_enabled
+done:
+  .endscope
+
+  .scope
+  lda (location_address),y
+  and #LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_TEST
+  bne disable_y_scrolling
+enable_y_scrolling:
+  lda #1
+  sta camera_y_scrolling_enabled
+  jmp done
+disable_y_scrolling:
+  lda #0
+  sta camera_y_scrolling_enabled
+done:
+  .endscope
+
   rts
 
 .endproc

@@ -120,6 +120,8 @@ camera_y: .res 2
 camera_scroll_x: .res 1
 camera_scroll_y: .res 1
 camera_nametable_hibyte: .res 1
+camera_x_scrolling_enabled: .res 1
+camera_y_scrolling_enabled: .res 1
 
 row_ready: .res 1
 column_ready: .res 1

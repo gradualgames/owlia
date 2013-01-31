@@ -122,6 +122,8 @@ MAX_ENTITIES = 8
 .global camera_scroll_x
 .global camera_scroll_y
 .global camera_nametable_hibyte
+.global camera_x_scrolling_enabled
+.global camera_y_scrolling_enabled
 
 .global row_ready
 .global column_ready
