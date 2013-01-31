@@ -738,6 +738,20 @@ pause_state_init:
   lda #>pause_ppu
   sta vblank_routine+1
 
+  ;load up the current palette faded to a darker shade for the
+  ;duration of the paused state.
+  switch_bank_ldy #AREAS_BANK
+  ldy #area::palette_address
+  lda (area_address),y
+  sta w0
+  iny
+  lda (area_address),y
+  sta w0+1
+  switch_bank_ldy map_bank
+  lda #1
+  sta b3
+  jsr ppu_load_dynamic_palette_brightness
+
   set_vblank_data_ready
 
 pause_state:
@@ -759,6 +773,22 @@ pause_state:
 pause_state_exit:
 
   set_vblank_data_ready
+  wait_vblank_data_ready
+
+  ;restore the palette to max brightness before exiting the paused state.
+  switch_bank_ldy #AREAS_BANK
+  ldy #area::palette_address
+  lda (area_address),y
+  sta w0
+  iny
+  lda (area_address),y
+  sta w0+1
+  switch_bank_ldy map_bank
+  lda #4
+  sta b3
+  jsr ppu_load_dynamic_palette_brightness
+
+  set_vblank_data_ready
 
   ;restore the play state vblank routine
   wait_vblank_data_ready
@@ -775,6 +805,32 @@ pause_state_exit:
 
   lda vblank_data_ready
   beq data_not_ready
+
+  ;palette writes must have the 32 byte increment
+  ;setting turned off!
+  clear_ppu_2000_bit PPU0_ADDRESS_INCREMENT
+  upload_ppu_2000
+
+  lda #<dynamic_palette
+  sta w0
+  lda #>dynamic_palette
+  sta w0+1
+
+  jsr ppu_load_palette
+
+  ;make sure to update all ppu registers as
+  ;they had been in the play state for scrolling
+  lda camera_nametable_hibyte
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  lda camera_scroll_x
+  sta ppu_2005
+  lda camera_scroll_y
+  sta ppu_2005+1
+
+  upload_ppu_2006
+  upload_ppu_2005
 
   lda #0
   sta vblank_data_ready
