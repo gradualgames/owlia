@@ -123,5 +123,5 @@ dungeon_room_b:
 define_centered_location LOCATION_FLAGS_IS_LOCKED_SET | \
                          LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                          LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET, \
-                         area_index_dungeon, 26, 10, \
+                         area_index_dungeon, 23, 10, \
                          sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
