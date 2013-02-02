@@ -339,5 +339,5 @@ dungeon_area:
 
 dungeon_entities:
   .byte 2  ;count
-  .byte entity_index_key, 5, 5, 0, 0
+  .byte entity_index_key, 13, 5, 0, 0
   .byte entity_index_key, 25, 5, 0, 0
