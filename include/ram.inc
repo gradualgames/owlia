@@ -103,6 +103,9 @@ MAX_ENTITIES = 8
 .global familiar_animation_address
 .global familiar_direction
 .global familiar_state_counter
+.global familiar_fetched_entity_index
+.global familiar_fetched_entity_x_offset
+.global familiar_fetched_entity_y_offset
 
 .global ppu_2000
 .global ppu_2001

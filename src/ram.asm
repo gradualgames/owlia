@@ -102,6 +102,9 @@ familiar_animation_object:        .res 2
 familiar_animation_address:       .res 2
 familiar_direction:               .res 1
 familiar_state_counter:           .res 1
+familiar_fetched_entity_index:    .res 1
+familiar_fetched_entity_x_offset: .res 1
+familiar_fetched_entity_y_offset: .res 1
 
 ppu_2000: .res 1
 ppu_2001: .res 1

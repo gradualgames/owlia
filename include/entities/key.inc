@@ -81,6 +81,28 @@ key_state_main:
 entity_not_hitting_hero:
   .endscope
 
+  ;test whether key is intersecting familiar and set
+  ;fetched entity index if the familiar is trying to fetch
+  ;something.
+  .scope
+  jsr entity_test_familiar_rect
+  bne familiar_not_intersecting
+  jsr familiar_is_fetching
+  bne familiar_not_fetching
+
+  ;store offsets for this entity when it is being fetched by familiar
+  lda #$04
+  sta familiar_fetched_entity_x_offset
+  lda #$10
+  sta familiar_fetched_entity_y_offset
+
+  ;store the key's entity index as the entity that is to be fetched.
+  stx familiar_fetched_entity_index
+
+familiar_not_intersecting:
+familiar_not_fetching:
+  .endscope
+
   jsr entity_update_animation
 
   rts
