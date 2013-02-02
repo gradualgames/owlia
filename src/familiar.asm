@@ -290,7 +290,8 @@ familiar_not_alive:
 
   rts
 
-.proc familiar_state_rush_init
+;this routine contains initialization logic common to every technique.
+.proc familiar_common_init
 
   ;initialize width and height
   lda #FAMILIAR_WIDTH
@@ -360,6 +361,13 @@ familiar_not_alive:
   ;clear fetched entity index
   lda #$ff
   sta familiar_fetched_entity_index
+  rts
+
+.endproc
+
+.proc familiar_state_rush_init
+
+  jsr familiar_common_init
 
   ;set the initial state counter
   lda #FAMILIAR_STATE_RUSH_LENGTH
@@ -370,7 +378,7 @@ familiar_not_alive:
   sta familiar_state
 
   rts
-  
+
 .endproc
 
 .proc familiar_state_rush
@@ -407,303 +415,15 @@ state_counter_not_zero:
 
 .proc familiar_state_home_in_to_hero
 
-  ;use b0 to count whether both X and Y are close enough
-  lda #0
-  sta b0
-
-  .scope
-  ;calculate distance between "goal" and X coordinate
-  sec
-  lda hero_x
-  sbc familiar_x
-  sta familiar_x_velocity
-  lda hero_x+1
-  sbc familiar_x+1
-  sta familiar_x_velocity+1
-
-  .scope
-  bmi hero_to_left
-hero_to_right:
-  ;velocity is positive
-  .scope
-  sec
-  lda #4
-  sbc familiar_x_velocity
-  lda #0
-  sbc familiar_x_velocity+1
-  bmi velocity_greater_than
-velocity_less_than:
-  ;x is close enough to kill the familiar
-  inc b0
-velocity_greater_than:
-  .endscope
-
-  jmp done
-hero_to_left:
-  ;velocity is negative
-  .scope
-  clc
-  lda #4
-  adc familiar_x_velocity
-  lda #0
-  adc familiar_x_velocity+1
-  bmi velocity_greater_than
-velocity_less_than:
-  ;x is close enough to kill the familiar
-  inc b0
-velocity_greater_than:
-  .endscope
-done:
-  .endscope
-
-  ;do an 16 bit arithmetic left shift on this value
-  asl familiar_x_velocity
-  rol familiar_x_velocity+1
-  asl familiar_x_velocity
-  rol familiar_x_velocity+1
-  asl familiar_x_velocity
-  rol familiar_x_velocity+1
-  .endscope
-
-  .scope
-  ;calculate distance between "goal" and Y coordinate
-  sec
-  lda hero_y
-  sbc familiar_y
-  sta familiar_y_velocity
-  lda hero_y+1
-  sbc familiar_y+1
-  sta familiar_y_velocity+1
-
-  .scope
-  bmi hero_above
-hero_below:
-  ;velocity is positive
-  .scope
-  sec
-  lda #4
-  sbc familiar_y_velocity
-  lda #0
-  sbc familiar_y_velocity+1
-  bmi velocity_greater_than
-velocity_less_than:
-  ;y is close enough to kill the familiar
-  inc b0
-velocity_greater_than:
-  .endscope
-
-  jmp done
-hero_above:
-  ;velocity is negative
-  .scope
-  clc
-  lda #4
-  adc familiar_y_velocity
-  lda #0
-  adc familiar_y_velocity+1
-  bmi velocity_greater_than
-velocity_less_than:
-  ;y is close enough to kill the familiar
-  inc b0
-velocity_greater_than:
-  .endscope
-done:
-  .endscope
-
-  ;do an 16 bit arithmetic left shift on this value
-  asl familiar_y_velocity
-  rol familiar_y_velocity+1
-  asl familiar_y_velocity
-  rol familiar_y_velocity+1
-  asl familiar_y_velocity
-  rol familiar_y_velocity+1
-  .endscope
-
-  lda b0
-  cmp #2
-  bne do_not_kill_familiar
-
-  lda familiar_flags
-  and #FAMILIAR_FLAGS_ALIVE_CLEAR
-  and #FAMILIAR_FLAGS_DEADLY_CLEAR
-  sta familiar_flags
-
-do_not_kill_familiar:
-
-  .scope
-  lda familiar_x_velocity
-  sta w0
-  lda familiar_x_velocity+1
-  sta w0+1
-  bpl not_negative
-  ;find absolute value
-  lda w0
-  eor #$ff
-  adc #$01
-  sta w0
-  lda w0+1
-  eor #$ff
-  adc #$00
-  sta w0+1
-not_negative:
-  .endscope
-
-  .scope
-  lda familiar_y_velocity
-  sta w1
-  lda familiar_y_velocity+1
-  sta w1+1
-  bpl not_negative
-  ;find absolute value
-  lda w1
-  eor #$ff
-  adc #$01
-  sta w1
-  lda w1+1
-  eor #$ff
-  adc #$00
-  sta w1+1
-not_negative:
-  .endscope
-
-  .scope
-  sec
-  lda w0
-  sbc w1
-  lda w0+1
-  sbc w1+1
-  bmi y_velocity_bigger
-x_velocity_bigger:
-
-  ;infer direction from homing velocity
-  .scope
-  lda familiar_x_velocity+1
-  bmi left
-right:
-  lda #FAMILIAR_DIRECTION_RIGHT
-  sta familiar_direction
-  jmp done
-left:
-  lda #FAMILIAR_DIRECTION_LEFT
-  sta familiar_direction
-done:
-  .endscope
-
-  jmp done
-y_velocity_bigger:
-  .scope
-  lda familiar_y_velocity+1
-  bmi up
-down:
-  lda #FAMILIAR_DIRECTION_DOWN
-  sta familiar_direction
-  jmp done
-up:
-  lda #FAMILIAR_DIRECTION_UP
-  sta familiar_direction
-done:
-  .endscope
-done:
-  .endscope
-
-  ;reload animation based on direction that is inferred from current homing velocity
-  ldy familiar_direction
-  lda familiar_animation_addresses_lo,y
-  sta familiar_animation_address
-  sta w2
-  lda familiar_animation_addresses_hi,y
-  sta familiar_animation_address+1
-  sta w2+1
-  lda familiar_sprite_flags_direction,y
-  sta familiar_sprite_flags
-
-  jsr familiar_move
-
-  lda familiar_animation_address
-  sta w2
-  lda familiar_animation_address+1
-  sta w2+1
-
-  lda #<familiar_animation_object
-  sta w1
-  lda #>familiar_animation_object
-  sta w1+1
-
-  jsr sprite_update_animation
+  jsr familiar_home_in_to_hero
 
   rts
+
 .endproc
 
 .proc familiar_state_fetch_init
 
-  ;initialize width and height
-  lda #FAMILIAR_WIDTH
-  sta familiar_width
-  lda #FAMILIAR_HEIGHT
-  sta familiar_height
-
-  ;use flying animation
-  ldy familiar_direction
-  lda familiar_animation_addresses_lo,y
-  sta familiar_animation_address
-  sta w2
-  lda familiar_animation_addresses_hi,y
-  sta familiar_animation_address+1
-  sta w2+1
-  lda familiar_sprite_flags_direction,y
-  sta familiar_sprite_flags
-
-  ;reset animation object
-  lda #<familiar_animation_object
-  sta w1
-  lda #>familiar_animation_object
-  sta w1+1
-  jsr sprite_reset_animation
-
-  ;load sprite group offset for the familiar
-  lda #sprite_chr_group_index_familiar
-  tay
-  lda sprite_chr_group_offsets,y
-  sta familiar_sprite_group_offset
-
-  ;initialize x and y velocity
-  ldy familiar_direction
-  lda familiar_direction_speed_x_lo,y
-  sta familiar_x_velocity
-  lda familiar_direction_speed_x_hi,y
-  sta familiar_x_velocity+1
-
-  lda familiar_direction_speed_y_lo,y
-  sta familiar_y_velocity
-  lda familiar_direction_speed_y_hi,y
-  sta familiar_y_velocity+1
-
-  ;initialize fine x and y coordinates
-  lda #0
-  sta familiar_x_fine
-  sta familiar_y_fine
-
-  ;play a flapping sound
-  txa
-  pha
-
-  lda #<sfx_flap
-  sta sound_param_word_0
-  lda #>sfx_flap
-  sta sound_param_word_0+1
-
-  lda #3
-  sta sound_param_byte_0
-
-  ldx #soundeffect_one
-  jsr stream_initialize
-
-  pla
-  tax
-
-  ;clear fetched entity index
-  lda #$ff
-  sta familiar_fetched_entity_index
+  jsr familiar_common_init
 
   ;set the initial state counter
   lda #FAMILIAR_STATE_FETCH_LENGTH
@@ -714,7 +434,7 @@ done:
   sta familiar_state
 
   rts
-  
+
 .endproc
 
 .proc familiar_state_fetch
@@ -776,6 +496,14 @@ state_counter_not_zero:
   sta entity_y_hi,x
 
 no_fetched_entity:
+
+  jsr familiar_home_in_to_hero
+
+  rts
+
+.endproc
+
+.proc familiar_home_in_to_hero
 
   ;use b0 to count whether both X and Y are close enough
   lda #0
