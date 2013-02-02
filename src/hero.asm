@@ -742,16 +742,23 @@ hero_not_knockback:
 skip_choose_direction_handler_from_controller:
 
   ;advance the current invincibility frames state if the counter is nonzero
+  .scope
   lda hero_invincibility_counter
   beq hero_not_invincible
 
   dec hero_invincibility_counter
 
+  lda hero_invincibility_counter
+  and #%00000001
+  beq do_not_flip_drawable_bit
+
   lda hero_flags
   eor #HERO_FLAGS_DRAWABLE_SET
   sta hero_flags
 
+do_not_flip_drawable_bit:
 hero_not_invincible:
+  .endscope
 
   lda sprite_flags_direction,y
   sta hero_sprite_flags
@@ -773,6 +780,25 @@ do_not_animate_hero:
   rts
 
 hero_state_attack:
+
+  ;advance the current invincibility frames state if the counter is nonzero
+  .scope
+  lda hero_invincibility_counter
+  beq hero_not_invincible
+
+  dec hero_invincibility_counter
+
+  lda hero_invincibility_counter
+  and #%00000001
+  beq do_not_flip_drawable_bit
+
+  lda hero_flags
+  eor #HERO_FLAGS_DRAWABLE_SET
+  sta hero_flags
+
+do_not_flip_drawable_bit:
+hero_not_invincible:
+  .endscope
 
   ;compute top left of attack rect based on direction
   ldy hero_direction
