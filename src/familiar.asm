@@ -68,6 +68,16 @@ familiar_not_alive:
 
 .endproc
 
+;informs the familiar that it hit an entity that wants to be fetched
+;back to the hero.
+.proc familiar_fetch_return_to_hero
+
+  lda #FAMILIAR_STATE_FETCH_HOME_IN_TO_HERO
+  sta familiar_state
+  rts
+
+.endproc
+
 ;informs the familiar that it hit an enemy.
 .proc familiar_hit_enemy
 
@@ -641,6 +651,32 @@ state_counter_not_zero:
 
 .proc familiar_state_fetch_home_in_to_hero
 
+  ;now make the fetched entity match the familiar's coordinates if there is an entity
+  ;being fetched and that entity is alive
+  ldx familiar_fetched_entity_index
+  bmi no_fetched_entity
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq no_fetched_entity
+
+  clc
+  lda familiar_x
+  adc familiar_fetched_entity_x_offset
+  sta entity_x_lo,x
+  lda familiar_x+1
+  adc #$00
+  sta entity_x_hi,x
+
+  clc
+  lda familiar_y
+  adc familiar_fetched_entity_y_offset
+  sta entity_y_lo,x
+  lda familiar_y+1
+  adc #$00
+  sta entity_y_hi,x
+
+no_fetched_entity:
+
   ;use b0 to count whether both X and Y are close enough
   lda #0
   sta b0
@@ -856,32 +892,6 @@ done:
   sta familiar_sprite_flags
 
   jsr familiar_move
-
-  ;now make the fetched entity match the familiar's coordinates if there is an entity
-  ;being fetched and that entity is alive
-  ldx familiar_fetched_entity_index
-  bmi no_fetched_entity
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_TEST
-  beq no_fetched_entity
-
-  clc
-  lda familiar_x
-  adc familiar_fetched_entity_x_offset
-  sta entity_x_lo,x
-  lda familiar_x+1
-  adc #$00
-  sta entity_x_hi,x
-
-  clc
-  lda familiar_y
-  adc familiar_fetched_entity_y_offset
-  sta entity_y_lo,x
-  lda familiar_y+1
-  adc #$00
-  sta entity_y_hi,x
-
-no_fetched_entity:
 
   lda familiar_animation_address
   sta w2

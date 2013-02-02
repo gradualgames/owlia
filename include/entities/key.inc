@@ -99,6 +99,9 @@ entity_not_hitting_hero:
   ;store the key's entity index as the entity that is to be fetched.
   stx familiar_fetched_entity_index
 
+  ;tell the familiar to return to the hero with the fetched item.
+  jsr familiar_fetch_return_to_hero
+
 familiar_not_intersecting:
 familiar_not_fetching:
   .endscope
