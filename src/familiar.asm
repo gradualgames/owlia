@@ -26,14 +26,28 @@
 
 .endproc
 
-;sets the familiar to be alive.
-.proc familiar_spawn
+;sets the familiar to be alive and initializes the rush attack.
+.proc familiar_spawn_rush
 
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
   sta familiar_flags
 
-  lda #FAMILIAR_STATE_INIT
+  lda #FAMILIAR_STATE_RUSH_INIT
+  sta familiar_state
+
+  rts
+
+.endproc
+
+;sets the familiar to be alive and initializes the fetch technique.
+.proc familiar_spawn_fetch
+
+  lda familiar_flags
+  ora #FAMILIAR_FLAGS_ALIVE_SET
+  sta familiar_flags
+
+  lda #FAMILIAR_STATE_FETCH_INIT
   sta familiar_state
 
   rts
@@ -245,9 +259,10 @@ familiar_direction_speed_y_hi:
   .byte 0, 0, FAMILIAR_SPEED, -FAMILIAR_SPEED
 
 .define familiar_states \
-    familiar_state_init, \
+    familiar_state_rush_init, \
     familiar_state_rush, \
     familiar_state_home_in_to_hero, \
+    familiar_state_fetch_init, \
     familiar_state_fetch, \
     familiar_state_fetch_home_in_to_hero
 
@@ -275,7 +290,7 @@ familiar_not_alive:
 
   rts
 
-familiar_state_init:
+.proc familiar_state_rush_init
 
   ;initialize width and height
   lda #FAMILIAR_WIDTH
@@ -347,14 +362,16 @@ familiar_state_init:
   sta familiar_fetched_entity_index
 
   ;set the initial state counter
-  lda #FAMILIAR_STATE_FETCH_LENGTH
+  lda #FAMILIAR_STATE_RUSH_LENGTH
   sta familiar_state_counter
 
   ;done initializing, set main state
-  lda #FAMILIAR_STATE_FETCH
+  lda #FAMILIAR_STATE_RUSH
   sta familiar_state
 
   rts
+  
+.endproc
 
 .proc familiar_state_rush
 
@@ -615,6 +632,89 @@ done:
   jsr sprite_update_animation
 
   rts
+.endproc
+
+.proc familiar_state_fetch_init
+
+  ;initialize width and height
+  lda #FAMILIAR_WIDTH
+  sta familiar_width
+  lda #FAMILIAR_HEIGHT
+  sta familiar_height
+
+  ;use flying animation
+  ldy familiar_direction
+  lda familiar_animation_addresses_lo,y
+  sta familiar_animation_address
+  sta w2
+  lda familiar_animation_addresses_hi,y
+  sta familiar_animation_address+1
+  sta w2+1
+  lda familiar_sprite_flags_direction,y
+  sta familiar_sprite_flags
+
+  ;reset animation object
+  lda #<familiar_animation_object
+  sta w1
+  lda #>familiar_animation_object
+  sta w1+1
+  jsr sprite_reset_animation
+
+  ;load sprite group offset for the familiar
+  lda #sprite_chr_group_index_familiar
+  tay
+  lda sprite_chr_group_offsets,y
+  sta familiar_sprite_group_offset
+
+  ;initialize x and y velocity
+  ldy familiar_direction
+  lda familiar_direction_speed_x_lo,y
+  sta familiar_x_velocity
+  lda familiar_direction_speed_x_hi,y
+  sta familiar_x_velocity+1
+
+  lda familiar_direction_speed_y_lo,y
+  sta familiar_y_velocity
+  lda familiar_direction_speed_y_hi,y
+  sta familiar_y_velocity+1
+
+  ;initialize fine x and y coordinates
+  lda #0
+  sta familiar_x_fine
+  sta familiar_y_fine
+
+  ;play a flapping sound
+  txa
+  pha
+
+  lda #<sfx_flap
+  sta sound_param_word_0
+  lda #>sfx_flap
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  ;clear fetched entity index
+  lda #$ff
+  sta familiar_fetched_entity_index
+
+  ;set the initial state counter
+  lda #FAMILIAR_STATE_FETCH_LENGTH
+  sta familiar_state_counter
+
+  ;done initializing, set main state
+  lda #FAMILIAR_STATE_FETCH
+  sta familiar_state
+
+  rts
+  
 .endproc
 
 .proc familiar_state_fetch

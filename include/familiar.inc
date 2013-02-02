@@ -2,7 +2,8 @@
 FAMILIAR_INC = 1
 
 .global familiar_init
-.global familiar_spawn
+.global familiar_spawn_rush
+.global familiar_spawn_fetch
 .global align_familiar_if_occluded_by_textbox
 .global familiar_calculate_screen_coordinates
 .global familiar_draw

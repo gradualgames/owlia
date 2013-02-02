@@ -620,7 +620,7 @@ hero_state_main:
   cmp #%00000001
   bne skip_spawn_familiar_test
 
-  jsr familiar_spawn
+  jsr familiar_spawn_fetch
 
   ;parameterize the familiar's location and direction
   ldy hero_direction
