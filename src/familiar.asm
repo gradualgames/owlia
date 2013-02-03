@@ -639,6 +639,7 @@ do_not_kill_familiar:
   sta w0+1
   bpl not_negative
   ;find absolute value
+  clc
   lda w0
   eor #$ff
   adc #$01
@@ -657,6 +658,7 @@ not_negative:
   sta w1+1
   bpl not_negative
   ;find absolute value
+  clc
   lda w1
   eor #$ff
   adc #$01
@@ -677,35 +679,67 @@ not_negative:
   bmi y_velocity_bigger
 x_velocity_bigger:
 
+  ;keep a running tally of how often we are trying to infer direction from x velocity
+  ;when bits are "1" that means we're trying to change direction from x velocity
+  lda #1
+  ror
+  rol familiar_direction_change
+
   ;infer direction from homing velocity
   .scope
   lda familiar_x_velocity+1
   bmi left
 right:
   lda #FAMILIAR_DIRECTION_RIGHT
-  sta familiar_direction
+  sta b0
   jmp done
 left:
   lda #FAMILIAR_DIRECTION_LEFT
-  sta familiar_direction
+  sta b0
 done:
   .endscope
 
   jmp done
 y_velocity_bigger:
+
+  ;keep a running tally of how often we are trying to infer direction from y velocity
+  ;when bits are "0" that means we're trying to change direction from y velocity
+  lda #0
+  ror
+  rol familiar_direction_change
+
   .scope
   lda familiar_y_velocity+1
   bmi up
 down:
   lda #FAMILIAR_DIRECTION_DOWN
-  sta familiar_direction
+  sta b0
   jmp done
 up:
   lda #FAMILIAR_DIRECTION_UP
-  sta familiar_direction
+  sta b0
 done:
   .endscope
 done:
+  .endscope
+
+  ;check familiar_direction_change to see if we've been trying to change direction
+  ;from x velocity or y velocity for several frames. So isolate the several lowest
+  ;bits, and then check for a string of several 1's or a string of several 0's. This
+  ;eliminates the "wobble" problem when the familiar gets really close to the hero
+  ;and the velocities are very close to one another in value.
+  .scope
+  lda familiar_direction_change
+  and #%01111111
+  cmp #%01111111
+  beq change_direction
+  cmp #%00000000
+  beq change_direction
+  jmp do_not_change_direction
+change_direction:
+  lda b0
+  sta familiar_direction
+do_not_change_direction:
   .endscope
 
   ;reload animation based on direction that is inferred from current homing velocity
