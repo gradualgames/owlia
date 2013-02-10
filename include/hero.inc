@@ -15,5 +15,7 @@ HERO_INC = 1
 .global hero_cancel_attack
 .global hero_set_has_key
 .global hero_clear_has_key
+.global hero_prepare_familiar_carry_hero
+.global hero_set_down
 
 .endif

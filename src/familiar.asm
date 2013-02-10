@@ -1,4 +1,6 @@
 .linecont +
+.include "hero.inc"
+.include "hero_constants.inc"
 .include "familiar.inc"
 .include "familiar_constants.inc"
 .include "ram.inc"
@@ -36,6 +38,8 @@
   lda #FAMILIAR_STATE_RUSH_INIT
   sta familiar_state
 
+  jsr familiar_setup_initial_location_and_direction
+
   rts
 
 .endproc
@@ -49,6 +53,73 @@
 
   lda #FAMILIAR_STATE_FETCH_INIT
   sta familiar_state
+
+  jsr familiar_setup_initial_location_and_direction
+
+  rts
+
+.endproc
+
+;sets the familiar to be alive and initializes the carry hero technique.
+.proc familiar_spawn_carry_hero
+
+  lda familiar_flags
+  ora #FAMILIAR_FLAGS_ALIVE_SET
+  sta familiar_flags
+
+  lda #FAMILIAR_STATE_CARRY_HERO_INIT
+  sta familiar_state
+
+  sec
+  lda familiar_param_w1
+  sbc #(FAMILIAR_HEIGHT+HERO_HEIGHT-2)
+  sta familiar_param_w1
+  lda familiar_param_w1+1
+  sbc #0
+  sta familiar_param_w1+1
+
+  lda hero_x
+  sta familiar_x
+  lda hero_x+1
+  sta familiar_x+1
+
+  sec
+  lda hero_y
+  sbc #FAMILIAR_HEIGHT
+  sta familiar_y
+  lda hero_y+1
+  sbc #0
+  sta familiar_y+1
+
+  lda hero_direction
+  sta familiar_direction
+
+  rts
+
+.endproc
+
+.proc familiar_setup_initial_location_and_direction
+
+  ;parameterize the familiar's location and direction
+  ldy hero_direction
+  clc
+  lda hero_x
+  adc familiar_spawn_offset_x_lo,y
+  sta familiar_x
+  lda hero_x+1
+  adc familiar_spawn_offset_x_hi,y
+  sta familiar_x+1
+
+  clc
+  lda hero_y
+  adc familiar_spawn_offset_y_lo,y
+  sta familiar_y
+  lda hero_y+1
+  adc familiar_spawn_offset_y_hi,y
+  sta familiar_y+1
+
+  lda hero_direction
+  sta familiar_direction
 
   rts
 
@@ -246,6 +317,18 @@ familiar_animation_addresses_hi:
 familiar_sprite_flags_direction:
   .byte %00000000, %01000000, %00000000, %00000000
 
+familiar_spawn_offset_x_lo:
+  .byte 0, 0, 0, 0
+
+familiar_spawn_offset_x_hi:
+  .byte 0, 0, 0, 0
+
+familiar_spawn_offset_y_lo:
+  .byte 0, 0, 1, $ff
+
+familiar_spawn_offset_y_hi:
+  .byte 0, 0, 0, $ff
+
 familiar_direction_speed_x_lo:
   .byte 0, 0, 0, 0
 
@@ -264,7 +347,9 @@ familiar_direction_speed_y_hi:
     familiar_state_home_in_to_hero, \
     familiar_state_fetch_init, \
     familiar_state_fetch, \
-    familiar_state_fetch_home_in_to_hero
+    familiar_state_fetch_home_in_to_hero, \
+    familiar_state_carry_hero_init, \
+    familiar_state_carry_hero
 
 familiar_lo:
   .lobytes familiar_states
@@ -358,9 +443,6 @@ familiar_not_alive:
   pla
   tax
 
-  ;clear fetched entity index
-  lda #$ff
-  sta familiar_fetched_entity_index
   rts
 
 .endproc
@@ -433,6 +515,10 @@ state_counter_not_zero:
   lda #FAMILIAR_STATE_FETCH
   sta familiar_state
 
+  ;clear fetched entity index
+  lda #$ff
+  sta familiar_fetched_entity_index
+
   rts
 
 .endproc
@@ -498,6 +584,107 @@ state_counter_not_zero:
 no_fetched_entity:
 
   jsr familiar_home_in_to_hero
+
+  rts
+
+.endproc
+
+.proc familiar_state_carry_hero_init
+
+  jsr familiar_common_init
+
+  lda #FAMILIAR_STATE_CARRY_HERO
+  sta familiar_state
+
+  rts
+
+.endproc
+
+.proc familiar_state_carry_hero
+
+  .scope
+  ;calculate distance between "goal" and X coordinate
+  sec
+  lda familiar_param_w0
+  sbc familiar_x
+  sta familiar_x_velocity
+  lda familiar_param_w0+1
+  sbc familiar_x+1
+  sta familiar_x_velocity+1
+
+  ;do an 16 bit arithmetic left shift on this value
+  asl familiar_x_velocity
+  rol familiar_x_velocity+1
+  asl familiar_x_velocity
+  rol familiar_x_velocity+1
+  asl familiar_x_velocity
+  rol familiar_x_velocity+1
+  asl familiar_x_velocity
+  rol familiar_x_velocity+1
+  .endscope
+
+  .scope
+  ;calculate distance between "goal" and Y coordinate
+  sec
+  lda familiar_param_w1
+  sbc familiar_y
+  sta familiar_y_velocity
+  lda familiar_param_w1+1
+  sbc familiar_y+1
+  sta familiar_y_velocity+1
+
+  ;do an 16 bit arithmetic left shift on this value
+  asl familiar_y_velocity
+  rol familiar_y_velocity+1
+  asl familiar_y_velocity
+  rol familiar_y_velocity+1
+  asl familiar_y_velocity
+  rol familiar_y_velocity+1
+  asl familiar_y_velocity
+  rol familiar_y_velocity+1
+  .endscope
+
+  lda familiar_x_velocity
+  ora familiar_x_velocity+1
+  ora familiar_y_velocity
+  ora familiar_y_velocity+1
+  bne familiar_not_at_goal
+
+  jsr hero_set_down
+
+  lda #FAMILIAR_STATE_HOME_IN_TO_HERO
+  sta familiar_state
+
+familiar_not_at_goal:
+
+  jsr familiar_move
+
+  ;make the hero (assumed to be in HERO_STATE_CARRIED)
+  ;move underneath the familiar
+  lda familiar_x
+  sta hero_x
+  lda familiar_x+1
+  sta hero_x+1
+
+  clc
+  lda familiar_y
+  adc #FAMILIAR_HEIGHT
+  sta hero_y
+  lda familiar_y+1
+  adc #0
+  sta hero_y+1
+
+  lda familiar_animation_address
+  sta w2
+  lda familiar_animation_address+1
+  sta w2+1
+
+  lda #<familiar_animation_object
+  sta w1
+  lda #>familiar_animation_object
+  sta w1+1
+
+  jsr sprite_update_animation
 
   rts
 

@@ -46,6 +46,153 @@
 
 .endproc
 
+.proc hero_prepare_familiar_carry_hero
+tile_x = w7
+tile_y = w8
+
+  ;check to see if the metatile the hero is currently standing on contains ACTION_CARRY_TO
+  clc
+  lda hero_x
+  sta tile_x
+  sta w0
+  lda hero_x+1
+  sta tile_x+1
+  sta w0+1
+
+  clc
+  lda hero_y
+  adc #(HERO_HEIGHT-2)
+  sta tile_y
+  sta w1
+  lda hero_y+1
+  adc #0
+  sta tile_y+1
+  sta w1+1
+
+  jsr map_test_collision
+
+  ;find out if this action is indeed ACTION_CARRY_TO
+  .scope
+  ;get action
+  lda b0
+  and #ISOLATE_ACTION_MASK
+  cmp #ACTION_CARRY_TO
+  bne skip_carry_to
+
+  jsr compute_destination_coordinates
+
+  lda #HERO_STATE_CARRIED
+  sta hero_state
+
+skip_carry_to:
+  .endscope
+
+  rts
+
+compute_destination_coordinates:
+  ;now extract two signed, 4 bit offsets from the param, sign extend them
+  ;to 16 bits wide, and pass these values into parameters for the familiar
+  ;to interpret as the destination to which to carry the hero, in metatile
+  ;units.
+
+  ;get signed 4 bit x offset from param. This is in the hi nybble.
+  lda b1
+  and #$f0
+  lsr
+  lsr
+  lsr
+  lsr
+  sta familiar_param_w0
+
+  ;sign extend to all 12 higher bits by testing bit 3 (the x offset sign)
+  .scope
+  and #%00001000
+  beq positive
+negative:
+  lda familiar_param_w0
+  ora #$f0
+  sta familiar_param_w0
+  lda #$ff
+  sta familiar_param_w0+1
+  jmp done
+positive:
+  lda #$00
+  sta familiar_param_w0+1
+done:
+  .endscope
+
+  ;get signed 4 bit y offset from param. This is in the lo nybble.
+  lda b1
+  and #$0f
+  sta familiar_param_w1
+
+  ;sign extend to all 12 higher bits by testing bit 3 (the y offset sign)
+  .scope
+  and #%00001000
+  beq positive
+negative:
+  lda familiar_param_w1
+  ora #$f0
+  sta familiar_param_w1
+  lda #$ff
+  sta familiar_param_w1+1
+  jmp done
+positive:
+  lda #$00
+  sta familiar_param_w1+1
+done:
+  .endscope
+
+  ;now the familiar params contain sign extended offsets extracted from the param.
+  ;arithmetically shift left both values by 4 to multiply by 16, the size of a
+  ;meta tile. After this, they will be true offsets in 16 bit map coordinates to
+  ;add to the hero's current position.
+
+  lda familiar_param_w0+1
+  asl familiar_param_w0
+  rol
+  asl familiar_param_w0
+  rol
+  asl familiar_param_w0
+  rol
+  asl familiar_param_w0
+  rol
+  sta familiar_param_w0+1
+
+  lda familiar_param_w1+1
+  asl familiar_param_w1
+  rol
+  asl familiar_param_w1
+  rol
+  asl familiar_param_w1
+  rol
+  asl familiar_param_w1
+  rol
+  sta familiar_param_w1+1
+
+  ;Now compute destination coordinates for carrying the hero
+  ;by adding the original tile location we found earlier to
+  ;the two offset params we just computed.
+  clc
+  lda familiar_param_w0
+  adc tile_x
+  sta familiar_param_w0
+  lda familiar_param_w0+1
+  adc tile_x+1
+  sta familiar_param_w0+1
+
+  clc
+  lda familiar_param_w1
+  adc tile_y
+  sta familiar_param_w1
+  lda familiar_param_w1+1
+  adc tile_y+1
+  sta familiar_param_w1+1
+
+  rts
+
+.endproc
+
 .proc hero_set_has_key
 
   lda hero_flags
@@ -172,6 +319,20 @@ hero_invincible:
 
   pla
   tax
+
+  rts
+
+.endproc
+
+;used by the familiar when setting down the hero after carrying her.
+.proc hero_set_down
+
+  lda hero_flags
+  and #HERO_FLAGS_DEADLY_CLEAR
+  sta hero_flags
+
+  lda #HERO_STATE_MAIN
+  sta hero_state
 
   rts
 
@@ -508,7 +669,8 @@ attack_animation_addresses_hi:
 .define hero_states \
     hero_state_init, \
     hero_state_main, \
-    hero_state_attack
+    hero_state_attack, \
+    hero_state_carried
 
 hero_lo:
   .lobytes hero_states
@@ -535,18 +697,6 @@ attack_rect_offset_y_lo:
   .byte 4, 4, 24, -16
 
 attack_rect_offset_y_hi:
-  .byte 0, 0, 0, $ff
-
-familiar_spawn_offset_x_lo:
-  .byte 0, 0, 0, 0
-
-familiar_spawn_offset_x_hi:
-  .byte 0, 0, 0, 0
-
-familiar_spawn_offset_y_lo:
-  .byte 0, 0, 1, $ff
-
-familiar_spawn_offset_y_hi:
   .byte 0, 0, 0, $ff
 
 .segment "ROM02"
@@ -613,6 +763,10 @@ hero_state_init:
 
   rts
 
+hero_state_carried:
+
+  rts
+
 hero_state_main:
 
   lda buffer_controller+buttons::_b
@@ -620,28 +774,11 @@ hero_state_main:
   cmp #%00000001
   bne skip_spawn_familiar_test
 
-  jsr familiar_spawn_fetch
-
-  ;parameterize the familiar's location and direction
-  ldy hero_direction
-  clc
-  lda hero_x
-  adc familiar_spawn_offset_x_lo,y
-  sta familiar_x
-  lda hero_x+1
-  adc familiar_spawn_offset_x_hi,y
-  sta familiar_x+1
-
-  clc
-  lda hero_y
-  adc familiar_spawn_offset_y_lo,y
-  sta familiar_y
-  lda hero_y+1
-  adc familiar_spawn_offset_y_hi,y
-  sta familiar_y+1
-
-  lda hero_direction
-  sta familiar_direction
+  jsr hero_prepare_familiar_carry_hero
+  lda hero_state
+  cmp #HERO_STATE_CARRIED
+  bne skip_spawn_familiar_test
+  jsr familiar_spawn_carry_hero
 
 skip_spawn_familiar_test:
 
