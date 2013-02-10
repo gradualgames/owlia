@@ -170,6 +170,48 @@ done:
   rol
   sta familiar_param_w1+1
 
+  ;before computing destination coordinates, infer direction that
+  ;the hero and the familiar ought to point based on the signs of
+  ;the x and y offsets.
+  .scope
+  ;if x offset is zero, assume this is a vertical offset
+  lda familiar_param_w0
+  ora familiar_param_w0+1
+  beq infer_from_y_offset
+infer_from_x_offset:
+
+  .scope
+  lda familiar_param_w0+1
+  bmi left
+right:
+  lda #HERO_DIRECTION_RIGHT
+  sta hero_direction
+  jmp done
+left:
+  lda #HERO_DIRECTION_LEFT
+  sta hero_direction
+done:
+  .endscope
+
+  jmp done
+infer_from_y_offset:
+
+  .scope
+  lda familiar_param_w1+1
+  bmi up
+down:
+  lda #HERO_DIRECTION_DOWN
+  sta hero_direction
+  jmp done
+up:
+  lda #HERO_DIRECTION_UP
+  sta hero_direction
+done:
+  .endscope
+
+done:
+  .endscope
+
   ;Now compute destination coordinates for carrying the hero
   ;by adding the original tile location we found earlier to
   ;the two offset params we just computed.
