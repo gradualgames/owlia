@@ -609,9 +609,233 @@ no_fetched_entity:
 
 .endproc
 
+.define familiar_arc_init_handlers \
+    familiar_arc_init_handler_horizontal, \
+    familiar_arc_init_handler_horizontal, \
+    familiar_arc_init_handler_vertical_down, \
+    familiar_arc_init_handler_vertical_up
+
+familiar_arc_init_handlers_lo:
+  .lobytes familiar_arc_init_handlers
+
+familiar_arc_init_handlers_hi:
+  .hibytes familiar_arc_init_handlers
+
+.proc familiar_arc_init_handler_horizontal
+
+  ;slide destination upwards by ARC_SIZE pixels.
+  ;for ARC_SIZE frames, we are going to slide the
+  ;goal back into its true position. This
+  ;helps create a nice arc when carrying
+  ;the hero horizontally.
+  .scope
+  ARC_SIZE = 32
+  lda #ARC_SIZE
+  sta familiar_state_counter
+
+  sec
+  lda familiar_param_w1
+  sbc #ARC_SIZE
+  sta familiar_param_w1
+  lda familiar_param_w1+1
+  sbc #0
+  sta familiar_param_w1+1
+  .endscope
+
+  rts
+
+.endproc
+
+.proc familiar_arc_init_handler_vertical_down
+
+  ;slide destination upwards by ARC_SIZE pixels.
+  ;for ARC_SIZE frames, we are going to slide the
+  ;goal back into its true position. This
+  ;helps create a nice arc when carrying
+  ;the hero horizontally.
+  .scope
+  ARC_SIZE = 64
+  lda #ARC_SIZE
+  sta familiar_state_counter
+
+  sec
+  lda familiar_param_w0
+  sbc #4
+  sta familiar_param_w0
+  lda familiar_param_w0+1
+  sbc #0
+  sta familiar_param_w0+1
+
+  sec
+  lda familiar_param_w1
+  sbc #ARC_SIZE
+  sta familiar_param_w1
+  lda familiar_param_w1+1
+  sbc #0
+  sta familiar_param_w1+1
+
+  .endscope
+
+  rts
+
+.endproc
+
+.proc familiar_arc_init_handler_vertical_up
+
+  ;slide destination upwards by ARC_SIZE pixels.
+  ;for ARC_SIZE frames, we are going to slide the
+  ;goal back into its true position. This
+  ;helps create a nice arc when carrying
+  ;the hero horizontally.
+  .scope
+  ARC_SIZE = 64
+  lda #ARC_SIZE
+  sta familiar_state_counter
+
+  clc
+  lda familiar_param_w0
+  adc #4
+  sta familiar_param_w0
+  lda familiar_param_w0+1
+  adc #0
+  sta familiar_param_w0+1
+
+  clc
+  lda familiar_param_w1
+  adc #ARC_SIZE
+  sta familiar_param_w1
+  lda familiar_param_w1+1
+  adc #0
+  sta familiar_param_w1+1
+
+  .endscope
+
+  rts
+
+.endproc
+
+.define familiar_arc_handlers \
+    familiar_arc_handler_horizontal, \
+    familiar_arc_handler_horizontal, \
+    familiar_arc_handler_vertical_down, \
+    familiar_arc_handler_vertical_up
+
+familiar_arc_handlers_lo:
+  .lobytes familiar_arc_handlers
+
+familiar_arc_handlers_hi:
+  .hibytes familiar_arc_handlers
+
+.proc familiar_arc_handler_horizontal
+
+  ;for each frames, slide the
+  ;goal back into its true position. This
+  ;helps create a nice arc when carrying
+  ;the hero horizontally.
+  .scope
+  lda familiar_state_counter
+  beq do_not_modify_goal
+  dec familiar_state_counter
+
+  clc
+  lda familiar_param_w1
+  adc #$01
+  sta familiar_param_w1
+  lda familiar_param_w1+1
+  adc #$00
+  sta familiar_param_w1+1
+
+do_not_modify_goal:
+  .endscope
+
+  rts
+
+.endproc
+
+.proc familiar_arc_handler_vertical_down
+
+  ;for each frames, slide the
+  ;goal back into its true position. This
+  ;helps create a nice arc when carrying
+  ;the hero horizontally.
+  .scope
+  lda familiar_state_counter
+  beq do_not_modify_goal
+  dec familiar_state_counter
+
+  lda familiar_state_counter
+  bne do_not_reset_x_destination
+  clc
+  lda familiar_param_w0
+  adc #$04
+  sta familiar_param_w0
+  lda familiar_param_w0+1
+  adc #$00
+  sta familiar_param_w0+1
+do_not_reset_x_destination:
+
+  clc
+  lda familiar_param_w1
+  adc #$01
+  sta familiar_param_w1
+  lda familiar_param_w1+1
+  adc #$00
+  sta familiar_param_w1+1
+
+do_not_modify_goal:
+  .endscope
+
+  rts
+
+.endproc
+
+.proc familiar_arc_handler_vertical_up
+
+  ;for each frames, slide the
+  ;goal back into its true position. This
+  ;helps create a nice arc when carrying
+  ;the hero horizontally.
+  .scope
+  lda familiar_state_counter
+  beq do_not_modify_goal
+  dec familiar_state_counter
+
+  lda familiar_state_counter
+  bne do_not_reset_x_destination
+  sec
+  lda familiar_param_w0
+  sbc #$04
+  sta familiar_param_w0
+  lda familiar_param_w0+1
+  sbc #$00
+  sta familiar_param_w0+1
+do_not_reset_x_destination:
+
+  sec
+  lda familiar_param_w1
+  sbc #$01
+  sta familiar_param_w1
+  lda familiar_param_w1+1
+  sbc #$00
+  sta familiar_param_w1+1
+
+do_not_modify_goal:
+  .endscope
+
+  rts
+
+.endproc
+
 .proc familiar_state_carry_hero_init
 
   jsr familiar_common_init
+
+  ldy familiar_direction
+  lda familiar_arc_init_handlers_lo,y
+  sta w0
+  lda familiar_arc_init_handlers_hi,y
+  sta w0+1
+  jsr indirect_jsr_w0
 
   lda #FAMILIAR_STATE_CARRY_HERO
   sta familiar_state
@@ -620,7 +844,18 @@ no_fetched_entity:
 
 .endproc
 
+.proc indirect_jsr_w0
+  jmp (w0)
+.endproc
+
 .proc familiar_state_carry_hero
+
+  ldy familiar_direction
+  lda familiar_arc_handlers_lo,y
+  sta w0
+  lda familiar_arc_handlers_hi,y
+  sta w0+1
+  jsr indirect_jsr_w0
 
   .scope
   ;calculate distance between "goal" and X coordinate
