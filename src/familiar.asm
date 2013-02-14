@@ -609,6 +609,8 @@ state_counter_not_zero:
 ;****************************************************************
 .proc familiar_state_fetch_home_in_to_hero
 
+  jsr familiar_home_in_to_hero
+
   ;now make the fetched entity match the familiar's coordinates if there is an entity
   ;being fetched and that entity is alive
   ldx familiar_fetched_entity_index
@@ -634,8 +636,6 @@ state_counter_not_zero:
   sta entity_y_hi,x
 
 no_fetched_entity:
-
-  jsr familiar_home_in_to_hero
 
   rts
 
