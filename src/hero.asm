@@ -753,6 +753,14 @@ hero_update:
   sta w0+1
   jmp (w0)
 
+;****************************************************************
+;The init state for the hero entity. This state transitions to
+;the main walking state, sets the hero to be drawable, clears out
+;attack rect information, sets width and height, sets speed,
+;loads animation for current direction, resets the animation
+;object, loads the sprite chr offset, and clears other state
+;information for knockback and invincibility frames.
+;****************************************************************
 hero_state_init:
 
   lda #HERO_STATE_MAIN
@@ -805,10 +813,27 @@ hero_state_init:
 
   rts
 
+;****************************************************************
+;The carried state is totally passive. When the hero transitions
+;into this state, the familiar takes over and will modify the
+;hero's coordinates as it carries her across a body of water or
+;pit or ravine. There is a routine above for transitioning the
+;hero back into the main state from the carried state, called
+;hero_set_down.
+;****************************************************************
 hero_state_carried:
 
   rts
 
+;****************************************************************
+;This is the main walking state. It checks the controller buffer
+;for the A button (attack), B button (perform current owl tech),
+;and d-pad. It also maintains state for knockback and invincibi-
+;lity frames. It uses bits from the d-pad as an index into a look
+;up table of direction handlers. These direction handlers are
+;also relied upon for knockback so the hero doesn't go careening
+;through any walls.
+;****************************************************************
 hero_state_main:
 
   lda buffer_controller+buttons::_b
@@ -958,6 +983,14 @@ do_not_animate_hero:
 
   rts
 
+;****************************************************************
+;This is the attack state. It is the state the hero transitions
+;to when the A button is pressed. The hero cannot walk while in
+;this state. This state modifies the attack rect and sets a flag
+;in the hero indicating that it is deadly to enemies. This state
+;also maintains invincibility frames state if carried over from
+;getting hit.
+;****************************************************************
 hero_state_attack:
 
   ;advance the current invincibility frames state if the counter is nonzero
@@ -1044,6 +1077,12 @@ attack_not_done:
 indirect_jsr_w0:
   jmp (w0)
 
+;****************************************************************
+;This is the callback listed in the direction handlers lut for
+;all invalid combinations of direction. This should normally
+;never happen, but this is here to protect the game from crashing
+;if somehow an invalid direction is ever input. 
+;****************************************************************
 hero_direction_nop_handler:
 
   lda hero_flags
@@ -1052,6 +1091,9 @@ hero_direction_nop_handler:
 
   rts
 
+;****************************************************************
+;Handles action and collision tests for moving right.
+;****************************************************************
 hero_direction_right_handler:
 
   .scope
@@ -1139,6 +1181,9 @@ done:
 
   rts
 
+;****************************************************************
+;Handles action and collision tests for moving left.
+;****************************************************************
 hero_direction_left_handler:
 
   .scope
@@ -1226,6 +1271,9 @@ done:
 
   rts
 
+;****************************************************************
+;Handles action and collision tests for moving down.
+;****************************************************************
 hero_direction_down_handler:
 
   .scope
@@ -1313,6 +1361,9 @@ done:
 
   rts
 
+;****************************************************************
+;Handles action and collision tests for moving down and right.
+;****************************************************************
 hero_direction_down_and_right_handler:
 
   .scope
@@ -1363,6 +1414,9 @@ found_collision_right_side:
 
   rts
 
+;****************************************************************
+;Handles action and collision tests for moving down and left.
+;****************************************************************
 hero_direction_down_and_left_handler:
 
   .scope
@@ -1413,6 +1467,9 @@ found_collision_left_side:
 
   rts
 
+;****************************************************************
+;Handles action and collision tests for moving up.
+;****************************************************************
 hero_direction_up_handler:
 
   .scope
@@ -1500,6 +1557,9 @@ done:
 
   rts
 
+;****************************************************************
+;Handles action and collision tests for moving up and right.
+;****************************************************************
 hero_direction_up_and_right_handler:
 
   .scope
@@ -1554,6 +1614,9 @@ skip_direction_up_and_right_handler:
 
   rts
 
+;****************************************************************
+;Handles action and collision tests for moving up and left.
+;****************************************************************
 hero_direction_up_and_left_handler:
 
   .scope

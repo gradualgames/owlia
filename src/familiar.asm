@@ -467,6 +467,11 @@ familiar_not_alive:
 
 .endproc
 
+;****************************************************************
+;This state initializes the rush owl tech. This tech just moves
+;the owl in a straight line in the direction the hero was facing,
+;attacking any enemy in its way and then returning to the hero.
+;****************************************************************
 .proc familiar_state_rush_init
 
   jsr familiar_common_init
@@ -483,6 +488,10 @@ familiar_not_alive:
 
 .endproc
 
+;****************************************************************
+;This state performs the rush owl tech and then transitions to
+;the home-in-to-hero state.
+;****************************************************************
 .proc familiar_state_rush
 
   lda familiar_flags
@@ -515,6 +524,10 @@ state_counter_not_zero:
 
 .endproc
 
+;****************************************************************
+;This state just calls through to some common logic for making
+;the owl fly back to the hero in a convincing looking way.
+;****************************************************************
 .proc familiar_state_home_in_to_hero
 
   jsr familiar_home_in_to_hero
@@ -523,6 +536,13 @@ state_counter_not_zero:
 
 .endproc
 
+;****************************************************************
+;This state initializes the fetch owl tech. This tech sends the
+;owl out to collect any fetchable entity that it might contact.
+;Fetchable entities are responsible for informing the familiar
+;that they have been contacted and then setting the fetched enti-
+;ty index so the familiar knows what to carry back to the hero.
+;****************************************************************
 .proc familiar_state_fetch_init
 
   jsr familiar_common_init
@@ -543,6 +563,12 @@ state_counter_not_zero:
 
 .endproc
 
+;****************************************************************
+;This state just flies the familiar until a counter reaches zero,
+;after which it transitions to the fetch-home-in-to-hero state,
+;which homes in WHILE carrying any fetched item that may have
+;been picked up.
+;****************************************************************
 .proc familiar_state_fetch
 
   lda familiar_flags
@@ -575,6 +601,12 @@ state_counter_not_zero:
 
 .endproc
 
+;****************************************************************
+;This state moves a fetched entity along with the familiar as it
+;homes back into the hero, but only if a fetched entity was
+;found. A value of $ff indicates that there was no fetched enti-
+;ty.
+;****************************************************************
 .proc familiar_state_fetch_home_in_to_hero
 
   ;now make the fetched entity match the familiar's coordinates if there is an entity
@@ -609,6 +641,19 @@ no_fetched_entity:
 
 .endproc
 
+;****************************************************************
+;The following handler routines are sub-state handlers for moving
+;the familiar and the hero in a nice looking arc while the
+;familiar carries the hero to a destination location. It combines
+;the normal homing logic with sliding the destination around.
+;By homing into a moving target, which itself is sliding into
+;the actual destination, a nice looking "jump" like arc is
+;produced as the familiar carries the hero to the destination.
+;Slightly different techniques are used to make this look
+;convincing for horizontal versus vertical arcs. In fact, only
+;one handler was needed for horizontal arcs. Up and down needed
+;special handling.
+;****************************************************************
 .define familiar_arc_init_handlers \
     familiar_arc_init_handler_horizontal, \
     familiar_arc_init_handler_horizontal, \
@@ -839,6 +884,15 @@ do_not_modify_goal:
 
 .endproc
 
+;****************************************************************
+;This state initializes the owl carry tech. It is assumed when
+;transitioning into this state that the hero has already
+;transitioned into the passive "carried" state in preparation for
+;the familiar transitioning into the carry state. The familiar is
+;now responsible for carrying the hero to a destination, after
+;which the hero is "set down" and returned to its normal walking
+;state that takes input from the player.
+;****************************************************************
 .proc familiar_state_carry_hero_init
 
   jsr familiar_common_init
@@ -861,6 +915,14 @@ do_not_modify_goal:
   jmp (w0)
 .endproc
 
+;****************************************************************
+;This state homes the familiar into the calculated destination.
+;The destination is offset from its original location by the
+;arc init handlers. While the carry state is operating, the
+;destination is slid back into its original location. By homing
+;into this "sliding" destination, a nice arc is produced as the
+;familiar carries the hero to her destination.
+;****************************************************************
 .proc familiar_state_carry_hero
 
   ldy familiar_direction
@@ -958,6 +1020,20 @@ familiar_not_at_goal:
 
 .endproc
 
+;****************************************************************
+;This routine performs homing logic on the hero. It became quite
+;sophisticated because we want the owl to look like it is gracefully
+;facing the hero as it tries to fly to her. We infer the direction
+;the owl should face from the velocity that is computed from its
+;horizontal and vertical distance from the hero. However, there
+;are some cases where the hero is at nearly equal vertical and
+;horizontal distance from the familiar that it causes the familiar
+;to flip between left and right facing animations very rapidly.
+;To prevent this, I keep a rotating buffer of "direction change
+;attempts," and require that a string of "trying to turn in a
+;single direction" is unbroken before validating it and changing
+;the animation of the familiar.
+;****************************************************************
 .proc familiar_home_in_to_hero
 
   ;use b0 to count whether both X and Y are close enough
@@ -1226,6 +1302,10 @@ do_not_change_direction:
 
 .endproc
 
+;****************************************************************
+;This routine simply moves the familiar using its current
+;velocity.
+;****************************************************************
 familiar_move:
 
   ;add 16 bit velocity to 24 bit coordinate with sign extension
