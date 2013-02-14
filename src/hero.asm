@@ -53,15 +53,19 @@ tile_y = w8
   ;check to see if the metatile the hero is currently standing on contains ACTION_CARRY_TO
   clc
   lda hero_x
+  adc #(HERO_WIDTH/2)
+  and #$f0
   sta tile_x
   sta w0
   lda hero_x+1
+  adc #0
   sta tile_x+1
   sta w0+1
 
   clc
   lda hero_y
-  adc #(HERO_HEIGHT-2)
+  adc #((HERO_HEIGHT/4)*3)
+  and #$f0
   sta tile_y
   sta w1
   lda hero_y+1
@@ -213,8 +217,16 @@ done:
   .endscope
 
   ;Now compute destination coordinates for carrying the hero
-  ;by adding the original tile location we found earlier to
-  ;the two offset params we just computed.
+  ;use the tile location x when carrying horizontally to
+  ;align to a metatile boundary, and use tile location y when
+  ;carrying vertically to align to a metatile boundary.
+  .scope
+  lda hero_direction
+  cmp #HERO_DIRECTION_UP
+  beq use_vertical_offset
+  cmp #HERO_DIRECTION_DOWN
+  beq use_vertical_offset
+use_horizontal_offset:
   clc
   lda familiar_param_w0
   adc tile_x
@@ -223,6 +235,12 @@ done:
   adc tile_x+1
   sta familiar_param_w0+1
 
+  lda hero_y
+  sta familiar_param_w1
+  lda hero_y+1
+  sta familiar_param_w1+1
+  jmp done
+use_vertical_offset:
   clc
   lda familiar_param_w1
   adc tile_y
@@ -230,6 +248,21 @@ done:
   lda familiar_param_w1+1
   adc tile_y+1
   sta familiar_param_w1+1
+
+  sec
+  lda familiar_param_w1
+  sbc #$10
+  sta familiar_param_w1
+  lda familiar_param_w1+1
+  sbc #$00
+  sta familiar_param_w1+1
+
+  lda hero_x
+  sta familiar_param_w0
+  lda hero_x+1
+  sta familiar_param_w0+1
+done:
+  .endscope
 
   rts
 
@@ -1081,7 +1114,7 @@ indirect_jsr_w0:
 ;This is the callback listed in the direction handlers lut for
 ;all invalid combinations of direction. This should normally
 ;never happen, but this is here to protect the game from crashing
-;if somehow an invalid direction is ever input. 
+;if somehow an invalid direction is ever input.
 ;****************************************************************
 hero_direction_nop_handler:
 

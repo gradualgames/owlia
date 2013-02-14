@@ -72,31 +72,11 @@
 
   sec
   lda familiar_param_w1
-  sbc #(FAMILIAR_HEIGHT+HERO_HEIGHT-2)
+  sbc #(FAMILIAR_HEIGHT)
   sta familiar_param_w1
   lda familiar_param_w1+1
   sbc #0
   sta familiar_param_w1+1
-
-  ;round off destination coordinates based on hero direction to
-  ;ensure the destination is metatile grid aligned.
-  .scope
-  lda hero_direction
-  cmp #HERO_DIRECTION_RIGHT
-  beq round_x
-  cmp #HERO_DIRECTION_LEFT
-  beq round_x
-round_y:
-  lda familiar_param_w1
-  and #$f0
-  sta familiar_param_w1
-  jmp done
-round_x:
-  lda familiar_param_w0
-  and #$f0
-  sta familiar_param_w0
-done:
-  .endscope
 
   lda hero_x
   sta familiar_x
