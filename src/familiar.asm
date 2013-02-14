@@ -623,11 +623,6 @@ familiar_arc_init_handlers_hi:
 
 .proc familiar_arc_init_handler_horizontal
 
-  ;slide destination upwards by ARC_SIZE pixels.
-  ;for ARC_SIZE frames, we are going to slide the
-  ;goal back into its true position. This
-  ;helps create a nice arc when carrying
-  ;the hero horizontally.
   .scope
   ARC_SIZE = 32
   lda #ARC_SIZE
@@ -648,16 +643,24 @@ familiar_arc_init_handlers_hi:
 
 .proc familiar_arc_init_handler_vertical_down
 
-  ;slide destination upwards by ARC_SIZE pixels.
-  ;for ARC_SIZE frames, we are going to slide the
-  ;goal back into its true position. This
-  ;helps create a nice arc when carrying
-  ;the hero horizontally.
   .scope
-  ARC_SIZE = 64
-  lda #ARC_SIZE
+  ;calculate y distance between familiar and goal
+  sec
+  lda familiar_param_w1
+  sbc familiar_y
+  sta w0
+  lda familiar_param_w1+1
+  sbc familiar_y+1
+  sta w0+1
+
+  ;calculate how far we will slide the goal by adding 16 to this
+  clc
+  lda w0
+  adc #16
+  sta w0
   sta familiar_state_counter
 
+  ;slide the x goal over by 4 to help the arc look cool
   sec
   lda familiar_param_w0
   sbc #4
@@ -666,9 +669,10 @@ familiar_arc_init_handlers_hi:
   sbc #0
   sta familiar_param_w0+1
 
+  ;slide the goal by how much we calculated earlier
   sec
   lda familiar_param_w1
-  sbc #ARC_SIZE
+  sbc w0
   sta familiar_param_w1
   lda familiar_param_w1+1
   sbc #0
@@ -682,16 +686,24 @@ familiar_arc_init_handlers_hi:
 
 .proc familiar_arc_init_handler_vertical_up
 
-  ;slide destination upwards by ARC_SIZE pixels.
-  ;for ARC_SIZE frames, we are going to slide the
-  ;goal back into its true position. This
-  ;helps create a nice arc when carrying
-  ;the hero horizontally.
   .scope
-  ARC_SIZE = 64
-  lda #ARC_SIZE
+  ;calculate y distance between familiar and goal
+  sec
+  lda familiar_y
+  sbc familiar_param_w1
+  sta w0
+  lda familiar_y+1
+  sbc familiar_param_w1+1
+  sta w0+1
+
+  ;calculate how far we will slide the goal by adding 16 to this
+  clc
+  lda w0
+  adc #16
+  sta w0
   sta familiar_state_counter
 
+  ;slide the x goal over by 4 to help the arc look cool
   clc
   lda familiar_param_w0
   adc #4
@@ -700,9 +712,10 @@ familiar_arc_init_handlers_hi:
   adc #0
   sta familiar_param_w0+1
 
+  ;slide the goal by how much we calculated earlier
   clc
   lda familiar_param_w1
-  adc #ARC_SIZE
+  adc w0
   sta familiar_param_w1
   lda familiar_param_w1+1
   adc #0
