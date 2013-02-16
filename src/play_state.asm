@@ -978,7 +978,7 @@ play_state_action_start_conversation:
 
   jsr entity_draw_all
 
-  lda #TEXTBOX_SCREEN_Y
+  lda #TEXTBOX_SCREEN_SPRITE_OCCLUDE_Y
   sta b0
   jsr sprite_hide_all_below
 
