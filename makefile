@@ -21,6 +21,7 @@ FILES           += zp \
                    ram \
                    main \
                    play_state\
+                   inventory_state\
                    camera \
                    entity \
                    controller \
@@ -37,6 +38,7 @@ FILES           += zp \
                    entities \
                    sprite_chr_data \
                    bg_chr_data \
+                   nametable_data \
                    music_data \
                    sfx_data \
                    map_data \

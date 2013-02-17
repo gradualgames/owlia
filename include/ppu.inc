@@ -5,6 +5,7 @@ PPU_INC = 1
 .global ppu_load_palette
 .global ppu_load_palette_bg
 .global ppu_load_chr_amount
+.global ppu_load_nametable
 .global ppu_safely_disable_graphics
 .global ppu_safely_enable_graphics
 .global ppu_load_dynamic_palette_brightness

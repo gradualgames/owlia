@@ -1,5 +1,6 @@
 .linecont +
 .include "play_state.inc"
+.include "inventory_state.inc"
 .include "controller.inc"
 .include "ppu.inc"
 .include "zp.inc"
@@ -713,14 +714,21 @@ play_state:
   jmp (w0)
 play_state_action_nop:
 
+  jsr controller_read
+
+  ;test controller for system logic that entities never
+  ;need to care about such as the paused state.
+  lda buffer_controller+buttons::_start
+  and #%00000011
+  cmp #%00000001
+  beq transition_to_inventory_state
+
   .ifdef CPU_USAGE
   set_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
   .endif
 
   jsr sprite_clear_all
-
-  jsr controller_read
 
   jsr entity_update_all
 
@@ -733,13 +741,6 @@ play_state_action_nop:
 
   jsr hero_draw_status
 
-  ;test controller for system logic that entities never
-  ;need to care about such as the paused state.
-  lda buffer_controller+buttons::_start
-  and #%00000011
-  cmp #%00000001
-  beq pause_state_init
-
   .ifdef CPU_USAGE
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
@@ -750,86 +751,120 @@ play_state_action_nop:
   jmp play_state
 
 ;****************************************************************
-;This branch location is the pause state. Branch to
-;pause_state_init to put the game into a paused state.
-;pause_state_init will swap the vblank routine for the paused
-;vblank routine, which does nothing. Then, the pause state loop
-;will just read the controller and sync with vblank waiting for
-;an "off to on" transition on the start button to leave the
-;pause state. Upon exiting the loop it will restore the normal
-;play state vblank routine and then jump to play_state.
+;This branch location is a sub-state of the play state intended
+;to prepare for and transition to the inventory state. The
+;inventory state is in a separate source file to help remove
+;clutter from the play state.
 ;****************************************************************
-pause_state_init:
+transition_to_inventory_state:
 
-  set_vblank_data_ready
+  jmp inventory_state_init
 
-  wait_vblank_data_ready
+;****************************************************************
+;This branch location is a sub-state of the play state intended
+;to re-load graphics after coming back from the inventory state.
+;****************************************************************
+play_state_reload:
 
-  ;switch to pause state vblank routine
-  lda #<pause_ppu
-  sta vblank_routine
-  lda #>pause_ppu
-  sta vblank_routine+1
+  ;initialize
+  jsr ppu_safely_disable_graphics
 
-  ;load up the current palette faded to a darker shade for the
-  ;duration of the paused state.
+  lda #$00
+  sta $2006
+  sta $2006
+
   switch_bank_ldy #AREAS_BANK
-  ldy #area::palette_address
+  ldy #area::bg_chr_address
   lda (area_address),y
   sta w0
   iny
   lda (area_address),y
   sta w0+1
-  switch_bank_ldy map_bank
-  lda #1
-  sta b3
-  jsr ppu_load_dynamic_palette_brightness
+  switch_bank_ldy bg_chr_bank
+  jsr ppu_load_chr_amount
 
-  set_vblank_data_ready
-
-pause_state:
-
-  wait_vblank_data_ready
-
-  jsr controller_read
-
-  ;test for start button to be hit again to exit the paused state
-  lda buffer_controller+buttons::_start
-  and #%00000011
-  cmp #%00000001
-  beq pause_state_exit
-
-  set_vblank_data_ready
-
-  jmp pause_state
-
-pause_state_exit:
-
-  set_vblank_data_ready
-  wait_vblank_data_ready
-
-  ;restore the palette to max brightness before exiting the paused state.
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::palette_address
-  lda (area_address),y
-  sta w0
-  iny
-  lda (area_address),y
-  sta w0+1
-  switch_bank_ldy map_bank
-  lda #4
-  sta b3
-  jsr ppu_load_dynamic_palette_brightness
-
-  set_vblank_data_ready
-
-  ;restore the play state vblank routine
-  wait_vblank_data_ready
+  ;replace play state nmi routine
   lda #<nametable_and_attribute_update_ppu
   sta vblank_routine
   lda #>nametable_and_attribute_update_ppu
   sta vblank_routine+1
+
+  ;save camera variables
+  lda camera_x
+  pha
+  lda camera_x+1
+  pha
+  lda camera_y
+  pha
+  lda camera_y+1
+  pha
+
+  ;reload current location
+  jsr fill_nametable_rows
+
+  ;restore camera
+  pla
+  sta camera_y+1
+  pla
+  sta camera_y
+  pla
+  sta camera_x+1
+  pla
+  sta camera_x
+
+  ;calculate nametable hi-byte from camera variables
+  .scope
+  lda camera_x+1
+  and #$01
+  beq even
+odd:
+  lda #$24
+  sta camera_nametable_hibyte
+  jmp done
+even:
+  lda #$20
+  sta camera_nametable_hibyte
+done:
+  .endscope
+
+  ;execute a single frame to get entities onscreen before palette fade in and music
+  .scope
+  wait_vblank_data_ready
+
+  jsr sprite_clear_all
+
+  jsr entity_update_all
+
+  switch_bank_ldy map_bank
+  jsr update_camera
+
+  jsr entity_calculate_screen_coordinates_all
+
+  jsr entity_draw_all
+
+  jsr hero_draw_status
+
   set_vblank_data_ready
+  .endscope
+
+  jsr ppu_safely_enable_graphics
+
+  ;replace play state nmi routine
+  lda #<nametable_and_attribute_update_ppu
+  sta vblank_routine
+  lda #>nametable_and_attribute_update_ppu
+  sta vblank_routine+1
+
+  ;fade in to current palette
+  switch_bank_ldy #AREAS_BANK
+  ldy #area::palette_address
+  lda (area_address),y
+  sta w0
+  iny
+  lda (area_address),y
+  sta w0+1
+  switch_bank_ldy map_bank
+  jsr ppu_fade_in_palette
 
   jmp play_state
 

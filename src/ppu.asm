@@ -142,6 +142,24 @@ loadChrLoop:
 
 .endproc
 
+;loads a nametable and attribute table located at address in w0
+;assumes VRAM points to the nametable that is to be loaded
+.proc ppu_load_nametable
+  ldy #$00
+  ldx #$04
+
+:
+  lda (w0),y
+  sta $2007
+  iny
+  bne :-
+  inc w0+1
+  dex
+  bne :-
+
+  rts
+.endproc
+
 ;expects w0 to point to palette to fade in to
 ;uses b4 to store palette step
 .proc ppu_fade_in_palette

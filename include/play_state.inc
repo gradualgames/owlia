@@ -4,6 +4,7 @@ PLAY_STATE_INC = 1
 .global play_state_initialize
 .global play_state_load_location
 .global play_state
+.global play_state_reload
 
 .struct play_state_control
   action .byte
