@@ -58,6 +58,7 @@ MAX_ENTITIES = 8
 .global entity_local8
 
 .global hero_flags
+.global hero_health
 .global hero_state
 .global hero_x
 .global hero_y

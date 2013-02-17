@@ -653,6 +653,8 @@ play_state_load_location:
 
   jsr entity_calculate_screen_coordinates_all
 
+  jsr hero_draw_status
+
   jsr entity_draw_all
 
   set_vblank_data_ready
@@ -726,6 +728,8 @@ play_state_action_nop:
   jsr update_camera
 
   jsr entity_calculate_screen_coordinates_all
+
+  jsr hero_draw_status
 
   jsr entity_draw_all
 
@@ -976,6 +980,8 @@ play_state_action_start_conversation:
 
   jsr sprite_clear_all
 
+  jsr hero_draw_status
+
   jsr entity_draw_all
 
   lda #TEXTBOX_SCREEN_SPRITE_OCCLUDE_Y
@@ -1034,6 +1040,8 @@ keep_incrementing_camera_x:
 
   jsr entity_calculate_screen_coordinates_all
 
+  jsr hero_draw_status
+
   jsr entity_draw_all
 
   set_vblank_data_ready
@@ -1058,6 +1066,8 @@ keep_decrementing_camera_x:
   jsr decode_map_column
 
   jsr entity_calculate_screen_coordinates_all
+
+  jsr hero_draw_status
 
   jsr entity_draw_all
 
@@ -1088,6 +1098,8 @@ keep_incrementing_camera_y:
 
   jsr entity_calculate_screen_coordinates_all
 
+  jsr hero_draw_status
+
   jsr entity_draw_all
 
   set_vblank_data_ready
@@ -1109,6 +1121,8 @@ keep_decrementing_camera_y:
   jsr decode_map_row
 
   jsr entity_calculate_screen_coordinates_all
+
+  jsr hero_draw_status
 
   jsr entity_draw_all
 

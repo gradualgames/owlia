@@ -24,6 +24,10 @@
 
   lda #HERO_STATE_INIT
   sta hero_state
+  lda #3
+  sta hero_health
+  lda #0
+  sta hero_flags
 
   rts
 
@@ -338,6 +342,16 @@ skip_lookup_opposite_direction:
   pla
   tax
 
+  ;decrement hero's health
+  dec hero_health
+  bne hero_not_dead
+
+  ;TODO: Transition to game over state here
+  lda #3
+  sta hero_health
+
+hero_not_dead:
+
 hero_invincible:
 
   rts
@@ -579,6 +593,48 @@ does_not_intersect_textbox:
 
   jsr sprite_draw_animation
 do_not_draw:
+
+  rts
+
+.endproc
+
+.proc hero_draw_status
+
+  lda hero_sprite_group_offset
+  sta sprite_group_offset
+
+  lda hero_health
+  beq no_hearts
+  sta b6
+
+  lda #<Heart0
+  sta w0
+  lda #>Heart0
+  sta w0+1
+
+  lda #HERO_STATUS_X
+  sta w3
+  lda #0
+  sta w3+1
+
+  lda #HERO_STATUS_Y
+  sta w4
+  lda #0
+  sta w4+1
+
+  lda #0
+  sta b2
+
+draw_next_heart:
+  jsr sprite_draw_metasprite
+
+  lda w3
+  adc #$08
+  sta w3
+
+  dec b6
+  bne draw_next_heart
+no_hearts:
 
   rts
 

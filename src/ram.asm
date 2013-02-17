@@ -57,6 +57,7 @@ entity_local7:               .res MAX_ENTITIES
 entity_local8:               .res MAX_ENTITIES
 
 hero_flags:                       .res 1
+hero_health:                      .res 1
 hero_state:                       .res 1
 hero_x:                           .res 2
 hero_y:                           .res 2

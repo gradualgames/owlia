@@ -8,6 +8,8 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global FightDown
 .global FightUp
 
+.global Heart0
+
 .global FamiliarFlySide
 .global FamiliarFlyDown
 .global FamiliarFlyUp

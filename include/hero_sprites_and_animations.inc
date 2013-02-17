@@ -142,6 +142,10 @@ FightUp1:
   .byte $18,$67,$00,$00,$08
   .byte $18,$68,$00,$08,$00
 
+Heart0:
+  .byte $01
+  .byte $00,$69,$00,$00,$00
+
 WalkUp:
   .byte $0a,$04
   .word WalkUp0

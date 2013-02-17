@@ -38,6 +38,10 @@ HERO_KNOCKBACK_SPEED = $04
 ;map engine.
 HERO_SPEED = $02
 
+;location of health status on screen
+HERO_STATUS_X = $10
+HERO_STATUS_Y = $10
+
 .enum
 HERO_DIRECTION_RIGHT
 HERO_DIRECTION_LEFT

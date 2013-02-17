@@ -7,6 +7,7 @@ HERO_INC = 1
 .global hero_face_in_current_direction
 .global hero_update
 .global hero_draw
+.global hero_draw_status
 .global align_hero_if_occluded_by_textbox
 .global hero_calculate_screen_coordinates
 .global hero_is_deadly
