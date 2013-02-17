@@ -600,7 +600,7 @@ play_state_load_location:
 
   jsr load_area_camera_vars
 
-  jsr fill_nametable_rows
+  jsr map_decode_full_screen
 
   jsr entity_init_all
 
@@ -783,6 +783,47 @@ play_state_reload:
   switch_bank_ldy bg_chr_bank
   jsr ppu_load_chr_amount
 
+  ;load the textbox graphics. This is hardcoded because it is the same
+  ;for the entire game. The assumption here is that the background
+  ;graphics we use will never occupy so many tiles that we cannot
+  ;display a textbox or font.
+  lda #<textbox_chr
+  sta w0
+  lda #>textbox_chr
+  sta w0+1
+  jsr ppu_load_chr_amount
+
+  ;load the bg chr address again so we can pull out the count and intepret
+  ;it as the offset at which to find the textbox and font graphics.
+  switch_bank_ldy #AREAS_BANK
+  ldy #area::bg_chr_address
+  lda (area_address),y
+  sta w0
+  iny
+  lda (area_address),y
+  sta w0+1
+  switch_bank_ldy bg_chr_bank
+  ;load the byte count
+  ldy #0
+  lda (w0),y
+  sta w1
+  iny
+  lda (w0),y
+  sta w1+1
+  ;shift right this 16 bit value to calculate number of tiles
+  lda w1
+  lsr w1+1
+  ror
+  lsr w1+1
+  ror
+  lsr w1+1
+  ror
+  lsr w1+1
+  ror
+  sta w1
+  ;lo byte of w1 should now be the correct offset for the textbox and font graphics
+  sta textbox_and_font_chr_offset
+
   ;replace play state nmi routine
   lda #<nametable_and_attribute_update_ppu
   sta vblank_routine
@@ -800,7 +841,7 @@ play_state_reload:
   pha
 
   ;reload current location
-  jsr fill_nametable_rows
+  jsr map_decode_full_screen
 
   ;restore camera
   pla
@@ -1211,57 +1252,11 @@ decode_map_column:
 
 .endproc
 
-;This routine uses the map decoding system to fill the screen
-;at a given location. This is used while loading a new location
-;with the palette faded out.
-.proc fill_nametable_columns
-
-loop:
-  wait_vblank_data_ready
-
-  ;prepare data
-  lda camera_x
-  sta w0
-  lda camera_x+1
-  sta w0+1
-  lda camera_y
-  sta w1
-  lda camera_y+1
-  sta w1+1
-  jsr map_decode_column
-  jsr map_process_intermediate_attribute_column_buffer
-  lda #1
-  sta column_ready
-
-  clc
-  lda camera_x
-  adc #$08
-  sta camera_x
-  lda camera_x+1
-  adc #$00
-  sta camera_x+1
-
-  lda camera_x+1
-  cmp #1
-  bne not_finished
-
-  set_vblank_data_ready
-
-  wait_vblank_data_ready
-
-  rts
-not_finished:
-
-  set_vblank_data_ready
-
-  jmp loop
-
-.endproc
-
-;This is an alternative routine for filling the screen. We
-;proably won't need to keep both of these so we can discard it
-;eventually.
-.proc fill_nametable_rows
+;This routine fills the whole screen starting at the current
+;camera location. It starts slightly higher than the camera
+;to get any rows which might be partially scrolled off of the
+;screen.
+.proc map_decode_full_screen
 
   lda camera_x
   sta w0
@@ -1269,10 +1264,15 @@ not_finished:
   lda camera_x+1
   sta w0+1
 
+  ;start one row higher than the camera in case the location is not
+  ;aligned to 16 pixel boundaries (this ensures the attribute table
+  ;will be correct when coming back from the inventory state)
+  sec
   lda camera_y
+  sbc #$08
   sta w1
-
   lda camera_y+1
+  sbc #$00
   sta w1+1
 
   lda #30
