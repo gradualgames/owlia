@@ -653,9 +653,9 @@ play_state_load_location:
 
   jsr entity_calculate_screen_coordinates_all
 
-  jsr hero_draw_status
-
   jsr entity_draw_all
+
+  jsr hero_draw_status
 
   set_vblank_data_ready
   .endscope
@@ -729,9 +729,9 @@ play_state_action_nop:
 
   jsr entity_calculate_screen_coordinates_all
 
-  jsr hero_draw_status
-
   jsr entity_draw_all
+
+  jsr hero_draw_status
 
   ;test controller for system logic that entities never
   ;need to care about such as the paused state.
@@ -980,9 +980,9 @@ play_state_action_start_conversation:
 
   jsr sprite_clear_all
 
-  jsr hero_draw_status
-
   jsr entity_draw_all
+
+  jsr hero_draw_status
 
   lda #TEXTBOX_SCREEN_SPRITE_OCCLUDE_Y
   sta b0
@@ -1040,9 +1040,9 @@ keep_incrementing_camera_x:
 
   jsr entity_calculate_screen_coordinates_all
 
-  jsr hero_draw_status
-
   jsr entity_draw_all
+
+  jsr hero_draw_status
 
   set_vblank_data_ready
 
@@ -1067,9 +1067,9 @@ keep_decrementing_camera_x:
 
   jsr entity_calculate_screen_coordinates_all
 
-  jsr hero_draw_status
-
   jsr entity_draw_all
+
+  jsr hero_draw_status
 
   set_vblank_data_ready
 
@@ -1098,9 +1098,9 @@ keep_incrementing_camera_y:
 
   jsr entity_calculate_screen_coordinates_all
 
-  jsr hero_draw_status
-
   jsr entity_draw_all
+
+  jsr hero_draw_status
 
   set_vblank_data_ready
 
@@ -1122,9 +1122,9 @@ keep_decrementing_camera_y:
 
   jsr entity_calculate_screen_coordinates_all
 
-  jsr hero_draw_status
-
   jsr entity_draw_all
+
+  jsr hero_draw_status
 
   set_vblank_data_ready
 

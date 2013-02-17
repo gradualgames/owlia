@@ -598,6 +598,8 @@ do_not_draw:
 
 .endproc
 
+;Draws the hero's health status.
+;This assumes the current bank is the sprites and animations bank!
 .proc hero_draw_status
 
   lda hero_sprite_group_offset
