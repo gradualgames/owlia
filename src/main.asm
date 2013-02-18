@@ -11,6 +11,7 @@
 .include "areas.inc"
 .include "locations.inc"
 .include "sfx_data.inc"
+.include "mapper.inc"
 
 .segment "HEADER"
 .byte "NES",$1a   ;iNES header
@@ -92,6 +93,8 @@ vblank:
   php
 
   jsr indirect_jsr_vblank_routine
+
+  safe_soundengine_update
 
   plp
   pla

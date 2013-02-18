@@ -3,7 +3,6 @@
 .include "ppu.inc"
 .include "sprite.inc"
 .include "mapper.inc"
-.include "soundengine.inc"
 
 .segment "CODE"
 
@@ -12,8 +11,6 @@
 
   lda #0
   sta vblank_data_ready
-
-  safe_soundengine_update
 
   rts
 
@@ -305,8 +302,6 @@ fading_loop:
   lda #0
   sta vblank_data_ready
 :
-
-  safe_soundengine_update
 
   rts
 .endproc

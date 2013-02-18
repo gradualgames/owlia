@@ -4,7 +4,6 @@
 .include "ppu.inc"
 .include "controller.inc"
 .include "sprite.inc"
-.include "soundengine.inc"
 .include "mapper.inc"
 
 .segment "CODE"
@@ -1997,8 +1996,6 @@ done:
   sta vblank_data_ready
 
 data_not_ready:
-
-  safe_soundengine_update
 
   rts
 
