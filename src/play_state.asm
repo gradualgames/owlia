@@ -373,7 +373,9 @@ play_state_load_location:
   lda areas_hi,x
   sta area_address+1
 
-  ;setup bank numbers
+  ;****************************************************************
+  ;Setup bank numbers for different types of data
+  ;****************************************************************
   switch_bank_ldy #AREAS_BANK
   ldy #area::music_bank
   lda (area_address),y
@@ -408,7 +410,17 @@ play_state_load_location:
   lda (area_address),y
   sta textbox_attribute
 
-  ;initialize
+  ;****************************************************************
+  ;Turn off graphics and then load all CHR data for this area.
+  ;Graphics will be off while we load everything: chr data for bg
+  ;and sprites, loading a full screen of the current area and
+  ;location, and running all entity update logic for a single frame
+  ;so everything is in the correct initial state before turning
+  ;graphics back on and fading in the current palette. This allows
+  ;us to call ppu upload routines without relying on the vblank
+  ;interrupt, greatly speeding up load times for locations and
+  ;state transitions (such as to the inventory screen)
+  ;****************************************************************
   jsr ppu_safely_disable_graphics
 
   lda #$00
@@ -495,22 +507,9 @@ play_state_load_location:
 
   jsr ppu_load_palette
 
-  jsr ppu_safely_enable_graphics
-
-  ;initialize variables
-  lda #0
-  sta vblank_data_ready
-
-  lda #0
-  sta row_ready
-  lda #0
-  sta column_ready
-
-  lda #<nametable_and_attribute_update_ppu
-  sta vblank_routine
-  lda #>nametable_and_attribute_update_ppu
-  sta vblank_routine+1
-
+  ;****************************************************************
+  ;Load all map addresses
+  ;****************************************************************
   switch_bank_ldy #AREAS_BANK
   ldy #area::metatile_table_properties_address
   lda (area_address),y
@@ -596,12 +595,20 @@ play_state_load_location:
   lda (area_address),y
   sta map_address+1
 
+  ;****************************************************************
+  ;Fill the nametable with graphics from the newly loaded area,
+  ;at the current location
+  ;****************************************************************
   switch_bank_ldy map_bank
 
   jsr load_area_camera_vars
 
   jsr map_decode_full_screen
 
+  ;****************************************************************
+  ;Initialize hard coded hero and familiar entities as well as
+  ;all non-hard coded entities resident in this area
+  ;****************************************************************
   jsr entity_init_all
 
   ;initialize the hero entity
@@ -641,7 +648,10 @@ play_state_load_location:
 
   jsr spawn_entities
 
-  ;execute a single frame to get entities onscreen before palette fade in and music
+  ;****************************************************************
+  ;Run all frame logic for a single frame except taking user input
+  ;to get all entities onscreen before fading in
+  ;****************************************************************
   .scope execute_single_frame
   wait_vblank_data_ready
 
@@ -661,7 +671,10 @@ play_state_load_location:
   set_vblank_data_ready
   .endscope
 
-  ;load area song if different from current song
+  ;****************************************************************
+  ;Load song for the current area if different from the already
+  ;playing song
+  ;****************************************************************
   switch_bank_ldy #AREAS_BANK
   ldy #area::song_address
   sec
@@ -682,6 +695,14 @@ play_state_load_location:
   jsr song_initialize
 same_song:
 
+  ;****************************************************************
+  ;Now that all graphics are loaded safely, we can turn graphics
+  ;back on, fade in the palette gracefully, set the vblank routine
+  ;to the main play state nmi routine, and transfer control to
+  ;the play state
+  ;****************************************************************
+  jsr ppu_safely_enable_graphics
+
   switch_bank_ldy #AREAS_BANK
   ldy #area::palette_address
   lda (area_address),y
@@ -691,6 +712,20 @@ same_song:
   sta w0+1
   switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
+
+  ;initialize vblank routine for main play state
+  lda #0
+  sta vblank_data_ready
+
+  lda #0
+  sta row_ready
+  lda #0
+  sta column_ready
+
+  lda #<nametable_and_attribute_update_ppu
+  sta vblank_routine
+  lda #>nametable_and_attribute_update_ppu
+  sta vblank_routine+1
 
 ;****************************************************************
 ;This branch location is the main game loop. It handles map
@@ -766,7 +801,7 @@ transition_to_inventory_state:
 ;****************************************************************
 play_state_reload:
 
-  ;initialize
+  ;Disable graphics while we re-load everything
   jsr ppu_safely_disable_graphics
 
   lda #$00
@@ -823,13 +858,6 @@ play_state_reload:
   sta w1
   ;lo byte of w1 should now be the correct offset for the textbox and font graphics
   sta textbox_and_font_chr_offset
-
-  ;replace play state nmi routine
-  lda #<nametable_and_attribute_update_ppu
-  sta vblank_routine
-  lda #>nametable_and_attribute_update_ppu
-  sta vblank_routine+1
-
   ;save camera variables
   lda camera_x
   pha
@@ -890,12 +918,6 @@ done:
 
   jsr ppu_safely_enable_graphics
 
-  ;replace play state nmi routine
-  lda #<nametable_and_attribute_update_ppu
-  sta vblank_routine
-  lda #>nametable_and_attribute_update_ppu
-  sta vblank_routine+1
-
   ;fade in to current palette
   switch_bank_ldy #AREAS_BANK
   ldy #area::palette_address
@@ -906,6 +928,12 @@ done:
   sta w0+1
   switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
+
+  ;replace play state nmi routine
+  lda #<nametable_and_attribute_update_ppu
+  sta vblank_routine
+  lda #>nametable_and_attribute_update_ppu
+  sta vblank_routine+1
 
   jmp play_state
 
@@ -1255,7 +1283,9 @@ decode_map_column:
 ;This routine fills the whole screen starting at the current
 ;camera location. It starts slightly higher than the camera
 ;to get any rows which might be partially scrolled off of the
-;screen.
+;screen. Also, it calls the ppu upload routines without synchronizing
+;with vblank. This routine ASSUMES THAT GRAPHICS ARE OFF. This allows
+;us to load a full screen much more quickly.
 .proc map_decode_full_screen
 
   lda camera_x
@@ -1279,8 +1309,6 @@ decode_map_column:
   sta b0
 
 fill_nametable_loop:
-  wait_vblank_data_ready
-
   ;prepare data
 
   lda w0
@@ -1299,6 +1327,8 @@ fill_nametable_loop:
   jsr map_process_intermediate_attribute_row_buffer
   lda #1
   sta row_ready
+  set_vblank_data_ready
+  jsr nametable_and_attribute_update_ppu
 
   pla
   sta b0
@@ -1319,12 +1349,8 @@ fill_nametable_loop:
   adc #$00
   sta w1+1
 
-  set_vblank_data_ready
-
   dec b0
   bne fill_nametable_loop
-
-  wait_vblank_data_ready
 
   rts
 
