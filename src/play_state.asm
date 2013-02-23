@@ -1288,6 +1288,7 @@ decode_map_column:
 ;us to load a full screen much more quickly.
 .proc map_decode_full_screen
 
+  ;start loading full screen at present camera location
   lda camera_x
   sta w0
 
@@ -1307,6 +1308,10 @@ decode_map_column:
 
   lda #30
   sta b0
+
+  ;make sure we never upload columns, we're using rows here!
+  lda #0
+  sta column_ready
 
 fill_nametable_loop:
   ;prepare data
