@@ -209,14 +209,18 @@ soundeffect_two = 5
 ;be used at the end of an nmi routine, after ppu synchronization.
 .macro safe_soundengine_update
 
-  lda current_bank
-  pha
-  switch_bank_ldy music_bank
+  ;switch to music bank
+  ldy music_bank
+  lda bank_table,y
+  sta bank_table,y
+
   jsr sound_update
   jsr sound_upload
-  pla
-  sta current_bank
-  switch_bank_ldy current_bank
+
+  ;switch back to whatever current bank was before nmi
+  ldy current_bank
+  lda bank_table,y
+  sta bank_table,y
 
 .endmacro
 

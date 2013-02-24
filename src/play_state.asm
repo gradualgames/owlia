@@ -599,10 +599,9 @@ play_state_load_location:
   ;Fill the nametable with graphics from the newly loaded area,
   ;at the current location
   ;****************************************************************
-  switch_bank_ldy map_bank
-
   jsr load_area_camera_vars
 
+  switch_bank_ldy map_bank
   jsr map_decode_full_screen
 
   ;****************************************************************
@@ -872,6 +871,7 @@ play_state_reload:
   pha
 
   ;reload current location
+  switch_bank_ldy map_bank
   jsr map_decode_full_screen
 
   ;restore camera
@@ -1333,7 +1333,6 @@ fill_nametable_loop:
   lda b0
   pha
 
-  switch_bank_ldy map_bank
   jsr map_decode_row
   jsr map_process_intermediate_attribute_row_buffer
   lda #1
