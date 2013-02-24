@@ -722,6 +722,9 @@ same_song:
   lda #0
   sta column_ready
 
+  lda #1
+  sta hide_graphics_top
+
   lda #<nametable_and_attribute_update_ppu
   sta vblank_routine
   lda #>nametable_and_attribute_update_ppu
@@ -928,6 +931,9 @@ done:
   sta w0+1
   switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
+
+  lda #1
+  sta hide_graphics_top
 
   ;replace play state nmi routine
   lda #<nametable_and_attribute_update_ppu
@@ -1332,8 +1338,7 @@ fill_nametable_loop:
   jsr map_process_intermediate_attribute_row_buffer
   lda #1
   sta row_ready
-  set_vblank_data_ready
-  jsr nametable_and_attribute_update_ppu
+  jsr nametable_and_attribute_update_ppu_direct
 
   pla
   sta b0

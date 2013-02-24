@@ -18,6 +18,10 @@
 
 .proc ppu_safely_disable_graphics
 
+  ;turn off graphics hiding
+  lda #0
+  sta hide_graphics_top
+
   ;set nop vblank routine
   lda #<ppu_vblank_nop
   sta vblank_routine
@@ -38,6 +42,9 @@
 .proc ppu_safely_enable_graphics
 
   ;set nop vblank routine
+  lda #0
+  sta hide_graphics_top
+
   lda #<ppu_vblank_nop
   sta vblank_routine
   lda #>ppu_vblank_nop
@@ -168,6 +175,10 @@ palette_step = b4
   lda vblank_routine+1
   pha
 
+  ;turn on graphics hiding
+  lda #1
+  sta hide_graphics_top
+
   ;switch to nmi routine for uploading the dynamic palette
   lda #<ppu_upload_dynamic_palette_ppu
   sta vblank_routine
@@ -222,6 +233,10 @@ palette_step = b4
   pha
   lda vblank_routine+1
   pha
+
+  ;turn on graphics hiding
+  lda #1
+  sta hide_graphics_top
 
   ;switch to nmi routine for uploading the dynamic palette
   lda #<ppu_upload_dynamic_palette_ppu
@@ -302,6 +317,12 @@ fading_loop:
   lda #0
   sta vblank_data_ready
 :
+
+  ;pad CPU cycles for finely tuned graphics hiding
+  ldx #205
+: dex
+  bne :-
+
 
   rts
 .endproc

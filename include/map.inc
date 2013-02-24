@@ -9,6 +9,7 @@ ISOLATE_ACTION_MASK = $0f
 
 .global map_test_collision
 .global nametable_and_attribute_update_ppu
+.global nametable_and_attribute_update_ppu_direct
 .global map_process_intermediate_attribute_row_buffer
 .global map_decode_row
 .global map_process_intermediate_attribute_column_buffer

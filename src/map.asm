@@ -1964,21 +1964,35 @@ done:
 
   jsr sprite_update_all
 
+  .scope
   lda column_ready
-  beq :+
+  beq column_nop
   jsr map_upload_column_ppu
   jsr map_upload_attribute_table_column_ppu
   lda #0
   sta column_ready
-:
-
+  jmp done
+column_nop:
+  ldx #149
+: dex
+  bne :-
+done:
+  .endscope
+  
+  .scope
   lda row_ready
-  beq :+
+  beq row_nop
   jsr map_upload_row_ppu
   jsr map_upload_attribute_table_row_ppu
   lda #0
   sta row_ready
-:
+  jmp done
+row_nop:
+  ldx #176
+: dex
+  bne :-
+done:
+  .endscope
 
   lda camera_nametable_hibyte
   sta ppu_2006
@@ -1996,6 +2010,44 @@ done:
   sta vblank_data_ready
 
 data_not_ready:
+
+  rts
+
+.endproc
+
+.proc nametable_and_attribute_update_ppu_direct
+
+  .scope
+  lda column_ready
+  beq column_nop
+  jsr map_upload_column_ppu
+  jsr map_upload_attribute_table_column_ppu
+  lda #0
+  sta column_ready
+column_nop:
+  .endscope
+  
+  .scope
+  lda row_ready
+  beq row_nop
+  jsr map_upload_row_ppu
+  jsr map_upload_attribute_table_row_ppu
+  lda #0
+  sta row_ready
+row_nop:
+  .endscope
+
+  lda camera_nametable_hibyte
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  lda camera_scroll_x
+  sta ppu_2005
+  lda camera_scroll_y
+  sta ppu_2005+1
+
+  upload_ppu_2006
+  upload_ppu_2005
 
   rts
 

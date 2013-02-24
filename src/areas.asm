@@ -86,12 +86,12 @@ village_area:
   .word village_big_metatile_table_bottom_right
 
 village_entities:
-  .byte 6  ;count
+  .byte 2  ;count
   .byte entity_index_jellyfish, 25, 10, sprite_chr_group_index_jellyfish, 0
-  .byte entity_index_jellyfish, 39, 10, sprite_chr_group_index_jellyfish, 0
-  .byte entity_index_jellyfish, 31, 32, sprite_chr_group_index_jellyfish, 0
-  .byte entity_index_jellyfish, 39, 53, sprite_chr_group_index_jellyfish, 0
-  .byte entity_index_jellyfish, 20, 53, sprite_chr_group_index_jellyfish, 0
+  ; .byte entity_index_jellyfish, 39, 10, sprite_chr_group_index_jellyfish, 0
+  ; .byte entity_index_jellyfish, 31, 32, sprite_chr_group_index_jellyfish, 0
+  ; .byte entity_index_jellyfish, 39, 53, sprite_chr_group_index_jellyfish, 0
+  ; .byte entity_index_jellyfish, 20, 53, sprite_chr_group_index_jellyfish, 0
   .byte entity_index_npc, 8, 20, sprite_chr_group_index_npcman, 4, conversation_index_welcome_to_demo, 0, 16 * 6, 16 * 6
 
 house1_area:

@@ -190,7 +190,11 @@ y_offset_negative:
   bne clip_sprite_y
 y_offset_sign_test_done:
 
-  ;store calculated y coordinate
+  ;store calculated y coordinate and clip against graphics hiding
+  ;bar at top of screen
+  lda sprite_y
+  and #$f0
+  beq clip_sprite_y
   lda sprite_y
   sta sprite+sprite_struct::ycoord,x
 

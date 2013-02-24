@@ -9,7 +9,7 @@ CAMERA_INC = 1
 ;Note we subtract 1 to account for the Y-coordinate-1 quirk of the PPU
 ;when interpreting sprite coordinates.
 CAMERA_SCREEN_ORIGIN_X = 0
-CAMERA_SCREEN_ORIGIN_Y = 7
+CAMERA_SCREEN_ORIGIN_Y = 15
 
 .global update_camera
 .global attach_camera_to_entity

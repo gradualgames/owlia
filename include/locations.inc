@@ -33,7 +33,7 @@ LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_TEST = %00000100
   .word (16*camera_start_x)                     ;camera_start_x .word
   .word (16*camera_start_y)                     ;camera_start_y .word
   .byte <(16*camera_start_x)                    ;camera_start_scroll_x .byte
-  .byte (232 + (16*camera_start_y)) .MOD 240    ;camera_start_scroll_y .byte
+  .byte (224 + (16*camera_start_y)) .MOD 240    ;camera_start_scroll_y .byte
   .word (hero_start_x*16)                       ;hero_start_x .word
   .word (hero_start_y*16)                       ;hero_start_y .word
   .word sfx_address                             ;on_enter_sfx_address .word
@@ -49,7 +49,7 @@ LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_TEST = %00000100
   .word (16*(hero_start_x-8))                       ;camera_start_x .word
   .word (16*(hero_start_y-7))                       ;camera_start_y .word
   .byte <(16*(hero_start_x-8))                      ;camera_start_scroll_x .byte
-  .byte (232 + (16*(hero_start_y-7))) .MOD 240      ;camera_start_scroll_y .byte
+  .byte (224 + (16*(hero_start_y-7))) .MOD 240      ;camera_start_scroll_y .byte
   .word (16*(hero_start_x-8)+128)                   ;hero_start_x .word
   .word (16*(hero_start_y-7)+96)                    ;hero_start_y .word
   .word sfx_address                                 ;on_enter_sfx_address .word
@@ -65,7 +65,7 @@ LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_TEST = %00000100
   .word (16*(hero_start_x-8))                       ;camera_start_x .word
   .word (16*(hero_start_y-12))                      ;camera_start_y .word
   .byte <(16*(hero_start_x-8))                      ;camera_start_scroll_x .byte
-  .byte (232 + (16*(hero_start_y-12))) .MOD 240     ;camera_start_scroll_y .byte
+  .byte (224 + (16*(hero_start_y-12))) .MOD 240     ;camera_start_scroll_y .byte
   .word (16*hero_start_x)                           ;hero_start_x .word
   .word (16*(hero_start_y-1))                       ;hero_start_y .word
   .word sfx_address                                 ;on_enter_sfx_address .word
@@ -81,7 +81,7 @@ LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_TEST = %00000100
   .word (16*(hero_start_x-8))                       ;camera_start_x .word
   .word (16*(hero_start_y-1))                       ;camera_start_y .word
   .byte <(16*(hero_start_x-8))                      ;camera_start_scroll_x .byte
-  .byte (232 + (16*(hero_start_y-1))) .MOD 240      ;camera_start_scroll_y .byte
+  .byte (224 + (16*(hero_start_y-1))) .MOD 240      ;camera_start_scroll_y .byte
   .word (16*(hero_start_x))                         ;hero_start_x .word
   .word (16*(hero_start_y-1))                       ;hero_start_y .word
   .word sfx_address                                 ;on_enter_sfx_address .word

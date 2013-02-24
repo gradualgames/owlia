@@ -94,6 +94,32 @@ vblank:
 
   jsr indirect_jsr_vblank_routine
 
+  lda hide_graphics_top
+  beq do_not_hide_graphics_top
+  ;turn off sprite visibility
+  ;clear_ppu_2001_bit PPU1_SPRITE_VISIBILITY
+  ;turn off background visibility
+  clear_ppu_2001_bit PPU1_BACKGROUND_VISIBILITY
+  upload_ppu_2001
+
+  ;now wait for a finely tuned amount of CPU cycles to create a 16 pixel
+  ;wide black bar at the top of the screen. Used in conjunction with
+  ;how the scrolling engine works we can hide all scrolling updates this
+  ;way.
+  ldx #240
+: dex
+  bne :-
+  ldx #128
+: dex
+  bne :-
+
+  ;turn sprite and background visibility on
+  ;set_ppu_2001_bit PPU1_SPRITE_VISIBILITY
+  set_ppu_2001_bit PPU1_BACKGROUND_VISIBILITY
+  upload_ppu_2001
+
+do_not_hide_graphics_top:
+
   safe_soundengine_update
 
   plp

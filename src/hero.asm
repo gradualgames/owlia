@@ -614,12 +614,12 @@ do_not_draw:
   lda #>Heart0
   sta w0+1
 
-  lda #HERO_STATUS_X
+  lda #(CAMERA_SCREEN_ORIGIN_X+HERO_STATUS_X)
   sta w3
   lda #0
   sta w3+1
 
-  lda #HERO_STATUS_Y
+  lda #(CAMERA_SCREEN_ORIGIN_Y+HERO_STATUS_Y)
   sta w4
   lda #0
   sta w4+1

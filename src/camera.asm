@@ -299,7 +299,7 @@ camera_y_past_boundary:
   sta camera_y
   lda #3
   sta camera_y+1
-  lda #72
+  lda #64
   sta camera_scroll_y
 
   ;flag that increment no-oped
@@ -332,7 +332,7 @@ camera_y_negative:
   lda #0
   sta camera_y
   sta camera_y+1
-  lda #232
+  lda #224
   sta camera_scroll_y
 
   ;flag that increment no-oped
