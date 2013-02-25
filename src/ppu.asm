@@ -319,10 +319,9 @@ fading_loop:
 :
 
   ;pad CPU cycles for finely tuned graphics hiding
-  ldx #205
+  ldx #214
 : dex
   bne :-
-
 
   rts
 .endproc

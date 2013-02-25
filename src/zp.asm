@@ -58,3 +58,4 @@ current_bank: .res 1
 vblank_routine: .res 2
 vblank_data_ready: .res 1
 hide_graphics_top: .res 1
+cycle_pad_lut_index: .res 1

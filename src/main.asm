@@ -109,7 +109,7 @@ vblank:
   ldx #240
 : dex
   bne :-
-  ldx #128
+  ldx #164
 : dex
   bne :-
 

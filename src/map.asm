@@ -1957,6 +1957,12 @@ done:
   rts
 .endproc
 
+cycle_pad_lut1:
+  .byte 165, 77, 91, 3
+
+cycle_pad_lut2:
+  .byte 165, 78, 91, 4
+
 .proc nametable_and_attribute_update_ppu
 
   lda vblank_data_ready
@@ -1969,29 +1975,15 @@ done:
   beq column_nop
   jsr map_upload_column_ppu
   jsr map_upload_attribute_table_column_ppu
-  lda #0
-  sta column_ready
-  jmp done
 column_nop:
-  ldx #149
-: dex
-  bne :-
-done:
   .endscope
-  
+
   .scope
   lda row_ready
   beq row_nop
   jsr map_upload_row_ppu
   jsr map_upload_attribute_table_row_ppu
-  lda #0
-  sta row_ready
-  jmp done
 row_nop:
-  ldx #176
-: dex
-  bne :-
-done:
   .endscope
 
   lda camera_nametable_hibyte
@@ -2005,6 +1997,33 @@ done:
 
   upload_ppu_2006
   upload_ppu_2005
+
+  ;cycle pad this ppu upload routine for the artificial scroll
+  ;update hiding bar (see the main module)
+  lda #0
+  sta cycle_pad_lut_index
+  lda column_ready
+  ror
+  rol cycle_pad_lut_index
+  lda #0
+  sta column_ready
+
+  lda row_ready
+  ror
+  rol cycle_pad_lut_index
+  lda #0
+  sta row_ready
+
+  ldx cycle_pad_lut_index
+  lda cycle_pad_lut1,x
+  tax
+: dex
+  bne :-
+  ldx cycle_pad_lut_index
+  lda cycle_pad_lut2,x
+  tax
+: dex
+  bne :-
 
   lda #0
   sta vblank_data_ready
@@ -2026,7 +2045,7 @@ data_not_ready:
   sta column_ready
 column_nop:
   .endscope
-  
+
   .scope
   lda row_ready
   beq row_nop

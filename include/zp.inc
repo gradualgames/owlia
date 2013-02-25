@@ -57,5 +57,6 @@ ZP_INC = 1
 .globalzp vblank_routine
 .globalzp vblank_data_ready
 .globalzp hide_graphics_top
+.globalzp cycle_pad_lut_index
 
 .endif
