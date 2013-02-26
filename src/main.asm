@@ -106,10 +106,10 @@ vblank:
   ;wide black bar at the top of the screen. Used in conjunction with
   ;how the scrolling engine works we can hide all scrolling updates this
   ;way.
-  ldx #240
+  ldx #177
 : dex
   bne :-
-  ldx #164
+  ldx #178
 : dex
   bne :-
 

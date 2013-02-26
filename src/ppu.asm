@@ -319,7 +319,7 @@ fading_loop:
 :
 
   ;pad CPU cycles for finely tuned graphics hiding
-  ldx #214
+  ldx #218
 : dex
   bne :-
 
