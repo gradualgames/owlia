@@ -255,7 +255,7 @@ end_conversation:
   set_vblank_data_ready
 
   ;draw all middle rows, incrementing y coordinate (w1)
-  ldx #6
+  ldx #5
 next_middle_row:
   wait_vblank_data_ready
 
