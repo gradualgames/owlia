@@ -22,24 +22,6 @@ title_screen_palette:
 
 title_state_init:
 
-  ;load dynamic palette faded out so that fade in doesn't cause funkiness
-  set_vblank_data_ready
-  wait_vblank_data_ready
-  lda #0
-  sta b3
-  lda #<title_screen_palette
-  sta w0
-  lda #>title_screen_palette
-  sta w0+1
-  jsr ppu_load_dynamic_palette_brightness
-
-  lda #<dynamic_palette
-  sta w0
-  lda #>dynamic_palette
-  sta w0+1
-
-  jsr ppu_load_palette
-
   ;set blank nmi routine
   lda #<ppu_vblank_nop
   sta vblank_routine
@@ -123,6 +105,8 @@ title_state_exit:
   sta w0+1
   jsr ppu_fade_out_palette
 
+  jmp title_state_init
+  
   jsr play_state_initialize
 
   lda #<sfx_set1

@@ -103,6 +103,22 @@
   rts
 .endproc
 
+.proc ppu_load_black_palette
+  ldy #0
+  lda #$3F
+  sta $2006
+  lda #$00
+  sta $2006
+  ldx #$00
+  lda #$0e
+: sta $2007
+  inx
+  iny
+  cpx #$20
+  bne :-
+  rts
+.endproc
+
 ;loads a specified amount of chr data into VRAM starting at the current VRAM location.
 ;expects w0 to contain the address of the chr data.
 ;uses w1 to contain the number of bytes to copy from this location.

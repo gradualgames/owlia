@@ -64,6 +64,9 @@ reset:
   upload_ppu_2000
   upload_ppu_2001
 
+  ;load all black palette
+  jsr ppu_load_black_palette
+
   ;initialize modules
   jsr sprite_module_init
 
