@@ -7,5 +7,6 @@ BG_CHR_DATA_INC = 1
 .global map1_chr
 .global dungeon_chr
 .global inventory_chr
+.global title_chr
 
 .endif

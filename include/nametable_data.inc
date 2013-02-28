@@ -2,5 +2,6 @@
 NAMETABLE_DATA_INC = 1
 
 .global inventory_screen
+.global title_screen
 
 .endif

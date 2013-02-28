@@ -491,13 +491,19 @@ play_state_load_location:
   sta w3+1
   jsr load_sprite_chr_groups
 
-  switch_bank_ldy map_bank
-
   ;load dynamic palette faded out so that fade in doesn't cause funkiness
   set_vblank_data_ready
   wait_vblank_data_ready
   lda #0
   sta b3
+  switch_bank_ldy #AREAS_BANK
+  ldy #area::palette_address
+  lda (area_address),y
+  sta w0
+  iny
+  lda (area_address),y
+  sta w0+1
+  switch_bank_ldy map_bank
   jsr ppu_load_dynamic_palette_brightness
 
   lda #<dynamic_palette

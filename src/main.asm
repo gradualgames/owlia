@@ -6,6 +6,7 @@
 .include "map_data.inc"
 .include "sprites_and_animations_data.inc"
 .include "play_state.inc"
+.include "title_state.inc"
 .include "sprite.inc"
 .include "soundengine.inc"
 .include "areas.inc"
@@ -68,20 +69,7 @@ reset:
 
   jsr sound_initialize
 
-  jsr play_state_initialize
-
-  lda #<sfx_set1
-  sta sound_param_word_0
-  lda #>sfx_set1
-  sta sound_param_word_0+1
-  jsr sfx_initialize
-
-  ldx #location_index_village_house1_entrance
-  lda locations_lo,x
-  sta location_address
-  lda locations_hi,x
-  sta location_address+1
-  jmp play_state_load_location
+  jmp title_state_init
 
 vblank:
 
