@@ -105,8 +105,6 @@ title_state_exit:
   sta w0+1
   jsr ppu_fade_out_palette
 
-  jmp title_state_init
-  
   jsr play_state_initialize
 
   lda #<sfx_set1
