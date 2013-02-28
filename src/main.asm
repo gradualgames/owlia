@@ -30,16 +30,29 @@ reset:
   ;clear binary encoded decimal flag
   cld
 
+  ;disable APU frame IRQ
+  lda #$40
+  sta $4017
+
   ;initialize stack
   ldx #$FF
   txs
 
-  ;turn off all graphics and clear our PPU registers
+  ;turn off all graphics, and clear PPU registers
   lda #$00
   sta ppu_2000
   sta ppu_2001
   upload_ppu_2000
   upload_ppu_2001
+
+  ;disable DMC IRQs
+  lda #$00
+  sta $4010
+
+  ;Clear the vblank flag, so we know that we are waiting for the
+  ;start of a vertical blank and not powering on with the
+  ;vblank flag spuriously set
+  bit $2002
 
   ;wait for PPU to be ready
   wait_vblank
