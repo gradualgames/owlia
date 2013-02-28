@@ -16,6 +16,13 @@
 
 .endproc
 
+;this routine is used when the palette is faded out to enable
+;loading ppu graphics without synchronizing with vblank
+;assumes the palette is black
+;assumes that we are somewhere in the middle of rendering a frame
+;so that it is safe to switch out the nmi routine to a no-op routine
+;turns off graphics and sprites
+;turns off artificial graphics hiding bar
 .proc ppu_safely_disable_graphics
 
   ;turn off graphics hiding
@@ -39,12 +46,15 @@
 
 .endproc
 
+;assumes the palette is black
+;assumes that we are somewhere in the middle of rendering a frame
 .proc ppu_safely_enable_graphics
 
-  ;set nop vblank routine
+  ;turn off graphics hiding
   lda #0
   sta hide_graphics_top
 
+  ;set nop vblank routine
   lda #<ppu_vblank_nop
   sta vblank_routine
   lda #>ppu_vblank_nop
@@ -164,6 +174,9 @@ loadChrLoop:
   rts
 .endproc
 
+;assumes we are safely in the middle of rendering a frame so we can
+;switch to the palette vblank routine.
+;assumes the palette is black
 ;expects w0 to point to palette to fade in to
 ;uses b4 to store palette step
 .proc ppu_fade_in_palette
@@ -223,6 +236,8 @@ fading_loop:
   rts
 .endproc
 
+;assumes we are safely in the middle of rendering a frame so we can
+;switch to the palette vblank routine and turn on graphics hiding
 ;expects w0 to point to the palette to fade out from
 ;uses b4 to store palette step
 .proc ppu_fade_out_palette
