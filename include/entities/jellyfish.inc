@@ -63,73 +63,6 @@ jellyfish_state_init:
 
 jellyfish_state_main:
 
-  jsr hero_is_deadly
-  beq hero_not_deadly
-
-  jsr entity_test_hero_attack_rect
-  bne hero_not_deadly
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-  lda #entity_index_explosion
-  sta b0
-
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-  lda entity_y_lo,x
-  sta w1
-  lda entity_y_hi,x
-  sta w1+1
-
-  jsr entity_spawn
-
-hero_not_deadly:
-
-  jsr familiar_is_deadly
-  beq familiar_not_deadly
-
-  jsr entity_test_familiar_rect
-  bne familiar_not_deadly
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-  lda #entity_index_explosion
-  sta b0
-
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-  lda entity_y_lo,x
-  sta w1
-  lda entity_y_hi,x
-  sta w1+1
-
-  jsr entity_spawn
-
-  jsr familiar_hit_enemy
-
-familiar_not_deadly:
-
-  jsr entity_test_hero_rect
-  bne entity_not_hitting_hero
-
-  lda #$ff
-  sta b0
-  jsr hero_hurt
-
-entity_not_hitting_hero:
-
-  ;use b0 to count whether both X and Y are close enough
-  lda #0
-  sta b0
-
   .scope
   ;calculate distance between "goal" and X coordinate
   sec
@@ -170,45 +103,45 @@ entity_not_hitting_hero:
 
   .scope
   lda jellyfish_velocity_x_lo,x
-  sta w0
+  sta w10
   lda jellyfish_velocity_x_hi,x
-  sta w0+1
+  sta w10+1
   bpl not_negative
   ;find absolute value
-  lda w0
+  lda w10
   eor #$ff
   adc #$01
-  sta w0
-  lda w0+1
+  sta w10
+  lda w10+1
   eor #$ff
   adc #$00
-  sta w0+1
+  sta w10+1
 not_negative:
   .endscope
 
   .scope
   lda jellyfish_velocity_y_lo,x
-  sta w1
+  sta w11
   lda jellyfish_velocity_y_hi,x
-  sta w1+1
+  sta w11+1
   bpl not_negative
   ;find absolute value
-  lda w1
+  lda w11
   eor #$ff
   adc #$01
-  sta w1
-  lda w1+1
+  sta w11
+  lda w11+1
   eor #$ff
   adc #$00
-  sta w1+1
+  sta w11+1
 not_negative:
   .endscope
 
   .scope
-  lda w0+1
+  lda w10+1
   sbc #1
   bpl do_not_move
-  lda w1+1
+  lda w11+1
   sbc #1
   bpl do_not_move
 
@@ -269,6 +202,110 @@ done:
 
 do_not_move:
   .endscope
+
+  jsr hero_is_deadly
+  beq hero_not_deadly
+
+  jsr entity_test_hero_attack_rect
+  bne hero_not_deadly
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  lda #entity_index_explosion
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+hero_not_deadly:
+
+  jsr familiar_is_deadly
+  beq familiar_not_deadly
+
+  jsr entity_test_familiar_rect
+  bne familiar_not_deadly
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  lda #entity_index_explosion
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  jsr familiar_hit_enemy
+
+familiar_not_deadly:
+
+  jsr entity_test_hero_rect
+  bne entity_not_hitting_hero
+
+  ;determine knockback direction based on absolute values
+  ;of entity's velocity
+  .scope
+  sec
+  lda w10
+  sbc w11
+  lda w10+1
+  sbc w11+1
+  bpl x_velocity_bigger
+y_velocity_bigger:
+
+  .scope
+  lda jellyfish_velocity_y_hi,x
+  bpl down
+up:
+  lda #HERO_DIRECTION_UP
+  sta b0
+  jmp done
+down:
+  lda #HERO_DIRECTION_DOWN
+  sta b0
+done:
+  .endscope
+
+  jmp done
+x_velocity_bigger:
+
+  .scope
+  lda jellyfish_velocity_x_hi,x
+  bmi left
+right:
+  lda #HERO_DIRECTION_RIGHT
+  sta b0
+  jmp done
+left:
+  lda #HERO_DIRECTION_LEFT
+  sta b0
+done:
+  .endscope
+
+done:
+  .endscope
+
+  jsr hero_hurt
+
+entity_not_hitting_hero:
 
   jsr entity_update_animation
 

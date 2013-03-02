@@ -311,8 +311,8 @@ hero_knockback_direction = b0
   ; -if hero_invincibility_counter is 0
   lda hero_invincibility_counter
   bne hero_invincible
-  ; -if cardinal direction param is none,
-  lda hero_knockback_direction
+  ; -if cardinal direction param is none (-1),
+  ldy hero_knockback_direction
   bpl skip_lookup_opposite_direction
     ; -look up opposite direction for hero_direction.
   ldy hero_direction
