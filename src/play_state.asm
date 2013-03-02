@@ -2,6 +2,7 @@
 .include "play_state.inc"
 .include "inventory_state.inc"
 .include "title_state.inc"
+.include "game_over_state.inc"
 .include "controller.inc"
 .include "ppu.inc"
 .include "zp.inc"
@@ -889,7 +890,7 @@ spin_hero_loop:
   switch_bank_ldy map_bank
   jsr ppu_fade_out_palette
 
-  jmp title_state_init
+  jmp game_over_state_init
 
 ;****************************************************************
 ;This branch location is a sub-state of the play state intended

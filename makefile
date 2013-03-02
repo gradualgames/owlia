@@ -23,6 +23,7 @@ FILES           += zp \
                    play_state\
                    inventory_state\
                    title_state\
+                   game_over_state\
                    camera \
                    entity \
                    controller \
