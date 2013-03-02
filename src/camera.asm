@@ -213,6 +213,8 @@ camera_x_past_boundary:
   sta camera_x+1
   lda #0
   sta camera_scroll_x
+  lda #$24
+  sta camera_nametable_hibyte
 
   ;flag that increment no-oped
   lda #0
@@ -245,6 +247,8 @@ camera_x_negative:
   sta camera_x
   sta camera_x+1
   sta camera_scroll_x
+  lda #$20
+  sta camera_nametable_hibyte
 
   ;flag that increment no-oped
   lda #0
