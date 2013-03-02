@@ -50,6 +50,15 @@
 
 .endproc
 
+.proc hero_turn_clockwise
+
+  ldy hero_direction
+  lda hero_turn_right_direction,y
+  sta hero_direction
+  rts
+
+.endproc
+
 .proc hero_prepare_familiar_carry_hero
 tile_x = w7
 tile_y = w8
@@ -346,9 +355,9 @@ skip_lookup_opposite_direction:
   dec hero_health
   bne hero_not_dead
 
-  ;TODO: Transition to game over state here
-  lda #3
-  sta hero_health
+  ;tell play state to transition to game over on next frame
+  lda #ACTION_GAME_OVER
+  sta state_control_params+play_state_control::action
 
 hero_not_dead:
 
@@ -816,6 +825,12 @@ hero_opposite_direction:
   .byte HERO_DIRECTION_RIGHT
   .byte HERO_DIRECTION_UP
   .byte HERO_DIRECTION_DOWN
+
+hero_turn_right_direction:
+  .byte HERO_DIRECTION_DOWN
+  .byte HERO_DIRECTION_UP
+  .byte HERO_DIRECTION_LEFT
+  .byte HERO_DIRECTION_RIGHT
 
 sprite_flags_direction:
   .byte %00000000, %01000000, %00000000, %00000000

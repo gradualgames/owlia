@@ -233,8 +233,9 @@ spawn_y = w1
 
 .endproc
 
-;iterates over all entities. Calls the update routines of all "alive"
-;entities.
+;Updates hero, familiar, and all non player entities.
+;NOTE! This procedure intentionally spills into entity_update_npe,
+;to provide shared functionality without duplicating code.
 .proc entity_update_all
 
   ;update the two player entities
@@ -243,6 +244,10 @@ spawn_y = w1
   switch_bank_ldy #FAMILIAR_BANK
   jsr familiar_update
 
+.endproc
+
+;Updates only non player entities.
+.proc entity_update_npe
   switch_bank_ldy entities_bank
 
   ;iterate over all entities
@@ -396,6 +401,11 @@ entity_not_alive:
 
 .endproc
 
+;draws hero, familiar, and all non player entities.
+;Sorts hero, familiar, and a single entity that may have been
+;selected to be sorted against the hero and familiar.
+;NOTE! This procedure intentionally spills into entity_draw_npe
+;to provide shared functionality without duplicating code.
 .proc entity_draw_all
 
   switch_bank_ldy sprites_and_animations_bank
@@ -435,6 +445,12 @@ done:
   .endscope
 done:
   .endscope
+
+.endproc
+
+;draws all non player entities
+.proc entity_draw_npe
+  switch_bank_ldy sprites_and_animations_bank
 
   ;iterate over all entities
   ldx #(MAX_ENTITIES-1)
@@ -483,7 +499,13 @@ done:
 
   rts
 
-draw_entity:
+.endproc
+
+;draws entity currently pointed to by x register
+;assumes entity is alive and drawable
+;this routine is private to this module and should
+;not be exposed
+.proc draw_entity
 
   lda entity_animation_address_lo,x
   sta w0
@@ -515,10 +537,13 @@ draw_entity:
   sta w2+1
 
   jsr sprite_draw_animation_frame
-
   rts
 
-perform_sort_entity_hero_and_familiar:
+.endproc
+
+;this routine is private to this module and sorts the
+;hero, familiar, and third participant entity if available.
+.proc perform_sort_entity_hero_and_familiar
 
   ;sort and display the high priority player entities
   .scope
@@ -628,7 +653,6 @@ done:
 done_drawing_sorted:
 
   rts
-
 .endproc
 
 ;resets the current entity's animation

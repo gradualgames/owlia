@@ -5,6 +5,7 @@ HERO_INC = 1
 
 .global hero_init
 .global hero_face_in_current_direction
+.global hero_turn_clockwise
 .global hero_update
 .global hero_draw
 .global hero_draw_status

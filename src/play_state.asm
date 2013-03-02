@@ -1,6 +1,7 @@
 .linecont +
 .include "play_state.inc"
 .include "inventory_state.inc"
+.include "title_state.inc"
 .include "controller.inc"
 .include "ppu.inc"
 .include "zp.inc"
@@ -343,10 +344,17 @@ done:
 
 ;a list of action handlers for the play state. This
 ;must exactly reflect the actions enum in actions.inc.
+;Note that some actions are never handled by the play
+;state, such as ACTION_CARRY_TO. This action only affects
+;the player and familiar entities. For these actions, the
+;play_state_action_nop handler is specified (but it should
+;never get called anyway)
 .define play_state_action_handlers \
   play_state_action_nop, \
   play_state_action_goto_location_group1, \
-  play_state_action_start_conversation
+  play_state_action_start_conversation, \
+  play_state_action_nop, \
+  play_state_action_game_over
 
 play_state_action_handlers_lo:
   .lobytes play_state_action_handlers
@@ -780,6 +788,108 @@ play_state_action_nop:
 transition_to_inventory_state:
 
   jmp inventory_state_init
+
+;****************************************************************
+;This branch location is a sub-state of the play state intended
+;to prepare for and transition to the game over state. It plays
+;a game over sound, changes the palette to black, erases all
+;entities, spins Adlanniel in place, shows an explosion animation
+;and sound, and then transitions to the game over state.
+;****************************************************************
+play_state_action_game_over:
+
+  ;pause a few frames
+  ldx #4
+: set_vblank_data_ready
+  wait_vblank_data_ready
+  dex
+  bne :-
+
+  ;play game over song
+  jsr sound_stop
+  lda #<game_over
+  sta song_address
+  lda #>game_over
+  sta song_address+1
+  switch_bank_ldy music_bank
+  jsr song_initialize
+
+  ;spin the hero around a few times
+  .scope
+  ldy #28
+spin_hero_loop:
+  wait_vblank_data_ready
+  tya
+  pha
+  jsr hero_turn_clockwise
+  jsr hero_face_in_current_direction
+  jsr sprite_clear_all
+  jsr hero_draw
+  pla
+  tay
+
+  ;pause a few frames
+  ldx #4
+: set_vblank_data_ready
+  wait_vblank_data_ready
+  dex
+  bne :-
+
+  dey
+  bne spin_hero_loop
+  .endscope
+
+  ;kill all entities that are currently alive
+  jsr entity_init_all
+
+  ;spawn an explosion entity at hero's location
+  lda #entity_index_explosion
+  sta b0
+
+  lda hero_x
+  sta w0
+  lda hero_x+1
+  sta w0+1
+  lda hero_y
+  sta w1
+  lda hero_y+1
+  sta w1+1
+
+  jsr entity_spawn
+
+  ;execute a few frames, doing nothing but updating non-player entities
+  ;(the explosion entity we just spawned) and drawing non-player entities.
+  ldy #32
+: wait_vblank_data_ready
+
+  tya
+  pha
+  jsr sprite_clear_all
+
+  jsr entity_update_npe
+
+  jsr entity_calculate_screen_coordinates_all
+
+  jsr entity_draw_npe
+  pla
+  tay
+
+  set_vblank_data_ready
+  dey
+  bne :-
+
+  ;fade out from current palette
+  switch_bank_ldy #AREAS_BANK
+  ldy #area::palette_address
+  lda (area_address),y
+  sta w0
+  iny
+  lda (area_address),y
+  sta w0+1
+  switch_bank_ldy map_bank
+  jsr ppu_fade_out_palette
+
+  jmp title_state_init
 
 ;****************************************************************
 ;This branch location is a sub-state of the play state intended

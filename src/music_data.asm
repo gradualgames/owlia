@@ -15,3 +15,7 @@ song3:
 .scope
 .include "town_theme.inc"
 .endscope
+game_over:
+.scope
+.include "game_over.inc"
+.endscope
