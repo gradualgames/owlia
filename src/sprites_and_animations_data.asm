@@ -9,3 +9,4 @@
 .include "npcman_sprites_and_animations.inc"
 .include "npcwoman_sprites_and_animations.inc"
 .include "key_sprites_and_animations.inc"
+.include "cursor_sprites_and_animations.inc"

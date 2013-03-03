@@ -11,6 +11,7 @@ SPRITE_CHR_INC = 1
 .global NpcMan_chr
 .global NpcWoman_chr
 .global Key_chr
+.global Cursor_chr
 
 .enum
 sprite_chr_group_index_hero
@@ -20,6 +21,7 @@ sprite_chr_group_index_jellyfish
 sprite_chr_group_index_npcman
 sprite_chr_group_index_npcwoman
 sprite_chr_group_index_key
+sprite_chr_group_index_cursor
 .endenum
 
 .endif
