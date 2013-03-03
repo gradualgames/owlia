@@ -10,6 +10,7 @@
 .include "ram.inc"
 .include "zp.inc"
 .include "sprite.inc"
+.include "sprite_chr_data.inc"
 
 .segment "CODE"
 
@@ -47,11 +48,52 @@ inventory_state_init:
   sta $2006
   sta $2006
 
+  ;reset tile accumulator
+  lda #$00
+  sta b3
+
   lda #<inventory_chr
   sta w0
   lda #>inventory_chr
   sta w0+1
   switch_bank_ldy #INVENTORY_STATE_BG_CHR_BANK
+  jsr ppu_load_chr_amount
+
+  ;grab tile accumulator to know where the textbox and font group begins
+  lda b3
+  sta textbox_and_font_chr_offset
+
+  ;load the textbox graphics. This is hardcoded because it is the same
+  ;for the entire game. The assumption here is that the background
+  ;graphics we use will never occupy so many tiles that we cannot
+  ;display a textbox or font.
+  lda #<textbox_chr
+  sta w0
+  lda #>textbox_chr
+  sta w0+1
+  jsr ppu_load_chr_amount
+
+  ;load cursor graphics
+  lda #$10
+  sta $2006
+  lda #$00
+  sta $2006
+
+  ;reset tile accumulator
+  lda #$00
+  sta b3
+
+  lda #<Cursor_chr
+  sta w0
+  lda #>Cursor_chr
+  sta w0+1
+
+  ;store the current chr offset in sprite_chr_groups_chr_offsets array for the cursor
+  ldy #sprite_chr_group_index_cursor
+  lda b3
+  sta sprite_chr_group_offsets,y
+
+  switch_bank_ldy #INVENTORY_STATE_SPRITE_CHR_BANK
   jsr ppu_load_chr_amount
 
   ;load nametable data for inventory screen

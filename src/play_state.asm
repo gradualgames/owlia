@@ -886,6 +886,20 @@ play_state_reload:
   sta w0+1
   jsr ppu_load_chr_amount
 
+  lda #$10
+  sta $2006
+  lda #$00
+  sta $2006
+
+  switch_bank_ldy #AREAS_BANK
+  ldy #area::sprite_chr_groups_address
+  lda (area_address),y
+  sta w4
+  iny
+  lda (area_address),y
+  sta w4+1
+  jsr load_sprite_chr_groups
+
   ;save camera variables
   lda camera_x
   pha
