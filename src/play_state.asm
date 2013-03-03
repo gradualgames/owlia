@@ -699,7 +699,7 @@ play_state_action_nop:
   jsr controller_read
 
   ;test controller for system logic that entities never
-  ;need to care about such as the paused state.
+  ;need to care about such as the inventory state.
   lda buffer_controller+buttons::_start
   and #%00000011
   cmp #%00000001
@@ -981,53 +981,13 @@ done:
   lda #>nametable_and_attribute_update_ppu
   sta vblank_routine+1
 
-  jmp play_state
-
-;this is the vblank routine for the pause state.
-.proc pause_ppu
-
-  lda vblank_data_ready
-  beq data_not_ready
-
-  ;palette writes must have the 32 byte increment
-  ;setting turned off!
-  clear_ppu_2000_bit PPU0_ADDRESS_INCREMENT
-  upload_ppu_2000
-
-  lda #<dynamic_palette
-  sta w0
-  lda #>dynamic_palette
-  sta w0+1
-
-  jsr ppu_load_palette
-
-  ;make sure to update all ppu registers as
-  ;they had been in the play state for scrolling
-  lda camera_nametable_hibyte
-  sta ppu_2006
-  lda #$00
-  sta ppu_2006+1
-  lda camera_scroll_x
-  sta ppu_2005
-  lda camera_scroll_y
-  sta ppu_2005+1
-
-  upload_ppu_2006
-  upload_ppu_2005
-
+  ;make sure current action of play state is a no-op
+  lda #ACTION_NOP
+  sta state_control_params+play_state_control::action
   lda #0
-  sta vblank_data_ready
+  sta state_control_params+play_state_control::param
 
-data_not_ready:
-
-  ;does not require music data from another bank. All this
-  ;does is upload what is currently in the registers, and then
-  ;clears them, ensuring that sound cuts out during the paused state.
-  jsr sound_upload
-
-  rts
-
-.endproc
+  jmp play_state
 
 ;****************************************************************
 ;This action handler loads a new location and jumps to the

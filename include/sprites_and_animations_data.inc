@@ -29,4 +29,6 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 
 .global Key
 
+.global Cursor0
+
 .endif
