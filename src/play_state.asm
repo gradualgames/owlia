@@ -436,6 +436,7 @@ play_state_load_location:
   sta w0
   lda #>textbox_chr
   sta w0+1
+  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
   jsr ppu_load_chr_amount
 
   lda #$10
@@ -884,6 +885,7 @@ play_state_reload:
   sta w0
   lda #>textbox_chr
   sta w0+1
+  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
   jsr ppu_load_chr_amount
 
   lda #$10

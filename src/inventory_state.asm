@@ -15,11 +15,15 @@
 .include "sprites_and_animations_data.inc"
 .include "soundengine.inc"
 .include "sfx_data.inc"
+.include "textbox.inc"
 
 .segment "CODE"
 
+test_string:
+  .byte H,E,L,L,O,ES
+
 inventory_screen_palette:
-  .byte $0d,$0d,$0d,$20,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+  .byte $0d,$0d,$18,$20,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
   .byte $0d,$0d,$0d,$20,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
 .proc ppu_inventory_vblank
@@ -288,6 +292,7 @@ inventory_state_init:
   sta w0
   lda #>textbox_chr
   sta w0+1
+  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
   jsr ppu_load_chr_amount
 
   ;load cursor graphics
@@ -351,6 +356,9 @@ inventory_state_init:
   jsr sprite_update_all
 
   jsr ppu_safely_enable_graphics
+
+  ;draw menu layout with strings
+  print_string test_string, #$20, #10, #10
 
   ;fade in inventory screen palette
   lda #<inventory_screen_palette

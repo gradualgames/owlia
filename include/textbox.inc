@@ -1,19 +1,37 @@
 .ifndef TEXTBOX_INC
 TEXTBOX_INC = 1
 
+TEXTBOX_BG_CHR_BANK = 1
+
 TEXTBOX_SCREEN_X = 0
 TEXTBOX_SCREEN_Y = 176
 TEXTBOX_SCREEN_SPRITE_OCCLUDE_Y = (TEXTBOX_SCREEN_Y - 8)
 TEXTBOX_WIDTH = 255
 TEXTBOX_HEIGHT = 80
 
-.global test_conversation
+.global print_string_impl
 .global run_conversation
 .global draw_textbox
 .global erase_textbox
 .global draw_textbox_top_row
 .global draw_textbox_middle_row
 .global draw_textbox_bottom_row
+
+.macro print_string string_address, nametable, row, column
+
+  lda #<string_address
+  sta w0
+  lda #>string_address
+  sta w0+1
+  lda nametable
+  sta b0
+  lda row
+  sta b1
+  lda column
+  sta b2
+  jsr print_string_impl
+
+.endmacro
 
 ;offsets of tiles in the textbox chr graphics
 ;these are to be added to textbox_and_font_chr_offset
@@ -71,5 +89,8 @@ EL = -1 ;end of line. This must ALWAYS be followed by a row number and some text
 EP = -2 ;end of page
 WT = -3 ;wait for player to hit A button
 EC = -4 ;end of conversation
+
+;string control characters
+ES = -5 ;end of string
 
 .endif

@@ -12,6 +12,33 @@
 
 .segment "CODE"
 
+;This routine simply prints a string directly to the nametable.
+;w0 is expected to be the address of the string to print.
+;b0 is expected to be the hi byte of the nametable to which to draw the string.
+;b1 is expected to be the row at which to print the string.
+;b2 is expected to be the column at which to print the string.
+;assumes that graphics are off or is being called from vblank.
+.proc print_string_impl
+string_address = w0
+
+  set_ppu_2006_abs b0, b1, b2
+  upload_ppu_2006
+
+  ldy #0
+: lda (string_address),y
+  cmp #ES
+  beq end_of_string
+  clc
+  adc textbox_and_font_chr_offset
+  sta $2007
+  iny
+  jmp :-
+
+end_of_string:
+  rts
+
+.endproc
+
 ;This routine takes an address of a conversation script as a
 ;parameter in w0 and then reads the script to display text on
 ;the text box and animate it at a reasonable speed, as well
