@@ -121,7 +121,10 @@
 
 ;loads a specified amount of chr data into VRAM starting at the current VRAM location.
 ;expects w0 to contain the address of the chr data.
-;uses w1 to contain the number of bytes to copy from this location.
+;uses w1 to count the number of bytes to copy from this location.
+;uses w2 to preserve the number of bytes to copy from this location.
+;uses b3 to accmulate number of tiles loaded thus var into VRAM. This allows chaining
+;of ppu_load_chr_amount calls to know the offset of the next group to be loaded.
 .proc ppu_load_chr_amount
 
   ;save y
@@ -131,9 +134,11 @@
   ldy #0
   lda (w0),y
   sta w1
+  sta w2
   iny
   lda (w0),y
   sta w1+1
+  sta w2+1
   iny
 
 loadChrLoop:
@@ -167,6 +172,25 @@ loadChrLoop:
   ;restore y
   pla
   tay
+
+  ;shift right this 16 bit value to calculate number of tiles loaded.
+  lda w2
+  lsr w2+1
+  ror
+  lsr w2+1
+  ror
+  lsr w2+1
+  ror
+  lsr w2+1
+  ror
+  sta w2
+
+  ;now accmulate the number of tiles loaded onto b3. Only use lo byte,
+  ;we can't load more than 256 tiles anyway!
+  clc
+  lda b3
+  adc w2
+  sta b3
 
   rts
 

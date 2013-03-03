@@ -55,12 +55,13 @@
 ;basically just means it will load all chr data for entities into
 ;VRAM and remember where they were loaded in sprite_chr_group_addresses.
 .proc load_sprite_chr_groups
-sprite_chr_groups_address = w3
+sprite_chr_groups_address = w4
 chr_amount = w2
-chr_offset = b1
+chr_offset = b3
 sprite_chr_groups_index = b0
 
-  lda #0
+  ;start tile accumulator (modified by ppu_load_chr_amount)
+  lda #$00
   sta chr_offset
 
   ;get count for number of entity types in this area
@@ -76,6 +77,7 @@ sprite_chr_groups_index = b0
 
 next_entity_type:
 
+  switch_bank_ldy #AREAS_BANK
   ;get next entity type index
   ldy sprite_chr_groups_index
   lda (sprite_chr_groups_address),y
@@ -94,35 +96,8 @@ next_entity_type:
   ;load the number of bytes in this chr chunk before loading it. we will use
   ;it to calculate the chr offset for this entity type.
   switch_bank_ldy sprite_chr_bank
-  ldy #0
-  lda (w0),y
-  sta w2
-  iny
-  lda (w0),y
-  sta w2+1
 
   jsr ppu_load_chr_amount
-  switch_bank_ldy #AREAS_BANK
-
-  ;shift right the number of bytes that was in the chr chunk by 4 to divide
-  ;by 16 (number of bytes in a chr tile) to get the count in chr tile units.
-  lda w2
-  lsr w2+1
-  ror
-  lsr w2+1
-  ror
-  lsr w2+1
-  ror
-  lsr w2+1
-  ror
-  sta w2
-
-  ;add lo byte to chr_offset so the next entity can store its offset in the
-  ;sprite_chr_group_offsets array in ram
-  clc
-  lda chr_offset
-  adc w2
-  sta chr_offset
 
   inc sprite_chr_groups_index
 
@@ -436,6 +411,10 @@ play_state_load_location:
   sta $2006
   sta $2006
 
+  ;begin chr tile accumulator at 0
+  lda #$00
+  sta b3
+
   ldy #area::bg_chr_address
   lda (area_address),y
   sta w0
@@ -444,6 +423,10 @@ play_state_load_location:
   sta w0+1
   switch_bank_ldy bg_chr_bank
   jsr ppu_load_chr_amount
+
+  ;grab tile accumulator to know where the textbox and font group begins
+  lda b3
+  sta textbox_and_font_chr_offset
 
   ;load the textbox graphics. This is hardcoded because it is the same
   ;for the entire game. The assumption here is that the background
@@ -455,37 +438,6 @@ play_state_load_location:
   sta w0+1
   jsr ppu_load_chr_amount
 
-  ;load the bg chr address again so we can pull out the count and intepret
-  ;it as the offset at which to find the textbox and font graphics.
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::bg_chr_address
-  lda (area_address),y
-  sta w0
-  iny
-  lda (area_address),y
-  sta w0+1
-  switch_bank_ldy bg_chr_bank
-  ;load the byte count
-  ldy #0
-  lda (w0),y
-  sta w1
-  iny
-  lda (w0),y
-  sta w1+1
-  ;shift right this 16 bit value to calculate number of tiles
-  lda w1
-  lsr w1+1
-  ror
-  lsr w1+1
-  ror
-  lsr w1+1
-  ror
-  lsr w1+1
-  ror
-  sta w1
-  ;lo byte of w1 should now be the correct offset for the textbox and font graphics
-  sta textbox_and_font_chr_offset
-
   lda #$10
   sta $2006
   lda #$00
@@ -494,10 +446,10 @@ play_state_load_location:
   switch_bank_ldy #AREAS_BANK
   ldy #area::sprite_chr_groups_address
   lda (area_address),y
-  sta w3
+  sta w4
   iny
   lda (area_address),y
-  sta w3+1
+  sta w4+1
   jsr load_sprite_chr_groups
 
   ;****************************************************************
@@ -905,6 +857,11 @@ play_state_reload:
   sta $2006
   sta $2006
 
+  ;start tile accumulator
+  lda #$00
+  sta b3
+  sta b3+1
+
   switch_bank_ldy #AREAS_BANK
   ldy #area::bg_chr_address
   lda (area_address),y
@@ -914,6 +871,10 @@ play_state_reload:
   sta w0+1
   switch_bank_ldy bg_chr_bank
   jsr ppu_load_chr_amount
+
+  ;b3 should now be the correct offset for the textbox and font graphics
+  lda b3
+  sta textbox_and_font_chr_offset
 
   ;load the textbox graphics. This is hardcoded because it is the same
   ;for the entire game. The assumption here is that the background
@@ -925,36 +886,6 @@ play_state_reload:
   sta w0+1
   jsr ppu_load_chr_amount
 
-  ;load the bg chr address again so we can pull out the count and intepret
-  ;it as the offset at which to find the textbox and font graphics.
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::bg_chr_address
-  lda (area_address),y
-  sta w0
-  iny
-  lda (area_address),y
-  sta w0+1
-  switch_bank_ldy bg_chr_bank
-  ;load the byte count
-  ldy #0
-  lda (w0),y
-  sta w1
-  iny
-  lda (w0),y
-  sta w1+1
-  ;shift right this 16 bit value to calculate number of tiles
-  lda w1
-  lsr w1+1
-  ror
-  lsr w1+1
-  ror
-  lsr w1+1
-  ror
-  lsr w1+1
-  ror
-  sta w1
-  ;lo byte of w1 should now be the correct offset for the textbox and font graphics
-  sta textbox_and_font_chr_offset
   ;save camera variables
   lda camera_x
   pha
