@@ -19,8 +19,34 @@
 
 .segment "CODE"
 
-test_string:
-  .byte H,E,L,L,O,ES
+;inventory title string
+inventory_string: .byte I,N,V,E,N,T,O,R,_Y,ES
+
+;stat strings
+gp_string: .byte G,P,ES
+keys_string: .byte K,E,_Y,S,ES
+
+;use item menu strings
+use_item_string: .byte U,S,E,ES
+health_string: .byte H,E,_A,L,T,H,ES
+owl_health_string: .byte O,W,L,SP,H,E,_A,L,T,H,ES
+rope_string: .byte R,O,P,E,SP
+
+;carry item menu strings
+carry_item_string: .byte C,_A,R,R,_Y,ES
+bomb_string: .byte B,O,M,B,ES
+lantern_string: .byte L,_A,N,T,E,R,N,ES
+
+;tech menu strings
+tech_string: .byte T,E,C,H,ES
+rush_string: .byte R,U,S,H,ES
+fetch_string: .byte F,E,T,C,H,ES
+sonar_string: .byte S,O,N,_A,R,ES
+;carry_item_string
+carry_adlanniel_string: .byte C,_A,R,R,_Y,SP,_A,D,L,_A,N,N,I,E,L,ES
+confuse_string: .byte C,O,N,F,U,S,E,ES
+homing_string: .byte H,O,M,I,N,G,ES
+multi_homing_string: .byte M,U,L,T,I,SP,H,O,M,I,N,G,ES
 
 inventory_screen_palette:
   .byte $0d,$0d,$18,$20,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -355,10 +381,31 @@ inventory_state_init:
 
   jsr sprite_update_all
 
-  jsr ppu_safely_enable_graphics
-
   ;draw menu layout with strings
-  print_string test_string, #$20, #10, #10
+  print_string inventory_string, #$20, #4, #11
+
+  print_string gp_string, #$20, #7, #4
+  print_string keys_string, #$20, #8, #4
+
+  print_string use_item_string, #$20, #10, #4
+  print_string health_string, #$20, #10, #13
+  print_string owl_health_string, #$20, #11, #13
+
+  print_string carry_item_string, #$20, #13, #4
+  print_string bomb_string, #$20, #13, #13
+  print_string lantern_string, #$20, #14, #13
+
+  print_string tech_string, #$20, #16, #4
+  print_string rush_string, #$20, #16, #13
+  print_string fetch_string, #$20, #17, #13
+  print_string sonar_string, #$20, #18, #13
+  print_string carry_item_string, #$20, #19, #13
+  print_string carry_adlanniel_string, #$20, #20, #13
+  print_string confuse_string, #$20, #21, #13
+  print_string homing_string, #$20, #22, #13
+  print_string multi_homing_string, #$20, #23, #13
+
+  jsr ppu_safely_enable_graphics
 
   ;fade in inventory screen palette
   lda #<inventory_screen_palette
