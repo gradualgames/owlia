@@ -33,7 +33,7 @@ owl_health_string: .byte O,W,L,SP,H,E,_A,L,T,H,ES
 rope_string: .byte R,O,P,E,SP
 
 ;carry item menu strings
-carry_item_string: .byte C,_A,R,R,_Y,ES
+carry_string: .byte C,_A,R,R,_Y,ES
 bomb_string: .byte B,O,M,B,ES
 lantern_string: .byte L,_A,N,T,E,R,N,ES
 
@@ -42,7 +42,7 @@ tech_string: .byte T,E,C,H,ES
 rush_string: .byte R,U,S,H,ES
 fetch_string: .byte F,E,T,C,H,ES
 sonar_string: .byte S,O,N,_A,R,ES
-;carry_item_string
+carry_item_string: .byte C,_A,R,R,_Y,SP,I,T,E,M,ES
 carry_adlanniel_string: .byte C,_A,R,R,_Y,SP,_A,D,L,_A,N,N,I,E,L,ES
 confuse_string: .byte C,O,N,F,U,S,E,ES
 homing_string: .byte H,O,M,I,N,G,ES
@@ -391,7 +391,7 @@ inventory_state_init:
   print_string health_string, #$20, #10, #13
   print_string owl_health_string, #$20, #11, #13
 
-  print_string carry_item_string, #$20, #13, #4
+  print_string carry_string, #$20, #13, #4
   print_string bomb_string, #$20, #13, #13
   print_string lantern_string, #$20, #14, #13
 
