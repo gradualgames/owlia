@@ -30,7 +30,7 @@ keys_string: .byte K,E,_Y,S,ES
 use_item_string: .byte U,S,E,ES
 health_string: .byte H,E,_A,L,T,H,ES
 owl_health_string: .byte O,W,L,SP,H,E,_A,L,T,H,ES
-rope_string: .byte R,O,P,E,SP
+rope_string: .byte R,O,P,E,ES
 
 ;carry item menu strings
 carry_string: .byte C,_A,R,R,_Y,ES
@@ -390,20 +390,21 @@ inventory_state_init:
   print_string use_item_string, #$20, #10, #4
   print_string health_string, #$20, #10, #13
   print_string owl_health_string, #$20, #11, #13
+  print_string rope_string, #$20, #12, #13
 
-  print_string carry_string, #$20, #13, #4
-  print_string bomb_string, #$20, #13, #13
-  print_string lantern_string, #$20, #14, #13
+  print_string carry_string, #$20, #14, #4
+  print_string bomb_string, #$20, #14, #13
+  print_string lantern_string, #$20, #15, #13
 
-  print_string tech_string, #$20, #16, #4
-  print_string rush_string, #$20, #16, #13
-  print_string fetch_string, #$20, #17, #13
-  print_string sonar_string, #$20, #18, #13
-  print_string carry_item_string, #$20, #19, #13
-  print_string carry_adlanniel_string, #$20, #20, #13
-  print_string confuse_string, #$20, #21, #13
-  print_string homing_string, #$20, #22, #13
-  print_string multi_homing_string, #$20, #23, #13
+  print_string tech_string, #$20, #17, #4
+  print_string rush_string, #$20, #17, #13
+  print_string fetch_string, #$20, #18, #13
+  print_string sonar_string, #$20, #19, #13
+  print_string carry_item_string, #$20, #20, #13
+  print_string carry_adlanniel_string, #$20, #21, #13
+  print_string confuse_string, #$20, #22, #13
+  print_string homing_string, #$20, #23, #13
+  print_string multi_homing_string, #$20, #24, #13
 
   jsr ppu_safely_enable_graphics
 
