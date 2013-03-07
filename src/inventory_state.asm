@@ -233,12 +233,12 @@ menu_position_action_callbacks_hi:
   .hibytes menu_position_action_callbacks
 
 menu_position_row:
-  .byte 8 * 9  ;menu_position_health
-  .byte 8 * 10 ;menu_position_owl_health
-  .byte 8 * 11 ;menu_position_rope
-  .byte 8 * 13 ;menu_position_bomb
-  .byte 8 * 14 ;menu_position_lantern
-  .byte 8 * 16 ;menu_position_tech1_rush
+  .byte 8 * 10 ;menu_position_health
+  .byte 8 * 11 ;menu_position_owl_health
+  .byte 8 * 12 ;menu_position_rope
+  .byte 8 * 14 ;menu_position_bomb
+  .byte 8 * 15 ;menu_position_lantern
+  .byte 8 * 17 ;menu_position_tech1_rush
   .byte 8 * 18 ;menu_position_tech1_fetch
   .byte 8 * 19 ;menu_position_tech1_sonar
   .byte 8 * 20 ;menu_position_tech1_carry_item
