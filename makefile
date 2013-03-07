@@ -35,6 +35,7 @@ FILES           += zp \
                    ppu \
                    mapper \
                    sprite \
+                   inventory \
                    hero \
                    familiar \
                    entities \

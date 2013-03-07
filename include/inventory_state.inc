@@ -11,7 +11,7 @@ INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK = 0
 .struct inventory_state_control
   cursor_row .byte
   cursor_column .byte
-  callback_index .byte
+  menu_position .byte
   dpad_direction .byte
 .endstruct
 

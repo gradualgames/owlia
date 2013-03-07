@@ -13,6 +13,7 @@
 .include "soundengine.inc"
 .include "locations.inc"
 .include "sfx_data.inc"
+.include "inventory.inc"
 
 .segment "CODE"
 
@@ -106,6 +107,9 @@ title_state_exit:
   jsr ppu_fade_out_palette
 
   jsr play_state_initialize
+
+  ;initialize inventory since we're starting a new game
+  jsr inventory_max_all
 
   lda #<sfx_set1
   sta sound_param_word_0

@@ -57,6 +57,16 @@ MAX_ENTITIES = 8
 .global entity_local7
 .global entity_local8
 
+.global inventory_lanterns
+.global inventory_bombs
+.global inventory_ropes
+.global inventory_healths
+.global inventory_owl_healths
+.global inventory_owl_carry_item
+.global inventory_earned_techs
+.global inventory_tech1
+.global inventory_tech2
+
 .global hero_flags
 .global hero_health
 .global hero_state

@@ -72,7 +72,7 @@ inventory_screen_palette:
   cmp #%00000001
   bne a_not_pressed
 
-  ldx state_control_params+inventory_state_control::callback_index
+  ldx state_control_params+inventory_state_control::menu_position
   lda menu_position_action_callbacks_lo,x
   sta w0
   lda menu_position_action_callbacks_hi,x
@@ -81,51 +81,83 @@ inventory_screen_palette:
 
   jmp done
 a_not_pressed:
-  ;if A button was not pressed, then call the d-pad callback index for
-  ;the current menu position.
-  lda #DPAD_NOP
-  sta state_control_params+inventory_state_control::dpad_direction
+  ;if A button was not pressed, then figure out where the cursor
+  ;should go next
   lda buffer_controller+buttons::_left
   and #%00000011
   cmp #%00000001
   bne left_not_pressed
-  lda #DPAD_LEFT
-  sta state_control_params+inventory_state_control::dpad_direction
+
+  jmp done
 left_not_pressed:
   lda buffer_controller+buttons::_right
   and #%00000011
   cmp #%00000001
   bne right_not_pressed
-  lda #DPAD_RIGHT
-  sta state_control_params+inventory_state_control::dpad_direction
+
+  jmp done
 right_not_pressed:
   lda buffer_controller+buttons::_down
   and #%00000011
   cmp #%00000001
   bne down_not_pressed
-  lda #DPAD_DOWN
-  sta state_control_params+inventory_state_control::dpad_direction
+
+  jsr play_dpad_sound
+  ldx state_control_params+inventory_state_control::menu_position
+  lda menu_position_next_down,x
+  sta state_control_params+inventory_state_control::menu_position
+  tax
+  lda menu_position_row,x
+  sta state_control_params+inventory_state_control::cursor_row
+  lda menu_position_column,x
+  sta state_control_params+inventory_state_control::cursor_column
+
+  jmp done
 down_not_pressed:
   lda buffer_controller+buttons::_up
   and #%00000011
   cmp #%00000001
   bne up_not_pressed
-  lda #DPAD_UP
-  sta state_control_params+inventory_state_control::dpad_direction
-up_not_pressed:
 
-  lda state_control_params+inventory_state_control::dpad_direction
-  beq dpad_not_pressed
-  ldx state_control_params+inventory_state_control::callback_index
-  lda menu_position_dpad_callbacks_lo,x
-  sta w0
-  lda menu_position_dpad_callbacks_hi,x
-  sta w0+1
-  jsr indirect_jsr_w0
+  jsr play_dpad_sound
+  ldx state_control_params+inventory_state_control::menu_position
+  lda menu_position_next_up,x
+  sta state_control_params+inventory_state_control::menu_position
+  tax
+  lda menu_position_row,x
+  sta state_control_params+inventory_state_control::cursor_row
+  lda menu_position_column,x
+  sta state_control_params+inventory_state_control::cursor_column
+
+  jmp done
+up_not_pressed:
 
 dpad_not_pressed:
 done:
   .endscope
+  rts
+
+.endproc
+
+.proc play_dpad_sound
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_sword
+  sta sound_param_word_0
+  lda #>sfx_sword
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
   rts
 
 .endproc
@@ -162,7 +194,36 @@ draw_next_heart:
 
 .endproc
 
+;menu position enumeration
+.enum
+menu_position_health
+menu_position_owl_health
+menu_position_rope
+menu_position_bomb
+menu_position_lantern
+menu_position_tech1_rush
+menu_position_tech1_fetch
+menu_position_tech1_sonar
+menu_position_tech1_carry_item
+menu_position_tech1_carry_adlanniel
+menu_position_tech1_confuse
+menu_position_tech1_homing
+menu_position_tech1_multi_homing
+menu_position_tech2_rush
+menu_position_tech2_fetch
+menu_position_tech2_sonar
+menu_position_tech2_carry_item
+menu_position_tech2_carry_adlanniel
+menu_position_tech2_confuse
+menu_position_tech2_homing
+menu_position_tech2_multi_homing
+.endenum
+
 .define menu_position_action_callbacks \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
   menu_position_action_callback_test
 
 menu_position_action_callbacks_lo:
@@ -171,14 +232,145 @@ menu_position_action_callbacks_lo:
 menu_position_action_callbacks_hi:
   .hibytes menu_position_action_callbacks
 
-.define menu_position_dpad_callbacks \
-  menu_position_dpad_callback_test
+menu_position_row:
+  .byte 8 * 9  ;menu_position_health
+  .byte 8 * 10 ;menu_position_owl_health
+  .byte 8 * 11 ;menu_position_rope
+  .byte 8 * 13 ;menu_position_bomb
+  .byte 8 * 14 ;menu_position_lantern
+  .byte 8 * 16 ;menu_position_tech1_rush
+  .byte 8 * 18 ;menu_position_tech1_fetch
+  .byte 8 * 19 ;menu_position_tech1_sonar
+  .byte 8 * 20 ;menu_position_tech1_carry_item
+  .byte 8 * 21 ;menu_position_tech1_carry_adlanniel
+  .byte 8 * 22 ;menu_position_tech1_confuse
+  .byte 8 * 23 ;menu_position_tech1_homing
+  .byte 8 * 24 ;menu_position_tech1_multi_homing
+  .byte 8 * 17 ;menu_position_tech2_rush
+  .byte 8 * 18 ;menu_position_tech2_fetch
+  .byte 8 * 19 ;menu_position_tech2_sonar
+  .byte 8 * 20 ;menu_position_tech2_carry_item
+  .byte 8 * 21 ;menu_position_tech2_carry_adlanniel
+  .byte 8 * 22 ;menu_position_tech2_confuse
+  .byte 8 * 23 ;menu_position_tech2_homing
+  .byte 8 * 24 ;menu_position_tech2_multi_homing
 
-menu_position_dpad_callbacks_lo:
-  .lobytes menu_position_dpad_callbacks
+menu_position_column:
+  .byte 8 * 10 ;menu_position_health
+  .byte 8 * 10 ;menu_position_owl_health
+  .byte 8 * 10 ;menu_position_rope
+  .byte 8 * 10 ;menu_position_bomb
+  .byte 8 * 10 ;menu_position_lantern
+  .byte 8 * 10 ;menu_position_tech1_rush
+  .byte 6 * 10 ;menu_position_tech1_fetch
+  .byte 6 * 10 ;menu_position_tech1_sonar
+  .byte 6 * 10 ;menu_position_tech1_carry_item
+  .byte 6 * 10 ;menu_position_tech1_carry_adlanniel
+  .byte 6 * 10 ;menu_position_tech1_confuse
+  .byte 6 * 10 ;menu_position_tech1_homing
+  .byte 6 * 10 ;menu_position_tech1_multi_homing
+  .byte 8 * 10 ;menu_position_tech2_rush
+  .byte 8 * 10 ;menu_position_tech2_fetch
+  .byte 8 * 10 ;menu_position_tech2_sonar
+  .byte 8 * 10 ;menu_position_tech2_carry_item
+  .byte 8 * 10 ;menu_position_tech2_carry_adlanniel
+  .byte 8 * 10 ;menu_position_tech2_confuse
+  .byte 8 * 10 ;menu_position_tech2_homing
+  .byte 8 * 10 ;menu_position_tech2_multi_homing
 
-menu_position_dpad_callbacks_hi:
-  .hibytes menu_position_dpad_callbacks
+menu_position_next_left:
+  .byte menu_position_health     ;menu_position_health
+  .byte menu_position_owl_health ;menu_position_owl_health
+  .byte menu_position_rope       ;menu_position_rope
+  .byte menu_position_bomb       ;menu_position_bomb
+  .byte menu_position_lantern    ;menu_position_lantern
+                                 ;menu_position_tech1_rush
+                                 ;menu_position_tech1_fetch
+                                 ;menu_position_tech1_sonar
+                                 ;menu_position_tech1_carry_item
+                                 ;menu_position_tech1_carry_adlanniel
+                                 ;menu_position_tech1_confuse
+                                 ;menu_position_tech1_homing
+                                 ;menu_position_tech1_multi_homing
+                                 ;menu_position_tech2_rush
+                                 ;menu_position_tech2_fetch
+                                 ;menu_position_tech2_sonar
+                                 ;menu_position_tech2_carry_item
+                                 ;menu_position_tech2_carry_adlanniel
+                                 ;menu_position_tech2_confuse
+                                 ;menu_position_tech2_homing
+                                 ;menu_position_tech2_multi_homing
+
+
+menu_position_next_right:
+  .byte menu_position_health     ;menu_position_health
+  .byte menu_position_owl_health ;menu_position_owl_health
+  .byte menu_position_rope       ;menu_position_rope
+  .byte menu_position_bomb       ;menu_position_bomb
+  .byte menu_position_lantern    ;menu_position_lantern
+                                 ;menu_position_tech1_rush
+                                 ;menu_position_tech1_fetch
+                                 ;menu_position_tech1_sonar
+                                 ;menu_position_tech1_carry_item
+                                 ;menu_position_tech1_carry_adlanniel
+                                 ;menu_position_tech1_confuse
+                                 ;menu_position_tech1_homing
+                                 ;menu_position_tech1_multi_homing
+                                 ;menu_position_tech2_rush
+                                 ;menu_position_tech2_fetch
+                                 ;menu_position_tech2_sonar
+                                 ;menu_position_tech2_carry_item
+                                 ;menu_position_tech2_carry_adlanniel
+                                 ;menu_position_tech2_confuse
+                                 ;menu_position_tech2_homing
+                                 ;menu_position_tech2_multi_homing
+
+
+menu_position_next_up:
+  .byte menu_position_health     ;menu_position_health
+  .byte menu_position_health     ;menu_position_owl_health
+  .byte menu_position_owl_health ;menu_position_rope
+  .byte menu_position_rope       ;menu_position_bomb
+  .byte menu_position_bomb       ;menu_position_lantern
+  .byte menu_position_lantern    ;menu_position_tech1_rush
+                                 ;menu_position_tech1_fetch
+                                 ;menu_position_tech1_sonar
+                                 ;menu_position_tech1_carry_item
+                                 ;menu_position_tech1_carry_adlanniel
+                                 ;menu_position_tech1_confuse
+                                 ;menu_position_tech1_homing
+                                 ;menu_position_tech1_multi_homing
+                                 ;menu_position_tech2_rush
+                                 ;menu_position_tech2_fetch
+                                 ;menu_position_tech2_sonar
+                                 ;menu_position_tech2_carry_item
+                                 ;menu_position_tech2_carry_adlanniel
+                                 ;menu_position_tech2_confuse
+                                 ;menu_position_tech2_homing
+                                 ;menu_position_tech2_multi_homing
+
+menu_position_next_down:
+  .byte menu_position_owl_health ;menu_position_health
+  .byte menu_position_rope       ;menu_position_owl_health
+  .byte menu_position_bomb       ;menu_position_rope
+  .byte menu_position_lantern    ;menu_position_bomb
+  .byte menu_position_tech1_rush ;menu_position_lantern
+  .byte menu_position_tech1_rush ;menu_position_tech1_rush
+                                 ;menu_position_tech1_fetch
+                                 ;menu_position_tech1_sonar
+                                 ;menu_position_tech1_carry_item
+                                 ;menu_position_tech1_carry_adlanniel
+                                 ;menu_position_tech1_confuse
+                                 ;menu_position_tech1_homing
+                                 ;menu_position_tech1_multi_homing
+                                 ;menu_position_tech2_rush
+                                 ;menu_position_tech2_fetch
+                                 ;menu_position_tech2_sonar
+                                 ;menu_position_tech2_carry_item
+                                 ;menu_position_tech2_carry_adlanniel
+                                 ;menu_position_tech2_confuse
+                                 ;menu_position_tech2_homing
+                                 ;menu_position_tech2_multi_homing
 
 .proc menu_position_action_callback_test
 
@@ -199,63 +391,6 @@ menu_position_dpad_callbacks_hi:
 
   pla
   tax
-
-  rts
-
-.endproc
-
-.proc menu_position_dpad_callback_test
-
-  ;play a sound
-  txa
-  pha
-
-  lda #<sfx_sword
-  sta sound_param_word_0
-  lda #>sfx_sword
-  sta sound_param_word_0+1
-
-  lda #3
-  sta sound_param_byte_0
-
-  ldx #soundeffect_one
-  jsr stream_initialize
-
-  pla
-  tax
-
-  lda state_control_params+inventory_state_control::dpad_direction
-  cmp #DPAD_LEFT
-  bne not_left
-  sec
-  lda state_control_params+inventory_state_control::cursor_column
-  sbc #$08
-  sta state_control_params+inventory_state_control::cursor_column
-not_left:
-  lda state_control_params+inventory_state_control::dpad_direction
-  cmp #DPAD_RIGHT
-  bne not_right
-  clc
-  lda state_control_params+inventory_state_control::cursor_column
-  adc #$08
-  sta state_control_params+inventory_state_control::cursor_column
-not_right:
-  lda state_control_params+inventory_state_control::dpad_direction
-  cmp #DPAD_DOWN
-  bne not_down
-  clc
-  lda state_control_params+inventory_state_control::cursor_row
-  adc #$08
-  sta state_control_params+inventory_state_control::cursor_row
-not_down:
-  lda state_control_params+inventory_state_control::dpad_direction
-  cmp #DPAD_UP
-  bne not_up
-  sec
-  lda state_control_params+inventory_state_control::cursor_row
-  sbc #$08
-  sta state_control_params+inventory_state_control::cursor_row
-not_up:
 
   rts
 
@@ -371,11 +506,14 @@ inventory_state_init:
   upload_ppu_2005
 
   ;initialize and draw initial cursor
-  lda #(10*8)
+  lda #menu_position_health
+  sta state_control_params+inventory_state_control::menu_position
+
+  ldx state_control_params+inventory_state_control::menu_position
+  lda menu_position_row,x
   sta state_control_params+inventory_state_control::cursor_row
+  lda menu_position_column,x
   sta state_control_params+inventory_state_control::cursor_column
-  lda #0
-  sta state_control_params+inventory_state_control::callback_index
 
   jsr draw_cursor
 

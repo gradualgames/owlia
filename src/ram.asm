@@ -56,6 +56,16 @@ entity_local6:               .res MAX_ENTITIES
 entity_local7:               .res MAX_ENTITIES
 entity_local8:               .res MAX_ENTITIES
 
+inventory_lanterns:       .res 1
+inventory_bombs:          .res 1
+inventory_ropes:          .res 1
+inventory_healths:        .res 1
+inventory_owl_healths:    .res 1
+inventory_owl_carry_item: .res 1
+inventory_earned_techs:   .res 1
+inventory_tech1:          .res 1
+inventory_tech2:          .res 1
+
 hero_flags:                       .res 1
 hero_health:                      .res 1
 hero_state:                       .res 1
