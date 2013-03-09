@@ -297,14 +297,14 @@ menu_position_column:
   .byte 8 * 10
   .byte 8 * 10
   .byte 8 * 10
-  .byte 6 * 10
-  .byte 6 * 10
-  .byte 6 * 10
-  .byte 6 * 10
-  .byte 6 * 10
-  .byte 6 * 10
-  .byte 6 * 10
-  .byte 6 * 10
+  .byte 8 * 8
+  .byte 8 * 8
+  .byte 8 * 8
+  .byte 8 * 8
+  .byte 8 * 8
+  .byte 8 * 8
+  .byte 8 * 8
+  .byte 8 * 8
   .byte 8 * 10
   .byte 8 * 10
   .byte 8 * 10
