@@ -88,12 +88,32 @@ a_not_pressed:
   cmp #%00000001
   bne left_not_pressed
 
+  jsr play_dpad_sound
+  ldx state_control_params+inventory_state_control::menu_position
+  lda menu_position_next_left,x
+  sta state_control_params+inventory_state_control::menu_position
+  tax
+  lda menu_position_row,x
+  sta state_control_params+inventory_state_control::cursor_row
+  lda menu_position_column,x
+  sta state_control_params+inventory_state_control::cursor_column
+
   jmp done
 left_not_pressed:
   lda buffer_controller+buttons::_right
   and #%00000011
   cmp #%00000001
   bne right_not_pressed
+
+  jsr play_dpad_sound
+  ldx state_control_params+inventory_state_control::menu_position
+  lda menu_position_next_right,x
+  sta state_control_params+inventory_state_control::menu_position
+  tax
+  lda menu_position_row,x
+  sta state_control_params+inventory_state_control::cursor_row
+  lda menu_position_column,x
+  sta state_control_params+inventory_state_control::cursor_column
 
   jmp done
 right_not_pressed:
@@ -224,6 +244,22 @@ menu_position_tech2_multi_homing
   menu_position_action_callback_test, \
   menu_position_action_callback_test, \
   menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
   menu_position_action_callback_test
 
 menu_position_action_callbacks_lo:
@@ -233,144 +269,142 @@ menu_position_action_callbacks_hi:
   .hibytes menu_position_action_callbacks
 
 menu_position_row:
-  .byte 8 * 10 ;menu_position_health
-  .byte 8 * 11 ;menu_position_owl_health
-  .byte 8 * 12 ;menu_position_rope
-  .byte 8 * 14 ;menu_position_bomb
-  .byte 8 * 15 ;menu_position_lantern
-  .byte 8 * 17 ;menu_position_tech1_rush
-  .byte 8 * 18 ;menu_position_tech1_fetch
-  .byte 8 * 19 ;menu_position_tech1_sonar
-  .byte 8 * 20 ;menu_position_tech1_carry_item
-  .byte 8 * 21 ;menu_position_tech1_carry_adlanniel
-  .byte 8 * 22 ;menu_position_tech1_confuse
-  .byte 8 * 23 ;menu_position_tech1_homing
-  .byte 8 * 24 ;menu_position_tech1_multi_homing
-  .byte 8 * 17 ;menu_position_tech2_rush
-  .byte 8 * 18 ;menu_position_tech2_fetch
-  .byte 8 * 19 ;menu_position_tech2_sonar
-  .byte 8 * 20 ;menu_position_tech2_carry_item
-  .byte 8 * 21 ;menu_position_tech2_carry_adlanniel
-  .byte 8 * 22 ;menu_position_tech2_confuse
-  .byte 8 * 23 ;menu_position_tech2_homing
-  .byte 8 * 24 ;menu_position_tech2_multi_homing
+  .byte 8 * 10
+  .byte 8 * 11
+  .byte 8 * 12
+  .byte 8 * 14
+  .byte 8 * 15
+  .byte 8 * 17
+  .byte 8 * 18
+  .byte 8 * 19
+  .byte 8 * 20
+  .byte 8 * 21
+  .byte 8 * 22
+  .byte 8 * 23
+  .byte 8 * 24
+  .byte 8 * 17
+  .byte 8 * 18
+  .byte 8 * 19
+  .byte 8 * 20
+  .byte 8 * 21
+  .byte 8 * 22
+  .byte 8 * 23
+  .byte 8 * 24
 
 menu_position_column:
-  .byte 8 * 10 ;menu_position_health
-  .byte 8 * 10 ;menu_position_owl_health
-  .byte 8 * 10 ;menu_position_rope
-  .byte 8 * 10 ;menu_position_bomb
-  .byte 8 * 10 ;menu_position_lantern
-  .byte 8 * 10 ;menu_position_tech1_rush
-  .byte 6 * 10 ;menu_position_tech1_fetch
-  .byte 6 * 10 ;menu_position_tech1_sonar
-  .byte 6 * 10 ;menu_position_tech1_carry_item
-  .byte 6 * 10 ;menu_position_tech1_carry_adlanniel
-  .byte 6 * 10 ;menu_position_tech1_confuse
-  .byte 6 * 10 ;menu_position_tech1_homing
-  .byte 6 * 10 ;menu_position_tech1_multi_homing
-  .byte 8 * 10 ;menu_position_tech2_rush
-  .byte 8 * 10 ;menu_position_tech2_fetch
-  .byte 8 * 10 ;menu_position_tech2_sonar
-  .byte 8 * 10 ;menu_position_tech2_carry_item
-  .byte 8 * 10 ;menu_position_tech2_carry_adlanniel
-  .byte 8 * 10 ;menu_position_tech2_confuse
-  .byte 8 * 10 ;menu_position_tech2_homing
-  .byte 8 * 10 ;menu_position_tech2_multi_homing
+  .byte 8 * 10
+  .byte 8 * 10
+  .byte 8 * 10
+  .byte 8 * 10
+  .byte 8 * 10
+  .byte 6 * 10
+  .byte 6 * 10
+  .byte 6 * 10
+  .byte 6 * 10
+  .byte 6 * 10
+  .byte 6 * 10
+  .byte 6 * 10
+  .byte 6 * 10
+  .byte 8 * 10
+  .byte 8 * 10
+  .byte 8 * 10
+  .byte 8 * 10
+  .byte 8 * 10
+  .byte 8 * 10
+  .byte 8 * 10
+  .byte 8 * 10
 
 menu_position_next_left:
-  .byte menu_position_health     ;menu_position_health
-  .byte menu_position_owl_health ;menu_position_owl_health
-  .byte menu_position_rope       ;menu_position_rope
-  .byte menu_position_bomb       ;menu_position_bomb
-  .byte menu_position_lantern    ;menu_position_lantern
-                                 ;menu_position_tech1_rush
-                                 ;menu_position_tech1_fetch
-                                 ;menu_position_tech1_sonar
-                                 ;menu_position_tech1_carry_item
-                                 ;menu_position_tech1_carry_adlanniel
-                                 ;menu_position_tech1_confuse
-                                 ;menu_position_tech1_homing
-                                 ;menu_position_tech1_multi_homing
-                                 ;menu_position_tech2_rush
-                                 ;menu_position_tech2_fetch
-                                 ;menu_position_tech2_sonar
-                                 ;menu_position_tech2_carry_item
-                                 ;menu_position_tech2_carry_adlanniel
-                                 ;menu_position_tech2_confuse
-                                 ;menu_position_tech2_homing
-                                 ;menu_position_tech2_multi_homing
-
+  .byte menu_position_health
+  .byte menu_position_owl_health
+  .byte menu_position_rope
+  .byte menu_position_bomb
+  .byte menu_position_lantern
+  .byte menu_position_tech1_rush
+  .byte menu_position_tech1_fetch
+  .byte menu_position_tech1_sonar
+  .byte menu_position_tech1_carry_item
+  .byte menu_position_tech1_carry_adlanniel
+  .byte menu_position_tech1_confuse
+  .byte menu_position_tech1_homing
+  .byte menu_position_tech1_multi_homing
+  .byte menu_position_tech1_rush
+  .byte menu_position_tech1_fetch
+  .byte menu_position_tech1_sonar
+  .byte menu_position_tech1_carry_item
+  .byte menu_position_tech1_carry_adlanniel
+  .byte menu_position_tech1_confuse
+  .byte menu_position_tech1_homing
+  .byte menu_position_tech1_multi_homing
 
 menu_position_next_right:
-  .byte menu_position_health     ;menu_position_health
-  .byte menu_position_owl_health ;menu_position_owl_health
-  .byte menu_position_rope       ;menu_position_rope
-  .byte menu_position_bomb       ;menu_position_bomb
-  .byte menu_position_lantern    ;menu_position_lantern
-                                 ;menu_position_tech1_rush
-                                 ;menu_position_tech1_fetch
-                                 ;menu_position_tech1_sonar
-                                 ;menu_position_tech1_carry_item
-                                 ;menu_position_tech1_carry_adlanniel
-                                 ;menu_position_tech1_confuse
-                                 ;menu_position_tech1_homing
-                                 ;menu_position_tech1_multi_homing
-                                 ;menu_position_tech2_rush
-                                 ;menu_position_tech2_fetch
-                                 ;menu_position_tech2_sonar
-                                 ;menu_position_tech2_carry_item
-                                 ;menu_position_tech2_carry_adlanniel
-                                 ;menu_position_tech2_confuse
-                                 ;menu_position_tech2_homing
-                                 ;menu_position_tech2_multi_homing
-
+  .byte menu_position_health
+  .byte menu_position_owl_health
+  .byte menu_position_rope
+  .byte menu_position_bomb
+  .byte menu_position_lantern
+  .byte menu_position_tech2_rush
+  .byte menu_position_tech2_fetch
+  .byte menu_position_tech2_sonar
+  .byte menu_position_tech2_carry_item
+  .byte menu_position_tech2_carry_adlanniel
+  .byte menu_position_tech2_confuse
+  .byte menu_position_tech2_homing
+  .byte menu_position_tech2_multi_homing
+  .byte menu_position_tech2_rush
+  .byte menu_position_tech2_fetch
+  .byte menu_position_tech2_sonar
+  .byte menu_position_tech2_carry_item
+  .byte menu_position_tech2_carry_adlanniel
+  .byte menu_position_tech2_confuse
+  .byte menu_position_tech2_homing
+  .byte menu_position_tech2_multi_homing
 
 menu_position_next_up:
-  .byte menu_position_health     ;menu_position_health
-  .byte menu_position_health     ;menu_position_owl_health
-  .byte menu_position_owl_health ;menu_position_rope
-  .byte menu_position_rope       ;menu_position_bomb
-  .byte menu_position_bomb       ;menu_position_lantern
-  .byte menu_position_lantern    ;menu_position_tech1_rush
-                                 ;menu_position_tech1_fetch
-                                 ;menu_position_tech1_sonar
-                                 ;menu_position_tech1_carry_item
-                                 ;menu_position_tech1_carry_adlanniel
-                                 ;menu_position_tech1_confuse
-                                 ;menu_position_tech1_homing
-                                 ;menu_position_tech1_multi_homing
-                                 ;menu_position_tech2_rush
-                                 ;menu_position_tech2_fetch
-                                 ;menu_position_tech2_sonar
-                                 ;menu_position_tech2_carry_item
-                                 ;menu_position_tech2_carry_adlanniel
-                                 ;menu_position_tech2_confuse
-                                 ;menu_position_tech2_homing
-                                 ;menu_position_tech2_multi_homing
+  .byte menu_position_health
+  .byte menu_position_health
+  .byte menu_position_owl_health
+  .byte menu_position_rope
+  .byte menu_position_bomb
+  .byte menu_position_lantern
+  .byte menu_position_tech1_rush
+  .byte menu_position_tech1_fetch
+  .byte menu_position_tech1_sonar
+  .byte menu_position_tech1_carry_item
+  .byte menu_position_tech1_carry_adlanniel
+  .byte menu_position_tech1_confuse
+  .byte menu_position_tech1_homing
+  .byte menu_position_lantern
+  .byte menu_position_tech2_rush
+  .byte menu_position_tech2_fetch
+  .byte menu_position_tech2_sonar
+  .byte menu_position_tech2_carry_item
+  .byte menu_position_tech2_carry_adlanniel
+  .byte menu_position_tech2_confuse
+  .byte menu_position_tech2_homing
 
 menu_position_next_down:
-  .byte menu_position_owl_health ;menu_position_health
-  .byte menu_position_rope       ;menu_position_owl_health
-  .byte menu_position_bomb       ;menu_position_rope
-  .byte menu_position_lantern    ;menu_position_bomb
-  .byte menu_position_tech1_rush ;menu_position_lantern
-  .byte menu_position_tech1_rush ;menu_position_tech1_rush
-                                 ;menu_position_tech1_fetch
-                                 ;menu_position_tech1_sonar
-                                 ;menu_position_tech1_carry_item
-                                 ;menu_position_tech1_carry_adlanniel
-                                 ;menu_position_tech1_confuse
-                                 ;menu_position_tech1_homing
-                                 ;menu_position_tech1_multi_homing
-                                 ;menu_position_tech2_rush
-                                 ;menu_position_tech2_fetch
-                                 ;menu_position_tech2_sonar
-                                 ;menu_position_tech2_carry_item
-                                 ;menu_position_tech2_carry_adlanniel
-                                 ;menu_position_tech2_confuse
-                                 ;menu_position_tech2_homing
-                                 ;menu_position_tech2_multi_homing
+  .byte menu_position_owl_health
+  .byte menu_position_rope
+  .byte menu_position_bomb
+  .byte menu_position_lantern
+  .byte menu_position_tech2_rush
+  .byte menu_position_tech1_fetch
+  .byte menu_position_tech1_sonar
+  .byte menu_position_tech1_carry_item
+  .byte menu_position_tech1_carry_adlanniel
+  .byte menu_position_tech1_confuse
+  .byte menu_position_tech1_homing
+  .byte menu_position_tech1_multi_homing
+  .byte menu_position_tech1_multi_homing
+  .byte menu_position_tech2_fetch
+  .byte menu_position_tech2_sonar
+  .byte menu_position_tech2_carry_item
+  .byte menu_position_tech2_carry_adlanniel
+  .byte menu_position_tech2_confuse
+  .byte menu_position_tech2_homing
+  .byte menu_position_tech2_multi_homing
+  .byte menu_position_tech2_multi_homing
 
 .proc menu_position_action_callback_test
 
