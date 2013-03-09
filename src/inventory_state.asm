@@ -16,6 +16,7 @@
 .include "soundengine.inc"
 .include "sfx_data.inc"
 .include "textbox.inc"
+.include "inventory.inc"
 
 .segment "CODE"
 
@@ -145,29 +146,7 @@ inventory_state_init:
 
   ;draw menu layout with strings
   switch_bank_ldy #INVENTORY_STATE_BANK
-  print_string inventory_string, #$20, #4, #11
-
-  print_string gp_string, #$20, #7, #4
-  print_string keys_string, #$20, #8, #4
-
-  print_string use_item_string, #$20, #10, #4
-  print_string health_string, #$20, #10, #13
-  print_string owl_health_string, #$20, #11, #13
-  print_string rope_string, #$20, #12, #13
-
-  print_string carry_string, #$20, #14, #4
-  print_string bomb_string, #$20, #14, #13
-  print_string lantern_string, #$20, #15, #13
-
-  print_string tech_string, #$20, #17, #4
-  print_string rush_string, #$20, #17, #13
-  print_string fetch_string, #$20, #18, #13
-  print_string sonar_string, #$20, #19, #13
-  print_string carry_item_string, #$20, #20, #13
-  print_string carry_adlanniel_string, #$20, #21, #13
-  print_string confuse_string, #$20, #22, #13
-  print_string homing_string, #$20, #23, #13
-  print_string multi_homing_string, #$20, #24, #13
+  jsr draw_inventory_strings
 
   jsr ppu_safely_enable_graphics
 
@@ -288,6 +267,45 @@ carry_adlanniel_string: .byte C,_A,R,R,_Y,SP,_A,D,L,_A,N,N,I,E,L,ES
 confuse_string: .byte C,O,N,F,U,S,E,ES
 homing_string: .byte H,O,M,I,N,G,ES
 multi_homing_string: .byte M,U,L,T,I,SP,H,O,M,I,N,G,ES
+
+.macro print_string_if_menu_item_enabled is_enabled_callback, string_address, nametable_hibyte, row, column
+
+  jsr is_enabled_callback
+  beq :+
+  print_string string_address, nametable_hibyte, row, column
+:
+
+.endmacro
+
+.proc draw_inventory_strings
+
+  print_string inventory_string, #$20, #4, #11
+
+  print_string gp_string, #$20, #7, #4
+  print_string keys_string, #$20, #8, #4
+
+  print_string use_item_string, #$20, #10, #4
+  print_string_if_menu_item_enabled health_is_enabled, health_string, #$20, #10, #13
+  print_string_if_menu_item_enabled owl_health_is_enabled, owl_health_string, #$20, #11, #13
+  print_string_if_menu_item_enabled rope_is_enabled, rope_string, #$20, #12, #13
+
+  print_string carry_string, #$20, #14, #4
+  print_string_if_menu_item_enabled bomb_is_enabled, bomb_string, #$20, #14, #13
+  print_string_if_menu_item_enabled lantern_is_enabled, lantern_string, #$20, #15, #13
+
+  print_string tech_string, #$20, #17, #4
+  print_string_if_menu_item_enabled tech_rush_is_enabled, rush_string, #$20, #17, #13
+  print_string_if_menu_item_enabled tech_fetch_is_enabled, fetch_string, #$20, #18, #13
+  print_string_if_menu_item_enabled tech_sonar_is_enabled, sonar_string, #$20, #19, #13
+  print_string_if_menu_item_enabled tech_carry_item_is_enabled, carry_item_string, #$20, #20, #13
+  print_string_if_menu_item_enabled tech_carry_adlanniel_is_enabled, carry_adlanniel_string, #$20, #21, #13
+  print_string_if_menu_item_enabled tech_confuse_is_enabled, confuse_string, #$20, #22, #13
+  print_string_if_menu_item_enabled tech_homing_is_enabled, homing_string, #$20, #23, #13
+  print_string_if_menu_item_enabled tech_multi_homing_is_enabled, multi_homing_string, #$20, #24, #13
+
+  rts
+
+.endproc
 
 .proc update_cursor
 
@@ -462,6 +480,35 @@ menu_position_action_callbacks_lo:
 menu_position_action_callbacks_hi:
   .hibytes menu_position_action_callbacks
 
+.define menu_position_is_enabled_callbacks \
+  health_is_enabled, \
+  owl_health_is_enabled, \
+  rope_is_enabled, \
+  bomb_is_enabled, \
+  lantern_is_enabled, \
+  tech_rush_is_enabled, \
+  tech_fetch_is_enabled, \
+  tech_sonar_is_enabled, \
+  tech_carry_item_is_enabled, \
+  tech_carry_adlanniel_is_enabled, \
+  tech_confuse_is_enabled, \
+  tech_homing_is_enabled, \
+  tech_multi_homing_is_enabled, \
+  tech_rush_is_enabled, \
+  tech_fetch_is_enabled, \
+  tech_sonar_is_enabled, \
+  tech_carry_item_is_enabled, \
+  tech_carry_adlanniel_is_enabled, \
+  tech_confuse_is_enabled, \
+  tech_homing_is_enabled, \
+  tech_multi_homing_is_enabled
+
+menu_position_is_enabled_callbacks_lo:
+  .lobytes menu_position_is_enabled_callbacks
+
+menu_position_is_enabled_callbacks_hi:
+  .hibytes menu_position_is_enabled_callbacks
+
 menu_position_row:
   .byte 8 * 10
   .byte 8 * 11
@@ -622,6 +669,96 @@ menu_position_next_down:
 
   rts
 
+.endproc
+
+;****************************************************************
+;These callbacks help the menu system determine whether to skip
+;over or even draw individual bits of the menu. They look at
+;global inventory state to determine if the player owns any
+;of an item type or has earned a given technique type. In
+;general, these routines will set the zero flag when not enabled
+;and clear the zero flag when enabled.
+;****************************************************************
+
+.proc health_is_enabled
+  lda inventory_healths
+  rts
+.endproc
+
+.proc owl_health_is_enabled
+  lda inventory_owl_healths
+  rts
+.endproc
+
+.proc rope_is_enabled
+  lda inventory_ropes
+  rts
+.endproc
+
+.proc bomb_is_enabled
+  lda inventory_bombs
+  rts
+.endproc
+
+.proc lantern_is_enabled
+  lda inventory_lanterns
+  rts
+.endproc
+
+.macro tech_is_enabled tech
+  lda inventory_earned_techs
+  cmp #tech
+  bpl :+
+  ;result was negative, this means inventory_earned_techs was smaller than
+  ;the tech we're looking at, which means this tech has not been earned yet,
+  ;so it is not enabled, so we want to set the zero flag.
+  lda #0
+  rts
+:
+  ;result was positive, this means inventory_earned_techs was greater than
+  ;the tech we're looking at, which means this tech is earned, so it is
+  ;enabled, so we want to clear the zero flag.
+  lda #1
+.endmacro
+
+.proc tech_rush_is_enabled
+  tech_is_enabled tech_rush_earned
+  rts
+.endproc
+
+.proc tech_fetch_is_enabled
+  tech_is_enabled tech_fetch_earned
+  rts
+.endproc
+
+.proc tech_sonar_is_enabled
+  tech_is_enabled tech_sonar_earned
+  rts
+.endproc
+
+.proc tech_carry_item_is_enabled
+  tech_is_enabled tech_carry_item_earned
+  rts
+.endproc
+
+.proc tech_carry_adlanniel_is_enabled
+  tech_is_enabled tech_carry_adlanniel_earned
+  rts
+.endproc
+
+.proc tech_confuse_is_enabled
+  tech_is_enabled tech_confuse_earned
+  rts
+.endproc
+
+.proc tech_homing_is_enabled
+  tech_is_enabled tech_homing_earned
+  rts
+.endproc
+
+.proc tech_multi_homing_is_enabled
+  tech_is_enabled tech_multi_homing_earned
+  rts
 .endproc
 
 .proc indirect_jsr_w0

@@ -18,7 +18,7 @@
   sta inventory_owl_carry_item
 
   ;set all techs earned
-  lda #7
+  lda #tech_multi_homing_earned
   sta inventory_earned_techs
 
   lda #0
