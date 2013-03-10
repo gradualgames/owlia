@@ -239,6 +239,11 @@ inventory_state_exit:
 
 .segment "ROM03"
 
+;****************************************************************
+;This data comprises all the strings visible on the inventory
+;screen.
+;****************************************************************
+
 ;inventory title string
 inventory_string: .byte I,N,V,E,N,T,O,R,_Y,ES
 
@@ -268,6 +273,12 @@ confuse_string: .byte C,O,N,F,U,S,E,ES
 homing_string: .byte H,O,M,I,N,G,ES
 multi_homing_string: .byte M,U,L,T,I,SP,H,O,M,I,N,G,ES
 
+;****************************************************************
+;These routines are used for drawing the inventory screen. Some
+;are used for drawing the entire screen when graphics are off,
+;others are used for one-off updates of individual menu items
+;when an action has been performed.
+;****************************************************************
 .macro print_string_if_menu_item_enabled is_enabled_callback, string_address, nametable_hibyte, row, column
 
   jsr is_enabled_callback
@@ -307,6 +318,38 @@ multi_homing_string: .byte M,U,L,T,I,SP,H,O,M,I,N,G,ES
 
 .endproc
 
+.proc play_dpad_sound
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_sword
+  sta sound_param_word_0
+  lda #>sfx_sword
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+  rts
+
+.endproc
+
+;****************************************************************
+;This is the main menu navigation routine. It uses the look up
+;tables below to determine where to put the cursor next based
+;on which dpad button was pressed, plays a sound for moving the
+;cursor, and also calls action callback routines when the action
+;(A) button is pressed. It also skips over menu items that are
+;currently disabled due to not having any of a certain item or
+;not having earned a given technique.
+;****************************************************************
 .proc update_cursor
 
   ;test A button and call callback for current menu position if pressed
@@ -367,14 +410,29 @@ right_not_pressed:
   bne down_not_pressed
 
   jsr play_dpad_sound
+  .scope
   ldx state_control_params+inventory_state_control::menu_position
+  ldy #menu_position_tech2_multi_homing
+try_next_menu_item:
   lda menu_position_next_down,x
-  sta state_control_params+inventory_state_control::menu_position
   tax
+  lda menu_position_is_enabled_callbacks_lo,x
+  sta w0
+  lda menu_position_is_enabled_callbacks_hi,x
+  sta w0+1
+  jsr indirect_jsr_w0
+  beq menu_item_disabled
+  stx state_control_params+inventory_state_control::menu_position
   lda menu_position_row,x
   sta state_control_params+inventory_state_control::cursor_row
   lda menu_position_column,x
   sta state_control_params+inventory_state_control::cursor_column
+  jmp done
+menu_item_disabled:
+  dey
+  bne try_next_menu_item
+done:
+  .endscope
 
   jmp done
 down_not_pressed:
@@ -384,14 +442,29 @@ down_not_pressed:
   bne up_not_pressed
 
   jsr play_dpad_sound
+  .scope
   ldx state_control_params+inventory_state_control::menu_position
+  ldy #menu_position_tech2_multi_homing
+try_next_menu_item:
   lda menu_position_next_up,x
-  sta state_control_params+inventory_state_control::menu_position
   tax
+  lda menu_position_is_enabled_callbacks_lo,x
+  sta w0
+  lda menu_position_is_enabled_callbacks_hi,x
+  sta w0+1
+  jsr indirect_jsr_w0
+  beq menu_item_disabled
+  stx state_control_params+inventory_state_control::menu_position
   lda menu_position_row,x
   sta state_control_params+inventory_state_control::cursor_row
   lda menu_position_column,x
   sta state_control_params+inventory_state_control::cursor_column
+  jmp done
+menu_item_disabled:
+  dey
+  bne try_next_menu_item
+done:
+  .endscope
 
   jmp done
 up_not_pressed:
@@ -403,112 +476,12 @@ done:
 
 .endproc
 
-.proc play_dpad_sound
-
-  ;play a sound
-  txa
-  pha
-
-  lda #<sfx_sword
-  sta sound_param_word_0
-  lda #>sfx_sword
-  sta sound_param_word_0+1
-
-  lda #3
-  sta sound_param_byte_0
-
-  ldx #soundeffect_one
-  jsr stream_initialize
-
-  pla
-  tax
-  rts
-
-.endproc
-
-;menu position enumeration
-.enum
-menu_position_health
-menu_position_owl_health
-menu_position_rope
-menu_position_bomb
-menu_position_lantern
-menu_position_tech1_rush
-menu_position_tech1_fetch
-menu_position_tech1_sonar
-menu_position_tech1_carry_item
-menu_position_tech1_carry_adlanniel
-menu_position_tech1_confuse
-menu_position_tech1_homing
-menu_position_tech1_multi_homing
-menu_position_tech2_rush
-menu_position_tech2_fetch
-menu_position_tech2_sonar
-menu_position_tech2_carry_item
-menu_position_tech2_carry_adlanniel
-menu_position_tech2_confuse
-menu_position_tech2_homing
-menu_position_tech2_multi_homing
-.endenum
-
-.define menu_position_action_callbacks \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test
-
-menu_position_action_callbacks_lo:
-  .lobytes menu_position_action_callbacks
-
-menu_position_action_callbacks_hi:
-  .hibytes menu_position_action_callbacks
-
-.define menu_position_is_enabled_callbacks \
-  health_is_enabled, \
-  owl_health_is_enabled, \
-  rope_is_enabled, \
-  bomb_is_enabled, \
-  lantern_is_enabled, \
-  tech_rush_is_enabled, \
-  tech_fetch_is_enabled, \
-  tech_sonar_is_enabled, \
-  tech_carry_item_is_enabled, \
-  tech_carry_adlanniel_is_enabled, \
-  tech_confuse_is_enabled, \
-  tech_homing_is_enabled, \
-  tech_multi_homing_is_enabled, \
-  tech_rush_is_enabled, \
-  tech_fetch_is_enabled, \
-  tech_sonar_is_enabled, \
-  tech_carry_item_is_enabled, \
-  tech_carry_adlanniel_is_enabled, \
-  tech_confuse_is_enabled, \
-  tech_homing_is_enabled, \
-  tech_multi_homing_is_enabled
-
-menu_position_is_enabled_callbacks_lo:
-  .lobytes menu_position_is_enabled_callbacks
-
-menu_position_is_enabled_callbacks_hi:
-  .hibytes menu_position_is_enabled_callbacks
-
+;****************************************************************
+;These look up tables define menu navigation. They define where
+;the cursor should be located for each menu position and also
+;where the cursor should go for up, down, left, right for every
+;position in the menu.
+;****************************************************************
 menu_position_row:
   .byte 8 * 10
   .byte 8 * 11
@@ -647,6 +620,41 @@ menu_position_next_down:
   .byte menu_position_tech2_multi_homing
   .byte menu_position_tech2_multi_homing
 
+;****************************************************************
+;These callbacks perform actions for each menu position. They
+;use items (health, owl health, rope, etc.), or select which item
+;the owl can carry when using the carry item technique, or select
+;the two selected techniques.
+;****************************************************************
+.define menu_position_action_callbacks \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test, \
+  menu_position_action_callback_test
+
+menu_position_action_callbacks_lo:
+  .lobytes menu_position_action_callbacks
+
+menu_position_action_callbacks_hi:
+  .hibytes menu_position_action_callbacks
+  
 .proc menu_position_action_callback_test
 
   ;play a sound
@@ -679,6 +687,34 @@ menu_position_next_down:
 ;general, these routines will set the zero flag when not enabled
 ;and clear the zero flag when enabled.
 ;****************************************************************
+.define menu_position_is_enabled_callbacks \
+  health_is_enabled, \
+  owl_health_is_enabled, \
+  rope_is_enabled, \
+  bomb_is_enabled, \
+  lantern_is_enabled, \
+  tech_rush_is_enabled, \
+  tech_fetch_is_enabled, \
+  tech_sonar_is_enabled, \
+  tech_carry_item_is_enabled, \
+  tech_carry_adlanniel_is_enabled, \
+  tech_confuse_is_enabled, \
+  tech_homing_is_enabled, \
+  tech_multi_homing_is_enabled, \
+  tech_rush_is_enabled, \
+  tech_fetch_is_enabled, \
+  tech_sonar_is_enabled, \
+  tech_carry_item_is_enabled, \
+  tech_carry_adlanniel_is_enabled, \
+  tech_confuse_is_enabled, \
+  tech_homing_is_enabled, \
+  tech_multi_homing_is_enabled
+
+menu_position_is_enabled_callbacks_lo:
+  .lobytes menu_position_is_enabled_callbacks
+
+menu_position_is_enabled_callbacks_hi:
+  .hibytes menu_position_is_enabled_callbacks
 
 .proc health_is_enabled
   lda inventory_healths

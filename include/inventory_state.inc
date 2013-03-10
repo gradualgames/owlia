@@ -13,15 +13,31 @@ INVENTORY_STATE_BANK = 3
   cursor_row .byte
   cursor_column .byte
   menu_position .byte
-  dpad_direction .byte
 .endstruct
 
+;menu position enumeration
 .enum
-DPAD_NOP
-DPAD_RIGHT
-DPAD_LEFT
-DPAD_DOWN
-DPAD_UP
+menu_position_health
+menu_position_owl_health
+menu_position_rope
+menu_position_bomb
+menu_position_lantern
+menu_position_tech1_rush
+menu_position_tech1_fetch
+menu_position_tech1_sonar
+menu_position_tech1_carry_item
+menu_position_tech1_carry_adlanniel
+menu_position_tech1_confuse
+menu_position_tech1_homing
+menu_position_tech1_multi_homing
+menu_position_tech2_rush
+menu_position_tech2_fetch
+menu_position_tech2_sonar
+menu_position_tech2_carry_item
+menu_position_tech2_carry_adlanniel
+menu_position_tech2_confuse
+menu_position_tech2_homing
+menu_position_tech2_multi_homing
 .endenum
 
 .endif
