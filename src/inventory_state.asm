@@ -69,13 +69,23 @@ inventory_state_init:
   lda b3
   sta textbox_and_font_chr_offset
 
-  ;load the textbox graphics. This is hardcoded because it is the same
-  ;for the entire game. The assumption here is that the background
-  ;graphics we use will never occupy so many tiles that we cannot
-  ;display a textbox or font.
+  ;load the textbox graphics.
   lda #<textbox_chr
   sta w0
   lda #>textbox_chr
+  sta w0+1
+  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
+  jsr ppu_load_chr_amount
+
+  ;grab tile accumulator to know where the digits group begins
+  lda b3
+  sta state_control_params+inventory_state_control::digits_chr_offset
+
+  ;load the digits graphics, for displaying numbers of items remaining,
+  ;gp, and keys.
+  lda #<digits_chr
+  sta w0
+  lda #>digits_chr
   sta w0+1
   switch_bank_ldy #TEXTBOX_BG_CHR_BANK
   jsr ppu_load_chr_amount
@@ -388,6 +398,8 @@ multi_homing_string: .byte M,U,L,T,I,SP,H,O,M,I,N,G,ES
 
 .proc draw_inventory_strings
 
+  lda textbox_and_font_chr_offset
+  sta chr_group_offset
   print_string inventory_string, #$20, #4, #11
 
   print_string gp_string, #$20, #7, #4

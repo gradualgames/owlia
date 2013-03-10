@@ -19,7 +19,10 @@ MAX_ENTITIES = 8
 
 .global state_control_params
 
+.global string_buffer
+
 .global textbox_and_font_chr_offset
+.global chr_group_offset
 .global sprite_chr_group_offsets
 
 .global sorted_entity_index

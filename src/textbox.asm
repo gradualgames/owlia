@@ -29,7 +29,7 @@ string_address = w0
   cmp #ES
   beq end_of_string
   clc
-  adc textbox_and_font_chr_offset
+  adc chr_group_offset
   sta $2007
   iny
   jmp :-

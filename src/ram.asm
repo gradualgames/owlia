@@ -18,7 +18,10 @@ textbox_attribute: .res 1
 
 state_control_params: .res 8
 
+string_buffer: .res 8
+
 textbox_and_font_chr_offset: .res 1
+chr_group_offset: .res 1
 sprite_chr_group_offsets: .res 64
 
 sorted_entity_index: .res 1

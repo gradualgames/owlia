@@ -13,6 +13,7 @@ INVENTORY_STATE_BANK = 3
   cursor_row .byte
   cursor_column .byte
   menu_position .byte
+  digits_chr_offset .byte
 .endstruct
 
 ;menu position enumeration

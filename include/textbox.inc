@@ -29,6 +29,8 @@ TEXTBOX_HEIGHT = 80
   sta b1
   lda column
   sta b2
+  lda textbox_and_font_chr_offset
+  sta b3
   jsr print_string_impl
 
 .endmacro
