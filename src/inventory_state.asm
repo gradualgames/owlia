@@ -439,6 +439,29 @@ multi_homing_string: .byte M,U,L,T,I,SP,H,O,M,I,N,G,ES
 
 .endproc
 
+.proc play_action_sound
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_test
+  sta sound_param_word_0
+  lda #>sfx_test
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  rts
+
+.endproc
+
 ;****************************************************************
 ;This is the main menu navigation routine. It uses the look up
 ;tables below to determine where to put the cursor next based
@@ -728,24 +751,24 @@ menu_position_next_down:
   menu_position_action_callback_test, \
   menu_position_action_callback_test, \
   menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test, \
-  menu_position_action_callback_test
+  menu_position_carry_item_callback, \
+  menu_position_carry_item_callback, \
+  menu_position_tech1_column_callback, \
+  menu_position_tech1_column_callback, \
+  menu_position_tech1_column_callback, \
+  menu_position_tech1_column_callback, \
+  menu_position_tech1_column_callback, \
+  menu_position_tech1_column_callback, \
+  menu_position_tech1_column_callback, \
+  menu_position_tech1_column_callback, \
+  menu_position_tech2_column_callback, \
+  menu_position_tech2_column_callback, \
+  menu_position_tech2_column_callback, \
+  menu_position_tech2_column_callback, \
+  menu_position_tech2_column_callback, \
+  menu_position_tech2_column_callback, \
+  menu_position_tech2_column_callback, \
+  menu_position_tech2_column_callback
 
 menu_position_action_callbacks_lo:
   .lobytes menu_position_action_callbacks
@@ -755,23 +778,43 @@ menu_position_action_callbacks_hi:
 
 .proc menu_position_action_callback_test
 
-  ;play a sound
-  txa
-  pha
+  jsr play_action_sound
 
-  lda #<sfx_test
-  sta sound_param_word_0
-  lda #>sfx_test
-  sta sound_param_word_0+1
+  rts
 
-  lda #3
-  sta sound_param_byte_0
+.endproc
 
-  ldx #soundeffect_one
-  jsr stream_initialize
+.proc menu_position_carry_item_callback
 
-  pla
-  tax
+  jsr play_action_sound
+  sec
+  lda state_control_params+inventory_state_control::menu_position
+  sbc #menu_position_bomb
+  sta inventory_owl_carry_item
+
+  rts
+
+.endproc
+
+.proc menu_position_tech1_column_callback
+
+  jsr play_action_sound
+  sec
+  lda state_control_params+inventory_state_control::menu_position
+  sbc #menu_position_tech1_rush
+  sta inventory_tech1
+
+  rts
+
+.endproc
+
+.proc menu_position_tech2_column_callback
+
+  jsr play_action_sound
+  sec
+  lda state_control_params+inventory_state_control::menu_position
+  sbc #menu_position_tech2_rush
+  sta inventory_tech2
 
   rts
 
