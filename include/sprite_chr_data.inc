@@ -12,6 +12,7 @@ SPRITE_CHR_INC = 1
 .global NpcWoman_chr
 .global Key_chr
 .global Cursor_chr
+.global Radio_chr
 
 .enum
 sprite_chr_group_index_hero
@@ -22,6 +23,7 @@ sprite_chr_group_index_npcman
 sprite_chr_group_index_npcwoman
 sprite_chr_group_index_key
 sprite_chr_group_index_cursor
+sprite_chr_group_index_radio
 .endenum
 
 .endif

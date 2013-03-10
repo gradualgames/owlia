@@ -14,17 +14,19 @@
   sta inventory_owl_healths
 
   ;set the owl to carry bombs
-  lda #INVENTORY_BOMB_ID
+  lda #carry_bomb
   sta inventory_owl_carry_item
 
   ;set all techs earned
   lda #tech_multi_homing_earned
   sta inventory_earned_techs
 
-  lda #0
+  ;select rush and fetch as tech 1 and tech 2
+  lda #tech_rush
   sta inventory_tech1
-  lda #1
+  lda #tech_fetch
   sta inventory_tech2
+
   rts
 
 .endproc

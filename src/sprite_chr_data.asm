@@ -11,7 +11,8 @@
   NpcMan_chr, \
   NpcWoman_chr, \
   Key_chr, \
-  Cursor_chr
+  Cursor_chr, \
+  Radio_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -298,3 +299,7 @@ Cursor_chr:
   .byte $01,$00,$00,$00,$00,$00,$00,$00,$01,$00,$00,$00,$00,$00,$00,$00
   .byte $ff,$00,$00,$00,$00,$00,$00,$00,$ff,$00,$00,$00,$00,$00,$00,$00
   .byte $80,$00,$00,$00,$00,$00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00
+
+Radio_chr:
+  .word $0010
+  .byte $00,$3c,$7e,$7e,$7e,$7e,$3c,$00,$00,$3c,$7e,$7e,$7e,$7e,$3c,$00

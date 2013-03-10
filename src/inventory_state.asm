@@ -103,6 +103,19 @@ inventory_state_init:
   switch_bank_ldy #INVENTORY_STATE_SPRITE_CHR_BANK
   jsr ppu_load_chr_amount
 
+  lda #<Radio_chr
+  sta w0
+  lda #>Radio_chr
+  sta w0+1
+
+  ;store the current chr offset in sprite_chr_groups_chr_offsets array for the cursor
+  ldy #sprite_chr_group_index_radio
+  lda b3
+  sta sprite_chr_group_offsets,y
+
+  switch_bank_ldy #INVENTORY_STATE_SPRITE_CHR_BANK
+  jsr ppu_load_chr_amount
+
   ;load nametable data for inventory screen
   ;load the nametable and attribute table.
   lda #$20
@@ -142,6 +155,8 @@ inventory_state_init:
 
   jsr draw_cursor
 
+  jsr draw_radio_buttons
+
   jsr sprite_update_all
 
   ;draw menu layout with strings
@@ -174,6 +189,8 @@ inventory_state_main:
   jsr update_cursor
 
   jsr draw_cursor
+
+  jsr draw_radio_buttons
 
   ;test start button
   lda buffer_controller+buttons::_start
@@ -231,6 +248,87 @@ inventory_state_exit:
   lda #0
   sta b2
 
+  jsr sprite_draw_metasprite
+
+  rts
+
+.endproc
+
+.proc draw_radio_buttons
+
+  ldy #sprite_chr_group_index_radio
+  lda sprite_chr_group_offsets,y
+  sta sprite_group_offset
+
+  lda #<Radio0
+  sta w0
+  lda #>Radio0
+  sta w0+1
+
+  ;draw the carry item radio button
+  switch_bank_ldy #INVENTORY_STATE_BANK
+  clc
+  lda inventory_owl_carry_item
+  adc #menu_position_bomb
+  tax
+  lda menu_position_column,x
+  sta w3
+  lda #0
+  sta w3+1
+
+  lda menu_position_row,x
+  sta w4
+  lda #0
+  sta w4+1
+
+  lda #0
+  sta b2
+
+  switch_bank_ldy #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK
+  jsr sprite_draw_metasprite
+
+  ;draw the tech1 radio button
+  switch_bank_ldy #INVENTORY_STATE_BANK
+  clc
+  lda inventory_tech1
+  adc #menu_position_tech1_rush
+  tax
+  lda menu_position_column,x
+  sta w3
+  lda #0
+  sta w3+1
+
+  lda menu_position_row,x
+  sta w4
+  lda #0
+  sta w4+1
+
+  lda #0
+  sta b2
+
+  switch_bank_ldy #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK
+  jsr sprite_draw_metasprite
+
+  ;draw the tech2 radio button
+  switch_bank_ldy #INVENTORY_STATE_BANK
+  clc
+  lda inventory_tech2
+  adc #menu_position_tech2_rush
+  tax
+  lda menu_position_column,x
+  sta w3
+  lda #0
+  sta w3+1
+
+  lda menu_position_row,x
+  sta w4
+  lda #0
+  sta w4+1
+
+  lda #0
+  sta b2
+
+  switch_bank_ldy #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_draw_metasprite
 
   rts
@@ -506,27 +604,27 @@ menu_position_row:
   .byte 8 * 24
 
 menu_position_column:
-  .byte 8 * 10
-  .byte 8 * 10
-  .byte 8 * 10
-  .byte 8 * 10
-  .byte 8 * 10
-  .byte 8 * 8
-  .byte 8 * 8
-  .byte 8 * 8
-  .byte 8 * 8
-  .byte 8 * 8
-  .byte 8 * 8
-  .byte 8 * 8
-  .byte 8 * 8
-  .byte 8 * 10
-  .byte 8 * 10
-  .byte 8 * 10
-  .byte 8 * 10
-  .byte 8 * 10
-  .byte 8 * 10
-  .byte 8 * 10
-  .byte 8 * 10
+  .byte 8 * 11
+  .byte 8 * 11
+  .byte 8 * 11
+  .byte 8 * 11
+  .byte 8 * 11
+  .byte 8 * 9
+  .byte 8 * 9
+  .byte 8 * 9
+  .byte 8 * 9
+  .byte 8 * 9
+  .byte 8 * 9
+  .byte 8 * 9
+  .byte 8 * 9
+  .byte 8 * 11
+  .byte 8 * 11
+  .byte 8 * 11
+  .byte 8 * 11
+  .byte 8 * 11
+  .byte 8 * 11
+  .byte 8 * 11
+  .byte 8 * 11
 
 menu_position_next_left:
   .byte menu_position_health
@@ -654,7 +752,7 @@ menu_position_action_callbacks_lo:
 
 menu_position_action_callbacks_hi:
   .hibytes menu_position_action_callbacks
-  
+
 .proc menu_position_action_callback_test
 
   ;play a sound
