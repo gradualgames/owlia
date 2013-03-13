@@ -586,7 +586,7 @@ does_not_intersect_textbox:
   sta w4+1
 
   lda hero_sprite_group_offset
-  sta sprite_group_offset
+  sta chr_group_offset
 
   lda hero_sprite_flags
   sta b2
@@ -612,7 +612,7 @@ do_not_draw:
 .proc hero_draw_status
 
   lda hero_sprite_group_offset
-  sta sprite_group_offset
+  sta chr_group_offset
 
   lda hero_health
   beq no_hearts

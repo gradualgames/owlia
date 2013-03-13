@@ -480,7 +480,7 @@ done:
   sta w4+1
 
   lda entity_sprite_group_offset,x
-  sta sprite_group_offset
+  sta chr_group_offset
 
   lda entity_sprite_flags,x
   sta b2
@@ -524,7 +524,7 @@ done:
   sta w4+1
 
   lda entity_sprite_group_offset,x
-  sta sprite_group_offset
+  sta chr_group_offset
 
   lda entity_sprite_flags,x
   sta b2

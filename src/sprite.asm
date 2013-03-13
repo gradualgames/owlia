@@ -141,7 +141,7 @@ animation_rom_address = w2
 ;w4: the 16 bit y coordinate at which to draw the sprite
 ;b2: extra bits to OR into the sprite attribute
 ;    (presumably %01000000 to flip horiz)
-;sprite_group_offset: All tile offsets within meta sprites are relative to this value.
+;chr_group_offset: All tile offsets within meta sprites are relative to this value.
 ;Global variables:
 ;b3: the calculated x coordinate at which to draw a sprite
 ;b4: the calculated y coordinate at which to draw a sprite
@@ -202,7 +202,7 @@ y_offset_sign_test_done:
   iny
   lda (metasprite_address),y
   clc
-  adc sprite_group_offset
+  adc chr_group_offset
   sta sprite+sprite_struct::tile,x
 
   ;load attribute of sprite

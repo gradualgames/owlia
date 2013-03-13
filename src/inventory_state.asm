@@ -237,7 +237,7 @@ inventory_state_exit:
 .proc draw_cursor
   ldy #sprite_chr_group_index_cursor
   lda sprite_chr_group_offsets,y
-  sta sprite_group_offset
+  sta chr_group_offset
 
   switch_bank_ldy #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK
   lda #<Cursor0
@@ -268,7 +268,7 @@ inventory_state_exit:
 
   ldy #sprite_chr_group_index_radio
   lda sprite_chr_group_offsets,y
-  sta sprite_group_offset
+  sta chr_group_offset
 
   lda #<Radio0
   sta w0

@@ -281,7 +281,7 @@ does_not_intersect_textbox:
   sta w4+1
 
   lda familiar_sprite_group_offset
-  sta sprite_group_offset
+  sta chr_group_offset
 
   lda familiar_sprite_flags
   sta b2
