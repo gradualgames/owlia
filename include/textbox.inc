@@ -9,6 +9,7 @@ TEXTBOX_SCREEN_SPRITE_OCCLUDE_Y = (TEXTBOX_SCREEN_Y - 8)
 TEXTBOX_WIDTH = 255
 TEXTBOX_HEIGHT = 80
 
+.global create_decimal_string
 .global print_string_impl
 .global run_conversation
 .global draw_textbox
@@ -29,8 +30,6 @@ TEXTBOX_HEIGHT = 80
   sta b1
   lda column
   sta b2
-  lda textbox_and_font_chr_offset
-  sta b3
   jsr print_string_impl
 
 .endmacro

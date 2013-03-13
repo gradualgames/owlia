@@ -173,6 +173,20 @@ inventory_state_init:
   switch_bank_ldy #INVENTORY_STATE_BANK
   jsr draw_inventory_strings
 
+  lda #<12346
+  sta w0
+  lda #>12346
+  sta w0+1
+  lda #<string_buffer
+  sta w1
+  lda #>string_buffer
+  sta w1+1
+  jsr create_decimal_string
+
+  lda state_control_params+inventory_state_control::digits_chr_offset
+  sta chr_group_offset
+  print_string string_buffer, #$20, #7, #9
+
   jsr ppu_safely_enable_graphics
 
   ;fade in inventory screen palette

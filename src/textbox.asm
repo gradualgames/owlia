@@ -12,6 +12,110 @@
 
 .segment "CODE"
 
+power_table_lo:
+  .byte <10000, <1000, <100, <10, <1
+
+power_table_hi:
+  .byte >10000, >1000, >100, >10, >1
+
+;This routine creates a decimal string from a 16 bit input number.
+;w0 is expected to be the address of the input number to translate into a decimal string.
+;w1 is expected to be the address of the output string buffer in RAM.
+;b0 is used to count how many times each power fit into the input number
+.proc create_decimal_string
+input_number = w0
+output_buffer = w1
+digit_counter = b0
+
+  ;start at highest power (first time inx is executed, we will be at index 0)
+  ldx #$ff
+
+  ;start at first digit of output string
+  ldy #0
+
+  ;check to see if input number is already zero, this is a special case. Just output 0
+  ;and an end of string character in this case.
+  lda input_number
+  ora input_number+1
+  beq already_zero
+
+  ;search for the first power in the power table that is less than or equal to the input number
+next_power:
+  inx
+  sec
+  lda input_number
+  sbc power_table_lo,x
+  lda input_number+1
+  sbc power_table_hi,x
+  ;if the negative flag is set here, then the power is greater than the input number, so move on
+  ;to next power
+  bmi next_power
+
+  ;at this point, x now points to the first power thant is less than or equal to the input number
+
+next_digit:
+  ;reset the digit counter
+  lda #0
+  sta digit_counter
+
+  ;subtract the current power from the input number until we go negative. Increment the digit
+  ;counter.
+keep_counting:
+  inc digit_counter
+  sec
+  lda input_number
+  sbc power_table_lo,x
+  sta input_number
+  lda input_number+1
+  sbc power_table_hi,x
+  sta input_number+1
+  bpl keep_counting
+
+  ;when we get here, we've counted the current digit plus 1 (when we went negative). Add the power
+  ;back and decrement the digit count to get the correct count.
+  clc
+  lda input_number
+  adc power_table_lo,x
+  sta input_number
+  lda input_number+1
+  adc power_table_hi,x
+  sta input_number+1
+
+  dec digit_counter
+
+  ;at this point we know the current number has had the current power all the way removed. Store the
+  ;digit counter in the output string.
+  lda digit_counter
+  sta (output_buffer),y
+
+  ;move on to the next power, and the next digit
+  inx
+  iny
+
+  ;if we've zeroed out the whole input number, we've translated it to a decimal string and we are
+  ;done.
+  lda input_number
+  ora input_number+1
+  bne next_digit
+
+  ;now output an end of string character
+  lda #ES
+  sta (output_buffer),y
+
+  rts
+
+already_zero:
+
+  lda #0
+  sta (output_buffer),y
+  iny
+  lda #ES
+  sta (output_buffer),y
+
+  rts
+
+.endproc
+
 ;This routine simply prints a string directly to the nametable.
 ;w0 is expected to be the address of the string to print.
 ;b0 is expected to be the hi byte of the nametable to which to draw the string.
