@@ -173,20 +173,6 @@ inventory_state_init:
   switch_bank_ldy #INVENTORY_STATE_BANK
   jsr draw_inventory_strings
 
-  lda #<12346
-  sta w0
-  lda #>12346
-  sta w0+1
-  lda #<string_buffer
-  sta w1
-  lda #>string_buffer
-  sta w1+1
-  jsr create_decimal_string
-
-  lda state_control_params+inventory_state_control::digits_chr_offset
-  sta chr_group_offset
-  print_string string_buffer, #$20, #7, #9
-
   jsr ppu_safely_enable_graphics
 
   ;fade in inventory screen palette
@@ -411,6 +397,18 @@ multi_homing_string: .byte M,U,L,T,I,SP,H,O,M,I,N,G,ES
 .endmacro
 
 .proc draw_inventory_strings
+
+  lda state_control_params+inventory_state_control::digits_chr_offset
+  sta chr_group_offset
+
+  print_decimal_string inventory_gp, inventory_gp+1, #$20, #7, #9
+  print_decimal_string inventory_keys, #0, #$20, #8, #9
+  print_decimal_string inventory_healths, #0, #$20, #10, #24
+  print_decimal_string inventory_owl_healths, #0, #$20, #11, #24
+  print_decimal_string inventory_ropes, #0, #$20, #12, #24
+
+  print_decimal_string inventory_bombs, #0, #$20, #14, #24
+  print_decimal_string inventory_lanterns, #0, #$20, #15, #24
 
   lda textbox_and_font_chr_offset
   sta chr_group_offset

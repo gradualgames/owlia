@@ -60,6 +60,8 @@ MAX_ENTITIES = 8
 .global entity_local7
 .global entity_local8
 
+.global inventory_gp
+.global inventory_keys
 .global inventory_lanterns
 .global inventory_bombs
 .global inventory_ropes

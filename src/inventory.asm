@@ -27,6 +27,14 @@
   lda #tech_fetch
   sta inventory_tech2
 
+  lda #<500
+  sta inventory_gp
+  lda #>500
+  sta inventory_gp+1
+
+  lda #0
+  sta inventory_keys
+
   rts
 
 .endproc

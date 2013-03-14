@@ -34,6 +34,22 @@ TEXTBOX_HEIGHT = 80
 
 .endmacro
 
+.macro print_decimal_string lo, hi, nametable, row, column
+
+  lda lo
+  sta w0
+  lda hi
+  sta w0+1
+  lda #<string_buffer
+  sta w1
+  lda #>string_buffer
+  sta w1+1
+  jsr create_decimal_string
+
+  print_string string_buffer, nametable, row, column
+
+.endmacro
+
 ;offsets of tiles in the textbox chr graphics
 ;these are to be added to textbox_and_font_chr_offset
 ;to get correct tile numbers when drawing the textbox.

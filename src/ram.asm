@@ -59,6 +59,8 @@ entity_local6:               .res MAX_ENTITIES
 entity_local7:               .res MAX_ENTITIES
 entity_local8:               .res MAX_ENTITIES
 
+inventory_gp:             .res 2
+inventory_keys:           .res 1
 inventory_lanterns:       .res 1
 inventory_bombs:          .res 1
 inventory_ropes:          .res 1
