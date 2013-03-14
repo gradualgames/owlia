@@ -22,13 +22,19 @@ power_table_hi:
 ;w0 is expected to be the address of the input number to translate into a decimal string.
 ;w1 is expected to be the address of the output string buffer in RAM.
 ;b0 is used to count how many times each power fit into the input number
+;b1 is used to count remaining digits
 .proc create_decimal_string
 input_number = w0
 output_buffer = w1
 digit_counter = b0
+remaining_digits = b1
 
   ;start at highest power (first time inx is executed, we will be at index 0)
   ldx #$ff
+
+  ;start at highest possible remaining digits + 1
+  lda #6
+  sta remaining_digits
 
   ;start at first digit of output string
   ldy #0
@@ -41,6 +47,7 @@ digit_counter = b0
 
   ;search for the first power in the power table that is less than or equal to the input number
 next_power:
+  dec remaining_digits
   inx
   sec
   lda input_number
@@ -92,10 +99,7 @@ keep_counting:
   inx
   iny
 
-  ;if we've zeroed out the whole input number, we've translated it to a decimal string and we are
-  ;done.
-  lda input_number
-  ora input_number+1
+  dec remaining_digits
   bne next_digit
 
   ;now output an end of string character
