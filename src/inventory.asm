@@ -18,7 +18,7 @@
   sta inventory_owl_carry_item
 
   ;set all techs earned
-  lda #tech_multi_homing_earned
+  lda #tech_multi_homing
   sta inventory_earned_techs
 
   ;select rush and fetch as tech 1 and tech 2
@@ -26,6 +26,10 @@
   sta inventory_tech1
   lda #tech_fetch
   sta inventory_tech2
+
+  ;select tech1 as the currently active tech
+  lda #tech1
+  sta inventory_selected_tech
 
   lda #<500
   sta inventory_gp

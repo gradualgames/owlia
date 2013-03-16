@@ -7,6 +7,12 @@ carry_bomb
 carry_lantern
 .endenum
 
+;for selecting whether tech 1 or tech 2 is currently active
+.enum
+tech1
+tech2
+.endenum
+
 ;for selecting tech 1 and tech 2
 .enum
 tech_rush

@@ -68,6 +68,7 @@ inventory_healths:        .res 1
 inventory_owl_healths:    .res 1
 inventory_owl_carry_item: .res 1
 inventory_earned_techs:   .res 1
+inventory_selected_tech:  .res 1
 inventory_tech1:          .res 1
 inventory_tech2:          .res 1
 

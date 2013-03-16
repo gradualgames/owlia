@@ -28,6 +28,15 @@
 
 .endproc
 
+;this is just a placeholder until all techs are implemented
+;so unimplemented ones can be selected from the inventory
+;screen and not cause a crash.
+.proc familiar_spawn_nop
+
+  rts
+
+.endproc
+
 ;sets the familiar to be alive and initializes the rush attack.
 .proc familiar_spawn_rush
 

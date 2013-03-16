@@ -17,6 +17,7 @@
 .include "geotests.inc"
 .include "camera.inc"
 .include "textbox.inc"
+.include "inventory.inc"
 
 .segment "CODE"
 
@@ -281,6 +282,24 @@ done:
 
 .endproc
 
+;this routine first prepares the hero's state so it
+;can work in tandem with the familiar as it carries
+;the hero across a ravine. The prepare routine first
+;tests to see if carrying should even occur (standing
+;on a tile that has the carry action).
+.proc hero_spawn_familiar_spawn_carry_hero
+
+  jsr hero_prepare_familiar_carry_hero
+  lda hero_state
+  cmp #HERO_STATE_CARRIED
+  bne skip_spawn_carry_hero
+  jsr familiar_spawn_carry_hero
+skip_spawn_carry_hero:
+
+  rts
+
+.endproc
+
 .proc hero_set_has_key
 
   lda hero_flags
@@ -417,6 +436,46 @@ hero_invincible:
 
   pla
   tax
+
+  rts
+
+.endproc
+
+.define familiar_spawn_tech \
+  familiar_spawn_rush, \
+  familiar_spawn_fetch, \
+  familiar_spawn_nop, \
+  familiar_spawn_nop, \
+  hero_spawn_familiar_spawn_carry_hero, \
+  familiar_spawn_nop, \
+  familiar_spawn_nop, \
+  familiar_spawn_nop
+
+familiar_spawn_tech_lo:
+  .lobytes familiar_spawn_tech
+
+familiar_spawn_tech_hi:
+  .hibytes familiar_spawn_tech
+
+;Spawns the familiar based on whether tech 1 or tech 2 is
+;currently selected, and looks up the correct spawn routine.
+.proc hero_spawn_familiar
+
+  lda inventory_selected_tech
+  cmp #tech2
+  beq tech2_selected
+tech1_selected:
+  ldx inventory_tech1
+  jmp done
+tech2_selected:
+  ldx inventory_tech2
+done:
+
+  lda familiar_spawn_tech_lo,x
+  sta w0
+  lda familiar_spawn_tech_hi,x
+  sta w0+1
+  jsr indirect_jsr_w0
 
   rts
 
@@ -646,6 +705,36 @@ draw_next_heart:
   dec b6
   bne draw_next_heart
 no_hearts:
+
+  lda inventory_selected_tech
+  bne tech2
+tech1:
+  lda #<Tech0
+  sta w0
+  lda #>Tech0
+  sta w0+1
+  jmp done
+tech2:
+  lda #<Tech1
+  sta w0
+  lda #>Tech1
+  sta w0+1
+done:
+
+  lda #(CAMERA_SCREEN_ORIGIN_X+HERO_STATUS_X)
+  sta w3
+  lda #0
+  sta w3+1
+
+  lda #(CAMERA_SCREEN_ORIGIN_Y+HERO_STATUS_Y+8)
+  sta w4
+  lda #0
+  sta w4+1
+
+  lda #0
+  sta b2
+
+  jsr sprite_draw_metasprite
 
   rts
 
@@ -942,16 +1031,43 @@ hero_state_carried:
 ;****************************************************************
 hero_state_main:
 
+  lda buffer_controller+buttons::_select
+  and #%00000011
+  cmp #%00000001
+  bne skip_switch_selected_tech
+
+  ;flip the only bit that is ever set in the selected tech, since
+  ;it is only tech1 or tech2 (0 or 1)
+  lda inventory_selected_tech
+  eor #%00000001
+  sta inventory_selected_tech
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_test
+  sta sound_param_word_0
+  lda #>sfx_test
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+skip_switch_selected_tech:
+
   lda buffer_controller+buttons::_b
   and #%00000011
   cmp #%00000001
   bne skip_spawn_familiar_test
 
-  jsr hero_prepare_familiar_carry_hero
-  lda hero_state
-  cmp #HERO_STATE_CARRIED
-  bne skip_spawn_familiar_test
-  jsr familiar_spawn_carry_hero
+  jsr hero_spawn_familiar
 
 skip_spawn_familiar_test:
 
