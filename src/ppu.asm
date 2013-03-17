@@ -70,6 +70,8 @@
 
 .endproc
 
+.segment "VBLANK"
+
 ;expects w0 to have address of palette
 .proc ppu_load_palette
   ldy #0
@@ -86,6 +88,8 @@
   bne :-
   rts
 .endproc
+
+.segment "CODE"
 
 .proc ppu_load_palette_bg
   ldy #0
@@ -335,6 +339,8 @@ fading_loop:
   rts
 .endproc
 
+.segment "VBLANK"
+
 ;nmi routine for uploading the dynamic palette
 .proc ppu_upload_dynamic_palette_ppu
 
@@ -381,6 +387,7 @@ fading_loop:
   rts
 .endproc
 
+.segment "CODE"
 
 brightness_table:
   .byte $00, $00, $00, $00

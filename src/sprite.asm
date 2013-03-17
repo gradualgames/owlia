@@ -358,11 +358,15 @@ sprite_flipped_test_done:
 
 .endproc
 
+.segment "VBLANK"
+
 .proc sprite_update_all
   lda #>(sprite)
   sta $4014    ; Jam page $200-$2FF into SPR-RAM
   rts
 .endproc
+
+.segment "CODE"
 
 .proc sprite_clear_all
   lda #$00
