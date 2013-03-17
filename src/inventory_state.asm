@@ -100,26 +100,13 @@ inventory_state_init:
   lda #$00
   sta b3
 
-  lda #<Cursor_chr
+  lda #<Inventory_chr
   sta w0
-  lda #>Cursor_chr
+  lda #>Inventory_chr
   sta w0+1
 
-  ;store the current chr offset in sprite_chr_groups_chr_offsets array for the cursor
-  ldy #sprite_chr_group_index_cursor
-  lda b3
-  sta sprite_chr_group_offsets,y
-
-  switch_bank_ldy #INVENTORY_STATE_SPRITE_CHR_BANK
-  jsr ppu_load_chr_amount
-
-  lda #<Radio_chr
-  sta w0
-  lda #>Radio_chr
-  sta w0+1
-
-  ;store the current chr offset in sprite_chr_groups_chr_offsets array for the cursor
-  ldy #sprite_chr_group_index_radio
+  ;store the current chr offset in sprite_chr_groups_chr_offsets array for the inventory sprites
+  ldy #sprite_chr_group_index_inventory
   lda b3
   sta sprite_chr_group_offsets,y
 
@@ -167,6 +154,8 @@ inventory_state_init:
 
   jsr draw_radio_buttons
 
+  jsr draw_tech_selectors
+
   jsr sprite_update_all
 
   ;draw menu layout with strings
@@ -202,6 +191,8 @@ inventory_state_main:
 
   jsr draw_radio_buttons
 
+  jsr draw_tech_selectors
+
   ;test start button
   lda buffer_controller+buttons::_start
   and #%00000011
@@ -235,7 +226,7 @@ inventory_state_exit:
 .endproc
 
 .proc draw_cursor
-  ldy #sprite_chr_group_index_cursor
+  ldy #sprite_chr_group_index_inventory
   lda sprite_chr_group_offsets,y
   sta chr_group_offset
 
@@ -266,7 +257,7 @@ inventory_state_exit:
 
 .proc draw_radio_buttons
 
-  ldy #sprite_chr_group_index_radio
+  ldy #sprite_chr_group_index_inventory
   lda sprite_chr_group_offsets,y
   sta chr_group_offset
 
@@ -297,6 +288,12 @@ inventory_state_exit:
   switch_bank_ldy #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_draw_metasprite
 
+  rts
+
+.endproc
+
+.proc draw_tech_selectors
+
   ;draw the tech1 radio button
   switch_bank_ldy #INVENTORY_STATE_BANK
   clc
@@ -315,6 +312,11 @@ inventory_state_exit:
 
   lda #0
   sta b2
+
+  lda #<Tech1_Selector
+  sta w0
+  lda #>Tech1_Selector
+  sta w0+1
 
   switch_bank_ldy #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_draw_metasprite
@@ -337,6 +339,11 @@ inventory_state_exit:
 
   lda #0
   sta b2
+
+  lda #<Tech2_Selector
+  sta w0
+  lda #>Tech2_Selector
+  sta w0+1
 
   switch_bank_ldy #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_draw_metasprite

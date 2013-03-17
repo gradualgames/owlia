@@ -34,5 +34,7 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 
 .global Cursor0
 .global Radio0
+.global Tech1_Selector
+.global Tech2_Selector
 
 .endif
