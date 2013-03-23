@@ -7,6 +7,10 @@ INVENTORY_STATE_SPRITE_CHR_BANK = 1
 INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK = 0
 INVENTORY_STATE_BANK = 3
 
+USE_ITEM_ROW = 13
+CARRY_ITEM_ROW = 10
+TECH_MENU_ROW = 17
+
 .global inventory_state_init
 
 .struct inventory_state_control
@@ -21,8 +25,6 @@ INVENTORY_STATE_BANK = 3
 menu_position_health
 menu_position_owl_health
 menu_position_rope
-menu_position_bomb
-menu_position_lantern
 menu_position_tech1_rush
 menu_position_tech1_fetch
 menu_position_tech1_sonar

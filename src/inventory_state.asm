@@ -140,7 +140,7 @@ inventory_state_init:
   upload_ppu_2005
 
   ;initialize and draw initial cursor
-  lda #menu_position_health
+  lda #menu_position_tech1_rush
   sta state_control_params+inventory_state_control::menu_position
 
   ldx state_control_params+inventory_state_control::menu_position
@@ -151,8 +151,6 @@ inventory_state_init:
   sta state_control_params+inventory_state_control::cursor_column
 
   jsr draw_cursor
-
-  jsr draw_radio_buttons
 
   jsr draw_tech_selectors
 
@@ -188,8 +186,6 @@ inventory_state_main:
   jsr update_cursor
 
   jsr draw_cursor
-
-  jsr draw_radio_buttons
 
   jsr draw_tech_selectors
 
@@ -249,43 +245,6 @@ inventory_state_exit:
   lda #0
   sta b2
 
-  jsr sprite_draw_metasprite
-
-  rts
-
-.endproc
-
-.proc draw_radio_buttons
-
-  ldy #sprite_chr_group_index_inventory
-  lda sprite_chr_group_offsets,y
-  sta chr_group_offset
-
-  lda #<Radio0
-  sta w0
-  lda #>Radio0
-  sta w0+1
-
-  ;draw the carry item radio button
-  switch_bank_ldy #INVENTORY_STATE_BANK
-  clc
-  lda inventory_owl_carry_item
-  adc #menu_position_bomb
-  tax
-  lda menu_position_column,x
-  sta w3
-  lda #0
-  sta w3+1
-
-  lda menu_position_row,x
-  sta w4
-  lda #0
-  sta w4+1
-
-  lda #0
-  sta b2
-
-  switch_bank_ldy #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_draw_metasprite
 
   rts
@@ -410,12 +369,12 @@ multi_homing_string: .byte M,U,L,T,I,SP,H,O,M,I,N,G,ES
 
   print_decimal_string inventory_gp, inventory_gp+1, #$20, #7, #9
   print_decimal_string inventory_keys, #0, #$20, #8, #9
-  print_decimal_string inventory_healths, #0, #$20, #10, #24
-  print_decimal_string inventory_owl_healths, #0, #$20, #11, #24
-  print_decimal_string inventory_ropes, #0, #$20, #12, #24
+  print_decimal_string inventory_healths, #0, #$20, #USE_ITEM_ROW, #24
+  print_decimal_string inventory_owl_healths, #0, #$20, #USE_ITEM_ROW+1, #24
+  print_decimal_string inventory_ropes, #0, #$20, #USE_ITEM_ROW+2, #24
 
-  print_decimal_string inventory_bombs, #0, #$20, #14, #24
-  print_decimal_string inventory_lanterns, #0, #$20, #15, #24
+  print_decimal_string inventory_bombs, #0, #$20, #CARRY_ITEM_ROW, #24
+  print_decimal_string inventory_lanterns, #0, #$20, #CARRY_ITEM_ROW+1, #24
 
   lda textbox_and_font_chr_offset
   sta chr_group_offset
@@ -424,24 +383,24 @@ multi_homing_string: .byte M,U,L,T,I,SP,H,O,M,I,N,G,ES
   print_string gp_string, #$20, #7, #4
   print_string keys_string, #$20, #8, #4
 
-  print_string use_item_string, #$20, #10, #4
-  print_string_if_menu_item_enabled health_is_enabled, health_string, #$20, #10, #13
-  print_string_if_menu_item_enabled owl_health_is_enabled, owl_health_string, #$20, #11, #13
-  print_string_if_menu_item_enabled rope_is_enabled, rope_string, #$20, #12, #13
+  print_string use_item_string, #$20, #USE_ITEM_ROW, #4
+  print_string_if_menu_item_enabled health_is_enabled, health_string, #$20, #USE_ITEM_ROW, #13
+  print_string_if_menu_item_enabled owl_health_is_enabled, owl_health_string, #$20, #USE_ITEM_ROW+1, #13
+  print_string_if_menu_item_enabled rope_is_enabled, rope_string, #$20, #USE_ITEM_ROW+2, #13
 
-  print_string carry_string, #$20, #14, #4
-  print_string_if_menu_item_enabled bomb_is_enabled, bomb_string, #$20, #14, #13
-  print_string_if_menu_item_enabled lantern_is_enabled, lantern_string, #$20, #15, #13
+  print_string carry_string, #$20, #CARRY_ITEM_ROW, #4
+  print_string_if_menu_item_enabled bomb_is_enabled, bomb_string, #$20, #CARRY_ITEM_ROW, #13
+  print_string_if_menu_item_enabled lantern_is_enabled, lantern_string, #$20, #CARRY_ITEM_ROW+1, #13
 
-  print_string tech_string, #$20, #17, #4
-  print_string_if_menu_item_enabled tech_rush_is_enabled, rush_string, #$20, #17, #13
-  print_string_if_menu_item_enabled tech_fetch_is_enabled, fetch_string, #$20, #18, #13
-  print_string_if_menu_item_enabled tech_sonar_is_enabled, sonar_string, #$20, #19, #13
-  print_string_if_menu_item_enabled tech_carry_item_is_enabled, carry_item_string, #$20, #20, #13
-  print_string_if_menu_item_enabled tech_carry_adlanniel_is_enabled, carry_adlanniel_string, #$20, #21, #13
-  print_string_if_menu_item_enabled tech_confuse_is_enabled, confuse_string, #$20, #22, #13
-  print_string_if_menu_item_enabled tech_homing_is_enabled, homing_string, #$20, #23, #13
-  print_string_if_menu_item_enabled tech_multi_homing_is_enabled, multi_homing_string, #$20, #24, #13
+  print_string tech_string, #$20, #TECH_MENU_ROW, #4
+  print_string_if_menu_item_enabled tech_rush_is_enabled, rush_string, #$20, #TECH_MENU_ROW, #13
+  print_string_if_menu_item_enabled tech_fetch_is_enabled, fetch_string, #$20, #TECH_MENU_ROW+1, #13
+  print_string_if_menu_item_enabled tech_sonar_is_enabled, sonar_string, #$20, #TECH_MENU_ROW+2, #13
+  print_string_if_menu_item_enabled tech_carry_item_is_enabled, carry_item_string, #$20, #TECH_MENU_ROW+3, #13
+  print_string_if_menu_item_enabled tech_carry_adlanniel_is_enabled, carry_adlanniel_string, #$20, #TECH_MENU_ROW+4, #13
+  print_string_if_menu_item_enabled tech_confuse_is_enabled, confuse_string, #$20, #TECH_MENU_ROW+5, #13
+  print_string_if_menu_item_enabled tech_homing_is_enabled, homing_string, #$20, #TECH_MENU_ROW+6, #13
+  print_string_if_menu_item_enabled tech_multi_homing_is_enabled, multi_homing_string, #$20, #TECH_MENU_ROW+7, #13
 
   rts
 
@@ -635,9 +594,7 @@ done:
 ;position in the menu.
 ;****************************************************************
 menu_position_row:
-  .byte 8 * 10
-  .byte 8 * 11
-  .byte 8 * 12
+  .byte 8 * 13
   .byte 8 * 14
   .byte 8 * 15
   .byte 8 * 17
@@ -658,8 +615,6 @@ menu_position_row:
   .byte 8 * 24
 
 menu_position_column:
-  .byte 8 * 11
-  .byte 8 * 11
   .byte 8 * 11
   .byte 8 * 11
   .byte 8 * 11
@@ -684,8 +639,6 @@ menu_position_next_left:
   .byte menu_position_health
   .byte menu_position_owl_health
   .byte menu_position_rope
-  .byte menu_position_bomb
-  .byte menu_position_lantern
   .byte menu_position_tech1_rush
   .byte menu_position_tech1_fetch
   .byte menu_position_tech1_sonar
@@ -707,8 +660,6 @@ menu_position_next_right:
   .byte menu_position_health
   .byte menu_position_owl_health
   .byte menu_position_rope
-  .byte menu_position_bomb
-  .byte menu_position_lantern
   .byte menu_position_tech2_rush
   .byte menu_position_tech2_fetch
   .byte menu_position_tech2_sonar
@@ -731,8 +682,6 @@ menu_position_next_up:
   .byte menu_position_health
   .byte menu_position_owl_health
   .byte menu_position_rope
-  .byte menu_position_bomb
-  .byte menu_position_lantern
   .byte menu_position_tech1_rush
   .byte menu_position_tech1_fetch
   .byte menu_position_tech1_sonar
@@ -740,7 +689,7 @@ menu_position_next_up:
   .byte menu_position_tech1_carry_adlanniel
   .byte menu_position_tech1_confuse
   .byte menu_position_tech1_homing
-  .byte menu_position_lantern
+  .byte menu_position_rope
   .byte menu_position_tech2_rush
   .byte menu_position_tech2_fetch
   .byte menu_position_tech2_sonar
@@ -752,8 +701,6 @@ menu_position_next_up:
 menu_position_next_down:
   .byte menu_position_owl_health
   .byte menu_position_rope
-  .byte menu_position_bomb
-  .byte menu_position_lantern
   .byte menu_position_tech2_rush
   .byte menu_position_tech1_fetch
   .byte menu_position_tech1_sonar
@@ -782,8 +729,6 @@ menu_position_next_down:
   menu_position_action_callback_test, \
   menu_position_action_callback_test, \
   menu_position_action_callback_test, \
-  menu_position_carry_item_callback, \
-  menu_position_carry_item_callback, \
   menu_position_tech1_column_callback, \
   menu_position_tech1_column_callback, \
   menu_position_tech1_column_callback, \
@@ -810,18 +755,6 @@ menu_position_action_callbacks_hi:
 .proc menu_position_action_callback_test
 
   jsr play_action_sound
-
-  rts
-
-.endproc
-
-.proc menu_position_carry_item_callback
-
-  jsr play_action_sound
-  sec
-  lda state_control_params+inventory_state_control::menu_position
-  sbc #menu_position_bomb
-  sta inventory_owl_carry_item
 
   rts
 
@@ -863,8 +796,6 @@ menu_position_action_callbacks_hi:
   health_is_enabled, \
   owl_health_is_enabled, \
   rope_is_enabled, \
-  bomb_is_enabled, \
-  lantern_is_enabled, \
   tech_rush_is_enabled, \
   tech_fetch_is_enabled, \
   tech_sonar_is_enabled, \
