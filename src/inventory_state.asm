@@ -345,7 +345,6 @@ carry_lantern_string: .byte C,_A,R,R,_Y,SP,L,_A,N,T,E,R,N,ES
 carry_adlanniel_string: .byte C,_A,R,R,_Y,SP,_A,D,L,_A,N,N,I,E,L,ES
 shield_string: .byte S,H,I,E,L,D,ES
 homing_string: .byte H,O,M,I,N,G,ES
-multi_homing_string: .byte M,U,L,T,I,SP,H,O,M,I,N,G,ES
 
 ;****************************************************************
 ;These routines are used for drawing the inventory screen. Some
@@ -400,7 +399,6 @@ multi_homing_string: .byte M,U,L,T,I,SP,H,O,M,I,N,G,ES
   print_string_if_menu_item_enabled tech_carry_adlanniel_is_enabled, carry_adlanniel_string, #$20, #TECH_MENU_ROW+4, #13
   print_string_if_menu_item_enabled tech_shield_is_enabled, shield_string, #$20, #TECH_MENU_ROW+5, #13
   print_string_if_menu_item_enabled tech_homing_is_enabled, homing_string, #$20, #TECH_MENU_ROW+6, #13
-  print_string_if_menu_item_enabled tech_multi_homing_is_enabled, multi_homing_string, #$20, #TECH_MENU_ROW+7, #13
 
   rts
 
@@ -523,7 +521,7 @@ right_not_pressed:
   jsr play_dpad_sound
   .scope
   ldx state_control_params+inventory_state_control::menu_position
-  ldy #menu_position_tech2_multi_homing
+  ldy #menu_position_tech2_homing
 try_next_menu_item:
   lda menu_position_next_down,x
   tax
@@ -555,7 +553,7 @@ down_not_pressed:
   jsr play_dpad_sound
   .scope
   ldx state_control_params+inventory_state_control::menu_position
-  ldy #menu_position_tech2_multi_homing
+  ldy #menu_position_tech2_homing
 try_next_menu_item:
   lda menu_position_next_up,x
   tax
@@ -604,7 +602,6 @@ menu_position_row:
   .byte 8 * 21
   .byte 8 * 22
   .byte 8 * 23
-  .byte 8 * 24
   .byte 8 * 17
   .byte 8 * 18
   .byte 8 * 19
@@ -612,7 +609,6 @@ menu_position_row:
   .byte 8 * 21
   .byte 8 * 22
   .byte 8 * 23
-  .byte 8 * 24
 
 menu_position_column:
   .byte 8 * 11
@@ -625,8 +621,6 @@ menu_position_column:
   .byte 8 * 9
   .byte 8 * 9
   .byte 8 * 9
-  .byte 8 * 9
-  .byte 8 * 11
   .byte 8 * 11
   .byte 8 * 11
   .byte 8 * 11
@@ -646,7 +640,6 @@ menu_position_next_left:
   .byte menu_position_tech1_carry_adlanniel
   .byte menu_position_tech1_shield
   .byte menu_position_tech1_homing
-  .byte menu_position_tech1_multi_homing
   .byte menu_position_tech1_rush
   .byte menu_position_tech1_fetch
   .byte menu_position_tech1_carry_bomb
@@ -654,7 +647,6 @@ menu_position_next_left:
   .byte menu_position_tech1_carry_adlanniel
   .byte menu_position_tech1_shield
   .byte menu_position_tech1_homing
-  .byte menu_position_tech1_multi_homing
 
 menu_position_next_right:
   .byte menu_position_health
@@ -667,7 +659,6 @@ menu_position_next_right:
   .byte menu_position_tech2_carry_adlanniel
   .byte menu_position_tech2_shield
   .byte menu_position_tech2_homing
-  .byte menu_position_tech2_multi_homing
   .byte menu_position_tech2_rush
   .byte menu_position_tech2_fetch
   .byte menu_position_tech2_carry_bomb
@@ -675,7 +666,6 @@ menu_position_next_right:
   .byte menu_position_tech2_carry_adlanniel
   .byte menu_position_tech2_shield
   .byte menu_position_tech2_homing
-  .byte menu_position_tech2_multi_homing
 
 menu_position_next_up:
   .byte menu_position_health
@@ -688,7 +678,6 @@ menu_position_next_up:
   .byte menu_position_tech1_carry_lantern
   .byte menu_position_tech1_carry_adlanniel
   .byte menu_position_tech1_shield
-  .byte menu_position_tech1_homing
   .byte menu_position_rope
   .byte menu_position_tech2_rush
   .byte menu_position_tech2_fetch
@@ -696,7 +685,6 @@ menu_position_next_up:
   .byte menu_position_tech2_carry_lantern
   .byte menu_position_tech2_carry_adlanniel
   .byte menu_position_tech2_shield
-  .byte menu_position_tech2_homing
 
 menu_position_next_down:
   .byte menu_position_owl_health
@@ -708,16 +696,14 @@ menu_position_next_down:
   .byte menu_position_tech1_carry_adlanniel
   .byte menu_position_tech1_shield
   .byte menu_position_tech1_homing
-  .byte menu_position_tech1_multi_homing
-  .byte menu_position_tech1_multi_homing
+  .byte menu_position_tech1_homing
   .byte menu_position_tech2_fetch
   .byte menu_position_tech2_carry_bomb
   .byte menu_position_tech2_carry_lantern
   .byte menu_position_tech2_carry_adlanniel
   .byte menu_position_tech2_shield
   .byte menu_position_tech2_homing
-  .byte menu_position_tech2_multi_homing
-  .byte menu_position_tech2_multi_homing
+  .byte menu_position_tech2_homing
 
 ;****************************************************************
 ;These callbacks perform actions for each menu position. They
@@ -736,8 +722,6 @@ menu_position_next_down:
   menu_position_tech1_column_callback, \
   menu_position_tech1_column_callback, \
   menu_position_tech1_column_callback, \
-  menu_position_tech1_column_callback, \
-  menu_position_tech2_column_callback, \
   menu_position_tech2_column_callback, \
   menu_position_tech2_column_callback, \
   menu_position_tech2_column_callback, \
@@ -803,15 +787,13 @@ menu_position_action_callbacks_hi:
   tech_carry_adlanniel_is_enabled, \
   tech_shield_is_enabled, \
   tech_homing_is_enabled, \
-  tech_multi_homing_is_enabled, \
   tech_rush_is_enabled, \
   tech_fetch_is_enabled, \
   tech_carry_bomb_is_enabled, \
   tech_carry_lantern_is_enabled, \
   tech_carry_adlanniel_is_enabled, \
   tech_shield_is_enabled, \
-  tech_homing_is_enabled, \
-  tech_multi_homing_is_enabled
+  tech_homing_is_enabled
 
 menu_position_is_enabled_callbacks_lo:
   .lobytes menu_position_is_enabled_callbacks
@@ -892,11 +874,6 @@ menu_position_is_enabled_callbacks_hi:
 
 .proc tech_homing_is_enabled
   tech_is_enabled tech_homing_earned
-  rts
-.endproc
-
-.proc tech_multi_homing_is_enabled
-  tech_is_enabled tech_multi_homing_earned
   rts
 .endproc
 

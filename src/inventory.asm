@@ -18,7 +18,7 @@
   sta inventory_owl_carry_item
 
   ;set all techs earned
-  lda #tech_multi_homing
+  lda #tech_homing
   sta inventory_earned_techs
 
   ;select rush and fetch as tech 1 and tech 2

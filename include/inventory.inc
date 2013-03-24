@@ -22,7 +22,6 @@ tech_carry_lantern
 tech_carry_adlanniel
 tech_shield
 tech_homing
-tech_multi_homing
 .endenum
 
 ;for representing how many techs have been earned
@@ -34,7 +33,6 @@ tech_carry_lantern_earned
 tech_carry_adlanniel_earned
 tech_shield_earned
 tech_homing_earned
-tech_multi_homing_earned
 .endenum
 
 .global inventory_max_all
