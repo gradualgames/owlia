@@ -340,8 +340,8 @@ lantern_string: .byte L,_A,N,T,E,R,N,ES
 tech_string: .byte T,E,C,H,ES
 rush_string: .byte R,U,S,H,ES
 fetch_string: .byte F,E,T,C,H,ES
-sonar_string: .byte S,O,N,_A,R,ES
-carry_item_string: .byte C,_A,R,R,_Y,SP,I,T,E,M,ES
+carry_bomb_string: .byte C,_A,R,R,_Y,SP,B,O,M,B,ES
+carry_lantern_string: .byte C,_A,R,R,_Y,SP,L,_A,N,T,E,R,N,ES
 carry_adlanniel_string: .byte C,_A,R,R,_Y,SP,_A,D,L,_A,N,N,I,E,L,ES
 confuse_string: .byte C,O,N,F,U,S,E,ES
 homing_string: .byte H,O,M,I,N,G,ES
@@ -373,8 +373,8 @@ multi_homing_string: .byte M,U,L,T,I,SP,H,O,M,I,N,G,ES
   print_decimal_string inventory_owl_healths, #0, #$20, #USE_ITEM_ROW+1, #24
   print_decimal_string inventory_ropes, #0, #$20, #USE_ITEM_ROW+2, #24
 
-  print_decimal_string inventory_bombs, #0, #$20, #CARRY_ITEM_ROW, #24
-  print_decimal_string inventory_lanterns, #0, #$20, #CARRY_ITEM_ROW+1, #24
+  print_decimal_string inventory_bombs, #0, #$20, #carry_lantern_ROW, #24
+  print_decimal_string inventory_lanterns, #0, #$20, #carry_lantern_ROW+1, #24
 
   lda textbox_and_font_chr_offset
   sta chr_group_offset
@@ -388,15 +388,15 @@ multi_homing_string: .byte M,U,L,T,I,SP,H,O,M,I,N,G,ES
   print_string_if_menu_item_enabled owl_health_is_enabled, owl_health_string, #$20, #USE_ITEM_ROW+1, #13
   print_string_if_menu_item_enabled rope_is_enabled, rope_string, #$20, #USE_ITEM_ROW+2, #13
 
-  print_string carry_string, #$20, #CARRY_ITEM_ROW, #4
-  print_string_if_menu_item_enabled bomb_is_enabled, bomb_string, #$20, #CARRY_ITEM_ROW, #13
-  print_string_if_menu_item_enabled lantern_is_enabled, lantern_string, #$20, #CARRY_ITEM_ROW+1, #13
+  print_string carry_string, #$20, #carry_lantern_ROW, #4
+  print_string_if_menu_item_enabled bomb_is_enabled, bomb_string, #$20, #carry_lantern_ROW, #13
+  print_string_if_menu_item_enabled lantern_is_enabled, lantern_string, #$20, #carry_lantern_ROW+1, #13
 
   print_string tech_string, #$20, #TECH_MENU_ROW, #4
   print_string_if_menu_item_enabled tech_rush_is_enabled, rush_string, #$20, #TECH_MENU_ROW, #13
   print_string_if_menu_item_enabled tech_fetch_is_enabled, fetch_string, #$20, #TECH_MENU_ROW+1, #13
-  print_string_if_menu_item_enabled tech_sonar_is_enabled, sonar_string, #$20, #TECH_MENU_ROW+2, #13
-  print_string_if_menu_item_enabled tech_carry_item_is_enabled, carry_item_string, #$20, #TECH_MENU_ROW+3, #13
+  print_string_if_menu_item_enabled tech_carry_bomb_is_enabled, carry_bomb_string, #$20, #TECH_MENU_ROW+2, #13
+  print_string_if_menu_item_enabled tech_carry_lantern_is_enabled, carry_lantern_string, #$20, #TECH_MENU_ROW+3, #13
   print_string_if_menu_item_enabled tech_carry_adlanniel_is_enabled, carry_adlanniel_string, #$20, #TECH_MENU_ROW+4, #13
   print_string_if_menu_item_enabled tech_confuse_is_enabled, confuse_string, #$20, #TECH_MENU_ROW+5, #13
   print_string_if_menu_item_enabled tech_homing_is_enabled, homing_string, #$20, #TECH_MENU_ROW+6, #13
@@ -641,16 +641,16 @@ menu_position_next_left:
   .byte menu_position_rope
   .byte menu_position_tech1_rush
   .byte menu_position_tech1_fetch
-  .byte menu_position_tech1_sonar
-  .byte menu_position_tech1_carry_item
+  .byte menu_position_tech1_carry_bomb
+  .byte menu_position_tech1_carry_lantern
   .byte menu_position_tech1_carry_adlanniel
   .byte menu_position_tech1_confuse
   .byte menu_position_tech1_homing
   .byte menu_position_tech1_multi_homing
   .byte menu_position_tech1_rush
   .byte menu_position_tech1_fetch
-  .byte menu_position_tech1_sonar
-  .byte menu_position_tech1_carry_item
+  .byte menu_position_tech1_carry_bomb
+  .byte menu_position_tech1_carry_lantern
   .byte menu_position_tech1_carry_adlanniel
   .byte menu_position_tech1_confuse
   .byte menu_position_tech1_homing
@@ -662,16 +662,16 @@ menu_position_next_right:
   .byte menu_position_rope
   .byte menu_position_tech2_rush
   .byte menu_position_tech2_fetch
-  .byte menu_position_tech2_sonar
-  .byte menu_position_tech2_carry_item
+  .byte menu_position_tech2_carry_bomb
+  .byte menu_position_tech2_carry_lantern
   .byte menu_position_tech2_carry_adlanniel
   .byte menu_position_tech2_confuse
   .byte menu_position_tech2_homing
   .byte menu_position_tech2_multi_homing
   .byte menu_position_tech2_rush
   .byte menu_position_tech2_fetch
-  .byte menu_position_tech2_sonar
-  .byte menu_position_tech2_carry_item
+  .byte menu_position_tech2_carry_bomb
+  .byte menu_position_tech2_carry_lantern
   .byte menu_position_tech2_carry_adlanniel
   .byte menu_position_tech2_confuse
   .byte menu_position_tech2_homing
@@ -684,16 +684,16 @@ menu_position_next_up:
   .byte menu_position_rope
   .byte menu_position_tech1_rush
   .byte menu_position_tech1_fetch
-  .byte menu_position_tech1_sonar
-  .byte menu_position_tech1_carry_item
+  .byte menu_position_tech1_carry_bomb
+  .byte menu_position_tech1_carry_lantern
   .byte menu_position_tech1_carry_adlanniel
   .byte menu_position_tech1_confuse
   .byte menu_position_tech1_homing
   .byte menu_position_rope
   .byte menu_position_tech2_rush
   .byte menu_position_tech2_fetch
-  .byte menu_position_tech2_sonar
-  .byte menu_position_tech2_carry_item
+  .byte menu_position_tech2_carry_bomb
+  .byte menu_position_tech2_carry_lantern
   .byte menu_position_tech2_carry_adlanniel
   .byte menu_position_tech2_confuse
   .byte menu_position_tech2_homing
@@ -703,16 +703,16 @@ menu_position_next_down:
   .byte menu_position_rope
   .byte menu_position_tech2_rush
   .byte menu_position_tech1_fetch
-  .byte menu_position_tech1_sonar
-  .byte menu_position_tech1_carry_item
+  .byte menu_position_tech1_carry_bomb
+  .byte menu_position_tech1_carry_lantern
   .byte menu_position_tech1_carry_adlanniel
   .byte menu_position_tech1_confuse
   .byte menu_position_tech1_homing
   .byte menu_position_tech1_multi_homing
   .byte menu_position_tech1_multi_homing
   .byte menu_position_tech2_fetch
-  .byte menu_position_tech2_sonar
-  .byte menu_position_tech2_carry_item
+  .byte menu_position_tech2_carry_bomb
+  .byte menu_position_tech2_carry_lantern
   .byte menu_position_tech2_carry_adlanniel
   .byte menu_position_tech2_confuse
   .byte menu_position_tech2_homing
@@ -798,16 +798,16 @@ menu_position_action_callbacks_hi:
   rope_is_enabled, \
   tech_rush_is_enabled, \
   tech_fetch_is_enabled, \
-  tech_sonar_is_enabled, \
-  tech_carry_item_is_enabled, \
+  tech_carry_bomb_is_enabled, \
+  tech_carry_lantern_is_enabled, \
   tech_carry_adlanniel_is_enabled, \
   tech_confuse_is_enabled, \
   tech_homing_is_enabled, \
   tech_multi_homing_is_enabled, \
   tech_rush_is_enabled, \
   tech_fetch_is_enabled, \
-  tech_sonar_is_enabled, \
-  tech_carry_item_is_enabled, \
+  tech_carry_bomb_is_enabled, \
+  tech_carry_lantern_is_enabled, \
   tech_carry_adlanniel_is_enabled, \
   tech_confuse_is_enabled, \
   tech_homing_is_enabled, \
@@ -870,13 +870,13 @@ menu_position_is_enabled_callbacks_hi:
   rts
 .endproc
 
-.proc tech_sonar_is_enabled
-  tech_is_enabled tech_sonar_earned
+.proc tech_carry_bomb_is_enabled
+  tech_is_enabled tech_carry_bomb_earned
   rts
 .endproc
 
-.proc tech_carry_item_is_enabled
-  tech_is_enabled tech_carry_item_earned
+.proc tech_carry_lantern_is_enabled
+  tech_is_enabled tech_carry_lantern_earned
   rts
 .endproc
 
