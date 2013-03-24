@@ -30,7 +30,7 @@ menu_position_tech1_fetch
 menu_position_tech1_carry_bomb
 menu_position_tech1_carry_lantern
 menu_position_tech1_carry_adlanniel
-menu_position_tech1_confuse
+menu_position_tech1_shield
 menu_position_tech1_homing
 menu_position_tech1_multi_homing
 menu_position_tech2_rush
@@ -38,7 +38,7 @@ menu_position_tech2_fetch
 menu_position_tech2_carry_bomb
 menu_position_tech2_carry_lantern
 menu_position_tech2_carry_adlanniel
-menu_position_tech2_confuse
+menu_position_tech2_shield
 menu_position_tech2_homing
 menu_position_tech2_multi_homing
 .endenum

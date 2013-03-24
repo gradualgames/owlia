@@ -20,7 +20,7 @@ tech_fetch
 tech_carry_bomb
 tech_carry_lantern
 tech_carry_adlanniel
-tech_confuse
+tech_shield
 tech_homing
 tech_multi_homing
 .endenum
@@ -32,7 +32,7 @@ tech_fetch_earned
 tech_carry_bomb_earned
 tech_carry_lantern_earned
 tech_carry_adlanniel_earned
-tech_confuse_earned
+tech_shield_earned
 tech_homing_earned
 tech_multi_homing_earned
 .endenum
