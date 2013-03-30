@@ -88,6 +88,7 @@ MAX_ENTITIES = 8
 .global hero_animation_object
 .global hero_animation_address
 .global hero_direction
+.global hero_direction_handler
 .global hero_state_counter
 .global hero_invincibility_counter
 .global hero_knockback_counter

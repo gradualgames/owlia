@@ -846,30 +846,6 @@ skip_goto_location:
 
 .endmacro
 
-.define direction_handlers \
-  hero_direction_nop_handler,\
-  hero_direction_right_handler,\
-  hero_direction_left_handler,\
-  hero_direction_nop_handler,\
-  hero_direction_down_handler,\
-  hero_direction_down_and_right_handler,\
-  hero_direction_down_and_left_handler,\
-  hero_direction_nop_handler,\
-  hero_direction_up_handler,\
-  hero_direction_up_and_right_handler,\
-  hero_direction_up_and_left_handler,\
-  hero_direction_nop_handler,\
-  hero_direction_nop_handler,\
-  hero_direction_nop_handler,\
-  hero_direction_nop_handler,\
-  hero_direction_nop_handler
-
-direction_handlers_lo:
-  .lobytes direction_handlers
-
-direction_handlers_hi:
-  .hibytes direction_handlers
-
 hero_direction_to_direction_handlers_index:
   .byte 1, 2, 4, 8
 
@@ -1132,25 +1108,25 @@ hero_not_knockback:
 
   ;get up, down, left, right into a single bit field
   lda #0
-  sta b0
+  sta hero_direction_handler
   lda buffer_controller+buttons::_up
   ror
-  rol b0
+  rol hero_direction_handler
   lda buffer_controller+buttons::_down
   ror
-  rol b0
+  rol hero_direction_handler
   lda buffer_controller+buttons::_left
   ror
-  rol b0
+  rol hero_direction_handler
   lda buffer_controller+buttons::_right
   ror
-  rol b0
+  rol hero_direction_handler
 
   lda #HERO_SPEED
   sta hero_speed
 
   ;use this as an index into a direction handlers lut
-  ldy b0
+  ldy hero_direction_handler
   lda direction_handlers_lo,y
   sta w0
   lda direction_handlers_hi,y
@@ -1314,54 +1290,45 @@ hero_direction_nop_handler:
   rts
 
 ;****************************************************************
-;Handles action and collision tests for moving right.
+;The following direction handlers just move the hero in the
+;direction she is facing, and tests for actions within the newly
+;moved rect. They also flag that she is pointing in the new dir-
+;ection and that she is moving. Diagonal direction handlers
+;validate that the most recent direction was one of two possible
+;cardinal directions and replaces it with a default one if
+;violated. This allows the hero to continue facing in a direction
+;while beginning to move diagonally.
+;****************************************************************
+
+.define direction_handlers \
+  hero_direction_nop_handler,\
+  hero_direction_right_handler,\
+  hero_direction_left_handler,\
+  hero_direction_nop_handler,\
+  hero_direction_down_handler,\
+  hero_direction_down_and_right_handler,\
+  hero_direction_down_and_left_handler,\
+  hero_direction_nop_handler,\
+  hero_direction_up_handler,\
+  hero_direction_up_and_right_handler,\
+  hero_direction_up_and_left_handler,\
+  hero_direction_nop_handler,\
+  hero_direction_nop_handler,\
+  hero_direction_nop_handler,\
+  hero_direction_nop_handler,\
+  hero_direction_nop_handler
+
+direction_handlers_lo:
+  .lobytes direction_handlers
+
+direction_handlers_hi:
+  .hibytes direction_handlers
+
+;****************************************************************
+;Handler for moving right
 ;****************************************************************
 hero_direction_right_handler:
 
-  .scope
-  test_action HERO_WIDTH, 0, (HERO_HEIGHT/2), 0
-
-  ;collect collision information in a local variable
-  ;we use b2 because the below code calls map_test_collision which uses
-  ;b0 and b1.
-  collision_flags = b2
-  lda #0
-  sta collision_flags
-
-  ;test top right of the hero
-  test_not_collision HERO_WIDTH, 0, (HERO_HEIGHT/2), 0, no_top_right_collision
-
-  ;set the 0th bit of the collision flags variable
-  lda collision_flags
-  ora #%00000001
-  sta collision_flags
-
-no_top_right_collision:
-
-  ;test bottom right of the hero
-  test_not_collision HERO_WIDTH, 0, HERO_HEIGHT-1, 0, no_bottom_right_collision
-
-  ;set the 1st bit of the collision flags variable
-  lda collision_flags
-  ora #%00000010
-  sta collision_flags
-
-no_bottom_right_collision:
-
-  ;now we can easily choose which branch to execute (actually move right,
-  ;slide up, or slide down)
-
-  lda collision_flags
-  cmp #%00000000
-  beq move_right
-  cmp #%00000001
-  beq slide_down
-  cmp #%00000010
-  beq slide_up
-  ;only case remaining is that both collision tests succeeded. skip
-  ;every case handler.
-  jmp done
-move_right:
   clc
   lda hero_x
   adc hero_speed
@@ -1369,30 +1336,9 @@ move_right:
   lda hero_x+1
   adc #$00
   sta hero_x+1
-  jmp done
-slide_up:
 
-  sec
-  lda hero_y
-  sbc hero_speed
-  sta hero_y
-  lda hero_y+1
-  sbc #$00
-  sta hero_y+1
-
-  jmp done
-slide_down:
-
-  clc
-  lda hero_y
-  adc hero_speed
-  sta hero_y
-  lda hero_y+1
-  adc #$00
-  sta hero_y+1
-
-done:
-  .endscope
+  ;3/4 down right side of rect
+  test_action (HERO_WIDTH-1), 0, ((HERO_HEIGHT/4)*3), 0
 
   lda #HERO_DIRECTION_RIGHT
   sta hero_direction
@@ -1404,54 +1350,10 @@ done:
   rts
 
 ;****************************************************************
-;Handles action and collision tests for moving left.
+;Handler for moving left
 ;****************************************************************
 hero_direction_left_handler:
 
-  .scope
-  test_action $ff, $ff, (HERO_HEIGHT/2), 0
-
-  ;collect collision information in a local variable
-  ;we use b2 because the below code calls map_test_collision which uses
-  ;b0 and b1.
-  collision_flags = b2
-  lda #0
-  sta collision_flags
-
-  ;test top left of the hero
-  test_not_collision $ff, $ff, (HERO_HEIGHT/2), 0,  no_top_left_collision
-
-  ;set the 0th bit of the collision flags variable
-  lda collision_flags
-  ora #%00000001
-  sta collision_flags
-
-no_top_left_collision:
-
-  ;test bottom left of the hero
-  test_not_collision $ff, $ff, (HERO_HEIGHT-1), 0, no_bottom_left_collision
-
-  ;set the 1st bit of the collision flags variable
-  lda collision_flags
-  ora #%00000010
-  sta collision_flags
-
-no_bottom_left_collision:
-
-  ;now we can easily choose which branch to execute (actually move left,
-  ;slide up, or slide down)
-
-  lda collision_flags
-  cmp #%00000000
-  beq move_left
-  cmp #%00000001
-  beq slide_down
-  cmp #%00000010
-  beq slide_up
-  ;only case remaining is that both collision tests succeeded. skip
-  ;every case handler.
-  jmp done
-move_left:
   sec
   lda hero_x
   sbc hero_speed
@@ -1459,30 +1361,9 @@ move_left:
   lda hero_x+1
   sbc #$00
   sta hero_x+1
-  jmp done
-slide_up:
 
-  sec
-  lda hero_y
-  sbc hero_speed
-  sta hero_y
-  lda hero_y+1
-  sbc #$00
-  sta hero_y+1
-
-  jmp done
-slide_down:
-
-  clc
-  lda hero_y
-  adc hero_speed
-  sta hero_y
-  lda hero_y+1
-  adc #$00
-  sta hero_y+1
-
-done:
-  .endscope
+  ;3/4 down left side of rect
+  test_action 0, 0, ((HERO_HEIGHT/4)*3), 0
 
   lda #HERO_DIRECTION_LEFT
   sta hero_direction
@@ -1494,54 +1375,10 @@ done:
   rts
 
 ;****************************************************************
-;Handles action and collision tests for moving down.
+;Handler for moving down
 ;****************************************************************
 hero_direction_down_handler:
 
-  .scope
-  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT), 0
-
-  ;collect collision information in a local variable
-  ;we use b2 because the below code calls map_test_collision which uses
-  ;b0 and b1.
-  collision_flags = b2
-  lda #0
-  sta collision_flags
-
-  ;test bottom left of the hero
-  test_not_collision 0, 0, (HERO_HEIGHT), 0, no_bottom_left_collision
-
-  ;set the 0th bit of the collision flags variable
-  lda collision_flags
-  ora #%00000001
-  sta collision_flags
-
-no_bottom_left_collision:
-
-  ;test bottom right of the hero
-  test_not_collision HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, no_bottom_right_collision
-
-  ;set the 1st bit of the collision flags variable
-  lda collision_flags
-  ora #%00000010
-  sta collision_flags
-
-no_bottom_right_collision:
-
-  ;now we can easily choose which branch to execute (actually move down,
-  ;slide left, or slide right)
-
-  lda collision_flags
-  cmp #%00000000
-  beq move_down
-  cmp #%00000001
-  beq slide_right
-  cmp #%00000010
-  beq slide_left
-  ;only case remaining is that both collision tests succeeded. skip
-  ;every case handler.
-  jmp done
-move_down:
   clc
   lda hero_y
   adc hero_speed
@@ -1549,30 +1386,9 @@ move_down:
   lda hero_y+1
   adc #$00
   sta hero_y+1
-  jmp done
-slide_right:
 
-  clc
-  lda hero_x
-  adc hero_speed
-  sta hero_x
-  lda hero_x+1
-  adc #$00
-  sta hero_x+1
-
-  jmp done
-slide_left:
-
-  sec
-  lda hero_x
-  sbc hero_speed
-  sta hero_x
-  lda hero_x+1
-  sbc #$00
-  sta hero_x+1
-
-done:
-  .endscope
+  ;middle of bottom of rect
+  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT-1), 0
 
   lda #HERO_DIRECTION_DOWN
   sta hero_direction
@@ -1584,7 +1400,7 @@ done:
   rts
 
 ;****************************************************************
-;Handles action and collision tests for moving down and right.
+;Handler for moving down and right
 ;****************************************************************
 hero_direction_down_and_right_handler:
 
@@ -1602,11 +1418,7 @@ illegal_direction:
   sta hero_direction
 
 legal_direction:
-
-  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT), 0
-  test_action HERO_WIDTH, 0, (HERO_HEIGHT/2), 0
-  test_collision 0, 0, (HERO_HEIGHT), 0, found_collision_down_side
-  test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
+  .endscope
 
   clc
   lda hero_y
@@ -1615,10 +1427,6 @@ legal_direction:
   lda hero_y+1
   adc #$00
   sta hero_y+1
-found_collision_down_side:
-
-  test_collision (HERO_WIDTH), 0, (HERO_HEIGHT/2), 0, found_collision_right_side
-  test_collision (HERO_WIDTH), 0, (HERO_HEIGHT-1), 0, found_collision_right_side
 
   clc
   lda hero_x
@@ -1627,8 +1435,11 @@ found_collision_down_side:
   lda hero_x+1
   adc #$00
   sta hero_x+1
-found_collision_right_side:
-  .endscope
+
+  ;middle of bottom of rect
+  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT-1), 0
+  ;3/4 down right side of rect
+  test_action HERO_WIDTH-1, 0, ((HERO_HEIGHT/4)*3), 0
 
   lda hero_flags
   ora #HERO_FLAGS_MOVING_SET
@@ -1637,7 +1448,7 @@ found_collision_right_side:
   rts
 
 ;****************************************************************
-;Handles action and collision tests for moving down and left.
+;Handler for moving down and left
 ;****************************************************************
 hero_direction_down_and_left_handler:
 
@@ -1655,11 +1466,7 @@ illegal_direction:
   sta hero_direction
 
 legal_direction:
-
-  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT), 0
-  test_action $ff, $ff, (HERO_HEIGHT/2), 0
-  test_collision 0, 0, (HERO_HEIGHT), 0, found_collision_down_side
-  test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT), 0, found_collision_down_side
+  .endscope
 
   clc
   lda hero_y
@@ -1668,10 +1475,6 @@ legal_direction:
   lda hero_y+1
   adc #$00
   sta hero_y+1
-found_collision_down_side:
-
-  test_collision $ff, $ff, (HERO_HEIGHT/2), 0, found_collision_left_side
-  test_collision $ff, $ff, (HERO_HEIGHT-1), 0, found_collision_left_side
 
   sec
   lda hero_x
@@ -1680,8 +1483,11 @@ found_collision_down_side:
   lda hero_x+1
   sbc #$00
   sta hero_x+1
-found_collision_left_side:
-  .endscope
+
+  ;middle of bottom of rect
+  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT-1), 0
+  ;3/4 down left side of rect
+  test_action 0, 0, ((HERO_HEIGHT/4)*3), 0
 
   lda hero_flags
   ora #HERO_FLAGS_MOVING_SET
@@ -1690,54 +1496,10 @@ found_collision_left_side:
   rts
 
 ;****************************************************************
-;Handles action and collision tests for moving up.
+;Handler for moving up
 ;****************************************************************
 hero_direction_up_handler:
 
-  .scope
-  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2-1), 0
-
-  ;collect collision information in a local variable
-  ;we use b2 because the below code calls map_test_collision which uses
-  ;b0 and b1.
-  collision_flags = b2
-  lda #0
-  sta collision_flags
-
-  ;test top left of the hero
-  test_not_collision 0, 0, (HERO_HEIGHT/2-1), 0, no_top_left_collision
-
-  ;set the 0th bit of the collision flags variable
-  lda collision_flags
-  ora #%00000001
-  sta collision_flags
-
-no_top_left_collision:
-
-  ;test top right of the hero
-  test_not_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, no_top_right_collision
-
-  ;set the 1st bit of the collision flags variable
-  lda collision_flags
-  ora #%00000010
-  sta collision_flags
-
-no_top_right_collision:
-
-  ;now we can easily choose which branch to execute (actually move up,
-  ;slide left, or slide right)
-
-  lda collision_flags
-  cmp #%00000000
-  beq move_up
-  cmp #%00000001
-  beq slide_right
-  cmp #%00000010
-  beq slide_left
-  ;only case remaining is that both collision tests succeeded. skip
-  ;every case handler.
-  jmp done
-move_up:
   sec
   lda hero_y
   sbc hero_speed
@@ -1745,30 +1507,9 @@ move_up:
   lda hero_y+1
   sbc #$00
   sta hero_y+1
-  jmp done
-slide_right:
 
-  clc
-  lda hero_x
-  adc hero_speed
-  sta hero_x
-  lda hero_x+1
-  adc #$00
-  sta hero_x+1
-
-  jmp done
-slide_left:
-
-  sec
-  lda hero_x
-  sbc hero_speed
-  sta hero_x
-  lda hero_x+1
-  sbc #$00
-  sta hero_x+1
-
-done:
-  .endscope
+  ;middle of top of rect
+  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2), 0
 
   lda #HERO_DIRECTION_UP
   sta hero_direction
@@ -1780,7 +1521,7 @@ done:
   rts
 
 ;****************************************************************
-;Handles action and collision tests for moving up and right.
+;Handler for moving up and right
 ;****************************************************************
 hero_direction_up_and_right_handler:
 
@@ -1798,11 +1539,7 @@ illegal_direction:
   sta hero_direction
 
 legal_direction:
-
-  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2-1), 0
-  test_action HERO_WIDTH, 0, (HERO_HEIGHT/2), 0
-  test_collision 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
-  test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
+  .endscope
 
   sec
   lda hero_y
@@ -1811,10 +1548,6 @@ legal_direction:
   lda hero_y+1
   sbc #$00
   sta hero_y+1
-found_collision_up_side:
-
-  test_collision (HERO_WIDTH), 0, (HERO_HEIGHT/2), 0, found_collision_right_side
-  test_collision (HERO_WIDTH), 0, (HERO_HEIGHT-1), 0, found_collision_right_side
 
   clc
   lda hero_x
@@ -1824,11 +1557,10 @@ found_collision_up_side:
   adc #$00
   sta hero_x+1
 
-found_collision_right_side:
-
-skip_direction_up_and_right_handler:
-
-  .endscope
+  ;middle of top of rect
+  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2), 0
+  ;3/4 down right side of rect
+  test_action HERO_WIDTH-1, 0, ((HERO_HEIGHT/4)*3), 0
 
   lda hero_flags
   ora #HERO_FLAGS_MOVING_SET
@@ -1837,13 +1569,13 @@ skip_direction_up_and_right_handler:
   rts
 
 ;****************************************************************
-;Handles action and collision tests for moving up and left.
+;Handler for moving up and left
 ;****************************************************************
 hero_direction_up_and_left_handler:
 
-  .scope
   ;validate that previous direction was up or left.
   ;if not, the animation is wrong, replace it with default up
+  .scope
   lda hero_direction
   cmp #HERO_DIRECTION_UP
   beq legal_direction
@@ -1855,11 +1587,7 @@ illegal_direction:
   sta hero_direction
 
 legal_direction:
-
-  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2-1), 0
-  test_action $ff, $ff, (HERO_HEIGHT/2), 0
-  test_collision 0, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
-  test_collision HERO_WIDTH-1, 0, (HERO_HEIGHT/2-1), 0, found_collision_up_side
+  .endscope
 
   sec
   lda hero_y
@@ -1869,11 +1597,6 @@ legal_direction:
   sbc #$00
   sta hero_y+1
 
-found_collision_up_side:
-
-  test_collision $ff, $ff, (HERO_HEIGHT/2), 0, found_collision_left_side
-  test_collision $ff, $ff, (HERO_HEIGHT-1), 0, found_collision_left_side
-
   sec
   lda hero_x
   sbc hero_speed
@@ -1881,12 +1604,779 @@ found_collision_up_side:
   lda hero_x+1
   sbc #$00
   sta hero_x+1
-found_collision_left_side:
 
-  .endscope
+  ;middle of top of rect
+  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2), 0
+  ;3/4 down left side of rect
+  test_action 0, 0, ((HERO_HEIGHT/4)*3), 0
 
   lda hero_flags
   ora #HERO_FLAGS_MOVING_SET
   sta hero_flags
+
+  rts
+
+;****************************************************************
+;The following collision routines are used to eject Adlanniel
+;from the map by performing as few tests as possible based on the
+;direction she is moving in.
+;****************************************************************
+hero_eject_from_solid_tiles:
+
+  ldy hero_direction_handler
+  lda collision_handlers_lo,y
+  sta w0
+  lda collision_handlers_hi,y
+  sta w0+1
+  jsr indirect_jsr_w0
+
+  rts
+
+.define collision_handlers \
+  hero_collision_nop_handler,\
+  hero_collision_right_handler,\
+  hero_collision_left_handler,\
+  hero_collision_nop_handler,\
+  hero_collision_down_handler,\
+  hero_collision_down_and_right_handler,\
+  hero_collision_down_and_left_handler,\
+  hero_collision_nop_handler,\
+  hero_collision_up_handler,\
+  hero_collision_up_and_right_handler,\
+  hero_collision_up_and_left_handler,\
+  hero_collision_nop_handler,\
+  hero_collision_nop_handler,\
+  hero_collision_nop_handler,\
+  hero_collision_nop_handler,\
+  hero_collision_nop_handler
+
+collision_handlers_lo:
+  .lobytes collision_handlers
+
+collision_handlers_hi:
+  .hibytes collision_handlers
+
+;****************************************************************
+;A nop handler for undefined indices (we have undefined indices
+;here for the same reason as the direction handlers---we build
+;an index from bits rotated into the controller buffer, and some
+;combinations do not have meaning).
+;****************************************************************
+hero_collision_nop_handler:
+
+  rts
+
+;****************************************************************
+;Tests for collisions to the right of the hero
+;****************************************************************
+.proc hero_collision_right_handler
+
+  lda #0
+  sta b7
+  .scope
+  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT/2), 0, no_collision
+  lda b7
+  ora #%00000001
+  sta b7
+no_collision:
+  .endscope
+
+  .scope
+  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT-1), 0, no_collision
+  lda b7
+  ora #%00000010
+  sta b7
+no_collision:
+  .endscope
+
+  ;select ejection handler based on the above results
+  ldy b7
+  lda hero_collision_right_handler_ejection_handlers_lo,y
+  sta w0
+  lda hero_collision_right_handler_ejection_handlers_hi,y
+  sta w0+1
+  jmp (w0)
+
+.define hero_collision_right_handler_ejection_handlers \
+  eject_nop,\
+  eject_slide_down,\
+  eject_slide_up,\
+  eject_horizontally
+
+hero_collision_right_handler_ejection_handlers_lo:
+  .lobytes hero_collision_right_handler_ejection_handlers
+
+hero_collision_right_handler_ejection_handlers_hi:
+  .hibytes hero_collision_right_handler_ejection_handlers
+
+eject_nop:
+
+  rts
+
+eject_slide_up:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the left side of a tile so round down
+  lda hero_x
+  and #%11110000
+  sta hero_x
+
+  sec
+  lda hero_y
+  sbc hero_speed
+  sta hero_y
+  lda hero_y+1
+  sbc #0
+  sta hero_y+1
+
+  rts
+
+eject_slide_down:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the left side of a tile so round down
+  lda hero_x
+  and #%11110000
+  sta hero_x
+
+  clc
+  lda hero_y
+  adc hero_speed
+  sta hero_y
+  lda hero_y+1
+  adc #0
+  sta hero_y+1
+
+  rts
+
+eject_horizontally:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the left side of a tile so round down
+  lda hero_x
+  and #%11110000
+  sta hero_x
+
+  rts
+
+.endproc
+
+;****************************************************************
+;Tests for collisions to the left of the hero
+;****************************************************************
+.proc hero_collision_left_handler
+
+  lda #0
+  sta b7
+  .scope
+  test_not_collision 0, 0, (HERO_HEIGHT/2), 0, no_collision
+  lda b7
+  ora #%00000001
+  sta b7
+no_collision:
+  .endscope
+
+  .scope
+  test_not_collision 0, 0, (HERO_HEIGHT-1), 0, no_collision
+  lda b7
+  ora #%00000010
+  sta b7
+no_collision:
+  .endscope
+
+  ;select ejection handler based on the above results
+  ldy b7
+  lda hero_collision_left_handler_ejection_handlers_lo,y
+  sta w0
+  lda hero_collision_left_handler_ejection_handlers_hi,y
+  sta w0+1
+  jmp (w0)
+
+.define hero_collision_left_handler_ejection_handlers \
+  eject_nop,\
+  eject_slide_down,\
+  eject_slide_up,\
+  eject_horizontally
+
+hero_collision_left_handler_ejection_handlers_lo:
+  .lobytes hero_collision_left_handler_ejection_handlers
+
+hero_collision_left_handler_ejection_handlers_hi:
+  .hibytes hero_collision_left_handler_ejection_handlers
+
+eject_nop:
+
+  rts
+
+eject_slide_up:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the right side of a tile so round up
+  clc
+  lda hero_x
+  and #%11110000
+  adc #$10
+  sta hero_x
+  lda hero_x+1
+  adc #$00
+  sta hero_x+1
+  sta hero_x+1
+
+  sec
+  lda hero_y
+  sbc hero_speed
+  sta hero_y
+  lda hero_y+1
+  sbc #0
+  sta hero_y+1
+
+  rts
+
+eject_slide_down:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the right side of a tile so round up
+  clc
+  lda hero_x
+  and #%11110000
+  adc #$10
+  sta hero_x
+  lda hero_x+1
+  adc #$00
+  sta hero_x+1
+  sta hero_x+1
+
+  clc
+  lda hero_y
+  adc hero_speed
+  sta hero_y
+  lda hero_y+1
+  adc #0
+  sta hero_y+1
+
+  rts
+
+eject_horizontally:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the right side of a tile so round up
+  clc
+  lda hero_x
+  and #%11110000
+  adc #$10
+  sta hero_x
+  lda hero_x+1
+  adc #$00
+  sta hero_x+1
+  sta hero_x+1
+
+  rts
+
+.endproc
+
+;****************************************************************
+;Tests for collisions below the hero
+;****************************************************************
+.proc hero_collision_down_handler
+
+  lda #0
+  sta b7
+  .scope
+  test_not_collision 0, 0, (HERO_HEIGHT-1), 0, no_collision
+  lda b7
+  ora #%00000001
+  sta b7
+no_collision:
+  .endscope
+
+  .scope
+  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT-1), 0, no_collision
+  lda b7
+  ora #%00000010
+  sta b7
+no_collision:
+  .endscope
+
+  ;select ejection handler based on the above results
+  ldy b7
+  lda hero_collision_down_handler_ejection_handlers_lo,y
+  sta w0
+  lda hero_collision_down_handler_ejection_handlers_hi,y
+  sta w0+1
+  jmp (w0)
+
+.define hero_collision_down_handler_ejection_handlers \
+  eject_nop,\
+  eject_slide_right,\
+  eject_slide_left,\
+  eject_vertically
+
+hero_collision_down_handler_ejection_handlers_lo:
+  .lobytes hero_collision_down_handler_ejection_handlers
+
+hero_collision_down_handler_ejection_handlers_hi:
+  .hibytes hero_collision_down_handler_ejection_handlers
+
+eject_nop:
+
+  rts
+
+eject_slide_left:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the top of a tile, so round down
+  lda hero_y
+  and #%11110000
+  sta hero_y
+
+  sec
+  lda hero_x
+  sbc hero_speed
+  sta hero_x
+  lda hero_x+1
+  sbc #0
+  sta hero_x+1
+
+  rts
+
+eject_slide_right:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the top of a tile, so round down
+  lda hero_y
+  and #%11110000
+  sta hero_y
+
+  clc
+  lda hero_x
+  adc hero_speed
+  sta hero_x
+  lda hero_x+1
+  adc #0
+  sta hero_x+1
+
+  rts
+
+eject_vertically:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the top of a tile, so round down
+  lda hero_y
+  and #%11110000
+  sta hero_y
+
+  rts
+
+.endproc
+
+;****************************************************************
+;Tests for collisions above the hero
+;****************************************************************
+.proc hero_collision_up_handler
+
+  lda #0
+  sta b7
+  .scope
+  test_not_collision 0, 0, (HERO_HEIGHT/2), 0, no_collision
+  lda b7
+  ora #%00000001
+  sta b7
+no_collision:
+  .endscope
+
+  .scope
+  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT/2), 0, no_collision
+  lda b7
+  ora #%00000010
+  sta b7
+no_collision:
+  .endscope
+
+  ;select ejection handler based on the above results
+  ldy b7
+  lda hero_collision_up_handler_ejection_handlers_lo,y
+  sta w0
+  lda hero_collision_up_handler_ejection_handlers_hi,y
+  sta w0+1
+  jmp (w0)
+
+.define hero_collision_up_handler_ejection_handlers \
+  eject_nop,\
+  eject_slide_right,\
+  eject_slide_left,\
+  eject_vertically
+
+hero_collision_up_handler_ejection_handlers_lo:
+  .lobytes hero_collision_up_handler_ejection_handlers
+
+hero_collision_up_handler_ejection_handlers_hi:
+  .hibytes hero_collision_up_handler_ejection_handlers
+
+eject_nop:
+
+  rts
+
+eject_slide_left:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the bottom of a tile, so round up
+  clc
+  lda hero_y
+  and #%11110000
+  adc #$10
+  sta hero_y
+  lda hero_y+1
+  adc #$00
+  sta hero_y+1
+
+  sec
+  lda hero_x
+  sbc hero_speed
+  sta hero_x
+  lda hero_x+1
+  sbc #0
+  sta hero_x+1
+
+  rts
+
+eject_slide_right:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the bottom of a tile, so round up
+  clc
+  lda hero_y
+  and #%11110000
+  adc #$10
+  sta hero_y
+  lda hero_y+1
+  adc #$00
+  sta hero_y+1
+
+  clc
+  lda hero_x
+  adc hero_speed
+  sta hero_x
+  lda hero_x+1
+  adc #0
+  sta hero_x+1
+
+  rts
+
+eject_vertically:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the bottom of a tile, so round up
+  clc
+  lda hero_y
+  and #%11110000
+  adc #$10
+  sta hero_y
+  lda hero_y+1
+  adc #$00
+  sta hero_y+1
+
+  rts
+
+.endproc
+
+;****************************************************************
+;Tests for collisions down and to the right of the hero
+;****************************************************************
+hero_collision_down_and_right_handler:
+
+  .scope
+  ;testing bottom left of rect
+  test_not_collision 0, 0, (HERO_HEIGHT-1), 0, no_collision
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the top of a tile, so round down
+  lda hero_y
+  and #%11110000
+  sta hero_y
+no_collision:
+  .endscope
+
+  .scope
+  ;testing right side of rect
+  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT/2), 0, no_collision
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the left side of a tile so round down
+  lda hero_x
+  and #%11110000
+  sta hero_x
+no_collision:
+  .endscope
+
+  .scope
+  ;test bottom right corner
+  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT-1), 0, no_collision
+
+  ;find out which ejection would be smaller
+  lda hero_y
+  and #%00001111
+  sta b0
+  lda hero_x
+  and #%00001111
+  cmp b0
+  bmi y_ejection_larger_so_eject_x
+x_ejection_larger_so_eject_y:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the top of a tile, so round down
+  lda hero_y
+  and #%11110000
+  sta hero_y
+
+  jmp no_collision
+y_ejection_larger_so_eject_x:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the left side of a tile so round down
+  clc
+  lda hero_x
+  and #%11110000
+  sta hero_x
+
+no_collision:
+  .endscope
+
+  rts
+
+;****************************************************************
+;Tests for collisions down and to the left of the hero
+;****************************************************************
+hero_collision_down_and_left_handler:
+
+  .scope
+  ;testing bottom right of rect
+  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT-1), 0, no_collision
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the top of a tile, so round down
+  lda hero_y
+  and #%11110000
+  sta hero_y
+no_collision:
+  .endscope
+
+  .scope
+  ;testing left side of rect
+  test_not_collision 0, 0, (HERO_HEIGHT/2), 0, no_collision
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the right side of a tile so round up
+  clc
+  lda hero_x
+  and #%11110000
+  adc #$10
+  sta hero_x
+  lda hero_x+1
+  adc #$00
+  sta hero_x+1
+  sta hero_x+1
+no_collision:
+  .endscope
+
+  .scope
+  ;test bottom left corner
+  test_not_collision 0, 0, (HERO_HEIGHT-1), 0, no_collision
+
+  ;find out which ejection would be smaller
+  lda hero_y
+  and #%00001111
+  sta b0
+  lda hero_x
+  and #%00001111
+  eor #%00001111
+  clc
+  adc #$01
+  cmp b0
+  bmi y_ejection_larger_so_eject_x
+x_ejection_larger_so_eject_y:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the top of a tile, so round down
+  lda hero_y
+  and #%11110000
+  sta hero_y
+
+  jmp no_collision
+y_ejection_larger_so_eject_x:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the right side of a tile so round up
+  clc
+  lda hero_x
+  and #%11110000
+  adc #$10
+  sta hero_x
+  lda hero_x+1
+  adc #$00
+  sta hero_x+1
+  sta hero_x+1
+
+no_collision:
+  .endscope
+
+  rts
+
+;****************************************************************
+;Tests for collisions up and to the right of the hero
+;****************************************************************
+hero_collision_up_and_right_handler:
+
+  .scope
+  ;testing top left of rect
+  test_not_collision 0, 0, (HERO_HEIGHT/2), 0, no_collision
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the bottom of a tile, so round up
+  clc
+  lda hero_y
+  and #%11110000
+  adc #$10
+  sta hero_y
+  lda hero_y+1
+  adc #$00
+  sta hero_y+1
+no_collision:
+  .endscope
+
+  .scope
+  ;testing bottom right of rect
+  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT-1), 0, no_collision
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the left side of a tile so round down
+  lda hero_x
+  and #%11110000
+  sta hero_x
+no_collision:
+  .endscope
+
+  .scope
+  ;test top right corner
+  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT/2), 0, no_collision
+
+  ;find out which ejection would be smaller
+  lda hero_y
+  and #%00001111
+  eor #%00001111
+  clc
+  adc #$01
+  sta b0
+  lda hero_x
+  and #%00001111
+  cmp b0
+  bmi y_ejection_larger_so_eject_x
+x_ejection_larger_so_eject_y:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the bottom of a tile, so round up
+  clc
+  lda hero_y
+  and #%11110000
+  adc #$10
+  sta hero_y
+  lda hero_y+1
+  adc #$00
+  sta hero_y+1
+
+  jmp no_collision
+y_ejection_larger_so_eject_x:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the left side of a tile so round down
+  clc
+  lda hero_x
+  and #%11110000
+  sta hero_x
+
+no_collision:
+  .endscope
+
+  rts
+
+;****************************************************************
+;Tests for collisions up and to the left of the hero
+;****************************************************************
+hero_collision_up_and_left_handler:
+
+  .scope
+  ;testing top right of rect
+  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT/2), 0, no_collision
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the bottom of a tile, so round up
+  clc
+  lda hero_y
+  and #%11110000
+  adc #$10
+  sta hero_y
+  lda hero_y+1
+  adc #$00
+  sta hero_y+1
+no_collision:
+  .endscope
+
+  .scope
+  ;testing left side of rect
+  test_not_collision 0, 0, (HERO_HEIGHT-1), 0, no_collision
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the right side of a tile so round up
+  clc
+  lda hero_x
+  and #%11110000
+  adc #$10
+  sta hero_x
+  lda hero_x+1
+  adc #$00
+  sta hero_x+1
+  sta hero_x+1
+no_collision:
+  .endscope
+
+  .scope
+  ;test top left corner
+  test_not_collision 0, 0, (HERO_HEIGHT/2), 0, no_collision
+
+  ;find out which ejection would be smaller
+  lda hero_y
+  and #%00001111
+  eor #%00001111
+  clc
+  adc #$01
+  sta b0
+  lda hero_x
+  and #%00001111
+  eor #%00001111
+  clc
+  adc #$01
+  cmp b0
+  bmi y_ejection_larger_so_eject_x
+x_ejection_larger_so_eject_y:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the bottom of a tile, so round up
+  clc
+  lda hero_y
+  and #%11110000
+  adc #$10
+  sta hero_y
+  lda hero_y+1
+  adc #$00
+  sta hero_y+1
+
+  jmp no_collision
+y_ejection_larger_so_eject_x:
+
+  ;eject hero to align with metatile grid
+  ;hero is cutting in to the right side of a tile so round up
+  clc
+  lda hero_x
+  and #%11110000
+  adc #$10
+  sta hero_x
+  lda hero_x+1
+  adc #$00
+  sta hero_x+1
+  sta hero_x+1
+
+no_collision:
+  .endscope
 
   rts

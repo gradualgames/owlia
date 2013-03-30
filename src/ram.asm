@@ -87,6 +87,7 @@ hero_sprite_flags:                .res 1
 hero_animation_object:            .res 2
 hero_animation_address:           .res 2
 hero_direction:                   .res 1
+hero_direction_handler:           .res 1
 hero_state_counter:               .res 1
 hero_invincibility_counter:       .res 1
 hero_knockback_counter:           .res 1
