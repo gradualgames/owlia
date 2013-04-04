@@ -151,6 +151,12 @@ camera_nametable_hibyte: .res 1
 camera_x_scrolling_enabled: .res 1
 camera_y_scrolling_enabled: .res 1
 
+;these can be set by the entity system to create a fake solid
+;block for the hero to run into. Useful for doors and bombable
+;blocks.
+floating_solid_metatile_x: .res 1
+floating_solid_metatile_y: .res 1
+
 row_ready: .res 1
 column_ready: .res 1
 

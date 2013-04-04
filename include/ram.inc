@@ -149,6 +149,9 @@ MAX_ENTITIES = 8
 .global camera_x_scrolling_enabled
 .global camera_y_scrolling_enabled
 
+.global floating_solid_metatile_x
+.global floating_solid_metatile_y
+
 .global row_ready
 .global column_ready
 

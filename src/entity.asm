@@ -163,6 +163,49 @@
 
 .endproc
 
+;computes coordinates for the floating solid metatile based on the
+;coordinates of this entity. This will cause the hero to run into
+;the grid square that the entity currently occupies as though it were
+;a solid tile on the map. This is intended to be used primarily by
+;stationary entities such as doors and bombable walls.
+.proc entity_grab_floating_solid_metatile
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  lda w0
+  lsr w0+1
+  ror
+  lsr w0+1
+  ror
+  lsr w0+1
+  ror
+  lsr w0+1
+  ror
+  sta floating_solid_metatile_x
+
+  lda w1
+  lsr w1+1
+  ror
+  lsr w1+1
+  ror
+  lsr w1+1
+  ror
+  lsr w1+1
+  ror
+  sta floating_solid_metatile_y
+
+  rts
+
+.endproc
+
 ;clears flags, state, and action for all entities
 .proc entity_init_all
 
@@ -237,6 +280,14 @@ spawn_y = w1
 ;NOTE! This procedure intentionally spills into entity_update_npe,
 ;to provide shared functionality without duplicating code.
 .proc entity_update_all
+
+  ;turn off the floating solid metatile for this frame. After this, any
+  ;entity may set these coordinates, and then map collision tests will
+  ;return solid if the coordinates match the floating solid metatile,
+  ;short circuiting actually checking the map.
+  lda #0
+  sta floating_solid_metatile_x
+  sta floating_solid_metatile_y
 
   ;update the two player entities
   switch_bank_ldy #HERO_BANK

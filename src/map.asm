@@ -35,12 +35,10 @@ mod15lut:
 ;returns metatile properties byte in b0
 ;temporarily to map_bank before switching back to entities_bank.
 .proc map_test_collision
-map_x = w0
-map_y = w1
+map_x_in_metatile_coordinates = w0
+map_y_in_metatile_coordinates = w1
 map_x_in_big_metatile_coordinates = w3
 map_y_in_big_metatile_coordinates = w4
-map_x_in_metatile_coordinates = w5
-map_y_in_metatile_coordinates = w6
 metatile_properties = b0
 metatile_param = b1
 
@@ -52,17 +50,7 @@ map_offset = w16
   ;we need to see the map data for the duration of this routine
   switch_bank_ldy map_bank
 
-  ;calculate useful transformations of map_x and map_y
-  lda map_x
-  sta map_x_in_metatile_coordinates
-  lda map_x+1
-  sta map_x_in_metatile_coordinates+1
-
-  lda map_y
-  sta map_y_in_metatile_coordinates
-  lda map_y+1
-  sta map_y_in_metatile_coordinates+1
-
+  ;calculate map x and y in metatile and big metatile coordinates
   lda map_x_in_metatile_coordinates
   lsr map_x_in_metatile_coordinates+1
   ror
@@ -84,6 +72,30 @@ map_offset = w16
   lsr map_y_in_metatile_coordinates+1
   ror
   sta map_y_in_metatile_coordinates
+
+  ;check to see if anybody has set the floating
+  ;solid metatile coordinates. This short circuits
+  ;actually checking the map and just returns solid
+  ;if the coordinates match.
+  lda floating_solid_metatile_x
+  beq no_floating_metatile
+  cmp map_x_in_metatile_coordinates
+  bne no_floating_metatile
+  lda floating_solid_metatile_y
+  cmp map_y_in_metatile_coordinates
+  bne no_floating_metatile
+
+  lda #FLAG_SOLID
+  sta metatile_properties
+
+  ;restore calling bank
+  pla
+  sta current_bank
+  switch_bank_ldy current_bank
+
+  rts
+
+no_floating_metatile:
 
   lda map_x_in_metatile_coordinates
   sta map_x_in_big_metatile_coordinates
