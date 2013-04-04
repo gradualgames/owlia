@@ -10,3 +10,4 @@
 .include "npcwoman_sprites_and_animations.inc"
 .include "key_sprites_and_animations.inc"
 .include "inventory_sprites_and_animations.inc"
+.include "keyeddoor_sprites_and_animations.inc"

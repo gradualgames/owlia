@@ -9,6 +9,7 @@ entity_index_explosion
 entity_index_jellyfish
 entity_index_npc
 entity_index_key
+entity_index_keyeddoor
 .endenum
 
 .endif

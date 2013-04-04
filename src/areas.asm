@@ -50,10 +50,11 @@ house_sprite_chr_groups:
   .byte sprite_chr_group_index_npcwoman
 
 dungeon_sprite_chr_groups:
-  .byte 3  ;count
+  .byte 4  ;count
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_key
+  .byte sprite_chr_group_index_keyeddoor
 
 ;****************************************************************
 ;Area definitions.
@@ -338,6 +339,7 @@ dungeon_area:
   .word dungeon_big_metatile_table_bottom_right
 
 dungeon_entities:
-  .byte 2  ;count
+  .byte 3  ;count
   .byte entity_index_key, 13, 5, 0, 0
   .byte entity_index_key, 25, 5, 0, 0
+  .byte entity_index_keyeddoor, 7, 3, sprite_chr_group_index_keyeddoor, 0

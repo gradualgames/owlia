@@ -21,7 +21,8 @@
   explosion_update, \
   jellyfish_update, \
   npc_update, \
-  key_update
+  key_update, \
+  keyeddoor_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -74,3 +75,5 @@ npc_sprite_flags_direction:
 .include "jellyfish.inc"
 .include "npc.inc"
 .include "key.inc"
+.include "keyeddoor.inc"
+

@@ -11,7 +11,8 @@
   NpcMan_chr, \
   NpcWoman_chr, \
   Key_chr, \
-  Inventory_chr
+  Inventory_chr, \
+  KeyedDoor_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -303,4 +304,11 @@ Inventory_chr:
   .byte $00,$3c,$7e,$7e,$7e,$7e,$3c,$00,$00,$3c,$7e,$7e,$7e,$7e,$3c,$00
   .byte $08,$18,$28,$08,$08,$08,$08,$08,$08,$18,$28,$08,$08,$08,$08,$08
   .byte $38,$44,$04,$04,$08,$10,$20,$7c,$38,$44,$04,$04,$08,$10,$20,$7c
+
+KeyedDoor_chr:
+  .word $0040
+  .byte $ff,$80,$80,$80,$80,$80,$80,$80,$00,$7f,$7f,$7f,$7f,$7f,$7f,$7f
+  .byte $80,$80,$80,$80,$81,$83,$81,$81,$7f,$7f,$7f,$7f,$7e,$7c,$7e,$7e
+  .byte $81,$80,$80,$80,$80,$80,$80,$80,$7e,$7f,$7f,$7f,$7f,$7f,$7f,$7f
+  .byte $80,$80,$80,$80,$80,$80,$80,$ff,$7f,$7f,$7f,$7f,$7f,$7f,$7f,$00
 
