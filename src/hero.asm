@@ -1623,12 +1623,16 @@ legal_direction:
 ;****************************************************************
 hero_eject_from_solid_tiles:
 
+  lda hero_state
+  cmp #HERO_STATE_CARRIED
+  beq do_not_eject
   ldy hero_direction_handler
   lda collision_handlers_lo,y
   sta w0
   lda collision_handlers_hi,y
   sta w0+1
   jsr indirect_jsr_w0
+do_not_eject:
 
   rts
 
