@@ -300,24 +300,6 @@ skip_spawn_carry_hero:
 
 .endproc
 
-.proc hero_set_has_key
-
-  lda hero_flags
-  ora #HERO_FLAGS_HAS_KEY_SET
-  sta hero_flags
-  rts
-
-.endproc
-
-.proc hero_clear_has_key
-
-  lda hero_flags
-  and #HERO_FLAGS_HAS_KEY_CLEAR
-  sta hero_flags
-  rts
-
-.endproc
-
 ;sets up the hero's state to start flashing invincibility frames and
 ;get knocked back in a certain direction for a few frames.
 ;expects b0 to contain cardinal direction to knock the hero back in.

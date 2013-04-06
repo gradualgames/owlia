@@ -13,6 +13,7 @@
 .include "play_state.inc"
 .include "geotests.inc"
 .include "conversation_data.inc"
+.include "inventory.inc"
 
 .segment "CODE"
 

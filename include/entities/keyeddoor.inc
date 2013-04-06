@@ -82,10 +82,8 @@ keyeddoor_state_main:
   jsr hero_cancel_attack
 
   ;this location is locked, test to see if the hero has a key
-  lda hero_flags
-  and #HERO_FLAGS_HAS_KEY_TEST
-  ;if the hero has key, continue to load the location
-  bne hero_has_key
+  jsr inventory_can_use_key
+  bne hero_can_use_key
 
   ;if the hero does not have a key, we start a conversation
   ;saying the door is locked
@@ -94,9 +92,11 @@ keyeddoor_state_main:
   lda #conversation_index_door_is_locked
   sta state_control_params+play_state_control::param
 
-  jmp hero_has_no_key
+  jmp hero_cannot_use_key
 
-hero_has_key:
+hero_can_use_key:
+
+  jsr inventory_use_key
 
   ;play a sound
   txa
@@ -124,7 +124,7 @@ do_not_unlock_door:
 
 not_touching_hero:
 
-hero_has_no_key:
+hero_cannot_use_key:
 
   jsr entity_update_animation
 

@@ -55,6 +55,10 @@ key_state_main:
   jsr entity_test_hero_rect
   bne entity_not_hitting_hero
 
+  jsr inventory_can_add_key
+  beq cannot_add_key
+  jsr inventory_add_key
+
   ;play a sound
   txa
   pha
@@ -73,11 +77,11 @@ key_state_main:
   pla
   tax
 
-  jsr hero_set_has_key
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
 
+cannot_add_key:
 entity_not_hitting_hero:
   .endscope
 

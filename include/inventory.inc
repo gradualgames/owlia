@@ -36,5 +36,9 @@ tech_homing_earned
 .endenum
 
 .global inventory_max_all
+.global inventory_add_key
+.global inventory_use_key
+.global inventory_can_add_key
+.global inventory_can_use_key
 
 .endif
