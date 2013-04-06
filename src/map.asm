@@ -78,7 +78,6 @@ map_offset = w16
   ;actually checking the map and just returns solid
   ;if the coordinates match.
   lda floating_solid_metatile_x
-  beq no_floating_metatile
   cmp map_x_in_metatile_coordinates
   bne no_floating_metatile
   lda floating_solid_metatile_y

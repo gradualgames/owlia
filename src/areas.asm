@@ -339,7 +339,10 @@ dungeon_area:
   .word dungeon_big_metatile_table_bottom_right
 
 dungeon_entities:
-  .byte 3  ;count
-  .byte entity_index_key, 13, 5, 0, 0
+  .byte 6  ;count
+  .byte entity_index_key, 13, 4, 0, 0
   .byte entity_index_key, 25, 5, 0, 0
-  .byte entity_index_keyeddoor, 7, 3, sprite_chr_group_index_keyeddoor, 0
+  .byte entity_index_keyeddoor, 7, 1, sprite_chr_group_index_keyeddoor, 1, 16
+  .byte entity_index_keyeddoor, 0, 6, sprite_chr_group_index_keyeddoor, 1, 16
+  .byte entity_index_keyeddoor, 7, 11, sprite_chr_group_index_keyeddoor, 1, 0
+  .byte entity_index_keyeddoor, 15, 6, sprite_chr_group_index_keyeddoor, 1, 16

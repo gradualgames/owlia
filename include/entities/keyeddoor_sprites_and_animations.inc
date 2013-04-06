@@ -12,7 +12,6 @@ KeyedDoor0:
   .byte $10,$02,$40,$08,$08
   .byte $18,$03,$40,$08,$08
 
-
 KeyedDoor:
   .byte $0a,$02
   .word KeyedDoor0

@@ -11,8 +11,8 @@ local myoutput;
 
 -- draw a box and take care of coordinate checking
 local function box(x1,y1,x2,y2,color)
-    y1 = y1 + 8;
-    y2 = y2 + 8;
+    y1 = y1 + 16;
+    y2 = y2 + 16;
     -- gui.text(50,50,x1..","..y1.." "..x2..","..y2);
     if (x1 > 0 and x1 < 255 and x2 > 0 and x2 < 255 and y1 > 0 and y1 < 224 and y2 > 0 and y2 < 224) then
         --gui.drawbox(x1,y1,x2,y2,color);
@@ -21,6 +21,35 @@ local function box(x1,y1,x2,y2,color)
         gui.drawline(x1,y2,x2,y2,color);
         gui.drawline(x1,y1,x1,y2,color);
     end;
+end;
+
+local function rect_in_rect_executed()
+
+--rectangle A:
+--w2 - left x
+--w3 - top y
+--b2 - width
+--b3 - height
+--rectangle B:
+--w4 - left x
+--w5 - top y
+--b4 - width
+--b5 - height
+--global variables used:
+--rectangle A:
+--w6 - right x
+--w7 - bottom y
+--rectangle B:
+--w8 - right x
+--w9 - bottom y
+
+    ah,bh = memory.readbyte(w2+1), memory.readbyte(w3+1)
+    if (ah == 0 and bh == 0) then
+        a,b = memory.readbyte(w2),memory.readbyte(w3)
+        c,d = memory.readbyte(b2),memory.readbyte(b3)
+        box(a,b,a+c,b+d,"red");
+    end;
+
 end;
 
 local function draw_attack_rect()
@@ -48,6 +77,11 @@ local function draw_attack_rect()
 
 end;
 
+b2 = 0x0002
+b3 = 0x0003
+w2 = 0x0010
+w3 = 0x0012
+
 camera_x = 0x0474
 camera_y = 0x0476
 
@@ -56,10 +90,14 @@ hero_attack_rect_y = 0x043A
 hero_attack_rect_width = 0x043C
 hero_attack_rect_height = 0x043D
 
+geotests_rect_in_rect_16bit = 0xD819
+
+memory.registerexecute(geotests_rect_in_rect_16bit, 110, rect_in_rect_executed)
+
 local a,b,c,d;
 while (running) do
 
-        draw_attack_rect()
+    --draw_attack_rect()
 
     FCEU.frameadvance()
 end

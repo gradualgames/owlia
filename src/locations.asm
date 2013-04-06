@@ -107,21 +107,19 @@ define_centered_location 0, area_index_overworld, 30, 13, sfx_door, 3, soundeffe
 dungeon_entrance:
 define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                 LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET, \
-                area_index_dungeon, 0, 2, 7, 9, \
+                area_index_dungeon, 0, 0, 7, 9, \
                 sfx_door, 3, soundeffect_one,\
                 HERO_DIRECTION_UP
 
 dungeon_room_a:
-define_location LOCATION_FLAGS_IS_LOCKED_SET | \
-                LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
+define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                 LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET, \
                 area_index_dungeon, 0, 0, 7, 2, \
-                sfx_door, 3, soundeffect_one, \
+                0, 0, 0, \
                 HERO_DIRECTION_DOWN
 
 dungeon_room_b:
-define_location LOCATION_FLAGS_IS_LOCKED_SET | \
-                         LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
-                         LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET, \
-                         area_index_dungeon, 16, 0, 23, 10, \
-                         sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
+                LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET, \
+                area_index_dungeon, 16, 0, 23, 10, \
+                0, 0, 0, HERO_DIRECTION_UP

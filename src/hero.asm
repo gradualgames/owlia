@@ -1007,57 +1007,6 @@ hero_state_carried:
 ;****************************************************************
 hero_state_main:
 
-  lda buffer_controller+buttons::_select
-  and #%00000011
-  cmp #%00000001
-  bne skip_switch_selected_tech
-
-  ;flip the only bit that is ever set in the selected tech, since
-  ;it is only tech1 or tech2 (0 or 1)
-  lda inventory_selected_tech
-  eor #%00000001
-  sta inventory_selected_tech
-
-  ;play a sound
-  txa
-  pha
-
-  lda #<sfx_test
-  sta sound_param_word_0
-  lda #>sfx_test
-  sta sound_param_word_0+1
-
-  lda #3
-  sta sound_param_byte_0
-
-  ldx #soundeffect_one
-  jsr stream_initialize
-
-  pla
-  tax
-
-skip_switch_selected_tech:
-
-  lda buffer_controller+buttons::_b
-  and #%00000011
-  cmp #%00000001
-  bne skip_spawn_familiar_test
-
-  jsr hero_spawn_familiar
-
-skip_spawn_familiar_test:
-
-  lda buffer_controller+buttons::_a
-  and #%00000011
-  cmp #%00000001
-  bne skip_attack_test
-
-  jsr hero_attack
-
-  rts
-
-skip_attack_test:
-
   ;check to see if hero is hurt. if not, use controller to choose
   ;direction handler. if so, use hero_knockback_direction_handler to choose
   ;the direction handler.
@@ -1178,6 +1127,55 @@ hero_not_invincible:
   sta w2+1
   jsr sprite_update_animation
 do_not_animate_hero:
+
+  lda buffer_controller+buttons::_select
+  and #%00000011
+  cmp #%00000001
+  bne skip_switch_selected_tech
+
+  ;flip the only bit that is ever set in the selected tech, since
+  ;it is only tech1 or tech2 (0 or 1)
+  lda inventory_selected_tech
+  eor #%00000001
+  sta inventory_selected_tech
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_test
+  sta sound_param_word_0
+  lda #>sfx_test
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+skip_switch_selected_tech:
+
+  lda buffer_controller+buttons::_b
+  and #%00000011
+  cmp #%00000001
+  bne skip_spawn_familiar_test
+
+  jsr hero_spawn_familiar
+
+skip_spawn_familiar_test:
+
+  lda buffer_controller+buttons::_a
+  and #%00000011
+  cmp #%00000001
+  bne skip_attack_test
+
+  jsr hero_attack
+
+skip_attack_test:
 
   rts
 
