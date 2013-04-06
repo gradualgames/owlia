@@ -32,9 +32,9 @@ jellyfish_state_init:
 
   jsr entity_set_drawable_unsorted
 
-  lda #16
+  lda #15
   sta entity_width,x
-  lda #16
+  lda #15
   sta entity_height,x
 
   ;intiialize fine x and y coordinates and velocity

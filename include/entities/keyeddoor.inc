@@ -34,9 +34,9 @@ keyeddoor_state_init:
 
   jsr entity_reset_animation
 
-  lda #$10
+  lda #$0f
   sta entity_width,x
-  lda #$20
+  lda #$1f
   sta entity_height,x
 
   ;some entities are parameterized for graphics set, ones

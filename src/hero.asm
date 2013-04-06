@@ -67,7 +67,7 @@ tile_y = w8
   ;check to see if the metatile the hero is currently standing on contains ACTION_CARRY_TO
   clc
   lda hero_x
-  adc #(HERO_WIDTH/2)
+  adc #(HERO_HALF_WIDTH)
   and #$f0
   sta tile_x
   sta w0
@@ -1318,7 +1318,7 @@ hero_direction_right_handler:
   sta hero_x+1
 
   ;3/4 down right side of rect
-  test_action (HERO_WIDTH-1), 0, ((HERO_HEIGHT/4)*3), 0
+  test_action (HERO_WIDTH), 0, (HERO_THREE_QUARTERS_DOWN), 0
 
   lda #HERO_DIRECTION_RIGHT
   sta hero_direction
@@ -1368,7 +1368,7 @@ hero_direction_down_handler:
   sta hero_y+1
 
   ;middle of bottom of rect
-  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT-1), 0
+  test_action (HERO_HALF_WIDTH), 0, (HERO_HEIGHT), 0
 
   lda #HERO_DIRECTION_DOWN
   sta hero_direction
@@ -1417,9 +1417,9 @@ legal_direction:
   sta hero_x+1
 
   ;middle of bottom of rect
-  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT-1), 0
+  test_action (HERO_HALF_WIDTH), 0, (HERO_HEIGHT), 0
   ;3/4 down right side of rect
-  test_action HERO_WIDTH-1, 0, ((HERO_HEIGHT/4)*3), 0
+  test_action (HERO_WIDTH), 0, (HERO_THREE_QUARTERS_DOWN), 0
 
   lda hero_flags
   ora #HERO_FLAGS_MOVING_SET
@@ -1465,7 +1465,7 @@ legal_direction:
   sta hero_x+1
 
   ;middle of bottom of rect
-  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT-1), 0
+  test_action (HERO_HALF_WIDTH), 0, (HERO_HEIGHT), 0
   ;3/4 down left side of rect
   test_action 0, 0, ((HERO_HEIGHT/4)*3), 0
 
@@ -1489,7 +1489,7 @@ hero_direction_up_handler:
   sta hero_y+1
 
   ;middle of top of rect
-  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2), 0
+  test_action (HERO_HALF_WIDTH), 0, (HERO_HALF_HEIGHT), 0
 
   lda #HERO_DIRECTION_UP
   sta hero_direction
@@ -1538,9 +1538,9 @@ legal_direction:
   sta hero_x+1
 
   ;middle of top of rect
-  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2), 0
+  test_action (HERO_HALF_WIDTH), 0, (HERO_HALF_HEIGHT), 0
   ;3/4 down right side of rect
-  test_action HERO_WIDTH-1, 0, ((HERO_HEIGHT/4)*3), 0
+  test_action (HERO_WIDTH), 0, ((HERO_HEIGHT/4)*3), 0
 
   lda hero_flags
   ora #HERO_FLAGS_MOVING_SET
@@ -1586,7 +1586,7 @@ legal_direction:
   sta hero_x+1
 
   ;middle of top of rect
-  test_action (HERO_WIDTH/2), 0, (HERO_HEIGHT/2), 0
+  test_action (HERO_HALF_WIDTH), 0, (HERO_HALF_HEIGHT), 0
   ;3/4 down left side of rect
   test_action 0, 0, ((HERO_HEIGHT/4)*3), 0
 
@@ -1658,7 +1658,7 @@ hero_collision_nop_handler:
   lda #0
   sta b7
   .scope
-  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT/2), 0, no_collision
+  test_not_collision (HERO_WIDTH), 0, (HERO_HALF_HEIGHT), 0, no_collision
   lda b7
   ora #%00000001
   sta b7
@@ -1666,7 +1666,7 @@ no_collision:
   .endscope
 
   .scope
-  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT-1), 0, no_collision
+  test_not_collision (HERO_WIDTH), 0, (HERO_HEIGHT), 0, no_collision
   lda b7
   ora #%00000010
   sta b7
@@ -1753,7 +1753,7 @@ eject_horizontally:
   lda #0
   sta b7
   .scope
-  test_not_collision 0, 0, (HERO_HEIGHT/2), 0, no_collision
+  test_not_collision 0, 0, (HERO_HALF_HEIGHT), 0, no_collision
   lda b7
   ora #%00000001
   sta b7
@@ -1761,7 +1761,7 @@ no_collision:
   .endscope
 
   .scope
-  test_not_collision 0, 0, (HERO_HEIGHT-1), 0, no_collision
+  test_not_collision 0, 0, (HERO_HEIGHT), 0, no_collision
   lda b7
   ora #%00000010
   sta b7
@@ -1866,7 +1866,7 @@ eject_horizontally:
   lda #0
   sta b7
   .scope
-  test_not_collision 0, 0, (HERO_HEIGHT-1), 0, no_collision
+  test_not_collision 0, 0, (HERO_HEIGHT), 0, no_collision
   lda b7
   ora #%00000001
   sta b7
@@ -1874,7 +1874,7 @@ no_collision:
   .endscope
 
   .scope
-  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT-1), 0, no_collision
+  test_not_collision (HERO_WIDTH), 0, (HERO_HEIGHT), 0, no_collision
   lda b7
   ora #%00000010
   sta b7
@@ -1961,7 +1961,7 @@ eject_vertically:
   lda #0
   sta b7
   .scope
-  test_not_collision 0, 0, (HERO_HEIGHT/2), 0, no_collision
+  test_not_collision 0, 0, (HERO_HALF_HEIGHT), 0, no_collision
   lda b7
   ora #%00000001
   sta b7
@@ -1969,7 +1969,7 @@ no_collision:
   .endscope
 
   .scope
-  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT/2), 0, no_collision
+  test_not_collision (HERO_WIDTH), 0, (HERO_HALF_HEIGHT), 0, no_collision
   lda b7
   ora #%00000010
   sta b7
@@ -2070,7 +2070,7 @@ hero_collision_down_and_right_handler:
 
   .scope
   ;testing bottom left of rect
-  test_not_collision 0, 0, (HERO_HEIGHT-1), 0, no_collision
+  test_not_collision 0, 0, (HERO_HEIGHT), 0, no_collision
   ;eject hero to align with metatile grid
   ;hero is cutting in to the top of a tile, so round down
   lda hero_y
@@ -2081,7 +2081,7 @@ no_collision:
 
   .scope
   ;testing right side of rect
-  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT/2), 0, no_collision
+  test_not_collision (HERO_WIDTH), 0, (HERO_HALF_HEIGHT), 0, no_collision
   ;eject hero to align with metatile grid
   ;hero is cutting in to the left side of a tile so round down
   lda hero_x
@@ -2092,7 +2092,7 @@ no_collision:
 
   .scope
   ;test bottom right corner
-  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT-1), 0, no_collision
+  test_not_collision (HERO_WIDTH), 0, (HERO_HEIGHT), 0, no_collision
 
   ;find out which ejection would be smaller
   lda hero_y
@@ -2132,7 +2132,7 @@ hero_collision_down_and_left_handler:
 
   .scope
   ;testing bottom right of rect
-  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT-1), 0, no_collision
+  test_not_collision (HERO_WIDTH), 0, (HERO_HEIGHT), 0, no_collision
   ;eject hero to align with metatile grid
   ;hero is cutting in to the top of a tile, so round down
   lda hero_y
@@ -2143,7 +2143,7 @@ no_collision:
 
   .scope
   ;testing left side of rect
-  test_not_collision 0, 0, (HERO_HEIGHT/2), 0, no_collision
+  test_not_collision 0, 0, (HERO_HALF_HEIGHT), 0, no_collision
   ;eject hero to align with metatile grid
   ;hero is cutting in to the right side of a tile so round up
   clc
@@ -2160,7 +2160,7 @@ no_collision:
 
   .scope
   ;test bottom left corner
-  test_not_collision 0, 0, (HERO_HEIGHT-1), 0, no_collision
+  test_not_collision 0, 0, (HERO_HEIGHT), 0, no_collision
 
   ;find out which ejection would be smaller
   lda hero_y
@@ -2208,7 +2208,7 @@ hero_collision_up_and_right_handler:
 
   .scope
   ;testing top left of rect
-  test_not_collision 0, 0, (HERO_HEIGHT/2), 0, no_collision
+  test_not_collision 0, 0, (HERO_HALF_HEIGHT), 0, no_collision
   ;eject hero to align with metatile grid
   ;hero is cutting in to the bottom of a tile, so round up
   clc
@@ -2224,7 +2224,7 @@ no_collision:
 
   .scope
   ;testing bottom right of rect
-  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT-1), 0, no_collision
+  test_not_collision (HERO_WIDTH), 0, (HERO_HEIGHT), 0, no_collision
   ;eject hero to align with metatile grid
   ;hero is cutting in to the left side of a tile so round down
   lda hero_x
@@ -2235,7 +2235,7 @@ no_collision:
 
   .scope
   ;test top right corner
-  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT/2), 0, no_collision
+  test_not_collision (HERO_WIDTH), 0, (HERO_HALF_HEIGHT), 0, no_collision
 
   ;find out which ejection would be smaller
   lda hero_y
@@ -2283,7 +2283,7 @@ hero_collision_up_and_left_handler:
 
   .scope
   ;testing top right of rect
-  test_not_collision (HERO_WIDTH-1), 0, (HERO_HEIGHT/2), 0, no_collision
+  test_not_collision (HERO_WIDTH), 0, (HERO_HALF_HEIGHT), 0, no_collision
   ;eject hero to align with metatile grid
   ;hero is cutting in to the bottom of a tile, so round up
   clc
@@ -2299,7 +2299,7 @@ no_collision:
 
   .scope
   ;testing left side of rect
-  test_not_collision 0, 0, (HERO_HEIGHT-1), 0, no_collision
+  test_not_collision 0, 0, (HERO_HEIGHT), 0, no_collision
   ;eject hero to align with metatile grid
   ;hero is cutting in to the right side of a tile so round up
   clc
@@ -2316,7 +2316,7 @@ no_collision:
 
   .scope
   ;test top left corner
-  test_not_collision 0, 0, (HERO_HEIGHT/2), 0, no_collision
+  test_not_collision 0, 0, (HERO_HALF_HEIGHT), 0, no_collision
 
   ;find out which ejection would be smaller
   lda hero_y

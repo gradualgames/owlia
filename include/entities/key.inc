@@ -39,9 +39,9 @@ key_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
-  lda #$08
+  lda #$07
   sta entity_width,x
-  lda #$10
+  lda #$0f
   sta entity_height,x
 
   lda #KEY_STATE_MAIN
