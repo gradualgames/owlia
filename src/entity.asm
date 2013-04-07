@@ -229,13 +229,20 @@ spawn_y = w1
   ;first search for a dead entity
   ldx #(MAX_ENTITIES-1)
 
-: lda entity_flags,x
+next_entity:
+  lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_TEST
-  beq :+
+  beq found_dead_entity
 
   dex
-  bpl :-
-:
+  bpl next_entity
+  
+  ;didn't find any dead entities, just exit
+  
+  rts
+  
+found_dead_entity:
+ 
   ;x now points at a dead entity
 
   ;store the entity type in the new entity
