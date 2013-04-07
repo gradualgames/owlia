@@ -67,7 +67,6 @@ MAX_ENTITIES = 8
 .global inventory_ropes
 .global inventory_healths
 .global inventory_owl_healths
-.global inventory_owl_carry_item
 .global inventory_earned_techs
 .global inventory_selected_tech
 .global inventory_tech1

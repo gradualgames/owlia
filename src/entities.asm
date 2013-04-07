@@ -21,6 +21,7 @@
 ;they only use the entity system for loading CHR graphics.
 .define entity_defs_update_address \
   explosion_update, \
+  bomb_update, \
   jellyfish_update, \
   npc_update, \
   key_update, \
@@ -78,4 +79,4 @@ npc_sprite_flags_direction:
 .include "npc.inc"
 .include "key.inc"
 .include "keyeddoor.inc"
-
+.include "bomb.inc"

@@ -66,7 +66,6 @@ inventory_bombs:          .res 1
 inventory_ropes:          .res 1
 inventory_healths:        .res 1
 inventory_owl_healths:    .res 1
-inventory_owl_carry_item: .res 1
 inventory_earned_techs:   .res 1
 inventory_selected_tech:  .res 1
 inventory_tech1:          .res 1

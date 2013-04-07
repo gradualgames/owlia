@@ -6,6 +6,7 @@ ENTITIES_INC = 1
 
 .enum
 entity_index_explosion
+entity_index_bomb
 entity_index_jellyfish
 entity_index_npc
 entity_index_key

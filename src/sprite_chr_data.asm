@@ -7,6 +7,7 @@
   hero_chr, \
   Familiar_chr, \
   explosion_chr, \
+  Bomb_chr, \
   JellyFish_chr, \
   NpcMan_chr, \
   NpcWoman_chr, \
@@ -312,3 +313,6 @@ KeyedDoor_chr:
   .byte $81,$80,$80,$80,$80,$80,$80,$80,$7e,$7f,$7f,$7f,$7f,$7f,$7f,$7f
   .byte $80,$80,$80,$80,$80,$80,$80,$ff,$7f,$7f,$7f,$7f,$7f,$7f,$7f,$00
 
+Bomb_chr:
+  .word $0010
+  .byte $08,$3c,$7e,$7e,$7e,$7e,$3c,$00,$08,$04,$08,$00,$00,$00,$00,$00

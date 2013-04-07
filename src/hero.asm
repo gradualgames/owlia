@@ -2,6 +2,7 @@
 .include "hero.inc"
 .include "hero_constants.inc"
 .include "entity.inc"
+.include "entities.inc"
 .include "sprite_chr_data.inc"
 .include "familiar.inc"
 .include "ram.inc"
@@ -300,6 +301,30 @@ skip_spawn_carry_hero:
 
 .endproc
 
+;This routine is a placeholder for the owl carry bomb
+;technique. All it does is spawn a bomb entity for testing
+;and development of the bomb entity. It should eventually
+;be removed.
+.proc spawn_bomb_test
+
+  lda #entity_index_bomb
+  sta b0
+
+  lda hero_x
+  sta w0
+  lda hero_x+1
+  sta w0+1
+  lda hero_y
+  sta w1
+  lda hero_y+1
+  sta w1+1
+
+  jsr entity_spawn
+
+  rts
+
+.endproc
+
 ;sets up the hero's state to start flashing invincibility frames and
 ;get knocked back in a certain direction for a few frames.
 ;expects b0 to contain cardinal direction to knock the hero back in.
@@ -426,7 +451,7 @@ hero_invincible:
 .define familiar_spawn_tech \
   familiar_spawn_rush, \
   familiar_spawn_fetch, \
-  familiar_spawn_nop, \
+  spawn_bomb_test, \
   familiar_spawn_nop, \
   hero_spawn_familiar_spawn_carry_hero, \
   familiar_spawn_nop, \

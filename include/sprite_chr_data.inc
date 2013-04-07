@@ -13,11 +13,13 @@ SPRITE_CHR_INC = 1
 .global Key_chr
 .global Inventory_chr
 .global KeyedDoor_chr
+.global Bomb_chr
 
 .enum
 sprite_chr_group_index_hero
 sprite_chr_group_index_familiar
 sprite_chr_group_index_explosion
+sprite_chr_group_index_bomb
 sprite_chr_group_index_jellyfish
 sprite_chr_group_index_npcman
 sprite_chr_group_index_npcwoman
