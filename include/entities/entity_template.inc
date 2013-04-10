@@ -2,6 +2,9 @@
 .ifndef TEMPLATE_INC
 TEMPLATE_INC = 1
 
+TEMPLATE_WIDTH = $10
+TEMPLATE_HEIGHT = $10
+
 .enum
 TEMPLATE_STATE_INIT
 TEMPLATE_STATE_MAIN
@@ -31,6 +34,11 @@ template_state_init:
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
+
+  lda #TEMPLATE_WIDTH
+  sta entity_width,x
+  sta #TEMPLATE_HEIGHT
+  sta entity_height,x
 
   ;some entities are parameterized for graphics set, ones
   ;that are always hard coded should set their chr offset here
