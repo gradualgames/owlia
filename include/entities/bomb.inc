@@ -32,6 +32,10 @@ bomb_state_init:
 
   jsr entity_reset_animation
 
+  lda #$08
+  sta entity_width,x
+  sta entity_height,x
+
   ;some entities are parameterized for graphics set, ones
   ;that are always hard coded should set their chr offset here
   ldy #sprite_chr_group_index_bomb
