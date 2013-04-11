@@ -32,7 +32,7 @@ entity_defs_update_address_lo:
 entity_defs_update_address_hi:
   .hibytes entity_defs_update_address
 
-.segment "ROM00"
+.segment "ROM03"
 
 npc_direction_speed_x_lo:
   .byte NPC_SPEED, -NPC_SPEED, 0, 0

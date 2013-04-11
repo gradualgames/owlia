@@ -58,6 +58,12 @@ entity_local5:               .res MAX_ENTITIES
 entity_local6:               .res MAX_ENTITIES
 entity_local7:               .res MAX_ENTITIES
 entity_local8:               .res MAX_ENTITIES
+entity_local9:               .res MAX_ENTITIES
+entity_local10:              .res MAX_ENTITIES
+entity_local11:              .res MAX_ENTITIES
+entity_local12:              .res MAX_ENTITIES
+entity_local13:              .res MAX_ENTITIES
+entity_local14:              .res MAX_ENTITIES
 
 inventory_gp:             .res 2
 inventory_keys:           .res 1

@@ -66,7 +66,7 @@ dungeon_sprite_chr_groups:
 ;****************************************************************
 village_area:
   .byte 0   ;music_bank .byte
-  .byte 0   ;entities_bank .byte
+  .byte 3   ;entities_bank .byte
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;bg_chr_bank .byte
@@ -102,7 +102,7 @@ village_entities:
 
 house1_area:
   .byte 0   ;music_bank .byte
-  .byte 0   ;entities_bank .byte
+  .byte 3   ;entities_bank .byte
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;bg_chr_bank .byte
@@ -133,7 +133,7 @@ house1_entities:
 
 housebl_area:
   .byte 0   ;music_bank .byte
-  .byte 0   ;entities_bank .byte
+  .byte 3   ;entities_bank .byte
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;bg_chr_bank .byte
@@ -164,7 +164,7 @@ housebl_entities:
 
 housebr_area:
   .byte 0   ;music_bank .byte
-  .byte 0   ;entities_bank .byte
+  .byte 3   ;entities_bank .byte
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;bg_chr_bank .byte
@@ -195,7 +195,7 @@ housebr_entities:
 
 housetr_area:
   .byte 0   ;music_bank .byte
-  .byte 0   ;entities_bank .byte
+  .byte 3   ;entities_bank .byte
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;bg_chr_bank .byte
@@ -226,7 +226,7 @@ housetr_entities:
 
 inn_area:
   .byte 0   ;music_bank .byte
-  .byte 0   ;entities_bank .byte
+  .byte 3   ;entities_bank .byte
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;bg_chr_bank .byte
@@ -257,7 +257,7 @@ inn_entities:
 
 store_area:
   .byte 0   ;music_bank .byte
-  .byte 0   ;entities_bank .byte
+  .byte 3   ;entities_bank .byte
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;bg_chr_bank .byte
@@ -288,7 +288,7 @@ store_entities:
 
 overworld_area:
   .byte 0   ;music_bank .byte
-  .byte 0   ;entities_bank .byte
+  .byte 3   ;entities_bank .byte
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;bg_chr_bank .byte
@@ -318,7 +318,7 @@ overworld_entities:
 
 dungeon_area:
   .byte 0   ;music_bank .byte
-  .byte 0   ;entities_bank .byte
+  .byte 3   ;entities_bank .byte
   .byte 1   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;bg_chr_bank .byte

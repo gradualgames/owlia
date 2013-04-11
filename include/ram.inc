@@ -59,6 +59,12 @@ MAX_ENTITIES = 8
 .global entity_local6
 .global entity_local7
 .global entity_local8
+.global entity_local9
+.global entity_local10
+.global entity_local11
+.global entity_local12
+.global entity_local13
+.global entity_local14
 
 .global inventory_gp
 .global inventory_keys
