@@ -5,6 +5,7 @@ BOMB_INC = 1
 BOMB_INITIAL_BOUNCE_OFFSET = 10
 BOMB_BOUNCE_Y_ACCELERATION = 50
 BOMB_BOUNCES = 5
+BOMB_TIMER = 200
 
 BOMB_WIDTH = 7
 BOMB_HALF_WIDTH = 4
@@ -41,6 +42,8 @@ bomb_bounce_y_velocity_lo = entity_local11
 bomb_bounce_y_velocity_hi = entity_local12
 
 bomb_bounces = entity_local13
+
+bomb_timer = entity_local14
 
 .enum
 BOMB_STATE_INIT
@@ -126,6 +129,10 @@ bomb_state_init:
   ;initialize bounce counter
   lda #BOMB_BOUNCES
   sta bomb_bounces,x
+
+  ;initialize bomb timer
+  lda #BOMB_TIMER
+  sta bomb_timer,x
 
   lda #BOMB_STATE_MAIN
   sta entity_state,x
@@ -483,6 +490,41 @@ done:
   .endscope
 
 done:
+  .endscope
+
+  .scope
+  dec bomb_timer,x
+  bne do_not_explode
+
+  ;die
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  ;spawn an explosion entity
+  lda #entity_index_explosion
+  sta b0
+
+  sec
+  lda entity_x_lo,x
+  sbc #BOMB_HALF_WIDTH
+  sta w0
+  lda entity_x_hi,x
+  sbc #0
+  sta w0+1
+  sec
+  lda entity_y_lo,x
+  sbc #BOMB_HALF_HEIGHT
+  sta w1
+  lda entity_y_hi,x
+  sbc #0
+  sta w1+1
+
+  jsr entity_spawn
+
+  ;exit
+  rts
+do_not_explode:
   .endscope
 
   jsr entity_update_animation
