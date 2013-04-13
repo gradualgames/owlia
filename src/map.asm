@@ -31,9 +31,8 @@ mod15lut:
 
 ;returns the properties byte for the metatile inside which the input point resides
 ;expects w0 and w1 to contain the X and Y coordinate of the point to test.
-;expects to always be called from the current entities_bank, and will always switch
 ;returns metatile properties byte in b0
-;temporarily to map_bank before switching back to entities_bank.
+;temporarily to map_bank before switching back to calling bank.
 .proc map_test_collision
 map_x_in_metatile_coordinates = w0
 map_y_in_metatile_coordinates = w1

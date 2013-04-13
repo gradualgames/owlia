@@ -306,6 +306,11 @@ skip_spawn_carry_hero:
 ;and development of the bomb entity. It should eventually
 ;be removed.
 .proc spawn_bomb_test
+bomb_target_x_velocity_lo = entity_local4
+bomb_target_x_velocity_hi = entity_local5
+
+bomb_target_y_velocity_lo = entity_local6
+bomb_target_y_velocity_hi = entity_local7
 
   lda #entity_index_bomb
   sta b0
@@ -321,7 +326,39 @@ skip_spawn_carry_hero:
 
   jsr entity_spawn
 
+  ldy hero_direction
+  lda initial_bomb_velocity_x_lo,y
+  sta bomb_target_x_velocity_lo,x
+  lda initial_bomb_velocity_x_hi,y
+  sta bomb_target_x_velocity_hi,x
+
+  lda initial_bomb_velocity_y_lo,y
+  sta bomb_target_y_velocity_lo,x
+  lda initial_bomb_velocity_y_hi,y
+  sta bomb_target_y_velocity_hi,x
+
   rts
+
+INITIAL_RIGHT_X_VELOCITY = 100
+INITIAL_RIGHT_Y_VELOCITY = 0
+INITIAL_LEFT_X_VELOCITY = -100
+INITIAL_LEFT_Y_VELOCITY = 0
+INITIAL_DOWN_X_VELOCITY = 0
+INITIAL_DOWN_Y_VELOCITY = 100
+INITIAL_UP_X_VELOCITY = 0
+INITIAL_UP_Y_VELOCITY = -100
+
+initial_bomb_velocity_x_lo:
+  .byte <INITIAL_RIGHT_X_VELOCITY, <INITIAL_LEFT_X_VELOCITY, <INITIAL_DOWN_X_VELOCITY, <INITIAL_UP_X_VELOCITY
+
+initial_bomb_velocity_x_hi:
+  .byte >INITIAL_RIGHT_X_VELOCITY, >INITIAL_LEFT_X_VELOCITY, >INITIAL_DOWN_X_VELOCITY, >INITIAL_UP_X_VELOCITY
+
+initial_bomb_velocity_y_lo:
+  .byte <INITIAL_RIGHT_Y_VELOCITY, <INITIAL_LEFT_Y_VELOCITY, <INITIAL_DOWN_Y_VELOCITY, <INITIAL_UP_Y_VELOCITY
+
+initial_bomb_velocity_y_hi:
+  .byte >INITIAL_RIGHT_Y_VELOCITY, >INITIAL_LEFT_Y_VELOCITY, >INITIAL_DOWN_Y_VELOCITY, >INITIAL_UP_Y_VELOCITY
 
 .endproc
 
