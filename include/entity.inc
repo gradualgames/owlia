@@ -13,7 +13,8 @@ ENTITY_INC = 1
 .global entity_update_animation
 .global entity_set_drawable_unsorted
 .global entity_set_drawable_sorted
-.global entity_test_hero_attack_rect
+.global entity_test_entity_action_rect1
+.global entity_test_entity_action_rect2
 .global entity_test_hero_rect
 .global entity_test_familiar_rect
 .global entity_grab_floating_solid_metatile

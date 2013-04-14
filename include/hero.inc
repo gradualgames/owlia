@@ -12,7 +12,6 @@ HERO_INC = 1
 .global hero_eject_from_solid_tiles
 .global align_hero_if_occluded_by_textbox
 .global hero_calculate_screen_coordinates
-.global hero_is_deadly
 .global hero_is_moving
 .global hero_hurt
 .global hero_cancel_attack

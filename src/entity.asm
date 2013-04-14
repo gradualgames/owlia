@@ -46,10 +46,10 @@
 
 .endproc
 
-;compares entity's rect to familiar's rect.
+;compares entity's rect to entity action rect 1.
 ;when zero flag is set, this indicates a hit
 ;when zero flag is clear, this indicates no hit
-.proc entity_test_familiar_rect
+.proc entity_test_entity_action_rect1
 
   ;transfer entity rectangle to w2 = left and w3 = top and b2 = width and b3 = height
   lda entity_x_lo,x
@@ -65,18 +65,18 @@
   lda entity_height,x
   sta b3
 
-  ;transfer familiar rectangle to w4 = left and w5 = top and b4 = width and b5 = height
-  lda familiar_x
+  ;transfer entity action rect1 rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda entity_action_rect1_x
   sta w4
-  lda familiar_x+1
+  lda entity_action_rect1_x+1
   sta w4+1
-  lda familiar_y
+  lda entity_action_rect1_y
   sta w5
-  lda familiar_y+1
+  lda entity_action_rect1_y+1
   sta w5+1
-  lda familiar_width
+  lda entity_action_rect1_width
   sta b4
-  lda familiar_height
+  lda entity_action_rect1_height
   sta b5
 
   jsr geotests_rect_in_rect_16bit
@@ -85,10 +85,10 @@
 
 .endproc
 
-;compares entity's rect to hero's attack rect.
+;compares entity's rect to entity action rect 2.
 ;when zero flag is set, this indicates a hit
 ;when zero flag is clear, this indicates no hit
-.proc entity_test_hero_attack_rect
+.proc entity_test_entity_action_rect2
 
   ;transfer entity rectangle to w2 = left and w3 = top and b2 = width and b3 = height
   lda entity_x_lo,x
@@ -104,18 +104,18 @@
   lda entity_height,x
   sta b3
 
-  ;transfer Hitbox rectangle to w4 = left and w5 = top and b4 = width and b5 = height
-  lda hero_attack_rect_x
+  ;transfer entity action rect2 rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda entity_action_rect2_x
   sta w4
-  lda hero_attack_rect_x+1
+  lda entity_action_rect2_x+1
   sta w4+1
-  lda hero_attack_rect_y
+  lda entity_action_rect2_y
   sta w5
-  lda hero_attack_rect_y+1
+  lda entity_action_rect2_y+1
   sta w5+1
-  lda hero_attack_rect_width
+  lda entity_action_rect2_width
   sta b4
-  lda hero_attack_rect_height
+  lda entity_action_rect2_height
   sta b5
 
   jsr geotests_rect_in_rect_16bit
@@ -155,6 +155,45 @@
   lda hero_width
   sta b4
   lda hero_height
+  sta b5
+
+  jsr geotests_rect_in_rect_16bit
+
+  rts
+
+.endproc
+
+;compares entity's rect to familiar's rect.
+;when zero flag is set, this indicates a hit
+;when zero flag is clear, this indicates no hit
+.proc entity_test_familiar_rect
+
+  ;transfer entity rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda entity_x_lo,x
+  sta w2
+  lda entity_x_hi,x
+  sta w2+1
+  lda entity_y_lo,x
+  sta w3
+  lda entity_y_hi,x
+  sta w3+1
+  lda entity_width,x
+  sta b2
+  lda entity_height,x
+  sta b3
+
+  ;transfer familiar rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda familiar_x
+  sta w4
+  lda familiar_x+1
+  sta w4+1
+  lda familiar_y
+  sta w5
+  lda familiar_y+1
+  sta w5+1
+  lda familiar_width
+  sta b4
+  lda familiar_height
   sta b5
 
   jsr geotests_rect_in_rect_16bit

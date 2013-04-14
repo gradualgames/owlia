@@ -89,10 +89,12 @@ entity_not_hitting_hero:
   ;fetched entity index if the familiar is trying to fetch
   ;something.
   .scope
-  jsr entity_test_familiar_rect
-  bne familiar_not_intersecting
-  jsr familiar_is_fetching
+  lda entity_action_rect2_action
+  cmp #ACTION_FETCH
   bne familiar_not_fetching
+
+  jsr entity_test_entity_action_rect2
+  bne familiar_not_intersecting
 
   ;store offsets for this entity when it is being fetched by familiar
   lda #$04

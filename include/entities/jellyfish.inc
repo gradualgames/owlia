@@ -203,11 +203,12 @@ done:
 do_not_move:
   .endscope
 
-  jsr hero_is_deadly
-  beq hero_not_deadly
+  lda entity_action_rect1_action
+  cmp #ACTION_ATTACK
+  bne action_rect1_not_deadly
 
-  jsr entity_test_hero_attack_rect
-  bne hero_not_deadly
+  jsr entity_test_entity_action_rect1
+  bne action_rect1_not_deadly
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
@@ -227,13 +228,14 @@ do_not_move:
 
   jsr entity_spawn
 
-hero_not_deadly:
+action_rect1_not_deadly:
 
-  jsr familiar_is_deadly
-  beq familiar_not_deadly
+  lda entity_action_rect2_action
+  cmp #ACTION_ATTACK
+  bne action_rect2_not_deadly
 
-  jsr entity_test_familiar_rect
-  bne familiar_not_deadly
+  jsr entity_test_entity_action_rect2
+  bne action_rect2_not_deadly
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
@@ -255,7 +257,7 @@ hero_not_deadly:
 
   jsr familiar_hit_enemy
 
-familiar_not_deadly:
+action_rect2_not_deadly:
 
   jsr entity_test_hero_rect
   bne entity_not_hitting_hero

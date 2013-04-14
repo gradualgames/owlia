@@ -99,11 +99,6 @@ MAX_ENTITIES = 8
 .global hero_knockback_counter
 .global hero_knockback_direction_handler
 
-.global hero_attack_rect_x
-.global hero_attack_rect_y
-.global hero_attack_rect_width
-.global hero_attack_rect_height
-
 .global familiar_flags
 .global familiar_state
 .global familiar_x_fine
@@ -116,10 +111,6 @@ MAX_ENTITIES = 8
 .global familiar_screen_y
 .global familiar_width
 .global familiar_height
-.global familiar_rect_x
-.global familiar_rect_y
-.global familiar_rect_width
-.global familiar_rect_height
 .global familiar_sprite_group_offset
 .global familiar_sprite_flags
 .global familiar_animation_object
@@ -132,6 +123,18 @@ MAX_ENTITIES = 8
 .global familiar_fetched_entity_x_offset
 .global familiar_param_w1
 .global familiar_fetched_entity_y_offset
+
+.global entity_action_rect1_action
+.global entity_action_rect1_x
+.global entity_action_rect1_y
+.global entity_action_rect1_width
+.global entity_action_rect1_height
+
+.global entity_action_rect2_action
+.global entity_action_rect2_x
+.global entity_action_rect2_y
+.global entity_action_rect2_width
+.global entity_action_rect2_height
 
 .global ppu_2000
 .global ppu_2001

@@ -149,11 +149,6 @@ hero_invincibility_counter:       .res 1
 hero_knockback_counter:           .res 1
 hero_knockback_direction_handler: .res 1
 
-hero_attack_rect_x:          .res 2
-hero_attack_rect_y:          .res 2
-hero_attack_rect_width:      .res 1
-hero_attack_rect_height:     .res 1
-
 ;****************************************************************
 ;These variables describe the hard coded familiar entity state.
 ;****************************************************************
@@ -169,10 +164,6 @@ familiar_screen_x:                .res 2
 familiar_screen_y:                .res 2
 familiar_width:                   .res 1
 familiar_height:                  .res 1
-familiar_rect_x:                  .res 2
-familiar_rect_y:                  .res 2
-familiar_rect_width:              .res 1
-familiar_rect_height:             .res 1
 familiar_sprite_group_offset:     .res 1
 familiar_sprite_flags:            .res 1
 familiar_animation_object:        .res 2
@@ -189,6 +180,23 @@ familiar_fetched_entity_x_offset: .res 1
 familiar_param_w1:
 familiar_fetched_entity_y_offset: .res 1
                                   .res 1
+
+;****************************************************************
+;These variables describe entity action rects. There are only two
+;of these rects, to reduce how many rectangle comparisons are
+;performed at run-time.
+;****************************************************************
+entity_action_rect1_action:     .res 1
+entity_action_rect1_x:          .res 2
+entity_action_rect1_y:          .res 2
+entity_action_rect1_width:      .res 1
+entity_action_rect1_height:     .res 1
+
+entity_action_rect2_action:     .res 1
+entity_action_rect2_x:          .res 2
+entity_action_rect2_y:          .res 2
+entity_action_rect2_width:      .res 1
+entity_action_rect2_height:     .res 1
 
 ;****************************************************************
 ;These variables keep track of the state of various PPU registers

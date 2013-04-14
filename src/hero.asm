@@ -437,9 +437,8 @@ hero_invincible:
 ;to cancel the attack.
 .proc hero_attack
 
-  lda hero_flags
-  ora #HERO_FLAGS_DEADLY_SET
-  sta hero_flags
+  lda #ACTION_ATTACK
+  sta entity_action_rect1_action
 
   lda #HERO_STATE_ATTACK
   sta hero_state
@@ -528,9 +527,8 @@ done:
 ;used by the familiar when setting down the hero after carrying her.
 .proc hero_set_down
 
-  lda hero_flags
-  and #HERO_FLAGS_DEADLY_CLEAR
-  sta hero_flags
+  lda #ACTION_NOP
+  sta entity_action_rect1_action
 
   lda #HERO_STATE_MAIN
   sta hero_state
@@ -562,9 +560,8 @@ done:
 
   jsr sprite_reset_animation
 
-  lda hero_flags
-  and #HERO_FLAGS_DEADLY_CLEAR
-  sta hero_flags
+  lda #ACTION_NOP
+  sta entity_action_rect1_action
 
   lda #HERO_STATE_MAIN
   sta hero_state
@@ -794,16 +791,6 @@ done:
 
 .endproc
 
-;clears zero flag if hero is deadly, set it if not.
-.proc hero_is_deadly
-
-  lda hero_flags
-  and #HERO_FLAGS_DEADLY_TEST
-
-  rts
-
-.endproc
-
 .macro test_collision x_offset_lo, x_offset_hi, y_offset_lo, y_offset_hi, destination_if_solid
 
   clc
@@ -971,7 +958,7 @@ hero_update:
 ;****************************************************************
 ;The init state for the hero entity. This state transitions to
 ;the main walking state, sets the hero to be drawable, clears out
-;attack rect information, sets width and height, sets speed,
+;action rect information, sets width and height, sets speed,
 ;loads animation for current direction, resets the animation
 ;object, loads the sprite chr offset, and clears other state
 ;information for knockback and invincibility frames.
@@ -984,12 +971,14 @@ hero_state_init:
   lda #HERO_FLAGS_DRAWABLE_SET
   sta hero_flags
   lda #0
-  sta hero_attack_rect_x
-  sta hero_attack_rect_x+1
-  sta hero_attack_rect_y
-  sta hero_attack_rect_y+1
-  sta hero_attack_rect_width
-  sta hero_attack_rect_height
+  sta entity_action_rect1_x
+  sta entity_action_rect1_x+1
+  sta entity_action_rect1_y
+  sta entity_action_rect1_y+1
+  sta entity_action_rect1_width
+  sta entity_action_rect1_height
+  lda #ACTION_NOP
+  sta entity_action_rect1_action
 
   lda #HERO_WIDTH
   sta hero_width
@@ -1226,7 +1215,7 @@ skip_attack_test:
 ;****************************************************************
 ;This is the attack state. It is the state the hero transitions
 ;to when the A button is pressed. The hero cannot walk while in
-;this state. This state modifies the attack rect and sets a flag
+;this state. This state modifies the action rect and sets a flag
 ;in the hero indicating that it is deadly to enemies. This state
 ;also maintains invincibility frames state if carried over from
 ;getting hit.
@@ -1252,27 +1241,27 @@ do_not_flip_drawable_bit:
 hero_not_invincible:
   .endscope
 
-  ;compute top left of attack rect based on direction
+  ;compute top left of action rect based on direction
   ldy hero_direction
   clc
   lda attack_rect_offset_x_lo,y
   adc hero_x
-  sta hero_attack_rect_x
+  sta entity_action_rect1_x
   lda attack_rect_offset_x_hi,y
   adc hero_x+1
-  sta hero_attack_rect_x+1
+  sta entity_action_rect1_x+1
 
   clc
   lda attack_rect_offset_y_lo,y
   adc hero_y
-  sta hero_attack_rect_y
+  sta entity_action_rect1_y
   lda attack_rect_offset_y_hi,y
   adc hero_y+1
-  sta hero_attack_rect_y+1
+  sta entity_action_rect1_y+1
 
   lda #16
-  sta hero_attack_rect_width
-  sta hero_attack_rect_height
+  sta entity_action_rect1_width
+  sta entity_action_rect1_height
 
   lda #<hero_animation_object
   sta w1
@@ -1303,9 +1292,8 @@ hero_not_invincible:
 
   jsr sprite_reset_animation
 
-  lda hero_flags
-  and #HERO_FLAGS_DEADLY_CLEAR
-  sta hero_flags
+  lda #ACTION_NOP
+  sta entity_action_rect1_action
 
   lda #HERO_STATE_MAIN
   sta hero_state

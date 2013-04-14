@@ -14,6 +14,7 @@
 .include "camera.inc"
 .include "textbox.inc"
 .include "entity.inc"
+.include "actions.inc"
 
 .segment "CODE"
 
@@ -129,34 +130,6 @@
 
   lda hero_direction
   sta familiar_direction
-
-  rts
-
-.endproc
-
-;tests whether the familiar is deadly.
-.proc familiar_is_deadly
-
-  lda familiar_flags
-  and #FAMILIAR_FLAGS_DEADLY_TEST
-
-  rts
-
-.endproc
-
-;tests whether the familiar is in the fetch state
-;when the zero flag is set, this indicates the familiar is fetching.
-.proc familiar_is_fetching
-
-  lda familiar_flags
-  and #FAMILIAR_FLAGS_ALIVE_TEST
-  beq familiar_not_alive
-  lda familiar_state
-  cmp #FAMILIAR_STATE_FETCH
-  rts
-familiar_not_alive:
-  ;clear zero flag.
-  lda #$01
 
   rts
 
@@ -393,6 +366,22 @@ familiar_not_alive:
   lda #FAMILIAR_HEIGHT
   sta familiar_height
 
+  ;initialize action rect2
+  lda #ACTION_NOP
+  sta entity_action_rect2_action
+  lda familiar_x
+  sta entity_action_rect2_x
+  lda familiar_x+1
+  sta entity_action_rect2_x+1
+  lda familiar_y
+  sta entity_action_rect2_y
+  lda familiar_y+1
+  sta entity_action_rect2_y+1
+  lda familiar_width
+  sta entity_action_rect2_width
+  lda familiar_height
+  sta entity_action_rect2_height
+
   ;use flying animation
   ldy familiar_direction
   lda familiar_animation_addresses_lo,y
@@ -483,11 +472,24 @@ familiar_not_alive:
 ;****************************************************************
 .proc familiar_state_rush
 
-  lda familiar_flags
-  ora #FAMILIAR_FLAGS_DEADLY_SET
-  sta familiar_flags
-
   jsr familiar_move
+
+  ;make action rect active
+  lda #ACTION_ATTACK
+  sta entity_action_rect2_action
+
+  lda familiar_x
+  sta entity_action_rect2_x
+  lda familiar_x+1
+  sta entity_action_rect2_x+1
+  lda familiar_y
+  sta entity_action_rect2_y
+  lda familiar_y+1
+  sta entity_action_rect2_y+1
+  lda familiar_width
+  sta entity_action_rect2_width
+  lda familiar_height
+  sta entity_action_rect2_height
 
   lda familiar_animation_address
   sta w2
@@ -560,11 +562,23 @@ state_counter_not_zero:
 ;****************************************************************
 .proc familiar_state_fetch
 
-  lda familiar_flags
-  and #FAMILIAR_FLAGS_DEADLY_CLEAR
-  sta familiar_flags
-
   jsr familiar_move
+
+  lda #ACTION_FETCH
+  sta entity_action_rect2_action
+
+  lda familiar_x
+  sta entity_action_rect2_x
+  lda familiar_x+1
+  sta entity_action_rect2_x+1
+  lda familiar_y
+  sta entity_action_rect2_y
+  lda familiar_y+1
+  sta entity_action_rect2_y+1
+  lda familiar_width
+  sta entity_action_rect2_width
+  lda familiar_height
+  sta entity_action_rect2_height
 
   lda familiar_animation_address
   sta w2
@@ -1147,8 +1161,9 @@ done:
 
   lda familiar_flags
   and #FAMILIAR_FLAGS_ALIVE_CLEAR
-  and #FAMILIAR_FLAGS_DEADLY_CLEAR
   sta familiar_flags
+  lda #ACTION_NOP
+  sta entity_action_rect2_action
 
 do_not_kill_familiar:
 
@@ -1274,6 +1289,20 @@ do_not_change_direction:
   sta familiar_sprite_flags
 
   jsr familiar_move
+
+  ;update action rect, but don't change the action itself
+  lda familiar_x
+  sta entity_action_rect2_x
+  lda familiar_x+1
+  sta entity_action_rect2_x+1
+  lda familiar_y
+  sta entity_action_rect2_y
+  lda familiar_y+1
+  sta entity_action_rect2_y+1
+  lda familiar_width
+  sta entity_action_rect2_width
+  lda familiar_height
+  sta entity_action_rect2_height
 
   lda familiar_animation_address
   sta w2
