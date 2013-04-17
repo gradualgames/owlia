@@ -214,6 +214,9 @@ do_not_move:
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
 
+  txa
+  pha
+
   lda #entity_index_explosion
   sta b0
 
@@ -227,6 +230,9 @@ do_not_move:
   sta w1+1
 
   jsr entity_spawn
+
+  pla
+  tax
 
 action_rect1_not_deadly:
 
@@ -241,6 +247,9 @@ action_rect1_not_deadly:
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
 
+  txa
+  pha
+
   lda #entity_index_explosion
   sta b0
 
@@ -254,6 +263,9 @@ action_rect1_not_deadly:
   sta w1+1
 
   jsr entity_spawn
+
+  pla
+  tax
 
   jsr familiar_hit_enemy
 

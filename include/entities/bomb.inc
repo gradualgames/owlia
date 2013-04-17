@@ -502,6 +502,9 @@ done:
   sta entity_flags,x
 
   ;spawn an explosion entity
+  txa
+  pha
+
   lda #entity_index_explosion
   sta b0
 
@@ -521,6 +524,9 @@ done:
   sta w1+1
 
   jsr entity_spawn
+
+  pla
+  tax
 
   ;exit
   rts
