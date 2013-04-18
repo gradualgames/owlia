@@ -494,12 +494,24 @@ done:
 
   .scope
   dec bomb_timer,x
-  bne do_not_explode
 
-  ;die
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  ;check to see if we are on the second to last frame of the timer
+  lda bomb_timer,x
+  cmp #1
+  bne do_not_spawn_explosion
+
+  ;grab action rect 2 and make it attack
+  lda #ACTION_ATTACK
+  sta entity_action_rect2_action
+  lda entity_x_lo,x
+  sta entity_action_rect2_x
+  lda entity_x_hi,x
+  sta entity_action_rect2_x+1
+
+  lda entity_y_lo,x
+  sta entity_action_rect2_y
+  lda entity_y_hi,x
+  sta entity_action_rect2_y+1
 
   ;spawn an explosion entity
   txa
@@ -528,9 +540,25 @@ done:
   pla
   tax
 
+do_not_spawn_explosion:
+
+  ;check to see if we are on last frame of timer and die
+  lda bomb_timer,x
+  bne do_not_die
+
+  ;reset action rect to nop
+  lda #ACTION_NOP
+  sta entity_action_rect2_action
+
+  ;die
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
   ;exit
   rts
-do_not_explode:
+do_not_die:
+
   .endscope
 
   jsr entity_update_animation

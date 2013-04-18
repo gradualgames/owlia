@@ -1,7 +1,7 @@
 .ifndef RAM_INC
 RAM_INC = 1
 
-MAX_ENTITIES = 8
+MAX_ENTITIES = 16
 
 .global sprite
 .global next_sprite_address
