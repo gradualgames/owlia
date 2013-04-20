@@ -118,11 +118,12 @@ MAX_ENTITIES = 16
 .global familiar_direction
 .global familiar_direction_change
 .global familiar_state_counter
-.global familiar_param_w0
-.global familiar_fetched_entity_index
-.global familiar_fetched_entity_x_offset
-.global familiar_param_w1
-.global familiar_fetched_entity_y_offset
+
+.global familiar_param_destination_x
+.global familiar_param_fetched_entity_index
+.global familiar_param_fetched_entity_x_offset
+.global familiar_param_destination_y
+.global familiar_param_fetched_entity_y_offset
 
 .global entity_action_rect1_action
 .global entity_action_rect1_x

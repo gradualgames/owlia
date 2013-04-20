@@ -81,12 +81,12 @@
   sta familiar_state
 
   sec
-  lda familiar_param_w1
+  lda familiar_param_destination_y
   sbc #(FAMILIAR_HEIGHT)
-  sta familiar_param_w1
-  lda familiar_param_w1+1
+  sta familiar_param_destination_y
+  lda familiar_param_destination_y+1
   sbc #0
-  sta familiar_param_w1+1
+  sta familiar_param_destination_y+1
 
   lda hero_x
   sta familiar_x
@@ -548,7 +548,7 @@ state_counter_not_zero:
 
   ;clear fetched entity index
   lda #$ff
-  sta familiar_fetched_entity_index
+  sta familiar_param_fetched_entity_index
 
   rts
 
@@ -616,7 +616,7 @@ state_counter_not_zero:
 
   ;now make the fetched entity match the familiar's coordinates if there is an entity
   ;being fetched and that entity is alive
-  ldx familiar_fetched_entity_index
+  ldx familiar_param_fetched_entity_index
   bmi no_fetched_entity
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_TEST
@@ -624,7 +624,7 @@ state_counter_not_zero:
 
   clc
   lda familiar_x
-  adc familiar_fetched_entity_x_offset
+  adc familiar_param_fetched_entity_x_offset
   sta entity_x_lo,x
   lda familiar_x+1
   adc #$00
@@ -632,7 +632,7 @@ state_counter_not_zero:
 
   clc
   lda familiar_y
-  adc familiar_fetched_entity_y_offset
+  adc familiar_param_fetched_entity_y_offset
   sta entity_y_lo,x
   lda familiar_y+1
   adc #$00
@@ -677,12 +677,12 @@ familiar_arc_init_handlers_hi:
   sta familiar_state_counter
 
   sec
-  lda familiar_param_w1
+  lda familiar_param_destination_y
   sbc #ARC_SIZE
-  sta familiar_param_w1
-  lda familiar_param_w1+1
+  sta familiar_param_destination_y
+  lda familiar_param_destination_y+1
   sbc #0
-  sta familiar_param_w1+1
+  sta familiar_param_destination_y+1
   .endscope
 
   rts
@@ -694,10 +694,10 @@ familiar_arc_init_handlers_hi:
   .scope
   ;calculate y distance between familiar and goal
   sec
-  lda familiar_param_w1
+  lda familiar_param_destination_y
   sbc familiar_y
   sta w0
-  lda familiar_param_w1+1
+  lda familiar_param_destination_y+1
   sbc familiar_y+1
   sta w0+1
 
@@ -710,21 +710,21 @@ familiar_arc_init_handlers_hi:
 
   ;slide the x goal over by 4 to help the arc look cool
   sec
-  lda familiar_param_w0
+  lda familiar_param_destination_x
   sbc #4
-  sta familiar_param_w0
-  lda familiar_param_w0+1
+  sta familiar_param_destination_x
+  lda familiar_param_destination_x+1
   sbc #0
-  sta familiar_param_w0+1
+  sta familiar_param_destination_x+1
 
   ;slide the goal by how much we calculated earlier
   sec
-  lda familiar_param_w1
+  lda familiar_param_destination_y
   sbc w0
-  sta familiar_param_w1
-  lda familiar_param_w1+1
+  sta familiar_param_destination_y
+  lda familiar_param_destination_y+1
   sbc #0
-  sta familiar_param_w1+1
+  sta familiar_param_destination_y+1
 
   .endscope
 
@@ -738,10 +738,10 @@ familiar_arc_init_handlers_hi:
   ;calculate y distance between familiar and goal
   sec
   lda familiar_y
-  sbc familiar_param_w1
+  sbc familiar_param_destination_y
   sta w0
   lda familiar_y+1
-  sbc familiar_param_w1+1
+  sbc familiar_param_destination_y+1
   sta w0+1
 
   ;calculate how far we will slide the goal by adding 16 to this
@@ -753,21 +753,21 @@ familiar_arc_init_handlers_hi:
 
   ;slide the x goal over by 4 to help the arc look cool
   clc
-  lda familiar_param_w0
+  lda familiar_param_destination_x
   adc #4
-  sta familiar_param_w0
-  lda familiar_param_w0+1
+  sta familiar_param_destination_x
+  lda familiar_param_destination_x+1
   adc #0
-  sta familiar_param_w0+1
+  sta familiar_param_destination_x+1
 
   ;slide the goal by how much we calculated earlier
   clc
-  lda familiar_param_w1
+  lda familiar_param_destination_y
   adc w0
-  sta familiar_param_w1
-  lda familiar_param_w1+1
+  sta familiar_param_destination_y
+  lda familiar_param_destination_y+1
   adc #0
-  sta familiar_param_w1+1
+  sta familiar_param_destination_y+1
 
   .endscope
 
@@ -799,12 +799,12 @@ familiar_arc_handlers_hi:
   dec familiar_state_counter
 
   clc
-  lda familiar_param_w1
+  lda familiar_param_destination_y
   adc #$01
-  sta familiar_param_w1
-  lda familiar_param_w1+1
+  sta familiar_param_destination_y
+  lda familiar_param_destination_y+1
   adc #$00
-  sta familiar_param_w1+1
+  sta familiar_param_destination_y+1
 
 do_not_modify_goal:
   .endscope
@@ -827,21 +827,21 @@ do_not_modify_goal:
   lda familiar_state_counter
   bne do_not_reset_x_destination
   clc
-  lda familiar_param_w0
+  lda familiar_param_destination_x
   adc #$04
-  sta familiar_param_w0
-  lda familiar_param_w0+1
+  sta familiar_param_destination_x
+  lda familiar_param_destination_x+1
   adc #$00
-  sta familiar_param_w0+1
+  sta familiar_param_destination_x+1
 do_not_reset_x_destination:
 
   clc
-  lda familiar_param_w1
+  lda familiar_param_destination_y
   adc #$01
-  sta familiar_param_w1
-  lda familiar_param_w1+1
+  sta familiar_param_destination_y
+  lda familiar_param_destination_y+1
   adc #$00
-  sta familiar_param_w1+1
+  sta familiar_param_destination_y+1
 
 do_not_modify_goal:
   .endscope
@@ -864,21 +864,21 @@ do_not_modify_goal:
   lda familiar_state_counter
   bne do_not_reset_x_destination
   sec
-  lda familiar_param_w0
+  lda familiar_param_destination_x
   sbc #$04
-  sta familiar_param_w0
-  lda familiar_param_w0+1
+  sta familiar_param_destination_x
+  lda familiar_param_destination_x+1
   sbc #$00
-  sta familiar_param_w0+1
+  sta familiar_param_destination_x+1
 do_not_reset_x_destination:
 
   sec
-  lda familiar_param_w1
+  lda familiar_param_destination_y
   sbc #$01
-  sta familiar_param_w1
-  lda familiar_param_w1+1
+  sta familiar_param_destination_y
+  lda familiar_param_destination_y+1
   sbc #$00
-  sta familiar_param_w1+1
+  sta familiar_param_destination_y+1
 
 do_not_modify_goal:
   .endscope
@@ -938,10 +938,10 @@ do_not_modify_goal:
   .scope
   ;calculate distance between "goal" and X coordinate
   sec
-  lda familiar_param_w0
+  lda familiar_param_destination_x
   sbc familiar_x
   sta familiar_x_velocity
-  lda familiar_param_w0+1
+  lda familiar_param_destination_x+1
   sbc familiar_x+1
   sta familiar_x_velocity+1
 
@@ -959,10 +959,10 @@ do_not_modify_goal:
   .scope
   ;calculate distance between "goal" and Y coordinate
   sec
-  lda familiar_param_w1
+  lda familiar_param_destination_y
   sbc familiar_y
   sta familiar_y_velocity
-  lda familiar_param_w1+1
+  lda familiar_param_destination_y+1
   sbc familiar_y+1
   sta familiar_y_velocity+1
 
@@ -1157,7 +1157,7 @@ done:
 
   ;clear the fetched entity index
   lda #$ff
-  sta familiar_fetched_entity_index
+  sta familiar_param_fetched_entity_index
 
   lda familiar_flags
   and #FAMILIAR_FLAGS_ALIVE_CLEAR

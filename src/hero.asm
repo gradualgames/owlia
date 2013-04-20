@@ -121,44 +121,44 @@ compute_destination_coordinates:
   lsr
   lsr
   lsr
-  sta familiar_param_w0
+  sta familiar_param_destination_x
 
   ;sign extend to all 12 higher bits by testing bit 3 (the x offset sign)
   .scope
   and #%00001000
   beq positive
 negative:
-  lda familiar_param_w0
+  lda familiar_param_destination_x
   ora #$f0
-  sta familiar_param_w0
+  sta familiar_param_destination_x
   lda #$ff
-  sta familiar_param_w0+1
+  sta familiar_param_destination_x+1
   jmp done
 positive:
   lda #$00
-  sta familiar_param_w0+1
+  sta familiar_param_destination_x+1
 done:
   .endscope
 
   ;get signed 4 bit y offset from param. This is in the lo nybble.
   lda b1
   and #$0f
-  sta familiar_param_w1
+  sta familiar_param_destination_y
 
   ;sign extend to all 12 higher bits by testing bit 3 (the y offset sign)
   .scope
   and #%00001000
   beq positive
 negative:
-  lda familiar_param_w1
+  lda familiar_param_destination_y
   ora #$f0
-  sta familiar_param_w1
+  sta familiar_param_destination_y
   lda #$ff
-  sta familiar_param_w1+1
+  sta familiar_param_destination_y+1
   jmp done
 positive:
   lda #$00
-  sta familiar_param_w1+1
+  sta familiar_param_destination_y+1
 done:
   .endscope
 
@@ -167,40 +167,40 @@ done:
   ;meta tile. After this, they will be true offsets in 16 bit map coordinates to
   ;add to the hero's current position.
 
-  lda familiar_param_w0+1
-  asl familiar_param_w0
+  lda familiar_param_destination_x+1
+  asl familiar_param_destination_x
   rol
-  asl familiar_param_w0
+  asl familiar_param_destination_x
   rol
-  asl familiar_param_w0
+  asl familiar_param_destination_x
   rol
-  asl familiar_param_w0
+  asl familiar_param_destination_x
   rol
-  sta familiar_param_w0+1
+  sta familiar_param_destination_x+1
 
-  lda familiar_param_w1+1
-  asl familiar_param_w1
+  lda familiar_param_destination_y+1
+  asl familiar_param_destination_y
   rol
-  asl familiar_param_w1
+  asl familiar_param_destination_y
   rol
-  asl familiar_param_w1
+  asl familiar_param_destination_y
   rol
-  asl familiar_param_w1
+  asl familiar_param_destination_y
   rol
-  sta familiar_param_w1+1
+  sta familiar_param_destination_y+1
 
   ;before computing destination coordinates, infer direction that
   ;the hero and the familiar ought to point based on the signs of
   ;the x and y offsets.
   .scope
   ;if x offset is zero, assume this is a vertical offset
-  lda familiar_param_w0
-  ora familiar_param_w0+1
+  lda familiar_param_destination_x
+  ora familiar_param_destination_x+1
   beq infer_from_y_offset
 infer_from_x_offset:
 
   .scope
-  lda familiar_param_w0+1
+  lda familiar_param_destination_x+1
   bmi left
 right:
   lda #HERO_DIRECTION_RIGHT
@@ -216,7 +216,7 @@ done:
 infer_from_y_offset:
 
   .scope
-  lda familiar_param_w1+1
+  lda familiar_param_destination_y+1
   bmi up
 down:
   lda #HERO_DIRECTION_DOWN
@@ -243,39 +243,39 @@ done:
   beq use_vertical_offset
 use_horizontal_offset:
   clc
-  lda familiar_param_w0
+  lda familiar_param_destination_x
   adc tile_x
-  sta familiar_param_w0
-  lda familiar_param_w0+1
+  sta familiar_param_destination_x
+  lda familiar_param_destination_x+1
   adc tile_x+1
-  sta familiar_param_w0+1
+  sta familiar_param_destination_x+1
 
   lda hero_y
-  sta familiar_param_w1
+  sta familiar_param_destination_y
   lda hero_y+1
-  sta familiar_param_w1+1
+  sta familiar_param_destination_y+1
   jmp done
 use_vertical_offset:
   clc
-  lda familiar_param_w1
+  lda familiar_param_destination_y
   adc tile_y
-  sta familiar_param_w1
-  lda familiar_param_w1+1
+  sta familiar_param_destination_y
+  lda familiar_param_destination_y+1
   adc tile_y+1
-  sta familiar_param_w1+1
+  sta familiar_param_destination_y+1
 
   sec
-  lda familiar_param_w1
+  lda familiar_param_destination_y
   sbc #$10
-  sta familiar_param_w1
-  lda familiar_param_w1+1
+  sta familiar_param_destination_y
+  lda familiar_param_destination_y+1
   sbc #$00
-  sta familiar_param_w1+1
+  sta familiar_param_destination_y+1
 
   lda hero_x
-  sta familiar_param_w0
+  sta familiar_param_destination_x
   lda hero_x+1
-  sta familiar_param_w0+1
+  sta familiar_param_destination_x+1
 done:
   .endscope
 

@@ -172,14 +172,26 @@ familiar_direction:               .res 1
 familiar_direction_change:        .res 1
 familiar_state_counter:           .res 1
 
-;TODO: eliminate the specific parameter names for the fetch state.
-familiar_param_w0:
-familiar_fetched_entity_index:    .res 1
-familiar_fetched_entity_x_offset: .res 1
+;****************************************************************
+;These variables describe various parameters that need to be set
+;up for the familiar before initializing various techniques. They
+;are set up intentionally to be unions, since only one technique
+;is active at a time.
+;****************************************************************
 
-familiar_param_w1:
-familiar_fetched_entity_y_offset: .res 1
-                                  .res 1
+;carry hero
+familiar_param_destination_x:
+
+;fetch
+familiar_param_fetched_entity_index:    .res 1
+familiar_param_fetched_entity_x_offset: .res 1
+
+;carry hero
+familiar_param_destination_y:
+
+;fetch
+familiar_param_fetched_entity_y_offset: .res 1
+                                        .res 1
 
 ;****************************************************************
 ;These variables describe entity action rects. There are only two
