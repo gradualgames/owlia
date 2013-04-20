@@ -1,7 +1,7 @@
 .ifndef RAM_INC
 RAM_INC = 1
 
-MAX_ENTITIES = 16
+MAX_ENTITIES = 12
 
 .global sprite
 .global next_sprite_address
@@ -65,6 +65,7 @@ MAX_ENTITIES = 16
 .global entity_local12
 .global entity_local13
 .global entity_local14
+.global entity_local15
 
 .global inventory_gp
 .global inventory_keys

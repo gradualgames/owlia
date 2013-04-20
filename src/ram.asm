@@ -109,6 +109,7 @@ entity_local11:              .res MAX_ENTITIES
 entity_local12:              .res MAX_ENTITIES
 entity_local13:              .res MAX_ENTITIES
 entity_local14:              .res MAX_ENTITIES
+entity_local15:              .res MAX_ENTITIES
 
 ;****************************************************************
 ;These variables constitute inventory state for the player.

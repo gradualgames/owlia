@@ -507,7 +507,7 @@ hero_invincible:
 .define familiar_spawn_tech \
   familiar_spawn_rush, \
   familiar_spawn_fetch, \
-  hero_spawn_familiar_spawn_carry_bomb, \
+  familiar_spawn_carry_bomb, \
   familiar_spawn_nop, \
   hero_spawn_familiar_spawn_carry_hero, \
   familiar_spawn_nop, \

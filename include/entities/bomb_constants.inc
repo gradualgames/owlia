@@ -55,4 +55,6 @@ bomb_bounces = entity_local13
 
 bomb_timer = entity_local14
 
+bomb_frames_since_last_direction_negation = entity_local15
+
 .endif

@@ -94,6 +94,11 @@ bomb_state_init_fall:
   lda #0
   sta bomb_bounce_offset_y_fine,x
 
+  ;initialize bounce y velocity
+  lda #0
+  sta bomb_bounce_y_velocity_lo,x
+  sta bomb_bounce_y_velocity_hi,x
+
   ;initialize Y target based on the bounce offset (first frame will place
   ;Y coordinate at initial Y coordinate)
   clc
@@ -106,10 +111,7 @@ bomb_state_init_fall:
   lda #0
   sta bomb_target_y_fine,x
 
-  ;initialize bounce y velocity
-  lda #0
-  sta bomb_bounce_y_velocity_lo,x
-  sta bomb_bounce_y_velocity_hi,x
+  jsr eject_bomb_target
 
   ; ;initialize target X sliding velocity
   ; lda #<BOMB_TARGET_X_DEFAULT_VELOCITY
@@ -123,6 +125,10 @@ bomb_state_init_fall:
   ; lda #>BOMB_TARGET_Y_DEFAULT_VELOCITY
   ; sta bomb_target_y_velocity_hi,x
 
+  ;this counts how many frames it has been since we reversed directions
+  lda #0
+  sta bomb_frames_since_last_direction_negation,x
+
   ;initialize bounce counter
   lda #BOMB_BOUNCES
   sta bomb_bounces,x
@@ -133,6 +139,226 @@ bomb_state_init_fall:
 
   lda #BOMB_STATE_FALL
   sta entity_state,x
+
+  rts
+
+;this is a helper routine which ejects the bomb's initial target x and y
+;position so it is above a non-solid tile.
+eject_bomb_target:
+
+  ;now, assuming that the target X and Y sliding velocities have been
+  ;parameterized by a parent entity (the familiar), we use them to determine
+  ;in which direction to eject the target to ensure the bomb does not get stuck
+  ;inside a solid tile.
+  lda bomb_target_y_velocity_lo,x
+  ora bomb_target_y_velocity_hi,x
+  beq do_not_eject_vertically
+  jsr vertical_eject
+do_not_eject_vertically:
+  lda bomb_target_x_velocity_lo,x
+  ora bomb_target_x_velocity_hi,x
+  beq do_not_eject_horizontally
+  jsr horizontal_eject
+do_not_eject_horizontally:
+
+  rts
+
+vertical_eject:
+
+  .scope
+  lda bomb_target_y_velocity_hi,x
+  bmi eject_downwards
+eject_upwards:
+
+  ;test point in the middle of the bottommost row of pixels of the bomb to see if
+  ;it is inside a solid tile
+  clc
+  lda bomb_target_x_lo,x
+  adc #BOMB_HALF_WIDTH
+  sta w0
+  lda bomb_target_x_hi,x
+  adc #0
+  sta w0+1
+
+  clc
+  lda bomb_target_y_lo,x
+  adc #BOMB_HEIGHT
+  sta w1
+  lda bomb_target_y_hi,x
+  adc #$00
+  sta w1+1
+
+  ;add known positive y velocity to the point we are testing to keep bomb from getting stuck
+  clc
+  lda w1
+  adc bomb_target_y_velocity_hi,x
+  sta w1
+  lda w1+1
+  adc #$00
+  sta w1+1
+
+  jsr map_test_collision
+
+  lda b0
+  and #FLAG_SOLID
+  beq done
+
+  ;the point was solid, eject the target Y upwards and try again
+  sec
+  lda bomb_target_y_lo,x
+  and #%11110000
+  sbc #$10
+  sta bomb_target_y_lo,x
+  lda bomb_target_y_hi,x
+  sbc #$00
+  sta bomb_target_y_hi,x
+
+  jmp eject_upwards
+
+  jmp done
+eject_downwards:
+
+  ;test point in the middle of the topmost row of pixels of the bomb to see if
+  ;it is inside a solid tile
+  clc
+  lda bomb_target_x_lo,x
+  adc #BOMB_HALF_WIDTH
+  sta w0
+  lda bomb_target_x_hi,x
+  adc #0
+  sta w0+1
+
+  ;add known negative y velocity to point we are testing to keep bomb from getting stuck
+  clc
+  lda bomb_target_y_lo,x
+  adc bomb_target_y_velocity_hi,x
+  sta w1
+  lda bomb_target_y_hi,x
+  adc #$ff
+  sta w1+1
+
+  jsr map_test_collision
+
+  lda b0
+  and #FLAG_SOLID
+  beq done
+
+  ;the point was solid, eject the target Y downwards and try again
+  clc
+  lda bomb_target_y_lo,x
+  and #%11110000
+  adc #$10
+  sta bomb_target_y_lo,x
+  lda bomb_target_y_hi,x
+  adc #$00
+  sta bomb_target_y_hi,x
+
+  jmp eject_downwards
+
+done:
+  .endscope
+
+  rts
+
+horizontal_eject:
+
+  .scope
+  lda bomb_target_x_velocity_hi,x
+  bmi eject_right
+eject_left:
+
+  ;test point in the middle of the rightmost column of pixels of the bomb to see if
+  ;it is inside a solid tile
+  clc
+  lda bomb_target_x_lo,x
+  adc #BOMB_WIDTH
+  sta w0
+  lda bomb_target_x_hi,x
+  adc #$00
+  sta w0+1
+
+  ;subtract the known positive x velocity to make sure bomb can't get stuck on next frame
+  sec
+  lda w0
+  sbc bomb_target_x_velocity_hi,x
+  sta w0
+  lda w0+1
+  sbc #$00
+  sta w0+1
+
+  clc
+  lda bomb_target_y_lo,x
+  adc #BOMB_HALF_HEIGHT
+  sta w1
+  lda bomb_target_y_hi,x
+  adc #$00
+  sta w1+1
+
+  jsr map_test_collision
+
+  lda b0
+  and #FLAG_SOLID
+  beq done
+
+  ;the point was solid, eject the target X left and try again
+  sec
+  lda bomb_target_x_lo,x
+  and #%11110000
+  sbc #$10
+  sta bomb_target_x_lo,x
+  lda bomb_target_x_hi,x
+  sbc #$00
+  sta bomb_target_x_hi,x
+
+  jmp eject_left
+
+  jmp done
+eject_right:
+
+  ;test point in the middle of the leftmost column of pixels of the bomb to see if
+  ;it is inside a solid tile
+  lda bomb_target_x_lo,x
+  sta w0
+  lda bomb_target_x_hi,x
+  sta w0+1
+
+  ;add the known negative x velocity to make sure bomb can't get stuck on next frame
+  clc
+  lda w0
+  adc bomb_target_x_velocity_hi,x
+  sta w0
+  lda w0+1
+  adc #$ff
+  sta w0+1
+
+  clc
+  lda bomb_target_y_lo,x
+  adc #BOMB_HALF_HEIGHT
+  sta w1
+  lda bomb_target_y_hi,x
+  adc #$00
+  sta w1+1
+
+  jsr map_test_collision
+
+  lda b0
+  and #FLAG_SOLID
+  beq done
+
+  ;the point was solid, eject the target Y downwards and try again
+  clc
+  lda bomb_target_x_lo,x
+  and #%11110000
+  adc #$10
+  sta bomb_target_x_lo,x
+  lda bomb_target_x_hi,x
+  adc #$00
+  sta bomb_target_x_hi,x
+
+  jmp eject_right
+
+done:
+  .endscope
 
   rts
 
@@ -316,93 +542,7 @@ done:
   beq test_collision_vertically
 test_collision_horizontally:
 
-;returns the properties byte for the metatile inside which the input point resides
-;expects w0 and w1 to contain the X and Y coordinate of the point to test.
-;expects to always be called from the current entities_bank, and will always switch
-;returns metatile properties byte in b0
-;temporarily to map_bank before switching back to entities_bank.
-;.proc map_test_collision
-
-  .scope
-  lda bomb_target_x_velocity_hi,x
-  bmi moving_left
-moving_right:
-
-  clc
-  lda bomb_target_x_lo,x
-  adc #BOMB_WIDTH
-  sta w0
-  lda bomb_target_x_hi,x
-  adc #$00
-  sta w0+1
-
-  clc
-  lda bomb_target_y_lo,x
-  adc #BOMB_HALF_HEIGHT
-  sta w1
-  lda bomb_target_y_hi,x
-  adc #$00
-  sta w1+1
-
-  jsr map_test_collision
-
-  .scope
-  lda b0
-  and #FLAG_SOLID
-  beq do_not_reverse_direction
-
-  ;negate x velocity
-  clc
-  lda bomb_target_x_velocity_lo,x
-  eor #$ff
-  adc #$01
-  sta bomb_target_x_velocity_lo,x
-  lda bomb_target_x_velocity_hi,x
-  eor #$ff
-  adc #$00
-  sta bomb_target_x_velocity_hi,x
-
-do_not_reverse_direction:
-  .endscope
-
-moving_left:
-
-  lda bomb_target_x_lo,x
-  sta w0
-  lda bomb_target_x_hi,x
-  sta w0+1
-
-  clc
-  lda bomb_target_y_lo,x
-  adc #BOMB_HALF_HEIGHT
-  sta w1
-  lda bomb_target_y_hi,x
-  adc #$00
-  sta w1+1
-
-  jsr map_test_collision
-
-  .scope
-  lda b0
-  and #FLAG_SOLID
-  beq do_not_reverse_direction
-
-  ;negate x velocity
-  clc
-  lda bomb_target_x_velocity_lo,x
-  eor #$ff
-  adc #$01
-  sta bomb_target_x_velocity_lo,x
-  lda bomb_target_x_velocity_hi,x
-  eor #$ff
-  adc #$00
-  sta bomb_target_x_velocity_hi,x
-
-do_not_reverse_direction:
-  .endscope
-
-done:
-  .endscope
+  jsr test_collision_horizontally_impl
 
   jmp done
 test_collision_vertically:
@@ -435,6 +575,10 @@ moving_down:
   and #FLAG_SOLID
   beq do_not_reverse_direction
 
+  lda bomb_frames_since_last_direction_negation,x
+  cmp #2
+  bmi do_not_reverse_direction
+
   ;negate y velocity
   clc
   lda bomb_target_y_velocity_lo,x
@@ -445,6 +589,10 @@ moving_down:
   eor #$ff
   adc #$00
   sta bomb_target_y_velocity_hi,x
+
+  ;reset counter for last time we switched direction
+  lda #0
+  sta bomb_frames_since_last_direction_negation,x
 
 do_not_reverse_direction:
   .endscope
@@ -471,6 +619,10 @@ moving_up:
   and #FLAG_SOLID
   beq do_not_reverse_direction
 
+  lda bomb_frames_since_last_direction_negation,x
+  cmp #2
+  bmi do_not_reverse_direction
+
   ;negate y velocity
   clc
   lda bomb_target_y_velocity_lo,x
@@ -482,6 +634,10 @@ moving_up:
   adc #$00
   sta bomb_target_y_velocity_hi,x
 
+  ;reset counter for last time we switched direction
+  lda #0
+  sta bomb_frames_since_last_direction_negation,x
+
 do_not_reverse_direction:
   .endscope
 
@@ -489,6 +645,8 @@ done:
   .endscope
 
 done:
+  ;count how many frames since last time we reversed direction
+  inc bomb_frames_since_last_direction_negation,x
   .endscope
 
   .scope
@@ -561,6 +719,107 @@ do_not_die:
   .endscope
 
   jsr entity_update_animation
+
+  rts
+
+test_collision_horizontally_impl:
+
+  .scope
+  lda bomb_target_x_velocity_hi,x
+  bmi moving_left
+moving_right:
+
+  clc
+  lda bomb_target_x_lo,x
+  adc #BOMB_WIDTH
+  sta w0
+  lda bomb_target_x_hi,x
+  adc #$00
+  sta w0+1
+
+  clc
+  lda bomb_target_y_lo,x
+  adc #BOMB_HALF_HEIGHT
+  sta w1
+  lda bomb_target_y_hi,x
+  adc #$00
+  sta w1+1
+
+  jsr map_test_collision
+
+  .scope
+  lda b0
+  and #FLAG_SOLID
+  beq do_not_reverse_direction
+
+  lda bomb_frames_since_last_direction_negation,x
+  cmp #2
+  bmi do_not_reverse_direction
+
+  ;negate x velocity
+  clc
+  lda bomb_target_x_velocity_lo,x
+  eor #$ff
+  adc #$01
+  sta bomb_target_x_velocity_lo,x
+  lda bomb_target_x_velocity_hi,x
+  eor #$ff
+  adc #$00
+  sta bomb_target_x_velocity_hi,x
+
+  ;reset counter for last time we switched direction
+  lda #0
+  sta bomb_frames_since_last_direction_negation,x
+
+do_not_reverse_direction:
+  .endscope
+
+moving_left:
+
+  lda bomb_target_x_lo,x
+  sta w0
+  lda bomb_target_x_hi,x
+  sta w0+1
+
+  clc
+  lda bomb_target_y_lo,x
+  adc #BOMB_HALF_HEIGHT
+  sta w1
+  lda bomb_target_y_hi,x
+  adc #$00
+  sta w1+1
+
+  jsr map_test_collision
+
+  .scope
+  lda b0
+  and #FLAG_SOLID
+  beq do_not_reverse_direction
+
+  lda bomb_frames_since_last_direction_negation,x
+  cmp #2
+  bmi do_not_reverse_direction
+
+  ;negate x velocity
+  clc
+  lda bomb_target_x_velocity_lo,x
+  eor #$ff
+  adc #$01
+  sta bomb_target_x_velocity_lo,x
+  lda bomb_target_x_velocity_hi,x
+  eor #$ff
+  adc #$00
+  sta bomb_target_x_velocity_hi,x
+
+  ;reset counter for last time we switched direction
+  lda #0
+  sta bomb_frames_since_last_direction_negation,x
+
+do_not_reverse_direction:
+  .endscope
+
+done:
+  .endscope
 
   rts
 
