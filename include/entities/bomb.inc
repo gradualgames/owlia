@@ -2,57 +2,13 @@
 .ifndef BOMB_INC
 BOMB_INC = 1
 
-BOMB_INITIAL_BOUNCE_OFFSET = 10
-BOMB_BOUNCE_Y_ACCELERATION = 50
-BOMB_BOUNCES = 5
-BOMB_TIMER = 200
-
-BOMB_WIDTH = 7
-BOMB_HALF_WIDTH = 4
-BOMB_HEIGHT = 7
-BOMB_HALF_HEIGHT = 4
-
-;the target is just an invisible moving spot the bomb bounces above.
-;it slides while the bomb bounces above it, and these two constants
-;define the initial velocity for the slide. We are constraining the
-;movement to only ever be horizontal or vertical, since the familiar
-;will only fly out from the hero horizontally or vertically.
-BOMB_TARGET_X_DEFAULT_VELOCITY = 0
-BOMB_TARGET_Y_DEFAULT_VELOCITY = 200
-
-bomb_target_x_lo = entity_x_lo
-bomb_target_x_hi = entity_x_hi
-bomb_target_x_fine = entity_local0
-
-bomb_target_y_lo = entity_local1
-bomb_target_y_hi = entity_local2
-bomb_target_y_fine = entity_local3
-
-bomb_target_x_velocity_lo = entity_local4
-bomb_target_x_velocity_hi = entity_local5
-
-bomb_target_y_velocity_lo = entity_local6
-bomb_target_y_velocity_hi = entity_local7
-
-bomb_bounce_offset_y_lo = entity_local8
-bomb_bounce_offset_y_hi = entity_local9
-bomb_bounce_offset_y_fine = entity_local10
-
-bomb_bounce_y_velocity_lo = entity_local11
-bomb_bounce_y_velocity_hi = entity_local12
-
-bomb_bounces = entity_local13
-
-bomb_timer = entity_local14
-
-.enum
-BOMB_STATE_INIT
-BOMB_STATE_MAIN
-.endenum
+.include "bomb_constants.inc"
 
 .define bomb_states \
-  bomb_state_init, \
-  bomb_state_main
+  bomb_state_init_carried, \
+  bomb_state_carried, \
+  bomb_state_init_fall, \
+  bomb_state_fall
 
 bomb_lo:
   .lobytes bomb_states
@@ -64,7 +20,48 @@ bomb_update:
 
   entity_state_switchboard bomb_lo, bomb_hi
 
-bomb_state_init:
+bomb_state_init_carried:
+
+  jsr entity_set_drawable_unsorted
+
+  lda #<Bomb
+  sta entity_animation_address_lo,x
+  lda #>Bomb
+  sta entity_animation_address_hi,x
+
+  jsr entity_reset_animation
+
+  lda #BOMB_WIDTH
+  sta entity_width,x
+  lda #BOMB_HEIGHT
+  sta entity_height,x
+
+  ;some entities are parameterized for graphics set, ones
+  ;that are always hard coded should set their chr offset here
+  ldy #sprite_chr_group_index_bomb
+  lda sprite_chr_group_offsets,y
+  sta entity_sprite_group_offset,x
+
+  lda #$00
+  sta entity_sprite_flags,x
+
+  lda #BOMB_CARRIED_X_OFFSET
+  sta familiar_param_carry_bomb_x_offset
+  lda #BOMB_CARRIED_Y_OFFSET
+  sta familiar_param_carry_bomb_y_offset
+
+  lda #BOMB_STATE_CARRIED
+  sta entity_state,x
+
+  rts
+
+bomb_state_carried:
+
+  jsr entity_update_animation
+
+  rts
+
+bomb_state_init_fall:
 
   jsr entity_set_drawable_unsorted
 
@@ -134,12 +131,12 @@ bomb_state_init:
   lda #BOMB_TIMER
   sta bomb_timer,x
 
-  lda #BOMB_STATE_MAIN
+  lda #BOMB_STATE_FALL
   sta entity_state,x
 
   rts
 
-bomb_state_main:
+bomb_state_fall:
 
   ;add bounce velocity to bounce offset with sign extension
   lda bomb_bounces,x
@@ -263,13 +260,14 @@ done:
   ;decrease sliding velocities based on sign
   .scope
   lda bomb_target_x_velocity_lo,x
+  ora bomb_target_x_velocity_hi,x
   beq done
   lda bomb_target_x_velocity_hi,x
   bmi add
 subtract:
   sec
   lda bomb_target_x_velocity_lo,x
-  sbc #$01
+  sbc #BOMB_SLIDING_DECELERATION
   sta bomb_target_x_velocity_lo,x
   lda bomb_target_x_velocity_hi,x
   sbc #$00
@@ -278,7 +276,7 @@ subtract:
 add:
   clc
   lda bomb_target_x_velocity_lo,x
-  adc #$01
+  adc #BOMB_SLIDING_DECELERATION
   sta bomb_target_x_velocity_lo,x
   lda bomb_target_x_velocity_hi,x
   adc #$00
@@ -288,13 +286,14 @@ done:
 
   .scope
   lda bomb_target_y_velocity_lo,x
+  ora bomb_target_y_velocity_hi,x
   beq done
   lda bomb_target_y_velocity_hi,x
   bmi add
 subtract:
   sec
   lda bomb_target_y_velocity_lo,x
-  sbc #$01
+  sbc #BOMB_SLIDING_DECELERATION
   sta bomb_target_y_velocity_lo,x
   lda bomb_target_y_velocity_hi,x
   sbc #$00
@@ -303,7 +302,7 @@ subtract:
 add:
   clc
   lda bomb_target_y_velocity_lo,x
-  adc #$01
+  adc #BOMB_SLIDING_DECELERATION
   sta bomb_target_y_velocity_lo,x
   lda bomb_target_y_velocity_hi,x
   adc #$00

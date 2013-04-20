@@ -179,19 +179,28 @@ familiar_state_counter:           .res 1
 ;is active at a time.
 ;****************************************************************
 
-;carry hero
-familiar_param_destination_x:
+;these generic symbols are not exported, they are just placeholders
+;for the union of parameters for owl techs below.
+familiar_param_w0:
+familiar_param_b0:  .res 1
+familiar_param_b1:  .res 1
+familiar_param_w1:
+familiar_param_b2:  .res 1
+familiar_param_b3:  .res 1
 
 ;fetch
-familiar_param_fetched_entity_index:    .res 1
-familiar_param_fetched_entity_x_offset: .res 1
+familiar_param_fetched_entity_x_offset = familiar_param_b0
+familiar_param_fetched_entity_y_offset = familiar_param_b1
+familiar_param_fetched_entity_index = familiar_param_b2
+
+;carry bomb
+familiar_param_carry_bomb_x_offset = familiar_param_b0
+familiar_param_carry_bomb_y_offset = familiar_param_b1
+familiar_param_carry_bomb_entity_index = familiar_param_b2
 
 ;carry hero
-familiar_param_destination_y:
-
-;fetch
-familiar_param_fetched_entity_y_offset: .res 1
-                                        .res 1
+familiar_param_destination_x = familiar_param_w0
+familiar_param_destination_y = familiar_param_w1
 
 ;****************************************************************
 ;These variables describe entity action rects. There are only two

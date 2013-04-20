@@ -362,6 +362,26 @@ initial_bomb_velocity_y_hi:
 
 .endproc
 
+;This routine is just a wrapper for the familiar's carry bomb spawn routine and checks the bomb
+;inventory to see if it is even possible to spawn this technique right now.
+.proc hero_spawn_familiar_spawn_carry_bomb
+
+  lda inventory_bombs
+  beq no_bombs_left
+
+  dec inventory_bombs
+  jsr familiar_spawn_carry_bomb
+
+  rts
+
+no_bombs_left:
+
+  ;TODO: Play some sort of error sound because there are no bombs left
+
+  rts
+
+.endproc
+
 ;sets up the hero's state to start flashing invincibility frames and
 ;get knocked back in a certain direction for a few frames.
 ;expects b0 to contain cardinal direction to knock the hero back in.
@@ -487,7 +507,7 @@ hero_invincible:
 .define familiar_spawn_tech \
   familiar_spawn_rush, \
   familiar_spawn_fetch, \
-  spawn_bomb_test, \
+  hero_spawn_familiar_spawn_carry_bomb, \
   familiar_spawn_nop, \
   hero_spawn_familiar_spawn_carry_hero, \
   familiar_spawn_nop, \

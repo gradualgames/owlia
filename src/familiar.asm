@@ -3,6 +3,7 @@
 .include "hero_constants.inc"
 .include "familiar.inc"
 .include "familiar_constants.inc"
+.include "bomb_constants.inc"
 .include "ram.inc"
 .include "zp.inc"
 .include "sprites_and_animations_data.inc"
@@ -15,6 +16,8 @@
 .include "textbox.inc"
 .include "entity.inc"
 .include "actions.inc"
+.include "entity.inc"
+.include "entities.inc"
 
 .segment "CODE"
 
@@ -65,6 +68,39 @@
   sta familiar_state
 
   jsr familiar_setup_initial_location_and_direction
+
+  rts
+
+.endproc
+
+;sets the familiar to be alive and initializes the carry bomb technique.
+.proc familiar_spawn_carry_bomb
+
+  lda familiar_flags
+  ora #FAMILIAR_FLAGS_ALIVE_SET
+  sta familiar_flags
+
+  lda #FAMILIAR_STATE_CARRY_BOMB_INIT
+  sta familiar_state
+
+  jsr familiar_setup_initial_location_and_direction
+
+  ;spawn a bomb entity
+  lda #entity_index_bomb
+  sta b0
+
+  lda familiar_x
+  sta w0
+  lda familiar_x+1
+  sta w0+1
+  lda familiar_y
+  sta w1
+  lda familiar_y+1
+  sta w1+1
+
+  jsr entity_spawn
+
+  stx familiar_param_carry_bomb_entity_index
 
   rts
 
@@ -323,6 +359,18 @@ familiar_direction_speed_y_lo:
 familiar_direction_speed_y_hi:
   .byte 0, 0, FAMILIAR_SPEED, -FAMILIAR_SPEED
 
+familiar_carry_bomb_direction_speed_x_lo:
+  .byte 0, 0, 0, 0
+
+familiar_carry_bomb_direction_speed_x_hi:
+  .byte FAMILIAR_CARRY_BOMB_SPEED, -FAMILIAR_CARRY_BOMB_SPEED, 0, 0
+
+familiar_carry_bomb_direction_speed_y_lo:
+  .byte 0, 0, 0, 0
+
+familiar_carry_bomb_direction_speed_y_hi:
+  .byte 0, 0, FAMILIAR_CARRY_BOMB_SPEED, -FAMILIAR_CARRY_BOMB_SPEED
+
 .define familiar_states \
     familiar_state_rush_init, \
     familiar_state_rush, \
@@ -330,6 +378,8 @@ familiar_direction_speed_y_hi:
     familiar_state_fetch_init, \
     familiar_state_fetch, \
     familiar_state_fetch_home_in_to_hero, \
+    familiar_state_carry_bomb_init, \
+    familiar_state_carry_bomb, \
     familiar_state_carry_hero_init, \
     familiar_state_carry_hero
 
@@ -406,18 +456,6 @@ familiar_not_alive:
   lda sprite_chr_group_offsets,y
   sta familiar_sprite_group_offset
 
-  ;initialize x and y velocity
-  ldy familiar_direction
-  lda familiar_direction_speed_x_lo,y
-  sta familiar_x_velocity
-  lda familiar_direction_speed_x_hi,y
-  sta familiar_x_velocity+1
-
-  lda familiar_direction_speed_y_lo,y
-  sta familiar_y_velocity
-  lda familiar_direction_speed_y_hi,y
-  sta familiar_y_velocity+1
-
   ;initialize fine x and y coordinates
   lda #0
   sta familiar_x_fine
@@ -453,6 +491,18 @@ familiar_not_alive:
 .proc familiar_state_rush_init
 
   jsr familiar_common_init
+
+  ;initialize x and y velocity
+  ldy familiar_direction
+  lda familiar_direction_speed_x_lo,y
+  sta familiar_x_velocity
+  lda familiar_direction_speed_x_hi,y
+  sta familiar_x_velocity+1
+
+  lda familiar_direction_speed_y_lo,y
+  sta familiar_y_velocity
+  lda familiar_direction_speed_y_hi,y
+  sta familiar_y_velocity+1
 
   ;set the initial state counter
   lda #FAMILIAR_STATE_RUSH_LENGTH
@@ -537,6 +587,18 @@ state_counter_not_zero:
 .proc familiar_state_fetch_init
 
   jsr familiar_common_init
+
+  ;initialize x and y velocity
+  ldy familiar_direction
+  lda familiar_direction_speed_x_lo,y
+  sta familiar_x_velocity
+  lda familiar_direction_speed_x_hi,y
+  sta familiar_x_velocity+1
+
+  lda familiar_direction_speed_y_lo,y
+  sta familiar_y_velocity
+  lda familiar_direction_speed_y_hi,y
+  sta familiar_y_velocity+1
 
   ;set the initial state counter
   lda #FAMILIAR_STATE_FETCH_LENGTH
@@ -639,6 +701,123 @@ state_counter_not_zero:
   sta entity_y_hi,x
 
 no_fetched_entity:
+
+  rts
+
+.endproc
+
+;****************************************************************
+;This state initializes the carry bomb technique. It is very
+;similar to the fetch technique instead this time the item is
+;carried from the beginning of the technique and it uses up bomb
+;inventory.
+;****************************************************************
+.proc familiar_state_carry_bomb_init
+
+  jsr familiar_common_init
+
+  ;initialize x and y velocity
+  ldy familiar_direction
+  lda familiar_carry_bomb_direction_speed_x_lo,y
+  sta familiar_x_velocity
+  lda familiar_carry_bomb_direction_speed_x_hi,y
+  sta familiar_x_velocity+1
+
+  lda familiar_carry_bomb_direction_speed_y_lo,y
+  sta familiar_y_velocity
+  lda familiar_carry_bomb_direction_speed_y_hi,y
+  sta familiar_y_velocity+1
+
+  ;set the initial state counter
+  lda #FAMILIAR_STATE_CARRY_BOMB_LENGTH
+  sta familiar_state_counter
+
+  ;done initializing, set main state
+  lda #FAMILIAR_STATE_CARRY_BOMB
+  sta familiar_state
+
+  rts
+
+.endproc
+
+;****************************************************************
+;This state moves the familiar til a counter reaches zero, and
+;also tells the bomb to enter its falling state when the counter
+;reaches a certain value.
+;****************************************************************
+.proc familiar_state_carry_bomb
+
+  jsr familiar_move
+
+  ;make the bomb's coordinates match that of the familiar
+  ldx familiar_param_carry_bomb_entity_index
+  lda entity_state,x
+  cmp #BOMB_STATE_CARRIED
+  bne bomb_has_been_dropped
+  clc
+  lda familiar_x
+  adc familiar_param_carry_bomb_x_offset
+  sta entity_x_lo,x
+  lda familiar_x+1
+  adc #$00
+  sta entity_x_hi,x
+
+  clc
+  lda familiar_y
+  adc familiar_param_carry_bomb_y_offset
+  sta entity_y_lo,x
+  lda familiar_y+1
+  adc #$00
+  sta entity_y_hi,x
+bomb_has_been_dropped:
+
+  lda familiar_animation_address
+  sta w2
+  lda familiar_animation_address+1
+  sta w2+1
+
+  lda #<familiar_animation_object
+  sta w1
+  lda #>familiar_animation_object
+  sta w1+1
+
+  jsr sprite_update_animation
+
+  dec familiar_state_counter
+
+  ;check to see if the state counter is at the frame at which we want to
+  ;tell the bomb to fall.
+  lda familiar_state_counter
+  cmp #FAMILIAR_STATE_CARRY_BOMB_DROP_FRAME
+  bne state_counter_not_at_drop_bomb_frame
+
+  ;tell the bomb to initialize its falling state
+  ldx familiar_param_carry_bomb_entity_index
+  lda #BOMB_STATE_INIT_FALL
+  sta entity_state,x
+
+  ;make sure to give the bomb the familiar's initial velocity so it appears
+  ;to have momentum from the familiar's flight
+  lda familiar_x_velocity
+  sta bomb_target_x_velocity_lo,x
+  lda familiar_x_velocity+1
+  sta bomb_target_x_velocity_hi,x
+
+  lda familiar_y_velocity
+  sta bomb_target_y_velocity_lo,x
+  lda familiar_y_velocity+1
+  sta bomb_target_y_velocity_hi,x
+
+state_counter_not_at_drop_bomb_frame:
+
+  ;check to see if the familiar should home back into the hero.
+  lda familiar_state_counter
+  bne state_counter_not_zero
+
+  lda #FAMILIAR_STATE_HOME_IN_TO_HERO
+  sta familiar_state
+
+state_counter_not_zero:
 
   rts
 
@@ -899,6 +1078,18 @@ do_not_modify_goal:
 .proc familiar_state_carry_hero_init
 
   jsr familiar_common_init
+
+  ;initialize x and y velocity
+  ldy familiar_direction
+  lda familiar_direction_speed_x_lo,y
+  sta familiar_x_velocity
+  lda familiar_direction_speed_x_hi,y
+  sta familiar_x_velocity+1
+
+  lda familiar_direction_speed_y_lo,y
+  sta familiar_y_velocity
+  lda familiar_direction_speed_y_hi,y
+  sta familiar_y_velocity+1
 
   ldy familiar_direction
   lda familiar_arc_init_handlers_lo,y
