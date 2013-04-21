@@ -291,9 +291,9 @@ no_fading_needed:
 ;assumes we are safely in the middle of rendering a frame so we can
 ;switch to the palette vblank routine and turn on graphics hiding
 ;expects w0 to point to the palette to fade out from
-;uses b4 to store palette step
+;uses b3 to store palette step
 .proc ppu_fade_out_palette
-palette_step = b4
+palette_step = b3
 
   ;save current nmi routine
   lda vblank_routine
@@ -311,27 +311,31 @@ palette_step = b4
   lda #>ppu_upload_dynamic_palette_ppu
   sta vblank_routine+1
 
-  lda #4
+  lda #MAX_PALETTE_LEVEL
   sta palette_step
 
 fading_loop:
 
   ;load up the dynamic palette with brightness in b3
   switch_bank_ldy map_bank
-  lda palette_step
-  sta b3
   jsr ppu_load_dynamic_palette_brightness
 
-  ;wait for vblank
+  ;pause for FADING_SPEED frames
   ldx #FADING_SPEED
-:
-  wait_vblank_data_ready
+: wait_vblank_data_ready
   set_vblank_data_ready
   dex
   bne :-
 
+  ;check to see if min palette level has been uploaded yet and exit if so
+  lda palette_step
+  cmp #MIN_PALETTE_LEVEL
+  beq done_fading
+
+  ;proceed to next fading level
   dec palette_step
-  bpl fading_loop
+  jmp fading_loop
+done_fading:
 
   ;do one more wait to make sure the vblank clears the ready
   ;flag, so that when we restore the old vblank routine, we
