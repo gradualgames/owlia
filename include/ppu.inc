@@ -12,6 +12,7 @@ PPU_INC = 1
 .global ppu_load_dynamic_palette_brightness
 .global ppu_fade_in_palette
 .global ppu_fade_out_palette
+.global ppu_upload_dynamic_palette_ppu
 
 FADING_SPEED = 5
 

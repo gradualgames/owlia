@@ -8,6 +8,11 @@ LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_TEST = %00000001
 LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET  = %00000010
 LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_TEST = %00000010
 
+;Use this to test whether both X and Y scrolling are disabled
+;Note that AND should be used to isolate the bits and then CMP
+;to test whether both bits are set.
+LOCATION_FLAGS_CAMERA_SCROLLING_DISABLED_TEST   = %00000011
+
 .struct location
   flags .byte
   area_index .byte

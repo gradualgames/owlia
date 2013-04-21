@@ -658,7 +658,22 @@ same_song:
   switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
 
-  ;initialize vblank routine for main play state
+  ;decide which vblank routine to use based on whether scrolling is disabled.
+  ;If disabled, we will just use the dynamic palette upload routine, allowing
+  ;us to perform palette effects such as for the lantern technique. Otherwise,
+  ;we swap in the row and column upload routine for a large scrolling area.
+  .scope
+  lda #<ppu_upload_dynamic_palette_ppu
+  sta vblank_routine
+  lda #>ppu_upload_dynamic_palette_ppu
+  sta vblank_routine+1
+  
+  ldy #location::flags
+  lda (location_address),y
+  and #LOCATION_FLAGS_CAMERA_SCROLLING_DISABLED_TEST
+  cmp #LOCATION_FLAGS_CAMERA_SCROLLING_DISABLED_TEST
+  beq scrolling_disabled
+
   lda #0
   sta vblank_data_ready
 
@@ -674,6 +689,8 @@ same_song:
   sta vblank_routine
   lda #>nametable_and_attribute_update_ppu
   sta vblank_routine+1
+scrolling_disabled:
+  .endscope
 
 ;****************************************************************
 ;This branch location is the main game loop. It handles map
@@ -977,14 +994,39 @@ done:
   switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
 
+  ;decide which vblank routine to use based on whether scrolling is disabled.
+  ;If disabled, we will just use the dynamic palette upload routine, allowing
+  ;us to perform palette effects such as for the lantern technique. Otherwise,
+  ;we swap in the row and column upload routine for a large scrolling area.
+  .scope
+  lda #<ppu_upload_dynamic_palette_ppu
+  sta vblank_routine
+  lda #>ppu_upload_dynamic_palette_ppu
+  sta vblank_routine+1
+  
+  ldy #location::flags
+  lda (location_address),y
+  and #LOCATION_FLAGS_CAMERA_SCROLLING_DISABLED_TEST
+  cmp #LOCATION_FLAGS_CAMERA_SCROLLING_DISABLED_TEST
+  beq scrolling_disabled
+
+  lda #0
+  sta vblank_data_ready
+
+  lda #0
+  sta row_ready
+  lda #0
+  sta column_ready
+
   lda #1
   sta hide_graphics_top
 
-  ;replace play state nmi routine
   lda #<nametable_and_attribute_update_ppu
   sta vblank_routine
   lda #>nametable_and_attribute_update_ppu
   sta vblank_routine+1
+scrolling_disabled:
+  .endscope
 
   ;make sure current action of play state is a no-op
   lda #ACTION_NOP
