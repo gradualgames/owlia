@@ -14,6 +14,8 @@ PPU_INC = 1
 .global ppu_fade_out_palette
 .global ppu_upload_dynamic_palette_ppu
 
+MIN_PALETTE_LEVEL = 0
+MAX_PALETTE_LEVEL = 4
 FADING_SPEED = 5
 
 ;bit positions for PPU control register $2000

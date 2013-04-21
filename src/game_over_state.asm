@@ -76,6 +76,8 @@ game_over_state_init:
   sta w0
   lda #>game_over_screen_palette
   sta w0+1
+  lda #MAX_PALETTE_LEVEL
+  sta b4
   jsr ppu_fade_in_palette
 
 game_over_state_main:

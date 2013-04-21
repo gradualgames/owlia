@@ -655,6 +655,8 @@ same_song:
   iny
   lda (area_address),y
   sta w0+1
+  lda #MAX_PALETTE_LEVEL
+  sta b4
   switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
 
@@ -991,6 +993,8 @@ done:
   iny
   lda (area_address),y
   sta w0+1
+  lda #MAX_PALETTE_LEVEL
+  sta b4
   switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
 

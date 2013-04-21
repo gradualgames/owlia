@@ -222,9 +222,17 @@ loadChrLoop:
 ;switch to the palette vblank routine.
 ;assumes the palette is black
 ;expects w0 to point to palette to fade in to
-;uses b4 to store palette step
+;expects b4 to indicate which level to fade in to
 .proc ppu_fade_in_palette
-palette_step = b4
+palette_step = b3
+fade_in_level = b4
+
+  lda #MIN_PALETTE_LEVEL
+  sta palette_step
+
+  ;check to see if we're already at desired fading level
+  cmp fade_in_level
+  beq no_fading_needed
 
   ;save current nmi routine
   lda vblank_routine
@@ -242,40 +250,40 @@ palette_step = b4
   lda #>ppu_upload_dynamic_palette_ppu
   sta vblank_routine+1
 
-  lda #1
-  sta palette_step
-
 fading_loop:
-
   ;load up the dynamic palette with brightness in b3
   switch_bank_ldy map_bank
-  lda palette_step
-  sta b3
   jsr ppu_load_dynamic_palette_brightness
 
-  ;wait for vblank
+  ;pause for FADING_SPEED frames
   ldx #FADING_SPEED
-:
-  wait_vblank_data_ready
+: wait_vblank_data_ready
   set_vblank_data_ready
   dex
   bne :-
+
+  ;test to see if we've faded in to the desired level and exit the loop if so
+  lda palette_step
+  cmp fade_in_level
+  beq done_fading
+
+  ;proceed to the next palette step
+  inc palette_step
+
+  jmp fading_loop
+done_fading:
 
   ;do one more wait to make sure the vblank clears the ready
   ;flag, so that when we restore the old vblank routine, we
   ;don't upload unprepared garbage data!
   wait_vblank_data_ready
 
-  inc palette_step
-  lda palette_step
-  cmp #5
-  bmi fading_loop
-
   ;restore previous nmi routine
   pla
   sta vblank_routine+1
   pla
   sta vblank_routine
+no_fading_needed:
 
   rts
 .endproc
