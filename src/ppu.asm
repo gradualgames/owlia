@@ -224,14 +224,14 @@ loadChrLoop:
 ;expects w0 to point to palette to fade in to
 ;expects b4 to indicate which level to fade in to
 .proc ppu_fade_in_palette
-palette_step = b3
-fade_in_level = b4
+brightness_level = b3
+desired_brightness_level = b4
 
-  lda #MIN_PALETTE_LEVEL
-  sta palette_step
+  lda #MIN_BRIGHTNESS_LEVEL
+  sta brightness_level
 
-  ;check to see if we're already at desired fading level
-  cmp fade_in_level
+  ;check to see if we're already at desired brightness level
+  cmp desired_brightness_level
   beq no_fading_needed
 
   ;save current nmi routine
@@ -263,12 +263,12 @@ fading_loop:
   bne :-
 
   ;test to see if we've faded in to the desired level and exit the loop if so
-  lda palette_step
-  cmp fade_in_level
+  lda brightness_level
+  cmp desired_brightness_level
   beq done_fading
 
-  ;proceed to the next palette step
-  inc palette_step
+  ;proceed to the next brightness level
+  inc brightness_level
 
   jmp fading_loop
 done_fading:
@@ -291,9 +291,9 @@ no_fading_needed:
 ;assumes we are safely in the middle of rendering a frame so we can
 ;switch to the palette vblank routine and turn on graphics hiding
 ;expects w0 to point to the palette to fade out from
-;uses b3 to store palette step
+;uses b3 to store brightness level
 .proc ppu_fade_out_palette
-palette_step = b3
+brightness_level = b3
 
   ;save current nmi routine
   lda vblank_routine
@@ -311,8 +311,8 @@ palette_step = b3
   lda #>ppu_upload_dynamic_palette_ppu
   sta vblank_routine+1
 
-  lda #MAX_PALETTE_LEVEL
-  sta palette_step
+  lda #MAX_BRIGHTNESS_LEVEL
+  sta brightness_level
 
 fading_loop:
 
@@ -328,12 +328,12 @@ fading_loop:
   bne :-
 
   ;check to see if min palette level has been uploaded yet and exit if so
-  lda palette_step
-  cmp #MIN_PALETTE_LEVEL
+  lda brightness_level
+  cmp #MIN_BRIGHTNESS_LEVEL
   beq done_fading
 
-  ;proceed to next fading level
-  dec palette_step
+  ;proceed to next brightness level
+  dec brightness_level
   jmp fading_loop
 done_fading:
 
