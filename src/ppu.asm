@@ -234,6 +234,10 @@ desired_brightness_level = b4
   cmp desired_brightness_level
   beq no_fading_needed
 
+  ;keep track of the desired brightness level globally
+  lda desired_brightness_level
+  sta dynamic_palette_brightness_level
+
   ;save current nmi routine
   lda vblank_routine
   pha
@@ -311,7 +315,8 @@ brightness_level = b3
   lda #>ppu_upload_dynamic_palette_ppu
   sta vblank_routine+1
 
-  lda #MAX_BRIGHTNESS_LEVEL
+  ;fade out from the current global brightness level
+  lda dynamic_palette_brightness_level
   sta brightness_level
 
 fading_loop:

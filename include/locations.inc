@@ -13,6 +13,18 @@ LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_TEST = %00000010
 ;to test whether both bits are set.
 LOCATION_FLAGS_CAMERA_SCROLLING_DISABLED_TEST   = %00000011
 
+;Use this to isolate the bits of the brightness level for this
+;location. We use 3 bits because we have 5 different brightness
+;levels.
+LOCATION_FLAGS_BRIGHTNESS_LEVEL_ISOLATE         = %00011100
+
+;Use these to set the brightness level in a location definition.
+LOCATION_BRIGHTNESS_LEVEL_0 = %00000000
+LOCATION_BRIGHTNESS_LEVEL_1 = %00000100
+LOCATION_BRIGHTNESS_LEVEL_2 = %00001000
+LOCATION_BRIGHTNESS_LEVEL_3 = %00001100
+LOCATION_BRIGHTNESS_LEVEL_4 = %00010000
+
 .struct location
   flags .byte
   area_index .byte

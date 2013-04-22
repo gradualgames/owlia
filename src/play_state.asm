@@ -648,6 +648,16 @@ same_song:
   ;****************************************************************
   jsr ppu_safely_enable_graphics
 
+  ;retrieve brightness level from current location
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::flags
+  lda (location_address),y
+  and #LOCATION_FLAGS_BRIGHTNESS_LEVEL_ISOLATE
+  lsr
+  lsr
+  sta b4
+
+  ;fade in to current palette
   switch_bank_ldy #AREAS_BANK
   ldy #area::palette_address
   lda (area_address),y
@@ -655,8 +665,6 @@ same_song:
   iny
   lda (area_address),y
   sta w0+1
-  lda #MAX_BRIGHTNESS_LEVEL
-  sta b4
   switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
 
@@ -669,7 +677,8 @@ same_song:
   sta vblank_routine
   lda #>ppu_upload_dynamic_palette_ppu
   sta vblank_routine+1
-  
+
+  switch_bank_ldy #LOCATIONS_BANK
   ldy #location::flags
   lda (location_address),y
   and #LOCATION_FLAGS_CAMERA_SCROLLING_DISABLED_TEST
@@ -985,6 +994,15 @@ done:
 
   jsr ppu_safely_enable_graphics
 
+  ;retrieve brightness level from current location
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::flags
+  lda (location_address),y
+  and #LOCATION_FLAGS_BRIGHTNESS_LEVEL_ISOLATE
+  lsr
+  lsr
+  sta b4
+
   ;fade in to current palette
   switch_bank_ldy #AREAS_BANK
   ldy #area::palette_address
@@ -993,8 +1011,6 @@ done:
   iny
   lda (area_address),y
   sta w0+1
-  lda #MAX_BRIGHTNESS_LEVEL
-  sta b4
   switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
 
@@ -1007,7 +1023,8 @@ done:
   sta vblank_routine
   lda #>ppu_upload_dynamic_palette_ppu
   sta vblank_routine+1
-  
+
+  switch_bank_ldy #LOCATIONS_BANK
   ldy #location::flags
   lda (location_address),y
   and #LOCATION_FLAGS_CAMERA_SCROLLING_DISABLED_TEST

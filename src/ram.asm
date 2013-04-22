@@ -239,6 +239,13 @@ ppu_2006: .res 2
 dynamic_palette: .res 32
 
 ;****************************************************************
+;This is the current brightness level we've loaded the dynamic
+;palette with. This is used to know what level to fade out from
+;during palette transitions.
+;****************************************************************
+dynamic_palette_brightness_level: .res 1
+
+;****************************************************************
 ;This stores the state of all controller buttons. Most of them
 ;are rotated in from the least significant bit, so on-to-off or
 ;off-to-on transitions can be easily detected.
