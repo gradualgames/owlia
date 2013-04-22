@@ -661,10 +661,10 @@ same_song:
   switch_bank_ldy #AREAS_BANK
   ldy #area::palette_address
   lda (area_address),y
-  sta w0
+  sta palette_address
   iny
   lda (area_address),y
-  sta w0+1
+  sta palette_address+1
   switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
 
@@ -867,10 +867,10 @@ spin_hero_loop:
   switch_bank_ldy #AREAS_BANK
   ldy #area::palette_address
   lda (area_address),y
-  sta w0
+  sta palette_address
   iny
   lda (area_address),y
-  sta w0+1
+  sta palette_address+1
   switch_bank_ldy map_bank
   jsr ppu_fade_out_palette
 
@@ -1007,10 +1007,10 @@ done:
   switch_bank_ldy #AREAS_BANK
   ldy #area::palette_address
   lda (area_address),y
-  sta w0
+  sta palette_address
   iny
   lda (area_address),y
-  sta w0+1
+  sta palette_address+1
   switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
 
@@ -1097,10 +1097,10 @@ play_state_action_goto_location_group1:
   switch_bank_ldy #AREAS_BANK
   ldy #area::palette_address
   lda (area_address),y
-  sta w0
+  sta palette_address
   iny
   lda (area_address),y
-  sta w0+1
+  sta palette_address+1
   switch_bank_ldy map_bank
   jsr ppu_fade_out_palette
 

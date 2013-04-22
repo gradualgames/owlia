@@ -30,10 +30,10 @@ inventory_state_init:
   switch_bank_ldy #AREAS_BANK
   ldy #area::palette_address
   lda (area_address),y
-  sta w0
+  sta palette_address
   iny
   lda (area_address),y
-  sta w0+1
+  sta palette_address+1
   switch_bank_ldy map_bank
   jsr ppu_fade_out_palette
 
@@ -164,9 +164,9 @@ inventory_state_init:
 
   ;fade in inventory screen palette
   lda #<inventory_screen_palette
-  sta w0
+  sta palette_address
   lda #>inventory_screen_palette
-  sta w0+1
+  sta palette_address+1
   lda #MAX_BRIGHTNESS_LEVEL
   sta b4
   jsr ppu_fade_in_palette
@@ -205,9 +205,9 @@ inventory_state_exit:
 
   ;fade out inventory palette
   lda #<inventory_screen_palette
-  sta w0
+  sta palette_address
   lda #>inventory_screen_palette
-  sta w0+1
+  sta palette_address+1
   jsr ppu_fade_out_palette
 
   jmp play_state_reload

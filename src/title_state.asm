@@ -76,9 +76,9 @@ title_state_init:
 
   ;fade in title screen palette
   lda #<title_screen_palette
-  sta w0
+  sta palette_address
   lda #>title_screen_palette
-  sta w0+1
+  sta palette_address+1
   lda #MAX_BRIGHTNESS_LEVEL
   sta b4
   jsr ppu_fade_in_palette
@@ -103,9 +103,9 @@ title_state_exit:
 
   ;fade out title palette
   lda #<title_screen_palette
-  sta w0
+  sta palette_address
   lda #>title_screen_palette
-  sta w0+1
+  sta palette_address+1
   jsr ppu_fade_out_palette
 
   jsr play_state_initialize

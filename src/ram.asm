@@ -233,8 +233,7 @@ ppu_2006: .res 2
 
 ;****************************************************************
 ;This is used for palette fading. It is a translation of the
-;currently loaded area palette based on a fade value from 0 to
-;3 I believe (TODO: check this)
+;currently loaded area palette based on a fade value from 0 to 4.
 ;****************************************************************
 dynamic_palette: .res 32
 

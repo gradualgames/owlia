@@ -72,7 +72,7 @@
 
 .segment "VBLANK"
 
-;expects w0 to have address of palette
+;expects palette_address to have address of palette
 .proc ppu_load_palette
   ldy #0
   lda #$3F
@@ -80,7 +80,7 @@
   lda #$00
   sta $2006
   ldx #$00
-: lda (w0),y
+: lda (palette_address),y
   sta $2007
   inx
   iny
@@ -221,7 +221,7 @@ loadChrLoop:
 ;assumes we are safely in the middle of rendering a frame so we can
 ;switch to the palette vblank routine.
 ;assumes the palette is black
-;expects w0 to point to palette to fade in to
+;expects palette_address to point to palette to fade in to
 ;expects b4 to indicate which level to fade in to
 .proc ppu_fade_in_palette
 brightness_level = b3
@@ -294,7 +294,7 @@ no_fading_needed:
 
 ;assumes we are safely in the middle of rendering a frame so we can
 ;switch to the palette vblank routine and turn on graphics hiding
-;expects w0 to point to the palette to fade out from
+;expects palette_address to point to the palette to fade out from
 ;uses b3 to store brightness level
 .proc ppu_fade_out_palette
 brightness_level = b3
@@ -367,15 +367,15 @@ done_fading:
   jsr sprite_update_all
 
   ;save current palette address
-  lda w0
+  lda palette_address
   pha
-  lda w0+1
+  lda palette_address+1
   pha
 
   lda #<dynamic_palette
-  sta w0
+  sta palette_address
   lda #>dynamic_palette
-  sta w0+1
+  sta palette_address+1
 
   clear_ppu_2000_bit PPU0_ADDRESS_INCREMENT
   upload_ppu_2000
@@ -384,9 +384,9 @@ done_fading:
 
   ;restore previous palette address
   pla
-  sta w0+1
+  sta palette_address+1
   pla
-  sta w0
+  sta palette_address
 
   ;restore 2006 and 2005 to what we had written them to previously
   upload_ppu_2006
@@ -486,7 +486,7 @@ return_black:
 
 .endproc
 
-;expects w0 to have address of palette to transfer to dynamic palette
+;expects palette_address to have address of palette to transfer to dynamic palette
 ;expects b3 to contain desired brightness level
 .proc ppu_load_dynamic_palette_brightness
 
@@ -494,7 +494,7 @@ return_black:
 
 :
   ;load a color from the palette
-  lda (w0),y
+  lda (palette_address),y
 
   ;adjust that color's brightness based on input (b3)
   sta b0
