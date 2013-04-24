@@ -750,7 +750,9 @@ no_fetched_entity:
   jsr familiar_move
 
   ;make the bomb's coordinates match that of the familiar
+  .scope
   ldx familiar_param_carry_bomb_entity_index
+  bmi no_bomb
   lda entity_state,x
   cmp #BOMB_STATE_CARRIED
   bne bomb_has_been_dropped
@@ -769,7 +771,9 @@ no_fetched_entity:
   lda familiar_y+1
   adc #$00
   sta entity_y_hi,x
+no_bomb:
 bomb_has_been_dropped:
+  .endscope
 
   lda familiar_animation_address
   sta w2
@@ -792,7 +796,9 @@ bomb_has_been_dropped:
   bne state_counter_not_at_drop_bomb_frame
 
   ;tell the bomb to initialize its falling state
+  .scope
   ldx familiar_param_carry_bomb_entity_index
+  bmi no_bomb
   lda #BOMB_STATE_INIT_FALL
   sta entity_state,x
 
@@ -807,6 +813,8 @@ bomb_has_been_dropped:
   sta bomb_target_y_velocity_lo,x
   lda familiar_y_velocity+1
   sta bomb_target_y_velocity_hi,x
+no_bomb:
+  .endscope
 
 state_counter_not_at_drop_bomb_frame:
 
