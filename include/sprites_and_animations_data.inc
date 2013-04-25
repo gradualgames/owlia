@@ -43,4 +43,7 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global Bomb0
 .global Bomb
 
+.global Lantern0
+.global Lantern
+
 .endif

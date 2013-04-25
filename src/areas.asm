@@ -36,28 +36,31 @@ areas_hi:
 ;Area entity types.
 ;****************************************************************
 village_sprite_chr_groups:
-  .byte 6  ;count
+  .byte 7  ;count
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_npcman
   .byte sprite_chr_group_index_jellyfish
 
 house_sprite_chr_groups:
-  .byte 5  ;count
-  .byte sprite_chr_group_index_hero
-  .byte sprite_chr_group_index_familiar
-  .byte sprite_chr_group_index_explosion
-  .byte sprite_chr_group_index_bomb
-  .byte sprite_chr_group_index_npcwoman
-
-dungeon_sprite_chr_groups:
   .byte 6  ;count
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_npcwoman
+
+dungeon_sprite_chr_groups:
+  .byte 7  ;count
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_keyeddoor
 

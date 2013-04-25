@@ -362,6 +362,28 @@ initial_bomb_velocity_y_hi:
 
 .endproc
 
+;This routine is a placeholder for the owl carry lantern technique. All it
+;does is spawn a lantern entity, for testing.
+.proc spawn_lantern_test
+
+  lda #entity_index_lantern
+  sta b0
+
+  lda hero_x
+  sta w0
+  lda hero_x+1
+  sta w0+1
+  lda hero_y
+  sta w1
+  lda hero_y+1
+  sta w1+1
+
+  jsr entity_spawn
+
+  rts
+
+.endproc
+
 ;This routine is just a wrapper for the familiar's carry bomb spawn routine and checks the bomb
 ;inventory to see if it is even possible to spawn this technique right now.
 .proc hero_spawn_familiar_spawn_carry_bomb
@@ -508,7 +530,7 @@ hero_invincible:
   familiar_spawn_rush, \
   familiar_spawn_fetch, \
   familiar_spawn_carry_bomb, \
-  familiar_spawn_nop, \
+  spawn_lantern_test, \
   hero_spawn_familiar_spawn_carry_hero, \
   familiar_spawn_nop, \
   familiar_spawn_nop, \

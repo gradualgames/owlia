@@ -13,7 +13,8 @@
   NpcWoman_chr, \
   Key_chr, \
   Inventory_chr, \
-  KeyedDoor_chr
+  KeyedDoor_chr, \
+  Lantern_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -316,3 +317,7 @@ KeyedDoor_chr:
 Bomb_chr:
   .word $0010
   .byte $08,$3c,$7e,$7e,$7e,$7e,$3c,$00,$08,$04,$08,$00,$00,$00,$00,$00
+
+Lantern_chr:
+  .word $0010
+  .byte $3c,$7e,$ff,$ff,$ff,$ff,$7e,$00,$00,$00,$24,$5a,$5a,$24,$00,$00

@@ -14,6 +14,7 @@ SPRITE_CHR_INC = 1
 .global Inventory_chr
 .global KeyedDoor_chr
 .global Bomb_chr
+.global Lantern_chr
 
 .enum
 sprite_chr_group_index_hero
@@ -26,6 +27,7 @@ sprite_chr_group_index_npcwoman
 sprite_chr_group_index_key
 sprite_chr_group_index_inventory
 sprite_chr_group_index_keyeddoor
+sprite_chr_group_index_lantern
 .endenum
 
 .endif

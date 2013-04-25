@@ -25,7 +25,8 @@
   jellyfish_update, \
   npc_update, \
   key_update, \
-  keyeddoor_update
+  keyeddoor_update, \
+  lantern_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -80,3 +81,4 @@ npc_sprite_flags_direction:
 .include "key.inc"
 .include "keyeddoor.inc"
 .include "bomb.inc"
+.include "lantern.inc"
