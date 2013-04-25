@@ -10,6 +10,8 @@ PPU_INC = 1
 .global ppu_safely_disable_graphics
 .global ppu_safely_enable_graphics
 .global ppu_load_dynamic_palette_brightness
+.global ppu_load_dynamic_palette_brightness_bg
+.global ppu_load_dynamic_palette_brightness_spr
 .global ppu_fade_in_palette
 .global ppu_fade_out_palette
 .global ppu_upload_dynamic_palette_ppu

@@ -242,7 +242,8 @@ dynamic_palette: .res 32
 ;palette with. This is used to know what level to fade out from
 ;during palette transitions.
 ;****************************************************************
-dynamic_palette_brightness_level: .res 1
+dynamic_palette_brightness_level_bg: .res 1
+dynamic_palette_brightness_level_spr: .res 1
 
 ;****************************************************************
 ;This stores the state of all controller buttons. Most of them

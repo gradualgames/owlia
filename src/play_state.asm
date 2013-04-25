@@ -657,6 +657,10 @@ same_song:
   lsr
   sta b4
 
+  ;always fade in to max for sprites
+  lda #MAX_BRIGHTNESS_LEVEL
+  sta b5
+
   ;fade in to current palette
   switch_bank_ldy #AREAS_BANK
   ldy #area::palette_address
@@ -1002,6 +1006,10 @@ done:
   lsr
   lsr
   sta b4
+
+  ;always fade in to max for sprites
+  lda #MAX_BRIGHTNESS_LEVEL
+  sta b5
 
   ;fade in to current palette
   switch_bank_ldy #AREAS_BANK

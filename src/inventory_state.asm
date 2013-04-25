@@ -169,6 +169,7 @@ inventory_state_init:
   sta palette_address+1
   lda #MAX_BRIGHTNESS_LEVEL
   sta b4
+  sta b5
   jsr ppu_fade_in_palette
 
   lda #<ppu_inventory_vblank

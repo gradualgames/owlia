@@ -222,21 +222,23 @@ loadChrLoop:
 ;switch to the palette vblank routine.
 ;assumes the palette is black
 ;expects palette_address to point to palette to fade in to
-;expects b4 to indicate which level to fade in to
+;expects b4 to indicate desired brightness for bg
+;expects b5 to indicate desired brightness for spr
 .proc ppu_fade_in_palette
-brightness_level = b3
-desired_brightness_level = b4
+desired_brightness_level_bg = b4
+desired_brightness_level_spr = b5
+brightness_level_bg = b6
+brightness_level_spr = b7
 
   lda #MIN_BRIGHTNESS_LEVEL
-  sta brightness_level
+  sta brightness_level_bg
+  sta brightness_level_spr
 
-  ;check to see if we're already at desired brightness level
-  cmp desired_brightness_level
-  beq no_fading_needed
-
-  ;keep track of the desired brightness level globally
-  lda desired_brightness_level
-  sta dynamic_palette_brightness_level
+  ;keep track of the desired brightness levels globally
+  lda desired_brightness_level_bg
+  sta dynamic_palette_brightness_level_bg
+  lda desired_brightness_level_spr
+  sta dynamic_palette_brightness_level_spr
 
   ;save current nmi routine
   lda vblank_routine
@@ -255,9 +257,14 @@ desired_brightness_level = b4
   sta vblank_routine+1
 
 fading_loop:
-  ;load up the dynamic palette with brightness in b3
+  ;load dynamic palette for current bg and spr brightness levels independently
   switch_bank_ldy map_bank
-  jsr ppu_load_dynamic_palette_brightness
+  lda brightness_level_bg
+  sta b3
+  jsr ppu_load_dynamic_palette_brightness_bg
+  lda brightness_level_spr
+  sta b3
+  jsr ppu_load_dynamic_palette_brightness_spr
 
   ;pause for FADING_SPEED frames
   ldx #FADING_SPEED
@@ -266,13 +273,30 @@ fading_loop:
   dex
   bne :-
 
-  ;test to see if we've faded in to the desired level and exit the loop if so
-  lda brightness_level
-  cmp desired_brightness_level
-  beq done_fading
+  ;exit loop if both bg and spr brightness levels match their desired level
+  lda brightness_level_bg
+  cmp desired_brightness_level_bg
+  bne desired_level_not_reached_yet
+  lda brightness_level_spr
+  cmp desired_brightness_level_spr
+  bne desired_level_not_reached_yet
 
-  ;proceed to the next brightness level
-  inc brightness_level
+  jmp done_fading
+
+desired_level_not_reached_yet:
+
+  ;increment bg and spr brightness levels until they reach the desired level
+  lda brightness_level_bg
+  cmp desired_brightness_level_bg
+  beq do_not_increment_brightness_level_bg
+  inc brightness_level_bg
+do_not_increment_brightness_level_bg:
+
+  lda brightness_level_spr
+  cmp desired_brightness_level_spr
+  beq do_not_increment_brightness_level_spr
+  inc brightness_level_spr
+do_not_increment_brightness_level_spr:
 
   jmp fading_loop
 done_fading:
@@ -295,9 +319,11 @@ no_fading_needed:
 ;assumes we are safely in the middle of rendering a frame so we can
 ;switch to the palette vblank routine and turn on graphics hiding
 ;expects palette_address to point to the palette to fade out from
-;uses b3 to store brightness level
+;uses b4 to store bg brightness level
+;uses b5 to store spr brightness level
 .proc ppu_fade_out_palette
-brightness_level = b3
+brightness_level_bg = b4
+brightness_level_spr = b5
 
   ;save current nmi routine
   lda vblank_routine
@@ -316,14 +342,21 @@ brightness_level = b3
   sta vblank_routine+1
 
   ;fade out from the current global brightness level
-  lda dynamic_palette_brightness_level
-  sta brightness_level
+  lda dynamic_palette_brightness_level_bg
+  sta brightness_level_bg
+  lda dynamic_palette_brightness_level_spr
+  sta brightness_level_spr
 
 fading_loop:
 
   ;load up the dynamic palette with brightness in b3
   switch_bank_ldy map_bank
-  jsr ppu_load_dynamic_palette_brightness
+  lda brightness_level_bg
+  sta b3
+  jsr ppu_load_dynamic_palette_brightness_bg
+  lda brightness_level_spr
+  sta b3
+  jsr ppu_load_dynamic_palette_brightness_spr
 
   ;pause for FADING_SPEED frames
   ldx #FADING_SPEED
@@ -332,13 +365,35 @@ fading_loop:
   dex
   bne :-
 
-  ;check to see if min palette level has been uploaded yet and exit if so
-  lda brightness_level
+  ;exit loop if both bg and spr fading levels are at min brightness
+  lda brightness_level_bg
   cmp #MIN_BRIGHTNESS_LEVEL
-  beq done_fading
+  bne not_faded_out_yet
+  lda brightness_level_spr
+  cmp #MIN_BRIGHTNESS_LEVEL
+  bne not_faded_out_yet
 
-  ;proceed to next brightness level
-  dec brightness_level
+  jmp done_fading
+
+not_faded_out_yet:
+
+  lda brightness_level_bg
+  cmp brightness_level_spr
+  bmi decrement_only_spr_brightness
+
+  lda brightness_level_bg
+  cmp #MIN_BRIGHTNESS_LEVEL
+  beq bg_done_fading_out
+  dec brightness_level_bg
+bg_done_fading_out:
+
+decrement_only_spr_brightness:
+  lda brightness_level_spr
+  cmp #MIN_BRIGHTNESS_LEVEL
+  beq spr_done_fading_out
+  dec brightness_level_spr
+spr_done_fading_out:
+
   jmp fading_loop
 done_fading:
 
@@ -488,13 +543,13 @@ return_black:
 
 ;expects palette_address to have address of palette to transfer to dynamic palette
 ;expects b3 to contain desired brightness level
+;uses b0 temporarily
 .proc ppu_load_dynamic_palette_brightness
 
   ldy #$1f
 
-:
   ;load a color from the palette
-  lda (palette_address),y
+: lda (palette_address),y
 
   ;adjust that color's brightness based on input (b3)
   sta b0
@@ -507,4 +562,60 @@ return_black:
   bpl :-
 
   rts
+
+.endproc
+
+;this only adjusts brightness for the bg palette
+;expects palette_address to have address of palette to transfer to dynamic palette
+;expects b3 to contain desired brightness level
+;uses b0 temporarily
+.proc ppu_load_dynamic_palette_brightness_bg
+
+  ldy #$0f
+
+  ;load a color from the palette
+: lda (palette_address),y
+
+  ;adjust that color's brightness based on input (b3)
+  sta b0
+  jsr ppu_adjust_color_brightness
+  lda b0
+  ;store it to dynamic palette
+  sta dynamic_palette,y
+
+  dey
+  bpl :-
+
+  rts
+
+.endproc
+
+;this only adjusts brightness for the spr palette
+;expects palette_address to have address of palette to transfer to dynamic palette
+;expects b3 to contain desired brightness level
+;uses b8 temporarily as a loop counter
+;uses b0 temporarily
+.proc ppu_load_dynamic_palette_brightness_spr
+
+  lda #$10
+  sta b8
+
+  ldy #$1f
+
+  ;load a color from the palette
+: lda (palette_address),y
+
+  ;adjust that color's brightness based on input (b3)
+  sta b0
+  jsr ppu_adjust_color_brightness
+  lda b0
+  ;store it to dynamic palette
+  sta dynamic_palette,y
+
+  dey
+  dec b8
+  bne :-
+
+  rts
+
 .endproc

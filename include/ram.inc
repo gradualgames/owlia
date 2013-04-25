@@ -151,7 +151,8 @@ MAX_ENTITIES = 12
 .global ppu_2006
 
 .global dynamic_palette
-.global dynamic_palette_brightness_level
+.global dynamic_palette_brightness_level_bg
+.global dynamic_palette_brightness_level_spr
 
 .global buffer_controller
 
