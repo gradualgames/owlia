@@ -11,8 +11,45 @@
 .include "geotests.inc"
 .include "camera.inc"
 .include "textbox.inc"
+.include "ppu.inc"
+.include "areas.inc"
 
 .segment "CODE"
+
+;this routine is a trampoline wrapper for ppu_load_dynamic_palette_brightness_bg
+;it saves the calling bank, changes the palette based on the current area palette
+;and then returns to the calling bank. this only adjusts brightness for the bg palette
+;expects b3 to contain desired brightness level
+;uses b0 temporarily
+.proc entity_change_area_brightness_trampoline
+
+  ;save calling bank
+  lda current_bank
+  pha
+
+  ;load area palette address
+  switch_bank_ldy #AREAS_BANK
+  ldy #area::palette_address
+  lda (area_address),y
+  sta palette_address
+  iny
+  lda (area_address),y
+  sta palette_address+1
+
+  ;switch to map bank to access the palette
+  switch_bank_ldy map_bank
+
+  ;adjust the brightness of the dynamic palette based on the palette at palette_address
+  jsr ppu_load_dynamic_palette_brightness_bg
+
+  ;restore calling bank
+  pla
+  sta current_bank
+  switch_bank_ldy current_bank
+
+  rts
+
+.endproc
 
 ;sets ENTITY_FLAGS_DRAWABLE_SORTED, clears ENTITY_FLAGS_DRAWABLE_UNSORTED,
 ;and sets sorted_entity_index. This causes the current entity to be sorted
@@ -277,13 +314,13 @@ next_entity:
 
   dex
   bpl next_entity
-  
+
   ;didn't find any dead entities, just exit
-  
+
   rts
-  
+
 found_dead_entity:
- 
+
   ;x now points at a dead entity
 
   ;store the entity type in the new entity

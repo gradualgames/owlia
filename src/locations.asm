@@ -107,7 +107,7 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4, area_index_overworld, 30, 
 dungeon_entrance:
 define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                 LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
-                LOCATION_BRIGHTNESS_LEVEL_4, \
+                LOCATION_BRIGHTNESS_LEVEL_0, \
                 area_index_dungeon, 0, 0, 7, 9, \
                 sfx_door, 3, soundeffect_one,\
                 HERO_DIRECTION_UP
