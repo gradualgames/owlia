@@ -572,7 +572,8 @@ state_counter_not_zero:
 .proc familiar_state_home_in_to_hero
 
   jsr familiar_home_in_to_hero
-
+  jsr familiar_kill_if_close_to_hero
+  
   rts
 
 .endproc
@@ -675,7 +676,8 @@ state_counter_not_zero:
 .proc familiar_state_fetch_home_in_to_hero
 
   jsr familiar_home_in_to_hero
-
+  jsr familiar_kill_if_close_to_hero
+  
   ;now make the fetched entity match the familiar's coordinates if there is an entity
   ;being fetched and that entity is alive
   ldx familiar_param_fetched_entity_index
@@ -1223,42 +1225,25 @@ familiar_not_at_goal:
 .endproc
 
 ;****************************************************************
-;This routine performs homing logic on the hero. It became quite
-;sophisticated because we want the owl to look like it is gracefully
-;facing the hero as it tries to fly to her. We infer the direction
-;the owl should face from the velocity that is computed from its
-;horizontal and vertical distance from the hero. However, there
-;are some cases where the hero is at nearly equal vertical and
-;horizontal distance from the familiar that it causes the familiar
-;to flip between left and right facing animations very rapidly.
-;To prevent this, I keep a rotating buffer of "direction change
-;attempts," and require that a string of "trying to turn in a
-;single direction" is unbroken before validating it and changing
-;the animation of the familiar.
+;This routine is used by the home-in-to-hero state to determine
+;when the familiar is close enough to kill (deactivate).
+;uses b0
 ;****************************************************************
-.proc familiar_home_in_to_hero
+.proc familiar_kill_if_close_to_hero
 
-  ;use b0 to count whether both X and Y are close enough
+  ;use b0 to count to learn whether both x and y velocities are
+  ;close enough to kill the familiar.
   lda #0
   sta b0
 
   .scope
-  ;calculate distance between "goal" and X coordinate
-  sec
-  lda hero_x
-  sbc familiar_x
-  sta familiar_x_velocity
-  lda hero_x+1
-  sbc familiar_x+1
-  sta familiar_x_velocity+1
-
-  .scope
+  lda familiar_x_velocity+1
   bmi hero_to_left
 hero_to_right:
   ;velocity is positive
   .scope
   sec
-  lda #4
+  lda #FAMILIAR_KILL_DISTANCE
   sbc familiar_x_velocity
   lda #0
   sbc familiar_x_velocity+1
@@ -1274,7 +1259,7 @@ hero_to_left:
   ;velocity is negative
   .scope
   clc
-  lda #4
+  lda #FAMILIAR_KILL_DISTANCE
   adc familiar_x_velocity
   lda #0
   adc familiar_x_velocity+1
@@ -1286,6 +1271,88 @@ velocity_greater_than:
   .endscope
 done:
   .endscope
+
+  .scope
+  lda familiar_y_velocity+1
+  bmi hero_above
+hero_below:
+  ;velocity is positive
+  .scope
+  sec
+  lda #FAMILIAR_KILL_DISTANCE
+  sbc familiar_y_velocity
+  lda #0
+  sbc familiar_y_velocity+1
+  bmi velocity_greater_than
+velocity_less_than:
+  ;y is close enough to kill the familiar
+  inc b0
+velocity_greater_than:
+  .endscope
+
+  jmp done
+hero_above:
+  ;velocity is negative
+  .scope
+  clc
+  lda #FAMILIAR_KILL_DISTANCE
+  adc familiar_y_velocity
+  lda #0
+  adc familiar_y_velocity+1
+  bmi velocity_greater_than
+velocity_less_than:
+  ;y is close enough to kill the familiar
+  inc b0
+velocity_greater_than:
+  .endscope
+done:
+  .endscope
+
+  lda b0
+  cmp #2
+  bne do_not_kill_familiar
+
+  ;clear the fetched entity index
+  lda #$ff
+  sta familiar_param_fetched_entity_index
+
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_ALIVE_CLEAR
+  sta familiar_flags
+  lda #ACTION_NOP
+  sta entity_action_rect2_action
+
+do_not_kill_familiar:
+
+  rts
+
+.endproc
+
+;****************************************************************
+;This routine performs homing logic on the hero. It became quite
+;sophisticated because we want the owl to look like it is gracefully
+;facing the hero as it tries to fly to her. We infer the direction
+;the owl should face from the velocity that is computed from its
+;horizontal and vertical distance from the hero. However, there
+;are some cases where the hero is at nearly equal vertical and
+;horizontal distance from the familiar that it causes the familiar
+;to flip between left and right facing animations very rapidly.
+;To prevent this, I keep a rotating buffer of "direction change
+;attempts," and require that a string of "trying to turn in a
+;single direction" is unbroken before validating it and changing
+;the animation of the familiar.
+;****************************************************************
+.proc familiar_home_in_to_hero
+
+  .scope
+  ;calculate distance between "goal" and X coordinate
+  sec
+  lda hero_x
+  sbc familiar_x
+  sta familiar_x_velocity
+  lda hero_x+1
+  sbc familiar_x+1
+  sta familiar_x_velocity+1
 
   ;do an 16 bit arithmetic left shift on this value
   asl familiar_x_velocity
@@ -1306,41 +1373,6 @@ done:
   sbc familiar_y+1
   sta familiar_y_velocity+1
 
-  .scope
-  bmi hero_above
-hero_below:
-  ;velocity is positive
-  .scope
-  sec
-  lda #4
-  sbc familiar_y_velocity
-  lda #0
-  sbc familiar_y_velocity+1
-  bmi velocity_greater_than
-velocity_less_than:
-  ;y is close enough to kill the familiar
-  inc b0
-velocity_greater_than:
-  .endscope
-
-  jmp done
-hero_above:
-  ;velocity is negative
-  .scope
-  clc
-  lda #4
-  adc familiar_y_velocity
-  lda #0
-  adc familiar_y_velocity+1
-  bmi velocity_greater_than
-velocity_less_than:
-  ;y is close enough to kill the familiar
-  inc b0
-velocity_greater_than:
-  .endscope
-done:
-  .endscope
-
   ;do an 16 bit arithmetic left shift on this value
   asl familiar_y_velocity
   rol familiar_y_velocity+1
@@ -1349,22 +1381,6 @@ done:
   asl familiar_y_velocity
   rol familiar_y_velocity+1
   .endscope
-
-  lda b0
-  cmp #2
-  bne do_not_kill_familiar
-
-  ;clear the fetched entity index
-  lda #$ff
-  sta familiar_param_fetched_entity_index
-
-  lda familiar_flags
-  and #FAMILIAR_FLAGS_ALIVE_CLEAR
-  sta familiar_flags
-  lda #ACTION_NOP
-  sta entity_action_rect2_action
-
-do_not_kill_familiar:
 
   .scope
   lda familiar_x_velocity
