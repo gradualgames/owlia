@@ -572,8 +572,8 @@ state_counter_not_zero:
 .proc familiar_state_home_in_to_hero
 
   jsr familiar_prepare_distance_to_hero_velocity
-  jsr familiar_home_in_to_hero
   jsr familiar_kill_if_close_to_hero
+  jsr familiar_home_in_to_hero
 
   rts
 
@@ -677,8 +677,8 @@ state_counter_not_zero:
 .proc familiar_state_fetch_home_in_to_hero
 
   jsr familiar_prepare_distance_to_hero_velocity
-  jsr familiar_home_in_to_hero
   jsr familiar_kill_if_close_to_hero
+  jsr familiar_home_in_to_hero
 
   ;now make the fetched entity match the familiar's coordinates if there is an entity
   ;being fetched and that entity is alive
