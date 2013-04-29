@@ -571,9 +571,10 @@ state_counter_not_zero:
 ;****************************************************************
 .proc familiar_state_home_in_to_hero
 
+  jsr familiar_prepare_distance_to_hero_velocity
   jsr familiar_home_in_to_hero
   jsr familiar_kill_if_close_to_hero
-  
+
   rts
 
 .endproc
@@ -675,9 +676,10 @@ state_counter_not_zero:
 ;****************************************************************
 .proc familiar_state_fetch_home_in_to_hero
 
+  jsr familiar_prepare_distance_to_hero_velocity
   jsr familiar_home_in_to_hero
   jsr familiar_kill_if_close_to_hero
-  
+
   ;now make the fetched entity match the familiar's coordinates if there is an entity
   ;being fetched and that entity is alive
   ldx familiar_param_fetched_entity_index
@@ -1328,6 +1330,30 @@ do_not_kill_familiar:
 
 .endproc
 
+.proc familiar_prepare_distance_to_hero_velocity
+
+  ;calculate distance between "goal" and X coordinate
+  sec
+  lda hero_x
+  sbc familiar_x
+  sta familiar_x_velocity
+  lda hero_x+1
+  sbc familiar_x+1
+  sta familiar_x_velocity+1
+
+  ;calculate distance between "goal" and Y coordinate
+  sec
+  lda hero_y
+  sbc familiar_y
+  sta familiar_y_velocity
+  lda hero_y+1
+  sbc familiar_y+1
+  sta familiar_y_velocity+1
+
+  rts
+
+.endproc
+
 ;****************************************************************
 ;This routine performs homing logic on the hero. It became quite
 ;sophisticated because we want the owl to look like it is gracefully
@@ -1345,16 +1371,8 @@ do_not_kill_familiar:
 .proc familiar_home_in_to_hero
 
   .scope
-  ;calculate distance between "goal" and X coordinate
-  sec
-  lda hero_x
-  sbc familiar_x
-  sta familiar_x_velocity
-  lda hero_x+1
-  sbc familiar_x+1
-  sta familiar_x_velocity+1
-
-  ;do an 16 bit arithmetic left shift on this value
+  ;it is assumed familiar_x_velocity has been previously computed as
+  ;the X distance between the familiar and the hero.
   asl familiar_x_velocity
   rol familiar_x_velocity+1
   asl familiar_x_velocity
@@ -1364,16 +1382,8 @@ do_not_kill_familiar:
   .endscope
 
   .scope
-  ;calculate distance between "goal" and Y coordinate
-  sec
-  lda hero_y
-  sbc familiar_y
-  sta familiar_y_velocity
-  lda hero_y+1
-  sbc familiar_y+1
-  sta familiar_y_velocity+1
-
-  ;do an 16 bit arithmetic left shift on this value
+  ;it is assumed familiar_y_velocity has been previously computed as
+  ;the Y distance between the familiar and the hero.
   asl familiar_y_velocity
   rol familiar_y_velocity+1
   asl familiar_y_velocity
