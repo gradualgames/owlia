@@ -2,28 +2,15 @@
 .ifndef LANTERN_INC
 LANTERN_INC = 1
 
-LANTERN_WIDTH = $07
-LANTERN_HEIGHT = $07
-
-LANTERN_BRIGHTNESS_LEVELS = 4
-
-;how many frames before changing brightness level
-LANTERN_BRIGHTNESS_LEVEL_SPEED = 5
-
-lantern_brightness_level = entity_local0
-lantern_state_counter = entity_local1
+.include "lantern_constants.inc"
 
 lantern_brightness_levels:
   .byte 4, 2, 1, 2
 
-.enum
-LANTERN_STATE_INIT
-LANTERN_STATE_MAIN
-.endenum
-
 .define lantern_states \
   lantern_state_init, \
-  lantern_state_main
+  lantern_state_main, \
+  lantern_revert_brightness
 
 lantern_lo:
   .lobytes lantern_states
@@ -60,11 +47,20 @@ lantern_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
+  ;tell the familiar what x and y offset to carry the lantern at
+  lda #LANTERN_CARRIED_X_OFFSET
+  sta familiar_param_carry_lantern_x_offset
+  lda #LANTERN_CARRIED_Y_OFFSET
+  sta familiar_param_carry_lantern_y_offset
+
   ;initialize members of the lantern
   lda #$00
   sta lantern_brightness_level,x
   lda #LANTERN_BRIGHTNESS_LEVEL_SPEED
   sta lantern_state_counter,x
+
+  lda dynamic_palette_brightness_level_bg
+  sta lantern_saved_brightness_level,x
 
   lda #LANTERN_STATE_MAIN
   sta entity_state,x
@@ -101,6 +97,18 @@ do_not_reset_brightness_level:
 do_not_change_brightness_level:
 
   jsr entity_update_animation
+
+  rts
+
+lantern_revert_brightness:
+
+  lda lantern_saved_brightness_level,x
+  sta b3
+  jsr entity_change_area_brightness_trampoline
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
 
   rts
 

@@ -4,6 +4,7 @@
 .include "familiar.inc"
 .include "familiar_constants.inc"
 .include "bomb_constants.inc"
+.include "lantern_constants.inc"
 .include "ram.inc"
 .include "zp.inc"
 .include "sprites_and_animations_data.inc"
@@ -101,6 +102,39 @@
   jsr entity_spawn
 
   stx familiar_param_carry_bomb_entity_index
+
+  rts
+
+.endproc
+
+;sets the familiar to be alive and initializes the carry lantern technique.
+.proc familiar_spawn_carry_lantern
+
+  lda familiar_flags
+  ora #FAMILIAR_FLAGS_ALIVE_SET
+  sta familiar_flags
+
+  lda #FAMILIAR_STATE_CARRY_LANTERN_INIT
+  sta familiar_state
+
+  jsr familiar_setup_initial_location_and_direction
+
+  ;spawn a lantern entity
+  lda #entity_index_lantern
+  sta b0
+
+  lda familiar_x
+  sta w0
+  lda familiar_x+1
+  sta w0+1
+  lda familiar_y
+  sta w1
+  lda familiar_y+1
+  sta w1+1
+
+  jsr entity_spawn
+
+  stx familiar_param_carry_lantern_entity_index
 
   rts
 
@@ -380,6 +414,8 @@ familiar_carry_bomb_direction_speed_y_hi:
     familiar_state_fetch_home_in_to_hero, \
     familiar_state_carry_bomb_init, \
     familiar_state_carry_bomb, \
+    familiar_state_carry_lantern_init, \
+    familiar_state_carry_lantern, \
     familiar_state_carry_hero_init, \
     familiar_state_carry_hero
 
@@ -830,6 +866,198 @@ state_counter_not_at_drop_bomb_frame:
   sta familiar_state
 
 state_counter_not_zero:
+
+  rts
+
+.endproc
+
+;****************************************************************
+;This state initializes the carry lantern technique.
+;****************************************************************
+.proc familiar_state_carry_lantern_init
+
+  jsr familiar_common_init
+
+  lda #FAMILIAR_STATE_CARRY_LANTERN_LENGTH
+  sta familiar_state_counter
+
+  lda #FAMILIAR_STATE_CARRY_LANTERN
+  sta familiar_state
+
+  rts
+
+.endproc
+
+;****************************************************************
+;This state runs the carry lantern tech. The familiar continously
+;follows the hero when X or Y distance exceeds a certain amount,
+;all the while carrying a lantern entity spawned by the
+;corresponding init state above.
+;****************************************************************
+.proc familiar_state_carry_lantern
+
+  dec familiar_state_counter
+  bne do_not_transition_to_return_to_hero_state
+
+  .scope
+  ldx familiar_param_carry_lantern_entity_index
+  bmi no_lantern
+  lda #LANTERN_STATE_REVERT_BRIGHTNESS
+  sta entity_state,x
+no_lantern:
+  .endscope
+
+  lda #FAMILIAR_STATE_HOME_IN_TO_HERO
+  sta familiar_state
+
+  rts
+
+do_not_transition_to_return_to_hero_state:
+
+  jsr familiar_prepare_distance_to_hero_velocity
+
+  ;use b0 to count to learn whether both x and y velocities are
+  ;close enough to kill the familiar.
+  lda #0
+  sta b0
+
+  .scope
+  lda familiar_x_velocity+1
+  bmi hero_to_left
+hero_to_right:
+  ;velocity is positive
+  .scope
+  sec
+  lda #FAMILIAR_FOLLOW_DISTANCE
+  sbc familiar_x_velocity
+  lda #0
+  sbc familiar_x_velocity+1
+  bmi velocity_greater_than
+velocity_less_than:
+  ;x is close enough to kill the familiar
+  inc b0
+velocity_greater_than:
+  .endscope
+
+  jmp done
+hero_to_left:
+  ;velocity is negative
+  .scope
+  clc
+  lda #FAMILIAR_FOLLOW_DISTANCE
+  adc familiar_x_velocity
+  lda #0
+  adc familiar_x_velocity+1
+  bmi velocity_greater_than
+velocity_less_than:
+  ;x is close enough to kill the familiar
+  inc b0
+velocity_greater_than:
+  .endscope
+done:
+  .endscope
+
+  .scope
+  lda familiar_y_velocity+1
+  bmi hero_above
+hero_below:
+  ;velocity is positive
+  .scope
+  sec
+  lda #FAMILIAR_FOLLOW_DISTANCE
+  sbc familiar_y_velocity
+  lda #0
+  sbc familiar_y_velocity+1
+  bmi velocity_greater_than
+velocity_less_than:
+  ;y is close enough to kill the familiar
+  inc b0
+velocity_greater_than:
+  .endscope
+
+  jmp done
+hero_above:
+  ;velocity is negative
+  .scope
+  clc
+  lda #FAMILIAR_FOLLOW_DISTANCE
+  adc familiar_y_velocity
+  lda #0
+  adc familiar_y_velocity+1
+  bmi velocity_greater_than
+velocity_less_than:
+  ;y is close enough to kill the familiar
+  inc b0
+velocity_greater_than:
+  .endscope
+done:
+  .endscope
+
+  lda b0
+  cmp #2
+  bne follow_hero
+
+  ;make the lantern's coordinates match that of the familiar
+  .scope
+  ldx familiar_param_carry_lantern_entity_index
+  bmi no_lantern
+  clc
+  lda familiar_x
+  adc familiar_param_carry_lantern_x_offset
+  sta entity_x_lo,x
+  lda familiar_x+1
+  adc #$00
+  sta entity_x_hi,x
+
+  clc
+  lda familiar_y
+  adc familiar_param_carry_lantern_y_offset
+  sta entity_y_lo,x
+  lda familiar_y+1
+  adc #$00
+  sta entity_y_hi,x
+no_lantern:
+  .endscope
+
+  lda familiar_animation_address
+  sta w2
+  lda familiar_animation_address+1
+  sta w2+1
+
+  lda #<familiar_animation_object
+  sta w1
+  lda #>familiar_animation_object
+  sta w1+1
+
+  jsr sprite_update_animation
+
+  rts
+
+follow_hero:
+
+  jsr familiar_home_in_to_hero
+
+  ;make the lantern's coordinates match that of the familiar
+  .scope
+  ldx familiar_param_carry_lantern_entity_index
+  bmi no_lantern
+  clc
+  lda familiar_x
+  adc familiar_param_carry_lantern_x_offset
+  sta entity_x_lo,x
+  lda familiar_x+1
+  adc #$00
+  sta entity_x_hi,x
+
+  clc
+  lda familiar_y
+  adc familiar_param_carry_lantern_y_offset
+  sta entity_y_lo,x
+  lda familiar_y+1
+  adc #$00
+  sta entity_y_hi,x
+no_lantern:
+  .endscope
 
   rts
 

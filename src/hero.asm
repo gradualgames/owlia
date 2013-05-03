@@ -530,7 +530,7 @@ hero_invincible:
   familiar_spawn_rush, \
   familiar_spawn_fetch, \
   familiar_spawn_carry_bomb, \
-  spawn_lantern_test, \
+  familiar_spawn_carry_lantern, \
   hero_spawn_familiar_spawn_carry_hero, \
   familiar_spawn_nop, \
   familiar_spawn_nop, \

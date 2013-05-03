@@ -129,6 +129,10 @@ MAX_ENTITIES = 12
 .global familiar_param_carry_bomb_y_offset
 .global familiar_param_carry_bomb_entity_index
 
+.global familiar_param_carry_lantern_x_offset
+.global familiar_param_carry_lantern_y_offset
+.global familiar_param_carry_lantern_entity_index
+
 .global familiar_param_destination_x
 .global familiar_param_destination_y
 

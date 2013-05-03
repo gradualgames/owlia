@@ -5,6 +5,7 @@ FAMILIAR_INC = 1
 .global familiar_spawn_rush
 .global familiar_spawn_fetch
 .global familiar_spawn_carry_bomb
+.global familiar_spawn_carry_lantern
 .global familiar_spawn_carry_hero
 .global familiar_spawn_nop
 .global align_familiar_if_occluded_by_textbox

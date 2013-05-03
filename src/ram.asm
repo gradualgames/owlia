@@ -199,6 +199,11 @@ familiar_param_carry_bomb_x_offset = familiar_param_b0
 familiar_param_carry_bomb_y_offset = familiar_param_b1
 familiar_param_carry_bomb_entity_index = familiar_param_b2
 
+;carry lantern
+familiar_param_carry_lantern_x_offset = familiar_param_b0
+familiar_param_carry_lantern_y_offset = familiar_param_b1
+familiar_param_carry_lantern_entity_index = familiar_param_b2
+
 ;carry hero
 familiar_param_destination_x = familiar_param_w0
 familiar_param_destination_y = familiar_param_w1
