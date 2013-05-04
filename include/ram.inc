@@ -136,6 +136,11 @@ MAX_ENTITIES = 12
 .global familiar_param_destination_x
 .global familiar_param_destination_y
 
+.global familiar_param_shield_x_axis_state
+.global familiar_param_shield_y_axis_state
+.global familiar_param_shield_x
+.global familiar_param_shield_y
+
 .global entity_action_rect1_action
 .global entity_action_rect1_x
 .global entity_action_rect1_y

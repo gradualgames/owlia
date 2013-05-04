@@ -185,9 +185,14 @@ familiar_state_counter:           .res 1
 familiar_param_w0:
 familiar_param_b0:  .res 1
 familiar_param_b1:  .res 1
+
 familiar_param_w1:
 familiar_param_b2:  .res 1
 familiar_param_b3:  .res 1
+
+familiar_param_w2:
+familiar_param_b4:  .res 1
+familiar_param_b5:  .res 1
 
 ;fetch
 familiar_param_fetched_entity_x_offset = familiar_param_b0
@@ -207,6 +212,12 @@ familiar_param_carry_lantern_entity_index = familiar_param_b2
 ;carry hero
 familiar_param_destination_x = familiar_param_w0
 familiar_param_destination_y = familiar_param_w1
+
+;shield
+familiar_param_shield_x_axis_state = familiar_param_b0
+familiar_param_shield_y_axis_state = familiar_param_b1
+familiar_param_shield_x = familiar_param_w1
+familiar_param_shield_y = familiar_param_w2
 
 ;****************************************************************
 ;These variables describe entity action rects. There are only two

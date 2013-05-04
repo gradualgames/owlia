@@ -120,7 +120,7 @@ title_state_exit:
   sta sound_param_word_0+1
   jsr sfx_initialize
 
-  ldx #location_index_dungeon_entrance
+  ldx #location_index_overworld_dungeon_entrance
   lda locations_lo,x
   sta location_address
   lda locations_hi,x

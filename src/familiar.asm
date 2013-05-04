@@ -178,6 +178,22 @@
 
 .endproc
 
+;sets the familiar to be alive and initializes the shield technique.
+.proc familiar_spawn_shield
+
+  lda familiar_flags
+  ora #FAMILIAR_FLAGS_ALIVE_SET
+  sta familiar_flags
+
+  lda #FAMILIAR_STATE_SHIELD_INIT
+  sta familiar_state
+
+  jsr familiar_setup_initial_location_and_direction
+
+  rts
+
+.endproc
+
 .proc familiar_setup_initial_location_and_direction
 
   ;parameterize the familiar's location and direction
@@ -417,7 +433,9 @@ familiar_carry_bomb_direction_speed_y_hi:
     familiar_state_carry_lantern_init, \
     familiar_state_carry_lantern, \
     familiar_state_carry_hero_init, \
-    familiar_state_carry_hero
+    familiar_state_carry_hero, \
+    familiar_state_shield_init, \
+    familiar_state_shield
 
 familiar_lo:
   .lobytes familiar_states
@@ -1438,6 +1456,400 @@ familiar_not_at_goal:
   adc #0
   sta hero_y+1
 
+  lda familiar_animation_address
+  sta w2
+  lda familiar_animation_address+1
+  sta w2+1
+
+  lda #<familiar_animation_object
+  sta w1
+  lda #>familiar_animation_object
+  sta w1+1
+
+  jsr sprite_update_animation
+
+  rts
+
+.endproc
+
+;****************************************************************
+;This state initializes the shield technique. It sets up start
+;velocity and start position and also initializes two mini
+;state machines who are responsible for the circular movement
+;of the familiar.
+;****************************************************************
+.proc familiar_state_shield_init
+
+  jsr familiar_common_init
+
+  ;initialize x and y velocity to values which start it at the top of a circle
+  ;and then cause the x and y oscillating state machines to work at such an
+  ;offset that they produce nearly circular movement. These values were found
+  ;by inspecting a debugger at the desired start point of the circle.
+
+  lda #FAMILIAR_START_X_VELOCITY_LO
+  sta familiar_x_velocity
+  lda #FAMILIAR_START_X_VELOCITY_HI
+  sta familiar_x_velocity+1
+  lda #FAMILIAR_START_Y_VELOCITY_LO
+  sta familiar_y_velocity
+  lda #FAMILIAR_START_Y_VELOCITY_HI
+  sta familiar_y_velocity+1
+
+  lda #$00
+  sta familiar_param_shield_x
+  sta familiar_param_shield_x+1
+  sta familiar_param_shield_y
+  sta familiar_param_shield_y+1
+
+  ;now add shield coords onto hero to get familiar's position
+  clc
+  lda hero_x
+  adc familiar_param_shield_x
+  sta familiar_x
+  lda hero_x+1
+  adc familiar_param_shield_x+1
+  sta familiar_x+1
+
+  clc
+  lda hero_y
+  adc familiar_param_shield_y
+  sta familiar_y
+  lda hero_y+1
+  adc familiar_param_shield_y+1
+  sta familiar_y+1
+
+  ;add an offset onto the familiar to center it around the hero
+  clc
+  lda familiar_x
+  adc #<4
+  sta familiar_x
+  lda familiar_x+1
+  adc #>4
+  sta familiar_x+1
+
+  sec
+  lda familiar_y
+  sbc #<16
+  sta familiar_y
+  lda familiar_y+1
+  sbc #>16
+  sta familiar_y+1
+
+  ;initialize state machines for x and y axis movement
+  lda #FAMILIAR_STATE_X_AXIS_ACCELERATE
+  sta familiar_param_shield_x_axis_state
+  lda #FAMILIAR_STATE_Y_AXIS_ACCELERATE
+  sta familiar_param_shield_y_axis_state
+
+  lda #FAMILIAR_STATE_SHIELD_LENGTH
+  sta familiar_state_counter
+
+  lda #FAMILIAR_STATE_SHIELD
+  sta familiar_state
+
+  rts
+
+.endproc
+
+;****************************************************************
+;The following are two mini state machines which produce circular
+;movement of the familiar. The way they work is by independently
+;producing sinusoidal motion about the X and Y axes; but they are
+;initialized with offset values so that the combination of the
+;motion about the axes produces approximately circular movement.
+;When they switch between acceleration and deceleration, there
+;are some cases where we zero out velocity or position to keep
+;the circular movement from decaying into an ellipse or slowly
+;drifting away from the center.
+;****************************************************************
+.enum
+FAMILIAR_STATE_X_AXIS_ACCELERATE
+FAMILIAR_STATE_X_AXIS_DECELERATE
+.endenum
+
+.define familiar_state_x_axis \
+  familiar_state_x_axis_accelerate, \
+  familiar_state_x_axis_decelerate
+
+familiar_state_x_axis_lo:
+  .lobytes familiar_state_x_axis
+
+familiar_state_x_axis_hi:
+  .hibytes familiar_state_x_axis
+
+.proc familiar_state_x_axis_accelerate
+
+  clc
+  lda familiar_x_velocity
+  adc #<FAMILIAR_SHIELD_ACCELERATION
+  sta familiar_x_velocity
+  lda familiar_x_velocity+1
+  adc #>FAMILIAR_SHIELD_ACCELERATION
+  sta familiar_x_velocity+1
+
+  cmp #FAMILIAR_VELOCITY_AT_WHICH_TO_DECELERATE
+  bne do_not_switch_to_x_axis_decelerate
+
+  lda #0
+  sta familiar_x_velocity
+
+  lda #FAMILIAR_STATE_X_AXIS_DECELERATE
+  sta familiar_param_shield_x_axis_state
+
+do_not_switch_to_x_axis_decelerate:
+
+  rts
+
+.endproc
+
+.proc familiar_state_x_axis_decelerate
+
+  sec
+  lda familiar_x_velocity
+  sbc #<FAMILIAR_SHIELD_ACCELERATION
+  sta familiar_x_velocity
+  lda familiar_x_velocity+1
+  sbc #>FAMILIAR_SHIELD_ACCELERATION
+  sta familiar_x_velocity+1
+
+  cmp #FAMILIAR_VELOCITY_AT_WHICH_TO_ACCELERATE
+  bne do_not_switch_to_x_axis_accelerate
+
+  ;set a breakpoint here to find out what the x and y velocity should be
+  ;at the top of the circle (for start x and y velocity, in constants)
+
+  ;reset shield position so that it does not slide slowly away from origin
+  lda #0
+  sta familiar_param_shield_x
+  sta familiar_param_shield_x+1
+  sta familiar_param_shield_y
+  sta familiar_param_shield_y+1
+
+  lda #FAMILIAR_STATE_X_AXIS_ACCELERATE
+  sta familiar_param_shield_x_axis_state
+
+do_not_switch_to_x_axis_accelerate:
+
+  rts
+
+.endproc
+
+.enum
+FAMILIAR_STATE_Y_AXIS_ACCELERATE
+FAMILIAR_STATE_Y_AXIS_DECELERATE
+.endenum
+
+.define familiar_state_y_axis \
+  familiar_state_y_axis_accelerate, \
+  familiar_state_y_axis_decelerate
+
+familiar_state_y_axis_lo:
+  .lobytes familiar_state_y_axis
+
+familiar_state_y_axis_hi:
+  .hibytes familiar_state_y_axis
+
+.proc familiar_state_y_axis_accelerate
+
+  clc
+  lda familiar_y_velocity
+  adc #<FAMILIAR_SHIELD_ACCELERATION
+  sta familiar_y_velocity
+  lda familiar_y_velocity+1
+  adc #>FAMILIAR_SHIELD_ACCELERATION
+  sta familiar_y_velocity+1
+
+  cmp #FAMILIAR_VELOCITY_AT_WHICH_TO_DECELERATE
+  bne do_not_switch_to_y_axis_decelerate
+
+  ;reset low byte of y velocity to prevent circular movement from decaying into an ellipse
+  lda #0
+  sta familiar_y_velocity
+
+  lda #FAMILIAR_STATE_Y_AXIS_DECELERATE
+  sta familiar_param_shield_y_axis_state
+
+do_not_switch_to_y_axis_decelerate:
+
+  rts
+
+.endproc
+
+.proc familiar_state_y_axis_decelerate
+
+  sec
+  lda familiar_y_velocity
+  sbc #<FAMILIAR_SHIELD_ACCELERATION
+  sta familiar_y_velocity
+  lda familiar_y_velocity+1
+  sbc #>FAMILIAR_SHIELD_ACCELERATION
+  sta familiar_y_velocity+1
+
+  cmp #FAMILIAR_VELOCITY_AT_WHICH_TO_ACCELERATE
+  bne do_not_switch_to_y_axis_accelerate
+
+  lda #FAMILIAR_STATE_Y_AXIS_ACCELERATE
+  sta familiar_param_shield_y_axis_state
+
+do_not_switch_to_y_axis_accelerate:
+
+  rts
+
+.endproc
+
+
+;****************************************************************
+;This state runs the two miniature state machines for circular
+;movement and then uses the results to position the familiar
+;around the hero. It also times out the technique and transitions
+;to the home in to hero state.
+;****************************************************************
+.proc familiar_state_shield
+
+  ldx familiar_param_shield_x_axis_state
+  lda familiar_state_x_axis_lo,x
+  sta w0
+  lda familiar_state_x_axis_hi,x
+  sta w0+1
+  jsr indirect_jsr_w0
+
+  ldx familiar_param_shield_y_axis_state
+  lda familiar_state_y_axis_lo,x
+  sta w0
+  lda familiar_state_y_axis_hi,x
+  sta w0+1
+  jsr indirect_jsr_w0
+
+  ;add 16 bit velocity to 24 bit coordinate with sign extension
+  .scope
+  clc
+  lda familiar_x_velocity
+  adc familiar_x_fine
+  sta familiar_x_fine
+  lda familiar_x_velocity+1
+  bmi sign_extend
+
+  adc familiar_param_shield_x
+  sta familiar_param_shield_x
+
+  lda familiar_param_shield_x+1
+  adc #0
+  sta familiar_param_shield_x+1
+
+  jmp done
+sign_extend:
+
+  adc familiar_param_shield_x
+  sta familiar_param_shield_x
+
+  lda familiar_param_shield_x+1
+  adc #$ff
+  sta familiar_param_shield_x+1
+done:
+  .endscope
+
+  .scope
+  clc
+  lda familiar_y_velocity
+  adc familiar_y_fine
+  sta familiar_y_fine
+  lda familiar_y_velocity+1
+  bmi sign_extend
+
+  adc familiar_param_shield_y
+  sta familiar_param_shield_y
+
+  lda familiar_param_shield_y+1
+  adc #0
+  sta familiar_param_shield_y+1
+
+  jmp done
+sign_extend:
+
+  adc familiar_param_shield_y
+  sta familiar_param_shield_y
+
+  lda familiar_param_shield_y+1
+  adc #$ff
+  sta familiar_param_shield_y+1
+done:
+  .endscope
+
+  ;now add shield coords onto hero to get familiar's position
+  clc
+  lda hero_x
+  adc familiar_param_shield_x
+  sta familiar_x
+  lda hero_x+1
+  adc familiar_param_shield_x+1
+  sta familiar_x+1
+
+  clc
+  lda hero_y
+  adc familiar_param_shield_y
+  sta familiar_y
+  lda hero_y+1
+  adc familiar_param_shield_y+1
+  sta familiar_y+1
+
+  ;add an offset onto the familiar to center it around the hero
+  clc
+  lda familiar_x
+  adc #<4
+  sta familiar_x
+  lda familiar_x+1
+  adc #>4
+  sta familiar_x+1
+
+  sec
+  lda familiar_y
+  sbc #<16
+  sta familiar_y
+  lda familiar_y+1
+  sbc #>16
+  sta familiar_y+1
+
+  ;make action rect active
+  lda #ACTION_ATTACK
+  sta entity_action_rect2_action
+
+  lda familiar_x
+  sta entity_action_rect2_x
+  lda familiar_x+1
+  sta entity_action_rect2_x+1
+  lda familiar_y
+  sta entity_action_rect2_y
+  lda familiar_y+1
+  sta entity_action_rect2_y+1
+  lda familiar_width
+  sta entity_action_rect2_width
+  lda familiar_height
+  sta entity_action_rect2_height
+
+  ;make sure familiar faces same direction as hero
+  lda hero_direction
+  sta familiar_direction
+  ;use flying animation
+  ldy familiar_direction
+  lda familiar_animation_addresses_lo,y
+  sta familiar_animation_address
+  sta w2
+  lda familiar_animation_addresses_hi,y
+  sta familiar_animation_address+1
+  sta w2+1
+  lda familiar_sprite_flags_direction,y
+  sta familiar_sprite_flags
+
+  dec familiar_state_counter
+  bne do_not_switch_to_home_in_to_hero
+
+  lda #FAMILIAR_STATE_HOME_IN_TO_HERO
+  sta familiar_state
+
+do_not_switch_to_home_in_to_hero:
+
+  ;animate the familiar
   lda familiar_animation_address
   sta w2
   lda familiar_animation_address+1
