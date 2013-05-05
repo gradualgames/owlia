@@ -1967,67 +1967,11 @@ done:
   rts
 .endproc
 
-.proc nametable_and_attribute_update_ppu_direct
-
-  .scope
-  lda column_ready
-  beq column_nop
-  jsr map_upload_column_ppu
-  jsr map_upload_attribute_table_column_ppu
-  lda #0
-  sta column_ready
-column_nop:
-  .endscope
-
-  .scope
-  lda row_ready
-  beq row_nop
-  jsr map_upload_row_ppu
-  jsr map_upload_attribute_table_row_ppu
-  lda #0
-  sta row_ready
-row_nop:
-  .endscope
-
-  lda camera_nametable_hibyte
-  sta ppu_2006
-  lda #$00
-  sta ppu_2006+1
-  lda camera_scroll_x
-  sta ppu_2005
-  lda camera_scroll_y
-  sta ppu_2005+1
-
-  upload_ppu_2006
-  upload_ppu_2005
-
-  rts
-
-.endproc
-
-.segment "VBLANK"
-
-;The following lookup tables contain counter values to
-;cycle pad the row and column upload routines for the benefit of
-;the scroll update hiding bar code in the main module. row_ready
-;and column_ready are rotated into an index for these, where
-;column_ready is the higher bit and row_ready is the lower bit.
-;Thus, the values are looked up according to the following table:
-;c    r
-;0    0
-;0    1
-;1    0
-;1    1
-;
-;Note that a special segment was created for cycle timed vblank
-;routines so that they don't move around very much as the game is
-;developed. This helps the graphics bar stay stable even as we add
-;and remove code.
 cycle_pad_lut1:
-  .byte 165, 75, 91, 1
+  .byte 165, 77, 91, 3
 
 cycle_pad_lut2:
-  .byte 165, 76, 91, 2
+  .byte 165, 78, 91, 4
 
 .proc nametable_and_attribute_update_ppu
 
@@ -2095,6 +2039,44 @@ row_nop:
   sta vblank_data_ready
 
 data_not_ready:
+
+  rts
+
+.endproc
+
+.proc nametable_and_attribute_update_ppu_direct
+
+  .scope
+  lda column_ready
+  beq column_nop
+  jsr map_upload_column_ppu
+  jsr map_upload_attribute_table_column_ppu
+  lda #0
+  sta column_ready
+column_nop:
+  .endscope
+
+  .scope
+  lda row_ready
+  beq row_nop
+  jsr map_upload_row_ppu
+  jsr map_upload_attribute_table_row_ppu
+  lda #0
+  sta row_ready
+row_nop:
+  .endscope
+
+  lda camera_nametable_hibyte
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  lda camera_scroll_x
+  sta ppu_2005
+  lda camera_scroll_y
+  sta ppu_2005+1
+
+  upload_ppu_2006
+  upload_ppu_2005
 
   rts
 
