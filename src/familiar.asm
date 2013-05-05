@@ -194,6 +194,22 @@
 
 .endproc
 
+;sets the familiar to be alive and initializes the homing technique.
+.proc familiar_spawn_homing
+
+  lda familiar_flags
+  ora #FAMILIAR_FLAGS_ALIVE_SET
+  sta familiar_flags
+
+  lda #FAMILIAR_STATE_HOMING_INIT
+  sta familiar_state
+
+  jsr familiar_setup_initial_location_and_direction
+
+  rts
+
+.endproc
+
 .proc familiar_setup_initial_location_and_direction
 
   ;parameterize the familiar's location and direction
@@ -435,7 +451,9 @@ familiar_carry_bomb_direction_speed_y_hi:
     familiar_state_carry_hero_init, \
     familiar_state_carry_hero, \
     familiar_state_shield_init, \
-    familiar_state_shield
+    familiar_state_shield, \
+    familiar_state_homing_init, \
+    familiar_state_homing
 
 familiar_lo:
   .lobytes familiar_states
@@ -443,7 +461,7 @@ familiar_lo:
 familiar_hi:
   .hibytes familiar_states
 
-.segment "ROM02"
+.segment "ROM14"
 
 familiar_update:
 
@@ -627,7 +645,7 @@ state_counter_not_zero:
 
   jsr familiar_prepare_distance_to_hero_velocity
   jsr familiar_kill_if_close_to_hero
-  jsr familiar_home_in_to_hero
+  jsr familiar_home_in_to_goal
 
   rts
 
@@ -732,7 +750,7 @@ state_counter_not_zero:
 
   jsr familiar_prepare_distance_to_hero_velocity
   jsr familiar_kill_if_close_to_hero
-  jsr familiar_home_in_to_hero
+  jsr familiar_home_in_to_goal
 
   ;now make the fetched entity match the familiar's coordinates if there is an entity
   ;being fetched and that entity is alive
@@ -1053,7 +1071,7 @@ no_lantern:
 
 follow_hero:
 
-  jsr familiar_home_in_to_hero
+  jsr familiar_home_in_to_goal
 
   ;make the lantern's coordinates match that of the familiar
   .scope
@@ -1867,6 +1885,160 @@ do_not_switch_to_home_in_to_hero:
 .endproc
 
 ;****************************************************************
+;This state initializes the homing tech. All it does is search
+;for a live enemy to home in on and remembers its index, then
+;transitions to the homing state.
+;****************************************************************
+.proc familiar_state_homing_init
+
+  jsr familiar_common_init
+
+  ;make sure to clear out the entity index in case it has an old
+  ;value and we can't find an enemy in the subsequent search
+  lda #$ff
+  sta familiar_param_homing_entity_index
+
+  ;find an enemy to home in on
+  jsr entity_find_enemy
+  bmi no_enemy_found
+
+  ;x should have index of entity to home in on here
+  ;first check to see if this entity is a reasonable distance from
+  ;the hero
+  .scope
+  sec
+  lda hero_x
+  sbc entity_x_lo,x
+  sta w0
+  lda hero_x+1
+  sbc entity_x_hi,x
+  sta w0+1
+  bpl do_not_get_abs_value
+
+  ;negate the negative value in w0 to get abs value
+  clc
+  lda w0
+  eor #$ff
+  adc #$01
+  sta w0
+  lda w0+1
+  eor #$ff
+  adc #$00
+  sta w0+1
+
+do_not_get_abs_value:
+  .endscope
+
+  .scope
+  sec
+  lda hero_y
+  sbc entity_y_lo,x
+  sta w1
+  lda hero_y+1
+  sbc entity_y_hi,x
+  sta w1+1
+  bpl do_not_get_abs_value
+
+  ;negate the negative value in w1 to get abs value
+  clc
+  lda w1
+  eor #$ff
+  adc #$01
+  sta w1
+  lda w1+1
+  eor #$ff
+  adc #$00
+  sta w1+1
+
+do_not_get_abs_value:
+  .endscope
+
+  ;find out if either X or Y distance from enemy is too far
+  sec
+  lda w0
+  sbc #FAMILIAR_HOMING_DISTANCE
+  lda w0+1
+  sbc #0
+  bpl no_enemy_found
+
+  sec
+  lda w1
+  sbc #FAMILIAR_HOMING_DISTANCE
+  lda w1+1
+  sbc #0
+  bpl no_enemy_found
+
+  stx familiar_param_homing_entity_index
+
+no_enemy_found:
+
+  lda #FAMILIAR_STATE_HOMING
+  sta familiar_state
+
+  rts
+
+.endproc
+
+;****************************************************************
+;This is the homing tech state. It just checks to see if the
+;entity it is trying to home in on is alive and then makes the
+;familiar move towards it, whilst deadly with the attack rect. If
+;the entity dies on the way to attacking it, it just transitions
+;to the home in to hero state.
+;****************************************************************
+.proc familiar_state_homing
+
+  ldx familiar_param_homing_entity_index
+  bmi homing_entity_dead
+  ;calculate distance between "goal" and X coordinate
+  sec
+  lda entity_x_lo,x
+  sbc familiar_x
+  sta familiar_x_velocity
+  lda entity_x_hi,x
+  sbc familiar_x+1
+  sta familiar_x_velocity+1
+
+  ;calculate distance between "goal" and Y coordinate
+  sec
+  lda entity_y_lo,x
+  sbc familiar_y
+  sta familiar_y_velocity
+  lda entity_y_hi,x
+  sbc familiar_y+1
+  sta familiar_y_velocity+1
+
+  jsr familiar_home_in_to_goal
+
+  ;make action rect active
+  lda #ACTION_ATTACK
+  sta entity_action_rect2_action
+
+  lda familiar_x
+  sta entity_action_rect2_x
+  lda familiar_x+1
+  sta entity_action_rect2_x+1
+  lda familiar_y
+  sta entity_action_rect2_y
+  lda familiar_y+1
+  sta entity_action_rect2_y+1
+  lda familiar_width
+  sta entity_action_rect2_width
+  lda familiar_height
+  sta entity_action_rect2_height
+
+  rts
+
+homing_entity_dead:
+
+  lda #FAMILIAR_STATE_HOME_IN_TO_HERO
+  sta familiar_state
+
+  rts
+
+.endproc
+
+;****************************************************************
 ;This routine is used by the home-in-to-hero state to determine
 ;when the familiar is close enough to kill (deactivate).
 ;uses b0
@@ -1995,24 +2167,30 @@ do_not_kill_familiar:
 .endproc
 
 ;****************************************************************
-;This routine performs homing logic on the hero. It became quite
-;sophisticated because we want the owl to look like it is gracefully
-;facing the hero as it tries to fly to her. We infer the direction
-;the owl should face from the velocity that is computed from its
-;horizontal and vertical distance from the hero. However, there
-;are some cases where the hero is at nearly equal vertical and
-;horizontal distance from the familiar that it causes the familiar
-;to flip between left and right facing animations very rapidly.
-;To prevent this, I keep a rotating buffer of "direction change
-;attempts," and require that a string of "trying to turn in a
-;single direction" is unbroken before validating it and changing
-;the animation of the familiar.
+;This routine performs homing logic on a goal. The X and Y
+;distance to the goal is expected to be placed into the x and y
+;velocity for the familiar before calling this routine. Then the
+;velocity is shifted to create a velocity to move towards the
+;goal. It became quite sophisticated because we want the owl to
+;look like it is gracefully facing the hero as it tries to fly to
+;her. We infer the direction the owl should face from the
+;velocity that is computed from its horizontal and vertical
+;distance from the hero. However, there are some cases where the
+;hero is at nearly equal vertical and horizontal distance from
+;the familiar that it causes the familiar to flip between left
+;and right facing animations very rapidly. To prevent this, I
+;keep a rotating buffer of "direction change attempts," and
+;require that a string of "trying to turn in a single direction"
+;is unbroken before validating it and changing the animation of
+;the familiar.
 ;****************************************************************
-.proc familiar_home_in_to_hero
+.proc familiar_home_in_to_goal
 
   .scope
   ;it is assumed familiar_x_velocity has been previously computed as
   ;the X distance between the familiar and the hero.
+  asl familiar_x_velocity
+  rol familiar_x_velocity+1
   asl familiar_x_velocity
   rol familiar_x_velocity+1
   asl familiar_x_velocity
@@ -2024,6 +2202,8 @@ do_not_kill_familiar:
   .scope
   ;it is assumed familiar_y_velocity has been previously computed as
   ;the Y distance between the familiar and the hero.
+  asl familiar_y_velocity
+  rol familiar_y_velocity+1
   asl familiar_y_velocity
   rol familiar_y_velocity+1
   asl familiar_y_velocity

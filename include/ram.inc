@@ -141,6 +141,8 @@ MAX_ENTITIES = 12
 .global familiar_param_shield_x
 .global familiar_param_shield_y
 
+.global familiar_param_homing_entity_index
+
 .global entity_action_rect1_action
 .global entity_action_rect1_x
 .global entity_action_rect1_y

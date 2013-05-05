@@ -16,6 +16,28 @@
 
 .segment "CODE"
 
+;This routine searches for a living entity marked as an enemy
+;Returns with x pointing to the living entity that is an enemy
+.proc entity_find_enemy
+
+  ldx #(MAX_ENTITIES-1)
+next_entity:
+
+  ;exit the loop only if an entity is found which is both alive and an enemy.
+  ;otherwise, the loop will end with x as $ff, meaning no live enemy was found.
+  lda entity_flags,x
+  and #(ENTITY_FLAGS_ALIVE_TEST|ENTITY_FLAGS_IS_ENEMY_TEST)
+  cmp #(ENTITY_FLAGS_ALIVE_TEST|ENTITY_FLAGS_IS_ENEMY_TEST)
+  beq enemy_found
+
+  dex
+  bpl next_entity
+enemy_found:
+
+  rts
+
+.endproc
+
 ;this routine is a trampoline wrapper for ppu_load_dynamic_palette_brightness_bg
 ;it saves the calling bank, changes the palette based on the current area palette
 ;and then returns to the calling bank. this only adjusts brightness for the bg palette
@@ -46,6 +68,17 @@
   pla
   sta current_bank
   switch_bank_ldy current_bank
+
+  rts
+
+.endproc
+
+;Marks this entity as an enemy.
+.proc entity_set_is_enemy
+
+  lda entity_flags,x
+  ora #ENTITY_FLAGS_IS_ENEMY_SET
+  sta entity_flags,x
 
   rts
 

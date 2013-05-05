@@ -2,6 +2,7 @@
 ENTITY_INC = 1
 
 .global entity_init_all
+.global entity_find_enemy
 .global entity_spawn
 .global entity_update_all
 .global entity_update_npe
@@ -11,6 +12,7 @@ ENTITY_INC = 1
 .global entity_draw_npe
 .global entity_reset_animation
 .global entity_update_animation
+.global entity_set_is_enemy
 .global entity_set_drawable_unsorted
 .global entity_set_drawable_sorted
 .global entity_test_entity_action_rect1
@@ -31,6 +33,10 @@ ENTITY_FLAGS_DRAWABLE_UNSORTED_CLEAR = %11111101
 ENTITY_FLAGS_DRAWABLE_SORTED_SET   = %00000100
 ENTITY_FLAGS_DRAWABLE_SORTED_TEST  = %00000100
 ENTITY_FLAGS_DRAWABLE_SORTED_CLEAR = %11111011
+
+ENTITY_FLAGS_IS_ENEMY_SET   = %00001000
+ENTITY_FLAGS_IS_ENEMY_TEST  = %00001000
+ENTITY_FLAGS_IS_ENEMY_CLEAR = %11110111
 
 .macro entity_state_switchboard jump_table_lo, jump_table_hi
 

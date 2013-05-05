@@ -32,6 +32,8 @@ jellyfish_state_init:
 
   jsr entity_set_drawable_unsorted
 
+  jsr entity_set_is_enemy
+
   lda #15
   sta entity_width,x
   lda #15
