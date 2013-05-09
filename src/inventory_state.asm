@@ -331,7 +331,6 @@ keys_string: .byte K,E,_Y,S,ES
 ;use item menu strings
 use_item_string: .byte U,S,E,ES
 health_string: .byte H,E,_A,L,T,H,ES
-owl_health_string: .byte O,W,L,SP,H,E,_A,L,T,H,ES
 rope_string: .byte R,O,P,E,ES
 
 ;carry item menu strings
@@ -372,11 +371,10 @@ homing_string: .byte H,O,M,I,N,G,ES
   print_decimal_string inventory_gp, inventory_gp+1, #$20, #7, #9
   print_decimal_string inventory_keys, #0, #$20, #8, #9
   print_decimal_string inventory_healths, #0, #$20, #USE_ITEM_ROW, #24
-  print_decimal_string inventory_owl_healths, #0, #$20, #USE_ITEM_ROW+1, #24
-  print_decimal_string inventory_ropes, #0, #$20, #USE_ITEM_ROW+2, #24
+  print_decimal_string inventory_ropes, #0, #$20, #USE_ITEM_ROW+1, #24
 
-  print_decimal_string inventory_bombs, #0, #$20, #carry_lantern_ROW, #24
-  print_decimal_string inventory_lanterns, #0, #$20, #carry_lantern_ROW+1, #24
+  print_decimal_string inventory_bombs, #0, #$20, #CARRY_LANTERN_ROW, #24
+  print_decimal_string inventory_lanterns, #0, #$20, #CARRY_LANTERN_ROW+1, #24
 
   lda textbox_and_font_chr_offset
   sta chr_group_offset
@@ -387,12 +385,11 @@ homing_string: .byte H,O,M,I,N,G,ES
 
   print_string use_item_string, #$20, #USE_ITEM_ROW, #4
   print_string_if_menu_item_enabled health_is_enabled, health_string, #$20, #USE_ITEM_ROW, #13
-  print_string_if_menu_item_enabled owl_health_is_enabled, owl_health_string, #$20, #USE_ITEM_ROW+1, #13
-  print_string_if_menu_item_enabled rope_is_enabled, rope_string, #$20, #USE_ITEM_ROW+2, #13
+  print_string_if_menu_item_enabled rope_is_enabled, rope_string, #$20, #USE_ITEM_ROW+1, #13
 
-  print_string carry_string, #$20, #carry_lantern_ROW, #4
-  print_string_if_menu_item_enabled bomb_is_enabled, bomb_string, #$20, #carry_lantern_ROW, #13
-  print_string_if_menu_item_enabled lantern_is_enabled, lantern_string, #$20, #carry_lantern_ROW+1, #13
+  print_string carry_string, #$20, #CARRY_LANTERN_ROW, #4
+  print_string_if_menu_item_enabled bomb_is_enabled, bomb_string, #$20, #CARRY_LANTERN_ROW, #13
+  print_string_if_menu_item_enabled lantern_is_enabled, lantern_string, #$20, #CARRY_LANTERN_ROW+1, #13
 
   print_string tech_string, #$20, #TECH_MENU_ROW, #4
   print_string_if_menu_item_enabled tech_rush_is_enabled, rush_string, #$20, #TECH_MENU_ROW, #13
@@ -597,7 +594,6 @@ done:
 menu_position_row:
   .byte 8 * 13
   .byte 8 * 14
-  .byte 8 * 15
   .byte 8 * 17
   .byte 8 * 18
   .byte 8 * 19
@@ -614,7 +610,6 @@ menu_position_row:
   .byte 8 * 23
 
 menu_position_column:
-  .byte 8 * 11
   .byte 8 * 11
   .byte 8 * 11
   .byte 8 * 9
@@ -634,7 +629,6 @@ menu_position_column:
 
 menu_position_next_left:
   .byte menu_position_health
-  .byte menu_position_owl_health
   .byte menu_position_rope
   .byte menu_position_tech1_rush
   .byte menu_position_tech1_fetch
@@ -653,7 +647,6 @@ menu_position_next_left:
 
 menu_position_next_right:
   .byte menu_position_health
-  .byte menu_position_owl_health
   .byte menu_position_rope
   .byte menu_position_tech2_rush
   .byte menu_position_tech2_fetch
@@ -673,7 +666,6 @@ menu_position_next_right:
 menu_position_next_up:
   .byte menu_position_health
   .byte menu_position_health
-  .byte menu_position_owl_health
   .byte menu_position_rope
   .byte menu_position_tech1_rush
   .byte menu_position_tech1_fetch
@@ -690,7 +682,6 @@ menu_position_next_up:
   .byte menu_position_tech2_shield
 
 menu_position_next_down:
-  .byte menu_position_owl_health
   .byte menu_position_rope
   .byte menu_position_tech2_rush
   .byte menu_position_tech1_fetch
@@ -715,7 +706,6 @@ menu_position_next_down:
 ;the two selected techniques.
 ;****************************************************************
 .define menu_position_action_callbacks \
-  menu_position_action_callback_test, \
   menu_position_action_callback_test, \
   menu_position_action_callback_test, \
   menu_position_tech1_column_callback, \
@@ -781,7 +771,6 @@ menu_position_action_callbacks_hi:
 ;****************************************************************
 .define menu_position_is_enabled_callbacks \
   health_is_enabled, \
-  owl_health_is_enabled, \
   rope_is_enabled, \
   tech_rush_is_enabled, \
   tech_fetch_is_enabled, \
@@ -806,11 +795,6 @@ menu_position_is_enabled_callbacks_hi:
 
 .proc health_is_enabled
   lda inventory_healths
-  rts
-.endproc
-
-.proc owl_health_is_enabled
-  lda inventory_owl_healths
   rts
 .endproc
 

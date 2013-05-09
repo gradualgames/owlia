@@ -8,7 +8,7 @@ INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK = 0
 INVENTORY_STATE_BANK = 3
 
 USE_ITEM_ROW = 13
-carry_lantern_ROW = 10
+CARRY_LANTERN_ROW = 10
 TECH_MENU_ROW = 17
 
 .global inventory_state_init
@@ -23,7 +23,6 @@ TECH_MENU_ROW = 17
 ;menu position enumeration
 .enum
 menu_position_health
-menu_position_owl_health
 menu_position_rope
 menu_position_tech1_rush
 menu_position_tech1_fetch
