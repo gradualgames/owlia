@@ -5,6 +5,7 @@
 .include "entities.inc"
 .include "sprite_chr_data.inc"
 .include "familiar.inc"
+.include "familiar_constants.inc"
 .include "ram.inc"
 .include "zp.inc"
 .include "play_state.inc"
@@ -545,6 +546,9 @@ familiar_spawn_tech_hi:
 ;currently selected, and looks up the correct spawn routine.
 .proc hero_spawn_familiar
 
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_ALIVE_TEST
+  bne familiar_still_alive
   lda inventory_selected_tech
   cmp #tech2
   beq tech2_selected
@@ -560,6 +564,7 @@ done:
   lda familiar_spawn_tech_hi,x
   sta w0+1
   jsr indirect_jsr_w0
+familiar_still_alive:
 
   rts
 
