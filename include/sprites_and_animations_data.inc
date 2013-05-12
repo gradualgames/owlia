@@ -7,6 +7,9 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global FightSide
 .global FightDown
 .global FightUp
+.global ThrowSide
+.global ThrowUp
+.global ThrowDown
 
 .global Heart0
 
