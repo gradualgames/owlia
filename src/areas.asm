@@ -54,6 +54,14 @@ house_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_npcwoman
 
+overworld_sprite_chr_groups:
+  .byte 5  ;count
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+
 dungeon_sprite_chr_groups:
   .byte 7  ;count
   .byte sprite_chr_group_index_hero
@@ -298,7 +306,7 @@ overworld_area:
   .byte 1   ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word map1_chr
-  .word house_sprite_chr_groups
+  .word overworld_sprite_chr_groups
   .word overworld_entities
   .word song1
   .word overworld_palette
