@@ -559,6 +559,33 @@ tech2_selected:
   ldx inventory_tech2
 done:
 
+  cpx #tech_carry_adlanniel
+  beq do_not_switch_to_throw_state
+
+  lda #HERO_STATE_THROW
+  sta hero_state
+
+  lda #HERO_STATE_THROW_LENGTH
+  sta hero_state_counter
+
+  lda hero_direction
+  tay
+  lda throw_animation_addresses_lo,y
+  sta hero_animation_address
+  sta w2
+  lda throw_animation_addresses_hi,y
+  sta hero_animation_address+1
+  sta w2+1
+
+  lda #<hero_animation_object
+  sta w1
+  lda #>hero_animation_object
+  sta w1+1
+
+  jsr sprite_reset_animation
+
+do_not_switch_to_throw_state:
+
   lda familiar_spawn_tech_lo,x
   sta w0
   lda familiar_spawn_tech_hi,x
@@ -950,10 +977,23 @@ attack_animation_addresses_lo:
 attack_animation_addresses_hi:
   .hibytes attack_animation_addresses
 
+.define throw_animation_addresses\
+  ThrowSide,\
+  ThrowSide,\
+  ThrowDown,\
+  ThrowUp
+
+throw_animation_addresses_lo:
+  .lobytes throw_animation_addresses
+
+throw_animation_addresses_hi:
+  .hibytes throw_animation_addresses
+
 .define hero_states \
     hero_state_init, \
     hero_state_main, \
     hero_state_attack, \
+    hero_state_throw, \
     hero_state_carried
 
 hero_lo:
@@ -1255,6 +1295,72 @@ skip_spawn_familiar_test:
   jsr hero_attack
 
 skip_attack_test:
+
+  rts
+
+;****************************************************************
+;This is the throw state. The hero transitions to this state
+;immediately upon throwing the owl, except in the carried state.
+;It  It updates the invincibility frames logic and displays the
+;throwing animation, then returns control to the main state.
+;****************************************************************
+hero_state_throw:
+
+  ;advance the current invincibility frames state if the counter is nonzero
+  .scope
+  lda hero_invincibility_counter
+  beq hero_not_invincible
+
+  dec hero_invincibility_counter
+
+  lda hero_invincibility_counter
+  and #%00000001
+  beq do_not_flip_drawable_bit
+
+  lda hero_flags
+  eor #HERO_FLAGS_DRAWABLE_SET
+  sta hero_flags
+
+do_not_flip_drawable_bit:
+hero_not_invincible:
+  .endscope
+
+  lda #<hero_animation_object
+  sta w1
+  lda #>hero_animation_object
+  sta w1+1
+
+  lda hero_animation_address
+  sta w2
+  lda hero_animation_address+1
+  sta w2+1
+  jsr sprite_update_animation
+
+  dec hero_state_counter
+  bne throw_not_done
+
+  ;get the direction we're facing and look up the animation address
+  lda hero_direction
+  tay
+  lda main_animation_addresses_lo,y
+  sta hero_animation_address
+  lda main_animation_addresses_hi,y
+  sta hero_animation_address+1
+
+  lda #<hero_animation_object
+  sta w1
+  lda #>hero_animation_object
+  sta w1+1
+
+  jsr sprite_reset_animation
+
+  lda #ACTION_NOP
+  sta entity_action_rect1_action
+
+  lda #HERO_STATE_MAIN
+  sta hero_state
+
+throw_not_done:
 
   rts
 
