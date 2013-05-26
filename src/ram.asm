@@ -290,11 +290,9 @@ camera_y_scrolling_enabled: .res 1
 map_width: .res 1
 map_height: .res 1
 
-;these can be set by the entity system to create a fake solid
-;block for the hero to run into. Useful for doors and bombable
-;blocks.
-floating_solid_metatile_x: .res 1
-floating_solid_metatile_y: .res 1
+;This field can only be used in single-screen environments, for
+;additional collision information with doors, bombable blocks, etc.
+dynamic_single_screen_collision_field: .res 32
 
 ;indicates to the map vblank routine that a row or a column has been prepared
 ;and is ready to be uploaded to the ppu according to the below parameters

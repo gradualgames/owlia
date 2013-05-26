@@ -85,6 +85,8 @@ reset:
 
   jsr sound_initialize
 
+  jsr clear_dynamic_single_screen_collision_field
+
   jmp title_state_init
 
 vblank:

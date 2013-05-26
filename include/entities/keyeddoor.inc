@@ -2,7 +2,7 @@
 .ifndef KEYEDDOOR_INC
 KEYEDDOOR_INC = 1
 
-keyeddoor_floating_solid_metatile_y_offset = entity_local0
+keyeddoor_dynamic_solid_metatile_y_offset = entity_local0
 
 .enum
 KEYEDDOOR_STATE_INIT
@@ -39,6 +39,50 @@ keyeddoor_state_init:
   lda #$1f
   sta entity_height,x
 
+  ;set a bit in the single screen collision field that corresponds to
+  ;the screen coordinates of this door entity
+  ;calculate screen coordinates based on the camera coordinates
+  sec
+  lda entity_x_lo,x
+  sbc camera_x
+  sta entity_screen_x_lo,x
+  lda entity_x_hi,x
+  sbc camera_x+1
+  sta entity_screen_x_hi,x
+
+  sec
+  lda entity_y_lo,x
+  sbc camera_y
+  sta entity_screen_y_lo,x
+  lda entity_y_hi,x
+  sbc camera_y+1
+  sta entity_screen_y_hi,x
+
+  ;add camera screen origin to the screen coordinates. This is needed
+  ;because the camera screen origin is not at 0,0, it is at 0,8.
+  clc
+  lda entity_screen_y_lo,x
+  adc #CAMERA_SCREEN_ORIGIN_Y
+  sta entity_screen_y_lo,x
+  lda entity_screen_y_hi,x
+  adc #$00
+  sta entity_screen_y_hi,x
+
+  lda entity_screen_x_lo,x
+  sta w0
+  lda entity_screen_x_hi,x
+  sta w0+1
+
+  clc
+  lda entity_screen_y_lo,x
+  adc keyeddoor_dynamic_solid_metatile_y_offset,x
+  sta w1
+  lda entity_screen_y_hi,x
+  adc #$00
+  sta w1+1
+
+  jsr set_dynamic_single_screen_collision_field_bit
+
   ;some entities are parameterized for graphics set, ones
   ;that are always hard coded should set their chr offset here
   ;ldy #sprite_chr_group_index_keyeddoor
@@ -57,21 +101,6 @@ keyeddoor_state_main:
 
   jsr entity_test_hero_rect
   bne not_touching_hero
-
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-
-  clc
-  lda entity_y_lo,x
-  adc keyeddoor_floating_solid_metatile_y_offset,x
-  sta w1
-  lda entity_y_hi,x
-  adc #$00
-  sta w1+1
-
-  jsr entity_grab_floating_solid_metatile
 
   lda buffer_controller+buttons::_a
 
@@ -115,6 +144,22 @@ hero_can_use_key:
 
   pla
   tax
+
+  ;clear collision field bit for this door
+  lda entity_screen_x_lo,x
+  sta w0
+  lda entity_screen_x_hi,x
+  sta w0+1
+
+  clc
+  lda entity_screen_y_lo,x
+  adc keyeddoor_dynamic_solid_metatile_y_offset,x
+  sta w1
+  lda entity_screen_y_hi,x
+  adc #$00
+  sta w1+1
+
+  jsr clear_dynamic_single_screen_collision_field_bit
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR

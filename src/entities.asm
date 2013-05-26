@@ -14,6 +14,7 @@
 .include "geotests.inc"
 .include "conversation_data.inc"
 .include "inventory.inc"
+.include "camera.inc"
 
 .segment "CODE"
 

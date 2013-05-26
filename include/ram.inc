@@ -120,7 +120,6 @@ MAX_ENTITIES = 12
 .global familiar_direction_change
 .global familiar_state_counter
 
-
 .global familiar_param_fetched_entity_x_offset
 .global familiar_param_fetched_entity_y_offset
 .global familiar_param_fetched_entity_index
@@ -178,8 +177,7 @@ MAX_ENTITIES = 12
 .global camera_x_scrolling_enabled
 .global camera_y_scrolling_enabled
 
-.global floating_solid_metatile_x
-.global floating_solid_metatile_y
+.global dynamic_single_screen_collision_field
 
 .global row_ready
 .global column_ready

@@ -8,6 +8,308 @@
 
 .segment "CODE"
 
+;Clears out the 32 byte structure containing the single screen
+;collision field.
+.proc clear_dynamic_single_screen_collision_field
+
+  ldx #$1f
+  lda #$00
+: sta dynamic_single_screen_collision_field,x
+  dex
+  bpl :-
+
+  rts
+
+.endproc
+
+;This routine marks a bit in the dynamic single screen collision field
+;expects w0 to contain screen x coordinate
+;expects w1 to contain screen y coordinate
+.proc set_dynamic_single_screen_collision_field_bit
+x_coord = w0
+y_coord = w1
+row_offset = w2
+
+  ;save x, this routine may be called by entities
+  txa
+  pha
+
+  ;find metatile coordinates from 16 bit x and y
+  lda x_coord
+  lsr x_coord+1
+  ror
+  lsr x_coord+1
+  ror
+  lsr x_coord+1
+  ror
+  lsr x_coord+1
+  ror
+  sta x_coord
+
+  lda y_coord
+  lsr y_coord+1
+  ror
+  lsr y_coord+1
+  ror
+  lsr y_coord+1
+  ror
+  lsr y_coord+1
+  ror
+  sta y_coord
+
+  ;-metatile Y * 2 = row to check. This is because we use two bytes per
+  ;row.
+
+  lda y_coord
+  sta row_offset
+  lda y_coord+1
+  sta row_offset+1
+
+  lda row_offset+1
+  asl row_offset
+  rol
+  sta row_offset+1
+
+  ldy row_offset
+
+  ;-metatile X, bit 3, (1000), indicates whether to check the first or the
+  ;second byte of that row
+  lda x_coord
+  and #%00001000
+  bne test_second_byte
+test_first_byte:
+
+  ;-metatile X, lowest 3 bits (bits 0, 1, and 2), indicate which bit to
+  ;set in the byte. Probably use a lut to get the right bit to test rat-
+  ;her than a loop for rotating a bit.
+
+  lda x_coord
+  and #%00000111
+  tax
+
+  lda dynamic_single_screen_collision_field,y
+  ora bit_select_lut,x
+  sta dynamic_single_screen_collision_field,y
+
+  ;restore x
+  pla
+  tax
+
+  rts
+test_second_byte:
+
+  ;-metatile X, lowest 3 bits (bits 0, 1, and 2), indicate which bit to
+  ;set in the byte. Probably use a lut to get the right bit to test rat-
+  ;her than a loop for rotating a bit.
+
+  lda x_coord
+  and #%00000111
+  tax
+
+  lda dynamic_single_screen_collision_field+1,y
+  ora bit_select_lut,x
+  sta dynamic_single_screen_collision_field+1,y
+
+  ;restore x
+  pla
+  tax
+
+  rts
+
+.endproc
+
+;This routine clears a bit in the dynamic single screen collision field
+;expects w0 to contain screen x coordinate
+;expects w1 to contain screen y coordinate
+.proc clear_dynamic_single_screen_collision_field_bit
+x_coord = w0
+y_coord = w1
+row_offset = w2
+
+  ;save x, this routine may be called by entities
+  txa
+  pha
+
+  ;find metatile coordinates from 16 bit x and y
+  lda x_coord
+  lsr x_coord+1
+  ror
+  lsr x_coord+1
+  ror
+  lsr x_coord+1
+  ror
+  lsr x_coord+1
+  ror
+  sta x_coord
+
+  lda y_coord
+  lsr y_coord+1
+  ror
+  lsr y_coord+1
+  ror
+  lsr y_coord+1
+  ror
+  lsr y_coord+1
+  ror
+  sta y_coord
+
+  ;-metatile Y * 2 = row to check. This is because we use two bytes per
+  ;row.
+
+  lda y_coord
+  sta row_offset
+  lda y_coord+1
+  sta row_offset+1
+
+  lda row_offset+1
+  asl row_offset
+  rol
+  sta row_offset+1
+
+  ldy row_offset
+
+  ;-metatile X, bit 3, (1000), indicates whether to check the first or the
+  ;second byte of that row
+  lda x_coord
+  and #%00001000
+  bne test_second_byte
+test_first_byte:
+
+  ;-metatile X, lowest 3 bits (bits 0, 1, and 2), indicate which bit to
+  ;set in the byte. Probably use a lut to get the right bit to test rat-
+  ;her than a loop for rotating a bit.
+
+  lda x_coord
+  and #%00000111
+  tax
+
+  lda dynamic_single_screen_collision_field,y
+  and bit_clear_lut,x
+  sta dynamic_single_screen_collision_field,y
+
+  ;restore x
+  pla
+  tax
+
+  rts
+test_second_byte:
+
+  ;-metatile X, lowest 3 bits (bits 0, 1, and 2), indicate which bit to
+  ;set in the byte. Probably use a lut to get the right bit to test rat-
+  ;her than a loop for rotating a bit.
+
+  lda x_coord
+  and #%00000111
+  tax
+
+  lda dynamic_single_screen_collision_field+1,y
+  and bit_select_lut,x
+  sta dynamic_single_screen_collision_field+1,y
+
+  ;restore x
+  pla
+  tax
+
+  rts
+
+.endproc
+
+;This routine tests a bit in the dynamic single screen collision field
+;expects w0 to contain screen x coordinate in metatile coordinates
+;expects w1 to contain screen y coordinate in metatile coordinates
+;returns result in b0
+.proc test_dynamic_single_screen_collision_field_bit
+x_coord = w0
+y_coord = w1
+row_offset = w2
+result = b0
+
+  ;save x, this routine may be called by entities
+  txa
+  pha
+
+  ;-metatile Y * 2 = row to check. This is because we use two bytes per
+  ;row.
+
+  lda y_coord
+  sta row_offset
+  lda y_coord+1
+  sta row_offset+1
+
+  lda row_offset+1
+  asl row_offset
+  rol
+  sta row_offset+1
+
+  ldy row_offset
+
+  ;-metatile X, bit 3, (1000), indicates whether to check the first or the
+  ;second byte of that row
+  lda x_coord
+  and #%00001000
+  bne test_second_byte
+test_first_byte:
+
+  ;-metatile X, lowest 3 bits (bits 0, 1, and 2), indicate which bit to
+  ;set in the byte. Probably use a lut to get the right bit to test rat-
+  ;her than a loop for rotating a bit.
+
+  lda x_coord
+  and #%00000111
+  tax
+
+  lda dynamic_single_screen_collision_field,y
+  and bit_select_lut,x
+  sta result
+
+  ;restore x
+  pla
+  tax
+
+  rts
+test_second_byte:
+
+  ;-metatile X, lowest 3 bits (bits 0, 1, and 2), indicate which bit to
+  ;set in the byte. Probably use a lut to get the right bit to test rat-
+  ;her than a loop for rotating a bit.
+
+  lda x_coord
+  and #%00000111
+  tax
+
+  lda dynamic_single_screen_collision_field+1,y
+  and bit_select_lut,x
+  sta result
+
+  ;restore x
+  pla
+  tax
+
+  rts
+
+.endproc
+
+;convenient bit select lut for the single screen collision field
+bit_select_lut:
+  .byte %10000000
+  .byte %01000000
+  .byte %00100000
+  .byte %00010000
+  .byte %00001000
+  .byte %00000100
+  .byte %00000010
+  .byte %00000001
+
+bit_clear_lut:
+  .byte %01111111
+  .byte %10111111
+  .byte %11011111
+  .byte %11101111
+  .byte %11110111
+  .byte %11111011
+  .byte %11111101
+  .byte %11111110
+
 ;lut for modulus of 15, used for quickly computing correct attribute and nametable rows
 mod15lut:
   .byte 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
@@ -72,16 +374,9 @@ map_offset = w16
   ror
   sta map_y_in_metatile_coordinates
 
-  ;check to see if anybody has set the floating
-  ;solid metatile coordinates. This short circuits
-  ;actually checking the map and just returns solid
-  ;if the coordinates match.
-  lda floating_solid_metatile_x
-  cmp map_x_in_metatile_coordinates
-  bne no_floating_metatile
-  lda floating_solid_metatile_y
-  cmp map_y_in_metatile_coordinates
-  bne no_floating_metatile
+  jsr test_dynamic_single_screen_collision_field_bit
+  lda b0
+  beq no_dynamic_collision
 
   lda #FLAG_SOLID
   sta metatile_properties
@@ -93,7 +388,7 @@ map_offset = w16
 
   rts
 
-no_floating_metatile:
+no_dynamic_collision:
 
   lda map_x_in_metatile_coordinates
   sta map_x_in_big_metatile_coordinates
