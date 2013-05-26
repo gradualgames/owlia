@@ -557,7 +557,9 @@ play_state_load_location:
   jsr entity_init_all
 
   ;initialize the hero entity
-  jsr hero_init
+  lda #HERO_STATE_INIT
+  sta hero_state
+
   ;load her initial location
   switch_bank_ldy #LOCATIONS_BANK
   ldy #location::hero_start_x
@@ -580,7 +582,8 @@ play_state_load_location:
   sta hero_direction
 
   ;initialize the familiar entity
-  jsr familiar_init
+  lda #$00
+  sta familiar_flags
 
   ;spawn all non-hero entities in area
   switch_bank_ldy #AREAS_BANK

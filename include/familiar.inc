@@ -1,7 +1,6 @@
 .ifndef FAMILIAR_INC
 FAMILIAR_INC = 1
 
-.global familiar_init
 .global familiar_spawn_rush
 .global familiar_spawn_fetch
 .global familiar_spawn_carry_bomb

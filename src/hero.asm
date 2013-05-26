@@ -23,19 +23,6 @@
 
 .segment "CODE"
 
-.proc hero_init
-
-  lda #HERO_STATE_INIT
-  sta hero_state
-  lda #3
-  sta hero_health
-  lda #0
-  sta hero_flags
-
-  rts
-
-.endproc
-
 .proc hero_face_in_current_direction
 
   lda hero_direction

@@ -114,6 +114,12 @@ title_state_exit:
   ;initialize inventory since we're starting a new game
   jsr inventory_max_all
 
+  ;initialize persistent hero state
+  lda #3
+  sta hero_health
+  lda #0
+  sta hero_flags
+
   lda #<sfx_set1
   sta sound_param_word_0
   lda #>sfx_set1

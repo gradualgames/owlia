@@ -22,17 +22,6 @@
 
 .segment "CODE"
 
-;initializes the familiar module
-.proc familiar_init
-
-  lda #0
-  sta familiar_state
-  sta familiar_flags
-
-  rts
-
-.endproc
-
 ;this is just a placeholder until all techs are implemented
 ;so unimplemented ones can be selected from the inventory
 ;screen and not cause a crash.
