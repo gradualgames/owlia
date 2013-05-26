@@ -37,6 +37,19 @@ sfx_volume_envelope_7:
 sfx_volume_envelope_8:
   .byte 10,7,3,0,ENV_STOP
 
+;used for cursor
+sfx_volume_envelope_9:
+  .byte 11,6,1,0,0,ENV_STOP
+
+;used for selecting something either in inventory screen or
+;alternating between tech 1 and tech 2
+sfx_volume_envelope_10:
+  .byte 14,11,8,5,2,0,ENV_STOP
+
+;used for entering or leaving inventory screen
+sfx_volume_envelope_11:
+  .byte 2,3,5,7,8,10,12,0,ENV_STOP
+
 sfx_pitch_envelope_0:
   .byte 0, ENV_LOOP
 
@@ -44,9 +57,9 @@ sfx_pitch_envelope_1:
   .byte 0, 1, 2, 3, 4, 5, 4, 3, 2, 1, -1, -2, -3, -4, -5, ENV_LOOP
 
 sfx_duty_envelope_0:
-  .byte 0, ENV_LOOP
+  .byte 0, DUTY_ENV_STOP
 sfx_duty_envelope_1:
-  .byte -128,ENV_LOOP
+  .byte -128,DUTY_ENV_LOOP
 
 sfx_volume_envelopes:
   .word sfx_volume_envelope_silence
@@ -58,6 +71,9 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_6
   .word sfx_volume_envelope_7
   .word sfx_volume_envelope_8
+  .word sfx_volume_envelope_9
+  .word sfx_volume_envelope_10
+  .word sfx_volume_envelope_11
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_0
@@ -97,5 +113,17 @@ sfx_text:
   .byte TRM
 
 sfx_get_key:
-  .byte STV,2,STP,0,SDU,1,STL,3,D6,A6
+  .byte STV,8,STP,0,SDU,1,STL,3,D6,A6
+  .byte TRM
+
+sfx_move_cursor:
+  .byte STV,9,STP,0,SDU,0,STL,5,11
+  .byte TRM
+
+sfx_select:
+  .byte STV,10,STP,0,SDU,1,STL,2,GS3,GS4,GS5
+  .byte TRM
+
+sfx_inventory:
+  .byte STV,11,STP,0,SDU,1,STL,6,G4,G3,G2,G1,G2,G3
   .byte TRM

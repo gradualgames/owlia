@@ -13,5 +13,8 @@ SFX_DATA_INC = 1
 .global sfx_explosion
 .global sfx_text
 .global sfx_get_key
+.global sfx_move_cursor
+.global sfx_select
+.global sfx_inventory
 
 .endif

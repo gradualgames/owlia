@@ -1262,9 +1262,9 @@ do_not_animate_hero:
   txa
   pha
 
-  lda #<sfx_test
+  lda #<sfx_select
   sta sound_param_word_0
-  lda #>sfx_test
+  lda #>sfx_select
   sta sound_param_word_0+1
 
   lda #3

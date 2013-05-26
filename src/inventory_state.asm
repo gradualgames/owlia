@@ -26,6 +26,24 @@ inventory_screen_palette:
 
 inventory_state_init:
 
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_inventory
+  sta sound_param_word_0
+  lda #>sfx_inventory
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
   ;fade out from current palette
   switch_bank_ldy #AREAS_BANK
   ldy #area::palette_address
@@ -203,6 +221,24 @@ inventory_state_main:
   jmp inventory_state_main
 
 inventory_state_exit:
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_inventory
+  sta sound_param_word_0
+  lda #>sfx_inventory
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
 
   ;fade out inventory palette
   lda #<inventory_screen_palette
@@ -410,9 +446,9 @@ homing_string: .byte H,O,M,I,N,G,ES
   txa
   pha
 
-  lda #<sfx_sword
+  lda #<sfx_move_cursor
   sta sound_param_word_0
-  lda #>sfx_sword
+  lda #>sfx_move_cursor
   sta sound_param_word_0+1
 
   lda #3
@@ -423,6 +459,7 @@ homing_string: .byte H,O,M,I,N,G,ES
 
   pla
   tax
+
   rts
 
 .endproc
@@ -432,9 +469,9 @@ homing_string: .byte H,O,M,I,N,G,ES
   txa
   pha
 
-  lda #<sfx_test
+  lda #<sfx_select
   sta sound_param_word_0
-  lda #>sfx_test
+  lda #>sfx_select
   sta sound_param_word_0+1
 
   lda #3
