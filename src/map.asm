@@ -224,6 +224,24 @@ y_coord = w1
 row_offset = w2
 result = b0
 
+  ;validate coordinates before proceeding---this can only
+  ;test a full screen of solid tiles.
+  lda #$00
+  sta result
+
+  lda x_coord
+  and #%11110000
+  beq valid_x_coordinate
+invalid_x_coordinate:
+  rts
+valid_x_coordinate:
+  lda y_coord
+  and #%11110000
+  beq valid_y_coordinate
+invalid_y_coordinate:
+  rts
+valid_y_coordinate:
+
   ;save x, this routine may be called by entities
   txa
   pha
