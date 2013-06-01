@@ -453,6 +453,18 @@ play_state_load_location:
   sta w4+1
   jsr load_sprite_chr_groups
 
+  ;load the shadow spot graphic; this is always present so it is
+  ;hard coded
+  lda b3
+  sta shadow_spot_chr_offset
+
+  lda #<ShadowSpot_chr
+  sta w0
+  lda #>ShadowSpot_chr
+  sta w0+1
+  switch_bank_ldy #SHADOWSPOT_SPR_CHR_BANK
+  jsr ppu_load_chr_amount
+
   ;****************************************************************
   ;Load all map addresses
   ;****************************************************************
@@ -605,6 +617,8 @@ play_state_load_location:
 
   jsr sprite_clear_all
 
+  jsr entity_clear_shadow_spots
+
   jsr entity_update_all
 
   switch_bank_ldy map_bank
@@ -613,6 +627,8 @@ play_state_load_location:
   jsr entity_calculate_screen_coordinates_all
 
   jsr entity_draw_all
+
+  jsr entity_draw_shadow_spots
 
   jsr hero_draw_status
 
@@ -748,6 +764,8 @@ play_state_action_nop:
 
   jsr sprite_clear_all
 
+  jsr entity_clear_shadow_spots
+
   jsr entity_update_all
 
   switch_bank_ldy #HERO_BANK
@@ -759,6 +777,8 @@ play_state_action_nop:
   jsr entity_calculate_screen_coordinates_all
 
   jsr entity_draw_all
+
+  jsr entity_draw_shadow_spots
 
   jsr hero_draw_status
 
@@ -985,6 +1005,8 @@ done:
 
   jsr sprite_clear_all
 
+  jsr entity_clear_shadow_spots
+
   jsr entity_update_all
 
   switch_bank_ldy map_bank
@@ -993,6 +1015,8 @@ done:
   jsr entity_calculate_screen_coordinates_all
 
   jsr entity_draw_all
+
+  jsr entity_draw_shadow_spots
 
   jsr hero_draw_status
 

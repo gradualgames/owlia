@@ -18,7 +18,7 @@
   sta inventory_earned_techs
 
   ;select default tech 1 and tech 2
-  lda #tech_carry_bomb
+  lda #tech_rush
   sta inventory_tech1
   lda #tech_fetch
   sta inventory_tech2

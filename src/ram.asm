@@ -46,6 +46,7 @@ chr_group_offset: .res 1
 ;also groups of chr data for each type of entity.
 ;****************************************************************
 textbox_and_font_chr_offset: .res 1
+shadow_spot_chr_offset: .res 1
 sprite_chr_group_offsets: .res 64
 
 ;****************************************************************
@@ -110,6 +111,17 @@ entity_local12:              .res MAX_ENTITIES
 entity_local13:              .res MAX_ENTITIES
 entity_local14:              .res MAX_ENTITIES
 entity_local15:              .res MAX_ENTITIES
+
+;****************************************************************
+;Specialized arrays for placement of shadow spots. These are
+;hard coded as to have the least possible overhead in displaying
+;them.
+;****************************************************************
+shadow_spot_count: .res 1
+shadow_spot_x_lo: .res MAX_SHADOW_SPOTS
+shadow_spot_x_hi: .res MAX_SHADOW_SPOTS
+shadow_spot_y_lo: .res MAX_SHADOW_SPOTS
+shadow_spot_y_hi: .res MAX_SHADOW_SPOTS
 
 ;****************************************************************
 ;These variables constitute inventory state for the player.

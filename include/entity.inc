@@ -20,6 +20,9 @@ ENTITY_INC = 1
 .global entity_test_hero_rect
 .global entity_test_familiar_rect
 .global entity_change_area_brightness_trampoline
+.global entity_clear_shadow_spots
+.global entity_add_shadow_spot
+.global entity_draw_shadow_spots
 
 ENTITY_FLAGS_ALIVE_SET     = %00000001
 ENTITY_FLAGS_ALIVE_TEST    = %00000001

@@ -585,6 +585,8 @@ familiar_not_alive:
 
   jsr familiar_move
 
+  jsr familiar_add_shadow_spot
+
   ;make action rect active
   lda #ACTION_ATTACK
   sta entity_action_rect2_action
@@ -635,6 +637,7 @@ state_counter_not_zero:
   jsr familiar_prepare_distance_to_hero_velocity
   jsr familiar_kill_if_close_to_hero
   jsr familiar_home_in_to_goal
+  jsr familiar_add_shadow_spot
 
   rts
 
@@ -689,6 +692,8 @@ state_counter_not_zero:
 
   jsr familiar_move
 
+  jsr familiar_add_shadow_spot
+
   lda #ACTION_FETCH
   sta entity_action_rect2_action
 
@@ -740,6 +745,7 @@ state_counter_not_zero:
   jsr familiar_prepare_distance_to_hero_velocity
   jsr familiar_kill_if_close_to_hero
   jsr familiar_home_in_to_goal
+  jsr familiar_add_shadow_spot
 
   ;now make the fetched entity match the familiar's coordinates if there is an entity
   ;being fetched and that entity is alive
@@ -813,6 +819,8 @@ no_fetched_entity:
 .proc familiar_state_carry_bomb
 
   jsr familiar_move
+
+  jsr familiar_add_shadow_spot
 
   ;make the bomb's coordinates match that of the familiar
   .scope
@@ -1448,6 +1456,24 @@ familiar_not_at_goal:
 
   jsr familiar_move
 
+  ;add a shadow spot
+  clc
+  lda familiar_x
+  adc #$04
+  sta w0
+  lda familiar_x+1
+  adc #$00
+  sta w0+1
+  clc
+  lda familiar_y
+  adc #$2e
+  sta w1
+  lda familiar_y+1
+  adc #$00
+  sta w1+1
+
+  jsr entity_add_shadow_spot
+
   ;make the hero (assumed to be in HERO_STATE_CARRIED)
   ;move underneath the familiar
   lda familiar_x
@@ -1856,6 +1882,8 @@ done:
 
 do_not_switch_to_home_in_to_hero:
 
+  jsr familiar_add_shadow_spot
+
   ;animate the familiar
   lda familiar_animation_address
   sta w2
@@ -1998,6 +2026,8 @@ no_enemy_found:
   sta familiar_y_velocity+1
 
   jsr familiar_home_in_to_goal
+
+  jsr familiar_add_shadow_spot
 
   ;make action rect active
   lda #ACTION_ATTACK
@@ -2416,3 +2446,28 @@ done:
   .endscope
 
   rts
+
+;a common routine for adding a shadow spot for the familiar
+.proc familiar_add_shadow_spot
+
+  ;add a shadow spot
+  clc
+  lda familiar_x
+  adc #$04
+  sta w0
+  lda familiar_x+1
+  adc #$00
+  sta w0+1
+  clc
+  lda familiar_y
+  adc #$1a
+  sta w1
+  lda familiar_y+1
+  adc #$00
+  sta w1+1
+
+  jsr entity_add_shadow_spot
+
+  rts
+
+.endproc

@@ -718,6 +718,21 @@ do_not_die:
 
   .endscope
 
+  ;add a shadow spot for this bomb
+  lda bomb_target_x_lo,x
+  sta w0
+  lda bomb_target_x_hi,x
+  sta w0+1
+  clc
+  lda bomb_target_y_lo,x
+  adc #$02
+  sta w1
+  lda bomb_target_y_hi,x
+  adc #$00
+  sta w1+1
+
+  jsr entity_add_shadow_spot
+
   jsr entity_update_animation
 
   rts

@@ -2,6 +2,7 @@
 RAM_INC = 1
 
 MAX_ENTITIES = 12
+MAX_SHADOW_SPOTS = 4
 
 .global sprite
 .global next_sprite_address
@@ -23,6 +24,7 @@ MAX_ENTITIES = 12
 .global string_buffer
 
 .global textbox_and_font_chr_offset
+.global shadow_spot_chr_offset
 .global sprite_chr_group_offsets
 
 .global sorted_entity_index
@@ -66,6 +68,12 @@ MAX_ENTITIES = 12
 .global entity_local13
 .global entity_local14
 .global entity_local15
+
+.global shadow_spot_count
+.global shadow_spot_x_lo
+.global shadow_spot_x_hi
+.global shadow_spot_y_lo
+.global shadow_spot_y_hi
 
 .global inventory_gp
 .global inventory_keys

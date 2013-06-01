@@ -323,6 +323,24 @@ done:
 
 entity_not_hitting_hero:
 
+  clc
+  lda entity_x_lo,x
+  adc #$04
+  sta w0
+  lda entity_x_hi,x
+  adc #$00
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc #$10
+  sta w1
+  lda entity_y_hi,x
+  adc #$00
+  sta w1+1
+
+  jsr entity_add_shadow_spot
+
   jsr entity_update_animation
 
   rts

@@ -7,6 +7,7 @@
   hero_chr, \
   Familiar_chr, \
   explosion_chr, \
+  ShadowSpot_chr, \
   Bomb_chr, \
   JellyFish_chr, \
   NpcMan_chr, \
@@ -187,6 +188,10 @@ explosion_chr:
   .byte $3c,$7e,$ff,$ff,$ff,$ff,$7e,$3c,$3c,$7e,$ff,$ff,$ff,$ff,$7e,$3c
   .byte $00,$00,$18,$3c,$3c,$18,$00,$00,$00,$00,$18,$3c,$3c,$18,$00,$00
   .byte $00,$00,$24,$00,$00,$24,$00,$00,$00,$00,$24,$00,$00,$24,$00,$00
+
+ShadowSpot_chr:
+  .word $0010
+  .byte $00,$00,$7e,$ff,$ff,$7e,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
 NpcMan_chr:
   .word $0290
