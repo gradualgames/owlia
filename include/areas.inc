@@ -1,7 +1,7 @@
 .ifndef AREAS_INC
 AREAS_INC = 1
 
-AREAS_BANK = 2
+AREAS_BANK = 30
 
 .struct area
   music_bank .byte

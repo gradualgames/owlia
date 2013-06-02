@@ -30,7 +30,7 @@ areas_lo:
 areas_hi:
   .hibytes areas
 
-.segment "ROM02"
+.segment "ROM30"
 
 ;****************************************************************
 ;Area entity types.
