@@ -38,7 +38,7 @@ locations_lo:
 locations_hi:
   .hibytes locations
 
-.segment "ROM02"
+.segment "ROM29"
 
 ;****************************************************************
 ;Location definitions.
