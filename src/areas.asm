@@ -360,5 +360,5 @@ dungeon_entities:
   .byte entity_index_key, 25, 5, 0, 0
   .byte entity_index_keyeddoor, 7, 1, sprite_chr_group_index_keyeddoor, 1, 16
   .byte entity_index_keyeddoor, 0, 6, sprite_chr_group_index_keyeddoor, 1, 16
-  .byte entity_index_keyeddoor, 7, 11, sprite_chr_group_index_keyeddoor, 1, 0
+  .byte entity_index_keyeddoor, 7, 11, sprite_chr_group_index_keyeddoor, 1, 16
   .byte entity_index_keyeddoor, 15, 6, sprite_chr_group_index_keyeddoor, 1, 16
