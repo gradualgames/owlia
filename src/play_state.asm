@@ -1170,6 +1170,8 @@ play_state_action_start_conversation:
 
   jsr entity_draw_all
 
+  jsr entity_only_draw_shadow_spots
+
   jsr hero_draw_status
 
   lda #TEXTBOX_SCREEN_SPRITE_OCCLUDE_Y
@@ -1224,11 +1226,25 @@ keep_incrementing_camera_x:
   sta b0
   jsr increment_camera_x
 
+  .scope
+  lda #<(-1)
+  sta w0
+  lda #>(-1)
+  sta w0+1
+  lda #0
+  sta w1
+  sta w1+1
+
+  jsr entity_slide_shadow_spots
+  .endscope
+
   jsr decode_map_column
 
   jsr entity_calculate_screen_coordinates_all
 
   jsr entity_draw_all
+
+  jsr entity_only_draw_shadow_spots
 
   jsr hero_draw_status
 
@@ -1251,11 +1267,25 @@ keep_decrementing_camera_x:
   sta b0
   jsr decrement_camera_x
 
+  .scope
+  lda #<(1)
+  sta w0
+  lda #>(1)
+  sta w0+1
+  lda #0
+  sta w1
+  sta w1+1
+
+  jsr entity_slide_shadow_spots
+  .endscope
+
   jsr decode_map_column
 
   jsr entity_calculate_screen_coordinates_all
 
   jsr entity_draw_all
+
+  jsr entity_only_draw_shadow_spots
 
   jsr hero_draw_status
 
@@ -1282,11 +1312,25 @@ keep_incrementing_camera_y:
   sta b0
   jsr increment_camera_y
 
+  .scope
+  lda #0
+  sta w0
+  sta w0+1
+  lda #<(-1)
+  sta w1
+  lda #>(-1)
+  sta w1+1
+
+  jsr entity_slide_shadow_spots
+  .endscope
+
   jsr decode_map_row
 
   jsr entity_calculate_screen_coordinates_all
 
   jsr entity_draw_all
+
+  jsr entity_only_draw_shadow_spots
 
   jsr hero_draw_status
 
@@ -1306,11 +1350,25 @@ keep_decrementing_camera_y:
   sta b0
   jsr decrement_camera_y
 
+  .scope
+  lda #0
+  sta w0
+  sta w0+1
+  lda #<(1)
+  sta w1
+  lda #>(1)
+  sta w1+1
+
+  jsr entity_slide_shadow_spots
+  .endscope
+
   jsr decode_map_row
 
   jsr entity_calculate_screen_coordinates_all
 
   jsr entity_draw_all
+
+  jsr entity_only_draw_shadow_spots
 
   jsr hero_draw_status
 

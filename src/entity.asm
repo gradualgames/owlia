@@ -933,12 +933,109 @@ next_shadow_spot:
   iny
   iny
   iny
+do_not_cull_shadow_spot:
+  dex
+  bpl next_shadow_spot
+
+  sty next_sprite_address
+
+  rts
+
+cull_shadow_spot:
+
+  ;zero out shadow spot's coordinates so we never draw it again
+  lda #$00
+  sta shadow_spot_x_lo,x
+  sta shadow_spot_x_hi,x
+  sta shadow_spot_y_lo,x
+  sta shadow_spot_y_hi,x
+
+  dex
+  bpl next_shadow_spot
+
+  sty next_sprite_address
+no_shadow_spots:
+
+  rts
+
+.endproc
+
+;This is a specialized version of the above routine,
+;which does not compute shadow spot screen coordinates,
+;but only draws them to the screen at their current location.
+;This is used when the play state transitions to the conversation
+;sub-state. This is because entity update logic is paused, and
+;world coordiantes for shadow spots cannot be re-retrieved, so
+;we cannot re-compute screen coordinates for them in this case.
+;This was done in preference of adding more arrays in RAM for
+;world and screen coordinates for shadow spots.
+.proc entity_only_draw_shadow_spots
+
+  ldy next_sprite_address
+  ldx shadow_spot_count
+  beq no_shadow_spots
+  dex
+next_shadow_spot:
+
+  ;draw the shadow spot
+  lda shadow_spot_y_lo,x
+  sta sprite+sprite_struct::ycoord,y
+
+  lda shadow_spot_chr_offset
+  sta sprite+sprite_struct::tile,y
+
+  lda #$00
+  sta sprite+sprite_struct::attribute,y
+
+  lda shadow_spot_x_lo,x
+  sta sprite+sprite_struct::xcoord,y
+
+  iny
+  iny
+  iny
+  iny
 cull_shadow_spot:
 
   dex
   bpl next_shadow_spot
 
   sty next_sprite_address
+no_shadow_spots:
+
+  rts
+
+.endproc
+
+;This routine slides all shadow spots by a 16 bit
+;delta in w0 and w1. This also is used only by the
+;conversation state when aligning the camera to
+;a metatile grid.
+.proc entity_slide_shadow_spots
+
+  ldx shadow_spot_count
+  beq no_shadow_spots
+  dex
+next_shadow_spot:
+
+  clc
+  lda shadow_spot_x_lo,x
+  adc w0
+  sta shadow_spot_x_lo,x
+  lda shadow_spot_x_hi,x
+  adc w0+1
+  sta shadow_spot_x_hi,x
+
+  clc
+  lda shadow_spot_y_lo,x
+  adc w1
+  sta shadow_spot_y_lo,x
+  lda shadow_spot_y_hi,x
+  adc w1+1
+  sta shadow_spot_y_hi,x
+
+  dex
+  bpl next_shadow_spot
+
 no_shadow_spots:
 
   rts
