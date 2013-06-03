@@ -4,7 +4,7 @@
 .include "areas.inc"
 .include "locations.inc"
 
-.segment "ROM00"
+.segment "ROM20"
 
 .scope village_data
 .include "village.inc"
