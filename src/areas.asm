@@ -81,7 +81,7 @@ village_area:
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 30  ;bg_chr_bank .byte
-  .byte 1   ;sprite_chr_bank .byte
+  .byte 25  ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word map0_chr
   .word village_sprite_chr_groups
@@ -117,7 +117,7 @@ house1_area:
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 30  ;bg_chr_bank .byte
-  .byte 1   ;sprite_chr_bank .byte
+  .byte 25  ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word house1_chr
   .word house_sprite_chr_groups
@@ -148,7 +148,7 @@ housebl_area:
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 30  ;bg_chr_bank .byte
-  .byte 1   ;sprite_chr_bank .byte
+  .byte 25  ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word house1_chr
   .word house_sprite_chr_groups
@@ -179,7 +179,7 @@ housebr_area:
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 30  ;bg_chr_bank .byte
-  .byte 1   ;sprite_chr_bank .byte
+  .byte 25  ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word house1_chr
   .word house_sprite_chr_groups
@@ -210,7 +210,7 @@ housetr_area:
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 30  ;bg_chr_bank .byte
-  .byte 1   ;sprite_chr_bank .byte
+  .byte 25  ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word house1_chr
   .word house_sprite_chr_groups
@@ -241,7 +241,7 @@ inn_area:
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 30  ;bg_chr_bank .byte
-  .byte 1   ;sprite_chr_bank .byte
+  .byte 25  ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word house1_chr
   .word house_sprite_chr_groups
@@ -272,7 +272,7 @@ store_area:
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 30  ;bg_chr_bank .byte
-  .byte 1   ;sprite_chr_bank .byte
+  .byte 25  ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word house1_chr
   .word house_sprite_chr_groups
@@ -303,7 +303,7 @@ overworld_area:
   .byte 0   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 30  ;bg_chr_bank .byte
-  .byte 1   ;sprite_chr_bank .byte
+  .byte 25  ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word map1_chr
   .word overworld_sprite_chr_groups
@@ -333,7 +333,7 @@ dungeon_area:
   .byte 1   ;map_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 30  ;bg_chr_bank .byte
-  .byte 1   ;sprite_chr_bank .byte
+  .byte 25  ;sprite_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word dungeon_chr
   .word dungeon_sprite_chr_groups

@@ -22,7 +22,7 @@ sprite_chr_group_addresses_lo:
 sprite_chr_group_addresses_hi:
   .hibytes sprite_chr_group_addresses
 
-.segment "ROM01"
+.segment "ROM25"
 
 hero_chr:
   .word $06E0
