@@ -1,6 +1,6 @@
 .include "bg_chr_data.inc"
 
-.segment "ROM30"
+.segment "ROM01"
 
 textbox_chr:
   .word $0270
@@ -637,7 +637,7 @@ dungeon_chr:
   .byte $7f,$7f,$7f,$7f,$7f,$7f,$7f,$00,$00,$00,$00,$00,$00,$00,$00,$00
   .byte $fe,$fe,$fe,$fe,$fe,$fe,$fe,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
-.segment "ROM29"
+.segment "ROM02"
 
 inventory_chr:
   .word $0170

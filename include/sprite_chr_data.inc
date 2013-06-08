@@ -1,7 +1,7 @@
 .ifndef SPRITE_CHR_INC
 SPRITE_CHR_INC = 1
 
-SHADOWSPOT_SPR_CHR_BANK = 25
+SHADOWSPOT_SPR_CHR_BANK = 1
 
 .global sprite_chr_group_addresses_lo
 .global sprite_chr_group_addresses_hi
