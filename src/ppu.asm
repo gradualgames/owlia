@@ -254,7 +254,6 @@ brightness_level_spr = b7
 
 fading_loop:
   ;load dynamic palette for current bg and spr brightness levels independently
-  switch_bank_ldy map_bank
   lda brightness_level_bg
   sta b3
   jsr ppu_load_dynamic_palette_brightness_bg
@@ -346,7 +345,6 @@ brightness_level_spr = b5
 fading_loop:
 
   ;load up the dynamic palette with brightness in b3
-  switch_bank_ldy map_bank
   lda brightness_level_bg
   sta b3
   jsr ppu_load_dynamic_palette_brightness_bg

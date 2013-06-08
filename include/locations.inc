@@ -25,9 +25,20 @@ LOCATION_BRIGHTNESS_LEVEL_2 = %00001000
 LOCATION_BRIGHTNESS_LEVEL_3 = %00001100
 LOCATION_BRIGHTNESS_LEVEL_4 = %00010000
 
+.struct entity_set
+  entities_bank .byte
+  sprites_and_animations_bank .byte
+  sprite_chr_bank .byte
+  sprite_chr_groups .byte  ;note, this is a count, and it is expected that several
+                        ;addresses of sprite chr data will follow this count.
+.endstruct
+
 .struct location
   flags .byte
   area_index .byte
+  entity_set_address .word
+  entity_instances_address .word
+  palette_address .word
   nametable_start_hibyte .byte
   camera_start_x .word
   camera_start_y .word
@@ -41,9 +52,12 @@ LOCATION_BRIGHTNESS_LEVEL_4 = %00010000
   hero_direction .byte
 .endstruct
 
-.macro define_location flags, area_index, camera_start_x, camera_start_y, hero_start_x, hero_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+.macro define_location flags, area_index, entity_set_address, entity_instances_address, palette_address, camera_start_x, camera_start_y, hero_start_x, hero_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
   .byte flags                                   ;flags      .byte
   .byte area_index                              ;area_index .byte
+  .word entity_set_address                      ;entity_set_address .word
+  .word entity_instances_address                ;entity_instances_address .word
+  .word palette_address                         ;palette_address .word
   .byte $20 | ((>(16*camera_start_x) & 1) << 2) ;nametable_start_hibyte .byte
   .word (16*camera_start_x)                     ;camera_start_x .word
   .word (16*camera_start_y)                     ;camera_start_y .word
@@ -54,12 +68,15 @@ LOCATION_BRIGHTNESS_LEVEL_4 = %00010000
   .word sfx_address                             ;on_enter_sfx_address .word
   .byte sfx_channel                             ;on_enter_sfx_channel .byte
   .byte sfx_stream                              ;on_enter_sfx_stream  .byte
-  .word hero_direction                          ;hero_direction .byte
+  .byte hero_direction                          ;hero_direction .byte
 .endmacro
 
-.macro define_centered_location flags, area_index, hero_start_x, hero_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+.macro define_centered_location flags, area_index, entity_set_address, entity_instances_address, palette_address, hero_start_x, hero_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
   .byte flags                                       ;flags      .byte
   .byte area_index                                  ;area_index .byte
+  .word entity_set_address                          ;entity_set_address .word
+  .word entity_instances_address                    ;entity_instances_address .word
+  .word palette_address                             ;palette_address .word
   .byte $20 | ((>(16*(hero_start_x-8)) & 1) << 2)   ;nametable_start_hibyte .byte
   .word (16*(hero_start_x-8))                       ;camera_start_x .word
   .word (16*(hero_start_y-7))                       ;camera_start_y .word
@@ -70,12 +87,15 @@ LOCATION_BRIGHTNESS_LEVEL_4 = %00010000
   .word sfx_address                                 ;on_enter_sfx_address .word
   .byte sfx_channel                                 ;on_enter_sfx_channel .byte
   .byte sfx_stream                                  ;on_enter_sfx_stream  .byte
-  .word hero_direction                              ;hero_direction .byte
+  .byte hero_direction                              ;hero_direction .byte
 .endmacro
 
-.macro define_south_location flags, area_index, hero_start_x, hero_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+.macro define_south_location flags, area_index, entity_set_address, entity_instances_address, palette_address, hero_start_x, hero_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
   .byte flags                                       ;flags      .byte
   .byte area_index                                  ;area_index .byte
+  .word entity_set_address                          ;entity_set_address .word
+  .word entity_instances_address                    ;entity_instances_address .word
+  .word palette_address                             ;palette_address .word
   .byte $20 | ((>(16*(hero_start_x-8)) & 1) << 2)   ;nametable_start_hibyte .byte
   .word (16*(hero_start_x-8))                       ;camera_start_x .word
   .word (16*(hero_start_y-12))                      ;camera_start_y .word
@@ -86,12 +106,15 @@ LOCATION_BRIGHTNESS_LEVEL_4 = %00010000
   .word sfx_address                                 ;on_enter_sfx_address .word
   .byte sfx_channel                                 ;on_enter_sfx_channel .byte
   .byte sfx_stream                                  ;on_enter_sfx_stream  .byte
-  .word hero_direction                              ;hero_direction .byte
+  .byte hero_direction                              ;hero_direction .byte
 .endmacro
 
-.macro define_north_location flags, area_index, hero_start_x, hero_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
+.macro define_north_location flags, area_index, entity_set_address, entity_instances_address, palette_address, hero_start_x, hero_start_y, sfx_address, sfx_channel, sfx_stream, hero_direction
   .byte flags                                       ;flags      .byte
   .byte area_index                                  ;area_index .byte
+  .word entity_set_address                          ;entity_set_address .word
+  .word entity_instances_address                    ;entity_instances_address .word
+  .word palette_address                             ;palette_address .word
   .byte $20 | ((>(16*(hero_start_x-8)) & 1) << 2)   ;nametable_start_hibyte .byte
   .word (16*(hero_start_x-8))                       ;camera_start_x .word
   .word (16*(hero_start_y-1))                       ;camera_start_y .word
@@ -102,7 +125,7 @@ LOCATION_BRIGHTNESS_LEVEL_4 = %00010000
   .word sfx_address                                 ;on_enter_sfx_address .word
   .byte sfx_channel                                 ;on_enter_sfx_channel .byte
   .byte sfx_stream                                  ;on_enter_sfx_stream  .byte
-  .word hero_direction                              ;hero_direction .byte
+  .byte hero_direction                              ;hero_direction .byte
 .endmacro
 
 ;****************************************************************

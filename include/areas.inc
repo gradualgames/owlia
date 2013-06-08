@@ -5,17 +5,11 @@ AREAS_BANK = 2
 
 .struct area
   music_bank .byte
-  entities_bank .byte
   map_bank .byte
-  sprites_and_animations_bank .byte
   bg_chr_bank .byte
-  sprite_chr_bank .byte
   conversations_bank .byte
   bg_chr_address .word
-  sprite_chr_groups_address .word
-  entity_instances_address .word
   song_address .word
-  palette_address .word
   textbox_attribute .byte
   map_address .word
   metatile_table_properties_address .word

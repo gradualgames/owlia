@@ -1,7 +1,3 @@
-palette:
-  .byte $0d,$19,$18,$2a,$0d,$0d,$27,$20,$0d,$18,$2a,$37,$00,$00,$00,$00
-  .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$17,$20,$0d,$0d,$18,$36
-
 metatile_table_properties:
 .byte ($10 | ACTION_NOP)
 .byte ($10 | ACTION_NOP)

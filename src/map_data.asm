@@ -9,7 +9,6 @@
 .scope village_data
 .include "village.inc"
 .endscope
-village_palette = village_data::palette
 village_metatile_table_properties = village_data::metatile_table_properties
 village_metatile_table_params = village_data::metatile_table_params
 village_metatile_table_attributes = village_data::metatile_table_attributes
@@ -27,7 +26,6 @@ village_map = village_data::map
 .include "house1.inc"
 .endscope
 
-house1_palette = house1_data::palette
 house1_metatile_table_properties = house1_data::metatile_table_properties
 house1_metatile_table_params = house1_data::metatile_table_params
 house1_metatile_table_attributes = house1_data::metatile_table_attributes
@@ -45,7 +43,6 @@ house1_map = house1_data::map
 .include "housebl.inc"
 .endscope
 
-housebl_palette = housebl_data::palette
 housebl_metatile_table_properties = housebl_data::metatile_table_properties
 housebl_metatile_table_params = housebl_data::metatile_table_params
 housebl_metatile_table_attributes = housebl_data::metatile_table_attributes
@@ -63,7 +60,6 @@ housebl_map = housebl_data::map
 .include "housebr.inc"
 .endscope
 
-housebr_palette = housebr_data::palette
 housebr_metatile_table_properties = housebr_data::metatile_table_properties
 housebr_metatile_table_params = housebr_data::metatile_table_params
 housebr_metatile_table_attributes = housebr_data::metatile_table_attributes
@@ -81,7 +77,6 @@ housebr_map = housebr_data::map
 .include "housetr.inc"
 .endscope
 
-housetr_palette = housetr_data::palette
 housetr_metatile_table_properties = housetr_data::metatile_table_properties
 housetr_metatile_table_params = housetr_data::metatile_table_params
 housetr_metatile_table_attributes = housetr_data::metatile_table_attributes
@@ -99,7 +94,6 @@ housetr_map = housetr_data::map
 .include "inn.inc"
 .endscope
 
-inn_palette = inn_data::palette
 inn_metatile_table_properties = inn_data::metatile_table_properties
 inn_metatile_table_params = inn_data::metatile_table_params
 inn_metatile_table_attributes = inn_data::metatile_table_attributes
@@ -117,7 +111,6 @@ inn_map = inn_data::map
 .include "store.inc"
 .endscope
 
-store_palette = store_data::palette
 store_metatile_table_properties = store_data::metatile_table_properties
 store_metatile_table_params = store_data::metatile_table_params
 store_metatile_table_attributes = store_data::metatile_table_attributes
@@ -135,7 +128,6 @@ store_map = store_data::map
 .include "overworld.inc"
 .endscope
 
-overworld_palette = overworld_data::palette
 overworld_metatile_table_properties = overworld_data::metatile_table_properties
 overworld_metatile_table_params = overworld_data::metatile_table_params
 overworld_metatile_table_attributes = overworld_data::metatile_table_attributes
@@ -155,7 +147,6 @@ overworld_map = overworld_data::map
 .include "dungeon.inc"
 .endscope
 
-dungeon_palette = dungeon_data::palette
 dungeon_metatile_table_properties = dungeon_data::metatile_table_properties
 dungeon_metatile_table_params = dungeon_data::metatile_table_params
 dungeon_metatile_table_attributes = dungeon_data::metatile_table_attributes

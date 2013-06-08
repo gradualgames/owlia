@@ -5,7 +5,7 @@
 .include "bg_chr_data.inc"
 .include "nametable_data.inc"
 .include "inventory_state.inc"
-.include "areas.inc"
+.include "locations.inc"
 .include "ppu.inc"
 .include "mapper.inc"
 .include "ram.inc"
@@ -45,14 +45,13 @@ inventory_state_init:
   tax
 
   ;fade out from current palette
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::palette_address
-  lda (area_address),y
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::palette_address
+  lda (location_address),y
   sta palette_address
   iny
-  lda (area_address),y
+  lda (location_address),y
   sta palette_address+1
-  switch_bank_ldy map_bank
   jsr ppu_fade_out_palette
 
   ;set blank nmi routine

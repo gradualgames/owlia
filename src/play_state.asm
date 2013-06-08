@@ -365,29 +365,37 @@ play_state_load_location:
   lda (area_address),y
   sta music_bank
 
-  ldy #area::entities_bank
-  lda (area_address),y
-  sta entities_bank
-
   ldy #area::map_bank
   lda (area_address),y
   sta map_bank
-
-  ldy #area::sprites_and_animations_bank
-  lda (area_address),y
-  sta sprites_and_animations_bank
 
   ldy #area::bg_chr_bank
   lda (area_address),y
   sta bg_chr_bank
 
-  ldy #area::sprite_chr_bank
-  lda (area_address),y
-  sta sprite_chr_bank
-
   ldy #area::conversations_bank
   lda (area_address),y
   sta conversations_bank
+
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::entity_set_address
+  lda (location_address),y
+  sta entity_set_address
+  iny
+  lda (location_address),y
+  sta entity_set_address+1
+
+  ldy #entity_set::entities_bank
+  lda (entity_set_address),y
+  sta entities_bank
+
+  ldy #entity_set::sprites_and_animations_bank
+  lda (entity_set_address),y
+  sta sprites_and_animations_bank
+
+  ldy #entity_set::sprite_chr_bank
+  lda (entity_set_address),y
+  sta sprite_chr_bank
 
   ;load other variables we need
   ldy #area::textbox_attribute
@@ -444,12 +452,12 @@ play_state_load_location:
   lda #$00
   sta $2006
 
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::sprite_chr_groups_address
-  lda (area_address),y
+  switch_bank_ldy #LOCATIONS_BANK
+  lda entity_set_address
+  adc #entity_set::sprite_chr_groups
   sta w4
-  iny
-  lda (area_address),y
+  lda entity_set_address+1
+  adc #$00
   sta w4+1
   jsr load_sprite_chr_groups
 
@@ -598,12 +606,12 @@ play_state_load_location:
   sta familiar_flags
 
   ;spawn all non-hero entities in area
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::entity_instances_address
-  lda (area_address),y
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::entity_instances_address
+  lda (location_address),y
   sta w3
   iny
-  lda (area_address),y
+  lda (location_address),y
   sta w3+1
 
   jsr spawn_entities
@@ -681,14 +689,13 @@ same_song:
   sta b5
 
   ;fade in to current palette
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::palette_address
-  lda (area_address),y
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::palette_address
+  lda (location_address),y
   sta palette_address
   iny
-  lda (area_address),y
+  lda (location_address),y
   sta palette_address+1
-  switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
 
   ;decide which vblank routine to use based on whether scrolling is disabled.
@@ -891,14 +898,7 @@ spin_hero_loop:
   bne :-
 
   ;fade out from current palette
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::palette_address
-  lda (area_address),y
-  sta palette_address
-  iny
-  lda (area_address),y
-  sta palette_address+1
-  switch_bank_ldy map_bank
+  switch_bank_ldy #LOCATIONS_BANK
   jsr ppu_fade_out_palette
 
   jmp game_over_state_init
@@ -951,12 +951,12 @@ play_state_reload:
   lda #$00
   sta $2006
 
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::sprite_chr_groups_address
-  lda (area_address),y
+  switch_bank_ldy #LOCATIONS_BANK
+  lda entity_set_address
+  adc #entity_set::sprite_chr_groups
   sta w4
-  iny
-  lda (area_address),y
+  lda entity_set_address+1
+  adc #$00
   sta w4+1
   jsr load_sprite_chr_groups
 
@@ -1039,14 +1039,13 @@ done:
   sta b5
 
   ;fade in to current palette
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::palette_address
-  lda (area_address),y
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::palette_address
+  lda (location_address),y
   sta palette_address
   iny
-  lda (area_address),y
+  lda (location_address),y
   sta palette_address+1
-  switch_bank_ldy map_bank
   jsr ppu_fade_in_palette
 
   ;decide which vblank routine to use based on whether scrolling is disabled.
@@ -1129,14 +1128,7 @@ play_state_action_goto_location_group1:
   jsr stream_initialize
 
   ;fade out from current palette
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::palette_address
-  lda (area_address),y
-  sta palette_address
-  iny
-  lda (area_address),y
-  sta palette_address+1
-  switch_bank_ldy map_bank
+  switch_bank_ldy #LOCATIONS_BANK
   jsr ppu_fade_out_palette
 
   ;now that we know the area, make sure the state control
