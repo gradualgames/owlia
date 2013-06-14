@@ -444,6 +444,7 @@ skip_lookup_opposite_direction:
   pla
   tax
 
+  .ifndef INVINCIBLE
   ;decrement hero's health
   dec hero_health
   bne hero_not_dead
@@ -453,6 +454,7 @@ skip_lookup_opposite_direction:
   sta state_control_params+play_state_control::action
 
 hero_not_dead:
+  .endif
 
 hero_invincible:
 
