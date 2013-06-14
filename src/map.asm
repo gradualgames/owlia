@@ -2288,9 +2288,6 @@ cycle_pad_lut2:
 
 .proc nametable_and_attribute_update_ppu
 
-  lda vblank_data_ready
-  beq data_not_ready
-
   jsr sprite_update_all
 
   .scope
@@ -2349,9 +2346,7 @@ row_nop:
   bne :-
 
   lda #0
-  sta vblank_data_ready
-
-data_not_ready:
+  sta vblank_wait_flag
 
   rts
 

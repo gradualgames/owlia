@@ -57,7 +57,7 @@ ZP_INC = 1
 .globalzp current_bank
 
 .globalzp vblank_routine
-.globalzp vblank_data_ready
+.globalzp vblank_wait_flag
 .globalzp hide_graphics_top
 .globalzp cycle_pad_lut_index
 

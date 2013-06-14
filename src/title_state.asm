@@ -86,7 +86,7 @@ title_state_init:
 
 title_state_main:
 
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   jsr controller_read
 
@@ -96,7 +96,7 @@ title_state_main:
   cmp #%00000001
   beq title_state_exit
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   jmp title_state_main
 

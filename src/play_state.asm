@@ -621,7 +621,7 @@ play_state_load_location:
   ;to get all entities onscreen before fading in
   ;****************************************************************
   .scope execute_single_frame
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   jsr sprite_clear_all
 
@@ -640,7 +640,7 @@ play_state_load_location:
 
   jsr hero_draw_status
 
-  set_vblank_data_ready
+  set_vblank_flag
   .endscope
 
   ;****************************************************************
@@ -716,7 +716,7 @@ same_song:
   beq scrolling_disabled
 
   lda #0
-  sta vblank_data_ready
+  sta vblank_wait_flag
 
   lda #0
   sta row_ready
@@ -743,7 +743,7 @@ scrolling_disabled:
 ;****************************************************************
 play_state:
 
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   ;switchboard for controlling the play state logic
   lda state_control_params+play_state_control::action
@@ -794,7 +794,7 @@ play_state_action_nop:
   upload_ppu_2001
   .endif
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   jmp play_state
 
@@ -819,8 +819,8 @@ play_state_action_game_over:
 
   ;pause a few frames
   ldx #4
-: set_vblank_data_ready
-  wait_vblank_data_ready
+: set_vblank_flag
+  wait_vblank_flag
   dex
   bne :-
 
@@ -837,7 +837,7 @@ play_state_action_game_over:
   .scope
   ldy #28
 spin_hero_loop:
-  wait_vblank_data_ready
+  wait_vblank_flag
   tya
   pha
   jsr hero_turn_clockwise
@@ -849,8 +849,8 @@ spin_hero_loop:
 
   ;pause a few frames
   ldx #4
-: set_vblank_data_ready
-  wait_vblank_data_ready
+: set_vblank_flag
+  wait_vblank_flag
   dex
   bne :-
 
@@ -879,7 +879,7 @@ spin_hero_loop:
   ;execute a few frames, doing nothing but updating non-player entities
   ;(the explosion entity we just spawned) and drawing non-player entities.
   ldy #32
-: wait_vblank_data_ready
+: wait_vblank_flag
 
   tya
   pha
@@ -893,7 +893,7 @@ spin_hero_loop:
   pla
   tay
 
-  set_vblank_data_ready
+  set_vblank_flag
   dey
   bne :-
 
@@ -1001,7 +1001,7 @@ done:
 
   ;execute a single frame to get entities onscreen before palette fade in and music
   .scope
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   jsr sprite_clear_all
 
@@ -1020,7 +1020,7 @@ done:
 
   jsr hero_draw_status
 
-  set_vblank_data_ready
+  set_vblank_flag
   .endscope
 
   jsr ppu_safely_enable_graphics
@@ -1066,7 +1066,7 @@ done:
   beq scrolling_disabled
 
   lda #0
-  sta vblank_data_ready
+  sta vblank_wait_flag
 
   lda #0
   sta row_ready
@@ -1156,7 +1156,7 @@ play_state_action_start_conversation:
 
   jsr align_entities_if_occluded_by_textbox
 
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   jsr sprite_clear_all
 
@@ -1170,7 +1170,7 @@ play_state_action_start_conversation:
   sta b0
   jsr sprite_hide_all_below
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   jsr draw_textbox
 
@@ -1206,7 +1206,7 @@ play_state_action_start_conversation:
   and #%00001000
   beq keep_decrementing_camera_x
 keep_incrementing_camera_x:
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   lda camera_x
   and #%00001111
@@ -1240,14 +1240,14 @@ keep_incrementing_camera_x:
 
   jsr hero_draw_status
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   jmp keep_incrementing_camera_x
 
   jmp done
 
 keep_decrementing_camera_x:
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   lda camera_x
   and #%00001111
@@ -1281,7 +1281,7 @@ keep_decrementing_camera_x:
 
   jsr hero_draw_status
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   jmp keep_decrementing_camera_x
 done:
@@ -1292,7 +1292,7 @@ done:
   and #%00001000
   beq keep_decrementing_camera_y
 keep_incrementing_camera_y:
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   lda camera_y
   and #%00001111
@@ -1326,11 +1326,11 @@ keep_incrementing_camera_y:
 
   jsr hero_draw_status
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   jmp keep_incrementing_camera_y
 keep_decrementing_camera_y:
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   lda camera_y
   and #%00001111
@@ -1364,7 +1364,7 @@ keep_decrementing_camera_y:
 
   jsr hero_draw_status
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   jmp keep_decrementing_camera_y
 done:

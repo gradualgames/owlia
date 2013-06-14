@@ -10,7 +10,7 @@
 .proc ppu_vblank_nop
 
   lda #0
-  sta vblank_data_ready
+  sta vblank_wait_flag
 
   rts
 
@@ -39,8 +39,8 @@
   clear_ppu_2001_bit PPU1_SPRITE_VISIBILITY
   ;turn off background visibility
   clear_ppu_2001_bit PPU1_BACKGROUND_VISIBILITY
-  set_vblank_data_ready
-  wait_vblank_data_ready
+  set_vblank_flag
+  wait_vblank_flag
   upload_ppu_2001
   rts
 
@@ -63,8 +63,8 @@
   ;turn sprite and background visibility on
   set_ppu_2001_bit PPU1_SPRITE_VISIBILITY
   set_ppu_2001_bit PPU1_BACKGROUND_VISIBILITY
-  set_vblank_data_ready
-  wait_vblank_data_ready
+  set_vblank_flag
+  wait_vblank_flag
   upload_ppu_2001
   rts
 
@@ -263,8 +263,8 @@ fading_loop:
 
   ;pause for FADING_SPEED frames
   ldx #FADING_SPEED
-: wait_vblank_data_ready
-  set_vblank_data_ready
+: wait_vblank_flag
+  set_vblank_flag
   dex
   bne :-
 
@@ -299,7 +299,7 @@ done_fading:
   ;do one more wait to make sure the vblank clears the ready
   ;flag, so that when we restore the old vblank routine, we
   ;don't upload unprepared garbage data!
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   ;restore previous nmi routine
   pla
@@ -354,8 +354,8 @@ fading_loop:
 
   ;pause for FADING_SPEED frames
   ldx #FADING_SPEED
-: wait_vblank_data_ready
-  set_vblank_data_ready
+: wait_vblank_flag
+  set_vblank_flag
   dex
   bne :-
 
@@ -394,7 +394,7 @@ done_fading:
   ;do one more wait to make sure the vblank clears the ready
   ;flag, so that when we restore the old vblank routine, we
   ;don't upload unprepared garbage data!
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   ;restore previous nmi routine
   pla
@@ -408,7 +408,7 @@ done_fading:
 ;nmi routine for uploading the dynamic palette
 .proc ppu_upload_dynamic_palette_ppu
 
-  lda vblank_data_ready
+  lda vblank_wait_flag
   beq :+
 
   jsr sprite_update_all
@@ -440,7 +440,7 @@ done_fading:
   upload_ppu_2005
 
   lda #0
-  sta vblank_data_ready
+  sta vblank_wait_flag
 :
 
   ;pad CPU cycles for finely tuned graphics hiding

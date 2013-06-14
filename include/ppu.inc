@@ -158,22 +158,22 @@ wait:
   
 .endmacro
 
-.macro wait_vblank_data_ready
+.macro wait_vblank_flag
 
   ;wait til data has been consumed by nmi routine
 .scope
 wait:
-  lda vblank_data_ready
+  lda vblank_wait_flag
   bne wait
 .endscope
 
 .endmacro
 
-.macro set_vblank_data_ready
+.macro set_vblank_flag
 
   ;tell nmi routine data is ready to consume
   lda #1
-  sta vblank_data_ready
+  sta vblank_wait_flag
 
 .endmacro
 

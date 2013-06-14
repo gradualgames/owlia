@@ -196,7 +196,7 @@ inventory_state_init:
 
 inventory_state_main:
 
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   jsr controller_read
 
@@ -215,7 +215,7 @@ inventory_state_main:
   cmp #%00000001
   beq inventory_state_exit
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   jmp inventory_state_main
 
@@ -253,7 +253,7 @@ inventory_state_exit:
   jsr sprite_update_all
 
   lda #0
-  sta vblank_data_ready
+  sta vblank_wait_flag
 
   rts
 

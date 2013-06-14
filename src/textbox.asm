@@ -159,7 +159,7 @@ conversation_address = w0
 row_y_offset = b0
 
   ;make sure any previous ppu uploads are complete before proceeding
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   switch_bank_ldy conversations_bank
 
@@ -266,14 +266,14 @@ interpret_font_character:
   tax
 
   ;Sync with vblank so the animation is reasonable.
-  wait_vblank_data_ready
-  set_vblank_data_ready
-  wait_vblank_data_ready
-  set_vblank_data_ready
-  wait_vblank_data_ready
+  wait_vblank_flag
+  set_vblank_flag
+  wait_vblank_flag
+  set_vblank_flag
+  wait_vblank_flag
   lda #1
   sta row_ready
-  set_vblank_data_ready
+  set_vblank_flag
   jmp read_next_character
   ;If negative (it is a control character)
 interpret_control_character:
@@ -287,11 +287,11 @@ interpret_control_character:
   beq end_conversation
 wait:
   ;If it is WT, just wait til user hits A button.
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   jsr controller_read
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   lda buffer_controller+buttons::_a
   and #%00000011
@@ -363,7 +363,7 @@ end_conversation:
 ;to get the resulting textbox graphics onto the screen.
 .proc draw_textbox
 
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   switch_bank_ldy map_bank
 
@@ -387,12 +387,12 @@ end_conversation:
   lda #1
   sta row_ready
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   ;draw all middle rows, incrementing y coordinate (w1)
   ldx #5
 next_middle_row:
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   clc
   lda w1
@@ -412,13 +412,13 @@ next_middle_row:
   lda #1
   sta row_ready
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   dex
   bne next_middle_row
 
   ;draw bottom row, incrementing y coordinate once (w1)
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   clc
   lda w1
@@ -431,7 +431,7 @@ next_middle_row:
   lda #1
   sta row_ready
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   rts
 
@@ -442,7 +442,7 @@ next_middle_row:
 ;look cool.
 .proc erase_textbox
 
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   switch_bank_ldy map_bank
 
@@ -467,12 +467,12 @@ next_middle_row:
   lda #1
   sta row_ready
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   ;draw all middle rows, incrementing y coordinate (w1)
   ldx #6
 next_middle_row:
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   clc
   lda w1
@@ -493,13 +493,13 @@ next_middle_row:
   lda #1
   sta row_ready
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   dex
   bne next_middle_row
 
   ;draw bottom row, incrementing y coordinate once (w1)
-  wait_vblank_data_ready
+  wait_vblank_flag
 
   clc
   lda w1
@@ -513,7 +513,7 @@ next_middle_row:
   lda #1
   sta row_ready
 
-  set_vblank_data_ready
+  set_vblank_flag
 
   rts
 

@@ -60,7 +60,7 @@ reset:
 
   ;initialize vblank flags
   lda #0
-  sta vblank_data_ready
+  sta vblank_wait_flag
 
   ;install blank nmi routine at first
   lda #<ppu_vblank_nop
