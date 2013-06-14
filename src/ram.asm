@@ -160,7 +160,6 @@ hero_direction_handler:           .res 1
 hero_state_counter:               .res 1
 hero_invincibility_counter:       .res 1
 hero_knockback_counter:           .res 1
-hero_knockback_direction_handler: .res 1
 
 ;****************************************************************
 ;These variables describe the hard coded familiar entity state.

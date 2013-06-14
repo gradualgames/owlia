@@ -415,7 +415,7 @@ skip_lookup_opposite_direction:
   ; -look up direction handlers index from hero_knockback_direction
   lda hero_direction_to_direction_handlers_index,y
   ; -store this in hero_knockback_direction
-  sta hero_knockback_direction_handler
+  sta hero_direction_handler
   ; -set hero_knockback_counter
   lda #HERO_KNOCKBACK_LENGTH
   sta hero_knockback_counter
@@ -1116,7 +1116,7 @@ hero_state_carried:
 hero_state_main:
 
   ;check to see if hero is hurt. if not, use controller to choose
-  ;direction handler. if so, use hero_knockback_direction_handler to choose
+  ;direction handler. if so, use hero_direction_handler to choose
   ;the direction handler.
   lda hero_knockback_counter
   beq hero_not_knockback
@@ -1124,7 +1124,7 @@ hero_state_main:
   lda #HERO_KNOCKBACK_SPEED
   sta hero_speed
 
-  ldy hero_knockback_direction_handler
+  ldy hero_direction_handler
   lda direction_handlers_lo,y
   sta w0
   lda direction_handlers_hi,y

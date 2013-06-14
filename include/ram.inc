@@ -106,7 +106,6 @@ MAX_SHADOW_SPOTS = 4
 .global hero_state_counter
 .global hero_invincibility_counter
 .global hero_knockback_counter
-.global hero_knockback_direction_handler
 
 .global familiar_flags
 .global familiar_state
