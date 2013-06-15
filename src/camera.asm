@@ -1,3 +1,4 @@
+.linecont +
 .include "camera.inc"
 .include "zp.inc"
 .include "ram.inc"
@@ -6,9 +7,383 @@
 
 .segment "CODE"
 
+update_camera = update_camera_algorithm_2
+
+;This revised camera routine uses the hero's direction handler
+;index to determine which direction to attempt to follow her in.
+;This reduces the overhead required to re-compute the direction
+;that the camera should move.
+.proc update_camera_algorithm_2
+CAMERA_HORIZ_SIZE = 80
+CAMERA_VERT_SIZE = 80
+camera_right_x = w4
+camera_left_x = w5
+camera_top_y = w6
+camera_bottom_y = w7
+camera_increment_x = w8
+camera_increment_y = w9
+camera_x_old = w10
+camera_y_old = w11
+
+  ldx hero_direction_handler
+  lda follow_handlers_lo,x
+  sta w0
+  lda follow_handlers_hi,x
+  sta w0+1
+  jsr indirect_jsr_w0
+
+  rts
+
+indirect_jsr_w0:
+  jmp (w0)
+
+follow_nop_handler:
+
+  rts
+
+follow_right_handler:
+
+  .scope
+  clc
+  lda camera_x
+  adc #(256 - CAMERA_HORIZ_SIZE - HERO_WIDTH)
+  sta camera_right_x
+  lda camera_x+1
+  adc #$00
+  sta camera_right_x+1
+
+  sec
+  lda hero_x
+  sbc camera_right_x
+  sta camera_increment_x
+  lda hero_x+1
+  sbc camera_right_x+1
+  sta camera_increment_x+1
+  bmi skip_follow_right
+
+  sec
+  lda #$08
+  sbc camera_increment_x
+  lda #$00
+  sbc camera_increment_x+1
+  bpl not_greater_than_8
+
+  lda #$08
+  sta camera_increment_x
+  lda #$00
+  sta camera_increment_x+1
+
+not_greater_than_8:
+
+  lda camera_x
+  sta camera_x_old
+  lda camera_x+1
+  sta camera_x_old+1
+
+  ;increment the camera's position
+  lda camera_increment_x
+  sta b0
+  jsr increment_camera_x
+
+  ;now determine if we crossed an 8 pixel wide boundary
+  lda camera_x_old
+  eor camera_x
+  and #%00001000
+  beq skip_upload_column
+  ;if we reach here, we crossed an 8 pixel wide boundary
+  ;and this means we want to upload a column ahead of the scroll
+  clc
+  lda camera_x
+  adc #$00
+  sta w0
+  lda camera_x+1
+  adc #$01
+  sta w0+1
+  lda camera_y
+  sta w1
+  lda camera_y+1
+  sta w1+1
+  jsr map_decode_column
+  jsr map_process_intermediate_attribute_column_buffer
+  lda #1
+  sta column_ready
+skip_upload_column:
+
+skip_follow_right:
+  .endscope
+  rts
+
+follow_left_handler:
+
+  .scope
+  clc
+  lda camera_x
+  adc #(CAMERA_HORIZ_SIZE)
+  sta camera_left_x
+  lda camera_x+1
+  adc #$00
+  sta camera_left_x+1
+
+  sec
+  lda camera_left_x
+  sbc hero_x
+  sta camera_increment_x
+  lda camera_left_x+1
+  sbc hero_x+1
+  sta camera_increment_x+1
+  bmi skip_follow_left
+
+  sec
+  lda #$08
+  sbc camera_increment_x
+  lda #$00
+  sbc camera_increment_x+1
+  bpl not_greater_than_8
+
+  lda #$08
+  sta camera_increment_x
+  lda #$00
+  sta camera_increment_x+1
+
+not_greater_than_8:
+
+  lda camera_x
+  sta camera_x_old
+  lda camera_x+1
+  sta camera_x_old+1
+
+  ;decrement the camera's position
+  lda camera_increment_x
+  sta b0
+  jsr decrement_camera_x
+
+  ;now determine if we crossed an 8 pixel wide boundary
+  lda camera_x_old
+  eor camera_x
+  and #%00001000
+  beq skip_upload_column
+  ;if we reach here, we crossed an 8 pixel wide boundary
+  ;and this means we want to upload a column ahead of the scroll
+  lda camera_x
+  sta w0
+  lda camera_x+1
+  sta w0+1
+  lda camera_y
+  sta w1
+  lda camera_y+1
+  sta w1+1
+  jsr map_decode_column
+  jsr map_process_intermediate_attribute_column_buffer
+  lda #1
+  sta column_ready
+skip_upload_column:
+
+skip_follow_left:
+  .endscope
+
+  rts
+
+follow_down_handler:
+  .scope
+  clc
+  lda camera_y
+  adc #(240 - CAMERA_VERT_SIZE - HERO_HEIGHT - 8)
+  sta camera_bottom_y
+  lda camera_y+1
+  adc #$00
+  sta camera_bottom_y+1
+
+  sec
+  lda hero_y
+  sbc camera_bottom_y
+  sta camera_increment_y
+  lda hero_y+1
+  sbc camera_bottom_y+1
+  sta camera_increment_y+1
+  bmi skip_follow_down
+
+  sec
+  lda #$08
+  sbc camera_increment_y
+  lda #$00
+  sbc camera_increment_y+1
+  bpl not_greater_than_8
+
+  lda #$08
+  sta camera_increment_y
+  lda #$00
+  sta camera_increment_y+1
+
+not_greater_than_8:
+
+  lda camera_y
+  sta camera_y_old
+  lda camera_y+1
+  sta camera_y_old+1
+
+  ;increment the camera's position
+  lda camera_increment_y
+  sta b0
+  jsr increment_camera_y
+
+  ;now determine if we crossed an 8 pixel wide boundary
+  lda camera_y_old
+  eor camera_y
+  and #%00001000
+  beq skip_upload_row
+  ;if we reach here, we crossed an 8 pixel wide boundary
+  ;and this means we want to upload a row ahead of the scroll
+  clc
+  lda camera_x
+  sta w0
+  lda camera_x+1
+  sta w0+1
+
+  clc
+  lda camera_y
+  adc #224
+  sta w1
+  lda camera_y+1
+  adc #$00
+  sta w1+1
+  jsr map_decode_row
+  jsr map_process_intermediate_attribute_row_buffer
+  lda #1
+  sta row_ready
+skip_upload_row:
+
+skip_follow_down:
+  .endscope
+
+  rts
+
+follow_down_and_right_handler:
+
+  jsr follow_down_handler
+  jsr follow_right_handler
+
+  rts
+
+follow_down_and_left_handler:
+
+  jsr follow_down_handler
+  jsr follow_left_handler
+
+  rts
+
+follow_up_handler:
+
+  .scope
+  clc
+  lda camera_y
+  adc #(CAMERA_VERT_SIZE-8)
+  sta camera_top_y
+  lda camera_y+1
+  adc #$00
+  sta camera_top_y+1
+
+  sec
+  lda camera_top_y
+  sbc hero_y
+  sta camera_increment_y
+  lda camera_top_y+1
+  sbc hero_y+1
+  sta camera_increment_y+1
+  bmi skip_follow_up
+
+  sec
+  lda #$08
+  sbc camera_increment_y
+  lda #$00
+  sbc camera_increment_y+1
+  bpl not_greater_than_8
+
+  lda #$08
+  sta camera_increment_y
+  lda #$00
+  sta camera_increment_y+1
+
+not_greater_than_8:
+
+  lda camera_y
+  sta camera_y_old
+  lda camera_y+1
+  sta camera_y_old+1
+
+  ;decrement the camera's position
+  lda camera_increment_y
+  sta b0
+  jsr decrement_camera_y
+
+  ;now determine if we crossed an 8 pixel wide boundary
+  lda camera_y_old
+  eor camera_y
+  and #%00001000
+  beq skip_upload_row
+  ;if we reach here, we crossed an 8 pixel wide boundary
+  ;and this means we want to upload a row ahead of the scroll
+  lda camera_x
+  sta w0
+  lda camera_x+1
+  sta w0+1
+  lda camera_y
+  sta w1
+  lda camera_y+1
+  sta w1+1
+  jsr map_decode_row
+  jsr map_process_intermediate_attribute_row_buffer
+  lda #1
+  sta row_ready
+skip_upload_row:
+
+skip_follow_up:
+  .endscope
+
+  rts
+
+follow_up_and_right_handler:
+
+  jsr follow_up_handler
+  jsr follow_right_handler
+
+  rts
+
+follow_up_and_left_handler:
+
+  jsr follow_up_handler
+  jsr follow_left_handler
+
+  rts
+
+.define follow_handlers \
+  follow_nop_handler,\
+  follow_right_handler,\
+  follow_left_handler,\
+  follow_nop_handler,\
+  follow_down_handler,\
+  follow_down_and_right_handler,\
+  follow_down_and_left_handler,\
+  follow_nop_handler,\
+  follow_up_handler,\
+  follow_up_and_right_handler,\
+  follow_up_and_left_handler,\
+  follow_nop_handler,\
+  follow_nop_handler,\
+  follow_nop_handler,\
+  follow_nop_handler,\
+  follow_nop_handler
+
+follow_handlers_lo:
+  .lobytes follow_handlers
+
+follow_handlers_hi:
+  .hibytes follow_handlers
+
+.endproc
+
 ;follows the hero entity whenever it moves outside of a
 ;hard-coded rectangular area
-.proc update_camera
+.proc update_camera_algorithm_1
 CAMERA_HORIZ_SIZE = 80
 CAMERA_VERT_SIZE = 80
 camera_right_x = w4

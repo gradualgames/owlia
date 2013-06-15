@@ -1071,6 +1071,9 @@ hero_state_init:
   sta hero_animation_address+1
   sta w2+1
 
+  lda #0
+  sta hero_direction_handler
+
   lda #<hero_animation_object
   sta w1
   lda #>hero_animation_object
