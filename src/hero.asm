@@ -2262,6 +2262,12 @@ eject_vertically:
 ;****************************************************************
 hero_collision_down_and_right_handler:
 
+  ;save hero x and y before ejection
+  lda hero_x
+  pha
+  lda hero_y
+  pha
+
   .scope
   ;testing bottom left of rect
   test_not_collision 0, 0, (HERO_HEIGHT), 0, no_collision
@@ -2317,12 +2323,59 @@ y_ejection_larger_so_eject_x:
 no_collision:
   .endscope
 
+  ;restore previous hero x and hero y from before ejection
+  pla
+  sta b0
+  pla
+  sta b1
+
+  .scope
+  lda b0
+  cmp hero_y
+  bne ejected
+  lda b1
+  cmp hero_x
+  bne ejected
+not_ejected:
+
+  ;test to see if both hero x and hero y are along the worst-case
+  ;diagonal (this diagonal will cause camera updates to upload both
+  ;a row and a column). If so, bump the hero away from this diagonal
+  ;to prevent these worst case updates.
+  lda hero_x
+  and #%00000111
+  sta b0
+  lda hero_y
+  and #%00000111
+  sta b1
+  lda b0
+  cmp b1
+  bne :+
+
+  sec
+  lda hero_x
+  sbc #HERO_SPEED
+  sta hero_x
+  lda hero_x+1
+  sbc #$00
+  sta hero_x+1
+
+:
+ejected:
+  .endscope
+
   rts
 
 ;****************************************************************
 ;Tests for collisions down and to the left of the hero
 ;****************************************************************
 hero_collision_down_and_left_handler:
+
+  ;save hero x and y before ejection
+  lda hero_x
+  pha
+  lda hero_y
+  pha
 
   .scope
   ;testing bottom right of rect
@@ -2393,12 +2446,59 @@ y_ejection_larger_so_eject_x:
 no_collision:
   .endscope
 
+  ;restore previous hero x and hero y from before ejection
+  pla
+  sta b0
+  pla
+  sta b1
+
+  .scope
+  lda b0
+  cmp hero_y
+  bne ejected
+  lda b1
+  cmp hero_x
+  bne ejected
+not_ejected:
+
+  ;test to see if both hero x and hero y are along the worst-case
+  ;diagonal (this diagonal will cause camera updates to upload both
+  ;a row and a column). If so, bump the hero away from this diagonal
+  ;to prevent these worst case updates.
+  lda hero_x
+  and #%00000111
+  sta b0
+  lda hero_y
+  and #%00000111
+  sta b1
+  lda b0
+  cmp b1
+  bne :+
+
+  clc
+  lda hero_x
+  adc #HERO_SPEED
+  sta hero_x
+  lda hero_x+1
+  adc #$00
+  sta hero_x+1
+
+:
+ejected:
+  .endscope
+
   rts
 
 ;****************************************************************
 ;Tests for collisions up and to the right of the hero
 ;****************************************************************
 hero_collision_up_and_right_handler:
+
+  ;save hero x and y before ejection
+  lda hero_x
+  pha
+  lda hero_y
+  pha
 
   .scope
   ;testing top left of rect
@@ -2468,12 +2568,59 @@ y_ejection_larger_so_eject_x:
 no_collision:
   .endscope
 
+  ;restore previous hero x and hero y from before ejection
+  pla
+  sta b0
+  pla
+  sta b1
+
+  .scope
+  lda b0
+  cmp hero_y
+  bne ejected
+  lda b1
+  cmp hero_x
+  bne ejected
+not_ejected:
+
+  ;test to see if both hero x and hero y are along the worst-case
+  ;diagonal (this diagonal will cause camera updates to upload both
+  ;a row and a column). If so, bump the hero away from this diagonal
+  ;to prevent these worst case updates.
+  lda hero_x
+  and #%00000111
+  sta b0
+  lda hero_y
+  and #%00000111
+  sta b1
+  lda b0
+  cmp b1
+  bne :+
+
+  sec
+  lda hero_x
+  sbc #HERO_SPEED
+  sta hero_x
+  lda hero_x+1
+  sbc #$00
+  sta hero_x+1
+
+:
+ejected:
+  .endscope
+
   rts
 
 ;****************************************************************
 ;Tests for collisions up and to the left of the hero
 ;****************************************************************
 hero_collision_up_and_left_handler:
+
+  ;save hero x and y before ejection
+  lda hero_x
+  pha
+  lda hero_y
+  pha
 
   .scope
   ;testing top right of rect
@@ -2555,6 +2702,47 @@ y_ejection_larger_so_eject_x:
   sta hero_x+1
 
 no_collision:
+  .endscope
+
+  ;restore previous hero x and hero y from before ejection
+  pla
+  sta b0
+  pla
+  sta b1
+
+  .scope
+  lda b0
+  cmp hero_y
+  bne ejected
+  lda b1
+  cmp hero_x
+  bne ejected
+not_ejected:
+
+  ;test to see if both hero x and hero y are along the worst-case
+  ;diagonal (this diagonal will cause camera updates to upload both
+  ;a row and a column). If so, bump the hero away from this diagonal
+  ;to prevent these worst case updates.
+  lda hero_x
+  and #%00000111
+  sta b0
+  lda hero_y
+  and #%00000111
+  sta b1
+  lda b0
+  cmp b1
+  bne :+
+
+  clc
+  lda hero_x
+  adc #HERO_SPEED
+  sta hero_x
+  lda hero_x+1
+  adc #$00
+  sta hero_x+1
+
+:
+ejected:
   .endscope
 
   rts

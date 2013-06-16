@@ -34,8 +34,7 @@ HERO_INVINCIBILITY_LENGTH = 40
 ;knockback speed.
 HERO_KNOCKBACK_SPEED = $04
 
-;hero's normal walking speed. This must be a power of 2 to work well with the
-;map engine.
+;hero's normal walking speed.
 HERO_SPEED = $02
 
 ;location of health status on screen
