@@ -1230,7 +1230,7 @@ keep_incrementing_camera_x:
   jsr entity_slide_shadow_spots
   .endscope
 
-  jsr decode_map_column
+  jsr decode_map_column_right
 
   jsr entity_calculate_screen_coordinates_all
 
@@ -1271,7 +1271,7 @@ keep_decrementing_camera_x:
   jsr entity_slide_shadow_spots
   .endscope
 
-  jsr decode_map_column
+  jsr decode_map_column_left
 
   jsr entity_calculate_screen_coordinates_all
 
@@ -1316,7 +1316,7 @@ keep_incrementing_camera_y:
   jsr entity_slide_shadow_spots
   .endscope
 
-  jsr decode_map_row
+  jsr decode_map_row_bottom
 
   jsr entity_calculate_screen_coordinates_all
 
@@ -1354,7 +1354,7 @@ keep_decrementing_camera_y:
   jsr entity_slide_shadow_spots
   .endscope
 
-  jsr decode_map_row
+  jsr decode_map_row_top
 
   jsr entity_calculate_screen_coordinates_all
 
@@ -1372,7 +1372,7 @@ done:
 
   rts
 
-decode_map_row:
+decode_map_row_top:
 
   clc
   lda camera_x
@@ -1392,12 +1392,57 @@ decode_map_row:
 
   rts
 
-decode_map_column:
+decode_map_row_bottom:
 
   clc
   lda camera_x
   sta w0
   lda camera_x+1
+  sta w0+1
+
+  clc
+  lda camera_y
+  adc #224
+  sta w1
+  lda camera_y+1
+  adc #$00
+  sta w1+1
+  switch_bank_ldy map_bank
+  jsr map_decode_row
+  jsr map_process_intermediate_attribute_row_buffer
+  lda #1
+  sta row_ready
+
+  rts
+
+decode_map_column_left:
+
+  clc
+  lda camera_x
+  sta w0
+  lda camera_x+1
+  sta w0+1
+
+  lda camera_y
+  sta w1
+  lda camera_y+1
+  sta w1+1
+  switch_bank_ldy map_bank
+  jsr map_decode_column
+  jsr map_process_intermediate_attribute_column_buffer
+  lda #1
+  sta column_ready
+
+  rts
+
+decode_map_column_right:
+
+  clc
+  lda camera_x
+  adc #$00
+  sta w0
+  lda camera_x+1
+  adc #$01
   sta w0+1
 
   lda camera_y
