@@ -375,6 +375,48 @@ sprite_flipped_test_done:
   rts
 .endproc
 
+SPRITE_CLEAR_ALL_SPLIT_POINT = 177
+
+;this specialized version of sprite_clear_all is intended to
+;be used during the play state to replace the normal empty loops
+;that produce the graphics hiding bar. This was done to save cpu
+;time, since sprite clearing is an expensive operation.
+.proc sprite_partial_clear_all_graphics_hiding_routine
+
+  lda #$00
+  sta next_sprite_address
+
+  lda #$ff
+  ldx #(SPRITE_CLEAR_ALL_SPLIT_POINT - 1)
+
+: sta sprite,x
+  dex
+  bne :-
+
+  sta sprite,x
+
+  rts
+.endproc
+
+;this specialized version of sprite_clear_all is intended to
+;finish up all uncleared sprites that were not cleared during
+;the graphics hiding counterpart routine. Again, this odd setup is
+;done to save cpu time, since sprite clearing is expensive and
+;constant timed, no need to just spin the CPU to accomplish this.
+.proc sprite_partial_clear_all_remaining
+
+  lda #$ff
+  ldx #(255 - SPRITE_CLEAR_ALL_SPLIT_POINT)
+
+: sta sprite+SPRITE_CLEAR_ALL_SPLIT_POINT,x
+  dex
+  bne :-
+
+  sta sprite+SPRITE_CLEAR_ALL_SPLIT_POINT,x
+
+  rts
+.endproc
+
 ;this routine hides all sprites below the coordinate specified by b0
 .proc sprite_hide_all_below
   ldx #$00

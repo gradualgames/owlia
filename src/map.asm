@@ -2281,10 +2281,10 @@ done:
 .endproc
 
 cycle_pad_lut1:
-  .byte 165, 77, 91, 3
+  .byte 165, 77, 87, 3
 
 cycle_pad_lut2:
-  .byte 165, 78, 91, 4
+  .byte 165, 78, 88, 4
 
 .proc nametable_and_attribute_update_ppu
 

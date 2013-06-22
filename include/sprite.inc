@@ -9,6 +9,8 @@ SPRITE_INC = 1
 .global sprite_update_animation
 .global sprite_update_all
 .global sprite_clear_all
+.global sprite_partial_clear_all_graphics_hiding_routine
+.global sprite_partial_clear_all_remaining
 .global sprite_hide_all_below
 
 .struct sprite_struct

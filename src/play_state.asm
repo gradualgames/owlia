@@ -1,4 +1,5 @@
 .linecont +
+.include "main.inc"
 .include "play_state.inc"
 .include "inventory_state.inc"
 .include "title_state.inc"
@@ -733,6 +734,11 @@ same_song:
 scrolling_disabled:
   .endscope
 
+  lda #<sprite_partial_clear_all_graphics_hiding_routine
+  sta graphics_hiding_routine
+  lda #>sprite_partial_clear_all_graphics_hiding_routine
+  sta graphics_hiding_routine+1
+
 ;****************************************************************
 ;This branch location is the main game loop. It handles map
 ;updates, entity updates, and hero and familiar updates. It also
@@ -745,31 +751,14 @@ play_state:
 
   wait_vblank_flag
 
-  ;switchboard for controlling the play state logic
-  lda state_control_params+play_state_control::action
-  tay
-  lda play_state_action_handlers_lo,y
-  sta w0
-  lda play_state_action_handlers_hi,y
-  sta w0+1
-  jmp (w0)
-play_state_action_nop:
-
   jsr controller_read
-
-  ;test controller for system logic that entities never
-  ;need to care about such as the inventory state.
-  lda buffer_controller+buttons::_start
-  and #%00000011
-  cmp #%00000001
-  beq transition_to_inventory_state
 
   .ifdef CPU_USAGE
   set_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
   .endif
 
-  jsr sprite_clear_all
+  jsr sprite_partial_clear_all_remaining
 
   jsr entity_clear_shadow_spots
 
@@ -789,10 +778,28 @@ play_state_action_nop:
 
   jsr hero_draw_status
 
+
   .ifdef CPU_USAGE
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
   .endif
+
+  ;switchboard for controlling the play state logic
+  lda state_control_params+play_state_control::action
+  tay
+  lda play_state_action_handlers_lo,y
+  sta w0
+  lda play_state_action_handlers_hi,y
+  sta w0+1
+  jmp (w0)
+play_state_action_nop:
+
+  ;test controller for system logic that entities never
+  ;need to care about such as the inventory state.
+  lda buffer_controller+buttons::_start
+  and #%00000011
+  cmp #%00000001
+  beq transition_to_inventory_state
 
   set_vblank_flag
 
@@ -806,6 +813,15 @@ play_state_action_nop:
 ;****************************************************************
 transition_to_inventory_state:
 
+  ;Switch out the graphics hiding routine so that sprites are not
+  ;prematurely removed before a palette fade out. See sprite.asm
+  ;and sprite_partial_clear_all_graphics_hiding_routine for an
+  ;explanation.
+  lda #<default_graphics_hiding_routine
+  sta graphics_hiding_routine
+  lda #>default_graphics_hiding_routine
+  sta graphics_hiding_routine+1
+
   jmp inventory_state_init
 
 ;****************************************************************
@@ -816,6 +832,15 @@ transition_to_inventory_state:
 ;and sound, and then transitions to the game over state.
 ;****************************************************************
 play_state_action_game_over:
+
+  ;Switch out the graphics hiding routine so that sprites are not
+  ;prematurely removed before a palette fade out. See sprite.asm
+  ;and sprite_partial_clear_all_graphics_hiding_routine for an
+  ;explanation.
+  lda #<default_graphics_hiding_routine
+  sta graphics_hiding_routine
+  lda #>default_graphics_hiding_routine
+  sta graphics_hiding_routine+1
 
   ;pause a few frames
   ldx #4
@@ -1083,6 +1108,11 @@ done:
 scrolling_disabled:
   .endscope
 
+  lda #<sprite_partial_clear_all_graphics_hiding_routine
+  sta graphics_hiding_routine
+  lda #>sprite_partial_clear_all_graphics_hiding_routine
+  sta graphics_hiding_routine+1
+
   ;make sure current action of play state is a no-op
   lda #ACTION_NOP
   sta state_control_params+play_state_control::action
@@ -1101,6 +1131,15 @@ scrolling_disabled:
 ;loop will proceed normally once the new location is loaded.
 ;****************************************************************
 play_state_action_goto_location_group1:
+
+  ;Switch out the graphics hiding routine so that sprites are not
+  ;prematurely removed before a palette fade out. See sprite.asm
+  ;and sprite_partial_clear_all_graphics_hiding_routine for an
+  ;explanation.
+  lda #<default_graphics_hiding_routine
+  sta graphics_hiding_routine
+  lda #>default_graphics_hiding_routine
+  sta graphics_hiding_routine+1
 
   ;load the location to transition to
   ldx state_control_params+play_state_control::param
@@ -1152,6 +1191,15 @@ play_state_action_goto_location_group1:
 ;****************************************************************
 play_state_action_start_conversation:
 
+  ;Switch out the graphics hiding routine so that sprites are not
+  ;prematurely removed before a palette fade out. See sprite.asm
+  ;and sprite_partial_clear_all_graphics_hiding_routine for an
+  ;explanation.
+  lda #<default_graphics_hiding_routine
+  sta graphics_hiding_routine
+  lda #>default_graphics_hiding_routine
+  sta graphics_hiding_routine+1
+
   jsr align_camera_to_metatile_boundary
 
   jsr align_entities_if_occluded_by_textbox
@@ -1184,6 +1232,11 @@ play_state_action_start_conversation:
   jsr run_conversation
 
   jsr erase_textbox
+
+  lda #<sprite_partial_clear_all_graphics_hiding_routine
+  sta graphics_hiding_routine
+  lda #>sprite_partial_clear_all_graphics_hiding_routine
+  sta graphics_hiding_routine+1
 
   ;the user has finished advancing through the conversation, make
   ;sure the play state control action is a nop as we return to the
