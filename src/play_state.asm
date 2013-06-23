@@ -775,11 +775,12 @@ play_state:
 
   jsr hero_draw_status
 
-
   .ifdef CPU_USAGE
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
   .endif
+
+  set_vblank_flag
 
   ;switchboard for controlling the play state logic
   lda state_control_params+play_state_control::action
@@ -797,8 +798,6 @@ play_state_action_nop:
   and #%00000011
   cmp #%00000001
   beq transition_to_inventory_state
-
-  set_vblank_flag
 
   jmp play_state
 
