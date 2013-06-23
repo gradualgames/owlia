@@ -12,7 +12,7 @@
 .include "camera.inc"
 .include "textbox.inc"
 .include "ppu.inc"
-.include "areas.inc"
+.include "locations.inc"
 
 .segment "CODE"
 
@@ -39,27 +39,24 @@ enemy_found:
 .endproc
 
 ;this routine is a trampoline wrapper for ppu_load_dynamic_palette_brightness_bg
-;it saves the calling bank, changes the palette based on the current area palette
+;it saves the calling bank, changes the palette based on the current palette
 ;and then returns to the calling bank. this only adjusts brightness for the bg palette
 ;expects b3 to contain desired brightness level
 ;uses b0 temporarily
-.proc entity_change_area_brightness_trampoline
+.proc entity_change_palette_brightness_trampoline
 
   ;save calling bank
   lda current_bank
   pha
 
-  ;load area palette address
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::palette_address
-  lda (area_address),y
+  ;load palette address
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::palette_address
+  lda (location_address),y
   sta palette_address
   iny
-  lda (area_address),y
+  lda (location_address),y
   sta palette_address+1
-
-  ;switch to map bank to access the palette
-  switch_bank_ldy map_bank
 
   ;adjust the brightness of the dynamic palette based on the palette at palette_address
   jsr ppu_load_dynamic_palette_brightness_bg
