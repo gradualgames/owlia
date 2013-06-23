@@ -696,23 +696,7 @@ same_song:
   sta palette_address+1
   jsr ppu_fade_in_palette
 
-  ;decide which vblank routine to use based on whether scrolling is disabled.
-  ;If disabled, we will just use the dynamic palette upload routine, allowing
-  ;us to perform palette effects such as for the lantern technique. Otherwise,
-  ;we swap in the row and column upload routine for a large scrolling area.
-  .scope
-  lda #<ppu_upload_dynamic_palette_ppu
-  sta vblank_routine
-  lda #>ppu_upload_dynamic_palette_ppu
-  sta vblank_routine+1
-
-  switch_bank_ldy #LOCATIONS_BANK
-  ldy #location::flags
-  lda (location_address),y
-  and #LOCATION_FLAGS_CAMERA_SCROLLING_DISABLED_TEST
-  cmp #LOCATION_FLAGS_CAMERA_SCROLLING_DISABLED_TEST
-  beq scrolling_disabled
-
+  ;initialize vblank routine
   lda #0
   sta vblank_wait_flag
 
@@ -728,8 +712,6 @@ same_song:
   sta vblank_routine
   lda #>nametable_and_attribute_update_ppu
   sta vblank_routine+1
-scrolling_disabled:
-  .endscope
 
   lda #<sprite_partial_clear_all_graphics_hiding_routine
   sta graphics_hiding_routine
@@ -1064,23 +1046,7 @@ done:
   sta palette_address+1
   jsr ppu_fade_in_palette
 
-  ;decide which vblank routine to use based on whether scrolling is disabled.
-  ;If disabled, we will just use the dynamic palette upload routine, allowing
-  ;us to perform palette effects such as for the lantern technique. Otherwise,
-  ;we swap in the row and column upload routine for a large scrolling area.
-  .scope
-  lda #<ppu_upload_dynamic_palette_ppu
-  sta vblank_routine
-  lda #>ppu_upload_dynamic_palette_ppu
-  sta vblank_routine+1
-
-  switch_bank_ldy #LOCATIONS_BANK
-  ldy #location::flags
-  lda (location_address),y
-  and #LOCATION_FLAGS_CAMERA_SCROLLING_DISABLED_TEST
-  cmp #LOCATION_FLAGS_CAMERA_SCROLLING_DISABLED_TEST
-  beq scrolling_disabled
-
+  ;initialize vblank routine
   lda #0
   sta vblank_wait_flag
 
@@ -1096,8 +1062,6 @@ done:
   sta vblank_routine
   lda #>nametable_and_attribute_update_ppu
   sta vblank_routine+1
-scrolling_disabled:
-  .endscope
 
   lda #<sprite_partial_clear_all_graphics_hiding_routine
   sta graphics_hiding_routine

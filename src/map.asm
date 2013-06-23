@@ -2281,10 +2281,10 @@ done:
 .endproc
 
 cycle_pad_lut1:
-  .byte 165, 77, 87, 3
+  .byte 98, 11, 24, 3
 
 cycle_pad_lut2:
-  .byte 165, 78, 88, 4
+  .byte 99, 12, 25, 4
 
 .proc nametable_and_attribute_update_ppu
 
@@ -2306,20 +2306,10 @@ column_nop:
 row_nop:
   .endscope
 
-  lda camera_nametable_hibyte
-  sta ppu_2006
-  lda #$00
-  sta ppu_2006+1
-  lda camera_scroll_x
-  sta ppu_2005
-  lda camera_scroll_y
-  sta ppu_2005+1
-
-  upload_ppu_2006
-  upload_ppu_2005
-
-  ;cycle pad this ppu upload routine for the artificial scroll
-  ;update hiding bar (see the main module)
+  ;pre-calculate the index for the cycle pad lut used
+  ;later in the routine. We're also going to use it to
+  ;check whether it is safe to upload the palette this
+  ;frame (only a row or a column was uploaded but not both)
   lda #0
   sta cycle_pad_lut_index
   lda column_ready
@@ -2334,6 +2324,51 @@ row_nop:
   lda #0
   sta row_ready
 
+  ;if we're moving diagonally, e.g. a row and a column are being
+  ;uploaded, we know there is not enough time to upload the palette
+  ;so bail. Ideally, this will never happen because we have fine tuned
+  ;the engine to avoid "forbidden diagonals" so that this scenario never
+  ;happens. This was done just for robustness.
+  lda cycle_pad_lut_index
+  cmp #3
+  beq not_enough_time_for_palette
+  ;save current palette address
+  lda palette_address
+  pha
+  lda palette_address+1
+  pha
+
+  lda #<dynamic_palette
+  sta palette_address
+  lda #>dynamic_palette
+  sta palette_address+1
+
+  clear_ppu_2000_bit PPU0_ADDRESS_INCREMENT
+  upload_ppu_2000
+
+  jsr ppu_load_palette
+
+  ;restore previous palette address
+  pla
+  sta palette_address+1
+  pla
+  sta palette_address
+not_enough_time_for_palette:
+
+  lda camera_nametable_hibyte
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  lda camera_scroll_x
+  sta ppu_2005
+  lda camera_scroll_y
+  sta ppu_2005+1
+
+  upload_ppu_2006
+  upload_ppu_2005
+
+  ;cycle pad this ppu upload routine for the artificial scroll
+  ;update hiding bar (see the main module)
   ldx cycle_pad_lut_index
   lda cycle_pad_lut1,x
   tax
