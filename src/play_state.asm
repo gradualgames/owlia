@@ -630,9 +630,6 @@ play_state_load_location:
 
   jsr entity_update_all
 
-  switch_bank_ldy map_bank
-  jsr update_camera
-
   jsr entity_calculate_screen_coordinates_all
 
   jsr entity_draw_all
@@ -1031,11 +1028,6 @@ done:
   jsr sprite_clear_all
 
   jsr entity_clear_shadow_spots
-
-  jsr entity_update_all
-
-  switch_bank_ldy map_bank
-  jsr update_camera
 
   jsr entity_calculate_screen_coordinates_all
 
