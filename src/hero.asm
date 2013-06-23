@@ -289,67 +289,6 @@ skip_spawn_carry_hero:
 
 .endproc
 
-;This routine is a placeholder for the owl carry bomb
-;technique. All it does is spawn a bomb entity for testing
-;and development of the bomb entity. It should eventually
-;be removed.
-.proc spawn_bomb_test
-bomb_target_x_velocity_lo = entity_local4
-bomb_target_x_velocity_hi = entity_local5
-
-bomb_target_y_velocity_lo = entity_local6
-bomb_target_y_velocity_hi = entity_local7
-
-  lda #entity_index_bomb
-  sta b0
-
-  lda hero_x
-  sta w0
-  lda hero_x+1
-  sta w0+1
-  lda hero_y
-  sta w1
-  lda hero_y+1
-  sta w1+1
-
-  jsr entity_spawn
-
-  ldy hero_direction
-  lda initial_bomb_velocity_x_lo,y
-  sta bomb_target_x_velocity_lo,x
-  lda initial_bomb_velocity_x_hi,y
-  sta bomb_target_x_velocity_hi,x
-
-  lda initial_bomb_velocity_y_lo,y
-  sta bomb_target_y_velocity_lo,x
-  lda initial_bomb_velocity_y_hi,y
-  sta bomb_target_y_velocity_hi,x
-
-  rts
-
-INITIAL_RIGHT_X_VELOCITY = 100
-INITIAL_RIGHT_Y_VELOCITY = 0
-INITIAL_LEFT_X_VELOCITY = -100
-INITIAL_LEFT_Y_VELOCITY = 0
-INITIAL_DOWN_X_VELOCITY = 0
-INITIAL_DOWN_Y_VELOCITY = 100
-INITIAL_UP_X_VELOCITY = 0
-INITIAL_UP_Y_VELOCITY = -100
-
-initial_bomb_velocity_x_lo:
-  .byte <INITIAL_RIGHT_X_VELOCITY, <INITIAL_LEFT_X_VELOCITY, <INITIAL_DOWN_X_VELOCITY, <INITIAL_UP_X_VELOCITY
-
-initial_bomb_velocity_x_hi:
-  .byte >INITIAL_RIGHT_X_VELOCITY, >INITIAL_LEFT_X_VELOCITY, >INITIAL_DOWN_X_VELOCITY, >INITIAL_UP_X_VELOCITY
-
-initial_bomb_velocity_y_lo:
-  .byte <INITIAL_RIGHT_Y_VELOCITY, <INITIAL_LEFT_Y_VELOCITY, <INITIAL_DOWN_Y_VELOCITY, <INITIAL_UP_Y_VELOCITY
-
-initial_bomb_velocity_y_hi:
-  .byte >INITIAL_RIGHT_Y_VELOCITY, >INITIAL_LEFT_Y_VELOCITY, >INITIAL_DOWN_Y_VELOCITY, >INITIAL_UP_Y_VELOCITY
-
-.endproc
-
 ;This routine is a placeholder for the owl carry lantern technique. All it
 ;does is spawn a lantern entity, for testing.
 .proc spawn_lantern_test
@@ -386,7 +325,59 @@ initial_bomb_velocity_y_hi:
 
 no_bombs_left:
 
-  ;TODO: Play some sort of error sound because there are no bombs left
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_error
+  sta sound_param_word_0
+  lda #>sfx_error
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  rts
+
+.endproc
+
+;This routine is just a wrapper for the familiar's carry lantern spawn routine and checks the lantern
+;inventory to see if it is even possible to spawn this technique right now.
+.proc hero_spawn_familiar_spawn_carry_lantern
+
+  lda inventory_lanterns
+  beq no_lanterns_left
+
+  dec inventory_lanterns
+  jsr familiar_spawn_carry_lantern
+
+  rts
+
+no_lanterns_left:
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_error
+  sta sound_param_word_0
+  lda #>sfx_error
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
 
   rts
 
@@ -519,8 +510,8 @@ hero_invincible:
 .define familiar_spawn_tech \
   familiar_spawn_rush, \
   familiar_spawn_fetch, \
-  familiar_spawn_carry_bomb, \
-  familiar_spawn_carry_lantern, \
+  hero_spawn_familiar_spawn_carry_bomb, \
+  hero_spawn_familiar_spawn_carry_lantern, \
   hero_spawn_familiar_spawn_carry_hero, \
   familiar_spawn_shield, \
   familiar_spawn_homing

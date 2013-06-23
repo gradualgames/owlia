@@ -50,6 +50,10 @@ sfx_volume_envelope_10:
 sfx_volume_envelope_11:
   .byte 2,3,5,7,8,10,12,0,ENV_STOP
 
+;used for error
+sfx_volume_envelope_12:
+  .byte 12,10,9,8,6,2,ENV_STOP
+
 sfx_pitch_envelope_0:
   .byte 0, ENV_LOOP
 
@@ -74,6 +78,7 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_9
   .word sfx_volume_envelope_10
   .word sfx_volume_envelope_11
+  .word sfx_volume_envelope_12
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_0
@@ -126,4 +131,8 @@ sfx_select:
 
 sfx_inventory:
   .byte STV,11,STP,0,SDU,1,STL,6,G4,G3,G2,G1,G2,G3
+  .byte TRM
+
+sfx_error:
+  .byte STV,12,STP,0,SDU,0,STL,4,B1,F1
   .byte TRM

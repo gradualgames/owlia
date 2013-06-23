@@ -398,6 +398,15 @@ homing_string: .byte H,O,M,I,N,G,ES
 
 .endmacro
 
+.macro print_decimal_string_if_menu_item_enabled is_enabled_callback, lo, hi, nametable_hibyte, row, column
+
+  jsr is_enabled_callback
+  beq :+
+  print_decimal_string lo, hi, nametable_hibyte, row, column
+:
+
+.endmacro
+
 .proc draw_inventory_strings
 
   lda state_control_params+inventory_state_control::digits_chr_offset
@@ -408,8 +417,8 @@ homing_string: .byte H,O,M,I,N,G,ES
   print_decimal_string inventory_healths, #0, #$20, #USE_ITEM_ROW, #24
   print_decimal_string inventory_ropes, #0, #$20, #USE_ITEM_ROW+1, #24
 
-  print_decimal_string inventory_bombs, #0, #$20, #CARRY_LANTERN_ROW, #24
-  print_decimal_string inventory_lanterns, #0, #$20, #CARRY_LANTERN_ROW+1, #24
+  print_decimal_string_if_menu_item_enabled bomb_is_enabled, inventory_bombs, #0, #$20, #CARRY_LANTERN_ROW, #24
+  print_decimal_string_if_menu_item_enabled lantern_is_enabled, inventory_lanterns, #0, #$20, #CARRY_LANTERN_ROW+1, #24
 
   lda textbox_and_font_chr_offset
   sta chr_group_offset
