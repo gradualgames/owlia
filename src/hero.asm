@@ -1073,6 +1073,9 @@ hero_state_init:
   lda #0
   sta hero_direction_handler
 
+  lda #0
+  sta hero_status_flash_counter
+
   lda #<hero_animation_object
   sta w1
   lda #>hero_animation_object
