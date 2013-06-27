@@ -41,6 +41,9 @@ HERO_SPEED = $02
 HERO_STATUS_X = $10
 HERO_STATUS_Y = $10
 
+;how far the tech icon slides when changed
+HERO_STATUS_FLASH_DISTANCE = 16
+
 .enum
 HERO_DIRECTION_RIGHT
 HERO_DIRECTION_LEFT

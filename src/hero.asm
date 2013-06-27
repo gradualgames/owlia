@@ -815,9 +815,12 @@ tech2:
   sta w0+1
 done:
 
+  clc
   lda #(CAMERA_SCREEN_ORIGIN_X+HERO_STATUS_X)
+  adc hero_status_flash_counter
   sta w3
   lda #0
+  adc #0
   sta w3+1
 
   lda #(CAMERA_SCREEN_ORIGIN_Y+HERO_STATUS_Y+8)
@@ -825,10 +828,15 @@ done:
   lda #0
   sta w4+1
 
+  lda hero_status_flash_counter
+  beq :+
+  dec hero_status_flash_counter
+:
+
   lda #0
   sta b2
-
   jsr sprite_draw_metasprite
+
 
   rts
 
@@ -1240,6 +1248,10 @@ do_not_animate_hero:
   lda inventory_selected_tech
   eor #%00000001
   sta inventory_selected_tech
+
+  ;start the status flash counter
+  lda #HERO_STATUS_FLASH_DISTANCE
+  sta hero_status_flash_counter
 
   ;play a sound
   txa
