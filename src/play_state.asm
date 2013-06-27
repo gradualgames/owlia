@@ -751,11 +751,20 @@ play_state:
 
   jsr entity_calculate_screen_coordinates_all
 
+  ;make sure if the frame is running long that the sprite-clearing
+  ;graphics hiding bar does not clear sprites for the next frame
+  ;because they haven't been drawn yet.
+  lda #1
+  sta forward_to_default_graphics_hiding_routine
+
   jsr entity_draw_all
 
   jsr entity_draw_shadow_spots
 
   jsr hero_draw_status
+
+  lda #0
+  sta forward_to_default_graphics_hiding_routine
 
   .ifdef CPU_USAGE
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE

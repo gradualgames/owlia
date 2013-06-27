@@ -2,6 +2,7 @@
 .include "ram.inc"
 .include "sprite.inc"
 .include "mapper.inc"
+.include "main.inc"
 
 .segment "CODE"
 
@@ -383,6 +384,8 @@ SPRITE_CLEAR_ALL_SPLIT_POINT = 177
 ;time, since sprite clearing is an expensive operation.
 .proc sprite_partial_clear_all_graphics_hiding_routine
 
+  lda forward_to_default_graphics_hiding_routine
+  bne call_default_graphics_hiding_routine
   lda #$00
   sta next_sprite_address
 
@@ -396,6 +399,9 @@ SPRITE_CLEAR_ALL_SPLIT_POINT = 177
   sta sprite,x
 
   rts
+call_default_graphics_hiding_routine:
+  jmp default_graphics_hiding_routine
+
 .endproc
 
 ;this specialized version of sprite_clear_all is intended to

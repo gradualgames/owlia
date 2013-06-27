@@ -58,6 +58,7 @@ ZP_INC = 1
 
 .globalzp vblank_routine
 .globalzp vblank_wait_flag
+.globalzp forward_to_default_graphics_hiding_routine
 .globalzp graphics_hiding_routine
 .globalzp hide_graphics_top
 .globalzp cycle_pad_lut_index
