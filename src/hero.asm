@@ -315,10 +315,11 @@ skip_spawn_carry_hero:
 ;inventory to see if it is even possible to spawn this technique right now.
 .proc hero_spawn_familiar_spawn_carry_bomb
 
+  .ifndef INFINITE_ITEMS
   lda inventory_bombs
   beq no_bombs_left
-
   dec inventory_bombs
+  .endif
   jsr familiar_spawn_carry_bomb
 
   rts
@@ -351,10 +352,12 @@ no_bombs_left:
 ;inventory to see if it is even possible to spawn this technique right now.
 .proc hero_spawn_familiar_spawn_carry_lantern
 
+  .ifndef INFINITE_ITEMS
   lda inventory_lanterns
   beq no_lanterns_left
-
   dec inventory_lanterns
+  .endif
+
   jsr familiar_spawn_carry_lantern
 
   rts
