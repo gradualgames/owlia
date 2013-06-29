@@ -215,6 +215,7 @@ familiar_param_fetched_entity_index = familiar_param_b2
 familiar_param_carry_bomb_x_offset = familiar_param_b0
 familiar_param_carry_bomb_y_offset = familiar_param_b1
 familiar_param_carry_bomb_entity_index = familiar_param_b2
+familiar_param_carry_bomb_return_state = familiar_param_b3
 
 ;carry lantern
 familiar_param_carry_lantern_x_offset = familiar_param_b0

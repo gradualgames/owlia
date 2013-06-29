@@ -19,6 +19,7 @@
 .include "actions.inc"
 .include "entity.inc"
 .include "entities.inc"
+.include "map.inc"
 
 .segment "CODE"
 
@@ -435,6 +436,7 @@ familiar_carry_bomb_direction_speed_y_hi:
     familiar_state_fetch_home_in_to_hero, \
     familiar_state_carry_bomb_init, \
     familiar_state_carry_bomb, \
+    familiar_state_carry_bomb_home_in_to_hero, \
     familiar_state_carry_lantern_init, \
     familiar_state_carry_lantern, \
     familiar_state_carry_hero_init, \
@@ -747,6 +749,16 @@ state_counter_not_zero:
   jsr familiar_home_in_to_goal
   jsr familiar_add_shadow_spot
 
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_ALIVE_TEST
+  bne familiar_still_alive
+
+  ;clear the fetched entity index if familiar died getting close to hero
+  lda #$ff
+  sta familiar_param_fetched_entity_index
+
+familiar_still_alive:
+
   ;now make the fetched entity match the familiar's coordinates if there is an entity
   ;being fetched and that entity is alive
   ldx familiar_param_fetched_entity_index
@@ -798,6 +810,12 @@ no_fetched_entity:
   sta familiar_y_velocity
   lda familiar_carry_bomb_direction_speed_y_hi,y
   sta familiar_y_velocity+1
+
+  ;set the default return state for carry bomb. If the bomb can't
+  ;be dropped this value will be swapped out for a state that brings
+  ;the bomb back to the player and drops it
+  lda #FAMILIAR_STATE_HOME_IN_TO_HERO
+  sta familiar_param_carry_bomb_return_state
 
   ;set the initial state counter
   lda #FAMILIAR_STATE_CARRY_BOMB_LENGTH
@@ -868,6 +886,112 @@ bomb_has_been_dropped:
   cmp #FAMILIAR_STATE_CARRY_BOMB_DROP_FRAME
   bne state_counter_not_at_drop_bomb_frame
 
+  ;test to see if the bomb can be dropped here
+  clc
+  lda familiar_x
+  adc #BOMB_CARRIED_X_OFFSET
+  sta w0
+  lda familiar_x+1
+  adc #0
+  sta w0+1
+
+  clc
+  lda familiar_y
+  adc #BOMB_CARRIED_Y_OFFSET
+  sta w1
+  lda familiar_y+1
+  adc #0
+  sta w1+1
+
+  jsr map_test_collision
+
+  lda b0
+  and #FLAG_SOLID
+  bne cannot_drop_here
+
+  ;tell the bomb to initialize its falling state
+  .scope
+  ldx familiar_param_carry_bomb_entity_index
+  bmi no_bomb
+  lda #BOMB_STATE_INIT_FALL
+  sta entity_state,x
+
+  ;make sure to give the bomb the familiar's initial velocity so it appears
+  ;to have momentum from the familiar's flight
+  lda familiar_x_velocity
+  sta bomb_target_x_velocity_lo,x
+  lda familiar_x_velocity+1
+  sta bomb_target_x_velocity_hi,x
+
+  lda familiar_y_velocity
+  sta bomb_target_y_velocity_lo,x
+  lda familiar_y_velocity+1
+  sta bomb_target_y_velocity_hi,x
+no_bomb:
+  .endscope
+state_counter_not_at_drop_bomb_frame:
+
+  ;check to see if the familiar should home back into the hero.
+  lda familiar_state_counter
+  bne state_counter_not_zero
+
+  lda familiar_param_carry_bomb_return_state
+  sta familiar_state
+
+state_counter_not_zero:
+
+  rts
+
+cannot_drop_here:
+
+  lda #FAMILIAR_STATE_CARRY_BOMB_HOME_IN_TO_HERO
+  sta familiar_param_carry_bomb_return_state
+
+  rts
+
+.endproc
+
+;****************************************************************
+;This state carries the bomb back to the hero if it could not be
+;dropped.
+;****************************************************************
+.proc familiar_state_carry_bomb_home_in_to_hero
+
+  jsr familiar_prepare_distance_to_hero_velocity
+  jsr familiar_kill_if_close_to_hero
+  jsr familiar_home_in_to_goal
+  jsr familiar_add_shadow_spot
+
+  ;make the bomb's coordinates match that of the familiar
+  .scope
+  ldx familiar_param_carry_bomb_entity_index
+  bmi no_bomb
+  lda entity_state,x
+  cmp #BOMB_STATE_CARRIED
+  bne bomb_has_been_dropped
+  clc
+  lda familiar_x
+  adc familiar_param_carry_bomb_x_offset
+  sta entity_x_lo,x
+  lda familiar_x+1
+  adc #$00
+  sta entity_x_hi,x
+
+  clc
+  lda familiar_y
+  adc familiar_param_carry_bomb_y_offset
+  sta entity_y_lo,x
+  lda familiar_y+1
+  adc #$00
+  sta entity_y_hi,x
+no_bomb:
+bomb_has_been_dropped:
+  .endscope
+
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_ALIVE_TEST
+  bne do_not_drop_bomb_yet
+
   ;tell the bomb to initialize its falling state
   .scope
   ldx familiar_param_carry_bomb_entity_index
@@ -889,16 +1013,7 @@ bomb_has_been_dropped:
 no_bomb:
   .endscope
 
-state_counter_not_at_drop_bomb_frame:
-
-  ;check to see if the familiar should home back into the hero.
-  lda familiar_state_counter
-  bne state_counter_not_zero
-
-  lda #FAMILIAR_STATE_HOME_IN_TO_HERO
-  sta familiar_state
-
-state_counter_not_zero:
+do_not_drop_bomb_yet:
 
   rts
 
@@ -2144,10 +2259,6 @@ done:
   lda b0
   cmp #2
   bne do_not_kill_familiar
-
-  ;clear the fetched entity index
-  lda #$ff
-  sta familiar_param_fetched_entity_index
 
   lda familiar_flags
   and #FAMILIAR_FLAGS_ALIVE_CLEAR
