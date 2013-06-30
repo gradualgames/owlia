@@ -593,6 +593,24 @@ familiar_still_alive:
 
 .endproc
 
+;used by any entity which is presenting some confirm/cancel dialog
+;where it does not want the hero to respond to input for a few frames
+;expects b0 to contain how many frames to wait
+.proc hero_wait_frames
+
+  lda b0
+  sta hero_state_counter
+
+  lda #ACTION_NOP
+  sta entity_action_rect1_action
+
+  lda #HERO_STATE_WAIT_FRAMES
+  sta hero_state
+
+  rts
+
+.endproc
+
 ;used by NPCs to cancel the default behavior from hitting the
 ;a button which is to attack. This restores the state to a normal
 ;walking state, and also stops the sound effect that was loaded
@@ -985,7 +1003,8 @@ throw_animation_addresses_hi:
     hero_state_main, \
     hero_state_attack, \
     hero_state_throw, \
-    hero_state_carried
+    hero_state_carried, \
+    hero_state_wait_frames
 
 hero_lo:
   .lobytes hero_states
@@ -1109,6 +1128,22 @@ hero_state_init:
 ;hero_set_down.
 ;****************************************************************
 hero_state_carried:
+
+  rts
+
+;****************************************************************
+;This is another passive state which does nothing for several
+;frames (hero_state_counter) and then transitions back to the
+;main state
+;****************************************************************
+hero_state_wait_frames:
+
+  dec hero_state_counter
+  bne :+
+
+  lda #HERO_STATE_MAIN
+  sta hero_state
+:
 
   rts
 

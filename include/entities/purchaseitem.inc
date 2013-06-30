@@ -72,6 +72,13 @@ purchaseitem_state_prompt_for_purchase:
   ;purchasable item!
   jsr hero_cancel_attack
 
+  ;put hero into a passive state so she cannot
+  ;get input from the controller between now and when the not-enough-gp
+  ;box has been cleared.
+  lda #10
+  sta b0
+  jsr hero_wait_frames
+
   ;enter conversation mode
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
