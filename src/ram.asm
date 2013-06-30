@@ -20,9 +20,12 @@ sprite_chr_bank: .res 1
 conversations_bank: .res 1
 
 ;****************************************************************
-;Color attribute for the conversation textbox
+;Global variables for the conversation textbox such as color
+;attribute for current area, and result of a confirm/cancel
+;dialog
 ;****************************************************************
 textbox_attribute: .res 1
+textbox_result: .res 1
 
 ;****************************************************************
 ;Generic parameters for the currently active state. A struct can

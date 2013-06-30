@@ -8,6 +8,7 @@
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
+.include "ram.inc"
 
 .segment "CODE"
 
@@ -128,8 +129,9 @@ inn_entity_instances:
   .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_inn, 4, 16 * 8, 16 * 2
 
 store_entity_instances:
-  .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2
+  .byte 2  ;count
+  .byte entity_index_npc, 15, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2
+  .byte entity_index_purchaseitem, 10, 17, sprite_chr_group_index_bomb, 6, <Bomb, >Bomb, <inventory_bombs, >inventory_bombs, conversation_index_purchase_bomb, 10
 
 overworld_entity_instances:
   .byte 0  ;count

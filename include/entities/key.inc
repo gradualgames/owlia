@@ -63,9 +63,9 @@ key_state_main:
   txa
   pha
 
-  lda #<sfx_get_key
+  lda #<sfx_get_item
   sta sound_param_word_0
-  lda #>sfx_get_key
+  lda #>sfx_get_item
   sta sound_param_word_0+1
 
   lda #0

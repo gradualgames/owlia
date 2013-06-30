@@ -279,12 +279,46 @@ interpret_font_character:
 interpret_control_character:
   cmp #WT
   beq wait
+  cmp #CC
+  beq confirm_cancel
   cmp #EL
   beq advance_to_next_row
   cmp #EP
   beq clear_textbox
   cmp #EC
   beq end_conversation
+confirm_cancel:
+  ;If it is CC, wait til user hits A or B button,
+  ;then store TEXTBOX_CONFIRM or TEXTBOX_CANCEL in textbox_result
+  wait_vblank_flag
+
+  jsr controller_read
+
+  set_vblank_flag
+
+  lda buffer_controller+buttons::_a
+  and #%00000011
+  cmp #%00000001
+  beq store_result_confirm
+  lda buffer_controller+buttons::_b
+  and #%00000011
+  cmp #%00000001
+  beq store_result_cancel
+  ;if we reach here, neither A nor B was pressed, keep waiting
+  jmp confirm_cancel
+store_result_confirm:
+  lda #TEXTBOX_CONFIRM
+  sta textbox_result
+  jmp read_next_character
+store_result_cancel:
+  lda #TEXTBOX_CANCEL
+  sta textbox_result
+  jmp read_next_character
+
+end_conversation:
+  ;If it is EC, exit the whole algorithm
+  rts
+
 wait:
   ;If it is WT, just wait til user hits A button.
   wait_vblank_flag
@@ -300,6 +334,7 @@ wait:
 
   ;read next character
   jmp read_next_character
+
 advance_to_next_row:
   ;If it is EL, advance the conversation read address and read next character
   ;as a row number.
@@ -312,6 +347,7 @@ advance_to_next_row:
   sta conversation_address+1
   ;interpret next character as a row number and start a new line
   jmp read_next_row
+
 clear_textbox:
   ;If it is EP, redraw the textbox blank (see sub routine)
   ;save local state---map decoding is very destructive
@@ -344,10 +380,6 @@ clear_textbox:
 
   ;read next character
   jmp read_next_character
-
-end_conversation:
-  ;If it is EC, exit the whole algorithm
-  rts
 
 .endproc
 

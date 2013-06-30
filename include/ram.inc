@@ -16,6 +16,7 @@ MAX_SHADOW_SPOTS = 4
 .global conversations_bank
 
 .global textbox_attribute
+.global textbox_result
 
 .global state_control_params
 

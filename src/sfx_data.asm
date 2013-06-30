@@ -117,7 +117,7 @@ sfx_text:
   .byte STV,7,STP,0,SDU,0,STL,3,F4
   .byte TRM
 
-sfx_get_key:
+sfx_get_item:
   .byte STV,8,STP,0,SDU,1,STL,3,D6,A6
   .byte TRM
 

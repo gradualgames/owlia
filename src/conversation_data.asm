@@ -9,7 +9,9 @@
     welcome_to_my_house, \
     welcome_to_my_store, \
     welcome_to_my_inn, \
-    door_is_locked
+    door_is_locked, \
+    purchase_bomb, \
+    not_enough_gp
 
 conversations_lo:
   .lobytes conversations
@@ -44,3 +46,12 @@ welcome_to_my_inn:
 
 door_is_locked:
   .byte 1, T,H,I,S,SP,D,O,O,R,SP,I,S,SP,L,O,C,K,E,D,EN,WT,EC
+
+purchase_bomb:
+  .byte 1, B,O,M,B,S,SP,_A,R,E,SP,T,E,N,SP,G,P,PD,EL
+  .byte 2, B,U,_Y,QN,EL
+  .byte 3, H,I,T,SP,_A,SP,F,O,R,SP,_Y,E,S,EL
+  .byte 4, H,I,T,SP,B,SP,F,O,R,SP,N,O,CC,EC
+
+not_enough_gp:
+  .byte 1, _Y,O,U,SP,D,O,SP,N,O,T,SP,H,_A,V,E,SP,E,N,O,U,G,H,SP,G,P,PD,WT,EC

@@ -105,9 +105,15 @@ SP = 4  ;space is the same offset as the middle tile (just a blank black tile)
 EL = -1 ;end of line. This must ALWAYS be followed by a row number and some text to print!!!
 EP = -2 ;end of page
 WT = -3 ;wait for player to hit A button
-EC = -4 ;end of conversation
+CC = -4 ;wait for player to hit A or B button, where A is "confirm" and B is "cancel." Store
+        ;the result (1 for confirm and 0 for cancel) in a global variable called textbox_result.
+EC = -5 ;end of conversation
 
 ;string control characters
-ES = -5 ;end of string
+ES = -6 ;end of string
+
+;values for textbox_result when CC is used to confirm/cancel a prompt
+TEXTBOX_CONFIRM = 1
+TEXTBOX_CANCEL = 0
 
 .endif
