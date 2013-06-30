@@ -38,7 +38,9 @@ welcome_to_my_store:
   .byte 1, W,E,L,C,O,M,E,SP,T,O,SP,M,_Y,SP,S,T,O,R,E,EN,WT,EL
   .byte 2, W,E,SP,_A,R,E,SP,S,T,I,L,L,SP,S,E,T,T,I,N,G,SP,U,P,CA,WT,EL
   .byte 3, S,O,CA,SP,_Y,O,U,SP,C,_A,N,N,O,T,SP,B,U,_Y,SP,_A,N,_Y,T,H,I,N,G,EL
-  .byte 4, _Y,E,T,PD,WT,EC
+  .byte 4, _Y,E,T,PD,WT,EP,EL
+  .byte 1, W,_A,I,T,PD,SP,I,SP,L,I,E,D,PD,SP,_Y,O,U,SP,C,_A,N,EL
+  .byte 2, N,O,W,SP,B,U,_Y,SP,B,O,M,B,S,EN,WT,EC
 
 welcome_to_my_inn:
   .byte 1, W,E,L,C,O,M,E,SP,T,O,SP,M,_Y,SP,I,N,N,EN,WT,EL
