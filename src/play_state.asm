@@ -1105,6 +1105,10 @@ play_state_action_goto_location_group1:
   lda #>default_graphics_hiding_routine
   sta graphics_hiding_routine+1
 
+  ;now wait for the current frame to finish so all sprites are in
+  ;the correct location
+  wait_vblank_flag
+
   ;load the location to transition to
   ldx state_control_params+play_state_control::param
   lda locations_lo,x
