@@ -13,8 +13,9 @@ ENTITY_INC = 1
 .global entity_reset_animation
 .global entity_update_animation
 .global entity_set_is_enemy
-.global entity_set_drawable_unsorted
-.global entity_set_drawable_sorted
+.global entity_set_sorted
+.global entity_set_drawable
+.global entity_clear_drawable
 .global entity_test_entity_action_rect1
 .global entity_test_entity_action_rect2
 .global entity_test_hero_rect
@@ -26,21 +27,17 @@ ENTITY_INC = 1
 .global entity_only_draw_shadow_spots
 .global entity_slide_shadow_spots
 
-ENTITY_FLAGS_ALIVE_SET     = %00000001
-ENTITY_FLAGS_ALIVE_TEST    = %00000001
-ENTITY_FLAGS_ALIVE_CLEAR   = %11111110
+ENTITY_FLAGS_ALIVE_SET      = %00000001
+ENTITY_FLAGS_ALIVE_TEST     = %00000001
+ENTITY_FLAGS_ALIVE_CLEAR    = %11111110
 
-ENTITY_FLAGS_DRAWABLE_UNSORTED_SET   = %00000010
-ENTITY_FLAGS_DRAWABLE_UNSORTED_TEST  = %00000010
-ENTITY_FLAGS_DRAWABLE_UNSORTED_CLEAR = %11111101
+ENTITY_FLAGS_DRAWABLE_SET   = %00000010
+ENTITY_FLAGS_DRAWABLE_TEST  = %00000010
+ENTITY_FLAGS_DRAWABLE_CLEAR = %11111101
 
-ENTITY_FLAGS_DRAWABLE_SORTED_SET   = %00000100
-ENTITY_FLAGS_DRAWABLE_SORTED_TEST  = %00000100
-ENTITY_FLAGS_DRAWABLE_SORTED_CLEAR = %11111011
-
-ENTITY_FLAGS_IS_ENEMY_SET   = %00001000
-ENTITY_FLAGS_IS_ENEMY_TEST  = %00001000
-ENTITY_FLAGS_IS_ENEMY_CLEAR = %11110111
+ENTITY_FLAGS_IS_ENEMY_SET   = %00000100
+ENTITY_FLAGS_IS_ENEMY_TEST  = %00000100
+ENTITY_FLAGS_IS_ENEMY_CLEAR = %11111011
 
 .macro entity_state_switchboard jump_table_lo, jump_table_hi
 

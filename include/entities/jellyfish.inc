@@ -30,7 +30,7 @@ jellyfish_update:
 
 jellyfish_state_init:
 
-  jsr entity_set_drawable_unsorted
+  jsr entity_set_drawable
 
   jsr entity_set_is_enemy
 

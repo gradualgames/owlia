@@ -24,7 +24,7 @@ lantern_update:
 
 lantern_state_init:
 
-  jsr entity_set_drawable_unsorted
+  jsr entity_set_drawable
 
   lda #<Lantern
   sta entity_animation_address_lo,x

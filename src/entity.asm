@@ -81,19 +81,14 @@ enemy_found:
 
 .endproc
 
-;sets ENTITY_FLAGS_DRAWABLE_SORTED, clears ENTITY_FLAGS_DRAWABLE_UNSORTED,
-;and sets sorted_entity_index. This causes the current entity to be sorted
-;in sprite ram against the hero and the familiar. It should only be used
-;when the entity knows it is intersecting with the hero or the familiar.
-;Typically, it will only be used by NPCs. Most other entities are enemies
-;and will knock the hero back. There's little need to sort them in this
-;case.
-.proc entity_set_drawable_sorted
-
-  lda entity_flags,x
-  ora #ENTITY_FLAGS_DRAWABLE_SORTED_SET
-  and #ENTITY_FLAGS_DRAWABLE_UNSORTED_CLEAR
-  sta entity_flags,x
+;Sets this entity to be the third participant this frame in the
+;3 way sorting system between the hero, familiar, and entity.
+;Typically this is only used by NPCs. It can also be used by
+;doors, etc. Everything else is an enemy and will hit the hero
+;and cause her to knock back and flash, or, the familiar will
+;be flying above everything, etc. etc. So we only use it in very
+;limited and special circumstances.
+.proc entity_set_sorted
 
   stx sorted_entity_index
 
@@ -101,12 +96,22 @@ enemy_found:
 
 .endproc
 
-;sets ENTITY_FLAGS_DRAWABLE_UNSORTED, clears ENTITY_FLAGS_DRAWABLE_SORTED.
-.proc entity_set_drawable_unsorted
+;Sets this entity to be drawable
+.proc entity_set_drawable
 
   lda entity_flags,x
-  ora #ENTITY_FLAGS_DRAWABLE_UNSORTED_SET
-  and #ENTITY_FLAGS_DRAWABLE_SORTED_CLEAR
+  ora #ENTITY_FLAGS_DRAWABLE_SET
+  sta entity_flags,x
+
+  rts
+
+.endproc
+
+;Sets this entity to be not drawable (hidden)
+.proc entity_clear_drawable
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_DRAWABLE_CLEAR
   sta entity_flags,x
 
   rts
@@ -533,7 +538,7 @@ entity_not_alive:
   and #ENTITY_FLAGS_ALIVE_TEST
   beq sort_hero_and_familiar
   lda entity_flags,x
-  and #ENTITY_FLAGS_DRAWABLE_SORTED_TEST
+  and #ENTITY_FLAGS_DRAWABLE_TEST
   beq sort_hero_and_familiar
 sort_hero_familiar_and_entity:
 
@@ -575,7 +580,7 @@ done:
   beq :+
   ;if we arrive here, we've found a living entity. Test to see if it is drawable.
   lda entity_flags,x
-  and #ENTITY_FLAGS_DRAWABLE_UNSORTED_TEST
+  and #ENTITY_FLAGS_DRAWABLE_TEST
   beq :+
   ;the entity is drawable so proceed to calculate screen coords and draw its animation
   lda entity_animation_address_lo,x

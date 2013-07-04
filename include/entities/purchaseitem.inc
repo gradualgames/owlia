@@ -35,7 +35,7 @@ purchaseitem_update:
 
 purchaseitem_state_init:
 
-  jsr entity_set_drawable_unsorted
+  jsr entity_set_drawable
 
   lda purchaseitem_animation_lo,x
   sta entity_animation_address_lo,x

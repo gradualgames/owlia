@@ -49,7 +49,7 @@ npc_update:
 
 npc_state_init:
 
-  jsr entity_set_drawable_unsorted
+  jsr entity_set_drawable
 
   lda #NPC_DIRECTION_DOWN
   sta npc_direction,x
@@ -170,21 +170,21 @@ do_not_move:
 
   ;set unsorted by default. Then test against hero and familiar to
   ;see if the npc should be sorted with them.
-  jsr entity_set_drawable_unsorted
+  jsr entity_set_drawable
 
   ;test npc's own rect against hero and familiar to see if the npc
   ;ought to be sorted with them
   jsr entity_test_familiar_rect
   bne not_intersecting_familiar
 
-  jsr entity_set_drawable_sorted
+  jsr entity_set_sorted
 
 not_intersecting_familiar:
 
   jsr entity_test_hero_rect
   bne not_intersecting_hero
 
-  jsr entity_set_drawable_sorted
+  jsr entity_set_sorted
 
 not_intersecting_hero:
 
@@ -241,9 +241,7 @@ do_not_start_conversation:
 start_conversation:
 
   ;make sure both the npc and the hero are drawable
-  lda entity_flags,x
-  ora #ENTITY_FLAGS_DRAWABLE_UNSORTED_SET
-  sta entity_flags,x
+  jsr entity_set_drawable
 
   lda hero_flags
   ora #HERO_FLAGS_DRAWABLE_SET

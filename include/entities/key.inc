@@ -23,7 +23,7 @@ key_update:
 
 key_state_init:
 
-  jsr entity_set_drawable_unsorted
+  jsr entity_set_drawable
 
   lda #<Key
   sta entity_animation_address_lo,x

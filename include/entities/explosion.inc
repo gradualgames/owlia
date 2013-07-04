@@ -33,7 +33,7 @@ explosion_update:
 
 explosion_state_init:
 
-  jsr entity_set_drawable_unsorted
+  jsr entity_set_drawable
 
   lda #<Explosion
   sta entity_animation_address_lo,x

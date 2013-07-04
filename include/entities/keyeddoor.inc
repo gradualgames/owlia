@@ -25,7 +25,7 @@ keyeddoor_update:
 
 keyeddoor_state_init:
 
-  jsr entity_set_drawable_unsorted
+  jsr entity_set_drawable
 
   lda #<KeyedDoor
   sta entity_animation_address_lo,x
@@ -99,12 +99,12 @@ keyeddoor_state_init:
 
 keyeddoor_state_main:
 
-  jsr entity_set_drawable_unsorted
+  jsr entity_set_drawable
 
   jsr entity_test_hero_rect
   bne not_touching_hero
 
-  jsr entity_set_drawable_sorted
+  jsr entity_set_sorted
 
   lda buffer_controller+buttons::_a
 

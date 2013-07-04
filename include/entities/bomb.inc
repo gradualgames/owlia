@@ -22,7 +22,7 @@ bomb_update:
 
 bomb_state_init_carried:
 
-  jsr entity_set_drawable_unsorted
+  jsr entity_set_drawable
 
   lda #<Bomb
   sta entity_animation_address_lo,x
@@ -63,7 +63,7 @@ bomb_state_carried:
 
 bomb_state_init_fall:
 
-  jsr entity_set_drawable_unsorted
+  jsr entity_set_drawable
 
   lda #<Bomb
   sta entity_animation_address_lo,x
