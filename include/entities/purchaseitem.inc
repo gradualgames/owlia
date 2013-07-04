@@ -2,8 +2,8 @@
 .ifndef PURCHASEITEM_INC
 PURCHASEITEM_INC = 1
 
-PURCHASEITEM_WIDTH = $0f
-PURCHASEITEM_HEIGHT = $0f
+PURCHASEITEM_WIDTH = $07
+PURCHASEITEM_HEIGHT = $07
 
 purchaseitem_animation_lo = entity_local0
 purchaseitem_animation_hi = entity_local1

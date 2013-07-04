@@ -129,7 +129,8 @@ inn_entity_instances:
   .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_inn, 4, 16 * 8, 16 * 2
 
 store_entity_instances:
-  .byte 2  ;count
+  .byte 3  ;count
+  .byte entity_index_npc, 9, 13, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_store, 4, 16 * 6, 16 * 1
   .byte entity_index_npc, 15, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2
   .byte entity_index_purchaseitem, 10, 17, sprite_chr_group_index_bomb, 6, <Bomb, >Bomb, <inventory_bombs, >inventory_bombs, conversation_index_purchase_bomb, 10
 
