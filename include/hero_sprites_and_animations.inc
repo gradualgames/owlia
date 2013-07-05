@@ -222,4 +222,8 @@ ThrowDown:
   .word WalkDown0
   .word ThrowDown0
 
+Heart:
+  .byte $0a,$02
+  .word Heart0
+
 .endif

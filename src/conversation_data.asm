@@ -11,6 +11,9 @@
     welcome_to_my_inn, \
     door_is_locked, \
     purchase_bomb, \
+    purchase_lantern, \
+    purchase_health, \
+    purchase_rope, \
     not_enough_gp
 
 conversations_lo:
@@ -36,11 +39,8 @@ welcome_to_my_house:
 
 welcome_to_my_store:
   .byte 1, W,E,L,C,O,M,E,SP,T,O,SP,M,_Y,SP,S,T,O,R,E,EN,WT,EL
-  .byte 2, W,E,SP,_A,R,E,SP,S,T,I,L,L,SP,S,E,T,T,I,N,G,SP,U,P,CA,WT,EL
-  .byte 3, S,O,CA,SP,_Y,O,U,SP,C,_A,N,N,O,T,SP,B,U,_Y,SP,_A,N,_Y,T,H,I,N,G,EL
-  .byte 4, _Y,E,T,PD,WT,EP,EL
-  .byte 1, W,_A,I,T,PD,SP,I,SP,L,I,E,D,PD,SP,_Y,O,U,SP,C,_A,N,EL
-  .byte 2, N,O,W,SP,B,U,_Y,SP,B,O,M,B,S,EN,WT,EC
+  .byte 2, I,F,SP,_Y,O,U,SP,S,E,E,SP,_A,N,_Y,T,H,I,N,G,SP,_Y,O,U,SP,L,I,K,E,CA,EL
+  .byte 3, W,_A,L,K,SP,U,P,SP,T,O,SP,I,T,SP,_A,N,D,SP,H,I,T,SP,_A,PD,WT,EC
 
 welcome_to_my_inn:
   .byte 1, W,E,L,C,O,M,E,SP,T,O,SP,M,_Y,SP,I,N,N,EN,WT,EL
@@ -51,6 +51,24 @@ door_is_locked:
 
 purchase_bomb:
   .byte 1, B,O,M,B,S,SP,_A,R,E,SP,T,E,N,SP,G,P,PD,EL
+  .byte 2, B,U,_Y,QN,EL
+  .byte 3, H,I,T,SP,_A,SP,F,O,R,SP,_Y,E,S,EL
+  .byte 4, H,I,T,SP,B,SP,F,O,R,SP,N,O,CC,EC
+
+purchase_lantern:
+  .byte 1, L,_A,N,T,E,R,N,S,SP,_A,R,E,SP,T,E,N,SP,G,P,PD,EL
+  .byte 2, B,U,_Y,QN,EL
+  .byte 3, H,I,T,SP,_A,SP,F,O,R,SP,_Y,E,S,EL
+  .byte 4, H,I,T,SP,B,SP,F,O,R,SP,N,O,CC,EC
+  
+purchase_health:
+  .byte 1, H,E,_A,L,T,H,SP,I,S,SP,T,E,N,SP,G,P,PD,EL
+  .byte 2, B,U,_Y,QN,EL
+  .byte 3, H,I,T,SP,_A,SP,F,O,R,SP,_Y,E,S,EL
+  .byte 4, H,I,T,SP,B,SP,F,O,R,SP,N,O,CC,EC
+  
+purchase_rope:
+  .byte 1, R,O,P,E,SP,I,S,SP,T,E,N,SP,G,P,PD,EL
   .byte 2, B,U,_Y,QN,EL
   .byte 3, H,I,T,SP,_A,SP,F,O,R,SP,_Y,E,S,EL
   .byte 4, H,I,T,SP,B,SP,F,O,R,SP,N,O,CC,EC

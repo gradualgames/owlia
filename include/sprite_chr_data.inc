@@ -32,6 +32,7 @@ sprite_chr_group_index_key
 sprite_chr_group_index_inventory
 sprite_chr_group_index_keyeddoor
 sprite_chr_group_index_lantern
+sprite_chr_group_index_rope
 .endenum
 
 .endif

@@ -13,3 +13,4 @@
 .include "inventory_sprites_and_animations.inc"
 .include "keyeddoor_sprites_and_animations.inc"
 .include "lantern_sprites_and_animations.inc"
+.include "rope_sprites_and_animations.inc"

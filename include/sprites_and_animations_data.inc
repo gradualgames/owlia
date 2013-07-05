@@ -12,6 +12,7 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global ThrowDown
 
 .global Heart0
+.global Heart
 
 .global Tech0
 .global Tech1
@@ -48,5 +49,8 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 
 .global Lantern0
 .global Lantern
+
+.global Rope0
+.global Rope
 
 .endif

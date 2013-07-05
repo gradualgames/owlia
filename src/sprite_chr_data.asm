@@ -15,7 +15,8 @@
   Key_chr, \
   Inventory_chr, \
   KeyedDoor_chr, \
-  Lantern_chr
+  Lantern_chr, \
+  Rope_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -321,3 +322,7 @@ Bomb_chr:
 Lantern_chr:
   .word $0010
   .byte $3c,$7e,$ff,$ff,$ff,$ff,$7e,$00,$00,$00,$24,$5a,$5a,$24,$00,$00
+
+Rope_chr:
+  .word $0010
+  .byte $3f,$42,$bd,$42,$bd,$42,$bd,$42,$00,$3c,$42,$bd,$42,$bd,$42,$3c

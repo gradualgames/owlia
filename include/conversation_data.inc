@@ -11,6 +11,9 @@ conversation_index_welcome_to_my_store
 conversation_index_welcome_to_my_inn
 conversation_index_door_is_locked
 conversation_index_purchase_bomb
+conversation_index_purchase_lantern
+conversation_index_purchase_health
+conversation_index_purchase_rope
 conversation_index_not_enough_gp
 .endenum
 
