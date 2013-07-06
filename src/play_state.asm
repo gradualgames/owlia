@@ -246,6 +246,13 @@ get_entity_params:
   lda (entities_address),y
   sta entity_local5,x
 
+  dec entities_params_count
+  beq no_more_params
+
+  iny
+  lda (entities_address),y
+  sta entity_local6,x
+
 no_more_params:
 
   sty entities_index

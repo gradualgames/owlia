@@ -29,7 +29,7 @@
   key_update, \
   keyeddoor_update, \
   lantern_update, \
-  purchaseitem_update
+  item_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -85,4 +85,4 @@ npc_sprite_flags_direction:
 .include "keyeddoor.inc"
 .include "bomb.inc"
 .include "lantern.inc"
-.include "purchaseitem.inc"
+.include "item.inc"

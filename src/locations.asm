@@ -133,10 +133,10 @@ store_entity_instances:
   .byte 6  ;count
   .byte entity_index_npc, 9, 13, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_store, 4, 16 * 6, 16 * 1
   .byte entity_index_npc, 15, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2
-  .byte entity_index_purchaseitem, 10, 17, sprite_chr_group_index_bomb, 6, <Bomb, >Bomb, <inventory_bombs, >inventory_bombs, conversation_index_purchase_bomb, 10
-  .byte entity_index_purchaseitem, 11, 17, sprite_chr_group_index_lantern, 6, <Lantern, >Lantern, <inventory_lanterns, >inventory_lanterns, conversation_index_purchase_lantern, 10
-  .byte entity_index_purchaseitem, 12, 17, sprite_chr_group_index_hero, 6, <Heart, >Heart, <inventory_healths, >inventory_healths, conversation_index_purchase_health, 10
-  .byte entity_index_purchaseitem, 13, 17, sprite_chr_group_index_rope, 6, <Rope, >Rope, <inventory_ropes, >inventory_ropes, conversation_index_purchase_rope, 10
+  .byte entity_index_item, 10, 17, sprite_chr_group_index_bomb, 7, <Bomb, >Bomb, <inventory_bombs, >inventory_bombs, conversation_index_purchase_bomb, 10, 0
+  .byte entity_index_item, 11, 17, sprite_chr_group_index_lantern, 7, <Lantern, >Lantern, <inventory_lanterns, >inventory_lanterns, conversation_index_purchase_lantern, 10, 0
+  .byte entity_index_item, 12, 17, sprite_chr_group_index_hero, 7, <Heart, >Heart, <inventory_healths, >inventory_healths, conversation_index_purchase_health, 10, 0
+  .byte entity_index_item, 13, 17, sprite_chr_group_index_rope, 7, <Rope, >Rope, <inventory_ropes, >inventory_ropes, conversation_index_purchase_rope, 10, 0
 
 overworld_entity_instances:
   .byte 0  ;count

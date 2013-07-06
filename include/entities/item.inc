@@ -1,63 +1,135 @@
 .linecont +
-.ifndef PURCHASEITEM_INC
-PURCHASEITEM_INC = 1
+.ifndef ITEM_INC
+ITEM_INC = 1
 
-PURCHASEITEM_WIDTH = $07
-PURCHASEITEM_HEIGHT = $07
+;these constants are for initializing the item's state
+;machine. ITEM_PURCHASE means that the item will prompt
+;the user for purchase if they hit A while contacting it,
+;ITEM_PICKUP means that the item will simply increment
+;that inventory slot and then disappear.
+ITEM_PURCHASE = 0
+ITEM_PICKUP = 1
 
-purchaseitem_animation_lo = entity_local0
-purchaseitem_animation_hi = entity_local1
+ITEM_WIDTH = $07
+ITEM_HEIGHT = $07
+
+item_animation_lo = entity_local0
+item_animation_hi = entity_local1
 inventory_lo = entity_local2
 inventory_hi = entity_local3
-purchaseitem_conversation = entity_local4
-purchaseitem_price = entity_local5
+item_conversation = entity_local4
+item_price = entity_local5
+item_mode = entity_local6
 
 .enum
-PURCHASEITEM_STATE_INIT
-PURCHASEITEM_STATE_PROMPT_FOR_PURCHASE
-PURCHASEITEM_STATE_ADD_ITEM_OR_NOT
+ITEM_STATE_INIT
+ITEM_STATE_PROMPT_FOR_PURCHASE
+ITEM_STATE_ADD_ITEM_OR_NOT
+ITEM_STATE_PICKUP
 .endenum
 
-.define purchaseitem_states \
-  purchaseitem_state_init, \
-  purchaseitem_state_prompt_for_purchase, \
-  purchaseitem_state_add_item_or_not
+.define item_states \
+  item_state_init, \
+  item_state_prompt_for_purchase, \
+  item_state_add_item_or_not, \
+  item_state_pickup
 
-purchaseitem_lo:
-  .lobytes purchaseitem_states
+item_lo:
+  .lobytes item_states
 
-purchaseitem_hi:
-  .hibytes purchaseitem_states
+item_hi:
+  .hibytes item_states
 
-purchaseitem_update:
+item_update:
 
-  entity_state_switchboard purchaseitem_lo, purchaseitem_hi
+  entity_state_switchboard item_lo, item_hi
 
-purchaseitem_state_init:
+item_state_init:
 
   jsr entity_set_drawable
 
-  lda purchaseitem_animation_lo,x
+  lda item_animation_lo,x
   sta entity_animation_address_lo,x
-  lda purchaseitem_animation_hi,x
+  lda item_animation_hi,x
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
 
-  lda #PURCHASEITEM_WIDTH
+  lda #ITEM_WIDTH
   sta entity_width,x
-  lda #PURCHASEITEM_HEIGHT
+  lda #ITEM_HEIGHT
   sta entity_height,x
 
   lda #$00
   sta entity_sprite_flags,x
 
-  lda #PURCHASEITEM_STATE_PROMPT_FOR_PURCHASE
+  ;decide what part of the state machine to enter with the
+  ;item mode parameter
+  lda item_mode,x
+  cmp #ITEM_PURCHASE
+  beq purchase_mode
+  cmp #ITEM_PICKUP
+  beq pickup_mode
+purchase_mode:
+  lda #ITEM_STATE_PROMPT_FOR_PURCHASE
+  sta entity_state,x
+
+  rts
+pickup_mode:
+  lda #ITEM_STATE_PICKUP
   sta entity_state,x
 
   rts
 
-purchaseitem_state_prompt_for_purchase:
+item_state_pickup:
+
+  .scope
+  jsr entity_test_hero_rect
+  bne not_touching_hero
+
+  lda inventory_lo,x
+  sta w0
+  lda inventory_hi,x
+  sta w0+1
+
+  ldy #0
+  clc
+  lda (w0),y
+  adc #$01
+  sta (w0),y
+  iny
+  lda (w0),y
+  adc #$00
+  sta (w0),y
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_get_item
+  sta sound_param_word_0
+  lda #>sfx_get_item
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+not_touching_hero:
+  .endscope
+
+  rts
+
+item_state_prompt_for_purchase:
 
   .scope
   jsr entity_test_hero_rect
@@ -82,12 +154,12 @@ purchaseitem_state_prompt_for_purchase:
   ;enter conversation mode
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
-  lda purchaseitem_conversation,x
+  lda item_conversation,x
   sta state_control_params+play_state_control::param
 
   ;on next frame, transition to add-item-or-not state to respond to
   ;textbox result
-  lda #PURCHASEITEM_STATE_ADD_ITEM_OR_NOT
+  lda #ITEM_STATE_ADD_ITEM_OR_NOT
   sta entity_state,x
 
 not_touching_hero:
@@ -96,7 +168,7 @@ a_not_pressed:
 
   rts
 
-purchaseitem_state_add_item_or_not:
+item_state_add_item_or_not:
 
   lda textbox_result
   cmp #TEXTBOX_CONFIRM
@@ -108,7 +180,7 @@ purchaseitem_state_add_item_or_not:
   ;Test to see if player has enough gp
   sec
   lda inventory_gp
-  sbc purchaseitem_price,x
+  sbc item_price,x
   lda inventory_gp+1
   sbc #$00
   bmi not_enough_gp
@@ -131,7 +203,7 @@ purchaseitem_state_add_item_or_not:
 
   sec
   lda inventory_gp
-  sbc purchaseitem_price,x
+  sbc item_price,x
   sta inventory_gp
   lda inventory_gp
   sbc #$00
@@ -157,7 +229,7 @@ purchaseitem_state_add_item_or_not:
 
 do_not_add_item:
 
-  lda #PURCHASEITEM_STATE_PROMPT_FOR_PURCHASE
+  lda #ITEM_STATE_PROMPT_FOR_PURCHASE
   sta entity_state,x
 
   rts
@@ -170,7 +242,7 @@ not_enough_gp:
   lda #conversation_index_not_enough_gp
   sta state_control_params+play_state_control::param
 
-  lda #PURCHASEITEM_STATE_PROMPT_FOR_PURCHASE
+  lda #ITEM_STATE_PROMPT_FOR_PURCHASE
   sta entity_state,x
 
   rts
