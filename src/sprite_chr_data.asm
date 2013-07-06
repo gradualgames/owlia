@@ -16,7 +16,8 @@
   Inventory_chr, \
   KeyedDoor_chr, \
   Lantern_chr, \
-  Rope_chr
+  Rope_chr, \
+  Coins_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -326,3 +327,7 @@ Lantern_chr:
 Rope_chr:
   .word $0010
   .byte $3f,$42,$bd,$42,$bd,$42,$bd,$42,$00,$3c,$42,$bd,$42,$bd,$42,$3c
+
+Coins_chr:
+  .word $0010
+  .byte $60,$f0,$f6,$6f,$ff,$f6,$60,$00,$00,$60,$60,$06,$66,$60,$00,$00

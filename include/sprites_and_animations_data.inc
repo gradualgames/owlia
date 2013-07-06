@@ -53,4 +53,7 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global Rope0
 .global Rope
 
+.global Coins0
+.global Coins
+
 .endif

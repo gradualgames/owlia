@@ -64,13 +64,14 @@ house_entity_set:
   .byte 3   ;entities_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;sprite_chr_bank .byte
-  .byte 7   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_rope
+  .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_npcwoman
 
 overworld_entity_set:
@@ -130,13 +131,14 @@ inn_entity_instances:
   .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_inn, 4, 16 * 8, 16 * 2
 
 store_entity_instances:
-  .byte 6  ;count
+  .byte 7  ;count
   .byte entity_index_npc, 9, 13, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_store, 4, 16 * 6, 16 * 1
   .byte entity_index_npc, 15, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2
   .byte entity_index_item, 10, 17, sprite_chr_group_index_bomb, 7, <Bomb, >Bomb, <inventory_bombs, >inventory_bombs, conversation_index_purchase_bomb, 10, 0
   .byte entity_index_item, 11, 17, sprite_chr_group_index_lantern, 7, <Lantern, >Lantern, <inventory_lanterns, >inventory_lanterns, conversation_index_purchase_lantern, 10, 0
   .byte entity_index_item, 12, 17, sprite_chr_group_index_hero, 7, <Heart, >Heart, <inventory_healths, >inventory_healths, conversation_index_purchase_health, 10, 0
   .byte entity_index_item, 13, 17, sprite_chr_group_index_rope, 7, <Rope, >Rope, <inventory_ropes, >inventory_ropes, conversation_index_purchase_rope, 10, 0
+  .byte entity_index_item, 13, 18, sprite_chr_group_index_coins, 7, <Coins, >Coins, <inventory_gp, >inventory_gp, 0, 10, 1
 
 overworld_entity_instances:
   .byte 0  ;count

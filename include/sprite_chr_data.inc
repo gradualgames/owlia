@@ -18,6 +18,7 @@ SHADOWSPOT_SPR_CHR_BANK = 1
 .global KeyedDoor_chr
 .global Bomb_chr
 .global Lantern_chr
+.global Coins_chr
 
 .enum
 sprite_chr_group_index_hero
@@ -33,6 +34,7 @@ sprite_chr_group_index_inventory
 sprite_chr_group_index_keyeddoor
 sprite_chr_group_index_lantern
 sprite_chr_group_index_rope
+sprite_chr_group_index_coins
 .endenum
 
 .endif
