@@ -758,7 +758,7 @@ play_state:
 
   wait_vblank_flag
 
-  jsr controller_read
+  jsr controller_indirect
 
   .ifdef CPU_USAGE
   set_ppu_2001_bit PPU1_DISPLAY_TYPE
@@ -1233,6 +1233,10 @@ play_state_action_start_conversation:
   sta graphics_hiding_routine
   lda #>sprite_partial_clear_all_graphics_hiding_routine
   sta graphics_hiding_routine+1
+
+  ;make sure the controller buffer is cleared out. It is possible an entity
+  ;such as the innkeep will want it to be clear at this point.
+  jsr controller_clear
 
   ;the user has finished advancing through the conversation, make
   ;sure the play state control action is a nop as we return to the

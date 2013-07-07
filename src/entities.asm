@@ -16,6 +16,7 @@
 .include "inventory.inc"
 .include "camera.inc"
 .include "textbox.inc"
+.include "ppu.inc"
 
 .segment "CODE"
 
@@ -29,7 +30,8 @@
   key_update, \
   keyeddoor_update, \
   lantern_update, \
-  item_update
+  item_update, \
+  innkeep_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -86,3 +88,4 @@ npc_sprite_flags_direction:
 .include "bomb.inc"
 .include "lantern.inc"
 .include "item.inc"
+.include "innkeep.inc"

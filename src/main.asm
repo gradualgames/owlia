@@ -14,6 +14,7 @@
 .include "locations.inc"
 .include "sfx_data.inc"
 .include "mapper.inc"
+.include "controller.inc"
 
 .segment "HEADER"
 .byte "NES",$1a   ;iNES header
@@ -74,6 +75,12 @@ reset:
   sta graphics_hiding_routine
   lda #>default_graphics_hiding_routine
   sta graphics_hiding_routine+1
+
+  ;install default controller read routine
+  lda #<controller_read
+  sta controller_routine
+  lda #>controller_read
+  sta controller_routine+1
 
   ;initialize ppu registers with settings we're never going to change
   set_ppu_2000_bit PPU0_EXECUTE_NMI

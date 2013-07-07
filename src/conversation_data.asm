@@ -9,6 +9,7 @@
     welcome_to_my_house, \
     welcome_to_my_store, \
     welcome_to_my_inn, \
+    prompt_for_stay_at_inn, \
     door_is_locked, \
     purchase_bomb, \
     purchase_lantern, \
@@ -46,6 +47,11 @@ welcome_to_my_inn:
   .byte 1, W,E,L,C,O,M,E,SP,T,O,SP,M,_Y,SP,I,N,N,EN,WT,EL
   .byte 2, M,_A,K,E,SP,_Y,O,U,R,S,E,L,F,SP,_A,T,SP,H,O,M,E,EN,WT,EC
 
+prompt_for_stay_at_inn:
+  .byte 1, O,N,E,SP,N,I,G,H,T,SP,I,S,SP,T,E,N,SP,G,P,PD,EL
+  .byte 2, T,O,SP,S,T,_A,_Y,CA,SP,H,I,T,SP,_A,PD,EL
+  .byte 3, I,F,SP,N,O,T,CA,SP,H,I,T,SP,B,PD,CC,EC
+
 door_is_locked:
   .byte 1, T,H,I,S,SP,D,O,O,R,SP,I,S,SP,L,O,C,K,E,D,EN,WT,EC
 
@@ -60,13 +66,13 @@ purchase_lantern:
   .byte 2, B,U,_Y,QN,EL
   .byte 3, H,I,T,SP,_A,SP,F,O,R,SP,_Y,E,S,EL
   .byte 4, H,I,T,SP,B,SP,F,O,R,SP,N,O,CC,EC
-  
+
 purchase_health:
   .byte 1, H,E,_A,L,T,H,SP,I,S,SP,T,E,N,SP,G,P,PD,EL
   .byte 2, B,U,_Y,QN,EL
   .byte 3, H,I,T,SP,_A,SP,F,O,R,SP,_Y,E,S,EL
   .byte 4, H,I,T,SP,B,SP,F,O,R,SP,N,O,CC,EC
-  
+
 purchase_rope:
   .byte 1, R,O,P,E,SP,I,S,SP,T,E,N,SP,G,P,PD,EL
   .byte 2, B,U,_Y,QN,EL

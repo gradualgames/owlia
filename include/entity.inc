@@ -20,7 +20,8 @@ ENTITY_INC = 1
 .global entity_test_entity_action_rect2
 .global entity_test_hero_rect
 .global entity_test_familiar_rect
-.global entity_change_palette_brightness_trampoline
+.global entity_change_palette_brightness_bg_trampoline
+.global entity_change_palette_brightness_spr_trampoline
 .global entity_clear_shadow_spots
 .global entity_add_shadow_spot
 .global entity_draw_shadow_spots

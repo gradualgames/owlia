@@ -1,15 +1,18 @@
 .include "ram.inc"
+.include "zp.inc"
 .include "controller.inc"
 
 .segment "CODE"
 
 .proc controller_clear
 
-  lda #%00000010
+  lda #%00000000
   sta buffer_controller+buttons::_a
   sta buffer_controller+buttons::_b
   sta buffer_controller+buttons::_left
   sta buffer_controller+buttons::_right
+  sta buffer_controller+buttons::_up
+  sta buffer_controller+buttons::_down
   sta buffer_controller+buttons::_select
   sta buffer_controller+buttons::_start
 
@@ -76,4 +79,20 @@
   ror
   rol buffer_controller+7
   rts
+.endproc
+
+;This is a blank controller routine intended to allow special entities
+;such as the innkeep to take control of the hero and make her walk towards
+;a bed for example.
+.proc controller_nop
+
+  rts
+
+.endproc
+
+;this routine indirectly calls the currently installed controller routine
+.proc controller_indirect
+
+  jmp (controller_routine)
+
 .endproc

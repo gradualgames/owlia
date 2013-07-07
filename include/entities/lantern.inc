@@ -89,7 +89,7 @@ do_not_reset_brightness_level:
   ldy lantern_brightness_level,x
   lda lantern_brightness_levels,y
   sta b3
-  jsr entity_change_palette_brightness_trampoline
+  jsr entity_change_palette_brightness_bg_trampoline
 
   lda #LANTERN_BRIGHTNESS_LEVEL_SPEED
   sta lantern_state_counter,x
@@ -104,7 +104,7 @@ lantern_revert_brightness:
 
   lda lantern_saved_brightness_level,x
   sta b3
-  jsr entity_change_palette_brightness_trampoline
+  jsr entity_change_palette_brightness_bg_trampoline
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR

@@ -130,8 +130,9 @@ housetr_entity_instances:
   .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
 
 inn_entity_instances:
-  .byte 1  ;count
+  .byte 2  ;count
   .byte entity_index_npc, 30, 19, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_inn, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, NPC_DIRECTION_LEFT
+  .byte entity_index_innkeep, 28, 19, 0, 6, conversation_index_prompt_for_stay_at_inn, <(22*16), >(22*16), <(14*16), >(14*16), 10
 
 store_entity_instances:
   .byte 7  ;count

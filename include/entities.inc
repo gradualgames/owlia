@@ -13,6 +13,7 @@ entity_index_key
 entity_index_keyeddoor
 entity_index_lantern
 entity_index_item
+entity_index_innkeep
 .endenum
 
 .endif

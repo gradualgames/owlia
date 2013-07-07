@@ -57,6 +57,8 @@ palette_address: .res 2
 
 current_bank: .res 1
 
+controller_routine: .res 2
+
 vblank_routine: .res 2
 vblank_wait_flag: .res 1
 forward_to_default_graphics_hiding_routine: .res 1

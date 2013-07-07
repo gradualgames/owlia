@@ -43,7 +43,7 @@ enemy_found:
 ;and then returns to the calling bank. this only adjusts brightness for the bg palette
 ;expects b3 to contain desired brightness level
 ;uses b0 temporarily
-.proc entity_change_palette_brightness_trampoline
+.proc entity_change_palette_brightness_bg_trampoline
 
   ;save calling bank
   lda current_bank
@@ -60,6 +60,38 @@ enemy_found:
 
   ;adjust the brightness of the dynamic palette based on the palette at palette_address
   jsr ppu_load_dynamic_palette_brightness_bg
+
+  ;restore calling bank
+  pla
+  sta current_bank
+  switch_bank_ldy current_bank
+
+  rts
+
+.endproc
+
+;this routine is a trampoline wrapper for ppu_load_dynamic_palette_brightness_spr
+;it saves the calling bank, changes the palette based on the current palette
+;and then returns to the calling bank. this only adjusts brightness for the spr palette
+;expects b3 to contain desired brightness level
+;uses b0 temporarily
+.proc entity_change_palette_brightness_spr_trampoline
+
+  ;save calling bank
+  lda current_bank
+  pha
+
+  ;load palette address
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::palette_address
+  lda (location_address),y
+  sta palette_address
+  iny
+  lda (location_address),y
+  sta palette_address+1
+
+  ;adjust the brightness of the dynamic palette based on the palette at palette_address
+  jsr ppu_load_dynamic_palette_brightness_spr
 
   ;restore calling bank
   pla
