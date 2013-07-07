@@ -2,16 +2,12 @@
 .ifndef NPC_INC
 NPC_INC = 1
 
-.enum
-NPC_STATE_INIT
-NPC_STATE_MAIN
-.endenum
+.include "npc_constants.inc"
 
 .enum
-NPC_DIRECTION_RIGHT
-NPC_DIRECTION_LEFT
-NPC_DIRECTION_DOWN
-NPC_DIRECTION_UP
+NPC_STATE_INIT
+NPC_STATE_WALK
+NPC_STATE_MOTIONLESS
 .endenum
 
 NPC_WIDTH = 15
@@ -28,14 +24,16 @@ npc_conversation = entity_local0
 npc_graphics_set = entity_local1
 npc_walk_rect_width = entity_local2
 npc_walk_rect_height = entity_local3
-npc_direction = entity_local4
-npc_pseudo_random_number = entity_local5
-npc_frame_counter = entity_local6
-npc_pseudo_random_number_sample = entity_local7
+npc_mode = entity_local4
+npc_direction = entity_local5
+npc_pseudo_random_number = entity_local6
+npc_frame_counter = entity_local7
+npc_pseudo_random_number_sample = entity_local8
 
 .define npc_states \
   npc_state_init, \
-  npc_state_main
+  npc_state_walk, \
+  npc_state_motionless
 
 npc_lo:
   .lobytes npc_states
@@ -50,9 +48,6 @@ npc_update:
 npc_state_init:
 
   jsr entity_set_drawable
-
-  lda #NPC_DIRECTION_DOWN
-  sta npc_direction,x
 
   clc
   lda npc_direction,x
@@ -78,12 +73,32 @@ npc_state_init:
   eor hero_x
   sta npc_pseudo_random_number,x
 
-  lda #NPC_STATE_MAIN
+  .scope
+  lda npc_mode,x
+  and #NPC_MODE_TEST
+  cmp #NPC_MODE_WALK
+  beq walking
+  cmp #NPC_MODE_MOTIONLESS
+  beq motionless
+walking:
+  lda #NPC_STATE_WALK
   sta entity_state,x
+  jmp done
+motionless:
+  lda #NPC_STATE_MOTIONLESS
+  sta entity_state,x
+done:
+  .endscope
 
   rts
 
-npc_state_main:
+npc_state_motionless:
+
+  jsr test_whether_hero_wants_to_start_conversation
+
+  rts
+
+npc_state_walk:
 
   ;permute the pseudo random number
 : lda npc_pseudo_random_number,x
@@ -167,6 +182,12 @@ npc_frame_counter_not_zero:
   jsr entity_update_animation
 
 do_not_move:
+
+  jsr test_whether_hero_wants_to_start_conversation
+
+  rts
+
+test_whether_hero_wants_to_start_conversation:
 
   ;set unsorted by default. Then test against hero and familiar to
   ;see if the npc should be sorted with them.

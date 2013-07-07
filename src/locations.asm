@@ -6,6 +6,7 @@
 .include "sprites_and_animations_data.inc"
 .include "hero_constants.inc"
 .include "item_constants.inc"
+.include "npc_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -110,32 +111,32 @@ village_entity_instances:
   ; .byte entity_index_jellyfish, 31, 32, sprite_chr_group_index_jellyfish, 0
   ; .byte entity_index_jellyfish, 39, 53, sprite_chr_group_index_jellyfish, 0
   ; .byte entity_index_jellyfish, 20, 53, sprite_chr_group_index_jellyfish, 0
-  .byte entity_index_npc, 8, 20, sprite_chr_group_index_npcman, 4, conversation_index_welcome_to_demo, 0, 16 * 6, 16 * 6
+  .byte entity_index_npc, 8, 20, sprite_chr_group_index_npcman, 6, conversation_index_welcome_to_demo, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
 
 house1_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2
+  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
 
 housebl_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2
+  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
 
 housebr_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2
+  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
 
 housetr_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2
+  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
 
 inn_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_inn, 4, 16 * 8, 16 * 2
+  .byte entity_index_npc, 30, 19, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_inn, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, NPC_DIRECTION_LEFT
 
 store_entity_instances:
   .byte 7  ;count
-  .byte entity_index_npc, 9, 13, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_store, 4, 16 * 6, 16 * 1
-  .byte entity_index_npc, 15, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2
+  .byte entity_index_npc, 9, 13, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 6, 16 * 1, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte entity_index_npc, 15, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
   .byte entity_index_item, 10, 17, sprite_chr_group_index_bomb, 10, <Bomb, >Bomb, <inventory_bombs, >inventory_bombs, conversation_index_purchase_bomb, 10, 5, <INVENTORY_MAX_BOMBS, >INVENTORY_MAX_BOMBS, ITEM_PURCHASE | ITEM_8_BIT_VAR
   .byte entity_index_item, 11, 17, sprite_chr_group_index_lantern, 10, <Lantern, >Lantern, <inventory_lanterns, >inventory_lanterns, conversation_index_purchase_lantern, 10, 5, <INVENTORY_MAX_LANTERNS, >INVENTORY_MAX_LANTERNS, ITEM_PURCHASE | ITEM_8_BIT_VAR
   .byte entity_index_item, 12, 17, sprite_chr_group_index_hero, 10, <Heart, >Heart, <inventory_healths, >inventory_healths, conversation_index_purchase_health, 10, 1, <INVENTORY_MAX_HEALTHS, >INVENTORY_MAX_HEALTHS, ITEM_PURCHASE | ITEM_8_BIT_VAR
