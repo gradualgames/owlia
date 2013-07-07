@@ -5,10 +5,12 @@
 .include "soundengine.inc"
 .include "sprites_and_animations_data.inc"
 .include "hero_constants.inc"
+.include "item_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
 .include "ram.inc"
+.include "inventory.inc"
 
 .segment "CODE"
 
@@ -134,11 +136,11 @@ store_entity_instances:
   .byte 7  ;count
   .byte entity_index_npc, 9, 13, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_store, 4, 16 * 6, 16 * 1
   .byte entity_index_npc, 15, 18, sprite_chr_group_index_npcwoman, 4, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2
-  .byte entity_index_item, 10, 17, sprite_chr_group_index_bomb, 7, <Bomb, >Bomb, <inventory_bombs, >inventory_bombs, conversation_index_purchase_bomb, 10, 0
-  .byte entity_index_item, 11, 17, sprite_chr_group_index_lantern, 7, <Lantern, >Lantern, <inventory_lanterns, >inventory_lanterns, conversation_index_purchase_lantern, 10, 0
-  .byte entity_index_item, 12, 17, sprite_chr_group_index_hero, 7, <Heart, >Heart, <inventory_healths, >inventory_healths, conversation_index_purchase_health, 10, 0
-  .byte entity_index_item, 13, 17, sprite_chr_group_index_rope, 7, <Rope, >Rope, <inventory_ropes, >inventory_ropes, conversation_index_purchase_rope, 10, 0
-  .byte entity_index_item, 13, 18, sprite_chr_group_index_coins, 7, <Coins, >Coins, <inventory_gp, >inventory_gp, 0, 10, 1
+  .byte entity_index_item, 10, 17, sprite_chr_group_index_bomb, 10, <Bomb, >Bomb, <inventory_bombs, >inventory_bombs, conversation_index_purchase_bomb, 10, 5, <INVENTORY_MAX_BOMBS, >INVENTORY_MAX_BOMBS, ITEM_PURCHASE | ITEM_8_BIT_VAR
+  .byte entity_index_item, 11, 17, sprite_chr_group_index_lantern, 10, <Lantern, >Lantern, <inventory_lanterns, >inventory_lanterns, conversation_index_purchase_lantern, 10, 5, <INVENTORY_MAX_LANTERNS, >INVENTORY_MAX_LANTERNS, ITEM_PURCHASE | ITEM_8_BIT_VAR
+  .byte entity_index_item, 12, 17, sprite_chr_group_index_hero, 10, <Heart, >Heart, <inventory_healths, >inventory_healths, conversation_index_purchase_health, 10, 1, <INVENTORY_MAX_HEALTHS, >INVENTORY_MAX_HEALTHS, ITEM_PURCHASE | ITEM_8_BIT_VAR
+  .byte entity_index_item, 13, 17, sprite_chr_group_index_rope, 10, <Rope, >Rope, <inventory_ropes, >inventory_ropes, conversation_index_purchase_rope, 10, 1, <INVENTORY_MAX_ROPES, >INVENTORY_MAX_ROPES, ITEM_PURCHASE | ITEM_8_BIT_VAR
+  .byte entity_index_item, 13, 18, sprite_chr_group_index_coins, 10, <Coins, >Coins, <inventory_gp, >inventory_gp, 0, 0, 100, <INVENTORY_MAX_GP, >INVENTORY_MAX_GP, ITEM_PICKUP | ITEM_16_BIT_VAR
 
 overworld_entity_instances:
   .byte 0  ;count

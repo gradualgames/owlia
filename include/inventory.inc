@@ -1,6 +1,13 @@
 .ifndef INVENTORY_INC
 INVENTORY_INC = 1
 
+INVENTORY_MAX_BOMBS = 7
+INVENTORY_MAX_LANTERNS = 7
+INVENTORY_MAX_HEALTHS = 7
+INVENTORY_MAX_ROPES = 7
+
+INVENTORY_MAX_GP = 1000
+
 ;for selecting which item the owl currently can carry
 .enum
 carry_bomb
