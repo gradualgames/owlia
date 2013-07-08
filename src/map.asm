@@ -2280,11 +2280,16 @@ done:
   rts
 .endproc
 
+;s = stationary
+;v = vertical
+;h = horizontal
+;d = diagonal
+;        s   v   h  d
 cycle_pad_lut1:
-  .byte 98, 11, 24, 3
+  .byte 98,  8, 24, 1
 
 cycle_pad_lut2:
-  .byte 99, 12, 25, 4
+  .byte 99,  9, 25, 2
 
 .proc nametable_and_attribute_update_ppu
 
