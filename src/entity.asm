@@ -937,7 +937,6 @@ next_shadow_spot:
   sta shadow_spot_y_lo,x
   lda shadow_spot_y_hi,x
   sbc camera_y+1
-  bne cull_shadow_spot
   sta shadow_spot_y_hi,x
 
   ;add camera screen origin to the screen coordinates. This is needed
@@ -948,6 +947,7 @@ next_shadow_spot:
   sta shadow_spot_y_lo,x
   lda shadow_spot_y_hi,x
   adc #$00
+  bne cull_shadow_spot
   sta shadow_spot_y_hi,x
 
   ;draw the shadow spot
@@ -1028,7 +1028,6 @@ next_shadow_spot:
   iny
   iny
   iny
-cull_shadow_spot:
 
   dex
   bpl next_shadow_spot
