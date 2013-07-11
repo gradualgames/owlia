@@ -78,10 +78,8 @@ innkeep_state_prompt_for_stay:
   jsr entity_test_hero_rect
   bne not_touching_hero
 
-  lda buffer_controller+buttons::_a
-  and #%00000011
-  cmp #%00000001
-  bne a_not_pressed
+  jsr hero_is_attacking
+  bne hero_not_attacking
 
   ;cancel attack this frame because hero pressed a against a
   ;purchasable item!
@@ -105,16 +103,8 @@ innkeep_state_prompt_for_stay:
   lda #INNKEEP_STATE_STAY_OR_NOT
   sta entity_state,x
 
-  ;take over the controller, the innkeep entity will move the hero to the
-  ;bed using the passed in parameters for how far to move
-  jsr controller_clear
-  lda #<controller_nop
-  sta controller_routine
-  lda #>controller_nop
-  sta controller_routine+1
-
 not_touching_hero:
-a_not_pressed:
+hero_not_attacking:
   .endscope
 
   rts
@@ -157,6 +147,14 @@ stay:
   lda inventory_gp+1
   sbc #$00
   sta inventory_gp+1
+
+  ;take over the controller, the innkeep entity will move the hero to the
+  ;bed using the passed in parameters for how far to move
+  jsr controller_clear
+  lda #<controller_nop
+  sta controller_routine
+  lda #>controller_nop
+  sta controller_routine+1
 
   ;transition to state which moves hero to bed
   lda #INNKEEP_STATE_ALIGN_HERO_WITH_DESTINATION_X
@@ -359,7 +357,10 @@ faded_in:
   lda #3
   sta hero_health
 
-  ;restore control to player
+  ;restore control to player forcing player to let go of buttons before
+  ;further input will be detected (fill buffer with all pressed values)
+  lda #$ff
+  jsr controller_fill_buffer_with_accumulator
   lda #<controller_read
   sta controller_routine
   lda #>controller_read

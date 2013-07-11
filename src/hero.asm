@@ -873,6 +873,19 @@ done:
 
 .endproc
 
+;sets zero flag if the hero is attacking, clears it if not.
+;Kind of odd juxtaposed against hero_is_moving, however
+;hero_is_moving is a sub-state of the main state, really,
+;whereas the attack state is a separate state.
+.proc hero_is_attacking
+
+  lda hero_state
+  cmp #HERO_STATE_ATTACK
+
+  rts
+
+.endproc
+
 .macro test_collision x_offset_lo, x_offset_hi, y_offset_lo, y_offset_hi, destination_if_solid
 
   clc

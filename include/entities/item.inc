@@ -120,10 +120,8 @@ item_state_prompt_for_purchase:
   jsr entity_test_hero_rect
   bne not_touching_hero
 
-  lda buffer_controller+buttons::_a
-  and #%00000011
-  cmp #%00000001
-  bne a_not_pressed
+  jsr hero_is_attacking
+  bne hero_not_attacking
 
   ;cancel attack this frame because hero pressed a against a
   ;purchasable item!
@@ -148,7 +146,7 @@ item_state_prompt_for_purchase:
   sta entity_state,x
 
 not_touching_hero:
-a_not_pressed:
+hero_not_attacking:
   .endscope
 
   rts

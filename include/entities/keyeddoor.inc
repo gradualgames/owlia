@@ -106,10 +106,7 @@ keyeddoor_state_main:
 
   jsr entity_set_sorted
 
-  lda buffer_controller+buttons::_a
-
-  and #%00000011
-  cmp #%00000001
+  jsr hero_is_attacking
   bne do_not_unlock_door
 
   jsr hero_cancel_attack

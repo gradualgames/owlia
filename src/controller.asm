@@ -4,9 +4,18 @@
 
 .segment "CODE"
 
+;the default controller clear routine. Note it spills into
+;controller_fill_buffer_with_accumulator. Call
+;controller_fill_buffer_with_accumulator to fill the
+;controller buffer with a different value.
 .proc controller_clear
 
   lda #%00000000
+
+.endproc
+
+.proc controller_fill_buffer_with_accumulator
+
   sta buffer_controller+buttons::_a
   sta buffer_controller+buttons::_b
   sta buffer_controller+buttons::_left

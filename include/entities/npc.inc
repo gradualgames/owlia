@@ -248,9 +248,7 @@ not_intersecting_hero:
   jsr geotests_rect_in_rect_16bit
   bne do_not_start_conversation
 
-  lda buffer_controller+buttons::_a
-  and #%00000011
-  cmp #%00000001
+  jsr hero_is_attacking
   bne do_not_start_conversation
 
   jsr start_conversation
@@ -441,6 +439,13 @@ done:
   lda npc_opposite_direction,y
   sta hero_direction
   jsr hero_face_in_current_direction
+
+  ;put hero into a passive state so she cannot
+  ;get input from the controller immediately upon
+  ;finishing a conversation with the NPC.
+  lda #3
+  sta b0
+  jsr hero_wait_frames
 
   ;enter conversation mode
   lda #ACTION_START_CONVERSATION
