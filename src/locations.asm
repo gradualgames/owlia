@@ -168,7 +168,7 @@ house_palette:
   .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$1a,$36,$0d,$0d,$15,$36
 
 overworld_palette:
-  .byte $0d,$19,$18,$2a,$0d,$0d,$27,$20,$0d,$18,$2a,$37,$00,$00,$00,$00
+  .byte $0e,$0a,$19,$15,$0e,$0a,$08,$19,$0e,$0a,$19,$28,$0e,$08,$19,$18
   .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$17,$20,$0d,$0d,$18,$36
 
 dungeon_palette:
@@ -265,7 +265,7 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
 overworld_top_entrance:
 define_north_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_overworld, overworld_entity_set, overworld_entity_instances, overworld_palette,\
-                      27, 1, 0, 0, 0, HERO_DIRECTION_DOWN
+                      29, 1, 0, 0, 0, HERO_DIRECTION_DOWN
 
 overworld_dungeon_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\

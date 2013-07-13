@@ -185,7 +185,7 @@ store_area:
 overworld_area:
   .byte 0   ;music_bank .byte
   .byte 0   ;map_bank .byte
-  .byte 1   ;bg_chr_bank .byte
+  .byte 3   ;bg_chr_bank .byte
   .byte 0   ;conversations_bank .byte
   .word map1_chr
   .word song1
