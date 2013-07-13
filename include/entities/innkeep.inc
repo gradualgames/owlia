@@ -10,9 +10,13 @@ innkeep_destination_x_lo = entity_local1
 innkeep_destination_x_hi = entity_local2
 innkeep_destination_y_lo = entity_local3
 innkeep_destination_y_hi = entity_local4
-innkeep_price = entity_local5
-innkeep_brightness_counter = entity_local6
-innkeep_wait_counter = entity_local7
+innkeep_width = entity_local5
+innkeep_height = entity_local6
+innkeep_offset_x = entity_local7
+innkeep_offset_y = entity_local8
+innkeep_price = entity_local9
+innkeep_brightness_counter = entity_local10
+innkeep_wait_counter = entity_local11
 
 .enum
 INNKEEP_STATE_INIT
@@ -50,22 +54,66 @@ innkeep_state_init:
   ;the innkeep is just a rect, it is never drawn
   jsr entity_clear_drawable
 
-  ;initialize brightness counter for when the innkeep entity
-  ;transitions into the fade out palette state.
-  lda #MAX_BRIGHTNESS_LEVEL
-  asl
-  asl
-  asl
-  sta innkeep_brightness_counter,x
-
-  ;initialize wait counter for sleep state
-  lda #50
-  sta innkeep_wait_counter,x
-
-  lda #INNKEEP_WIDTH
+  ;initialize width and height
+  lda innkeep_width,x
   sta entity_width,x
-  lda #INNKEEP_HEIGHT
+  lda innkeep_height,x
   sta entity_height,x
+
+  ;initialize offset
+  .scope
+  lda innkeep_offset_x,x
+  bmi sign_extend_negative
+sign_extend_positive:
+
+  clc
+  lda entity_x_lo,x
+  adc innkeep_offset_x,x
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc #$00
+  sta entity_x_hi,x
+
+  jmp done
+sign_extend_negative:
+
+  clc
+  lda entity_x_lo,x
+  adc innkeep_offset_x,x
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc #$ff
+  sta entity_x_hi,x
+
+done:
+  .endscope
+
+  .scope
+  lda innkeep_offset_y,x
+  bmi sign_extend_negative
+sign_extend_positive:
+
+  clc
+  lda entity_y_lo,x
+  adc innkeep_offset_y,x
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  adc #$00
+  sta entity_y_hi,x
+
+  jmp done
+sign_extend_negative:
+
+  clc
+  lda entity_y_lo,x
+  adc innkeep_offset_y,x
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  adc #$ff
+  sta entity_y_hi,x
+
+done:
+  .endscope
 
   lda #INNKEEP_STATE_PROMPT_FOR_STAY
   sta entity_state,x
@@ -80,6 +128,18 @@ innkeep_state_prompt_for_stay:
 
   jsr hero_is_attacking
   bne hero_not_attacking
+
+  ;initialize brightness counter for when the innkeep entity
+  ;transitions into the fade out palette state.
+  lda #MAX_BRIGHTNESS_LEVEL
+  asl
+  asl
+  asl
+  sta innkeep_brightness_counter,x
+
+  ;initialize wait counter for sleep state
+  lda #50
+  sta innkeep_wait_counter,x
 
   ;cancel attack this frame because hero pressed a against a
   ;purchasable item!
@@ -122,8 +182,8 @@ do_not_stay:
   lda #>controller_read
   sta controller_routine+1
 
-  ;transition back to init state
-  lda #INNKEEP_STATE_INIT
+  ;transition back to prompt state
+  lda #INNKEEP_STATE_PROMPT_FOR_STAY
   sta entity_state,x
 
   rts
@@ -170,8 +230,8 @@ not_enough_gp:
   lda #>controller_read
   sta controller_routine+1
 
-  ;transition back to init state
-  lda #INNKEEP_STATE_INIT
+  ;transition back to prompt state
+  lda #INNKEEP_STATE_PROMPT_FOR_STAY
   sta entity_state,x
 
   ;enter conversation mode
@@ -366,8 +426,8 @@ faded_in:
   lda #>controller_read
   sta controller_routine+1
 
-  ;transition back to init state
-  lda #INNKEEP_STATE_INIT
+  ;transition back to prompt state
+  lda #INNKEEP_STATE_PROMPT_FOR_STAY
   sta entity_state,x
 
   rts
