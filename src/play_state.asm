@@ -482,6 +482,7 @@ play_state_load_location:
   sta $2006
 
   switch_bank_ldy #LOCATIONS_BANK
+  clc
   lda entity_set_address
   adc #entity_set::sprite_chr_groups
   sta w4
