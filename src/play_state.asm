@@ -746,6 +746,15 @@ same_song:
   lda #>sprite_partial_clear_all_graphics_hiding_routine
   sta graphics_hiding_routine+1
 
+  ;make sure the partial sprite clear happens for the first frame,
+  ;otherwise the sprite_partial_clear_all_remaining call will only
+  ;clear some of the sprites---and if we exit the play loop on the
+  ;very first frame (say, holding the opposite direction from having
+  ;just arrived at a location), not all sprites will be cleared and
+  ;some will still be sitting in previous locations. Subtle bug, but
+  ;looks bad.
+  set_vblank_flag
+
 ;****************************************************************
 ;This branch location is the main game loop. It handles map
 ;updates, entity updates, and hero and familiar updates. It also
