@@ -21,7 +21,7 @@
     housebl_area, \
     housebr_area, \
     housetr_area, \
-    overworld_area, \
+    meadow1_area, \
     dungeon_area
 
 areas_lo:
@@ -182,7 +182,7 @@ store_area:
   .word store_big_metatile_table_bottom_left
   .word store_big_metatile_table_bottom_right
 
-overworld_area:
+meadow1_area:
   .byte 0   ;music_bank .byte
   .byte 0   ;map_bank .byte
   .byte 3   ;bg_chr_bank .byte
@@ -190,18 +190,18 @@ overworld_area:
   .word map1_chr
   .word song1
   .byte $00 ;textbox_attribute
-  .word overworld_map
-  .word overworld_metatile_table_properties
-  .word overworld_metatile_table_params
-  .word overworld_metatile_table_attributes
-  .word overworld_metatile_table_top_left_tiles
-  .word overworld_metatile_table_top_right_tiles
-  .word overworld_metatile_table_bottom_left_tiles
-  .word overworld_metatile_table_bottom_right_tiles
-  .word overworld_big_metatile_table_top_left
-  .word overworld_big_metatile_table_top_right
-  .word overworld_big_metatile_table_bottom_left
-  .word overworld_big_metatile_table_bottom_right
+  .word meadow1_map
+  .word meadow1_metatile_table_properties
+  .word meadow1_metatile_table_params
+  .word meadow1_metatile_table_attributes
+  .word meadow1_metatile_table_top_left_tiles
+  .word meadow1_metatile_table_top_right_tiles
+  .word meadow1_metatile_table_bottom_left_tiles
+  .word meadow1_metatile_table_bottom_right_tiles
+  .word meadow1_big_metatile_table_top_left
+  .word meadow1_big_metatile_table_top_right
+  .word meadow1_big_metatile_table_bottom_left
+  .word meadow1_big_metatile_table_bottom_right
 
 dungeon_area:
   .byte 0   ;music_bank .byte

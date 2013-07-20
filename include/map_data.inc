@@ -99,19 +99,19 @@ MAP_DATA_INC = 1
 .global store_metatile_table_top_right_tiles
 .global store_metatile_table_top_left_tiles
 
-.global overworld_palette
-.global overworld_map
-.global overworld_big_metatile_table_bottom_right
-.global overworld_big_metatile_table_bottom_left
-.global overworld_big_metatile_table_top_right
-.global overworld_big_metatile_table_top_left
-.global overworld_metatile_table_properties
-.global overworld_metatile_table_params
-.global overworld_metatile_table_attributes
-.global overworld_metatile_table_bottom_right_tiles
-.global overworld_metatile_table_bottom_left_tiles
-.global overworld_metatile_table_top_right_tiles
-.global overworld_metatile_table_top_left_tiles
+.global meadow1_palette
+.global meadow1_map
+.global meadow1_big_metatile_table_bottom_right
+.global meadow1_big_metatile_table_bottom_left
+.global meadow1_big_metatile_table_top_right
+.global meadow1_big_metatile_table_top_left
+.global meadow1_metatile_table_properties
+.global meadow1_metatile_table_params
+.global meadow1_metatile_table_attributes
+.global meadow1_metatile_table_bottom_right_tiles
+.global meadow1_metatile_table_bottom_left_tiles
+.global meadow1_metatile_table_top_right_tiles
+.global meadow1_metatile_table_top_left_tiles
 
 .global dungeon_palette
 .global dungeon_map

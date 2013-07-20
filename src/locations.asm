@@ -34,8 +34,8 @@
     housebl_exit, \
     housebr_exit, \
     housetr_exit, \
-    overworld_top_entrance, \
-    overworld_dungeon_entrance, \
+    meadow1_top_entrance, \
+    meadow1_dungeon_entrance, \
     dungeon_entrance, \
     dungeon_room_a, \
     dungeon_room_b
@@ -77,7 +77,7 @@ house_entity_set:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_npcwoman
 
-overworld_entity_set:
+meadow1_entity_set:
   .byte 3   ;entities_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;sprite_chr_bank .byte
@@ -144,7 +144,7 @@ store_entity_instances:
   .byte entity_index_item, 13, 17, sprite_chr_group_index_rope, 10, <Rope, >Rope, <inventory_ropes, >inventory_ropes, conversation_index_purchase_rope, 10, 1, <INVENTORY_MAX_ROPES, >INVENTORY_MAX_ROPES, ITEM_PURCHASE | ITEM_8_BIT_VAR
   .byte entity_index_item, 13, 18, sprite_chr_group_index_coins, 10, <Coins, >Coins, <inventory_gp, >inventory_gp, 0, 0, 100, <INVENTORY_MAX_GP, >INVENTORY_MAX_GP, ITEM_PICKUP | ITEM_16_BIT_VAR
 
-overworld_entity_instances:
+meadow1_entity_instances:
   .byte 0  ;count
 
 dungeon_entity_instances:
@@ -167,7 +167,7 @@ house_palette:
   .byte $0d,$08,$18,$37,$0d,$07,$17,$27,$0d,$02,$12,$22,$0d,$04,$14,$37
   .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$1a,$36,$0d,$0d,$15,$36
 
-overworld_palette:
+meadow1_palette:
   .byte $0e,$0a,$19,$15,$0e,$0a,$08,$19,$0e,$0a,$19,$28,$0e,$08,$19,$18
   .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$17,$20,$0d,$0d,$18,$36
 
@@ -261,15 +261,15 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_housetr, house_entity_set, housetr_entity_instances, house_palette,\
                          14, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 
-;overworld locations
-overworld_top_entrance:
+;meadow1 locations
+meadow1_top_entrance:
 define_north_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                      area_index_overworld, overworld_entity_set, overworld_entity_instances, overworld_palette,\
+                      area_index_meadow1, meadow1_entity_set, meadow1_entity_instances, meadow1_palette,\
                       29, 1, 0, 0, 0, HERO_DIRECTION_DOWN
 
-overworld_dungeon_entrance:
+meadow1_dungeon_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                         area_index_overworld, overworld_entity_set, overworld_entity_instances, overworld_palette,\
+                         area_index_meadow1, meadow1_entity_set, meadow1_entity_instances, meadow1_palette,\
                          30, 13, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 
 ;dungeon locations

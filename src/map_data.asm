@@ -124,22 +124,22 @@ store_big_metatile_table_bottom_left = store_data::big_metatile_table_bottom_lef
 store_big_metatile_table_bottom_right = store_data::big_metatile_table_bottom_right
 store_map = store_data::map
 
-.scope overworld_data
-.include "overworld.inc"
+.scope meadow1_data
+.include "meadow1.inc"
 .endscope
 
-overworld_metatile_table_properties = overworld_data::metatile_table_properties
-overworld_metatile_table_params = overworld_data::metatile_table_params
-overworld_metatile_table_attributes = overworld_data::metatile_table_attributes
-overworld_metatile_table_top_left_tiles = overworld_data::metatile_table_top_left_tiles
-overworld_metatile_table_top_right_tiles = overworld_data::metatile_table_top_right_tiles
-overworld_metatile_table_bottom_left_tiles = overworld_data::metatile_table_bottom_left_tiles
-overworld_metatile_table_bottom_right_tiles = overworld_data::metatile_table_bottom_right_tiles
-overworld_big_metatile_table_top_left = overworld_data::big_metatile_table_top_left
-overworld_big_metatile_table_top_right = overworld_data::big_metatile_table_top_right
-overworld_big_metatile_table_bottom_left = overworld_data::big_metatile_table_bottom_left
-overworld_big_metatile_table_bottom_right = overworld_data::big_metatile_table_bottom_right
-overworld_map = overworld_data::map
+meadow1_metatile_table_properties = meadow1_data::metatile_table_properties
+meadow1_metatile_table_params = meadow1_data::metatile_table_params
+meadow1_metatile_table_attributes = meadow1_data::metatile_table_attributes
+meadow1_metatile_table_top_left_tiles = meadow1_data::metatile_table_top_left_tiles
+meadow1_metatile_table_top_right_tiles = meadow1_data::metatile_table_top_right_tiles
+meadow1_metatile_table_bottom_left_tiles = meadow1_data::metatile_table_bottom_left_tiles
+meadow1_metatile_table_bottom_right_tiles = meadow1_data::metatile_table_bottom_right_tiles
+meadow1_big_metatile_table_top_left = meadow1_data::big_metatile_table_top_left
+meadow1_big_metatile_table_top_right = meadow1_data::big_metatile_table_top_right
+meadow1_big_metatile_table_bottom_left = meadow1_data::big_metatile_table_bottom_left
+meadow1_big_metatile_table_bottom_right = meadow1_data::big_metatile_table_bottom_right
+meadow1_map = meadow1_data::map
 
 .segment "ROM01"
 

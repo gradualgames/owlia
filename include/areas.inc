@@ -43,7 +43,7 @@ area_index_store
 area_index_housebl
 area_index_housebr
 area_index_housetr
-area_index_overworld
+area_index_meadow1
 area_index_dungeon
 .endenum
 

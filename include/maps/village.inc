@@ -149,7 +149,7 @@ metatile_table_params:
 .byte location_index_weaponstore_exit
 .byte location_index_potionstore_exit
 .byte location_index_housetr_exit
-.byte location_index_overworld_top_entrance
+.byte location_index_meadow1_top_entrance
 
 
 metatile_table_attributes:
