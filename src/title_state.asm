@@ -126,7 +126,7 @@ title_state_exit:
   sta sound_param_word_0+1
   jsr sfx_initialize
 
-  ldx #location_index_meadow1_west_entrance
+  ldx #location_index_meadow2_east_entrance
   lda locations_lo,x
   sta location_address
   lda locations_hi,x

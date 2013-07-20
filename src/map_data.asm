@@ -143,6 +143,23 @@ meadow1_map = meadow1_data::map
 
 .segment "ROM01"
 
+.scope meadow2_data
+.include "meadow2.inc"
+.endscope
+
+meadow2_metatile_table_properties = meadow2_data::metatile_table_properties
+meadow2_metatile_table_params = meadow2_data::metatile_table_params
+meadow2_metatile_table_attributes = meadow2_data::metatile_table_attributes
+meadow2_metatile_table_top_left_tiles = meadow2_data::metatile_table_top_left_tiles
+meadow2_metatile_table_top_right_tiles = meadow2_data::metatile_table_top_right_tiles
+meadow2_metatile_table_bottom_left_tiles = meadow2_data::metatile_table_bottom_left_tiles
+meadow2_metatile_table_bottom_right_tiles = meadow2_data::metatile_table_bottom_right_tiles
+meadow2_big_metatile_table_top_left = meadow2_data::big_metatile_table_top_left
+meadow2_big_metatile_table_top_right = meadow2_data::big_metatile_table_top_right
+meadow2_big_metatile_table_bottom_left = meadow2_data::big_metatile_table_bottom_left
+meadow2_big_metatile_table_bottom_right = meadow2_data::big_metatile_table_bottom_right
+meadow2_map = meadow2_data::map
+
 .scope dungeon_data
 .include "dungeon.inc"
 .endscope
