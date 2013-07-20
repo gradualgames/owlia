@@ -51,7 +51,7 @@ metatile_table_properties:
 .byte ($00 | ACTION_NOP)
 .byte ($00 | ACTION_NOP)
 .byte ($00 | ACTION_NOP)
-.byte ($10 | ACTION_NOP)
+.byte ($00 | ACTION_NOP)
 .byte ($00 | ACTION_NOP)
 .byte ($00 | ACTION_NOP)
 .byte ($00 | ACTION_NOP)
