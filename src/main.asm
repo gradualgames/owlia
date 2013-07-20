@@ -70,12 +70,6 @@ reset:
   lda #>ppu_vblank_nop
   sta vblank_routine+1
 
-  ;install default graphics hiding routine
-  lda #<default_graphics_hiding_routine
-  sta graphics_hiding_routine
-  lda #>default_graphics_hiding_routine
-  sta graphics_hiding_routine+1
-
   ;install default controller read routine
   lda #<controller_read
   sta controller_routine
@@ -122,12 +116,16 @@ vblank:
   clear_ppu_2001_bit PPU1_BACKGROUND_VISIBILITY
   upload_ppu_2001
 
-  ;indirect call to graphics hiding routine. This is either empty
-  ;loops, or partial clearing of sprites during the main gameplay
-  ;loop. This was done because sprite clearing is expensive, but
-  ;constant timed, so it is an obvious thing to try to move into
-  ;the graphics hiding bar.
-  jsr indirect_jsr_graphics_hiding_routine
+  ;now wait for a finely tuned amount of CPU cycles to create a 16 pixel
+  ;wide black bar at the top of the screen. Used in conjunction with
+  ;how the scrolling engine works we can hide all scrolling updates this
+  ;way.
+  ldx #177
+: dex
+  bne :-
+  ldx #178
+: dex
+  bne :-
 
   ;turn sprite and background visibility on
   ;set_ppu_2001_bit PPU1_SPRITE_VISIBILITY
@@ -147,25 +145,6 @@ do_not_hide_graphics_top:
 
 irq:
   rti
-
-.proc default_graphics_hiding_routine
-  ;now wait for a finely tuned amount of CPU cycles to create a 16 pixel
-  ;wide black bar at the top of the screen. Used in conjunction with
-  ;how the scrolling engine works we can hide all scrolling updates this
-  ;way.
-  ldx #177
-: dex
-  bne :-
-  ldx #178
-: dex
-  bne :-
-
-  rts
-.endproc
-
-.proc indirect_jsr_graphics_hiding_routine
-  jmp (graphics_hiding_routine)
-.endproc
 
 .proc indirect_jsr_vblank_routine
   jmp (vblank_routine)

@@ -742,20 +742,6 @@ same_song:
   lda #>nametable_and_attribute_update_ppu
   sta vblank_routine+1
 
-  lda #<sprite_partial_clear_all_graphics_hiding_routine
-  sta graphics_hiding_routine
-  lda #>sprite_partial_clear_all_graphics_hiding_routine
-  sta graphics_hiding_routine+1
-
-  ;make sure the partial sprite clear happens for the first frame,
-  ;otherwise the sprite_partial_clear_all_remaining call will only
-  ;clear some of the sprites---and if we exit the play loop on the
-  ;very first frame (say, holding the opposite direction from having
-  ;just arrived at a location), not all sprites will be cleared and
-  ;some will still be sitting in previous locations. Subtle bug, but
-  ;looks bad.
-  set_vblank_flag
-
 ;****************************************************************
 ;This branch location is the main game loop. It handles map
 ;updates, entity updates, and hero and familiar updates. It also
@@ -775,7 +761,7 @@ play_state:
   upload_ppu_2001
   .endif
 
-  jsr sprite_partial_clear_all_remaining
+  jsr sprite_reset_next_sprite_address
 
   jsr entity_clear_shadow_spots
 
@@ -789,20 +775,13 @@ play_state:
 
   jsr entity_calculate_screen_coordinates_all
 
-  ;make sure if the frame is running long that the sprite-clearing
-  ;graphics hiding bar does not clear sprites for the next frame
-  ;because they haven't been drawn yet.
-  lda #1
-  sta forward_to_default_graphics_hiding_routine
-
   jsr entity_draw_all
 
   jsr entity_draw_shadow_spots
 
   jsr hero_draw_status
 
-  lda #0
-  sta forward_to_default_graphics_hiding_routine
+  jsr sprite_clear_all_remaining
 
   .ifdef CPU_USAGE
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE
@@ -838,15 +817,6 @@ play_state_action_nop:
 ;****************************************************************
 transition_to_inventory_state:
 
-  ;Switch out the graphics hiding routine so that sprites are not
-  ;prematurely removed before a palette fade out. See sprite.asm
-  ;and sprite_partial_clear_all_graphics_hiding_routine for an
-  ;explanation.
-  lda #<default_graphics_hiding_routine
-  sta graphics_hiding_routine
-  lda #>default_graphics_hiding_routine
-  sta graphics_hiding_routine+1
-
   jmp inventory_state_init
 
 ;****************************************************************
@@ -857,15 +827,6 @@ transition_to_inventory_state:
 ;and sound, and then transitions to the game over state.
 ;****************************************************************
 play_state_action_game_over:
-
-  ;Switch out the graphics hiding routine so that sprites are not
-  ;prematurely removed before a palette fade out. See sprite.asm
-  ;and sprite_partial_clear_all_graphics_hiding_routine for an
-  ;explanation.
-  lda #<default_graphics_hiding_routine
-  sta graphics_hiding_routine
-  lda #>default_graphics_hiding_routine
-  sta graphics_hiding_routine+1
 
   ;pause a few frames
   ldx #4
@@ -1111,11 +1072,6 @@ done:
   lda #>nametable_and_attribute_update_ppu
   sta vblank_routine+1
 
-  lda #<sprite_partial_clear_all_graphics_hiding_routine
-  sta graphics_hiding_routine
-  lda #>sprite_partial_clear_all_graphics_hiding_routine
-  sta graphics_hiding_routine+1
-
   ;make sure current action of play state is a no-op
   lda #ACTION_NOP
   sta state_control_params+play_state_control::action
@@ -1134,15 +1090,6 @@ done:
 ;loop will proceed normally once the new location is loaded.
 ;****************************************************************
 play_state_action_goto_location_group1:
-
-  ;Switch out the graphics hiding routine so that sprites are not
-  ;prematurely removed before a palette fade out. See sprite.asm
-  ;and sprite_partial_clear_all_graphics_hiding_routine for an
-  ;explanation.
-  lda #<default_graphics_hiding_routine
-  sta graphics_hiding_routine
-  lda #>default_graphics_hiding_routine
-  sta graphics_hiding_routine+1
 
   ;now wait for the current frame to finish so all sprites are in
   ;the correct location
@@ -1198,15 +1145,6 @@ play_state_action_goto_location_group1:
 ;****************************************************************
 play_state_action_start_conversation:
 
-  ;Switch out the graphics hiding routine so that sprites are not
-  ;prematurely removed before a palette fade out. See sprite.asm
-  ;and sprite_partial_clear_all_graphics_hiding_routine for an
-  ;explanation.
-  lda #<default_graphics_hiding_routine
-  sta graphics_hiding_routine
-  lda #>default_graphics_hiding_routine
-  sta graphics_hiding_routine+1
-
   jsr align_camera_to_metatile_boundary
 
   jsr align_entities_if_occluded_by_textbox
@@ -1239,11 +1177,6 @@ play_state_action_start_conversation:
   jsr run_conversation
 
   jsr erase_textbox
-
-  lda #<sprite_partial_clear_all_graphics_hiding_routine
-  sta graphics_hiding_routine
-  lda #>sprite_partial_clear_all_graphics_hiding_routine
-  sta graphics_hiding_routine+1
 
   ;make sure the controller buffer is cleared out. It is possible an entity
   ;such as the innkeep will want it to be clear at this point.
