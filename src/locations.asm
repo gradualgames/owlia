@@ -35,6 +35,7 @@
     housebr_exit, \
     housetr_exit, \
     meadow1_top_entrance, \
+    meadow1_west_entrance, \
     meadow1_dungeon_entrance, \
     dungeon_entrance, \
     dungeon_room_a, \
@@ -266,6 +267,12 @@ meadow1_top_entrance:
 define_north_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_meadow1, meadow1_entity_set, meadow1_entity_instances, meadow1_palette,\
                       29, 1, 0, 0, 0, HERO_DIRECTION_DOWN
+
+meadow1_west_entrance:
+define_location LOCATION_BRIGHTNESS_LEVEL_4,\
+                area_index_meadow1, meadow1_entity_set, meadow1_entity_instances, meadow1_palette,\
+                0, 16, 0, 24,\
+                0, 0, 0, HERO_DIRECTION_RIGHT
 
 meadow1_dungeon_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
