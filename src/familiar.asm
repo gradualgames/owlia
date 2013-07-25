@@ -452,7 +452,7 @@ familiar_lo:
 familiar_hi:
   .hibytes familiar_states
 
-.segment "ROM14"
+.segment "ROM03"
 
 familiar_update:
 
