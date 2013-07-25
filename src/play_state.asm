@@ -702,6 +702,10 @@ same_song:
   ;****************************************************************
   jsr ppu_safely_enable_graphics
 
+  ;turn on graphics hiding bar at top
+  lda #1
+  sta hide_graphics_top
+
   ;retrieve brightness level from current location
   switch_bank_ldy #LOCATIONS_BANK
   ldy #location::flags
@@ -733,9 +737,6 @@ same_song:
   sta row_ready
   lda #0
   sta column_ready
-
-  lda #1
-  sta hide_graphics_top
 
   lda #<nametable_and_attribute_update_ppu
   sta vblank_routine
@@ -1031,6 +1032,10 @@ done:
   .endscope
 
   jsr ppu_safely_enable_graphics
+
+  ;turn on graphics hiding bar at top
+  lda #1
+  sta hide_graphics_top
 
   ;retrieve brightness level from current location
   switch_bank_ldy #LOCATIONS_BANK

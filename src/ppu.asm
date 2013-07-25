@@ -50,10 +50,6 @@
 ;assumes that we are somewhere in the middle of rendering a frame
 .proc ppu_safely_enable_graphics
 
-  ;turn off graphics hiding
-  lda #0
-  sta hide_graphics_top
-
   ;set nop vblank routine
   lda #<ppu_vblank_nop
   sta vblank_routine
@@ -242,10 +238,6 @@ brightness_level_spr = b7
   lda vblank_routine+1
   pha
 
-  ;turn on graphics hiding
-  lda #1
-  sta hide_graphics_top
-
   ;switch to nmi routine for uploading the dynamic palette
   lda #<ppu_upload_dynamic_palette_ppu
   sta vblank_routine
@@ -325,10 +317,6 @@ brightness_level_spr = b5
   pha
   lda vblank_routine+1
   pha
-
-  ;turn on graphics hiding
-  lda #1
-  sta hide_graphics_top
 
   ;switch to nmi routine for uploading the dynamic palette
   lda #<ppu_upload_dynamic_palette_ppu
