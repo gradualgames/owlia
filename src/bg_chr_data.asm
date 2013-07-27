@@ -1,6 +1,6 @@
 .include "bg_chr_data.inc"
 
-.segment "ROM01"
+.segment "ROM08"
 
 textbox_chr:
   .word $0270
@@ -491,8 +491,6 @@ house1_chr:
   .byte $38,$eb,$00,$35,$7c,$df,$00,$72,$eb,$71,$00,$ce,$ff,$38,$00,$e9
   .byte $f9,$1a,$00,$3b,$5c,$5b,$00,$eb,$f2,$e9,$00,$4c,$3f,$24,$00,$b0
 
-.segment "ROM03"
-
 map1_chr:
   .word $0D90
   .byte $00,$00,$00,$00,$00,$00,$00,$00,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
@@ -756,8 +754,6 @@ dungeon_chr:
   .byte $7f,$7f,$7f,$7f,$7f,$7f,$7f,$00,$00,$00,$00,$00,$00,$00,$00,$00
   .byte $fe,$fe,$fe,$fe,$fe,$fe,$fe,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
-.segment "ROM02"
-
 inventory_chr:
   .word $0370
   .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -816,7 +812,7 @@ inventory_chr:
   .byte $9c,$c1,$ff,$00,$00,$ff,$00,$00,$00,$01,$00,$00,$ff,$ff,$ff,$ff
   .byte $90,$90,$10,$10,$10,$e0,$00,$00,$3c,$3c,$3c,$3c,$dc,$ec,$f4,$f8
 
-.segment "ROM04"
+.segment "ROM09"
 
 title_chr:
   .word $0FD0
