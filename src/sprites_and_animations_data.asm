@@ -15,3 +15,4 @@
 .include "lantern_sprites_and_animations.inc"
 .include "rope_sprites_and_animations.inc"
 .include "coins_sprites_and_animations.inc"
+.include "owliatitle_sprites_and_animations.inc"

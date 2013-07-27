@@ -3,6 +3,8 @@
 .include "controller.inc"
 .include "bg_chr_data.inc"
 .include "nametable_data.inc"
+.include "sprite_chr_data.inc"
+.include "sprites_and_animations_data.inc"
 .include "title_state.inc"
 .include "areas.inc"
 .include "ppu.inc"
@@ -18,8 +20,8 @@
 .segment "CODE"
 
 title_screen_palette:
-  .byte $0d,$0d,$0d,$20,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-  .byte $0d,$0d,$0d,$20,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+  .byte $0e,$04,$14,$24,$0e,$0e,$18,$20,$0e,$17,$28,$38,$0e,$00,$00,$00
+  .byte $0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$00,$00,$00,$0e,$00,$00,$00
 
 title_state_init:
 
@@ -33,8 +35,6 @@ title_state_init:
 
   jsr sprite_clear_all
 
-  jsr sprite_update_all
-
   ;load chr data for title screen
   lda #$00
   sta $2006
@@ -45,6 +45,18 @@ title_state_init:
   lda #>title_chr
   sta w0+1
   switch_bank_ldy #TITLE_STATE_BG_CHR_BANK
+  jsr ppu_load_chr_amount
+
+  lda #$10
+  sta $2006
+  lda #$00
+  sta $2006
+
+  lda #<OwliaTitle_chr
+  sta w0
+  lda #>OwliaTitle_chr
+  sta w0+1
+  switch_bank_ldy #TITLE_STATE_SPR_CHR_BANK
   jsr ppu_load_chr_amount
 
   ;load nametable data for title screen
@@ -59,6 +71,54 @@ title_state_init:
   sta w0+1
   switch_bank_ldy #TITLE_STATE_BG_NAMETABLE_BANK
   jsr ppu_load_nametable
+
+  ;draw overlay sprites
+  lda #$00
+  sta chr_group_offset
+
+  switch_bank_ldy #TITLE_STATE_SPRITES_AND_ANIMATIONS_BANK
+
+  lda #<OwliaTitle0
+  sta w0
+  lda #>OwliaTitle0
+  sta w0+1
+
+  lda #(16*8)
+  sta w3
+  lda #0
+  sta w3+1
+
+  lda #(6*8-1)
+  sta w4
+  lda #0
+  sta w4+1
+
+  lda #0
+  sta b2
+
+  jsr sprite_draw_metasprite
+
+  lda #<OwliaTitle1
+  sta w0
+  lda #>OwliaTitle1
+  sta w0+1
+
+  lda #(10*8)
+  sta w3
+  lda #0
+  sta w3+1
+
+  lda #(16*8-1)
+  sta w4
+  lda #0
+  sta w4+1
+
+  lda #0
+  sta b2
+
+  jsr sprite_draw_metasprite
+
+  jsr sprite_update_all
 
   ;reset scroll
   lda #$20

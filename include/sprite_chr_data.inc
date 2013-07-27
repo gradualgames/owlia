@@ -19,6 +19,7 @@ SHADOWSPOT_SPR_CHR_BANK = 1
 .global Bomb_chr
 .global Lantern_chr
 .global Coins_chr
+.global OwliaTitle_chr
 
 .enum
 sprite_chr_group_index_hero

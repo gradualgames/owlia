@@ -56,4 +56,7 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global Coins0
 .global Coins
 
+.global OwliaTitle0
+.global OwliaTitle1
+
 .endif
