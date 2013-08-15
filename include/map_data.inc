@@ -127,6 +127,20 @@ MAP_DATA_INC = 1
 .global meadow2_metatile_table_top_right_tiles
 .global meadow2_metatile_table_top_left_tiles
 
+.global meadow3_palette
+.global meadow3_map
+.global meadow3_big_metatile_table_bottom_right
+.global meadow3_big_metatile_table_bottom_left
+.global meadow3_big_metatile_table_top_right
+.global meadow3_big_metatile_table_top_left
+.global meadow3_metatile_table_properties
+.global meadow3_metatile_table_params
+.global meadow3_metatile_table_attributes
+.global meadow3_metatile_table_bottom_right_tiles
+.global meadow3_metatile_table_bottom_left_tiles
+.global meadow3_metatile_table_top_right_tiles
+.global meadow3_metatile_table_top_left_tiles
+
 .global dungeon_palette
 .global dungeon_map
 .global dungeon_big_metatile_table_bottom_right

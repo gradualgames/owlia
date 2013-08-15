@@ -160,6 +160,23 @@ meadow2_big_metatile_table_bottom_left = meadow2_data::big_metatile_table_bottom
 meadow2_big_metatile_table_bottom_right = meadow2_data::big_metatile_table_bottom_right
 meadow2_map = meadow2_data::map
 
+.scope meadow3_data
+.include "meadow3.inc"
+.endscope
+
+meadow3_metatile_table_properties = meadow3_data::metatile_table_properties
+meadow3_metatile_table_params = meadow3_data::metatile_table_params
+meadow3_metatile_table_attributes = meadow3_data::metatile_table_attributes
+meadow3_metatile_table_top_left_tiles = meadow3_data::metatile_table_top_left_tiles
+meadow3_metatile_table_top_right_tiles = meadow3_data::metatile_table_top_right_tiles
+meadow3_metatile_table_bottom_left_tiles = meadow3_data::metatile_table_bottom_left_tiles
+meadow3_metatile_table_bottom_right_tiles = meadow3_data::metatile_table_bottom_right_tiles
+meadow3_big_metatile_table_top_left = meadow3_data::big_metatile_table_top_left
+meadow3_big_metatile_table_top_right = meadow3_data::big_metatile_table_top_right
+meadow3_big_metatile_table_bottom_left = meadow3_data::big_metatile_table_bottom_left
+meadow3_big_metatile_table_bottom_right = meadow3_data::big_metatile_table_bottom_right
+meadow3_map = meadow3_data::map
+
 .scope dungeon_data
 .include "dungeon.inc"
 .endscope

@@ -23,6 +23,7 @@
     housetr_area, \
     meadow1_area, \
     meadow2_area, \
+    meadow3_area, \
     dungeon_area
 
 areas_lo:
@@ -224,6 +225,27 @@ meadow2_area:
   .word meadow2_big_metatile_table_top_right
   .word meadow2_big_metatile_table_bottom_left
   .word meadow2_big_metatile_table_bottom_right
+
+meadow3_area:
+  .byte 0   ;music_bank .byte
+  .byte 1   ;map_bank .byte
+  .byte 8   ;bg_chr_bank .byte
+  .byte 0   ;conversations_bank .byte
+  .word map1_chr
+  .word song1
+  .byte $00 ;textbox_attribute
+  .word meadow3_map
+  .word meadow3_metatile_table_properties
+  .word meadow3_metatile_table_params
+  .word meadow3_metatile_table_attributes
+  .word meadow3_metatile_table_top_left_tiles
+  .word meadow3_metatile_table_top_right_tiles
+  .word meadow3_metatile_table_bottom_left_tiles
+  .word meadow3_metatile_table_bottom_right_tiles
+  .word meadow3_big_metatile_table_top_left
+  .word meadow3_big_metatile_table_top_right
+  .word meadow3_big_metatile_table_bottom_left
+  .word meadow3_big_metatile_table_bottom_right
 
 dungeon_area:
   .byte 0   ;music_bank .byte

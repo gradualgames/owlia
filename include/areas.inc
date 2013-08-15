@@ -45,6 +45,7 @@ area_index_housebr
 area_index_housetr
 area_index_meadow1
 area_index_meadow2
+area_index_meadow3
 area_index_dungeon
 .endenum
 
