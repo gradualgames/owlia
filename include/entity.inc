@@ -22,11 +22,6 @@ ENTITY_INC = 1
 .global entity_test_familiar_rect
 .global entity_change_palette_brightness_bg_trampoline
 .global entity_change_palette_brightness_spr_trampoline
-.global entity_clear_shadow_spots
-.global entity_add_shadow_spot
-.global entity_draw_shadow_spots
-.global entity_only_draw_shadow_spots
-.global entity_slide_shadow_spots
 
 ENTITY_FLAGS_ALIVE_SET      = %00000001
 ENTITY_FLAGS_ALIVE_TEST     = %00000001

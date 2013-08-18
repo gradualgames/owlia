@@ -1587,7 +1587,7 @@ familiar_not_at_goal:
   adc #$00
   sta w1+1
 
-  jsr entity_add_shadow_spot
+  jsr sprite_add_shadow_spot
 
   ;make the hero (assumed to be in HERO_STATE_CARRIED)
   ;move underneath the familiar
@@ -2577,7 +2577,7 @@ done:
   adc #$00
   sta w1+1
 
-  jsr entity_add_shadow_spot
+  jsr sprite_add_shadow_spot
 
   rts
 

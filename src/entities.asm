@@ -1,5 +1,6 @@
 .linecont +
 .include "entities.inc"
+.include "sprite.inc"
 .include "sprite_chr_data.inc"
 .include "soundengine.inc"
 .include "sfx_data.inc"

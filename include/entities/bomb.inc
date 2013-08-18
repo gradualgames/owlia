@@ -731,7 +731,7 @@ do_not_die:
   adc #$00
   sta w1+1
 
-  jsr entity_add_shadow_spot
+  jsr sprite_add_shadow_spot
 
   jsr entity_update_animation
 

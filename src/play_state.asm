@@ -655,7 +655,7 @@ play_state_load_location:
 
   jsr sprite_clear_all
 
-  jsr entity_clear_shadow_spots
+  jsr sprite_clear_shadow_spots
 
   jsr entity_update_all
 
@@ -663,7 +663,7 @@ play_state_load_location:
 
   jsr entity_draw_all
 
-  jsr entity_draw_shadow_spots
+  jsr sprite_draw_shadow_spots
 
   jsr hero_draw_status
 
@@ -764,7 +764,7 @@ play_state:
 
   jsr sprite_reset_next_sprite_address
 
-  jsr entity_clear_shadow_spots
+  jsr sprite_clear_shadow_spots
 
   jsr entity_update_all
 
@@ -778,7 +778,7 @@ play_state:
 
   jsr entity_draw_all
 
-  jsr entity_draw_shadow_spots
+  jsr sprite_draw_shadow_spots
 
   jsr hero_draw_status
 
@@ -1018,13 +1018,13 @@ done:
 
   jsr sprite_clear_all
 
-  jsr entity_clear_shadow_spots
+  jsr sprite_clear_shadow_spots
 
   jsr entity_calculate_screen_coordinates_all
 
   jsr entity_draw_all
 
-  jsr entity_draw_shadow_spots
+  jsr sprite_draw_shadow_spots
 
   jsr hero_draw_status
 
@@ -1160,7 +1160,7 @@ play_state_action_start_conversation:
 
   jsr entity_draw_all
 
-  jsr entity_only_draw_shadow_spots
+  jsr sprite_only_draw_shadow_spots
 
   jsr hero_draw_status
 
@@ -1229,7 +1229,7 @@ keep_incrementing_camera_x:
   sta w1
   sta w1+1
 
-  jsr entity_slide_shadow_spots
+  jsr sprite_slide_shadow_spots
   .endscope
 
   jsr decode_map_column_right
@@ -1238,7 +1238,7 @@ keep_incrementing_camera_x:
 
   jsr entity_draw_all
 
-  jsr entity_only_draw_shadow_spots
+  jsr sprite_only_draw_shadow_spots
 
   jsr hero_draw_status
 
@@ -1270,7 +1270,7 @@ keep_decrementing_camera_x:
   sta w1
   sta w1+1
 
-  jsr entity_slide_shadow_spots
+  jsr sprite_slide_shadow_spots
   .endscope
 
   jsr decode_map_column_left
@@ -1279,7 +1279,7 @@ keep_decrementing_camera_x:
 
   jsr entity_draw_all
 
-  jsr entity_only_draw_shadow_spots
+  jsr sprite_only_draw_shadow_spots
 
   jsr hero_draw_status
 
@@ -1315,7 +1315,7 @@ keep_incrementing_camera_y:
   lda #>(-1)
   sta w1+1
 
-  jsr entity_slide_shadow_spots
+  jsr sprite_slide_shadow_spots
   .endscope
 
   jsr decode_map_row_bottom
@@ -1324,7 +1324,7 @@ keep_incrementing_camera_y:
 
   jsr entity_draw_all
 
-  jsr entity_only_draw_shadow_spots
+  jsr sprite_only_draw_shadow_spots
 
   jsr hero_draw_status
 
@@ -1353,7 +1353,7 @@ keep_decrementing_camera_y:
   lda #>(1)
   sta w1+1
 
-  jsr entity_slide_shadow_spots
+  jsr sprite_slide_shadow_spots
   .endscope
 
   jsr decode_map_row_top
@@ -1362,7 +1362,7 @@ keep_decrementing_camera_y:
 
   jsr entity_draw_all
 
-  jsr entity_only_draw_shadow_spots
+  jsr sprite_only_draw_shadow_spots
 
   jsr hero_draw_status
 
