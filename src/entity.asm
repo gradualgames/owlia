@@ -402,6 +402,10 @@ found_dead_entity:
 .proc entity_update_npe
   switch_bank_ldy entities_bank
 
+  ;there are no sorted entities until they signify that they are
+  lda #$ff
+  sta sorted_entity_index
+
   ;iterate over all entities
   ldx #(MAX_ENTITIES-1)
 
@@ -566,6 +570,7 @@ entity_not_alive:
   ;against the player entities
   .scope
   ldx sorted_entity_index
+  bmi sort_hero_and_familiar
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_TEST
   beq sort_hero_and_familiar
@@ -607,7 +612,10 @@ done:
   ;iterate over all entities
   ldx #(MAX_ENTITIES-1)
 
-: lda entity_flags,x
+  ;skip the sorted entity and dead entities
+: cpx sorted_entity_index
+  beq :+
+  lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_TEST
   beq :+
   ;if we arrive here, we've found a living entity. Test to see if it is drawable.
