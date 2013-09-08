@@ -52,6 +52,56 @@
   rts
 .endproc
 
+;this routine loads all bg chr groups for the current area.
+.proc load_bg_chr_groups
+count = b0
+index = b1
+
+  ;make sure we're in the areas bank
+  switch_bank_ldy #AREAS_BANK
+  ;load address of bg chr groups
+  ldy #area::bg_chr_groups
+  sty index
+  lda (area_address),y
+  sta w4
+  iny
+  lda (area_address),y
+  sta w4+1
+
+  ;load count
+  ldy #0
+  sty index
+  lda (w4),y
+  sta count
+next_bg_chr_group:
+  ;make sure we're in the areas bank
+  switch_bank_ldy #AREAS_BANK
+
+  ;load bank number of this bg chr group
+  ldy index
+  iny
+  lda (w4),y
+  tax
+
+  ;load address of this bg chr group
+  iny
+  lda (w4),y
+  sta w0
+  iny
+  lda (w4),y
+  sta w0+1
+
+  sty index
+
+  switch_bank_x
+  jsr ppu_load_chr_amount
+
+  dec count
+  bne next_bg_chr_group
+
+  rts
+.endproc
+
 ;this routine loads all sprite chr groups for the current area, which
 ;basically just means it will load all chr data for entities into
 ;VRAM and remember where they were loaded in sprite_chr_group_addresses.
@@ -398,10 +448,6 @@ play_state_load_location:
   lda (area_address),y
   sta map_bank
 
-  ldy #area::bg_chr_bank
-  lda (area_address),y
-  sta bg_chr_bank
-
   ldy #area::conversations_bank
   lda (area_address),y
   sta conversations_bank
@@ -452,14 +498,7 @@ play_state_load_location:
   lda #$00
   sta b3
 
-  ldy #area::bg_chr_address
-  lda (area_address),y
-  sta w0
-  iny
-  lda (area_address),y
-  sta w0+1
-  switch_bank_ldy bg_chr_bank
-  jsr ppu_load_chr_amount
+  jsr load_bg_chr_groups
 
   ;grab tile accumulator to know where the textbox and font group begins
   lda b3
@@ -933,15 +972,7 @@ play_state_reload:
   sta b3
   sta b3+1
 
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::bg_chr_address
-  lda (area_address),y
-  sta w0
-  iny
-  lda (area_address),y
-  sta w0+1
-  switch_bank_ldy bg_chr_bank
-  jsr ppu_load_chr_amount
+  jsr load_bg_chr_groups
 
   ;b3 should now be the correct offset for the textbox and font graphics
   lda b3

@@ -6,9 +6,8 @@ AREAS_BANK = 2
 .struct area
   music_bank .byte
   map_bank .byte
-  bg_chr_bank .byte
   conversations_bank .byte
-  bg_chr_address .word
+  bg_chr_groups .word
   song_address .word
   textbox_attribute .byte
   map_address .word
