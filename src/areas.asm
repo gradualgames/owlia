@@ -233,9 +233,17 @@ meadow1_area:
   .word meadow1_big_metatile_table_bottom_right
 
 meadow1_area_bg_chr_groups:
-  .byte 1  ;count
+  .byte 5  ;count
   .byte 8  ;bank
-  .word map1_chr
+  .word meadow_grass_flowers
+  .byte 8
+  .word meadow_dirt1
+  .byte 8
+  .word meadow_dirt2
+  .byte 8
+  .word meadow_trees
+  .byte 8
+  .word meadow_trees_corners
 
 meadow2_area:
   .byte 0   ;music_bank .byte
@@ -258,9 +266,17 @@ meadow2_area:
   .word meadow2_big_metatile_table_bottom_right
 
 meadow2_area_bg_chr_groups:
-  .byte 1  ;count
+  .byte 5  ;count
   .byte 8  ;bank
-  .word map1_chr
+  .word meadow_grass_flowers
+  .byte 8
+  .word meadow_dirt1
+  .byte 8
+  .word meadow_dirt2
+  .byte 8
+  .word meadow_trees
+  .byte 8
+  .word meadow_trees_corners
 
 meadow3_area:
   .byte 0   ;music_bank .byte
@@ -283,9 +299,17 @@ meadow3_area:
   .word meadow3_big_metatile_table_bottom_right
 
 meadow3_area_bg_chr_groups:
-  .byte 1  ;count
+  .byte 5  ;count
   .byte 8  ;bank
-  .word map1_chr
+  .word meadow_grass_flowers
+  .byte 8
+  .word meadow_dirt1
+  .byte 8
+  .word meadow_dirt2
+  .byte 8
+  .word meadow_trees
+  .byte 8
+  .word meadow_trees_corners
 
 dungeon_area:
   .byte 0   ;music_bank .byte
