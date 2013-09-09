@@ -172,7 +172,11 @@ house_palette:
   .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$1a,$36,$0d,$0d,$15,$36
 
 meadow1_palette:
-  .byte $0e,$0a,$19,$15,$0e,$0a,$08,$19,$0e,$0a,$19,$28,$0e,$08,$19,$18
+  .byte $0e,$0a,$08,$19,$0e,$08,$19,$18,$0e,$0a,$19,$15,$0e,$0a,$19,$28
+  .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$17,$20,$0d,$0d,$18,$36
+
+meadow3_palette:
+  .byte $0e,$0a,$08,$19,$0e,$08,$19,$18,$00,$00,$00,$00,$00,$00,$00,$00
   .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$17,$20,$0d,$0d,$18,$36
 
 dungeon_palette:
@@ -297,7 +301,7 @@ define_location LOCATION_BRIGHTNESS_LEVEL_4,\
 ;meadow2 locations
 meadow3_southwest_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                area_index_meadow3, meadow1_entity_set, meadow1_entity_instances, meadow1_palette,\
+                area_index_meadow3, meadow1_entity_set, meadow1_entity_instances, meadow3_palette,\
                 0, 50, 8, 61,\
                 0, 0, 0, HERO_DIRECTION_LEFT
 
