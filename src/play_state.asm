@@ -631,6 +631,11 @@ play_state_load_location:
   sta map_address+1
 
   ;****************************************************************
+  ;Make sure dynamic single screen collision field is clear.
+  ;****************************************************************
+  jsr clear_dynamic_single_screen_collision_field
+
+  ;****************************************************************
   ;Fill the nametable with graphics from the newly loaded area,
   ;at the current location
   ;****************************************************************
