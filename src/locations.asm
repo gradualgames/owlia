@@ -40,6 +40,7 @@
     meadow2_north_entrance, \
     meadow2_east_entrance,\
     meadow3_southwest_entrance,\
+    meadow3_dungeon_entrance,\
     dungeon_entrance, \
     dungeon_room_a, \
     dungeon_room_b
@@ -298,12 +299,18 @@ define_location LOCATION_BRIGHTNESS_LEVEL_4,\
                 48, 15, 62, 22,\
                 0, 0, 0, HERO_DIRECTION_LEFT
 
-;meadow2 locations
+;meadow3 locations
 meadow3_southwest_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
                 area_index_meadow3, meadow1_entity_set, meadow1_entity_instances, meadow3_palette,\
                 0, 50, 8, 61,\
                 0, 0, 0, HERO_DIRECTION_LEFT
+
+meadow3_dungeon_entrance:
+define_location LOCATION_BRIGHTNESS_LEVEL_4,\
+                        area_index_meadow3, meadow1_entity_set, meadow1_entity_instances, meadow3_palette,\
+                        1, 0, 9, 2,\
+                        0, 0, 0, HERO_DIRECTION_DOWN
 
 ;dungeon locations
 dungeon_entrance:

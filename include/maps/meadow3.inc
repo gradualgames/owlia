@@ -43,7 +43,7 @@ metatile_table_properties:
 .byte ($10 | ACTION_NOP)
 .byte ($00 | ACTION_NOP)
 .byte ($10 | ACTION_NOP)
-.byte ($10 | ACTION_NOP)
+.byte ($10 | ACTION_GOTO_LOCATION_GROUP1)
 
 
 metatile_table_params:
@@ -91,7 +91,7 @@ metatile_table_params:
 .byte $00
 .byte $00
 .byte $00
-.byte $00
+.byte location_index_dungeon_entrance
 
 
 metatile_table_attributes:
@@ -163,3 +163,4 @@ map:
   .byte $06,$07,$18,$0c,$0c,$0c,$0c,$17,$16,$17,$16,$17,$16,$17,$16,$17,$16,$17,$16,$17,$16,$17,$16,$17,$16,$34,$08,$07,$08,$07,$08,$07
   .byte $0d,$07,$18,$0c,$0c,$0c,$35,$0e,$0f,$0e,$0f,$0e,$0f,$0e,$0f,$0e,$0f,$0e,$0f,$0e,$0f,$0e,$0f,$0e,$0f,$0e,$0f,$0e,$0f,$0e,$0f,$0e
   .byte $36,$37,$38,$39,$39,$39,$3a,$12,$13,$12,$13,$12,$13,$12,$13,$12,$13,$12,$13,$12,$13,$12,$13,$12,$13,$12,$13,$12,$13,$12,$13,$12
+
