@@ -313,7 +313,8 @@ skip_load_note:
 
 skip_volume_loop:
 
-  lda #%00110000
+  lda stream_channel_register_1,x
+  and #%11110000
   ora (sound_local_word_0),y
   sta stream_channel_register_1,x
 
