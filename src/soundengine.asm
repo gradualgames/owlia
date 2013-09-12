@@ -299,7 +299,7 @@ skip_load_note:
   ;load volume offset
   ldy stream_volume_offset,x
 
-  ;load volume value for this frame, but hard code flags and zero-out duty
+  ;load volume value for this frame, branch if opcode
   lda (sound_local_word_0),y
   cmp #ENV_STOP
   beq volume_stop
@@ -313,8 +313,13 @@ skip_load_note:
 
 skip_volume_loop:
 
+  ;initialize channel control register with envelope decay and
+  ;length counter disabled but preserving current duty cycle.
   lda stream_channel_register_1,x
-  and #%11110000
+  and #%11000000
+  ora #%00110000
+
+  ;load current volume value.
   ora (sound_local_word_0),y
   sta stream_channel_register_1,x
 
