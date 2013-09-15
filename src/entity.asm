@@ -400,7 +400,6 @@ found_dead_entity:
 
 ;Updates only non player entities.
 .proc entity_update_npe
-  switch_bank_ldy entities_bank
 
   ;there are no sorted entities until they signify that they are
   lda #$ff
@@ -419,6 +418,9 @@ found_dead_entity:
   sta w0
   lda entity_defs_update_address_hi,y
   sta w0+1
+  lda entity_defs_update_address_bank,y
+  tay
+  switch_bank_y
   jsr indirect_jsr_entity_update
 :
   dex
@@ -820,6 +822,10 @@ done_drawing_sorted:
 .proc entity_reset_animation
 animation_rom_address = w2
 
+  ;save calling bank
+  lda current_bank
+  pha
+
   switch_bank_ldy sprites_and_animations_bank
 
   lda entity_animation_address_lo,x
@@ -836,7 +842,10 @@ animation_rom_address = w2
   lda #0
   sta entity_animation_frame,x
 
-  switch_bank_ldy entities_bank
+  ;restore calling bank
+  pla
+  sta current_bank
+  switch_bank_ldy current_bank
 
   rts
 
@@ -846,6 +855,10 @@ animation_rom_address = w2
 ;assumes x is pointing to the current entity instance
 .proc entity_update_animation
 animation_rom_address = w2
+
+  ;save calling bank
+  lda current_bank
+  pha
 
   switch_bank_ldy sprites_and_animations_bank
 
@@ -878,7 +891,10 @@ animation_rom_address = w2
 
 :
 
-  switch_bank_ldy entities_bank
+  ;restore calling bank
+  pla
+  sta current_bank
+  switch_bank_ldy current_bank
 
   rts
 

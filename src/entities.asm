@@ -44,14 +44,25 @@ entity_defs_update_address_lo:
 entity_defs_update_address_hi:
   .hibytes entity_defs_update_address
 
-.segment "ROM03"
+entity_defs_update_address_bank:
+  .byte entity_update_bank_explosion
+  .byte entity_update_bank_bomb
+  .byte entity_update_bank_jellyfish
+  .byte entity_update_bank_npc
+  .byte entity_update_bank_key
+  .byte entity_update_bank_keyeddoor
+  .byte entity_update_bank_lantern
+  .byte entity_update_bank_item
+  .byte entity_update_bank_innkeep
 
+.segment "ROM03"
 .include "explosion.inc"
+.include "bomb.inc"
 .include "jellyfish.inc"
 .include "npc.inc"
 .include "key.inc"
+.segment "ROM04"
 .include "keyeddoor.inc"
-.include "bomb.inc"
 .include "lantern.inc"
 .include "item.inc"
 .include "innkeep.inc"
