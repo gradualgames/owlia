@@ -1,5 +1,10 @@
 .linecont +
 .include "entities.inc"
+.include "hero_constants.inc"
+.include "hero.inc"
+.include "familiar_constants.inc"
+.include "familiar.inc"
+.include "entities.inc"
 .include "sprite.inc"
 .include "sprite_chr_data.inc"
 .include "soundengine.inc"
@@ -79,8 +84,6 @@ npc_sprite_flags_direction:
   .byte %00000000, %01000000, %00000000, %00000000
   .byte %00000000, %01000000, %00000000, %00000000
 
-.include "hero.inc"
-.include "familiar.inc"
 .include "explosion.inc"
 .include "jellyfish.inc"
 .include "npc.inc"

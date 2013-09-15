@@ -1,5 +1,3 @@
-.include "hero_constants.inc"
-
 .ifndef HERO_INC
 HERO_INC = 1
 
