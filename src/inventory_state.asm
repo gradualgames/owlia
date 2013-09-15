@@ -117,9 +117,10 @@ inventory_state_init:
   lda #$00
   sta b3
 
-  lda #<Inventory_chr
+  ldx #sprite_chr_group_index_inventory
+  lda sprite_chr_group_addresses_lo,x
   sta w0
-  lda #>Inventory_chr
+  lda sprite_chr_group_addresses_hi,x
   sta w0+1
 
   ;store the current chr offset in sprite_chr_groups_chr_offsets array for the inventory sprites
@@ -127,7 +128,9 @@ inventory_state_init:
   lda b3
   sta sprite_chr_group_offsets,y
 
-  switch_bank_ldy #INVENTORY_STATE_SPRITE_CHR_BANK
+  lda sprite_chr_group_bank,y
+  tay
+  switch_bank_y
   jsr ppu_load_chr_amount
 
   ;load nametable data for inventory screen

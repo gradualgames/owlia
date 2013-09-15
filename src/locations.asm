@@ -55,7 +55,6 @@ locations_hi:
 ;****************************************************************
 village_entity_set:
   .byte 0  ;sprites_and_animations_bank .byte
-  .byte 1  ;sprite_chr_bank .byte
   .byte 7  ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -67,7 +66,6 @@ village_entity_set:
 
 house_entity_set:
   .byte 0   ;sprites_and_animations_bank .byte
-  .byte 1   ;sprite_chr_bank .byte
   .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -80,7 +78,6 @@ house_entity_set:
 
 meadow1_entity_set:
   .byte 0   ;sprites_and_animations_bank .byte
-  .byte 1   ;sprite_chr_bank .byte
   .byte 5   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -90,7 +87,6 @@ meadow1_entity_set:
 
 dungeon_entity_set:
   .byte 0   ;sprites_and_animations_bank .byte
-  .byte 1   ;sprite_chr_bank .byte
   .byte 7   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar

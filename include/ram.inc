@@ -11,7 +11,6 @@ MAX_SHADOW_SPOTS = 4
 .global map_bank
 .global sprites_and_animations_bank
 .global bg_chr_bank
-.global sprite_chr_bank
 .global conversations_bank
 
 .global textbox_attribute

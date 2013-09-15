@@ -52,11 +52,16 @@ title_state_init:
   lda #$00
   sta $2006
 
-  lda #<OwliaTitle_chr
+  ldx #sprite_chr_group_index_title
+  lda sprite_chr_group_addresses_lo,x
   sta w0
-  lda #>OwliaTitle_chr
+  lda sprite_chr_group_addresses_hi,x
   sta w0+1
-  switch_bank_ldy #TITLE_STATE_SPR_CHR_BANK
+
+  lda sprite_chr_group_bank,x
+  tay
+  switch_bank_y
+
   jsr ppu_load_chr_amount
 
   ;load nametable data for title screen
@@ -186,7 +191,7 @@ title_state_exit:
   sta sound_param_word_0+1
   jsr sfx_initialize
 
-  ldx #location_index_meadow3_dungeon_entrance
+  ldx #location_index_village_house1_entrance
   switch_bank_ldy #LOCATIONS_BANK
   lda locations_lo,x
   sta location_address

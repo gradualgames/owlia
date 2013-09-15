@@ -1,25 +1,9 @@
 .ifndef SPRITE_CHR_INC
 SPRITE_CHR_INC = 1
 
-SHADOWSPOT_SPR_CHR_BANK = 1
-
 .global sprite_chr_group_addresses_lo
 .global sprite_chr_group_addresses_hi
-
-.global hero_chr
-.global Familiar_chr
-.global JellyFish_chr
-.global explosion_chr
-.global ShadowSpot_chr
-.global NpcMan_chr
-.global NpcWoman_chr
-.global Key_chr
-.global Inventory_chr
-.global KeyedDoor_chr
-.global Bomb_chr
-.global Lantern_chr
-.global Coins_chr
-.global OwliaTitle_chr
+.global sprite_chr_group_bank
 
 .enum
 sprite_chr_group_index_hero
@@ -36,6 +20,23 @@ sprite_chr_group_index_keyeddoor
 sprite_chr_group_index_lantern
 sprite_chr_group_index_rope
 sprite_chr_group_index_coins
+sprite_chr_group_index_title
 .endenum
+
+sprite_chr_group_bank_hero = 1
+sprite_chr_group_bank_familiar = 1
+sprite_chr_group_bank_explosion = 1
+sprite_chr_group_bank_shadowspot = 1
+sprite_chr_group_bank_bomb = 1
+sprite_chr_group_bank_jellyfish = 1
+sprite_chr_group_bank_npcman = 1
+sprite_chr_group_bank_npcwoman = 1
+sprite_chr_group_bank_key = 2
+sprite_chr_group_bank_inventory = 2
+sprite_chr_group_bank_keyeddoor = 2
+sprite_chr_group_bank_lantern = 2
+sprite_chr_group_bank_rope = 2
+sprite_chr_group_bank_coins = 2
+sprite_chr_group_bank_title = 2
 
 .endif

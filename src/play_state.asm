@@ -144,9 +144,10 @@ next_entity_type:
   lda chr_offset
   sta sprite_chr_group_offsets,y
 
-  ;load the number of bytes in this chr chunk before loading it. we will use
-  ;it to calculate the chr offset for this entity type.
-  switch_bank_ldy sprite_chr_bank
+  ;switch to the bank that this chunk of chr data resides in
+  lda sprite_chr_group_bank,y
+  tay
+  switch_bank_y
 
   jsr ppu_load_chr_amount
 
@@ -464,10 +465,6 @@ play_state_load_location:
   lda (entity_set_address),y
   sta sprites_and_animations_bank
 
-  ldy #entity_set::sprite_chr_bank
-  lda (entity_set_address),y
-  sta sprite_chr_bank
-
   ;load other variables we need
   ldy #area::textbox_attribute
   lda (area_address),y
@@ -531,11 +528,13 @@ play_state_load_location:
   lda b3
   sta shadow_spot_chr_offset
 
-  lda #<ShadowSpot_chr
+  ldx #sprite_chr_group_index_shadowspot
+  lda sprite_chr_group_addresses_lo,x
   sta w0
-  lda #>ShadowSpot_chr
+  lda sprite_chr_group_addresses_hi,x
   sta w0+1
-  switch_bank_ldy #SHADOWSPOT_SPR_CHR_BANK
+  ldy sprite_chr_group_bank,x
+  switch_bank_y
   jsr ppu_load_chr_amount
 
   ;****************************************************************

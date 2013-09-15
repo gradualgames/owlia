@@ -17,12 +17,30 @@
   KeyedDoor_chr, \
   Lantern_chr, \
   Rope_chr, \
-  Coins_chr
+  Coins_chr, \
+  OwliaTitle_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
 sprite_chr_group_addresses_hi:
   .hibytes sprite_chr_group_addresses
+
+sprite_chr_group_bank:
+  .byte sprite_chr_group_bank_hero
+  .byte sprite_chr_group_bank_familiar
+  .byte sprite_chr_group_bank_explosion
+  .byte sprite_chr_group_bank_shadowspot
+  .byte sprite_chr_group_bank_bomb
+  .byte sprite_chr_group_bank_jellyfish
+  .byte sprite_chr_group_bank_npcman
+  .byte sprite_chr_group_bank_npcwoman
+  .byte sprite_chr_group_bank_key
+  .byte sprite_chr_group_bank_inventory
+  .byte sprite_chr_group_bank_keyeddoor
+  .byte sprite_chr_group_bank_lantern
+  .byte sprite_chr_group_bank_rope
+  .byte sprite_chr_group_bank_coins
+  .byte sprite_chr_group_bank_title
 
 .segment "ROM01"
 
@@ -195,6 +213,10 @@ ShadowSpot_chr:
   .word $0010
   .byte $00,$00,$7e,$ff,$ff,$7e,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
+Bomb_chr:
+  .word $0010
+  .byte $08,$3c,$7e,$7e,$7e,$7e,$3c,$00,$08,$04,$08,$00,$00,$00,$00,$00
+
 NpcMan_chr:
   .word $0290
   .byte $0f,$1c,$33,$21,$f0,$f9,$7b,$7b,$00,$0f,$1d,$1e,$0f,$66,$34,$15
@@ -289,6 +311,8 @@ NpcWoman_chr:
   .byte $c8,$67,$1f,$03,$01,$00,$00,$00,$37,$18,$00,$00,$00,$00,$00,$00
   .byte $8c,$f8,$f0,$f8,$f8,$00,$00,$00,$70,$00,$20,$40,$00,$00,$00,$00
 
+.segment "ROM02"
+
 Key_chr:
   .word $0020
   .byte $04,$42,$a1,$c1,$c1,$01,$87,$08,$38,$7c,$c6,$82,$82,$fe,$f8,$10
@@ -315,10 +339,6 @@ KeyedDoor_chr:
   .byte $80,$80,$80,$80,$81,$83,$81,$81,$7f,$7f,$7f,$7f,$7e,$7c,$7e,$7e
   .byte $81,$80,$80,$80,$80,$80,$80,$80,$7e,$7f,$7f,$7f,$7f,$7f,$7f,$7f
   .byte $80,$80,$80,$80,$80,$80,$80,$ff,$7f,$7f,$7f,$7f,$7f,$7f,$7f,$00
-
-Bomb_chr:
-  .word $0010
-  .byte $08,$3c,$7e,$7e,$7e,$7e,$3c,$00,$08,$04,$08,$00,$00,$00,$00,$00
 
 Lantern_chr:
   .word $0010
