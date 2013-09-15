@@ -55,6 +55,17 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_item
   .byte entity_update_bank_innkeep
 
+entity_defs_sprites_and_animations_bank:
+  .byte entity_sprites_and_animations_bank_explosion
+  .byte entity_sprites_and_animations_bank_bomb
+  .byte entity_sprites_and_animations_bank_jellyfish
+  .byte entity_sprites_and_animations_bank_npc
+  .byte entity_sprites_and_animations_bank_key
+  .byte entity_sprites_and_animations_bank_keyeddoor
+  .byte entity_sprites_and_animations_bank_lantern
+  .byte entity_sprites_and_animations_bank_item
+  .byte entity_sprites_and_animations_bank_innkeep
+
 .segment "ROM03"
 .include "explosion.inc"
 .include "bomb.inc"

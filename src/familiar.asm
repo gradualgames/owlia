@@ -20,6 +20,7 @@
 .include "entity.inc"
 .include "entities.inc"
 .include "map.inc"
+.include "mapper.inc"
 
 .segment "CODE"
 
@@ -369,6 +370,7 @@ does_not_intersect_textbox:
   lda familiar_animation_address+1
   sta w2+1
 
+  switch_bank_ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_draw_animation
 familiar_not_alive:
 
@@ -511,6 +513,7 @@ familiar_not_alive:
   sta w1
   lda #>familiar_animation_object
   sta w1+1
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_reset_animation
 
   ;load sprite group offset for the familiar
@@ -615,7 +618,7 @@ familiar_not_alive:
   sta w1
   lda #>familiar_animation_object
   sta w1+1
-
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
 
   dec familiar_state_counter
@@ -721,7 +724,7 @@ state_counter_not_zero:
   sta w1
   lda #>familiar_animation_object
   sta w1+1
-
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
 
   dec familiar_state_counter
@@ -875,7 +878,7 @@ bomb_has_been_dropped:
   sta w1
   lda #>familiar_animation_object
   sta w1+1
-
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
 
   dec familiar_state_counter
@@ -1176,7 +1179,7 @@ no_lantern:
   sta w1
   lda #>familiar_animation_object
   sta w1+1
-
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
 
   rts
@@ -1613,7 +1616,7 @@ familiar_not_at_goal:
   sta w1
   lda #>familiar_animation_object
   sta w1+1
-
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
 
   rts
@@ -2009,7 +2012,7 @@ do_not_switch_to_home_in_to_hero:
   sta w1
   lda #>familiar_animation_object
   sta w1+1
-
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
 
   rts
@@ -2488,7 +2491,7 @@ do_not_change_direction:
   sta w1
   lda #>familiar_animation_object
   sta w1+1
-
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
 
   rts

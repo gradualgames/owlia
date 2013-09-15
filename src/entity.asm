@@ -566,8 +566,6 @@ entity_not_alive:
 ;to provide shared functionality without duplicating code.
 .proc entity_draw_all
 
-  switch_bank_ldy sprites_and_animations_bank
-
   ;check to see if there is an entity that wants to be sorted
   ;against the player entities
   .scope
@@ -609,8 +607,6 @@ done:
 
 ;draws all non player entities
 .proc entity_draw_npe
-  switch_bank_ldy sprites_and_animations_bank
-
   ;iterate over all entities
   ldx #(MAX_ENTITIES-1)
 
@@ -653,6 +649,12 @@ done:
   sta w2
   lda entity_animation_address_hi,x
   sta w2+1
+
+  ;switch to the bank containing the sprites and animations for this entity type
+  ldy entity_type,x
+  lda entity_defs_sprites_and_animations_bank,y
+  tay
+  switch_bank_y
 
   jsr sprite_draw_animation_frame
 :
@@ -697,6 +699,12 @@ done:
   sta w2
   lda entity_animation_address_hi,x
   sta w2+1
+
+  ;switch to the bank containing the sprites and animations for this entity type
+  ldy entity_type,x
+  lda entity_defs_sprites_and_animations_bank,y
+  tay
+  switch_bank_y
 
   jsr sprite_draw_animation_frame
   rts
@@ -826,7 +834,10 @@ animation_rom_address = w2
   lda current_bank
   pha
 
-  switch_bank_ldy sprites_and_animations_bank
+  ldy entity_type,x
+  lda entity_defs_sprites_and_animations_bank,y
+  tay
+  switch_bank_y
 
   lda entity_animation_address_lo,x
   sta animation_rom_address
@@ -860,7 +871,10 @@ animation_rom_address = w2
   lda current_bank
   pha
 
-  switch_bank_ldy sprites_and_animations_bank
+  ldy entity_type,x
+  lda entity_defs_sprites_and_animations_bank,y
+  tay
+  switch_bank_y
 
   lda entity_animation_address_lo,x
   sta animation_rom_address

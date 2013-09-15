@@ -4,6 +4,7 @@ ENTITIES_INC = 1
 .global entity_defs_update_address_lo
 .global entity_defs_update_address_hi
 .global entity_defs_update_address_bank
+.global entity_defs_sprites_and_animations_bank
 
 .enum
 entity_index_explosion
@@ -26,5 +27,15 @@ entity_update_bank_keyeddoor = 4
 entity_update_bank_lantern = 4
 entity_update_bank_item = 4
 entity_update_bank_innkeep = 4
+
+entity_sprites_and_animations_bank_explosion = 0
+entity_sprites_and_animations_bank_bomb = 0
+entity_sprites_and_animations_bank_jellyfish = 0
+entity_sprites_and_animations_bank_npc = 0
+entity_sprites_and_animations_bank_key = 1
+entity_sprites_and_animations_bank_keyeddoor = 1
+entity_sprites_and_animations_bank_lantern = 1
+entity_sprites_and_animations_bank_item = 1
+entity_sprites_and_animations_bank_innkeep = 1
 
 .endif

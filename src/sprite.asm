@@ -62,6 +62,7 @@ animation_rom_address = w2
 
 ;resets the animation_ram object at w1 using
 ;the frame_delay member of w2
+;expects the y register to hold the bank the animation
 .proc sprite_reset_animation
 animation_ram_address = w1
 animation_rom_address = w2
@@ -69,7 +70,7 @@ animation_rom_address = w2
   ;save calling bank
   lda current_bank
   pha
-  switch_bank_ldy sprites_and_animations_bank
+  switch_bank_y
 
   ;reset the counter
   ldy #animation_ram::counter ;same as animation_rom::frame_delay
@@ -92,6 +93,8 @@ animation_rom_address = w2
 
 ;updates the animation_ram object at w1 against
 ;the animation_rom definition at w2
+;expects the y register to hold the bank the animation
+;and metasprite definitions live in
 .proc sprite_update_animation
 animation_ram_address = w1
 animation_rom_address = w2
@@ -99,7 +102,7 @@ animation_rom_address = w2
   ;save calling bank
   lda current_bank
   pha
-  switch_bank_ldy sprites_and_animations_bank
+  switch_bank_y
 
   ldy #animation_ram::counter ;same as animation_rom::frame_delay
   sec

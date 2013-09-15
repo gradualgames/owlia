@@ -489,6 +489,7 @@ start_trampoline #HERO_BANK, HERO_SEGMENT
   lda #>hero_animation_object
   sta w1+1
 
+  ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_reset_animation
 
   ;play a sound
@@ -568,6 +569,7 @@ done:
   lda #>hero_animation_object
   sta w1+1
 
+  ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_reset_animation
 
 do_not_switch_to_throw_state:
@@ -635,6 +637,7 @@ start_trampoline #HERO_BANK, HERO_SEGMENT
   lda #>hero_animation_object
   sta w1+1
 
+  ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_reset_animation
 
   lda #ACTION_NOP
@@ -776,7 +779,7 @@ end_trampoline
   sta w2
   lda hero_animation_address+1
   sta w2+1
-
+  switch_bank_ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_draw_animation
 do_not_draw:
 
@@ -787,6 +790,7 @@ do_not_draw:
 ;Draws the hero's health status.
 ;This assumes the current bank is the sprites and animations bank!
 .proc hero_draw_status
+  switch_bank_ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
 
   lda hero_sprite_group_offset
   sta chr_group_offset
@@ -860,7 +864,6 @@ done:
   lda #0
   sta b2
   jsr sprite_draw_metasprite
-
 
   rts
 
@@ -1118,6 +1121,7 @@ hero_state_init:
   sta w1
   lda #>hero_animation_object
   sta w1+1
+  ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_reset_animation
 
   ldy hero_direction
@@ -1292,6 +1296,7 @@ hero_not_invincible:
   sta w2
   lda hero_animation_address+1
   sta w2+1
+  ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
 do_not_animate_hero:
 
@@ -1386,6 +1391,7 @@ hero_not_invincible:
   sta w2
   lda hero_animation_address+1
   sta w2+1
+  ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
 
   dec hero_state_counter
@@ -1403,7 +1409,7 @@ hero_not_invincible:
   sta w1
   lda #>hero_animation_object
   sta w1+1
-
+  ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_reset_animation
 
   lda #ACTION_NOP
@@ -1476,6 +1482,7 @@ hero_not_invincible:
   sta w2
   lda hero_animation_address+1
   sta w2+1
+  ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
 
   dec hero_state_counter
@@ -1493,7 +1500,7 @@ hero_not_invincible:
   sta w1
   lda #>hero_animation_object
   sta w1+1
-
+  ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_reset_animation
 
   lda #ACTION_NOP
