@@ -187,6 +187,7 @@ title_state_exit:
   jsr sfx_initialize
 
   ldx #location_index_meadow3_dungeon_entrance
+  switch_bank_ldy #LOCATIONS_BANK
   lda locations_lo,x
   sta location_address
   lda locations_hi,x

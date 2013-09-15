@@ -1138,13 +1138,13 @@ play_state_action_goto_location_group1:
 
   ;load the location to transition to
   ldx state_control_params+play_state_control::param
+  switch_bank_ldy #LOCATIONS_BANK
   lda locations_lo,x
   sta location_address
   lda locations_hi,x
   sta location_address+1
 
   ;play associated sound effect with this location
-  switch_bank_ldy #LOCATIONS_BANK
   ldy #location::on_enter_sfx_address
   lda (location_address),y
   sta sound_param_word_0

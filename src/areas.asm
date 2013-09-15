@@ -8,7 +8,7 @@
 .include "entities.inc"
 .include "conversation_data.inc"
 
-.segment "CODE"
+.segment "ROM02"
 
 ;****************************************************************
 ;Area LUTs
@@ -31,8 +31,6 @@ areas_lo:
 
 areas_hi:
   .hibytes areas
-
-.segment "ROM02"
 
 ;****************************************************************
 ;Area definitions.

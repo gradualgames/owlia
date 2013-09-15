@@ -13,7 +13,7 @@
 .include "ram.inc"
 .include "inventory.inc"
 
-.segment "CODE"
+.segment "ROM02"
 
 ;****************************************************************
 ;Location LUTs
@@ -49,8 +49,6 @@ locations_lo:
   .lobytes locations
 locations_hi:
   .hibytes locations
-
-.segment "ROM02"
 
 ;****************************************************************
 ;Entity sets.
