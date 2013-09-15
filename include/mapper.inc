@@ -28,5 +28,5 @@ MAPPER_INC = 1
   lda bank_table,x
   sta bank_table,x
 .endmacro
-  
+
 .endif
