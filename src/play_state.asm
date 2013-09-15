@@ -510,12 +510,9 @@ play_state_load_location:
   sta $2006
 
   switch_bank_ldy #LOCATIONS_BANK
-  clc
   lda entity_set_address
-  adc #entity_set::sprite_chr_groups
   sta w4
   lda entity_set_address+1
-  adc #$00
   sta w4+1
   jsr load_sprite_chr_groups
 
@@ -991,12 +988,9 @@ play_state_reload:
   sta $2006
 
   switch_bank_ldy #LOCATIONS_BANK
-  clc
   lda entity_set_address
-  adc #entity_set::sprite_chr_groups
   sta w4
   lda entity_set_address+1
-  adc #$00
   sta w4+1
   jsr load_sprite_chr_groups
 

@@ -25,12 +25,6 @@ LOCATION_BRIGHTNESS_LEVEL_2 = %00001000
 LOCATION_BRIGHTNESS_LEVEL_3 = %00001100
 LOCATION_BRIGHTNESS_LEVEL_4 = %00010000
 
-.struct entity_set
-  sprites_and_animations_bank .byte
-  sprite_chr_groups .byte  ;note, this is a count, and it is expected that several
-                        ;addresses of sprite chr data will follow this count.
-.endstruct
-
 .struct location
   flags .byte
   area_index .byte
