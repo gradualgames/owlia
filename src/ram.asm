@@ -13,7 +13,6 @@ next_sprite_address: .res 1
 ;****************************************************************
 music_bank: .res 1
 map_bank: .res 1
-entities_bank: .res 1
 sprites_and_animations_bank: .res 1
 bg_chr_bank: .res 1
 sprite_chr_bank: .res 1

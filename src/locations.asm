@@ -54,7 +54,6 @@ locations_hi:
 ;Entity sets.
 ;****************************************************************
 village_entity_set:
-  .byte 3  ;entities_bank
   .byte 0  ;sprites_and_animations_bank .byte
   .byte 1  ;sprite_chr_bank .byte
   .byte 7  ;sprite_chr_groups .byte
@@ -67,7 +66,6 @@ village_entity_set:
   .byte sprite_chr_group_index_jellyfish
 
 house_entity_set:
-  .byte 3   ;entities_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;sprite_chr_bank .byte
   .byte 8   ;sprite_chr_groups .byte
@@ -81,7 +79,6 @@ house_entity_set:
   .byte sprite_chr_group_index_npcwoman
 
 meadow1_entity_set:
-  .byte 3   ;entities_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;sprite_chr_bank .byte
   .byte 5   ;sprite_chr_groups .byte
@@ -92,7 +89,6 @@ meadow1_entity_set:
   .byte sprite_chr_group_index_lantern
 
 dungeon_entity_set:
-  .byte 3   ;entities_bank .byte
   .byte 0   ;sprites_and_animations_bank .byte
   .byte 1   ;sprite_chr_bank .byte
   .byte 7   ;sprite_chr_groups .byte

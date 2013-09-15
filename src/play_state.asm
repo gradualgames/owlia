@@ -460,10 +460,6 @@ play_state_load_location:
   lda (location_address),y
   sta entity_set_address+1
 
-  ldy #entity_set::entities_bank
-  lda (entity_set_address),y
-  sta entities_bank
-
   ldy #entity_set::sprites_and_animations_bank
   lda (entity_set_address),y
   sta sprites_and_animations_bank

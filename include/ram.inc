@@ -9,7 +9,6 @@ MAX_SHADOW_SPOTS = 4
 
 .global music_bank
 .global map_bank
-.global entities_bank
 .global sprites_and_animations_bank
 .global bg_chr_bank
 .global sprite_chr_bank
