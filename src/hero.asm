@@ -24,8 +24,11 @@
 
 .segment "CODE"
 
+.segment "CODE"
 .proc hero_face_in_current_direction
-
+  define_trampoline #HERO_BANK
+.segment "ROM02"
+impl:
   lda hero_direction
   tay
   lda main_animation_addresses_lo,y
@@ -41,8 +44,11 @@
 
 .endproc
 
+.segment "CODE"
 .proc hero_turn_clockwise
-
+  define_trampoline #HERO_BANK
+.segment "ROM02"
+impl:
   ldy hero_direction
   lda hero_turn_right_direction,y
   sta hero_direction
@@ -50,10 +56,13 @@
 
 .endproc
 
+.segment "CODE"
 .proc hero_prepare_familiar_carry_hero
 tile_x = w7
 tile_y = w8
-
+  define_trampoline #HERO_BANK
+.segment "ROM02"
+impl:
   ;check to see if the metatile the hero is currently standing on contains ACTION_CARRY_TO
   clc
   lda hero_x
@@ -277,8 +286,11 @@ done:
 ;the hero across a ravine. The prepare routine first
 ;tests to see if carrying should even occur (standing
 ;on a tile that has the carry action).
+.segment "CODE"
 .proc hero_spawn_familiar_spawn_carry_hero
-
+  define_trampoline #HERO_BANK
+.segment "ROM02"
+impl:
   jsr hero_prepare_familiar_carry_hero
   lda hero_state
   cmp #HERO_STATE_CARRIED
@@ -290,32 +302,13 @@ skip_spawn_carry_hero:
 
 .endproc
 
-;This routine is a placeholder for the owl carry lantern technique. All it
-;does is spawn a lantern entity, for testing.
-.proc spawn_lantern_test
-
-  lda #entity_index_lantern
-  sta b0
-
-  lda hero_x
-  sta w0
-  lda hero_x+1
-  sta w0+1
-  lda hero_y
-  sta w1
-  lda hero_y+1
-  sta w1+1
-
-  jsr entity_spawn
-
-  rts
-
-.endproc
-
 ;This routine is just a wrapper for the familiar's carry bomb spawn routine and checks the bomb
 ;inventory to see if it is even possible to spawn this technique right now.
+.segment "CODE"
 .proc hero_spawn_familiar_spawn_carry_bomb
-
+  define_trampoline #HERO_BANK
+.segment "ROM02"
+impl:
   .ifndef INFINITE_ITEMS
   lda inventory_bombs
   beq no_bombs_left
@@ -351,8 +344,11 @@ no_bombs_left:
 
 ;This routine is just a wrapper for the familiar's carry lantern spawn routine and checks the lantern
 ;inventory to see if it is even possible to spawn this technique right now.
+.segment "CODE"
 .proc hero_spawn_familiar_spawn_carry_lantern
-
+  define_trampoline #HERO_BANK
+.segment "ROM02"
+impl:
   .ifndef INFINITE_ITEMS
   lda inventory_lanterns
   beq no_lanterns_left
@@ -393,9 +389,12 @@ no_lanterns_left:
 ;it is expected to be one of the four HERO_DIRECTION enum values. A
 ;negative value means to knock the hero in the opposite direction that
 ;she is facing.
+.segment "CODE"
 .proc hero_hurt
 hero_knockback_direction = b0
-
+  define_trampoline #HERO_BANK
+.segment "ROM02"
+impl:
   ; -if hero_invincibility_counter is 0
   lda hero_invincibility_counter
   bne hero_invincible
@@ -462,8 +461,11 @@ hero_invincible:
 ;when the a button is pressed. Entities can override
 ;this behavior by calling another state setup routine
 ;to cancel the attack.
+.segment "CODE"
 .proc hero_attack
-
+  define_trampoline #HERO_BANK
+.segment "ROM02"
+impl:
   lda #ACTION_ATTACK
   sta entity_action_rect1_action
 
@@ -529,8 +531,11 @@ familiar_spawn_tech_hi:
 
 ;Spawns the familiar based on whether tech 1 or tech 2 is
 ;currently selected, and looks up the correct spawn routine.
+.segment "CODE"
 .proc hero_spawn_familiar
-
+  define_trampoline #HERO_BANK
+.segment "ROM02"
+impl:
   lda familiar_flags
   and #FAMILIAR_FLAGS_ALIVE_TEST
   bne familiar_still_alive
@@ -584,8 +589,8 @@ familiar_still_alive:
 .endproc
 
 ;used by the familiar when setting down the hero after carrying her.
+.segment "CODE"
 .proc hero_set_down
-
   lda #ACTION_NOP
   sta entity_action_rect1_action
 
@@ -599,6 +604,7 @@ familiar_still_alive:
 ;used by any entity which is presenting some confirm/cancel dialog
 ;where it does not want the hero to respond to input for a few frames
 ;expects b0 to contain how many frames to wait
+.segment "CODE"
 .proc hero_wait_frames
 
   lda b0
@@ -618,8 +624,11 @@ familiar_still_alive:
 ;a button which is to attack. This restores the state to a normal
 ;walking state, and also stops the sound effect that was loaded
 ;by the attack routine from playing.
+.segment "CODE"
 .proc hero_cancel_attack
-
+  define_trampoline #HERO_BANK
+.segment "ROM02"
+impl:
   ;get the direction we're facing and look up the animation address
   lda hero_direction
   tay
@@ -658,8 +667,11 @@ familiar_still_alive:
 
 .endproc
 
+.segment "CODE"
 .proc align_hero_if_occluded_by_textbox
-
+  define_trampoline #HERO_BANK
+.segment "ROM02"
+impl:
   ;transfer hero rectangle to w2 = left and w3 = top and b2 = width and b3 = height
   lda hero_screen_x
   sta w2
@@ -714,8 +726,11 @@ does_not_intersect_textbox:
 
 .endproc
 
+.segment "CODE"
 .proc hero_calculate_screen_coordinates
-
+  define_trampoline #HERO_BANK
+.segment "ROM02"
+impl:
   sec
   lda hero_x
   sbc camera_x
@@ -746,6 +761,7 @@ does_not_intersect_textbox:
 
 .endproc
 
+.segment "CODE"
 .proc hero_draw
 
   lda hero_flags
@@ -787,6 +803,7 @@ do_not_draw:
 
 ;Draws the hero's health status.
 ;This assumes the current bank is the sprites and animations bank!
+.segment "CODE"
 .proc hero_draw_status
   switch_bank_ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
 
@@ -868,6 +885,7 @@ done:
 .endproc
 
 ;clears zero flag if hero is moving, set it if not
+.segment "CODE"
 .proc hero_is_moving
 
   lda hero_flags
@@ -881,6 +899,7 @@ done:
 ;Kind of odd juxtaposed against hero_is_moving, however
 ;hero_is_moving is a sub-state of the main state, really,
 ;whereas the attack state is a separate state.
+.segment "CODE"
 .proc hero_is_attacking
 
   lda hero_state
@@ -976,6 +995,8 @@ skip_goto_location:
 
 .endmacro
 
+.segment "ROM02"
+
 hero_direction_to_direction_handlers_index:
   .byte 1, 2, 4, 8
 
@@ -1055,8 +1076,6 @@ attack_rect_offset_y_lo:
 
 attack_rect_offset_y_hi:
   .byte 0, 0, 0, $ff
-
-.segment "ROM02"
 
 hero_update:
 
