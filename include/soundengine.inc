@@ -1,6 +1,8 @@
 .ifndef SOUNDENGINE_INC
 SOUNDENGINE_INC = 1
 
+.globalzp tempo_counter
+.globalzp tempo
 .globalzp apu_data_ready
 .globalzp apu_square_1_old
 .globalzp apu_square_2_old

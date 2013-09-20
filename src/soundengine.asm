@@ -2,6 +2,9 @@
 .include "soundengine.inc"
 
 .segment "ZEROPAGE"
+tempo_counter: .res 2
+tempo:          .res 2
+
 sound_local_byte_0: .res 1
 sound_local_byte_1: .res 1
 sound_local_byte_2: .res 1
@@ -118,6 +121,13 @@ loop:
   lda #0
   sta apu_data_ready
 
+  ;see if tempo counter is going to set carry bit
+  ;and update music streams if so
+  clc
+  lda tempo_counter
+  adc tempo
+  bcc do_not_update_music
+
   ;first copy all music streams, or the first four streams
   lda song_base_address_volume_envelopes
   sta base_address_volume_envelopes
@@ -162,6 +172,16 @@ song_stream_not_active:
   inx
   cpx #4
   bne song_stream_register_copy_loop
+do_not_update_music:
+
+  ;update tempo counter
+  clc
+  lda tempo_counter
+  adc tempo
+  sta tempo_counter
+  lda tempo_counter+1
+  adc tempo+1
+  sta tempo_counter+1
 
   ;next, copy all sfx streams, or the last four streams
   lda sfx_base_address_volume_envelopes
@@ -772,8 +792,21 @@ volume_stop:
   txa
   pha
 
-  ;load square 1 stream
+  ;initialize tempo
+  lda #0
+  sta tempo_counter
+  sta tempo_counter+1
+
+  ;load tempo
   ldy #0
+  lda (song_address),y
+  sta tempo
+  iny
+  lda (song_address),y
+  sta tempo+1
+
+  ;load square 1 stream
+  iny
   lda (song_address),y
   sta sound_param_word_0
   iny
@@ -1184,14 +1217,6 @@ noise:
   sta $400E
   lda apu_register_sets+15
   sta $400F
-
-  ;clear out all volume values from this frame in case a sound effect is killed suddenly
-  lda #%00110000
-  sta apu_register_sets
-  sta apu_register_sets+4
-  sta apu_register_sets+12
-  lda #%10000000
-  sta apu_register_sets+8
 
   rts
 .endproc

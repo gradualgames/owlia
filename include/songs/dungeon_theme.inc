@@ -1,5 +1,6 @@
 
-Song1: 
+Song1:
+  .word 255
   .word Square1
   .word Square2
   .word Triangle
