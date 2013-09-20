@@ -290,7 +290,7 @@ meadow3_southwest_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
                 area_index_meadow3, meadow1_entity_set, meadow1_entity_instances, meadow3_palette,\
                 0, 50, 8, 61,\
-                0, 0, 0, HERO_DIRECTION_LEFT
+                0, 0, 0, HERO_DIRECTION_UP
 
 meadow3_dungeon_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
