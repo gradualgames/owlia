@@ -1,6 +1,6 @@
 
 Song1:
-  .word 255
+  .byte 255
   .word Square1
   .word 0
   .word 0

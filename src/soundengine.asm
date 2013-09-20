@@ -3,7 +3,7 @@
 
 .segment "ZEROPAGE"
 tempo_counter: .res 2
-tempo:          .res 2
+tempo:          .res 1
 
 sound_local_byte_0: .res 1
 sound_local_byte_1: .res 1
@@ -180,7 +180,7 @@ do_not_update_music:
   adc tempo
   sta tempo_counter
   lda tempo_counter+1
-  adc tempo+1
+  adc #0
   sta tempo_counter+1
 
   ;next, copy all sfx streams, or the last four streams
@@ -801,9 +801,6 @@ volume_stop:
   ldy #0
   lda (song_address),y
   sta tempo
-  iny
-  lda (song_address),y
-  sta tempo+1
 
   ;load square 1 stream
   iny
