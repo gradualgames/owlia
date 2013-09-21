@@ -75,12 +75,13 @@ house_entity_set:
   .byte sprite_chr_group_index_npcwoman
 
 meadow1_entity_set:
-  .byte 5   ;sprite_chr_groups .byte
+  .byte 6   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_pufferfish
 
 dungeon_entity_set:
   .byte 7   ;sprite_chr_groups .byte
@@ -136,7 +137,8 @@ store_entity_instances:
   .byte entity_index_item, 13, 18, sprite_chr_group_index_coins, 10, <Coins, >Coins, <inventory_gp, >inventory_gp, 0, 0, 100, <INVENTORY_MAX_GP, >INVENTORY_MAX_GP, ITEM_PICKUP | ITEM_16_BIT_VAR
 
 meadow1_entity_instances:
-  .byte 0  ;count
+  .byte 1  ;count
+  .byte entity_index_pufferfish, 52, 23, sprite_chr_group_index_pufferfish, 0
 
 dungeon_entity_instances:
   .byte 6  ;count
@@ -160,7 +162,7 @@ house_palette:
 
 meadow1_palette:
   .byte $0e,$0a,$08,$19,$0e,$08,$19,$18,$0e,$0a,$19,$15,$0e,$0a,$19,$28
-  .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$17,$20,$0d,$0d,$18,$36
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
 
 meadow3_palette:
   .byte $0e,$0a,$08,$19,$0e,$08,$19,$18,$00,$00,$00,$00,$00,$00,$00,$00

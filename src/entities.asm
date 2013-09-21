@@ -37,7 +37,8 @@
   keyeddoor_update, \
   lantern_update, \
   item_update, \
-  innkeep_update
+  innkeep_update, \
+  pufferfish_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -54,6 +55,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_lantern
   .byte entity_update_bank_item
   .byte entity_update_bank_innkeep
+  .byte entity_update_bank_pufferfish
 
 entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_explosion
@@ -65,6 +67,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_lantern
   .byte entity_sprites_and_animations_bank_item
   .byte entity_sprites_and_animations_bank_innkeep
+  .byte entity_sprites_and_animations_bank_pufferfish
 
 .segment "ROM03"
 .include "explosion.inc"
@@ -77,3 +80,4 @@ entity_defs_sprites_and_animations_bank:
 .include "lantern.inc"
 .include "item.inc"
 .include "innkeep.inc"
+.include "pufferfish.inc"

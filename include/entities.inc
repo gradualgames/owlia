@@ -16,6 +16,7 @@ entity_index_keyeddoor
 entity_index_lantern
 entity_index_item
 entity_index_innkeep
+entity_index_pufferfish
 .endenum
 
 entity_update_bank_explosion = 3
@@ -27,6 +28,7 @@ entity_update_bank_keyeddoor = 4
 entity_update_bank_lantern = 4
 entity_update_bank_item = 4
 entity_update_bank_innkeep = 4
+entity_update_bank_pufferfish = 4
 
 entity_sprites_and_animations_bank_explosion = 0
 entity_sprites_and_animations_bank_bomb = 0
@@ -37,5 +39,6 @@ entity_sprites_and_animations_bank_keyeddoor = 1
 entity_sprites_and_animations_bank_lantern = 1
 entity_sprites_and_animations_bank_item = 1
 entity_sprites_and_animations_bank_innkeep = 1
+entity_sprites_and_animations_bank_pufferfish = 1
 
 .endif

@@ -59,4 +59,23 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global OwliaTitle0
 .global OwliaTitle1
 
+.global PufferFishPuffedDown0
+.global PufferFishPuffedDown1
+.global PufferFishUnpuffedDown0
+.global PufferFishUnpuffedDown1
+.global PufferFishPuffedUp0
+.global PufferFishPuffedUp1
+.global PufferFishUnpuffedUp0
+.global PufferFishUnpuffedUp1
+.global PufferFishPuffedSide0
+.global PufferFishPuffedSide1
+.global PufferFishUnpuffedSide0
+.global PufferFishUnpuffedSide1
+
+.global PufferFishPuffedDown
+.global PufferFishUnpuffedDown
+.global PufferFishUnpuffedUp
+.global Animation
+.global PufferFishPuffedSide
+
 .endif
