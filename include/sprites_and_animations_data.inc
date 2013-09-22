@@ -75,7 +75,8 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global PufferFishPuffedDown
 .global PufferFishUnpuffedDown
 .global PufferFishUnpuffedUp
-.global Animation
+.global PufferFishPuffedUp
 .global PufferFishPuffedSide
+.global PufferFishUnpuffedSide
 
 .endif

@@ -8,22 +8,80 @@ PUFFERFISH_HEIGHT = $0f
 PUFFERFISH_BOB_ACCELERATION = 10
 PUFFERFISH_BOB_MAX_VELOCITY = 150
 
+PUFFERFISH_SPEED = 100
+
+PUFFERFISH_INITIAL_DIRECTION = PUFFERFISH_DIRECTION_RIGHT
+
 ;re-use the built in X coordinate because there is no offset
 pufferfish_shadow_spot_x_lo = entity_x_lo
 pufferfish_shadow_spot_x_hi = entity_x_hi
+pufferfish_shadow_spot_x_fine = entity_local0
 
 ;supply new Y coordinate; the entity Y coordinate will be computed
 ;to be offset from this on every frame
-pufferfish_shadow_spot_y_lo = entity_local0
-pufferfish_shadow_spot_y_hi = entity_local1
+pufferfish_shadow_spot_y_lo = entity_local1
+pufferfish_shadow_spot_y_hi = entity_local2
+pufferfish_shadow_spot_y_fine = entity_local3
 
 ;variables for making the pufferfish bob slowly up and down over a
 ;shadow spot
-bob_altitude_lo = entity_local2
-bob_altitude_hi = entity_local3
-bob_altitude_fine = entity_local4
-bob_velocity_lo = entity_local5
-bob_velocity_hi = entity_local6
+bob_altitude_lo = entity_local4
+bob_altitude_hi = entity_local5
+bob_altitude_fine = entity_local6
+bob_velocity_lo = entity_local7
+bob_velocity_hi = entity_local8
+
+pufferfish_direction = entity_local9
+
+.enum
+PUFFERFISH_DIRECTION_RIGHT
+PUFFERFISH_DIRECTION_LEFT
+PUFFERFISH_DIRECTION_DOWN
+PUFFERFISH_DIRECTION_UP
+.endenum
+
+.define pufferfish_unpuffed_animation_addresses \
+  PufferFishUnpuffedSide, \
+  PufferFishUnpuffedSide, \
+  PufferFishUnpuffedDown, \
+  PufferFishUnpuffedUp
+
+pufferfish_unpuffed_animation_addresses_lo:
+  .lobytes pufferfish_unpuffed_animation_addresses
+
+pufferfish_unpuffed_animation_addresses_hi:
+  .hibytes pufferfish_unpuffed_animation_addresses
+
+.define pufferfish_puffed_animation_addresses \
+  PufferFishPuffedSide, \
+  PufferFishPuffedSide, \
+  PufferFishPuffedDown, \
+  PufferFishPuffedUp
+
+pufferfish_puffed_animation_addresses_lo:
+  .lobytes pufferfish_puffed_animation_addresses
+
+pufferfish_puffed_animation_addresses_hi:
+  .hibytes pufferfish_puffed_animation_addresses
+
+pufferfish_sprite_flags_direction:
+  .byte %00000000, %01000000, %00000000, %00000000
+
+.define pufferfish_direction_speed_x PUFFERFISH_SPEED, -PUFFERFISH_SPEED, 0, 0
+
+pufferfish_direction_speed_x_lo:
+  .lobytes pufferfish_direction_speed_x
+
+pufferfish_direction_speed_x_hi:
+  .hibytes pufferfish_direction_speed_x
+
+.define pufferfish_direction_speed_y 0, 0, PUFFERFISH_SPEED, -PUFFERFISH_SPEED
+
+pufferfish_direction_speed_y_lo:
+  .lobytes pufferfish_direction_speed_y
+
+pufferfish_direction_speed_y_hi:
+  .hibytes pufferfish_direction_speed_y
 
 .enum
 PUFFERFISH_STATE_INIT
@@ -94,6 +152,11 @@ pufferfish_state_init:
   sta pufferfish_shadow_spot_y_hi,x
 
   jsr pufferfish_compute_coordinates
+
+  lda #PUFFERFISH_INITIAL_DIRECTION
+  sta pufferfish_direction,x
+
+  jsr pufferfish_get_animation_params_from_direction
 
   lda #PUFFERFISH_STATE_BOB_UP
   sta entity_state,x
@@ -214,6 +277,68 @@ do_not_switch_state:
 
 .proc pufferfish_main
 
+  ldy pufferfish_direction,x
+
+  .scope
+  lda pufferfish_direction_speed_x_hi,y
+  bmi sign_extend_negative
+sign_extend_positive:
+  clc
+  lda pufferfish_shadow_spot_x_fine,x
+  adc pufferfish_direction_speed_x_lo,y
+  sta pufferfish_shadow_spot_x_fine,x
+  lda pufferfish_shadow_spot_x_lo,x
+  adc pufferfish_direction_speed_x_hi,y
+  sta pufferfish_shadow_spot_x_lo,x
+  lda pufferfish_shadow_spot_x_hi,x
+  adc #$00
+  sta pufferfish_shadow_spot_x_hi,x
+  jmp done
+sign_extend_negative:
+  clc
+  lda pufferfish_shadow_spot_x_fine,x
+  adc pufferfish_direction_speed_x_lo,y
+  sta pufferfish_shadow_spot_x_fine,x
+  lda pufferfish_shadow_spot_x_lo,x
+  adc pufferfish_direction_speed_x_hi,y
+  sta pufferfish_shadow_spot_x_lo,x
+  lda pufferfish_shadow_spot_x_hi,x
+  adc #$ff
+  sta pufferfish_shadow_spot_x_hi,x
+done:
+  .endscope
+
+  .scope
+  lda pufferfish_direction_speed_y_hi,y
+  bmi sign_extend_negative
+sign_extend_positive:
+  clc
+  lda pufferfish_shadow_spot_y_fine,x
+  adc pufferfish_direction_speed_y_lo,y
+  sta pufferfish_shadow_spot_y_fine,x
+  lda pufferfish_shadow_spot_y_lo,x
+  adc pufferfish_direction_speed_y_hi,y
+  sta pufferfish_shadow_spot_y_lo,x
+  lda pufferfish_shadow_spot_y_hi,x
+  adc #$00
+  sta pufferfish_shadow_spot_y_hi,x
+  jmp done
+sign_extend_negative:
+  clc
+  lda pufferfish_shadow_spot_y_fine,x
+  adc pufferfish_direction_speed_y_lo,y
+  sta pufferfish_shadow_spot_y_fine,x
+  lda pufferfish_shadow_spot_y_lo,x
+  adc pufferfish_direction_speed_y_hi,y
+  sta pufferfish_shadow_spot_y_lo,x
+  lda pufferfish_shadow_spot_y_hi,x
+  adc #$ff
+  sta pufferfish_shadow_spot_y_hi,x
+done:
+  .endscope
+
+  jsr pufferfish_get_animation_params_from_direction
+
   .scope
   lda bob_velocity_hi,x
   bmi velocity_negative
@@ -261,6 +386,21 @@ done:
   jsr sprite_add_shadow_spot
 
   jsr entity_update_animation
+
+  rts
+
+.endproc
+
+.proc pufferfish_get_animation_params_from_direction
+
+  ldy pufferfish_direction,x
+  lda pufferfish_puffed_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda pufferfish_puffed_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+
+  lda pufferfish_sprite_flags_direction,y
+  sta entity_sprite_flags,x
 
   rts
 

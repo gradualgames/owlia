@@ -86,7 +86,7 @@ PufferFishUnpuffedUp:
   .byte $0a,$04
   .word PufferFishPuffedUp0
   .word PufferFishPuffedUp1
-Animation:
+PufferFishPuffedUp:
   .byte $0a,$04
   .word PufferFishUnpuffedUp0
   .word PufferFishUnpuffedUp1
@@ -94,5 +94,9 @@ PufferFishPuffedSide:
   .byte $0a,$04
   .word PufferFishPuffedSide0
   .word PufferFishPuffedSide1
+PufferFishUnpuffedSide:
+  .byte $0a,$04
+  .word PufferFishUnpuffedSide0
+  .word PufferFishUnpuffedSide1
 
 .endif
