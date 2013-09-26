@@ -3,14 +3,16 @@
 PUFFERFISH_INC = 1
 
 PUFFERFISH_WIDTH = $0f
+PUFFERFISH_HALFWIDTH = (PUFFERFISH_WIDTH >> 1)
 PUFFERFISH_HEIGHT = $0f
+PUFFERFISH_HALFHEIGHT = (PUFFERFISH_HEIGHT >> 1)
 
 PUFFERFISH_BOB_ACCELERATION = 10
 PUFFERFISH_BOB_MAX_VELOCITY = 150
 
 PUFFERFISH_SPEED = 100
 
-PUFFERFISH_INITIAL_DIRECTION = PUFFERFISH_DIRECTION_RIGHT
+PUFFERFISH_INITIAL_DIRECTION = PUFFERFISH_DIRECTION_LEFT
 
 ;re-use the built in X coordinate because there is no offset
 pufferfish_shadow_spot_x_lo = entity_x_lo
@@ -39,6 +41,42 @@ PUFFERFISH_DIRECTION_LEFT
 PUFFERFISH_DIRECTION_DOWN
 PUFFERFISH_DIRECTION_UP
 .endenum
+
+.define pufferfish_collision_offset_x \
+  PUFFERFISH_HALFWIDTH+1, \
+  PUFFERFISH_HALFWIDTH-1, \
+  PUFFERFISH_HALFWIDTH, \
+  PUFFERFISH_HALFWIDTH
+
+pufferfish_collision_offset_x_lo:
+  .lobytes pufferfish_collision_offset_x
+
+pufferfish_collision_offset_x_hi:
+  .hibytes pufferfish_collision_offset_x
+
+.define pufferfish_collision_offset_y \
+  PUFFERFISH_HALFHEIGHT, \
+  PUFFERFISH_HALFHEIGHT, \
+  PUFFERFISH_HALFHEIGHT+1, \
+  PUFFERFISH_HALFHEIGHT-1
+
+pufferfish_collision_offset_y_lo:
+  .lobytes pufferfish_collision_offset_y
+
+pufferfish_collision_offset_y_hi:
+  .hibytes pufferfish_collision_offset_y
+
+pufferfish_turnright_direction:
+  .byte PUFFERFISH_DIRECTION_DOWN
+  .byte PUFFERFISH_DIRECTION_UP
+  .byte PUFFERFISH_DIRECTION_LEFT
+  .byte PUFFERFISH_DIRECTION_RIGHT
+
+pufferfish_turnleft_direction:
+  .byte PUFFERFISH_DIRECTION_UP
+  .byte PUFFERFISH_DIRECTION_DOWN
+  .byte PUFFERFISH_DIRECTION_RIGHT
+  .byte PUFFERFISH_DIRECTION_LEFT
 
 .define pufferfish_unpuffed_animation_addresses \
   PufferFishUnpuffedSide, \
@@ -276,6 +314,112 @@ do_not_switch_state:
   rts
 
 .proc pufferfish_main
+
+  jsr entity_test_hero_rect
+  bne entity_not_hitting_hero
+
+  lda #$ff
+  sta b0
+
+  jsr hero_hurt
+
+entity_not_hitting_hero:
+
+  lda entity_action_rect1_action
+  cmp #ACTION_ATTACK
+  bne action_rect1_not_deadly
+
+  jsr entity_test_entity_action_rect1
+  bne action_rect1_not_deadly
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  txa
+  pha
+
+  lda #entity_index_explosion
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  pla
+  tax
+
+action_rect1_not_deadly:
+
+  lda entity_action_rect2_action
+  cmp #ACTION_ATTACK
+  bne action_rect2_not_deadly
+
+  jsr entity_test_entity_action_rect2
+  bne action_rect2_not_deadly
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  txa
+  pha
+
+  lda #entity_index_explosion
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  pla
+  tax
+
+  jsr familiar_hit_enemy
+
+action_rect2_not_deadly:
+
+  ;test for collision offset from pufferfish
+  ldy pufferfish_direction,x
+  clc
+  lda pufferfish_shadow_spot_x_lo,x
+  adc pufferfish_collision_offset_x_lo,y
+  sta w0
+  lda pufferfish_shadow_spot_x_hi,x
+  adc pufferfish_collision_offset_x_hi,y
+  sta w0+1
+  clc
+  lda pufferfish_shadow_spot_y_lo,x
+  adc pufferfish_collision_offset_y_lo,y
+  sta w1
+  lda pufferfish_shadow_spot_y_hi,x
+  adc pufferfish_collision_offset_y_hi,y
+  sta w1+1
+  jsr map_test_collision
+
+  lda b0
+  and #FLAG_SOLID
+  beq do_not_turn_pufferfish
+
+  ldy pufferfish_direction,x
+  lda pufferfish_turnleft_direction,y
+  sta pufferfish_direction,x
+
+do_not_turn_pufferfish:
 
   ldy pufferfish_direction,x
 
