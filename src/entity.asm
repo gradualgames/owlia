@@ -16,6 +16,180 @@
 
 .segment "CODE"
 
+;This routine calls hero_hurt after correctly calculating
+;the proper knockback direction for the hero based on the
+;relative position of the approximate center points of both
+;the hero and the entity.
+.proc entity_hurt_hero
+
+  entity_halfwidth = b0
+  entity_halfheight = b1
+  entity_center_x = w0
+  entity_center_y = w1
+  hero_center_x = w2
+  hero_center_y = w3
+  x_difference = w4
+  y_difference = w5
+
+  ;calculate half the width and height for this entity
+  lda entity_width,x
+  lsr
+  sta entity_halfwidth
+
+  lda entity_height,x
+  lsr
+  sta entity_halfheight
+
+  ;get center of entity's x coordinate
+  clc
+  lda entity_x_lo,x
+  adc entity_halfwidth
+  sta entity_center_x
+  lda entity_x_hi,x
+  adc #$00
+  sta entity_center_x+1
+
+  ;get center of entity's y coordinate
+  clc
+  lda entity_y_lo,x
+  adc entity_halfheight
+  sta entity_center_y
+  lda entity_y_hi,x
+  adc #$00
+  sta entity_center_y+1
+
+  ;get center of hero's x coordinate
+  clc
+  lda hero_x
+  adc #(HERO_WIDTH/2)
+  sta hero_center_x
+  lda hero_x+1
+  adc #$00
+  sta hero_center_x+1
+
+  ;get center of hero's y coordinate
+  clc
+  lda hero_y
+  adc #(HERO_HEIGHT/2)
+  sta hero_center_y
+  lda hero_y+1
+  adc #$00
+  sta hero_center_y+1
+
+  ;get absolute differences
+  .scope
+  sec
+  lda entity_center_x
+  sbc hero_center_x
+  sta x_difference
+  lda entity_center_x+1
+  sbc hero_center_x+1
+  sta x_difference+1
+  bpl do_not_get_absolute_value
+
+  ;negate x_difference
+  lda x_difference
+  eor #$ff
+  sta x_difference
+  lda x_difference+1
+  eor #$ff
+  sta x_difference+1
+
+  clc
+  lda x_difference
+  adc #$01
+  sta x_difference
+  lda x_difference+1
+  adc #$00
+  sta x_difference+1
+
+do_not_get_absolute_value:
+  .endscope
+
+  .scope
+  sec
+  lda entity_center_y
+  sbc hero_center_y
+  sta y_difference
+  lda entity_center_y+1
+  sbc hero_center_y+1
+  sta y_difference+1
+  bpl do_not_get_absolute_value
+
+  ;negate y_difference
+  lda y_difference
+  eor #$ff
+  sta y_difference
+  lda y_difference+1
+  eor #$ff
+  sta y_difference+1
+
+  clc
+  lda y_difference
+  adc #$01
+  sta y_difference
+  lda y_difference+1
+  adc #$00
+  sta y_difference+1
+
+do_not_get_absolute_value:
+  .endscope
+
+  .scope
+  sec
+  lda x_difference
+  sbc y_difference
+  lda x_difference+1
+  sbc y_difference+1
+  bmi use_y_difference
+use_x_difference:
+
+  .scope
+  sec
+  lda hero_center_x
+  sbc entity_center_x
+  lda hero_center_x+1
+  sbc entity_center_x+1
+  bmi hero_to_left
+hero_to_right:
+  lda #HERO_DIRECTION_RIGHT
+  sta b0
+  jmp done
+hero_to_left:
+  lda #HERO_DIRECTION_LEFT
+  sta b0
+done:
+  .endscope
+
+  jmp done
+
+use_y_difference:
+  .scope
+  sec
+  lda hero_center_y
+  sbc entity_center_y
+  lda hero_center_y+1
+  sbc entity_center_y+1
+  bmi hero_above
+hero_below:
+  lda #HERO_DIRECTION_DOWN
+  sta b0
+  jmp done
+hero_above:
+  lda #HERO_DIRECTION_UP
+  sta b0
+done:
+  .endscope
+
+done:
+  .endscope
+
+  jsr hero_hurt
+
+  rts
+
+.endproc
+
 ;This routine searches for a living entity marked as an enemy
 ;Returns with x pointing to the living entity that is an enemy
 .proc entity_find_enemy

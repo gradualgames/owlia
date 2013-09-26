@@ -2,6 +2,7 @@
 ENTITY_INC = 1
 
 .global entity_init_all
+.global entity_hurt_hero
 .global entity_find_enemy
 .global entity_spawn
 .global entity_update_all

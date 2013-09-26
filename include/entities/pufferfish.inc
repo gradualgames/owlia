@@ -318,10 +318,7 @@ do_not_switch_state:
   jsr entity_test_hero_rect
   bne entity_not_hitting_hero
 
-  lda #$ff
-  sta b0
-
-  jsr hero_hurt
+  jsr entity_hurt_hero
 
 entity_not_hitting_hero:
 
