@@ -276,50 +276,7 @@ action_rect2_not_deadly:
   jsr entity_test_hero_rect
   bne entity_not_hitting_hero
 
-  ;determine knockback direction based on absolute values
-  ;of entity's velocity
-  .scope
-  sec
-  lda w10
-  sbc w11
-  lda w10+1
-  sbc w11+1
-  bpl x_velocity_bigger
-y_velocity_bigger:
-
-  .scope
-  lda jellyfish_velocity_y_hi,x
-  bpl down
-up:
-  lda #HERO_DIRECTION_UP
-  sta b0
-  jmp done
-down:
-  lda #HERO_DIRECTION_DOWN
-  sta b0
-done:
-  .endscope
-
-  jmp done
-x_velocity_bigger:
-
-  .scope
-  lda jellyfish_velocity_x_hi,x
-  bmi left
-right:
-  lda #HERO_DIRECTION_RIGHT
-  sta b0
-  jmp done
-left:
-  lda #HERO_DIRECTION_LEFT
-  sta b0
-done:
-  .endscope
-
-done:
-  .endscope
-
-  jsr hero_hurt
+  jsr entity_hurt_hero
 
 entity_not_hitting_hero:
 
