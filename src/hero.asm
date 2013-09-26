@@ -1767,7 +1767,7 @@ hero_direction_up_handler:
   sta hero_y+1
 
   ;middle of top of rect
-  test_action (HERO_HALF_WIDTH), 0, (HERO_HALF_HEIGHT), 0
+  test_action (HERO_HALF_WIDTH), 0, (HERO_HALF_HEIGHT-HERO_SPEED*2), 0
 
   lda #HERO_DIRECTION_UP
   sta hero_direction
