@@ -139,6 +139,9 @@ store_entity_instances:
 meadow1_entity_instances:
   .byte 1  ;count
   .byte entity_index_pufferfish, 52, 23, sprite_chr_group_index_pufferfish, 0
+  
+meadow3_entity_instances:
+  .byte 0  ;count
 
 dungeon_entity_instances:
   .byte 6  ;count
@@ -290,13 +293,13 @@ define_location LOCATION_BRIGHTNESS_LEVEL_4,\
 ;meadow3 locations
 meadow3_southwest_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                area_index_meadow3, meadow1_entity_set, meadow1_entity_instances, meadow3_palette,\
+                area_index_meadow3, meadow1_entity_set, meadow3_entity_instances, meadow3_palette,\
                 0, 50, 8, 61,\
                 0, 0, 0, HERO_DIRECTION_UP
 
 meadow3_dungeon_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                        area_index_meadow3, meadow1_entity_set, meadow1_entity_instances, meadow3_palette,\
+                        area_index_meadow3, meadow1_entity_set, meadow3_entity_instances, meadow3_palette,\
                         1, 0, 9, 2,\
                         0, 0, 0, HERO_DIRECTION_DOWN
 
