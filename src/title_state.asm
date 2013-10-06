@@ -191,7 +191,7 @@ title_state_exit:
   sta sound_param_word_0+1
   jsr sfx_initialize
 
-  ldx #location_index_meadow2_east_entrance
+  ldx #location_index_meadow3_southwest_entrance
   switch_bank_ldy #LOCATIONS_BANK
   lda locations_lo,x
   sta location_address
