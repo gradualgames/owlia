@@ -9,7 +9,7 @@ ENTITIES_INC = 1
 .enum
 entity_index_explosion
 entity_index_bomb
-entity_index_jellyfish
+entity_index_octopus
 entity_index_npc
 entity_index_key
 entity_index_keyeddoor
@@ -21,7 +21,7 @@ entity_index_pufferfish
 
 entity_update_bank_explosion = 3
 entity_update_bank_bomb = 3
-entity_update_bank_jellyfish = 3
+entity_update_bank_octopus = 3
 entity_update_bank_npc = 3
 entity_update_bank_key = 3
 entity_update_bank_keyeddoor = 4
@@ -32,7 +32,7 @@ entity_update_bank_pufferfish = 4
 
 entity_sprites_and_animations_bank_explosion = 0
 entity_sprites_and_animations_bank_bomb = 0
-entity_sprites_and_animations_bank_jellyfish = 0
+entity_sprites_and_animations_bank_octopus = 0
 entity_sprites_and_animations_bank_npc = 0
 entity_sprites_and_animations_bank_key = 1
 entity_sprites_and_animations_bank_keyeddoor = 1

@@ -1,56 +1,56 @@
 .linecont +
-.ifndef JELLYFISH_INC
-JELLYFISH_INC = 1
+.ifndef OCTOPUS_INC
+OCTOPUS_INC = 1
 
 .enum
-JELLYFISH_STATE_INIT
-JELLYFISH_STATE_MAIN
+OCTOPUS_STATE_INIT
+OCTOPUS_STATE_MAIN
 .endenum
 
-jellyfish_velocity_x_lo = entity_local0
-jellyfish_velocity_x_hi = entity_local1
-jellyfish_velocity_y_lo = entity_local2
-jellyfish_velocity_y_hi = entity_local3
-jellyfish_x_fine        = entity_local4
-jellyfish_y_fine        = entity_local5
+octopus_velocity_x_lo = entity_local0
+octopus_velocity_x_hi = entity_local1
+octopus_velocity_y_lo = entity_local2
+octopus_velocity_y_hi = entity_local3
+octopus_x_fine        = entity_local4
+octopus_y_fine        = entity_local5
 
-.define jellyfish_states \
-  jellyfish_state_init, \
-  jellyfish_state_main
+.define octopus_states \
+  octopus_state_init, \
+  octopus_state_main
 
-jellyfish_lo:
-  .lobytes jellyfish_states
+octopus_lo:
+  .lobytes octopus_states
 
-jellyfish_hi:
-  .hibytes jellyfish_states
+octopus_hi:
+  .hibytes octopus_states
 
-jellyfish_update:
+octopus_update:
 
-  entity_state_switchboard jellyfish_lo, jellyfish_hi
+  entity_state_switchboard octopus_lo, octopus_hi
 
-jellyfish_state_init:
+octopus_state_init:
 
   jsr entity_set_drawable
 
   jsr entity_set_is_enemy
 
-  lda #15
+  lda #23
   sta entity_width,x
-  lda #15
+  lda #23
   sta entity_height,x
 
   ;intiialize fine x and y coordinates and velocity
   lda #0
-  sta jellyfish_x_fine,x
-  sta jellyfish_y_fine,x
-  sta jellyfish_velocity_x_lo,x
-  sta jellyfish_velocity_x_hi,x
-  sta jellyfish_velocity_y_lo,x
-  sta jellyfish_velocity_y_hi,x
+  sta octopus_x_fine,x
+  sta octopus_y_fine,x
+  sta octopus_velocity_x_lo,x
+  sta octopus_velocity_x_hi,x
+  sta octopus_velocity_y_lo,x
+  sta octopus_velocity_y_hi,x
 
-  lda #<JellyFishFloat
+  lda #<OctopusFly
   sta entity_animation_address_lo,x
-  lda #>JellyFishFloat
+  lda #>OctopusFly
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
@@ -58,30 +58,30 @@ jellyfish_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
-  lda #JELLYFISH_STATE_MAIN
+  lda #OCTOPUS_STATE_MAIN
   sta entity_state,x
 
   rts
 
-jellyfish_state_main:
+octopus_state_main:
 
   .scope
   ;calculate distance between "goal" and X coordinate
   sec
   lda hero_x
   sbc entity_x_lo,x
-  sta jellyfish_velocity_x_lo,x
+  sta octopus_velocity_x_lo,x
   lda hero_x+1
   sbc entity_x_hi,x
-  sta jellyfish_velocity_x_hi,x
+  sta octopus_velocity_x_hi,x
 
   ;do an 16 bit arithmetic left shift on this value
-  asl jellyfish_velocity_x_lo,x
-  rol jellyfish_velocity_x_hi,x
-  asl jellyfish_velocity_x_lo,x
-  rol jellyfish_velocity_x_hi,x
-  asl jellyfish_velocity_x_lo,x
-  rol jellyfish_velocity_x_hi,x
+  asl octopus_velocity_x_lo,x
+  rol octopus_velocity_x_hi,x
+  asl octopus_velocity_x_lo,x
+  rol octopus_velocity_x_hi,x
+  asl octopus_velocity_x_lo,x
+  rol octopus_velocity_x_hi,x
   .endscope
 
   .scope
@@ -89,24 +89,24 @@ jellyfish_state_main:
   sec
   lda hero_y
   sbc entity_y_lo,x
-  sta jellyfish_velocity_y_lo,x
+  sta octopus_velocity_y_lo,x
   lda hero_y+1
   sbc entity_y_hi,x
-  sta jellyfish_velocity_y_hi,x
+  sta octopus_velocity_y_hi,x
 
   ;do an 16 bit arithmetic left shift on this value
-  asl jellyfish_velocity_y_lo,x
-  rol jellyfish_velocity_y_hi,x
-  asl jellyfish_velocity_y_lo,x
-  rol jellyfish_velocity_y_hi,x
-  asl jellyfish_velocity_y_lo,x
-  rol jellyfish_velocity_y_hi,x
+  asl octopus_velocity_y_lo,x
+  rol octopus_velocity_y_hi,x
+  asl octopus_velocity_y_lo,x
+  rol octopus_velocity_y_hi,x
+  asl octopus_velocity_y_lo,x
+  rol octopus_velocity_y_hi,x
   .endscope
 
   .scope
-  lda jellyfish_velocity_x_lo,x
+  lda octopus_velocity_x_lo,x
   sta w10
-  lda jellyfish_velocity_x_hi,x
+  lda octopus_velocity_x_hi,x
   sta w10+1
   bpl not_negative
   ;find absolute value
@@ -122,9 +122,9 @@ not_negative:
   .endscope
 
   .scope
-  lda jellyfish_velocity_y_lo,x
+  lda octopus_velocity_y_lo,x
   sta w11
-  lda jellyfish_velocity_y_hi,x
+  lda octopus_velocity_y_hi,x
   sta w11+1
   bpl not_negative
   ;find absolute value
@@ -150,10 +150,10 @@ not_negative:
   ;add 16 bit velocity to 24 bit coordinate with sign extension
   .scope
   clc
-  lda jellyfish_velocity_x_lo,x
-  adc jellyfish_x_fine,x
-  sta jellyfish_x_fine,x
-  lda jellyfish_velocity_x_hi,x
+  lda octopus_velocity_x_lo,x
+  adc octopus_x_fine,x
+  sta octopus_x_fine,x
+  lda octopus_velocity_x_hi,x
   bmi sign_extend
 
   adc entity_x_lo,x
@@ -177,10 +177,10 @@ done:
 
   .scope
   clc
-  lda jellyfish_velocity_y_lo,x
-  adc jellyfish_y_fine,x
-  sta jellyfish_y_fine,x
-  lda jellyfish_velocity_y_hi,x
+  lda octopus_velocity_y_lo,x
+  adc octopus_y_fine,x
+  sta octopus_y_fine,x
+  lda octopus_velocity_y_hi,x
   bmi sign_extend
 
   adc entity_y_lo,x
@@ -199,6 +199,24 @@ sign_extend:
   lda entity_y_hi,x
   adc #$ff
   sta entity_y_hi,x
+done:
+  .endscope
+
+  ;test sign of x velocity and flip the Octopus's animation flag accordingly
+  .scope
+  lda octopus_velocity_x_hi,x
+  bmi octopus_face_left
+octopus_face_right:
+
+  lda #%00000000
+  sta entity_sprite_flags,x
+
+  jmp done
+octopus_face_left:
+
+  lda #%01000000
+  sta entity_sprite_flags,x
+
 done:
   .endscope
 

@@ -11,7 +11,7 @@ sprite_chr_group_index_familiar
 sprite_chr_group_index_explosion
 sprite_chr_group_index_shadowspot
 sprite_chr_group_index_bomb
-sprite_chr_group_index_jellyfish
+sprite_chr_group_index_octopus
 sprite_chr_group_index_npcman
 sprite_chr_group_index_npcwoman
 sprite_chr_group_index_key
@@ -29,7 +29,7 @@ sprite_chr_group_bank_familiar = 1
 sprite_chr_group_bank_explosion = 1
 sprite_chr_group_bank_shadowspot = 1
 sprite_chr_group_bank_bomb = 1
-sprite_chr_group_bank_jellyfish = 1
+sprite_chr_group_bank_octopus = 1
 sprite_chr_group_bank_npcman = 1
 sprite_chr_group_bank_npcwoman = 1
 sprite_chr_group_bank_key = 2

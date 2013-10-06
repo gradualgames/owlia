@@ -31,7 +31,7 @@
 .define entity_defs_update_address \
   explosion_update, \
   bomb_update, \
-  jellyfish_update, \
+  octopus_update, \
   npc_update, \
   key_update, \
   keyeddoor_update, \
@@ -48,7 +48,7 @@ entity_defs_update_address_hi:
 entity_defs_update_address_bank:
   .byte entity_update_bank_explosion
   .byte entity_update_bank_bomb
-  .byte entity_update_bank_jellyfish
+  .byte entity_update_bank_octopus
   .byte entity_update_bank_npc
   .byte entity_update_bank_key
   .byte entity_update_bank_keyeddoor
@@ -60,7 +60,7 @@ entity_defs_update_address_bank:
 entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_explosion
   .byte entity_sprites_and_animations_bank_bomb
-  .byte entity_sprites_and_animations_bank_jellyfish
+  .byte entity_sprites_and_animations_bank_octopus
   .byte entity_sprites_and_animations_bank_npc
   .byte entity_sprites_and_animations_bank_key
   .byte entity_sprites_and_animations_bank_keyeddoor
@@ -72,7 +72,7 @@ entity_defs_sprites_and_animations_bank:
 .segment "ROM03"
 .include "explosion.inc"
 .include "bomb.inc"
-.include "jellyfish.inc"
+.include "octopus.inc"
 .include "npc.inc"
 .include "key.inc"
 .segment "ROM04"

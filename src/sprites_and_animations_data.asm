@@ -16,7 +16,7 @@
 ;animations reside in.
 .segment "ROM00"
 
-.include "jellyfish_sprites_and_animations.inc"
+.include "octopus_sprites_and_animations.inc"
 .include "explosion_sprites_and_animations.inc"
 .include "bomb_sprites_and_animations.inc"
 .include "npcman_sprites_and_animations.inc"
