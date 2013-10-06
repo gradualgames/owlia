@@ -1991,6 +1991,13 @@ eject_slide_up:
   sbc #0
   sta hero_y+1
 
+  ;the hero has changed direction due to map ejection;
+  ;make sure we keep track of this here so the camera uses
+  ;the correct follow handler
+  ldx #HERO_DIRECTION_UP
+  lda hero_direction_to_direction_handlers_index,x
+  sta hero_direction_handler
+
   rts
 
 eject_slide_down:
@@ -2009,6 +2016,13 @@ eject_slide_down:
   adc #0
   sta hero_y+1
 
+  ;the hero has changed direction due to map ejection;
+  ;make sure we keep track of this here so the camera uses
+  ;the correct follow handler
+  ldx #HERO_DIRECTION_DOWN
+  lda hero_direction_to_direction_handlers_index,x
+  sta hero_direction_handler
+
   rts
 
 eject_horizontally:
@@ -2018,6 +2032,13 @@ eject_horizontally:
   lda hero_x
   and #%11110000
   sta hero_x
+
+  ;the hero has changed direction due to map ejection;
+  ;make sure we keep track of this here so the camera uses
+  ;the correct follow handler
+  ldx #HERO_DIRECTION_LEFT
+  lda hero_direction_to_direction_handlers_index,x
+  sta hero_direction_handler
 
   rts
 
@@ -2092,6 +2113,13 @@ eject_slide_up:
   sbc #0
   sta hero_y+1
 
+  ;the hero has changed direction due to map ejection;
+  ;make sure we keep track of this here so the camera uses
+  ;the correct follow handler
+  ldx #HERO_DIRECTION_UP
+  lda hero_direction_to_direction_handlers_index,x
+  sta hero_direction_handler
+  
   rts
 
 eject_slide_down:
@@ -2116,6 +2144,13 @@ eject_slide_down:
   adc #0
   sta hero_y+1
 
+  ;the hero has changed direction due to map ejection;
+  ;make sure we keep track of this here so the camera uses
+  ;the correct follow handler
+  ldx #HERO_DIRECTION_DOWN
+  lda hero_direction_to_direction_handlers_index,x
+  sta hero_direction_handler
+  
   rts
 
 eject_horizontally:
@@ -2132,6 +2167,13 @@ eject_horizontally:
   sta hero_x+1
   sta hero_x+1
 
+  ;the hero has changed direction due to map ejection;
+  ;make sure we keep track of this here so the camera uses
+  ;the correct follow handler
+  ldx #HERO_DIRECTION_RIGHT
+  lda hero_direction_to_direction_handlers_index,x
+  sta hero_direction_handler
+  
   rts
 
 .endproc
@@ -2199,6 +2241,13 @@ eject_slide_left:
   sbc #0
   sta hero_x+1
 
+  ;the hero has changed direction due to map ejection;
+  ;make sure we keep track of this here so the camera uses
+  ;the correct follow handler
+  ldx #HERO_DIRECTION_LEFT
+  lda hero_direction_to_direction_handlers_index,x
+  sta hero_direction_handler
+  
   rts
 
 eject_slide_right:
@@ -2217,6 +2266,13 @@ eject_slide_right:
   adc #0
   sta hero_x+1
 
+  ;the hero has changed direction due to map ejection;
+  ;make sure we keep track of this here so the camera uses
+  ;the correct follow handler
+  ldx #HERO_DIRECTION_RIGHT
+  lda hero_direction_to_direction_handlers_index,x
+  sta hero_direction_handler
+  
   rts
 
 eject_vertically:
@@ -2227,6 +2283,13 @@ eject_vertically:
   and #%11110000
   sta hero_y
 
+  ;the hero has changed direction due to map ejection;
+  ;make sure we keep track of this here so the camera uses
+  ;the correct follow handler
+  ldx #HERO_DIRECTION_UP
+  lda hero_direction_to_direction_handlers_index,x
+  sta hero_direction_handler
+  
   rts
 
 .endproc
@@ -2299,6 +2362,13 @@ eject_slide_left:
   sbc #0
   sta hero_x+1
 
+  ;the hero has changed direction due to map ejection;
+  ;make sure we keep track of this here so the camera uses
+  ;the correct follow handler
+  ldx #HERO_DIRECTION_LEFT
+  lda hero_direction_to_direction_handlers_index,x
+  sta hero_direction_handler
+  
   rts
 
 eject_slide_right:
@@ -2322,6 +2392,13 @@ eject_slide_right:
   adc #0
   sta hero_x+1
 
+  ;the hero has changed direction due to map ejection;
+  ;make sure we keep track of this here so the camera uses
+  ;the correct follow handler
+  ldx #HERO_DIRECTION_RIGHT
+  lda hero_direction_to_direction_handlers_index,x
+  sta hero_direction_handler
+  
   rts
 
 eject_vertically:
@@ -2337,6 +2414,13 @@ eject_vertically:
   adc #$00
   sta hero_y+1
 
+  ;the hero has changed direction due to map ejection;
+  ;make sure we keep track of this here so the camera uses
+  ;the correct follow handler
+  ldx #HERO_DIRECTION_DOWN
+  lda hero_direction_to_direction_handlers_index,x
+  sta hero_direction_handler
+  
   rts
 
 .endproc
