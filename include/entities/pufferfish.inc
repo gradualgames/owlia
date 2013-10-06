@@ -14,6 +14,11 @@ PUFFERFISH_SPEED = 100
 
 PUFFERFISH_INITIAL_DIRECTION = PUFFERFISH_DIRECTION_LEFT
 
+PUFFERFISH_UNPUFFED_ANIMATION_OFFSET = 0
+PUFFERFISH_PUFFED_ANIMATION_OFFSET = 4
+
+PUFFERFISH_PUFF_COUNTER_LENGTH = 50
+
 ;re-use the built in X coordinate because there is no offset
 pufferfish_shadow_spot_x_lo = entity_x_lo
 pufferfish_shadow_spot_x_hi = entity_x_hi
@@ -38,6 +43,8 @@ pufferfish_direction = entity_local9
 pufferfish_random_turnleft_counter = entity_local10
 pufferfish_random_turnright_counter = entity_local11
 pufferfish_pseudo_random_number = entity_local12
+pufferfish_animation_offset = entity_local13
+pufferfish_puff_counter = entity_local14
 
 .enum
 PUFFERFISH_DIRECTION_RIGHT
@@ -82,31 +89,24 @@ pufferfish_turnleft_direction:
   .byte PUFFERFISH_DIRECTION_RIGHT
   .byte PUFFERFISH_DIRECTION_LEFT
 
-.define pufferfish_unpuffed_animation_addresses \
+.define pufferfish_animation_addresses \
   PufferFishUnpuffedSide, \
   PufferFishUnpuffedSide, \
   PufferFishUnpuffedDown, \
-  PufferFishUnpuffedUp
-
-pufferfish_unpuffed_animation_addresses_lo:
-  .lobytes pufferfish_unpuffed_animation_addresses
-
-pufferfish_unpuffed_animation_addresses_hi:
-  .hibytes pufferfish_unpuffed_animation_addresses
-
-.define pufferfish_puffed_animation_addresses \
+  PufferFishUnpuffedUp, \
   PufferFishPuffedSide, \
   PufferFishPuffedSide, \
   PufferFishPuffedDown, \
   PufferFishPuffedUp
 
-pufferfish_puffed_animation_addresses_lo:
-  .lobytes pufferfish_puffed_animation_addresses
+pufferfish_animation_addresses_lo:
+  .lobytes pufferfish_animation_addresses
 
-pufferfish_puffed_animation_addresses_hi:
-  .hibytes pufferfish_puffed_animation_addresses
+pufferfish_animation_addresses_hi:
+  .hibytes pufferfish_animation_addresses
 
 pufferfish_sprite_flags_direction:
+  .byte %00000000, %01000000, %00000000, %00000000
   .byte %00000000, %01000000, %00000000, %00000000
 
 .define pufferfish_direction_speed_x PUFFERFISH_SPEED, -PUFFERFISH_SPEED, 0, 0
@@ -206,6 +206,14 @@ pufferfish_state_init:
 
   lda #100
   sta pufferfish_random_turnleft_counter,x
+
+  ;initialize animation offset
+  lda #PUFFERFISH_PUFFED_ANIMATION_OFFSET
+  sta pufferfish_animation_offset,x
+
+  ;initialize puff counter
+  lda #PUFFERFISH_PUFF_COUNTER_LENGTH
+  sta pufferfish_puff_counter,x
 
   jsr pufferfish_get_animation_params_from_direction
 
@@ -595,10 +603,28 @@ done:
 
 .proc pufferfish_get_animation_params_from_direction
 
-  ldy pufferfish_direction,x
-  lda pufferfish_puffed_animation_addresses_lo,y
+  ;advance puff counter logic
+  dec pufferfish_puff_counter,x
+  bne :+
+
+  ;flip between offset of 0 and 4 to select puffed and unpuffed animation sets
+  lda pufferfish_animation_offset,x
+  eor #4
+  sta pufferfish_animation_offset,x
+
+  ;reset the puff counter
+  lda #PUFFERFISH_PUFF_COUNTER_LENGTH
+  sta pufferfish_puff_counter,x
+
+:
+
+  clc
+  lda pufferfish_direction,x
+  adc pufferfish_animation_offset,x
+  tay
+  lda pufferfish_animation_addresses_lo,y
   sta entity_animation_address_lo,x
-  lda pufferfish_puffed_animation_addresses_hi,y
+  lda pufferfish_animation_addresses_hi,y
   sta entity_animation_address_hi,x
 
   lda pufferfish_sprite_flags_direction,y
