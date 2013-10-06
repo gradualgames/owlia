@@ -35,6 +35,10 @@ bob_velocity_hi = entity_local8
 
 pufferfish_direction = entity_local9
 
+pufferfish_random_turnleft_counter = entity_local10
+pufferfish_random_turnright_counter = entity_local11
+pufferfish_pseudo_random_number = entity_local12
+
 .enum
 PUFFERFISH_DIRECTION_RIGHT
 PUFFERFISH_DIRECTION_LEFT
@@ -193,6 +197,15 @@ pufferfish_state_init:
 
   lda #PUFFERFISH_INITIAL_DIRECTION
   sta pufferfish_direction,x
+
+  ;initialize random turn counters. Each time they count
+  ;down the pufferfish will turn, and then a new value will
+  ;be selected via a pseudo random number generator.
+  lda #255
+  sta pufferfish_random_turnright_counter,x
+
+  lda #100
+  sta pufferfish_random_turnleft_counter,x
 
   jsr pufferfish_get_animation_params_from_direction
 
@@ -417,6 +430,54 @@ action_rect2_not_deadly:
   sta pufferfish_direction,x
 
 do_not_turn_pufferfish:
+
+  ;permute the pseudo random number
+  .scope
+: lda pufferfish_pseudo_random_number,x
+  beq doEor
+  asl
+  beq noEor ;if the input was $80, skip the EOR
+  bcc noEor
+doEor:
+  eor stream_read_address_lo
+noEor:
+  sta pufferfish_pseudo_random_number,x
+  dey
+  bne :-
+
+  sta pufferfish_pseudo_random_number,x
+  .endscope
+
+  .scope
+  dec pufferfish_random_turnleft_counter,x
+  bne do_not_turn_pufferfish
+
+  ldy pufferfish_direction,x
+  lda pufferfish_turnleft_direction,y
+  sta pufferfish_direction,x
+
+  lda pufferfish_pseudo_random_number,x
+  sta pufferfish_random_turnleft_counter,x
+
+do_not_turn_pufferfish:
+  .endscope
+
+  .scope
+  dec pufferfish_random_turnright_counter,x
+  bne do_not_turn_pufferfish
+
+  ldy pufferfish_direction,x
+  lda pufferfish_turnright_direction,y
+  sta pufferfish_direction,x
+
+  ;select random number with an offset
+  clc
+  lda pufferfish_pseudo_random_number,x
+  adc #128
+  sta pufferfish_random_turnleft_counter,x
+
+do_not_turn_pufferfish:
+  .endscope
 
   ldy pufferfish_direction,x
 
