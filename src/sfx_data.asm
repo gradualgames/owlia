@@ -110,7 +110,7 @@ sfx_flap:
   .byte TRM
 
 sfx_explosion:
-  .byte STV,6,STP,0,SDU,0,STL,2,3,4,6,8,10,11,13
+  .byte STV,6,STP,0,SDU,0,STL,2,3,4,6,8,10,11,STL,6,13
   .byte TRM
 
 sfx_text:
