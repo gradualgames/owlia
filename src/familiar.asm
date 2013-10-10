@@ -474,16 +474,16 @@ familiar_spawn_offset_y_hi:
   .byte 0, 0, 0, $ff
 
 familiar_direction_speed_x_lo:
-  .byte 0, 0, 0, 0
+  .byte <FAMILIAR_SPEED, <(-FAMILIAR_SPEED), 0, 0
 
 familiar_direction_speed_x_hi:
-  .byte FAMILIAR_SPEED, -FAMILIAR_SPEED, 0, 0
+  .byte >FAMILIAR_SPEED, >(-FAMILIAR_SPEED), 0, 0
 
 familiar_direction_speed_y_lo:
-  .byte 0, 0, 0, 0
+  .byte 0, 0, <FAMILIAR_SPEED, <(-FAMILIAR_SPEED)
 
 familiar_direction_speed_y_hi:
-  .byte 0, 0, FAMILIAR_SPEED, -FAMILIAR_SPEED
+  .byte 0, 0, >FAMILIAR_SPEED, >(-FAMILIAR_SPEED)
 
 familiar_carry_bomb_direction_speed_x_lo:
   .byte 0, 0, 0, 0
@@ -2414,11 +2414,15 @@ do_not_kill_familiar:
   rol familiar_x_velocity+1
   asl familiar_x_velocity
   rol familiar_x_velocity+1
+  asl familiar_x_velocity
+  rol familiar_x_velocity+1
   .endscope
 
   .scope
   ;it is assumed familiar_y_velocity has been previously computed as
   ;the Y distance between the familiar and the hero.
+  asl familiar_y_velocity
+  rol familiar_y_velocity+1
   asl familiar_y_velocity
   rol familiar_y_velocity+1
   asl familiar_y_velocity
