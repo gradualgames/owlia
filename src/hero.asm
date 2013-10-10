@@ -551,6 +551,10 @@ done:
 
   cpx #tech_carry_adlanniel
   beq do_not_switch_to_throw_state
+  cpx #tech_carry_lantern
+  beq do_not_switch_to_throw_state
+  cpx #tech_shield
+  beq do_not_switch_to_throw_state
 
   lda #HERO_STATE_THROW
   sta hero_state

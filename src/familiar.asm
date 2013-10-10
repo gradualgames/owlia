@@ -45,7 +45,14 @@ impl:
   lda #FAMILIAR_STATE_RUSH_INIT
   sta familiar_state
 
+  ;let the tech init state know to pause a few frames before passing
+  ;control to the main tech state
+  lda #FAMILIAR_LENGTH_BEFORE_TECH_INIT
+  sta familiar_state_counter
+
   jsr familiar_setup_initial_location_and_direction
+
+  jsr familiar_common_init
 
   rts
 
@@ -65,7 +72,14 @@ impl:
   lda #FAMILIAR_STATE_FETCH_INIT
   sta familiar_state
 
+  ;let the tech init state know to pause a few frames before passing
+  ;control to the main tech state
+  lda #FAMILIAR_LENGTH_BEFORE_TECH_INIT
+  sta familiar_state_counter
+
   jsr familiar_setup_initial_location_and_direction
+
+  jsr familiar_common_init
 
   rts
 
@@ -85,7 +99,14 @@ impl:
   lda #FAMILIAR_STATE_CARRY_BOMB_INIT
   sta familiar_state
 
+  ;let the tech init state know to pause a few frames before passing
+  ;control to the main tech state
+  lda #FAMILIAR_LENGTH_BEFORE_TECH_INIT
+  sta familiar_state_counter
+
   jsr familiar_setup_initial_location_and_direction
+
+  jsr familiar_common_init
 
   ;spawn a bomb entity
   lda #entity_index_bomb
@@ -221,7 +242,14 @@ impl:
   lda #FAMILIAR_STATE_HOMING_INIT
   sta familiar_state
 
+  ;let the tech init state know to pause a few frames before passing
+  ;control to the main tech state
+  lda #FAMILIAR_LENGTH_BEFORE_TECH_INIT
+  sta familiar_state_counter
+
   jsr familiar_setup_initial_location_and_direction
+
+  jsr familiar_common_init
 
   rts
 
@@ -594,7 +622,8 @@ familiar_not_alive:
 ;****************************************************************
 .proc familiar_state_rush_init
 
-  jsr familiar_common_init
+  dec familiar_state_counter
+  bne not_ready_yet
 
   ;initialize x and y velocity
   ldy familiar_direction
@@ -615,6 +644,7 @@ familiar_not_alive:
   ;done initializing, set main state
   lda #FAMILIAR_STATE_RUSH
   sta familiar_state
+not_ready_yet:
 
   rts
 
@@ -695,7 +725,8 @@ state_counter_not_zero:
 ;****************************************************************
 .proc familiar_state_fetch_init
 
-  jsr familiar_common_init
+  dec familiar_state_counter
+  bne not_ready_yet
 
   ;initialize x and y velocity
   ldy familiar_direction
@@ -720,6 +751,7 @@ state_counter_not_zero:
   ;clear fetched entity index
   lda #$ff
   sta familiar_param_fetched_entity_index
+not_ready_yet:
 
   rts
 
@@ -838,7 +870,8 @@ no_fetched_entity:
 ;****************************************************************
 .proc familiar_state_carry_bomb_init
 
-  jsr familiar_common_init
+  dec familiar_state_counter
+  bne not_ready_yet
 
   ;initialize x and y velocity
   ldy familiar_direction
@@ -865,6 +898,7 @@ no_fetched_entity:
   ;done initializing, set main state
   lda #FAMILIAR_STATE_CARRY_BOMB
   sta familiar_state
+not_ready_yet:
 
   rts
 
@@ -2064,7 +2098,8 @@ do_not_switch_to_home_in_to_hero:
 ;****************************************************************
 .proc familiar_state_homing_init
 
-  jsr familiar_common_init
+  dec familiar_state_counter
+  bne not_ready_yet
 
   ;make sure to clear out the entity index in case it has an old
   ;value and we can't find an enemy in the subsequent search
@@ -2147,6 +2182,7 @@ no_enemy_found:
 
   lda #FAMILIAR_STATE_HOMING
   sta familiar_state
+not_ready_yet:
 
   rts
 
