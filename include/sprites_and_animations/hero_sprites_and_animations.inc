@@ -210,15 +210,15 @@ FightUp:
   .word FightUp0
   .word FightUp1
 ThrowSide:
-  .byte $0a,$04
+  .byte $08,$04
   .word WalkSide0
   .word ThrowSide0
 ThrowUp:
-  .byte $0a,$04
+  .byte $08,$04
   .word WalkUp1
   .word ThrowUp0
 ThrowDown:
-  .byte $0a,$04
+  .byte $08,$04
   .word WalkDown0
   .word ThrowDown0
 

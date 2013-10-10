@@ -593,24 +593,6 @@ familiar_not_alive:
   sta familiar_x_fine
   sta familiar_y_fine
 
-  ;play a flapping sound
-  txa
-  pha
-
-  lda #<sfx_flap
-  sta sound_param_word_0
-  lda #>sfx_flap
-  sta sound_param_word_0+1
-
-  lda #3
-  sta sound_param_byte_0
-
-  ldx #soundeffect_one
-  jsr stream_initialize
-
-  pla
-  tax
-
   rts
 
 .endproc
@@ -624,6 +606,8 @@ familiar_not_alive:
 
   dec familiar_state_counter
   bne not_ready_yet
+
+  jsr familiar_play_flap_sound
 
   ;initialize x and y velocity
   ldy familiar_direction
@@ -727,6 +711,8 @@ state_counter_not_zero:
 
   dec familiar_state_counter
   bne not_ready_yet
+
+  jsr familiar_play_flap_sound
 
   ;initialize x and y velocity
   ldy familiar_direction
@@ -872,6 +858,8 @@ no_fetched_entity:
 
   dec familiar_state_counter
   bne not_ready_yet
+
+  jsr familiar_play_flap_sound
 
   ;initialize x and y velocity
   ldy familiar_direction
@@ -1100,6 +1088,8 @@ do_not_drop_bomb_yet:
 .proc familiar_state_carry_lantern_init
 
   jsr familiar_common_init
+
+  jsr familiar_play_flap_sound
 
   lda #FAMILIAR_STATE_CARRY_LANTERN_LENGTH
   sta familiar_state_counter
@@ -1542,6 +1532,8 @@ do_not_modify_goal:
 
   jsr familiar_common_init
 
+  jsr familiar_play_flap_sound
+
   ;initialize x and y velocity
   ldy familiar_direction
   lda familiar_direction_speed_x_lo,y
@@ -1704,6 +1696,8 @@ familiar_not_at_goal:
 .proc familiar_state_shield_init
 
   jsr familiar_common_init
+
+  jsr familiar_play_flap_sound
 
   ;initialize x and y velocity to values which start it at the top of a circle
   ;and then cause the x and y oscillating state machines to work at such an
@@ -2100,6 +2094,8 @@ do_not_switch_to_home_in_to_hero:
 
   dec familiar_state_counter
   bne not_ready_yet
+
+  jsr familiar_play_flap_sound
 
   ;make sure to clear out the entity index in case it has an old
   ;value and we can't find an enemy in the subsequent search
@@ -2655,6 +2651,30 @@ done:
   sta w1+1
 
   jsr sprite_add_shadow_spot
+
+  rts
+
+.endproc
+
+.proc familiar_play_flap_sound
+
+  ;play a flapping sound
+  txa
+  pha
+
+  lda #<sfx_flap
+  sta sound_param_word_0
+  lda #>sfx_flap
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
 
   rts
 
