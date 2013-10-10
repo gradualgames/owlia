@@ -497,6 +497,9 @@ familiar_carry_bomb_direction_speed_y_lo:
 familiar_carry_bomb_direction_speed_y_hi:
   .byte 0, 0, FAMILIAR_CARRY_BOMB_SPEED, -FAMILIAR_CARRY_BOMB_SPEED
 
+familiar_direction_change_init:
+  .byte $ff, $ff, 0, 0
+
 .define familiar_states \
     familiar_state_rush_init, \
     familiar_state_rush, \
@@ -573,6 +576,17 @@ familiar_not_alive:
   sta w2+1
   lda familiar_sprite_flags_direction,y
   sta familiar_sprite_flags
+
+  ;reset direction change bit tally with all "tried to
+  ;change based on X" or "tried to change based on Y"
+  ;flags based on current direction. This ensures that
+  ;the familiar will change direction immediately when
+  ;first homing into the hero, but then continue to tally
+  ;up requested direction changes and preserve the stabilization
+  ;that this tally provides as the familiar gets closer to the
+  ;hero.
+  lda familiar_direction_change_init,y
+  sta familiar_direction_change
 
   ;reset animation object
   lda #<familiar_animation_object
