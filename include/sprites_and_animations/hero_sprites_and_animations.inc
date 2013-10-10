@@ -198,15 +198,15 @@ WalkSide:
   .word WalkSide0
   .word WalkSide1
 FightSide:
-  .byte $0a,$04
+  .byte $08,$04
   .word FightSide0
   .word FightSide1
 FightDown:
-  .byte $0a,$04
+  .byte $08,$04
   .word FightDown0
   .word FightDown1
 FightUp:
-  .byte $0a,$04
+  .byte $08,$04
   .word FightUp0
   .word FightUp1
 ThrowSide:

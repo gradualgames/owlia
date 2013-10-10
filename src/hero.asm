@@ -466,7 +466,7 @@ hero_invincible:
   define_trampoline #HERO_BANK
 .segment "ROM02"
 impl:
-  lda #ACTION_ATTACK
+  lda #ACTION_NOP
   sta entity_action_rect1_action
 
   lda #HERO_STATE_ATTACK
@@ -1472,6 +1472,14 @@ do_not_flip_drawable_bit:
 hero_not_invincible:
   .endscope
 
+  ;wait a few frames before activating the attack rect
+  lda hero_state_counter
+  cmp #HERO_ACTIVATE_ATTACK_RECT_WHEN_THIS_MANY_FRAMES_REMAINING
+  bne :+
+  lda #ACTION_ATTACK
+  sta entity_action_rect1_action
+:
+
   ;compute top left of action rect based on direction
   ldy hero_direction
   clc
@@ -2123,7 +2131,7 @@ eject_slide_up:
   ldx #HERO_DIRECTION_UP
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
-  
+
   rts
 
 eject_slide_down:
@@ -2154,7 +2162,7 @@ eject_slide_down:
   ldx #HERO_DIRECTION_DOWN
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
-  
+
   rts
 
 eject_horizontally:
@@ -2177,7 +2185,7 @@ eject_horizontally:
   ldx #HERO_DIRECTION_RIGHT
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
-  
+
   rts
 
 .endproc
@@ -2251,7 +2259,7 @@ eject_slide_left:
   ldx #HERO_DIRECTION_LEFT
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
-  
+
   rts
 
 eject_slide_right:
@@ -2276,7 +2284,7 @@ eject_slide_right:
   ldx #HERO_DIRECTION_RIGHT
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
-  
+
   rts
 
 eject_vertically:
@@ -2293,7 +2301,7 @@ eject_vertically:
   ldx #HERO_DIRECTION_UP
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
-  
+
   rts
 
 .endproc
@@ -2372,7 +2380,7 @@ eject_slide_left:
   ldx #HERO_DIRECTION_LEFT
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
-  
+
   rts
 
 eject_slide_right:
@@ -2402,7 +2410,7 @@ eject_slide_right:
   ldx #HERO_DIRECTION_RIGHT
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
-  
+
   rts
 
 eject_vertically:
@@ -2424,7 +2432,7 @@ eject_vertically:
   ldx #HERO_DIRECTION_DOWN
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
-  
+
   rts
 
 .endproc
