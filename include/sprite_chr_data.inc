@@ -16,7 +16,6 @@ sprite_chr_group_index_npcman
 sprite_chr_group_index_npcwoman
 sprite_chr_group_index_key
 sprite_chr_group_index_inventory
-sprite_chr_group_index_keyeddoor
 sprite_chr_group_index_lantern
 sprite_chr_group_index_rope
 sprite_chr_group_index_coins
@@ -34,7 +33,6 @@ sprite_chr_group_bank_npcman = 1
 sprite_chr_group_bank_npcwoman = 1
 sprite_chr_group_bank_key = 2
 sprite_chr_group_bank_inventory = 2
-sprite_chr_group_bank_keyeddoor = 2
 sprite_chr_group_bank_lantern = 2
 sprite_chr_group_bank_rope = 2
 sprite_chr_group_bank_coins = 2

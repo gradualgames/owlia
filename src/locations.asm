@@ -84,14 +84,13 @@ meadow1_entity_set:
   .byte sprite_chr_group_index_pufferfish
 
 dungeon_entity_set:
-  .byte 7   ;sprite_chr_groups .byte
+  .byte 6   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_key
-  .byte sprite_chr_group_index_keyeddoor
 
 ;****************************************************************
 ;Entity instance sets
@@ -144,13 +143,9 @@ meadow3_entity_instances:
   .byte 0  ;count
 
 dungeon_entity_instances:
-  .byte 6  ;count
+  .byte 2  ;count
   .byte entity_index_key, 13, 4, 0, 0
   .byte entity_index_key, 25, 5, 0, 0
-  .byte entity_index_keyeddoor, 7, 1, sprite_chr_group_index_keyeddoor, 1, 16
-  .byte entity_index_keyeddoor, 0, 6, sprite_chr_group_index_keyeddoor, 1, 16
-  .byte entity_index_keyeddoor, 7, 11, sprite_chr_group_index_keyeddoor, 1, 16
-  .byte entity_index_keyeddoor, 15, 6, sprite_chr_group_index_keyeddoor, 1, 16
 
 ;****************************************************************
 ;Palettes.

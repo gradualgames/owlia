@@ -14,7 +14,6 @@
   NpcWoman_chr, \
   Key_chr, \
   Inventory_chr, \
-  KeyedDoor_chr, \
   Lantern_chr, \
   Rope_chr, \
   Coins_chr, \
@@ -37,7 +36,6 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_npcwoman
   .byte sprite_chr_group_bank_key
   .byte sprite_chr_group_bank_inventory
-  .byte sprite_chr_group_bank_keyeddoor
   .byte sprite_chr_group_bank_lantern
   .byte sprite_chr_group_bank_rope
   .byte sprite_chr_group_bank_coins
@@ -335,13 +333,6 @@ Inventory_chr:
   .byte $00,$3c,$7e,$7e,$7e,$7e,$3c,$00,$00,$3c,$7e,$7e,$7e,$7e,$3c,$00
   .byte $08,$18,$28,$08,$08,$08,$08,$08,$08,$18,$28,$08,$08,$08,$08,$08
   .byte $38,$44,$04,$04,$08,$10,$20,$7c,$38,$44,$04,$04,$08,$10,$20,$7c
-
-KeyedDoor_chr:
-  .word $0040
-  .byte $ff,$80,$80,$80,$80,$80,$80,$80,$00,$7f,$7f,$7f,$7f,$7f,$7f,$7f
-  .byte $80,$80,$80,$80,$81,$83,$81,$81,$7f,$7f,$7f,$7f,$7e,$7c,$7e,$7e
-  .byte $81,$80,$80,$80,$80,$80,$80,$80,$7e,$7f,$7f,$7f,$7f,$7f,$7f,$7f
-  .byte $80,$80,$80,$80,$80,$80,$80,$ff,$7f,$7f,$7f,$7f,$7f,$7f,$7f,$00
 
 Lantern_chr:
   .word $0010

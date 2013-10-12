@@ -28,5 +28,4 @@
 .segment "ROM01"
 
 .include "key_sprites_and_animations.inc"
-.include "keyeddoor_sprites_and_animations.inc"
 .include "pufferfish_sprites_and_animations.inc"

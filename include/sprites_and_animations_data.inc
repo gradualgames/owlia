@@ -40,9 +40,6 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global Tech1_Selector
 .global Tech2_Selector
 
-.global KeyedDoor0
-.global KeyedDoor
-
 .global Bomb0
 .global Bomb
 
