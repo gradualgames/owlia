@@ -36,8 +36,8 @@ entity_sprites_and_animations_bank_octopus = 0
 entity_sprites_and_animations_bank_npc = 0
 entity_sprites_and_animations_bank_key = 1
 entity_sprites_and_animations_bank_keyeddoor = 1
-entity_sprites_and_animations_bank_lantern = 1
-entity_sprites_and_animations_bank_item = 1
+entity_sprites_and_animations_bank_lantern = 0
+entity_sprites_and_animations_bank_item = 0
 entity_sprites_and_animations_bank_innkeep = 1
 entity_sprites_and_animations_bank_pufferfish = 1
 
