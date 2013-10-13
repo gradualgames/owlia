@@ -226,10 +226,7 @@ familiar_param_destination_x = familiar_param_w0
 familiar_param_destination_y = familiar_param_w1
 
 ;shield
-familiar_param_shield_x_axis_state = familiar_param_b0
-familiar_param_shield_y_axis_state = familiar_param_b1
-familiar_param_shield_x = familiar_param_w1
-familiar_param_shield_y = familiar_param_w2
+familiar_param_shield_circle_lut_index = familiar_param_b0
 
 ;homing
 familiar_param_homing_entity_index = familiar_param_b0
