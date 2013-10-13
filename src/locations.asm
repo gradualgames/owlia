@@ -143,9 +143,10 @@ meadow3_entity_instances:
   .byte 0  ;count
 
 dungeon_entity_instances:
-  .byte 2  ;count
+  .byte 3  ;count
   .byte entity_index_key, 13, 4, 0, 0
   .byte entity_index_key, 25, 5, 0, 0
+  .byte entity_index_keyeddoor, 7, 1, 0, 1, location_index_dungeon_room_b
 
 ;****************************************************************
 ;Palettes.
