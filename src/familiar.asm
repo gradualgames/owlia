@@ -222,7 +222,14 @@ impl:
   lda #FAMILIAR_STATE_SHIELD_INIT
   sta familiar_state
 
+  ;let the tech init state know to pause a few frames before passing
+  ;control to the main tech state
+  lda #FAMILIAR_LENGTH_BEFORE_TECH_INIT
+  sta familiar_state_counter
+
   jsr familiar_setup_initial_location_and_direction
+
+  jsr familiar_common_init
 
   rts
 
@@ -1793,7 +1800,8 @@ circle_y_hi:
 ;****************************************************************
 .proc familiar_state_shield_init
 
-  jsr familiar_common_init
+  dec familiar_state_counter
+  bne not_ready_yet
 
   lda #FAMILIAR_STATE_SHIELD_LENGTH
   sta familiar_state_counter
@@ -1823,6 +1831,7 @@ circle_y_hi:
 
   lda #FAMILIAR_STATE_SHIELD
   sta familiar_state
+not_ready_yet:
 
   rts
 
