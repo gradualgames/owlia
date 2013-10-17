@@ -492,6 +492,18 @@ familiar_direction_speed_y_lo:
 familiar_direction_speed_y_hi:
   .byte 0, 0, >FAMILIAR_SPEED, >(-FAMILIAR_SPEED)
 
+familiar_direction_shield_enter_circle_speed_x_lo:
+  .byte <FAMILIAR_SHIELD_ENTER_CIRCLE_SPEED, <(-FAMILIAR_SHIELD_ENTER_CIRCLE_SPEED), 0, 0
+
+familiar_direction_shield_enter_circle_speed_x_hi:
+  .byte >FAMILIAR_SHIELD_ENTER_CIRCLE_SPEED, >(-FAMILIAR_SHIELD_ENTER_CIRCLE_SPEED), 0, 0
+
+familiar_direction_shield_enter_circle_speed_y_lo:
+  .byte 0, 0, <FAMILIAR_SHIELD_ENTER_CIRCLE_SPEED, <(-FAMILIAR_SHIELD_ENTER_CIRCLE_SPEED)
+
+familiar_direction_shield_enter_circle_speed_y_hi:
+  .byte 0, 0, >FAMILIAR_SHIELD_ENTER_CIRCLE_SPEED, >(-FAMILIAR_SHIELD_ENTER_CIRCLE_SPEED)
+
 familiar_carry_bomb_direction_speed_x_lo:
   .byte 0, 0, 0, 0
 
@@ -522,6 +534,7 @@ familiar_direction_change_init:
     familiar_state_carry_hero_init, \
     familiar_state_carry_hero, \
     familiar_state_shield_init, \
+    familiar_state_shield_fly_to_circle, \
     familiar_state_shield, \
     familiar_state_homing_init, \
     familiar_state_homing
@@ -1708,6 +1721,11 @@ familiar_not_at_goal:
 
 .endproc
 
+;****************************************************************
+;This lut is a set of relative positions that describe 20 points
+;around a circle of radius 20. It is used by the shield technique
+;to move the familiar around the hero in a circular pattern.
+;****************************************************************
 circle_x_lo:
 .byte $14
 .byte $13
@@ -1793,6 +1811,9 @@ circle_y_hi:
 .byte $ff
 .byte $ff
 
+familiar_param_initial_shield_circle_lut_index:
+  .byte 0, 10, 5, 15
+
 ;****************************************************************
 ;This state initializes the shield technique. The shield tech
 ;produces circular movement by reading values out of a pre-
@@ -1803,13 +1824,64 @@ circle_y_hi:
   dec familiar_state_counter
   bne not_ready_yet
 
-  lda #FAMILIAR_STATE_SHIELD_LENGTH
-  sta familiar_state_counter
-
-  lda #0
+  ldy familiar_direction
+  lda familiar_param_initial_shield_circle_lut_index,y
   sta familiar_param_shield_circle_lut_index
 
-  ;now add shield coords onto hero to get familiar's position
+  ;initialize x and y velocity
+  ldy familiar_direction
+  lda familiar_direction_shield_enter_circle_speed_x_lo,y
+  sta familiar_x_velocity
+  lda familiar_direction_shield_enter_circle_speed_x_hi,y
+  sta familiar_x_velocity+1
+
+  lda familiar_direction_shield_enter_circle_speed_y_lo,y
+  sta familiar_y_velocity
+  lda familiar_direction_shield_enter_circle_speed_y_hi,y
+  sta familiar_y_velocity+1
+
+  jsr familiar_play_flap_sound
+
+  lda #FAMILIAR_STATE_SHIELD_FLY_TO_CIRCLE_LENGTH
+  sta familiar_state_counter
+
+  lda #FAMILIAR_STATE_SHIELD_FLY_TO_CIRCLE
+  sta familiar_state
+
+not_ready_yet:
+
+  rts
+
+.endproc
+
+;****************************************************************
+;This state causes the familiar to fly away from the hero towards
+;the circle around which it will begin flying. This completes the
+;look and feel of "throwing" the owl for the shield technique.
+;****************************************************************
+.proc familiar_state_shield_fly_to_circle
+
+  jsr familiar_move
+
+  jsr familiar_add_shadow_spot
+
+  ;animate the familiar
+  lda familiar_animation_address
+  sta w2
+  lda familiar_animation_address+1
+  sta w2+1
+
+  lda #<familiar_animation_object
+  sta w1
+  lda #>familiar_animation_object
+  sta w1+1
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
+  jsr sprite_update_animation
+
+  dec familiar_state_counter
+  bne do_not_transition_to_shield_state_yet
+
+  ;add shield coords onto hero to get familiar's position
   ldy familiar_param_shield_circle_lut_index
   clc
   lda hero_x
@@ -1827,11 +1899,13 @@ circle_y_hi:
   adc circle_y_hi,y
   sta familiar_y+1
 
-  jsr familiar_play_flap_sound
+  lda #FAMILIAR_STATE_SHIELD_LENGTH
+  sta familiar_state_counter
 
   lda #FAMILIAR_STATE_SHIELD
   sta familiar_state
-not_ready_yet:
+
+do_not_transition_to_shield_state_yet:
 
   rts
 
@@ -1843,7 +1917,7 @@ not_ready_yet:
 ;****************************************************************
 .proc familiar_state_shield
 
-  ;now add shield coords onto hero to get familiar's position
+  ;add shield coords onto hero to get familiar's position
   ldy familiar_param_shield_circle_lut_index
   clc
   lda hero_x
