@@ -300,7 +300,7 @@ entity_not_hitting_hero:
 
   clc
   lda entity_x_lo,x
-  adc #$04
+  adc #$08
   sta w0
   lda entity_x_hi,x
   adc #$00
@@ -308,7 +308,7 @@ entity_not_hitting_hero:
 
   clc
   lda entity_y_lo,x
-  adc #$10
+  adc #$18
   sta w1
   lda entity_y_hi,x
   adc #$00
