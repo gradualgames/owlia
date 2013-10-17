@@ -446,7 +446,123 @@ does_not_intersect_textbox:
 
   switch_bank_ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_draw_animation
+
+  ldy familiar_state
+  lda familiar_extended_draw_handlers_lo,y
+  sta w0
+  lda familiar_extended_draw_handlers_hi,y
+  sta w0+1
+  jsr indirect_jsr_w0
+
 familiar_not_alive:
+
+  rts
+
+indirect_jsr_w0:
+  jmp (w0)
+
+.endproc
+
+.define familiar_extended_draw_handlers \
+  familiar_extended_draw_nop,\
+  familiar_extended_draw_nop,\
+  familiar_extended_draw_nop,\
+  familiar_extended_draw_nop,\
+  familiar_extended_draw_nop,\
+  familiar_extended_draw_nop,\
+  familiar_extended_draw_bomb,\
+  familiar_extended_draw_bomb,\
+  familiar_extended_draw_bomb,\
+  familiar_extended_draw_lantern,\
+  familiar_extended_draw_lantern,\
+  familiar_extended_draw_nop,\
+  familiar_extended_draw_nop,\
+  familiar_extended_draw_nop,\
+  familiar_extended_draw_nop,\
+  familiar_extended_draw_nop,\
+  familiar_extended_draw_nop,\
+  familiar_extended_draw_nop
+
+familiar_extended_draw_handlers_lo:
+  .lobytes familiar_extended_draw_handlers
+
+familiar_extended_draw_handlers_hi:
+  .hibytes familiar_extended_draw_handlers
+
+.proc familiar_extended_draw_nop
+
+  rts
+
+.endproc
+
+.proc familiar_extended_draw_bomb
+
+  lda #<Bomb0
+  sta w0
+  lda #>Bomb0
+  sta w0+1
+
+  clc
+  lda familiar_screen_x
+  adc #<BOMB_CARRIED_X_OFFSET
+  sta w3
+  lda familiar_screen_x+1
+  adc #>BOMB_CARRIED_X_OFFSET
+  sta w3+1
+
+  clc
+  lda familiar_screen_y
+  adc #<BOMB_CARRIED_Y_OFFSET
+  sta w4
+  lda familiar_screen_y+1
+  adc #>BOMB_CARRIED_Y_OFFSET
+  sta w4+1
+
+
+  lda #0
+  sta b2
+
+  ldy #sprite_chr_group_index_bomb
+  lda sprite_chr_group_offsets,y
+  sta chr_group_offset
+
+  jsr sprite_draw_metasprite
+
+  rts
+
+.endproc
+
+.proc familiar_extended_draw_lantern
+
+  lda #<Lantern0
+  sta w0
+  lda #>Lantern0
+  sta w0+1
+
+  clc
+  lda familiar_screen_x
+  adc #<LANTERN_CARRIED_X_OFFSET
+  sta w3
+  lda familiar_screen_x+1
+  adc #>LANTERN_CARRIED_X_OFFSET
+  sta w3+1
+
+  clc
+  lda familiar_screen_y
+  adc #<LANTERN_CARRIED_Y_OFFSET
+  sta w4
+  lda familiar_screen_y+1
+  adc #>LANTERN_CARRIED_Y_OFFSET
+  sta w4+1
+
+  lda #0
+  sta b2
+
+  ldy #sprite_chr_group_index_lantern
+  lda sprite_chr_group_offsets,y
+  sta chr_group_offset
+
+  jsr sprite_draw_metasprite
 
   rts
 

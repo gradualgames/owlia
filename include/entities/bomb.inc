@@ -22,7 +22,7 @@ bomb_update:
 
 bomb_state_init_carried:
 
-  jsr entity_set_drawable
+  jsr entity_clear_drawable
 
   lda #<Bomb
   sta entity_animation_address_lo,x
