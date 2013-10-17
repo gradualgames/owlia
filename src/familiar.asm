@@ -518,7 +518,6 @@ familiar_extended_draw_handlers_hi:
   adc #>BOMB_CARRIED_Y_OFFSET
   sta w4+1
 
-
   lda #0
   sta b2
 
