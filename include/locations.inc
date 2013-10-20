@@ -159,7 +159,7 @@ location_index_meadow2_north_entrance
 location_index_meadow2_east_entrance
 location_index_meadow3_southwest_entrance
 location_index_meadow3_dungeon_entrance
-location_index_dungeon_entrance
+location_index_dungeon_0_3_s
 .endenum
 
 .endif

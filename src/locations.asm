@@ -41,7 +41,7 @@
     meadow2_east_entrance,\
     meadow3_southwest_entrance,\
     meadow3_dungeon_entrance,\
-    dungeon_entrance
+    dungeon_0_3_s
 
 locations_lo:
   .lobytes locations
@@ -297,7 +297,7 @@ define_location LOCATION_BRIGHTNESS_LEVEL_4,\
                         0, 0, 0, HERO_DIRECTION_DOWN
 
 ;dungeon locations
-dungeon_entrance:
+dungeon_0_3_s:
 define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                 LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
                 LOCATION_BRIGHTNESS_LEVEL_4, \
