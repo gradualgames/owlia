@@ -183,6 +183,12 @@ location_index_dungeon_2_2_w
 location_index_dungeon_2_2_e
 location_index_dungeon_2_3_w
 location_index_dungeon_2_3_e
+location_index_dungeon_3_0_w
+location_index_dungeon_3_1_w
+location_index_dungeon_3_1_s
+location_index_dungeon_3_2_n
+location_index_dungeon_3_2_w
+location_index_dungeon_3_3_w
 .endenum
 
 .endif
