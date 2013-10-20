@@ -41,9 +41,7 @@
     meadow2_east_entrance,\
     meadow3_southwest_entrance,\
     meadow3_dungeon_entrance,\
-    dungeon_entrance, \
-    dungeon_room_a, \
-    dungeon_room_b
+    dungeon_entrance
 
 locations_lo:
   .lobytes locations
@@ -143,10 +141,9 @@ meadow3_entity_instances:
   .byte 0  ;count
 
 dungeon_entity_instances:
-  .byte 3  ;count
+  .byte 2  ;count
   .byte entity_index_key, 13, 4, 0, 0
   .byte entity_index_key, 25, 5, 0, 0
-  .byte entity_index_keyeddoor, 7, 1, 0, 1, location_index_dungeon_room_b
 
 ;****************************************************************
 ;Palettes.
@@ -168,7 +165,7 @@ meadow3_palette:
   .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$17,$20,$0d,$0d,$18,$36
 
 dungeon_palette:
-  .byte $0d,$08,$18,$27,$0d,$09,$08,$1a,$0d,$0d,$12,$22,$00,$00,$00,$00
+  .byte $0e,$0a,$0b,$08,$0e,$0b,$08,$18,$00,$00,$00,$00,$00,$00,$00,$00
   .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$17,$20,$0d,$0d,$18,$36
 
 ;****************************************************************
@@ -305,24 +302,6 @@ define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                 LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
                 LOCATION_BRIGHTNESS_LEVEL_4, \
                 area_index_dungeon, dungeon_entity_set, dungeon_entity_instances, dungeon_palette,\
-                0, 0, 7, 9, \
+                0, 45, 7, 57, \
                 sfx_door, 3, soundeffect_one,\
-                HERO_DIRECTION_UP
-
-dungeon_room_a:
-define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
-                LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
-                LOCATION_BRIGHTNESS_LEVEL_4, \
-                area_index_dungeon, dungeon_entity_set, dungeon_entity_instances, dungeon_palette,\
-                0, 0, 7, 2, \
-                0, 0, 0,\
-                HERO_DIRECTION_DOWN
-
-dungeon_room_b:
-define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
-                LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
-                LOCATION_BRIGHTNESS_LEVEL_4, \
-                area_index_dungeon, dungeon_entity_set, dungeon_entity_instances, dungeon_palette,\
-                16, 0, 23, 10, \
-                0, 0, 0,\
                 HERO_DIRECTION_UP
