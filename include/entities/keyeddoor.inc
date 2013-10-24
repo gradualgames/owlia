@@ -3,6 +3,7 @@
 KEYEDDOOR_INC = 1
 
 keyeddoor_location_index = entity_local0
+keyeddoor_locked = entity_local1
 
 .enum
 KEYEDDOOR_STATE_INIT
@@ -47,7 +48,9 @@ keyeddoor_state_main:
 
   jsr hero_cancel_attack
 
-  ;this location is locked, test to see if the hero has a key
+  lda keyeddoor_locked,x
+  beq door_is_not_locked
+  ;this door is locked, test to see if the hero has a key
   jsr inventory_can_use_key
   bne hero_can_use_key
 
@@ -70,6 +73,8 @@ keyeddoor_state_main:
 hero_can_use_key:
 
   jsr inventory_use_key
+
+door_is_not_locked:
 
   ;tell the play state to goto destination location
   lda #ACTION_GOTO_LOCATION_GROUP1
