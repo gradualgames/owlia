@@ -468,7 +468,7 @@ define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAG
 dungeon_0_3_n:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_0_3_entity_instances, dungeon_palette, 0, 45, 7, 48, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 dungeon_0_3_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_0_3_entity_instances, dungeon_palette, 0, 45, 7, 58, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_0_3_entity_instances, dungeon_palette, 0, 45, 7, 57, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 dungeon_1_3_n:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_1_3_entity_instances, dungeon_palette, 16, 45, 26, 48, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 dungeon_1_3_e:
