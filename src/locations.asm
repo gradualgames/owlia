@@ -113,13 +113,14 @@ meadow1_entity_set:
   .byte sprite_chr_group_index_pufferfish
 
 dungeon_entity_set:
-  .byte 6   ;sprite_chr_groups .byte
+  .byte 7   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_key
+  .byte sprite_chr_group_index_pufferfish
 
 ;****************************************************************
 ;Entity instance sets
@@ -182,7 +183,9 @@ dungeon_1_0_entity_instances:
   .byte entity_index_keyeddoor, 30, 7, 0, 2, location_index_dungeon_2_0_w, 0
 
 dungeon_2_0_entity_instances:
-  .byte 2
+  .byte 4
+  .byte entity_index_pufferfish, 39, 6, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_pufferfish, 39, 10, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_keyeddoor, 33, 7, 0, 2, location_index_dungeon_1_0_e, 0
   .byte entity_index_keyeddoor, 46, 7, 0, 2, location_index_dungeon_3_0_w, 0
 
@@ -191,7 +194,9 @@ dungeon_3_0_entity_instances:
   .byte entity_index_keyeddoor, 49, 7, 0, 2, location_index_dungeon_2_0_e, 0
 
 dungeon_0_1_entity_instances:
-  .byte 3
+  .byte 5
+  .byte entity_index_pufferfish, 4, 22, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_pufferfish, 11, 22, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_keyeddoor, 11, 18, 0, 2, location_index_dungeon_0_0_s, 0
   .byte entity_index_keyeddoor, 14, 22, 0, 2, location_index_dungeon_1_1_w, 0
   .byte entity_index_keyeddoor, 4, 28, 0, 2, location_index_dungeon_0_2_n, 0
@@ -202,27 +207,33 @@ dungeon_1_1_entity_instances:
   .byte entity_index_keyeddoor, 30, 22, 0, 2, location_index_dungeon_2_1_w, 0
 
 dungeon_2_1_entity_instances:
-  .byte 2
+  .byte 3
+  .byte entity_index_pufferfish, 39, 23, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_keyeddoor, 33, 22, 0, 2, location_index_dungeon_1_1_e, 0
   .byte entity_index_keyeddoor, 46, 22, 0, 2, location_index_dungeon_3_1_w, 0
 
 dungeon_3_1_entity_instances:
-  .byte 2
+  .byte 3
+  .byte entity_index_pufferfish, 56, 23, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_keyeddoor, 49, 22, 0, 2, location_index_dungeon_2_1_e, 0
   .byte entity_index_keyeddoor, 56, 28, 0, 2, location_index_dungeon_3_2_n, 0
 
 dungeon_0_2_entity_instances:
-  .byte 2
+  .byte 3
+  .byte entity_index_pufferfish, 7, 38, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_keyeddoor, 4, 33, 0, 2, location_index_dungeon_0_1_s, 0
   .byte entity_index_keyeddoor, 7, 43, 0, 2, location_index_dungeon_0_3_n, 0
 
 dungeon_1_2_entity_instances:
-  .byte 2
+  .byte 3
+  .byte entity_index_pufferfish, 23, 37, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_keyeddoor, 26, 43, 0, 2, location_index_dungeon_1_3_n, 0
   .byte entity_index_keyeddoor, 30, 37, 0, 2, location_index_dungeon_2_2_w, 0
 
 dungeon_2_2_entity_instances:
-  .byte 2
+  .byte 4
+  .byte entity_index_pufferfish, 38, 36, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_pufferfish, 38, 40, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_keyeddoor, 33, 37, 0, 2, location_index_dungeon_1_2_e, 0
   .byte entity_index_keyeddoor, 46, 37, 0, 2, location_index_dungeon_3_2_w, 0
 
@@ -232,21 +243,26 @@ dungeon_3_2_entity_instances:
   .byte entity_index_keyeddoor, 56, 33, 0, 2, location_index_dungeon_3_1_s, 0
 
 dungeon_0_3_entity_instances:
-  .byte 1
+  .byte 3
+  .byte entity_index_pufferfish, 4, 52, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_keyeddoor, 7, 48, 0, 2, location_index_dungeon_0_2_s, 0
 
 dungeon_1_3_entity_instances:
-  .byte 2
+  .byte 3
+  .byte entity_index_pufferfish, 22, 53, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_keyeddoor, 26, 48, 0, 2, location_index_dungeon_1_2_s, 0
   .byte entity_index_keyeddoor, 30, 52, 0, 2, location_index_dungeon_2_3_w, 0
 
 dungeon_2_3_entity_instances:
-  .byte 2
+  .byte 3
+  .byte entity_index_pufferfish, 39, 53, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_keyeddoor, 33, 52, 0, 2, location_index_dungeon_1_3_e, 0
   .byte entity_index_keyeddoor, 46, 52, 0, 2, location_index_dungeon_3_3_w, 0
 
 dungeon_3_3_entity_instances:
-  .byte 1
+  .byte 2
+  .byte entity_index_pufferfish, 56, 53, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_keyeddoor, 49, 52, 0, 2, location_index_dungeon_2_3_e, 0
 
 ;****************************************************************
@@ -452,7 +468,7 @@ define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAG
 dungeon_0_3_n:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_0_3_entity_instances, dungeon_palette, 0, 45, 7, 48, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 dungeon_0_3_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_0_3_entity_instances, dungeon_palette, 0, 45, 7, 57, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_0_3_entity_instances, dungeon_palette, 0, 45, 7, 58, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 dungeon_1_3_n:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_1_3_entity_instances, dungeon_palette, 16, 45, 26, 48, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 dungeon_1_3_e:
