@@ -2,17 +2,23 @@
 .ifndef OCTOPUS_INC
 OCTOPUS_INC = 1
 
+OCTOPUS_INITIAL_HEALTH = 2
+
+OCTOPUS_ATTACKED_LENGTH = 30
+
 .enum
 OCTOPUS_STATE_INIT
 OCTOPUS_STATE_MAIN
 .endenum
 
-octopus_velocity_x_lo = entity_local0
-octopus_velocity_x_hi = entity_local1
-octopus_velocity_y_lo = entity_local2
-octopus_velocity_y_hi = entity_local3
-octopus_x_fine        = entity_local4
-octopus_y_fine        = entity_local5
+octopus_velocity_x_lo    = entity_local0
+octopus_velocity_x_hi    = entity_local1
+octopus_velocity_y_lo    = entity_local2
+octopus_velocity_y_hi    = entity_local3
+octopus_x_fine            = entity_local4
+octopus_y_fine            = entity_local5
+octopus_health            = entity_local6
+octopus_attacked_counter = entity_local7
 
 .define octopus_states \
   octopus_state_init, \
@@ -58,12 +64,20 @@ octopus_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
+  lda #OCTOPUS_INITIAL_HEALTH
+  sta octopus_health,x
+
+  lda #0
+  sta octopus_attacked_counter,x
+
   lda #OCTOPUS_STATE_MAIN
   sta entity_state,x
 
   rts
 
 octopus_state_main:
+
+  jsr octopus_advance_attacked_state
 
   .scope
   ;calculate distance between "goal" and X coordinate
@@ -208,13 +222,15 @@ done:
   bmi octopus_face_left
 octopus_face_right:
 
-  lda #%00000000
+  lda entity_sprite_flags,x
+  and #%10111111
   sta entity_sprite_flags,x
 
   jmp done
 octopus_face_left:
 
-  lda #%01000000
+  lda entity_sprite_flags,x
+  ora #%01000000
   sta entity_sprite_flags,x
 
 done:
@@ -230,29 +246,7 @@ do_not_move:
   jsr entity_test_entity_action_rect1
   bne action_rect1_not_deadly
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-  txa
-  pha
-
-  lda #entity_index_explosion
-  sta b0
-
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-  lda entity_y_lo,x
-  sta w1
-  lda entity_y_hi,x
-  sta w1+1
-
-  jsr entity_spawn
-
-  pla
-  tax
+  jsr octopus_attacked
 
 action_rect1_not_deadly:
 
@@ -263,29 +257,7 @@ action_rect1_not_deadly:
   jsr entity_test_entity_action_rect2
   bne action_rect2_not_deadly
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-  txa
-  pha
-
-  lda #entity_index_explosion
-  sta b0
-
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-  lda entity_y_lo,x
-  sta w1
-  lda entity_y_hi,x
-  sta w1+1
-
-  jsr entity_spawn
-
-  pla
-  tax
+  jsr octopus_attacked
 
   jsr familiar_hit_enemy
 
@@ -319,5 +291,87 @@ entity_not_hitting_hero:
   jsr entity_update_animation
 
   rts
+
+.proc octopus_attacked
+
+  lda octopus_attacked_counter,x
+  bne attacked_state_machine_already_running
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_hit
+  sta sound_param_word_0
+  lda #>sfx_hit
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  lda #OCTOPUS_ATTACKED_LENGTH
+  sta octopus_attacked_counter,x
+
+  dec octopus_health,x
+  bne octopus_not_dead_yet
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  txa
+  pha
+
+  lda #entity_index_explosion
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  pla
+  tax
+octopus_not_dead_yet:
+
+attacked_state_machine_already_running:
+
+  rts
+
+.endproc
+
+.proc octopus_advance_attacked_state
+
+  lda octopus_attacked_counter,x
+  beq attacked_state_machine_not_running
+
+  dec octopus_attacked_counter,x
+
+  lda octopus_attacked_counter,x
+  and #%00000011
+  sta b0
+
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b0
+  sta entity_sprite_flags,x
+
+attacked_state_machine_not_running:
+
+  rts
+
+.endproc
 
 .endif
