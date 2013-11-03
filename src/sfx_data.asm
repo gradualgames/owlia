@@ -54,6 +54,10 @@ sfx_volume_envelope_11:
 sfx_volume_envelope_12:
   .byte 12,10,9,8,6,2,ENV_STOP
 
+;used for hit
+sfx_volume_envelope_13:
+  .byte 15,6,10,15,9,2,0,ENV_STOP
+
 sfx_pitch_envelope_0:
   .byte 0, ENV_LOOP
 
@@ -79,6 +83,7 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_10
   .word sfx_volume_envelope_11
   .word sfx_volume_envelope_12
+  .word sfx_volume_envelope_13
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_0
@@ -95,6 +100,10 @@ sfx_set1:
 
 sfx_test:
   .byte STV,2, STP, 0, SDU, 0, STL, 50, 5
+  .byte TRM
+
+sfx_hit:
+  .byte STV,13,STP,0,SDU,0,STL,20,8
   .byte TRM
 
 sfx_sword:

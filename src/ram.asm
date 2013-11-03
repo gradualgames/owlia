@@ -106,6 +106,10 @@ entity_local12:              .res MAX_ENTITIES
 entity_local13:              .res MAX_ENTITIES
 entity_local14:              .res MAX_ENTITIES
 entity_local15:              .res MAX_ENTITIES
+entity_local16:              .res MAX_ENTITIES
+entity_local17:              .res MAX_ENTITIES
+entity_local18:              .res MAX_ENTITIES
+entity_local19:              .res MAX_ENTITIES
 
 ;****************************************************************
 ;Specialized arrays for placement of shadow spots. These are

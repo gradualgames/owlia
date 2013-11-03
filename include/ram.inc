@@ -61,6 +61,10 @@ MAX_SHADOW_SPOTS = 4
 .global entity_local13
 .global entity_local14
 .global entity_local15
+.global entity_local16
+.global entity_local17
+.global entity_local18
+.global entity_local19
 
 .global shadow_spot_count
 .global shadow_spot_x_lo

@@ -14,6 +14,10 @@ PUFFERFISH_SPEED = 100
 
 PUFFERFISH_INITIAL_DIRECTION = PUFFERFISH_DIRECTION_LEFT
 
+PUFFERFISH_INITIAL_HEALTH = 2
+
+PUFFERFISH_ATTACKED_LENGTH = 30
+
 PUFFERFISH_UNPUFFED_ANIMATION_OFFSET = 0
 PUFFERFISH_PUFFED_ANIMATION_OFFSET = 4
 
@@ -45,6 +49,8 @@ pufferfish_random_turnright_counter = entity_local11
 pufferfish_pseudo_random_number = entity_local12
 pufferfish_animation_offset = entity_local13
 pufferfish_puff_counter = entity_local14
+pufferfish_health = entity_local15
+pufferfish_attacked_counter = entity_local16
 
 .enum
 PUFFERFISH_DIRECTION_RIGHT
@@ -200,6 +206,12 @@ pufferfish_state_init:
   lda #PUFFERFISH_INITIAL_DIRECTION
   sta pufferfish_direction,x
 
+  lda #PUFFERFISH_INITIAL_HEALTH
+  sta pufferfish_health,x
+
+  lda #0
+  sta pufferfish_attacked_counter,x
+
   ;initialize random turn counters. Each time they count
   ;down the pufferfish will turn, and then a new value will
   ;be selected via a pseudo random number generator.
@@ -338,6 +350,8 @@ do_not_switch_state:
 
 .proc pufferfish_main
 
+  jsr pufferfish_advance_attacked_state
+
   jsr entity_test_hero_rect
   bne entity_not_hitting_hero
 
@@ -352,29 +366,7 @@ entity_not_hitting_hero:
   jsr entity_test_entity_action_rect1
   bne action_rect1_not_deadly
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-  txa
-  pha
-
-  lda #entity_index_explosion
-  sta b0
-
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-  lda entity_y_lo,x
-  sta w1
-  lda entity_y_hi,x
-  sta w1+1
-
-  jsr entity_spawn
-
-  pla
-  tax
+  jsr pufferfish_attacked
 
 action_rect1_not_deadly:
 
@@ -385,29 +377,7 @@ action_rect1_not_deadly:
   jsr entity_test_entity_action_rect2
   bne action_rect2_not_deadly
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-  txa
-  pha
-
-  lda #entity_index_explosion
-  sta b0
-
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-  lda entity_y_lo,x
-  sta w1
-  lda entity_y_hi,x
-  sta w1+1
-
-  jsr entity_spawn
-
-  pla
-  tax
+  jsr pufferfish_attacked
 
   jsr familiar_hit_enemy
 
@@ -603,6 +573,88 @@ done:
 
 .endproc
 
+.proc pufferfish_attacked
+
+  lda pufferfish_attacked_counter,x
+  bne attacked_state_machine_already_running
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_hit
+  sta sound_param_word_0
+  lda #>sfx_hit
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  lda #PUFFERFISH_ATTACKED_LENGTH
+  sta pufferfish_attacked_counter,x
+
+  dec pufferfish_health,x
+  bne pufferfish_not_dead_yet
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  txa
+  pha
+
+  lda #entity_index_explosion
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  pla
+  tax
+pufferfish_not_dead_yet:
+
+attacked_state_machine_already_running:
+
+  rts
+
+.endproc
+
+.proc pufferfish_advance_attacked_state
+
+  lda pufferfish_attacked_counter,x
+  beq attacked_state_machine_not_running
+
+  dec pufferfish_attacked_counter,x
+
+  lda pufferfish_attacked_counter,x
+  and #%00000011
+  sta b0
+
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b0
+  sta entity_sprite_flags,x
+
+attacked_state_machine_not_running:
+
+  rts
+
+.endproc
+
 .proc pufferfish_get_animation_params_from_direction
 
   ;advance puff counter logic
@@ -629,7 +681,9 @@ done:
   lda pufferfish_animation_addresses_hi,y
   sta entity_animation_address_hi,x
 
-  lda pufferfish_sprite_flags_direction,y
+  lda entity_sprite_flags,x
+  and #%10111111
+  ora pufferfish_sprite_flags_direction,y
   sta entity_sprite_flags,x
 
   rts
