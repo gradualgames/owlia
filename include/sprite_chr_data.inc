@@ -21,6 +21,7 @@ sprite_chr_group_index_rope
 sprite_chr_group_index_coins
 sprite_chr_group_index_title
 sprite_chr_group_index_pufferfish
+sprite_chr_group_index_crab
 .endenum
 
 sprite_chr_group_bank_hero = 1
@@ -38,5 +39,6 @@ sprite_chr_group_bank_rope = 2
 sprite_chr_group_bank_coins = 2
 sprite_chr_group_bank_title = 2
 sprite_chr_group_bank_pufferfish = 2
+sprite_chr_group_bank_crab = 2
 
 .endif

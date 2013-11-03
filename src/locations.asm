@@ -113,7 +113,7 @@ meadow1_entity_set:
   .byte sprite_chr_group_index_pufferfish
 
 dungeon_entity_set:
-  .byte 7   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -121,6 +121,7 @@ dungeon_entity_set:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_pufferfish
+  .byte sprite_chr_group_index_crab
 
 ;****************************************************************
 ;Entity instance sets
@@ -243,9 +244,10 @@ dungeon_3_2_entity_instances:
   .byte entity_index_keyeddoor, 56, 33, 0, 2, location_index_dungeon_3_1_s, 0
 
 dungeon_0_3_entity_instances:
-  .byte 3
+  .byte 4
   .byte entity_index_pufferfish, 4, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_crab, 11, 53, 0, 0
   .byte entity_index_keyeddoor, 7, 48, 0, 2, location_index_dungeon_0_2_s, 0
 
 dungeon_1_3_entity_instances:
@@ -286,7 +288,7 @@ meadow3_palette:
 
 dungeon_palette:
   .byte $0e,$0a,$0b,$08,$0e,$0b,$08,$18,$00,$00,$00,$00,$00,$00,$00,$00
-  .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$17,$20,$0d,$0d,$18,$36
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
 
 ;****************************************************************
 ;Location definitions.

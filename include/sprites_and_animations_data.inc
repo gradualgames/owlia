@@ -62,4 +62,10 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global PufferFishPuffedSide
 .global PufferFishUnpuffedSide
 
+.global CrabWalk0
+.global CrabWalk1
+.global CrabWalk2
+
+.global CrabWalk
+
 .endif
