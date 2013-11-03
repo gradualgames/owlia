@@ -16,6 +16,10 @@ explosion_random_offset_x = entity_local2
 explosion_random_offset_x_masked = entity_local3
 explosion_random_offset_y = entity_local4
 explosion_random_offset_y_masked = entity_local5
+explosion_spawn_x_lo = entity_local6
+explosion_spawn_x_hi = entity_local7
+explosion_spawn_y_lo = entity_local8
+explosion_spawn_y_hi = entity_local9
 
 .define explosion_states \
   explosion_state_init, \
@@ -57,6 +61,17 @@ explosion_state_init:
 
   lda #EXPLOSION_STATE_MAIN
   sta entity_state,x
+
+  ;remember spawn position
+  lda entity_x_lo,x
+  sta explosion_spawn_x_lo,x
+  lda entity_x_hi,x
+  sta explosion_spawn_x_hi,x
+
+  lda entity_y_lo,x
+  sta explosion_spawn_y_lo,x
+  lda entity_y_hi,x
+  sta explosion_spawn_y_hi,x
 
   ;start the pseudo random number with a variable that is
   ;frequently influenced by the human player
@@ -110,23 +125,23 @@ explosion_state_main:
   sta explosion_random_offset_y_masked,x
 
   ;use spawn position and pseudo random number to determine x and y coordinates this frame
-  lda entity_spawn_x_lo,x
+  lda explosion_spawn_x_lo,x
   sta entity_x_lo,x
-  lda entity_spawn_x_hi,x
+  lda explosion_spawn_x_hi,x
   sta entity_x_hi,x
   clc
-  lda entity_spawn_x_lo,x
+  lda explosion_spawn_x_lo,x
   adc explosion_random_offset_x_masked,x
   sta entity_x_lo,x
-  lda entity_spawn_x_hi,x
+  lda explosion_spawn_x_hi,x
   adc #$00
   sta entity_x_hi,x
 
   clc
-  lda entity_spawn_y_lo,x
+  lda explosion_spawn_y_lo,x
   adc explosion_random_offset_y_masked,x
   sta entity_y_lo,x
-  lda entity_spawn_y_hi,x
+  lda explosion_spawn_y_hi,x
   adc #$00
   sta entity_y_hi,x
 

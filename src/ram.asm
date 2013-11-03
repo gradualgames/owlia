@@ -74,10 +74,6 @@ sorted_entity_index: .res 1
 entity_type:                 .res MAX_ENTITIES
 entity_flags:                .res MAX_ENTITIES
 entity_state:                .res MAX_ENTITIES
-entity_spawn_x_lo:           .res MAX_ENTITIES
-entity_spawn_x_hi:           .res MAX_ENTITIES
-entity_spawn_y_lo:           .res MAX_ENTITIES
-entity_spawn_y_hi:           .res MAX_ENTITIES
 entity_x_lo:                 .res MAX_ENTITIES
 entity_x_hi:                 .res MAX_ENTITIES
 entity_y_lo:                 .res MAX_ENTITIES

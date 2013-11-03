@@ -29,10 +29,6 @@ MAX_SHADOW_SPOTS = 4
 .global entity_type
 .global entity_flags
 .global entity_state
-.global entity_spawn_x_lo
-.global entity_spawn_x_hi
-.global entity_spawn_y_lo
-.global entity_spawn_y_hi
 .global entity_x_lo
 .global entity_x_hi
 .global entity_y_lo

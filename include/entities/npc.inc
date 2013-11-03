@@ -29,6 +29,10 @@ npc_direction = entity_local5
 npc_pseudo_random_number = entity_local6
 npc_frame_counter = entity_local7
 npc_pseudo_random_number_sample = entity_local8
+npc_spawn_x_lo = entity_local9
+npc_spawn_x_hi = entity_local10
+npc_spawn_y_lo = entity_local11
+npc_spawn_y_hi = entity_local12
 
 npc_direction_speed_x_lo:
   .byte NPC_SPEED, -NPC_SPEED, 0, 0
@@ -110,6 +114,17 @@ npc_state_init:
   lda stream_read_address_lo
   eor hero_x
   sta npc_pseudo_random_number,x
+
+  ;remember spawn position
+  lda entity_x_lo,x
+  sta npc_spawn_x_lo,x
+  lda entity_x_hi,x
+  sta npc_spawn_x_hi,x
+
+  lda entity_y_lo,x
+  sta npc_spawn_y_lo,x
+  lda entity_y_hi,x
+  sta npc_spawn_y_hi,x
 
   .scope
   lda npc_mode,x
@@ -500,16 +515,16 @@ keep_within_walk_rectangle:
   ;subtract spawn x from current x
   sec
   lda entity_x_lo,x
-  sbc entity_spawn_x_lo,x
+  sbc npc_spawn_x_lo,x
   sta w0
   lda entity_x_hi,x
-  sbc entity_spawn_x_hi,x
+  sbc npc_spawn_x_hi,x
   sta w0+1
   bpl not_left_of_rect
 
-  lda entity_spawn_x_lo,x
+  lda npc_spawn_x_lo,x
   sta entity_x_lo,x
-  lda entity_spawn_x_hi,x
+  lda npc_spawn_x_hi,x
   sta entity_x_hi,x
 
   ;stop npc from walking
@@ -526,10 +541,10 @@ not_left_of_rect:
   bmi not_right_of_rect
 
   clc
-  lda entity_spawn_x_lo,x
+  lda npc_spawn_x_lo,x
   adc npc_walk_rect_width,x
   sta entity_x_lo,x
-  lda entity_spawn_x_hi,x
+  lda npc_spawn_x_hi,x
   adc #0
   sta entity_x_hi,x
 
@@ -542,16 +557,16 @@ not_right_of_rect:
   ;subtract spawn y from current y
   sec
   lda entity_y_lo,x
-  sbc entity_spawn_y_lo,x
+  sbc npc_spawn_y_lo,x
   sta w1
   lda entity_y_hi,x
-  sbc entity_spawn_y_hi,x
+  sbc npc_spawn_y_hi,x
   sta w1+1
   bpl not_above_rect
 
-  lda entity_spawn_y_lo,x
+  lda npc_spawn_y_lo,x
   sta entity_y_lo,x
-  lda entity_spawn_y_hi,x
+  lda npc_spawn_y_hi,x
   sta entity_y_hi,x
 
   ;stop npc from walking
@@ -568,10 +583,10 @@ not_above_rect:
   bmi not_below_rect
 
   clc
-  lda entity_spawn_y_lo,x
+  lda npc_spawn_y_lo,x
   adc npc_walk_rect_height,x
   sta entity_y_lo,x
-  lda entity_spawn_y_hi,x
+  lda npc_spawn_y_hi,x
   adc #0
   sta entity_y_hi,x
 
