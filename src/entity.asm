@@ -1,3 +1,4 @@
+.include "actions.inc"
 .include "entity.inc"
 .include "entities.inc"
 .include "hero.inc"
@@ -13,8 +14,168 @@
 .include "textbox.inc"
 .include "ppu.inc"
 .include "locations.inc"
+.include "soundengine.inc"
+.include "sfx_data.inc"
 
 .segment "CODE"
+
+;this routine compares this entity's rect to the
+;two action rects and the hero rect and reacts
+;accordingly. It forwards parameters onwards to
+;entity_attacked and entity_advance_attacked_state.
+;expects b0 to indicate what to reset the attacked counter to
+;expects w0 to contain address of attacked_counter array
+;expects w1 to contain address of health array
+;expects x to contain the index of this entity
+;uses y in place of x to use indirect addressing
+.proc entity_combat
+
+  jsr entity_advance_attacked_state
+
+  jsr entity_test_hero_rect
+  bne entity_not_hitting_hero
+
+  jsr entity_hurt_hero
+
+entity_not_hitting_hero:
+
+  lda entity_action_rect1_action
+  cmp #ACTION_ATTACK
+  bne action_rect1_not_deadly
+
+  jsr entity_test_entity_action_rect1
+  bne action_rect1_not_deadly
+
+  jsr entity_attacked
+
+action_rect1_not_deadly:
+
+  lda entity_action_rect2_action
+  cmp #ACTION_ATTACK
+  bne action_rect2_not_deadly
+
+  jsr entity_test_entity_action_rect2
+  bne action_rect2_not_deadly
+
+  jsr entity_attacked
+  
+  jsr familiar_hit_enemy
+
+action_rect2_not_deadly:
+
+  rts
+
+.endproc
+
+;expects b0 to indicate what to reset the attacked counter to
+;expects w0 to contain address of attacked_counter array
+;expects w1 to contain address of health array
+;expects x to contain the index of this entity
+;uses y in place of x to use indirect addressing
+.proc entity_attacked
+attacked_counter_reset = b0
+attacked_counter = w0
+health = w1
+
+  txa
+  tay
+
+  lda (attacked_counter),y
+  bne attacked_state_machine_already_running
+
+  ;play a sound
+  txa
+  pha
+  tya
+  pha
+
+  lda #<sfx_hit
+  sta sound_param_word_0
+  lda #>sfx_hit
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tay
+  pla
+  tax
+
+  lda attacked_counter_reset
+  sta (attacked_counter),y
+
+  sec
+  lda (health),y
+  sbc #1
+  sta (health),y
+  bne entity_not_dead_yet
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  txa
+  pha
+
+  lda #entity_index_explosion
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  pla
+  tax
+entity_not_dead_yet:
+
+attacked_state_machine_already_running:
+
+  rts
+
+.endproc
+
+;expects w0 to contain address of attacked_counter array
+;expects x to point at this entity
+;uses y in place of x for indirect addressing
+.proc entity_advance_attacked_state
+attacked_counter = w0
+
+  txa
+  tay
+
+  lda (attacked_counter),y
+  beq attacked_state_machine_not_running
+
+  sec
+  lda (attacked_counter),y
+  sbc #1
+  sta (attacked_counter),y
+
+  lda (attacked_counter),y
+  and #%00000011
+  sta b0
+
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b0
+  sta entity_sprite_flags,x
+
+attacked_state_machine_not_running:
+
+  rts
+
+.endproc
 
 ;This routine calls hero_hurt after correctly calculating
 ;the proper knockback direction for the hero based on the

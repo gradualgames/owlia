@@ -350,38 +350,17 @@ do_not_switch_state:
 
 .proc pufferfish_main
 
-  jsr pufferfish_advance_attacked_state
-
-  jsr entity_test_hero_rect
-  bne entity_not_hitting_hero
-
-  jsr entity_hurt_hero
-
-entity_not_hitting_hero:
-
-  lda entity_action_rect1_action
-  cmp #ACTION_ATTACK
-  bne action_rect1_not_deadly
-
-  jsr entity_test_entity_action_rect1
-  bne action_rect1_not_deadly
-
-  jsr pufferfish_attacked
-
-action_rect1_not_deadly:
-
-  lda entity_action_rect2_action
-  cmp #ACTION_ATTACK
-  bne action_rect2_not_deadly
-
-  jsr entity_test_entity_action_rect2
-  bne action_rect2_not_deadly
-
-  jsr pufferfish_attacked
-
-  jsr familiar_hit_enemy
-
-action_rect2_not_deadly:
+  lda #PUFFERFISH_ATTACKED_LENGTH
+  sta b0
+  lda #<pufferfish_attacked_counter
+  sta w0
+  lda #>pufferfish_attacked_counter
+  sta w0+1
+  lda #<pufferfish_health
+  sta w1
+  lda #>pufferfish_health
+  sta w1+1
+  jsr entity_combat
 
   ;test for collision offset from pufferfish
   ldy pufferfish_direction,x
@@ -568,88 +547,6 @@ done:
   jsr sprite_add_shadow_spot
 
   jsr entity_update_animation
-
-  rts
-
-.endproc
-
-.proc pufferfish_attacked
-
-  lda pufferfish_attacked_counter,x
-  bne attacked_state_machine_already_running
-
-  ;play a sound
-  txa
-  pha
-
-  lda #<sfx_hit
-  sta sound_param_word_0
-  lda #>sfx_hit
-  sta sound_param_word_0+1
-
-  lda #3
-  sta sound_param_byte_0
-
-  ldx #soundeffect_one
-  jsr stream_initialize
-
-  pla
-  tax
-
-  lda #PUFFERFISH_ATTACKED_LENGTH
-  sta pufferfish_attacked_counter,x
-
-  dec pufferfish_health,x
-  bne pufferfish_not_dead_yet
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-  txa
-  pha
-
-  lda #entity_index_explosion
-  sta b0
-
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-  lda entity_y_lo,x
-  sta w1
-  lda entity_y_hi,x
-  sta w1+1
-
-  jsr entity_spawn
-
-  pla
-  tax
-pufferfish_not_dead_yet:
-
-attacked_state_machine_already_running:
-
-  rts
-
-.endproc
-
-.proc pufferfish_advance_attacked_state
-
-  lda pufferfish_attacked_counter,x
-  beq attacked_state_machine_not_running
-
-  dec pufferfish_attacked_counter,x
-
-  lda pufferfish_attacked_counter,x
-  and #%00000011
-  sta b0
-
-  lda entity_sprite_flags,x
-  and #%11111100
-  ora b0
-  sta entity_sprite_flags,x
-
-attacked_state_machine_not_running:
 
   rts
 
