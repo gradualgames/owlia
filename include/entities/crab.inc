@@ -2,13 +2,90 @@
 .ifndef CRAB_INC
 CRAB_INC = 1
 
-CRAB_WIDTH = $0f
-CRAB_HEIGHT = $0f
+CRAB_WIDTH = (8 * 3 - 1)
+CRAB_HALFWIDTH = (CRAB_WIDTH>>1)
+CRAB_HEIGHT = (8 * 3 - 1)
+CRAB_HALFHEIGHT = (CRAB_HEIGHT>1)
+
+CRAB_SPEED = 150
+
+CRAB_ATTACKED_LENGTH = 30
+
+.enum
+CRAB_DIRECTION_RIGHT
+CRAB_DIRECTION_LEFT
+CRAB_DIRECTION_DOWN
+CRAB_DIRECTION_UP
+.endenum
+
+CRAB_INITIAL_DIRECTION = CRAB_DIRECTION_DOWN
+CRAB_INITIAL_HEALTH = 3
+
+crab_direction = entity_local0
+crab_random_turnleft_counter = entity_local1
+crab_random_turnright_counter = entity_local2
+crab_pseudo_random_number = entity_local3
+crab_x_fine = entity_local4
+crab_y_fine = entity_local5
+crab_health = entity_local6
+crab_attacked_counter = entity_local7
 
 .enum
 CRAB_STATE_INIT
 CRAB_STATE_MAIN
 .endenum
+
+crab_turnright_direction:
+  .byte CRAB_DIRECTION_DOWN
+  .byte CRAB_DIRECTION_UP
+  .byte CRAB_DIRECTION_LEFT
+  .byte CRAB_DIRECTION_RIGHT
+
+crab_turnleft_direction:
+  .byte CRAB_DIRECTION_UP
+  .byte CRAB_DIRECTION_DOWN
+  .byte CRAB_DIRECTION_RIGHT
+  .byte CRAB_DIRECTION_LEFT
+
+.define crab_direction_speed_x CRAB_SPEED, -CRAB_SPEED, 0, 0
+
+crab_direction_speed_x_lo:
+  .lobytes crab_direction_speed_x
+
+crab_direction_speed_x_hi:
+  .hibytes crab_direction_speed_x
+
+.define crab_direction_speed_y 0, 0, CRAB_SPEED, -CRAB_SPEED
+
+crab_direction_speed_y_lo:
+  .lobytes crab_direction_speed_y
+
+crab_direction_speed_y_hi:
+  .hibytes crab_direction_speed_y
+
+.define crab_collision_offset_x \
+  CRAB_WIDTH, \
+  0, \
+  CRAB_HALFWIDTH, \
+  CRAB_HALFWIDTH
+
+crab_collision_offset_x_lo:
+  .lobytes crab_collision_offset_x
+
+crab_collision_offset_x_hi:
+  .hibytes crab_collision_offset_x
+
+.define crab_collision_offset_y \
+  CRAB_HALFHEIGHT, \
+  CRAB_HALFHEIGHT, \
+  CRAB_HEIGHT, \
+  0
+
+crab_collision_offset_y_lo:
+  .lobytes crab_collision_offset_y
+
+crab_collision_offset_y_hi:
+  .hibytes crab_collision_offset_y
 
 .define crab_states \
   crab_state_init, \
@@ -49,6 +126,22 @@ crab_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
+  lda #0
+  sta crab_x_fine,x
+  sta crab_y_fine,x
+
+  lda #CRAB_INITIAL_DIRECTION
+  sta crab_direction,x
+  lda #1
+  sta crab_random_turnleft_counter,x
+  sta crab_random_turnright_counter,x
+
+  lda #CRAB_INITIAL_HEALTH
+  sta crab_health,x
+
+  lda #0
+  sta crab_attacked_counter,x
+
   lda #CRAB_STATE_MAIN
   sta entity_state,x
 
@@ -56,8 +149,264 @@ crab_state_init:
 
 crab_state_main:
 
+  jsr crab_advance_attacked_state
+
+  .scope
+  jsr entity_test_hero_rect
+  bne entity_not_hitting_hero
+
+  jsr entity_hurt_hero
+
+entity_not_hitting_hero:
+  .endscope
+
+  .scope
+  lda entity_action_rect1_action
+  cmp #ACTION_ATTACK
+  bne action_rect1_not_deadly
+
+  jsr entity_test_entity_action_rect1
+  bne action_rect1_not_deadly
+
+  jsr crab_attacked
+
+action_rect1_not_deadly:
+  .endscope
+
+  .scope
+  lda entity_action_rect2_action
+  cmp #ACTION_ATTACK
+  bne action_rect2_not_deadly
+
+  jsr entity_test_entity_action_rect2
+  bne action_rect2_not_deadly
+
+  jsr crab_attacked
+
+  jsr familiar_hit_enemy
+
+action_rect2_not_deadly:
+  .endscope
+
+  ;permute the pseudo random number
+  .scope
+: lda crab_pseudo_random_number,x
+  beq doEor
+  asl
+  beq noEor ;if the input was $80, skip the EOR
+  bcc noEor
+doEor:
+  eor stream_read_address_lo
+noEor:
+  sta crab_pseudo_random_number,x
+  dey
+  bne :-
+
+  sta crab_pseudo_random_number,x
+  .endscope
+
+  .scope
+  dec crab_random_turnleft_counter,x
+  bne do_not_turn_crab
+
+  ldy crab_direction,x
+  lda crab_turnleft_direction,y
+  sta crab_direction,x
+
+  lda crab_pseudo_random_number,x
+  sta crab_random_turnleft_counter,x
+
+do_not_turn_crab:
+  .endscope
+
+  .scope
+  dec crab_random_turnright_counter,x
+  bne do_not_turn_crab
+
+  ldy crab_direction,x
+  lda crab_turnright_direction,y
+  sta crab_direction,x
+
+  ;select random number with an offset
+  clc
+  lda crab_pseudo_random_number,x
+  adc #128
+  sta crab_random_turnleft_counter,x
+
+do_not_turn_crab:
+  .endscope
+
+  ldy crab_direction,x
+  .scope
+  lda crab_direction_speed_x_hi,y
+  bmi sign_extend_negative
+sign_extend_positive:
+  clc
+  lda crab_x_fine,x
+  adc crab_direction_speed_x_lo,y
+  sta crab_x_fine,x
+  lda entity_x_lo,x
+  adc crab_direction_speed_x_hi,y
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc #$00
+  sta entity_x_hi,x
+  jmp done
+sign_extend_negative:
+  clc
+  lda crab_x_fine,x
+  adc crab_direction_speed_x_lo,y
+  sta crab_x_fine,x
+  lda entity_x_lo,x
+  adc crab_direction_speed_x_hi,y
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc #$ff
+  sta entity_x_hi,x
+done:
+  .endscope
+
+  .scope
+  lda crab_direction_speed_y_hi,y
+  bmi sign_extend_negative
+sign_extend_positive:
+  clc
+  lda crab_y_fine,x
+  adc crab_direction_speed_y_lo,y
+  sta crab_y_fine,x
+  lda entity_y_lo,x
+  adc crab_direction_speed_y_hi,y
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  adc #$00
+  sta entity_y_hi,x
+  jmp done
+sign_extend_negative:
+  clc
+  lda crab_y_fine,x
+  adc crab_direction_speed_y_lo,y
+  sta crab_y_fine,x
+  lda entity_y_lo,x
+  adc crab_direction_speed_y_hi,y
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  adc #$ff
+  sta entity_y_hi,x
+done:
+  .endscope
+
+  ;test for collision offset from crab
+  ldy crab_direction,x
+  clc
+  lda entity_x_lo,x
+  adc crab_collision_offset_x_lo,y
+  sta w0
+  lda entity_x_hi,x
+  adc crab_collision_offset_x_hi,y
+  sta w0+1
+  clc
+  lda entity_y_lo,x
+  adc crab_collision_offset_y_lo,y
+  sta w1
+  lda entity_y_hi,x
+  adc crab_collision_offset_y_hi,y
+  sta w1+1
+  jsr map_test_collision
+
+  lda b0
+  and #FLAG_SOLID
+  beq do_not_turn_crab
+
+  ldy crab_direction,x
+  lda crab_turnleft_direction,y
+  sta crab_direction,x
+
+do_not_turn_crab:
+
   jsr entity_update_animation
 
   rts
+
+.proc crab_attacked
+
+  lda crab_attacked_counter,x
+  bne attacked_state_machine_already_running
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_hit
+  sta sound_param_word_0
+  lda #>sfx_hit
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  lda #CRAB_ATTACKED_LENGTH
+  sta crab_attacked_counter,x
+
+  dec crab_health,x
+  bne crab_not_dead_yet
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  txa
+  pha
+
+  lda #entity_index_explosion
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  pla
+  tax
+crab_not_dead_yet:
+
+attacked_state_machine_already_running:
+
+  rts
+
+.endproc
+
+.proc crab_advance_attacked_state
+
+  lda crab_attacked_counter,x
+  beq attacked_state_machine_not_running
+
+  dec crab_attacked_counter,x
+
+  lda crab_attacked_counter,x
+  and #%00000011
+  sta b0
+
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b0
+  sta entity_sprite_flags,x
+
+attacked_state_machine_not_running:
+
+  rts
+
+.endproc
 
 .endif
