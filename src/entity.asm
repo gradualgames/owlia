@@ -24,10 +24,7 @@
 ;accordingly. It forwards parameters onwards to
 ;entity_attacked and entity_advance_attacked_state.
 ;expects b0 to indicate what to reset the attacked counter to
-;expects w0 to contain address of attacked_counter array
-;expects w1 to contain address of health array
 ;expects x to contain the index of this entity
-;uses y in place of x to use indirect addressing
 .proc entity_combat
 
   jsr entity_advance_attacked_state
@@ -74,19 +71,14 @@ action_rect2_not_deadly:
 ;uses y in place of x to use indirect addressing
 .proc entity_attacked
 attacked_counter_reset = b0
-attacked_counter = w0
-health = w1
+attacked_counter = entity_local19
+health = entity_local18
 
-  txa
-  tay
-
-  lda (attacked_counter),y
+  lda attacked_counter,x
   bne attacked_state_machine_already_running
 
   ;play a sound
   txa
-  pha
-  tya
   pha
 
   lda #<sfx_hit
@@ -101,17 +93,12 @@ health = w1
   jsr stream_initialize
 
   pla
-  tay
-  pla
   tax
 
   lda attacked_counter_reset
-  sta (attacked_counter),y
+  sta attacked_counter,x
 
-  sec
-  lda (health),y
-  sbc #1
-  sta (health),y
+  dec health,x
   bne entity_not_dead_yet
 
   lda entity_flags,x
@@ -145,24 +132,16 @@ attacked_state_machine_already_running:
 
 .endproc
 
-;expects w0 to contain address of attacked_counter array
 ;expects x to point at this entity
-;uses y in place of x for indirect addressing
 .proc entity_advance_attacked_state
-attacked_counter = w0
+attacked_counter = entity_local19
 
-  txa
-  tay
-
-  lda (attacked_counter),y
+  lda attacked_counter,x
   beq attacked_state_machine_not_running
 
-  sec
-  lda (attacked_counter),y
-  sbc #1
-  sta (attacked_counter),y
+  dec attacked_counter,x
 
-  lda (attacked_counter),y
+  lda attacked_counter,x
   and #%00000011
   sta b0
 

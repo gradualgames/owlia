@@ -49,8 +49,8 @@ pufferfish_random_turnright_counter = entity_local11
 pufferfish_pseudo_random_number = entity_local12
 pufferfish_animation_offset = entity_local13
 pufferfish_puff_counter = entity_local14
-pufferfish_health = entity_local15
-pufferfish_attacked_counter = entity_local16
+pufferfish_health = entity_local18
+pufferfish_attacked_counter = entity_local19
 
 .enum
 PUFFERFISH_DIRECTION_RIGHT
@@ -352,14 +352,6 @@ do_not_switch_state:
 
   lda #PUFFERFISH_ATTACKED_LENGTH
   sta b0
-  lda #<pufferfish_attacked_counter
-  sta w0
-  lda #>pufferfish_attacked_counter
-  sta w0+1
-  lda #<pufferfish_health
-  sta w1
-  lda #>pufferfish_health
-  sta w1+1
   jsr entity_combat
 
   ;test for collision offset from pufferfish

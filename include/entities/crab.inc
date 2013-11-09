@@ -27,8 +27,8 @@ crab_random_turnright_counter = entity_local2
 crab_pseudo_random_number = entity_local3
 crab_x_fine = entity_local4
 crab_y_fine = entity_local5
-crab_health = entity_local6
-crab_attacked_counter = entity_local7
+crab_health = entity_local18
+crab_attacked_counter = entity_local19
 
 .enum
 CRAB_STATE_INIT
@@ -151,14 +151,6 @@ crab_state_main:
 
   lda #CRAB_ATTACKED_LENGTH
   sta b0
-  lda #<crab_attacked_counter
-  sta w0
-  lda #>crab_attacked_counter
-  sta w0+1
-  lda #<crab_health
-  sta w1
-  lda #>crab_health
-  sta w1+1
   jsr entity_combat
 
   ;permute the pseudo random number

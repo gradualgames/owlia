@@ -17,8 +17,8 @@ octopus_velocity_y_lo    = entity_local2
 octopus_velocity_y_hi    = entity_local3
 octopus_x_fine            = entity_local4
 octopus_y_fine            = entity_local5
-octopus_health            = entity_local6
-octopus_attacked_counter = entity_local7
+octopus_health            = entity_local18
+octopus_attacked_counter = entity_local19
 
 .define octopus_states \
   octopus_state_init, \
@@ -79,14 +79,6 @@ octopus_state_main:
 
   lda #OCTOPUS_ATTACKED_LENGTH
   sta b0
-  lda #<octopus_attacked_counter
-  sta w0
-  lda #>octopus_attacked_counter
-  sta w0+1
-  lda #<octopus_health
-  sta w1
-  lda #>octopus_health
-  sta w1+1
   jsr entity_combat
 
   .scope
