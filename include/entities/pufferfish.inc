@@ -12,11 +12,15 @@ PUFFERFISH_BOB_MAX_VELOCITY = 150
 
 PUFFERFISH_SPEED = 100
 
+PUFFERFISH_KNOCKBACK_SPEED = 500
+
 PUFFERFISH_INITIAL_DIRECTION = PUFFERFISH_DIRECTION_LEFT
 
 PUFFERFISH_INITIAL_HEALTH = 2
 
 PUFFERFISH_ATTACKED_LENGTH = 30
+
+PUFFERFISH_KNOCKBACK_LENGTH = 10
 
 PUFFERFISH_UNPUFFED_ANIMATION_OFFSET = 0
 PUFFERFISH_PUFFED_ANIMATION_OFFSET = 4
@@ -42,14 +46,14 @@ bob_altitude_fine = entity_local6
 bob_velocity_lo = entity_local7
 bob_velocity_hi = entity_local8
 
-pufferfish_direction = entity_local9
-
 pufferfish_random_turnleft_counter = entity_local10
 pufferfish_random_turnright_counter = entity_local11
 pufferfish_pseudo_random_number = entity_local12
 pufferfish_animation_offset = entity_local13
 pufferfish_puff_counter = entity_local14
-pufferfish_health = entity_local18
+pufferfish_direction = entity_local16
+pufferfish_health = entity_local17
+pufferfish_knockback_counter = entity_local18
 pufferfish_attacked_counter = entity_local19
 
 .enum
@@ -115,7 +119,8 @@ pufferfish_sprite_flags_direction:
   .byte %00000000, %01000000, %00000000, %00000000
   .byte %00000000, %01000000, %00000000, %00000000
 
-.define pufferfish_direction_speed_x PUFFERFISH_SPEED, -PUFFERFISH_SPEED, 0, 0
+.define pufferfish_direction_speed_x PUFFERFISH_SPEED, -PUFFERFISH_SPEED, 0, 0, \
+                                     PUFFERFISH_KNOCKBACK_SPEED, -PUFFERFISH_KNOCKBACK_SPEED, 0, 0
 
 pufferfish_direction_speed_x_lo:
   .lobytes pufferfish_direction_speed_x
@@ -123,7 +128,8 @@ pufferfish_direction_speed_x_lo:
 pufferfish_direction_speed_x_hi:
   .hibytes pufferfish_direction_speed_x
 
-.define pufferfish_direction_speed_y 0, 0, PUFFERFISH_SPEED, -PUFFERFISH_SPEED
+.define pufferfish_direction_speed_y 0, 0, PUFFERFISH_SPEED, -PUFFERFISH_SPEED, \
+                                     0, 0, PUFFERFISH_KNOCKBACK_SPEED, -PUFFERFISH_KNOCKBACK_SPEED
 
 pufferfish_direction_speed_y_lo:
   .lobytes pufferfish_direction_speed_y
@@ -211,6 +217,7 @@ pufferfish_state_init:
 
   lda #0
   sta pufferfish_attacked_counter,x
+  sta pufferfish_knockback_counter,x
 
   ;initialize random turn counters. Each time they count
   ;down the pufferfish will turn, and then a new value will
@@ -352,6 +359,8 @@ do_not_switch_state:
 
   lda #PUFFERFISH_ATTACKED_LENGTH
   sta b0
+  lda #PUFFERFISH_KNOCKBACK_LENGTH
+  sta b1
   jsr entity_combat
 
   ;test for collision offset from pufferfish
@@ -375,6 +384,9 @@ do_not_switch_state:
   lda b0
   and #FLAG_SOLID
   beq do_not_turn_pufferfish
+
+  lda #0
+  sta pufferfish_knockback_counter,x
 
   ldy pufferfish_direction,x
   lda pufferfish_turnleft_direction,y
@@ -430,7 +442,19 @@ do_not_turn_pufferfish:
 do_not_turn_pufferfish:
   .endscope
 
+  .scope
   ldy pufferfish_direction,x
+
+  lda pufferfish_knockback_counter,x
+  beq do_not_use_knockback_speed
+
+  tya
+  clc
+  adc #4
+  tay
+
+do_not_use_knockback_speed:
+  .endscope
 
   .scope
   lda pufferfish_direction_speed_x_hi,y

@@ -6,6 +6,8 @@ OCTOPUS_INITIAL_HEALTH = 2
 
 OCTOPUS_ATTACKED_LENGTH = 30
 
+OCTOPUS_KNOCKBACK_LENGTH = 30
+
 .enum
 OCTOPUS_STATE_INIT
 OCTOPUS_STATE_MAIN
@@ -17,7 +19,8 @@ octopus_velocity_y_lo    = entity_local2
 octopus_velocity_y_hi    = entity_local3
 octopus_x_fine            = entity_local4
 octopus_y_fine            = entity_local5
-octopus_health            = entity_local18
+octopus_health            = entity_local17
+octopus_knockback_counter = entity_local18
 octopus_attacked_counter = entity_local19
 
 .define octopus_states \
@@ -69,6 +72,7 @@ octopus_state_init:
 
   lda #0
   sta octopus_attacked_counter,x
+  sta octopus_knockback_counter,x
 
   lda #OCTOPUS_STATE_MAIN
   sta entity_state,x
@@ -79,6 +83,8 @@ octopus_state_main:
 
   lda #OCTOPUS_ATTACKED_LENGTH
   sta b0
+  lda #OCTOPUS_KNOCKBACK_LENGTH
+  sta b1
   jsr entity_combat
 
   .scope
@@ -163,6 +169,64 @@ not_negative:
   sbc #1
   bpl do_not_move
 
+  jsr octopus_move
+
+do_not_move:
+  .endscope
+
+  clc
+  lda entity_x_lo,x
+  adc #$08
+  sta w0
+  lda entity_x_hi,x
+  adc #$00
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc #$18
+  sta w1
+  lda entity_y_hi,x
+  adc #$00
+  sta w1+1
+
+  jsr sprite_add_shadow_spot
+
+  jsr entity_update_animation
+
+  rts
+
+.proc octopus_move
+
+  ;if knockback counter is nonzero, negate both x and y velocities
+  ;to give the appearance the octopus is being knocked away
+  .scope
+  lda octopus_knockback_counter,x
+  beq do_not_negate_x_and_y_velocities
+
+  clc
+  lda octopus_velocity_x_lo,x
+  eor #$ff
+  adc #$01
+  sta octopus_velocity_x_lo,x
+  lda octopus_velocity_x_hi,x
+  eor #$ff
+  adc #$00
+  sta octopus_velocity_x_hi,x
+
+  clc
+  lda octopus_velocity_y_lo,x
+  eor #$ff
+  adc #$01
+  sta octopus_velocity_y_lo,x
+  lda octopus_velocity_y_hi,x
+  eor #$ff
+  adc #$00
+  sta octopus_velocity_y_hi,x
+
+do_not_negate_x_and_y_velocities:
+  .endscope
+
   ;add 16 bit velocity to 24 bit coordinate with sign extension
   .scope
   clc
@@ -238,29 +302,8 @@ octopus_face_left:
 done:
   .endscope
 
-do_not_move:
-  .endscope
-
-  clc
-  lda entity_x_lo,x
-  adc #$08
-  sta w0
-  lda entity_x_hi,x
-  adc #$00
-  sta w0+1
-
-  clc
-  lda entity_y_lo,x
-  adc #$18
-  sta w1
-  lda entity_y_hi,x
-  adc #$00
-  sta w1+1
-
-  jsr sprite_add_shadow_spot
-
-  jsr entity_update_animation
-
   rts
+
+.endproc
 
 .endif

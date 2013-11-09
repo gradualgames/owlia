@@ -24,8 +24,15 @@
 ;accordingly. It forwards parameters onwards to
 ;entity_attacked and entity_advance_attacked_state.
 ;expects b0 to indicate what to reset the attacked counter to
+;expects b1 to indicate what to reset the knockback counter to
 ;expects x to contain the index of this entity
 .proc entity_combat
+attacked_counter_reset = b0
+knockback_counter_reset = b1
+attacked_counter = entity_local19
+knockback_counter = entity_local18
+health = entity_local17
+direction = entity_local16
 
   jsr entity_advance_attacked_state
 
@@ -55,7 +62,7 @@ action_rect1_not_deadly:
   bne action_rect2_not_deadly
 
   jsr entity_attacked
-  
+
   jsr familiar_hit_enemy
 
 action_rect2_not_deadly:
@@ -65,14 +72,15 @@ action_rect2_not_deadly:
 .endproc
 
 ;expects b0 to indicate what to reset the attacked counter to
-;expects w0 to contain address of attacked_counter array
-;expects w1 to contain address of health array
+;expects b1 to indicate what to reset the knockback counter to
 ;expects x to contain the index of this entity
-;uses y in place of x to use indirect addressing
 .proc entity_attacked
 attacked_counter_reset = b0
+knockback_counter_reset = b1
 attacked_counter = entity_local19
-health = entity_local18
+knockback_counter = entity_local18
+health = entity_local17
+direction = entity_local16
 
   lda attacked_counter,x
   bne attacked_state_machine_already_running
@@ -97,6 +105,12 @@ health = entity_local18
 
   lda attacked_counter_reset
   sta attacked_counter,x
+
+  lda knockback_counter_reset
+  sta knockback_counter,x
+
+  lda hero_direction
+  sta direction,x
 
   dec health,x
   bne entity_not_dead_yet
@@ -134,7 +148,15 @@ attacked_state_machine_already_running:
 
 ;expects x to point at this entity
 .proc entity_advance_attacked_state
+knockback_counter = entity_local18
 attacked_counter = entity_local19
+
+  lda knockback_counter,x
+  beq knockback_state_machine_not_running
+
+  dec knockback_counter,x
+
+knockback_state_machine_not_running:
 
   lda attacked_counter,x
   beq attacked_state_machine_not_running

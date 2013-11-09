@@ -9,7 +9,11 @@ CRAB_HALFHEIGHT = (CRAB_HEIGHT>1)
 
 CRAB_SPEED = 150
 
+CRAB_KNOCKBACK_SPEED = 500
+
 CRAB_ATTACKED_LENGTH = 30
+
+CRAB_KNOCKBACK_LENGTH = 10
 
 .enum
 CRAB_DIRECTION_RIGHT
@@ -21,13 +25,14 @@ CRAB_DIRECTION_UP
 CRAB_INITIAL_DIRECTION = CRAB_DIRECTION_DOWN
 CRAB_INITIAL_HEALTH = 3
 
-crab_direction = entity_local0
-crab_random_turnleft_counter = entity_local1
-crab_random_turnright_counter = entity_local2
-crab_pseudo_random_number = entity_local3
-crab_x_fine = entity_local4
-crab_y_fine = entity_local5
-crab_health = entity_local18
+crab_random_turnleft_counter = entity_local0
+crab_random_turnright_counter = entity_local1
+crab_pseudo_random_number = entity_local2
+crab_x_fine = entity_local3
+crab_y_fine = entity_local4
+crab_direction = entity_local16
+crab_health = entity_local17
+crab_knockback_counter = entity_local18
 crab_attacked_counter = entity_local19
 
 .enum
@@ -47,7 +52,8 @@ crab_turnleft_direction:
   .byte CRAB_DIRECTION_RIGHT
   .byte CRAB_DIRECTION_LEFT
 
-.define crab_direction_speed_x CRAB_SPEED, -CRAB_SPEED, 0, 0
+.define crab_direction_speed_x CRAB_SPEED, -CRAB_SPEED, 0, 0, \
+                               CRAB_KNOCKBACK_SPEED, -CRAB_KNOCKBACK_SPEED, 0, 0
 
 crab_direction_speed_x_lo:
   .lobytes crab_direction_speed_x
@@ -55,7 +61,8 @@ crab_direction_speed_x_lo:
 crab_direction_speed_x_hi:
   .hibytes crab_direction_speed_x
 
-.define crab_direction_speed_y 0, 0, CRAB_SPEED, -CRAB_SPEED
+.define crab_direction_speed_y 0, 0, CRAB_SPEED, -CRAB_SPEED, \
+                               0, 0, CRAB_KNOCKBACK_SPEED, -CRAB_KNOCKBACK_SPEED
 
 crab_direction_speed_y_lo:
   .lobytes crab_direction_speed_y
@@ -141,6 +148,7 @@ crab_state_init:
 
   lda #0
   sta crab_attacked_counter,x
+  sta crab_knockback_counter,x
 
   lda #CRAB_STATE_MAIN
   sta entity_state,x
@@ -151,6 +159,8 @@ crab_state_main:
 
   lda #CRAB_ATTACKED_LENGTH
   sta b0
+  lda #CRAB_KNOCKBACK_LENGTH
+  sta b1
   jsr entity_combat
 
   ;permute the pseudo random number
@@ -202,6 +212,17 @@ do_not_turn_crab:
   .endscope
 
   ldy crab_direction,x
+
+  lda crab_knockback_counter,x
+  beq do_not_use_knockback_speed
+
+  tya
+  clc
+  adc #4
+  tay
+
+do_not_use_knockback_speed:
+
   .scope
   lda crab_direction_speed_x_hi,y
   bmi sign_extend_negative
@@ -281,6 +302,9 @@ done:
   lda b0
   and #FLAG_SOLID
   beq do_not_turn_crab
+
+  lda #0
+  sta crab_knockback_counter,x
 
   ldy crab_direction,x
   lda crab_turnleft_direction,y
