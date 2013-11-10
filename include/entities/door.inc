@@ -2,8 +2,10 @@
 .ifndef DOOR_INC
 DOOR_INC = 1
 
+.include "door_constants.inc"
+
 door_location_index = entity_local0
-door_locked = entity_local1
+door_type = entity_local1
 
 .enum
 DOOR_STATE_INIT
@@ -41,18 +43,63 @@ door_state_init:
 door_state_main:
 
   jsr entity_test_hero_rect
-  bne not_touching_hero
+  bne do_not_activate_door
 
   jsr hero_is_attacking
-  bne do_not_unlock_door
+  bne do_not_activate_door
 
   jsr hero_cancel_attack
 
-  lda door_locked,x
-  beq door_is_not_locked
+  ;at this point, we know that the hero is trying to activate the door
+
+  .scope
+  lda door_type,x
+  cmp #DOOR_TYPE_UNLOCKED
+  beq door_unlocked
+  cmp #DOOR_TYPE_KEYED
+  beq door_keyed
+  cmp #DOOR_TYPE_LOCKED
+  beq door_locked
+
+door_unlocked:
+  .scope
+  jsr go_through_door
+
+  rts
+  .endscope
+
+door_keyed:
+  .scope
   ;this door is locked, test to see if the hero has a key
   jsr inventory_can_use_key
   bne hero_can_use_key
+
+  jsr start_locked_conversation
+
+  rts
+
+hero_can_use_key:
+
+  jsr inventory_use_key
+
+  jsr go_through_door
+
+  rts
+  .endscope
+
+door_locked:
+  .scope
+  jsr start_locked_conversation
+
+  rts
+  .endscope
+  .endscope
+
+do_not_activate_door:
+
+  rts
+
+.proc start_locked_conversation
 
   ;make the hero wait one frame to prevent a held-down A button
   ;from immediately re-activating this door and showing the
@@ -68,13 +115,11 @@ door_state_main:
   lda #conversation_index_door_is_locked
   sta state_control_params+play_state_control::param
 
-  jmp hero_cannot_use_key
+  rts
 
-hero_can_use_key:
+.endproc
 
-  jsr inventory_use_key
-
-door_is_not_locked:
+.proc go_through_door
 
   ;tell the play state to goto destination location
   lda #ACTION_GOTO_LOCATION_GROUP1
@@ -104,12 +149,8 @@ door_is_not_locked:
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
 
-do_not_unlock_door:
-
-not_touching_hero:
-
-hero_cannot_use_key:
-
   rts
+
+.endproc
 
 .endif
