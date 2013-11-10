@@ -1,30 +1,30 @@
 .linecont +
-.ifndef KEYEDDOOR_INC
-KEYEDDOOR_INC = 1
+.ifndef DOOR_INC
+DOOR_INC = 1
 
-keyeddoor_location_index = entity_local0
-keyeddoor_locked = entity_local1
+door_location_index = entity_local0
+door_locked = entity_local1
 
 .enum
-KEYEDDOOR_STATE_INIT
-KEYEDDOOR_STATE_MAIN
+DOOR_STATE_INIT
+DOOR_STATE_MAIN
 .endenum
 
-.define keyeddoor_states \
-  keyeddoor_state_init, \
-  keyeddoor_state_main
+.define door_states \
+  door_state_init, \
+  door_state_main
 
-keyeddoor_lo:
-  .lobytes keyeddoor_states
+door_lo:
+  .lobytes door_states
 
-keyeddoor_hi:
-  .hibytes keyeddoor_states
+door_hi:
+  .hibytes door_states
 
-keyeddoor_update:
+door_update:
 
-  entity_state_switchboard keyeddoor_lo, keyeddoor_hi
+  entity_state_switchboard door_lo, door_hi
 
-keyeddoor_state_init:
+door_state_init:
 
   jsr entity_clear_drawable
 
@@ -33,12 +33,12 @@ keyeddoor_state_init:
   lda #$01
   sta entity_height,x
 
-  lda #KEYEDDOOR_STATE_MAIN
+  lda #DOOR_STATE_MAIN
   sta entity_state,x
 
   rts
 
-keyeddoor_state_main:
+door_state_main:
 
   jsr entity_test_hero_rect
   bne not_touching_hero
@@ -48,7 +48,7 @@ keyeddoor_state_main:
 
   jsr hero_cancel_attack
 
-  lda keyeddoor_locked,x
+  lda door_locked,x
   beq door_is_not_locked
   ;this door is locked, test to see if the hero has a key
   jsr inventory_can_use_key
@@ -79,7 +79,7 @@ door_is_not_locked:
   ;tell the play state to goto destination location
   lda #ACTION_GOTO_LOCATION_GROUP1
   sta state_control_params+play_state_control::action
-  lda keyeddoor_location_index,x
+  lda door_location_index,x
   sta state_control_params+play_state_control::param
 
   ;play a sound

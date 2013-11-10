@@ -12,7 +12,7 @@ entity_index_bomb
 entity_index_octopus
 entity_index_npc
 entity_index_key
-entity_index_keyeddoor
+entity_index_door
 entity_index_lantern
 entity_index_item
 entity_index_innkeep
@@ -25,7 +25,7 @@ entity_update_bank_bomb = 3
 entity_update_bank_octopus = 3
 entity_update_bank_npc = 3
 entity_update_bank_key = 3
-entity_update_bank_keyeddoor = 3
+entity_update_bank_door = 3
 entity_update_bank_lantern = 4
 entity_update_bank_item = 4
 entity_update_bank_innkeep = 4
@@ -37,7 +37,7 @@ entity_sprites_and_animations_bank_bomb = 0
 entity_sprites_and_animations_bank_octopus = 0
 entity_sprites_and_animations_bank_npc = 0
 entity_sprites_and_animations_bank_key = 1
-;entity_sprites_and_animations_bank_keyeddoor ;this entity has no graphics
+;entity_sprites_and_animations_bank_door ;this entity has no graphics
 entity_sprites_and_animations_bank_lantern = 0
 entity_sprites_and_animations_bank_item = 0
 entity_sprites_and_animations_bank_innkeep = 1
