@@ -18,6 +18,7 @@ entity_index_item
 entity_index_innkeep
 entity_index_pufferfish
 entity_index_crab
+entity_index_traproom
 .endenum
 
 entity_update_bank_explosion = 3
@@ -31,6 +32,7 @@ entity_update_bank_item = 4
 entity_update_bank_innkeep = 4
 entity_update_bank_pufferfish = 4
 entity_update_bank_crab = 4
+entity_update_bank_traproom = 4
 
 entity_sprites_and_animations_bank_explosion = 0
 entity_sprites_and_animations_bank_bomb = 0
@@ -43,5 +45,6 @@ entity_sprites_and_animations_bank_item = 0
 entity_sprites_and_animations_bank_innkeep = 1
 entity_sprites_and_animations_bank_pufferfish = 1
 entity_sprites_and_animations_bank_crab = 1
+;entity_sprites_and_animations_bank_traproom ;this entity has no graphics
 
 .endif
