@@ -237,12 +237,14 @@ familiar_param_homing_entity_index = familiar_param_b0
 ;performed at run-time.
 ;****************************************************************
 entity_action_rect1_action:     .res 1
+entity_action_rect1_direction:  .res 1
 entity_action_rect1_x:          .res 2
 entity_action_rect1_y:          .res 2
 entity_action_rect1_width:      .res 1
 entity_action_rect1_height:     .res 1
 
 entity_action_rect2_action:     .res 1
+entity_action_rect2_direction:  .res 1
 entity_action_rect2_x:          .res 2
 entity_action_rect2_y:          .res 2
 entity_action_rect2_width:      .res 1

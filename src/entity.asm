@@ -50,7 +50,17 @@ entity_not_hitting_hero:
   jsr entity_test_entity_action_rect1
   bne action_rect1_not_deadly
 
+  .scope
+  lda entity_action_rect1_direction
+  cmp #ENTITY_DIRECTION_NONE
+  beq do_not_set_knockback_direction
+  sta direction,x
+do_not_set_knockback_direction:
+  .endscope
+
   jsr entity_attacked
+
+  rts
 
 action_rect1_not_deadly:
 
@@ -60,6 +70,14 @@ action_rect1_not_deadly:
 
   jsr entity_test_entity_action_rect2
   bne action_rect2_not_deadly
+
+  .scope
+  lda entity_action_rect2_direction
+  cmp #ENTITY_DIRECTION_NONE
+  beq do_not_set_knockback_direction
+  sta direction,x
+do_not_set_knockback_direction:
+  .endscope
 
   jsr entity_attacked
 
@@ -108,9 +126,6 @@ direction = entity_local16
 
   lda knockback_counter_reset
   sta knockback_counter,x
-
-  lda hero_direction
-  sta direction,x
 
   dec health,x
   bne entity_not_dead_yet

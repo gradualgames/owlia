@@ -39,6 +39,18 @@ ENTITY_FLAGS_IS_ENEMY_SET   = %00000100
 ENTITY_FLAGS_IS_ENEMY_TEST  = %00000100
 ENTITY_FLAGS_IS_ENEMY_CLEAR = %11111011
 
+;This enum mirrors all cardinal direction enums in every entity
+;including the hero and familiar. We add a fifth value for "NONE"
+;for cases such as the bomb which are motionless when they set
+;the attack rect.
+.enum
+ENTITY_DIRECTION_RIGHT
+ENTITY_DIRECTION_LEFT
+ENTITY_DIRECTION_DOWN
+ENTITY_DIRECTION_UP
+ENTITY_DIRECTION_NONE
+.endenum
+
 .macro entity_state_switchboard jump_table_lo, jump_table_hi
 
   lda entity_state,x

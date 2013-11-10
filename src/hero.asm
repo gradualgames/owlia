@@ -1476,6 +1476,8 @@ hero_not_invincible:
   bne :+
   lda #ACTION_ATTACK
   sta entity_action_rect1_action
+  lda hero_direction
+  sta entity_action_rect1_direction
 :
 
   ;compute top left of action rect based on direction

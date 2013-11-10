@@ -796,6 +796,8 @@ not_ready_yet:
   ;make action rect active
   lda #ACTION_ATTACK
   sta entity_action_rect2_action
+  lda familiar_direction
+  sta entity_action_rect2_direction
 
   lda familiar_x
   sta entity_action_rect2_x
@@ -2063,6 +2065,8 @@ do_not_reset_familiar_param_shield_circle_lut_index:
   ;make action rect active
   lda #ACTION_ATTACK
   sta entity_action_rect2_action
+  lda familiar_direction
+  sta entity_action_rect2_direction
 
   lda familiar_x
   sta entity_action_rect2_x
@@ -2253,6 +2257,8 @@ not_ready_yet:
   ;make action rect active
   lda #ACTION_ATTACK
   sta entity_action_rect2_action
+  lda familiar_direction
+  sta entity_action_rect2_direction
 
   lda familiar_x
   sta entity_action_rect2_x

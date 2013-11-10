@@ -146,12 +146,14 @@ MAX_SHADOW_SPOTS = 4
 .global familiar_param_homing_entity_index
 
 .global entity_action_rect1_action
+.global entity_action_rect1_direction
 .global entity_action_rect1_x
 .global entity_action_rect1_y
 .global entity_action_rect1_width
 .global entity_action_rect1_height
 
 .global entity_action_rect2_action
+.global entity_action_rect2_direction
 .global entity_action_rect2_x
 .global entity_action_rect2_y
 .global entity_action_rect2_width

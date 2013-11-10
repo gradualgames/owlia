@@ -660,6 +660,8 @@ done:
   ;grab action rect 2 and make it attack
   lda #ACTION_ATTACK
   sta entity_action_rect2_action
+  lda #ENTITY_DIRECTION_NONE
+  sta entity_action_rect2_direction
   lda entity_x_lo,x
   sta entity_action_rect2_x
   lda entity_x_hi,x
