@@ -72,7 +72,7 @@ not_enemy:
   lda b0
   bne enemies_still_alive
 
-  ;find all doors and set them to DOOR_TYPE_LOCKED
+  ;find all doors and set them to DOOR_TYPE_UNLOCKED
   ldy #(MAX_ENTITIES-1)
   .scope
 next_entity:
