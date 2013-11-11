@@ -58,6 +58,14 @@ sfx_volume_envelope_12:
 sfx_volume_envelope_13:
   .byte 15,6,10,15,9,2,0,ENV_STOP
 
+;used for door slam
+sfx_volume_envelope_14:
+  .byte 9,8,7,5,4,3,2,1,1,0,0,0,0,0,0,0,ENV_STOP
+
+;used for door slam
+sfx_volume_envelope_15:
+  .byte 0,1,1,1,1,2,2,3,3,4,5,6,8,10,13,15,ENV_STOP
+
 sfx_pitch_envelope_0:
   .byte 0, ENV_LOOP
 
@@ -84,6 +92,8 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_11
   .word sfx_volume_envelope_12
   .word sfx_volume_envelope_13
+  .word sfx_volume_envelope_14
+  .word sfx_volume_envelope_15
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_0
@@ -144,4 +154,8 @@ sfx_inventory:
 
 sfx_error:
   .byte STV,12,STP,0,SDU,0,STL,4,B1,F1
+  .byte TRM
+
+sfx_door_slam:
+  .byte STV,15,STP,0,SDU,0,STL,12,11,STV,14,STL,6,10,STL,6,15
   .byte TRM

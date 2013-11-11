@@ -18,5 +18,6 @@ SFX_DATA_INC = 1
 .global sfx_select
 .global sfx_inventory
 .global sfx_error
+.global sfx_door_slam
 
 .endif
