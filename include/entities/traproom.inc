@@ -25,6 +25,8 @@ traproom_state_init:
 
   jsr entity_clear_drawable
 
+  jsr flash_all_doors
+
   lda #TRAPROOM_STATE_MAIN
   sta entity_state,x
 
@@ -68,6 +70,8 @@ not_door:
   bpl next_entity
   .endscope
 
+  jsr flash_all_doors
+
   ;kill self
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
@@ -76,5 +80,27 @@ not_door:
 enemies_still_alive:
 
   rts
+
+.proc flash_all_doors
+
+  ;find all doors and set their state to DOOR_STATE_FLASH
+  ldy #(MAX_ENTITIES-1)
+  .scope
+next_entity:
+  lda entity_type,y
+  cmp #entity_index_door
+  bne not_door
+
+  lda #DOOR_STATE_FLASH
+  sta entity_state,y
+
+not_door:
+  dey
+  bpl next_entity
+  .endscope
+
+  rts
+
+.endproc
 
 .endif

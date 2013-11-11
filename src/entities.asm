@@ -67,7 +67,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_octopus
   .byte entity_sprites_and_animations_bank_npc
   .byte entity_sprites_and_animations_bank_key
-  .byte 0 ;entity_sprites_and_animations_bank_door
+  .byte entity_sprites_and_animations_bank_door
   .byte entity_sprites_and_animations_bank_lantern
   .byte entity_sprites_and_animations_bank_item
   .byte entity_sprites_and_animations_bank_innkeep

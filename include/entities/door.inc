@@ -7,11 +7,13 @@ DOOR_INC = 1
 .enum
 DOOR_STATE_INIT
 DOOR_STATE_MAIN
+DOOR_STATE_FLASH
 .endenum
 
 .define door_states \
   door_state_init, \
-  door_state_main
+  door_state_main, \
+  door_state_flash
 
 door_lo:
   .lobytes door_states
@@ -27,10 +29,27 @@ door_state_init:
 
   jsr entity_clear_drawable
 
+  lda #<DoorFlash
+  sta entity_animation_address_lo,x
+  lda #>DoorFlash
+  sta entity_animation_address_hi,x
+
+  jsr entity_reset_animation
+
+  ldy #sprite_chr_group_index_door
+  lda sprite_chr_group_offsets,y
+  sta entity_sprite_group_offset,x
+
+  lda #$00
+  sta entity_sprite_flags,x
+
   lda #$0f
   sta entity_width,x
   lda #$01
   sta entity_height,x
+
+  lda #0
+  sta door_flash_counter,x
 
   lda #DOOR_STATE_MAIN
   sta entity_state,x
@@ -38,6 +57,22 @@ door_state_init:
   rts
 
 door_state_main:
+
+  ;is door flashing?
+  lda door_flash_counter,x
+  beq do_not_flash_door
+
+  ;decrement the flash counter
+  dec door_flash_counter,x
+  bne do_not_hide_door
+
+  ;hide door when done flashing
+  jsr entity_clear_drawable
+do_not_hide_door:
+
+  ;update flash animation
+  jsr entity_update_animation
+do_not_flash_door:
 
   jsr entity_test_hero_rect
   bne do_not_activate_door
@@ -93,6 +128,18 @@ door_locked:
   .endscope
 
 do_not_activate_door:
+
+  rts
+
+door_state_flash:
+
+  lda #DOOR_FLASH_LENGTH
+  sta door_flash_counter,x
+
+  jsr entity_set_drawable
+
+  lda #DOOR_STATE_MAIN
+  sta entity_state,x
 
   rts
 

@@ -39,7 +39,7 @@ entity_sprites_and_animations_bank_bomb = 0
 entity_sprites_and_animations_bank_octopus = 0
 entity_sprites_and_animations_bank_npc = 0
 entity_sprites_and_animations_bank_key = 1
-;entity_sprites_and_animations_bank_door ;this entity has no graphics
+entity_sprites_and_animations_bank_door = 1
 entity_sprites_and_animations_bank_lantern = 0
 entity_sprites_and_animations_bank_item = 0
 entity_sprites_and_animations_bank_innkeep = 1

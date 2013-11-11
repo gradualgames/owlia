@@ -68,4 +68,9 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 
 .global CrabWalk
 
+.global DoorFlash0
+.global DoorFlash1
+
+.global DoorFlash
+
 .endif

@@ -19,7 +19,8 @@
   Coins_chr, \
   OwliaTitle_chr, \
   PufferFish_chr, \
-  Crab_chr
+  Crab_chr, \
+  Door_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -43,6 +44,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_title
   .byte sprite_chr_group_bank_pufferfish
   .byte sprite_chr_group_bank_crab
+  .byte sprite_chr_group_bank_door
 
 .segment "ROM01"
 
@@ -480,3 +482,8 @@ Crab_chr:
   .byte $8a,$7d,$0b,$04,$0b,$09,$04,$03,$71,$02,$04,$03,$04,$06,$03,$00
   .byte $10,$ff,$00,$80,$41,$82,$81,$00,$ef,$00,$00,$00,$80,$01,$00,$00
   .byte $51,$be,$50,$a0,$50,$90,$20,$c0,$8e,$40,$20,$40,$e0,$60,$c0,$00
+
+Door_chr:
+  .word $0020
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+  .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
