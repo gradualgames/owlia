@@ -4,9 +4,6 @@ DOOR_INC = 1
 
 .include "door_constants.inc"
 
-door_location_index = entity_local0
-door_type = entity_local1
-
 .enum
 DOOR_STATE_INIT
 DOOR_STATE_MAIN
