@@ -89,6 +89,121 @@ point_not_in_rect:
 
 .endproc
 
+;tests rectangle B for whether it is inside rectangle A.
+;sets zero flag if rectangle B is inside rectangle A.
+.proc geotests_rect_inside_rect_16bit
+;parameters
+rectangle_a_left_x = w2
+rectangle_a_top_y = w3
+rectangle_a_width = b2
+rectangle_a_height = b3
+
+rectangle_b_left_x = w4
+rectangle_b_top_y = w5
+rectangle_b_width = b4
+rectangle_b_height = b5
+
+;variables
+rectangle_a_right_x = w6
+rectangle_a_bottom_y = w7
+rectangle_b_right_x = w8
+rectangle_b_bottom_y = w9
+b_inside_a_count = b6
+
+  ;initialize counter for whether B might be inside A
+  lda #0
+  sta b_inside_a_count
+
+  ;calculate right and bottom sides of rectangle A and B
+  clc
+  lda rectangle_a_left_x
+  adc rectangle_a_width
+  sta rectangle_a_right_x
+  lda rectangle_a_left_x+1
+  adc #0
+  sta rectangle_a_right_x+1
+
+  clc
+  lda rectangle_a_top_y
+  adc rectangle_a_height
+  sta rectangle_a_bottom_y
+  lda rectangle_a_top_y+1
+  adc #0
+  sta rectangle_a_bottom_y+1
+
+  clc
+  lda rectangle_b_left_x
+  adc rectangle_b_width
+  sta rectangle_b_right_x
+  lda rectangle_b_left_x+1
+  adc #0
+  sta rectangle_b_right_x+1
+
+  clc
+  lda rectangle_b_top_y
+  adc rectangle_b_height
+  sta rectangle_b_bottom_y
+  lda rectangle_b_top_y+1
+  adc #0
+  sta rectangle_b_bottom_y+1
+
+  ;if left side of B is greater than the left side of A then B might be inside A
+  sec
+  lda rectangle_b_left_x
+  sbc rectangle_a_left_x
+  lda rectangle_b_left_x+1
+  sbc rectangle_a_left_x+1
+  bmi left_side_of_b_is_not_greater_than_left_side_of_a
+
+  inc b_inside_a_count
+
+left_side_of_b_is_not_greater_than_left_side_of_a:
+
+  ;if right side of B is less than right side of A then B might be inside A
+  sec
+  lda rectangle_a_right_x
+  sbc rectangle_b_right_x
+  lda rectangle_a_right_x+1
+  sbc rectangle_b_right_x+1
+  bmi right_side_of_b_is_not_greater_than_left_side_of_a
+
+  inc b_inside_a_count
+
+right_side_of_b_is_not_greater_than_left_side_of_a:
+
+  ;if top of B is greater than top of A then B might be inside A
+  sec
+  lda rectangle_b_top_y
+  sbc rectangle_a_top_y
+  lda rectangle_b_top_y+1
+  sbc rectangle_a_top_y+1
+  bmi top_of_b_is_not_greater_than_top_of_a
+
+  inc b_inside_a_count
+
+top_of_b_is_not_greater_than_top_of_a:
+
+  ;if bottom of B is less than bottom of A then B might be inside A
+  sec
+  lda rectangle_a_bottom_y
+  sbc rectangle_b_bottom_y
+  lda rectangle_a_bottom_y+1
+  sbc rectangle_b_bottom_y+1
+  bmi bottom_of_a_is_not_greater_than_bottom_of_b
+
+  inc b_inside_a_count
+
+bottom_of_a_is_not_greater_than_bottom_of_b:
+
+  ;if all the above cases are true, B is inside A
+  lda b_inside_a_count
+  cmp #4
+  ;at this point, if zero flag is set, B is inside A
+
+  rts
+
+.endproc
+
 ;tests one rectangle for whether it intersects another.
 ;rectangle A:
 ;w2 - left x

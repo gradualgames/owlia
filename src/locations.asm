@@ -186,11 +186,12 @@ dungeon_1_0_entity_instances:
   .byte entity_index_door, 30, 7, 0, 2, location_index_dungeon_2_0_w, DOOR_TYPE_UNLOCKED
 
 dungeon_2_0_entity_instances:
-  .byte 4
+  .byte 5
   .byte entity_index_pufferfish, 39, 6, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 39, 10, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_door, 33, 7, 0, 2, location_index_dungeon_1_0_e, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 46, 7, 0, 2, location_index_dungeon_3_0_w, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 33, 7, 0, 2, location_index_dungeon_1_0_e, DOOR_TYPE_LOCKED
+  .byte entity_index_door, 46, 7, 0, 2, location_index_dungeon_3_0_w, DOOR_TYPE_LOCKED
+  .byte entity_index_traproom, 0, 0, 0, 0
 
 dungeon_3_0_entity_instances:
   .byte 1

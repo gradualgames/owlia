@@ -43,10 +43,30 @@ door_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
-  lda #$0f
+  ;adjust width, height and location of door so that
+  ;the hero's rectangle must be entirely within the
+  ;door's rectangle to trigger it, even when temporarily
+  ;penetrating the map before map ejection later on.
+  lda #20
   sta entity_width,x
-  lda #$01
+  lda #36
   sta entity_height,x
+
+  sec
+  lda entity_x_lo,x
+  sbc #2
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  sbc #0
+  sta entity_x_hi,x
+
+  sec
+  lda entity_y_lo,x
+  sbc #2
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  sbc #0
+  sta entity_y_hi,x
 
   lda #0
   sta door_flash_counter,x
@@ -74,7 +94,36 @@ do_not_hide_door:
   jsr entity_update_animation
 do_not_flash_door:
 
-  jsr entity_test_hero_rect
+  ;transfer entity rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda entity_x_lo,x
+  sta w2
+  lda entity_x_hi,x
+  sta w2+1
+  lda entity_y_lo,x
+  sta w3
+  lda entity_y_hi,x
+  sta w3+1
+  lda entity_width,x
+  sta b2
+  lda entity_height,x
+  sta b3
+
+  ;transfer hero rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda hero_x
+  sta w4
+  lda hero_x+1
+  sta w4+1
+  lda hero_y
+  sta w5
+  lda hero_y+1
+  sta w5+1
+  lda hero_width
+  sta b4
+  lda hero_height
+  sta b5
+
+  jsr geotests_rect_inside_rect_16bit
+
   bne do_not_activate_door
 
   jsr hero_is_attacking
