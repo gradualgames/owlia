@@ -450,6 +450,9 @@ skip_lookup_opposite_direction:
 hero_not_dead:
   .endif
 
+  lda #HERO_STATE_KNOCKBACK
+  sta hero_state
+
 hero_invincible:
 
   rts
@@ -1041,6 +1044,7 @@ throw_animation_addresses_hi:
 .define hero_states \
     hero_state_init, \
     hero_state_main, \
+    hero_state_knockback, \
     hero_state_attack, \
     hero_state_throw, \
     hero_state_carried, \
@@ -1197,54 +1201,6 @@ hero_state_wait_frames:
 ;****************************************************************
 hero_state_main:
 
-  ;check to see if hero is hurt. if not, use controller to choose
-  ;direction handler. if so, use hero_direction_handler to choose
-  ;the direction handler.
-  lda hero_knockback_counter
-  beq hero_not_knockback
-
-  lda #HERO_KNOCKBACK_SPEED
-  sta hero_speed
-
-  ldy hero_direction_handler
-  lda direction_handlers_lo,y
-  sta w0
-  lda direction_handlers_hi,y
-  sta w0+1
-  jsr indirect_jsr_w0
-
-  ;get the opposite direction we're being knocked in and look up the animation for it
-  lda hero_direction
-  tay
-  lda hero_opposite_direction,y
-  tay
-  lda main_animation_addresses_lo,y
-  sta hero_animation_address
-  lda main_animation_addresses_hi,y
-  sta hero_animation_address+1
-
-  ;decrement the knockback counter
-  dec hero_knockback_counter
-
-  ;on zero, flip the direction the hero is facing permanently
-  bne hero_knockback_counter_not_zero
-
-  lda hero_direction
-  tay
-  lda hero_opposite_direction,y
-  sta hero_direction
-  tay
-  lda main_animation_addresses_lo,y
-  sta hero_animation_address
-  lda main_animation_addresses_hi,y
-  sta hero_animation_address+1
-
-hero_knockback_counter_not_zero:
-
-  jmp skip_choose_direction_handler_from_controller
-
-hero_not_knockback:
-
   ;get up, down, left, right into a single bit field
   lda #0
   sta hero_direction_handler
@@ -1280,26 +1236,7 @@ hero_not_knockback:
   lda main_animation_addresses_hi,y
   sta hero_animation_address+1
 
-skip_choose_direction_handler_from_controller:
-
-  ;advance the current invincibility frames state if the counter is nonzero
-  .scope
-  lda hero_invincibility_counter
-  beq hero_not_invincible
-
-  dec hero_invincibility_counter
-
-  lda hero_invincibility_counter
-  and #%00000001
-  beq do_not_flip_drawable_bit
-
-  lda hero_flags
-  eor #HERO_FLAGS_DRAWABLE_SET
-  sta hero_flags
-
-do_not_flip_drawable_bit:
-hero_not_invincible:
-  .endscope
+  jsr hero_advance_invincibility_state
 
   lda sprite_flags_direction,y
   sta hero_sprite_flags
@@ -1375,6 +1312,58 @@ skip_attack_test:
   rts
 
 ;****************************************************************
+;This is the knockback state. This state disallows any input from
+;the controller while the hero is being knocked back.
+;****************************************************************
+hero_state_knockback:
+
+  jsr hero_advance_invincibility_state
+
+  lda #HERO_KNOCKBACK_SPEED
+  sta hero_speed
+
+  ldy hero_direction_handler
+  lda direction_handlers_lo,y
+  sta w0
+  lda direction_handlers_hi,y
+  sta w0+1
+  jsr indirect_jsr_w0
+
+  ;get the opposite direction we're being knocked in and look up the animation for it
+  lda hero_direction
+  tay
+  lda hero_opposite_direction,y
+  tay
+  lda main_animation_addresses_lo,y
+  sta hero_animation_address
+  lda main_animation_addresses_hi,y
+  sta hero_animation_address+1
+
+  ;decrement the knockback counter
+  dec hero_knockback_counter
+
+  ;on zero, flip the direction the hero is facing permanently
+  bne hero_knockback_counter_not_zero
+
+  lda hero_direction
+  tay
+  lda hero_opposite_direction,y
+  sta hero_direction
+  tay
+  lda main_animation_addresses_lo,y
+  sta hero_animation_address
+  lda main_animation_addresses_hi,y
+  sta hero_animation_address+1
+
+  ;transition back to the main state
+  lda #HERO_STATE_MAIN
+  sta hero_state
+
+hero_knockback_counter_not_zero:
+
+  rts
+
+;****************************************************************
 ;This is the throw state. The hero transitions to this state
 ;immediately upon throwing the owl, except in the carried state.
 ;It  It updates the invincibility frames logic and displays the
@@ -1382,24 +1371,7 @@ skip_attack_test:
 ;****************************************************************
 hero_state_throw:
 
-  ;advance the current invincibility frames state if the counter is nonzero
-  .scope
-  lda hero_invincibility_counter
-  beq hero_not_invincible
-
-  dec hero_invincibility_counter
-
-  lda hero_invincibility_counter
-  and #%00000001
-  beq do_not_flip_drawable_bit
-
-  lda hero_flags
-  eor #HERO_FLAGS_DRAWABLE_SET
-  sta hero_flags
-
-do_not_flip_drawable_bit:
-hero_not_invincible:
-  .endscope
+  jsr hero_advance_invincibility_state
 
   lda #<hero_animation_object
   sta w1
@@ -1451,24 +1423,7 @@ throw_not_done:
 ;****************************************************************
 hero_state_attack:
 
-  ;advance the current invincibility frames state if the counter is nonzero
-  .scope
-  lda hero_invincibility_counter
-  beq hero_not_invincible
-
-  dec hero_invincibility_counter
-
-  lda hero_invincibility_counter
-  and #%00000001
-  beq do_not_flip_drawable_bit
-
-  lda hero_flags
-  eor #HERO_FLAGS_DRAWABLE_SET
-  sta hero_flags
-
-do_not_flip_drawable_bit:
-hero_not_invincible:
-  .endscope
+  jsr hero_advance_invincibility_state
 
   ;wait a few frames before activating the attack rect
   lda hero_state_counter
@@ -1541,6 +1496,31 @@ hero_not_invincible:
 attack_not_done:
 
   rts
+
+.proc hero_advance_invincibility_state
+
+  ;advance the current invincibility frames state if the counter is nonzero
+  .scope
+  lda hero_invincibility_counter
+  beq hero_not_invincible
+
+  dec hero_invincibility_counter
+
+  lda hero_invincibility_counter
+  and #%00000001
+  beq do_not_flip_drawable_bit
+
+  lda hero_flags
+  eor #HERO_FLAGS_DRAWABLE_SET
+  sta hero_flags
+
+do_not_flip_drawable_bit:
+hero_not_invincible:
+  .endscope
+
+  rts
+
+.endproc
 
 indirect_jsr_w0:
   jmp (w0)
