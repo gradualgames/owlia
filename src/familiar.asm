@@ -2594,6 +2594,8 @@ do_not_change_direction:
   sta entity_action_rect2_width
   lda familiar_height
   sta entity_action_rect2_height
+  lda familiar_direction
+  sta entity_action_rect2_direction
 
   lda familiar_animation_address
   sta w2
