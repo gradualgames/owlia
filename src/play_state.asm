@@ -800,9 +800,6 @@ play_state:
 
   jsr entity_update_all
 
-  switch_bank_ldy #HERO_BANK
-  jsr hero_eject_from_solid_tiles
-
   switch_bank_ldy map_bank
   jsr update_camera
 

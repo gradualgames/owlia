@@ -43,30 +43,10 @@ door_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
-  ;adjust width, height and location of door so that
-  ;the hero's rectangle must be entirely within the
-  ;door's rectangle to trigger it, even when temporarily
-  ;penetrating the map before map ejection later on.
-  lda #20
+  lda #$0f
   sta entity_width,x
-  lda #36
+  lda #$1f
   sta entity_height,x
-
-  sec
-  lda entity_x_lo,x
-  sbc #2
-  sta entity_x_lo,x
-  lda entity_x_hi,x
-  sbc #0
-  sta entity_x_hi,x
-
-  sec
-  lda entity_y_lo,x
-  sbc #2
-  sta entity_y_lo,x
-  lda entity_y_hi,x
-  sbc #0
-  sta entity_y_hi,x
 
   lda #0
   sta door_flash_counter,x
