@@ -73,4 +73,15 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 
 .global DoorFlash
 
+.global AnglerFishUp0
+.global AnglerFishUp1
+.global AnglerFishDown0
+.global AnglerFishDown1
+.global AnglerFishSide0
+.global AnglerFishSide2
+
+.global AnglerFishUp
+.global AnglerFishDown
+.global AnglerFishSide
+
 .endif
