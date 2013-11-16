@@ -311,7 +311,7 @@ dungeon_area:
   .byte 0   ;conversations_bank .byte
   .word dungeon_area_bg_chr_groups
   .word song2
-  .byte $00 ;textbox_attribute
+  .byte $02 ;textbox_attribute
   .word dungeon_map
   .word dungeon_metatile_table_properties
   .word dungeon_metatile_table_params
