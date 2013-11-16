@@ -57,6 +57,24 @@ octopus_state_init:
   sta octopus_velocity_y_lo,x
   sta octopus_velocity_y_hi,x
 
+  clc
+  lda entity_x_lo,x
+  adc #$08
+  sta w0
+  lda entity_x_hi,x
+  adc #$00
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc #$18
+  sta w1
+  lda entity_y_hi,x
+  adc #$00
+  sta w1+1
+
+  jsr sprite_add_shadow_spot
+
   lda #<OctopusFly
   sta entity_animation_address_lo,x
   lda #>OctopusFly

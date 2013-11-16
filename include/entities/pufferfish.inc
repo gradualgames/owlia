@@ -209,6 +209,21 @@ pufferfish_state_init:
 
   jsr pufferfish_compute_coordinates
 
+  clc
+  lda pufferfish_shadow_spot_x_lo,x
+  adc #4
+  sta w0
+  lda pufferfish_shadow_spot_x_hi,x
+  adc #0
+  sta w0+1
+
+  lda pufferfish_shadow_spot_y_lo,x
+  sta w1
+  lda pufferfish_shadow_spot_y_hi,x
+  sta w1+1
+
+  jsr sprite_add_shadow_spot
+
   lda #PUFFERFISH_INITIAL_DIRECTION
   sta pufferfish_direction,x
 
