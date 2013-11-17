@@ -8,6 +8,7 @@
 .include "item_constants.inc"
 .include "npc_constants.inc"
 .include "door_constants.inc"
+.include "anglerfish_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -197,8 +198,8 @@ dungeon_2_0_entity_instances:
 
 dungeon_3_0_entity_instances:
   .byte 3
-  .byte entity_index_anglerfish, 52, 5, 0, 0
-  .byte entity_index_anglerfish, 59, 5, 0, 0
+  .byte entity_index_anglerfish, 51, 2, 0, 2, ANGLERFISH_TURN_MODE_LEFT, ANGLERFISH_DIRECTION_DOWN
+  .byte entity_index_anglerfish, 60, 2, 0, 2, ANGLERFISH_TURN_MODE_RIGHT, ANGLERFISH_DIRECTION_DOWN
   .byte entity_index_door, 49, 9, 0, 2, location_index_dungeon_2_0_e, DOOR_TYPE_UNLOCKED
 
 dungeon_0_1_entity_instances:
