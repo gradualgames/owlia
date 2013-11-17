@@ -106,11 +106,6 @@ anglerfish_state_init:
 
   jsr entity_set_drawable
 
-  lda #<AnglerFishSide
-  sta entity_animation_address_lo,x
-  lda #>AnglerFishSide
-  sta entity_animation_address_hi,x
-
   jsr entity_reset_animation
 
   lda #ANGLERFISH_WIDTH
@@ -137,6 +132,8 @@ anglerfish_state_init:
   lda #0
   sta anglerfish_attacked_counter,x
 
+  jsr anglerfish_get_animation_params
+  
   ;spawn a spotlight entity
   txa
   pha
@@ -223,6 +220,14 @@ do_not_move_anglerfish:
 
   jsr anglerfish_add_shadow_spot
 
+  jsr anglerfish_get_animation_params
+
+  jsr entity_update_animation
+
+  rts
+
+.proc anglerfish_get_animation_params
+
   clc
   ldy anglerfish_direction,x
   lda anglerfish_animation_addresses_lo,y
@@ -235,9 +240,9 @@ do_not_move_anglerfish:
   ora anglerfish_sprite_flags_direction,y
   sta entity_sprite_flags,x
 
-  jsr entity_update_animation
-
   rts
+
+.endproc
 
 .proc anglerfish_move
 
