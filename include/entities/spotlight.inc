@@ -26,8 +26,6 @@ spotlight_update:
 
 spotlight_state_init:
 
-  jsr entity_set_drawable
-
   lda #<SpotLight
   sta entity_animation_address_lo,x
   lda #>SpotLight
@@ -53,6 +51,10 @@ spotlight_state_init:
   rts
 
 spotlight_state_main:
+
+  lda entity_flags,x
+  eor #ENTITY_FLAGS_DRAWABLE_SET
+  sta entity_flags,x
 
   jsr entity_update_animation
 

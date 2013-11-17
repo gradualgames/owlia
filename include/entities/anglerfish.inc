@@ -9,13 +9,15 @@ ANGLERFISH_HEIGHT = $0f
 
 ANGLERFISH_SPEED = 150
 
-ANGLERFISH_TURN_LENGTH = 80
+ANGLERFISH_TURN_LENGTH = 70
 
 anglerfish_turn_mode = entity_local0
 anglerfish_direction = entity_local1
-anglerfish_x_fine = entity_local2
-anglerfish_y_fine = entity_local3
-anglerfish_turn_counter = entity_local4
+anglerfish_spotlight_on = entity_local2
+anglerfish_x_fine = entity_local3
+anglerfish_y_fine = entity_local4
+anglerfish_turn_counter = entity_local5
+anglerfish_spotlight_entity_index = entity_local6
 
 anglerfish_turn_direction:
 anglerfish_turnright_direction:
@@ -61,6 +63,22 @@ anglerfish_direction_speed_y_lo:
 
 anglerfish_direction_speed_y_hi:
   .hibytes anglerfish_direction_speed_y
+
+.define spotlight_offset_direction_x 30, -20, 4, 3
+
+spotlight_offset_direction_x_lo:
+  .lobytes spotlight_offset_direction_x
+
+spotlight_offset_direction_x_hi:
+  .hibytes spotlight_offset_direction_x
+
+.define spotlight_offset_direction_y 20, 20, 35, -15
+
+spotlight_offset_direction_y_lo:
+  .lobytes spotlight_offset_direction_y
+
+spotlight_offset_direction_y_hi:
+  .hibytes spotlight_offset_direction_y
 
 .enum
 ANGLERFISH_STATE_INIT
@@ -113,26 +131,47 @@ anglerfish_state_init:
   lda #ANGLERFISH_TURN_LENGTH
   sta anglerfish_turn_counter,x
 
-  ; ;spawn a spotlight entity
-  ; txa
-  ; pha
+  ;spawn a spotlight entity
+  txa
+  pha
 
-  ; lda #entity_index_spotlight
-  ; sta b0
+  lda #entity_index_spotlight
+  sta b0
 
-  ; lda entity_x_lo,x
-  ; sta w0
-  ; lda entity_x_hi,x
-  ; sta w0+1
-  ; lda entity_y_lo,x
-  ; sta w1
-  ; lda entity_y_hi,x
-  ; sta w1+1
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
 
-  ; jsr entity_spawn
+  jsr entity_spawn
 
-  ; pla
-  ; tax
+  ;remember index of the spotlight entity instance
+  stx b0
+
+  pla
+  tax
+
+  ;store index of spotlight entity index so we can keep it in front of the
+  ;anglerfish
+  lda b0
+  sta anglerfish_spotlight_entity_index,x
+  tay
+
+  ;get initial entity flags (for flickering the spotlight) from anglerfish.
+  ;this enables us to have spotlights in front of anglerfish that are horizontally
+  ;across from one another and go over the 8 sprite wide limit. Plus, it looks
+  ;neat to flicker the spotlight (looks transparent).
+  lda entity_flags,y
+  ora anglerfish_spotlight_on,x
+  sta entity_flags,y
+
+  jsr anglerfish_calculate_spotlight_position
+
+  jsr anglerfish_add_shadow_spot
 
   lda #ANGLERFISH_STATE_MAIN
   sta entity_state,x
@@ -215,6 +254,10 @@ sign_extend_negative:
 done:
   .endscope
 
+  jsr anglerfish_calculate_spotlight_position
+
+  jsr anglerfish_add_shadow_spot
+
   clc
   ldy anglerfish_direction,x
   lda anglerfish_animation_addresses_lo,y
@@ -228,5 +271,67 @@ done:
   jsr entity_update_animation
 
   rts
+
+.proc anglerfish_add_shadow_spot
+
+  clc
+  lda entity_x_lo,x
+  adc #$08
+  sta w0
+  lda entity_x_hi,x
+  adc #$00
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc #$18
+  sta w1
+  lda entity_y_hi,x
+  adc #$00
+  sta w1+1
+
+  jsr sprite_add_shadow_spot
+
+  rts
+
+.endproc
+
+.proc anglerfish_calculate_spotlight_position
+
+  .scope
+  spotlight_x = w0
+  spotlight_y = w1
+
+  clc
+  lda entity_x_lo,x
+  adc spotlight_offset_direction_x_lo,y
+  sta spotlight_x
+  lda entity_x_hi,x
+  adc spotlight_offset_direction_x_hi,y
+  sta spotlight_x+1
+
+  clc
+  lda entity_y_lo,x
+  adc spotlight_offset_direction_y_lo,y
+  sta spotlight_y
+  lda entity_y_hi,x
+  adc spotlight_offset_direction_y_hi,y
+  sta spotlight_y+1
+
+  ldy anglerfish_spotlight_entity_index,x
+  lda spotlight_x
+  sta entity_x_lo,y
+  lda spotlight_x+1
+  sta entity_x_hi,y
+
+  lda spotlight_y
+  sta entity_y_lo,y
+  lda spotlight_y+1
+  sta entity_y_hi,y
+  .endscope
+
+  rts
+
+.endproc
 
 .endif
