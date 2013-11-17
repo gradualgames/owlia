@@ -11,6 +11,8 @@ ANGLERFISH_SPEED = 150
 
 ANGLERFISH_TURN_LENGTH = 70
 
+ANGLERFISH_ATTACKED_LENGTH = 120
+
 anglerfish_turn_mode = entity_local0
 anglerfish_direction = entity_local1
 anglerfish_spotlight_on = entity_local2
@@ -18,6 +20,7 @@ anglerfish_x_fine = entity_local3
 anglerfish_y_fine = entity_local4
 anglerfish_turn_counter = entity_local5
 anglerfish_spotlight_entity_index = entity_local6
+anglerfish_attacked_counter = entity_local7
 
 anglerfish_turn_direction:
 anglerfish_turnright_direction:
@@ -131,6 +134,9 @@ anglerfish_state_init:
   lda #ANGLERFISH_TURN_LENGTH
   sta anglerfish_turn_counter,x
 
+  lda #0
+  sta anglerfish_attacked_counter,x
+
   ;spawn a spotlight entity
   txa
   pha
@@ -179,6 +185,61 @@ anglerfish_state_init:
   rts
 
 anglerfish_state_main:
+
+  jsr anglerfish_advance_attacked_state
+
+  lda entity_action_rect1_action
+  cmp #ACTION_ATTACK
+  bne action_rect1_not_deadly
+
+  jsr entity_test_entity_action_rect1
+  bne action_rect1_not_deadly
+
+  jsr anglerfish_attacked
+
+action_rect1_not_deadly:
+
+  lda entity_action_rect2_action
+  cmp #ACTION_ATTACK
+  bne action_rect2_not_deadly
+
+  jsr entity_test_entity_action_rect2
+  bne action_rect2_not_deadly
+
+  jsr anglerfish_attacked
+
+  jsr familiar_hit_enemy
+
+action_rect2_not_deadly:
+
+  lda anglerfish_attacked_counter,x
+  bne do_not_move_anglerfish
+
+  jsr anglerfish_move
+
+do_not_move_anglerfish:
+
+  jsr anglerfish_calculate_spotlight_position
+
+  jsr anglerfish_add_shadow_spot
+
+  clc
+  ldy anglerfish_direction,x
+  lda anglerfish_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda anglerfish_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+
+  lda entity_sprite_flags,x
+  and #%10111111
+  ora anglerfish_sprite_flags_direction,y
+  sta entity_sprite_flags,x
+
+  jsr entity_update_animation
+
+  rts
+
+.proc anglerfish_move
 
   dec anglerfish_turn_counter,x
   bne do_not_turn_anglerfish
@@ -254,23 +315,63 @@ sign_extend_negative:
 done:
   .endscope
 
-  jsr anglerfish_calculate_spotlight_position
+  rts
 
-  jsr anglerfish_add_shadow_spot
+.endproc
 
-  clc
-  ldy anglerfish_direction,x
-  lda anglerfish_animation_addresses_lo,y
-  sta entity_animation_address_lo,x
-  lda anglerfish_animation_addresses_hi,y
-  sta entity_animation_address_hi,x
+.proc anglerfish_attacked
 
-  lda anglerfish_sprite_flags_direction,y
-  sta entity_sprite_flags,x
+  lda anglerfish_attacked_counter,x
+  bne attacked_state_machine_already_running
 
-  jsr entity_update_animation
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_hit
+  sta sound_param_word_0
+  lda #>sfx_hit
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  lda #ANGLERFISH_ATTACKED_LENGTH
+  sta anglerfish_attacked_counter,x
+
+attacked_state_machine_already_running:
 
   rts
+
+.endproc
+
+.proc anglerfish_advance_attacked_state
+
+  lda anglerfish_attacked_counter,x
+  beq attacked_state_machine_not_running
+
+  dec anglerfish_attacked_counter,x
+
+  lda anglerfish_attacked_counter,x
+  and #%00000011
+  sta b0
+
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b0
+  sta entity_sprite_flags,x
+
+attacked_state_machine_not_running:
+
+  rts
+
+.endproc
 
 .proc anglerfish_add_shadow_spot
 
@@ -298,6 +399,7 @@ done:
 
 .proc anglerfish_calculate_spotlight_position
 
+  ldy anglerfish_direction,x
   .scope
   spotlight_x = w0
   spotlight_y = w1
