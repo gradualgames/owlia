@@ -49,6 +49,27 @@ anglerfish_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
+  ;spawn a spotlight entity
+  txa
+  pha
+
+  lda #entity_index_spotlight
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  pla
+  tax
+
   lda #ANGLERFISH_STATE_MAIN
   sta entity_state,x
 

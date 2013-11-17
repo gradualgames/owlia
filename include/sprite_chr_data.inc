@@ -24,6 +24,7 @@ sprite_chr_group_index_pufferfish
 sprite_chr_group_index_crab
 sprite_chr_group_index_door
 sprite_chr_group_index_anglerfish
+sprite_chr_group_index_spotlight
 .endenum
 
 sprite_chr_group_bank_hero = 1
@@ -44,5 +45,6 @@ sprite_chr_group_bank_pufferfish = 2
 sprite_chr_group_bank_crab = 2
 sprite_chr_group_bank_door = 2
 sprite_chr_group_bank_anglerfish = 2
+sprite_chr_group_bank_spotlight = 2
 
 .endif

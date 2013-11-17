@@ -84,4 +84,8 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global AnglerFishDown
 .global AnglerFishSide
 
+.global SpotLight0
+
+.global SpotLight
+
 .endif

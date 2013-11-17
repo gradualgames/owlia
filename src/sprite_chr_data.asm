@@ -21,7 +21,8 @@
   PufferFish_chr, \
   Crab_chr, \
   Door_chr, \
-  AnglerFish_chr
+  AnglerFish_chr, \
+  SpotLight_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -47,6 +48,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_crab
   .byte sprite_chr_group_bank_door
   .byte sprite_chr_group_bank_anglerfish
+  .byte sprite_chr_group_bank_spotlight
 
 .segment "ROM01"
 
@@ -533,3 +535,8 @@ AnglerFish_chr:
   .byte $60,$d4,$c2,$aa,$84,$ae,$fa,$ac,$80,$00,$00,$00,$00,$04,$8c,$f8
   .byte $79,$07,$00,$00,$00,$00,$00,$00,$07,$00,$00,$00,$00,$00,$00,$00
   .byte $58,$f0,$00,$00,$00,$00,$00,$00,$f0,$00,$00,$00,$00,$00,$00,$00
+
+SpotLight_chr:
+  .word $0020
+  .byte $1f,$7f,$ff,$ff,$ff,$ff,$7f,$1f,$1f,$7f,$ff,$ff,$ff,$ff,$7f,$1f
+  .byte $f8,$fe,$ff,$ff,$ff,$ff,$fe,$f8,$f8,$fe,$ff,$ff,$ff,$ff,$fe,$f8

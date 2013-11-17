@@ -41,7 +41,8 @@
   pufferfish_update, \
   crab_update, \
   traproom_update, \
-  anglerfish_update
+  anglerfish_update, \
+  spotlight_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -62,6 +63,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_crab
   .byte entity_update_bank_traproom
   .byte entity_update_bank_anglerfish
+  .byte entity_update_bank_spotlight
 
 entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_explosion
@@ -77,6 +79,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_crab
   .byte 0 ;entity_sprites_and_animations_bank_traproom
   .byte entity_sprites_and_animations_bank_anglerfish
+  .byte entity_sprites_and_animations_bank_spotlight
 
 .segment "ROM03"
 .include "explosion.inc"
@@ -93,3 +96,4 @@ entity_defs_sprites_and_animations_bank:
 .include "crab.inc"
 .include "traproom.inc"
 .include "anglerfish.inc"
+.include "spotlight.inc"

@@ -114,7 +114,7 @@ meadow1_entity_set:
   .byte sprite_chr_group_index_pufferfish
 
 dungeon_entity_set:
-  .byte 10   ;sprite_chr_groups .byte
+  .byte 11   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -125,6 +125,7 @@ dungeon_entity_set:
   .byte sprite_chr_group_index_crab
   .byte sprite_chr_group_index_door
   .byte sprite_chr_group_index_anglerfish
+  .byte sprite_chr_group_index_spotlight
 
 ;****************************************************************
 ;Entity instance sets
