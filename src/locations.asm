@@ -197,9 +197,10 @@ dungeon_2_0_entity_instances:
   .byte entity_index_traproom, 0, 0, 0, 0
 
 dungeon_3_0_entity_instances:
-  .byte 3
+  .byte 4
   .byte entity_index_anglerfish, 52, 2, 0, 3, ANGLERFISH_TURN_MODE_LEFT, ANGLERFISH_DIRECTION_DOWN, ANGLERFISH_SPOTLIGHT_OFF
   .byte entity_index_anglerfish, 59, 2, 0, 3, ANGLERFISH_TURN_MODE_RIGHT, ANGLERFISH_DIRECTION_DOWN, ANGLERFISH_SPOTLIGHT_ON
+  .byte entity_index_spotlight_puzzle, 0, 0, 0, 0
   .byte entity_index_door, 49, 9, 0, 2, location_index_dungeon_2_0_e, DOOR_TYPE_UNLOCKED
 
 dungeon_0_1_entity_instances:

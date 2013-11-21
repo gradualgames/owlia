@@ -21,6 +21,7 @@ entity_index_crab
 entity_index_traproom
 entity_index_anglerfish
 entity_index_spotlight
+entity_index_spotlight_puzzle
 .endenum
 
 entity_update_bank_explosion = 3
@@ -37,6 +38,7 @@ entity_update_bank_crab = 4
 entity_update_bank_traproom = 4
 entity_update_bank_anglerfish = 4
 entity_update_bank_spotlight = 4
+entity_update_bank_spotlight_puzzle = 4
 
 entity_sprites_and_animations_bank_explosion = 0
 entity_sprites_and_animations_bank_bomb = 0
@@ -52,5 +54,6 @@ entity_sprites_and_animations_bank_crab = 1
 ;entity_sprites_and_animations_bank_traproom ;this entity has no graphics
 entity_sprites_and_animations_bank_anglerfish = 1
 entity_sprites_and_animations_bank_spotlight = 1
+;entity_sprites_and_animations_bank_spotlight_puzzle ;this entity has no graphics
 
 .endif

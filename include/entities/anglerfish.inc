@@ -13,15 +13,6 @@ ANGLERFISH_TURN_LENGTH = 70
 
 ANGLERFISH_ATTACKED_LENGTH = 120
 
-anglerfish_turn_mode = entity_local0
-anglerfish_direction = entity_local1
-anglerfish_spotlight_on = entity_local2
-anglerfish_x_fine = entity_local3
-anglerfish_y_fine = entity_local4
-anglerfish_turn_counter = entity_local5
-anglerfish_spotlight_entity_index = entity_local6
-anglerfish_attacked_counter = entity_local7
-
 anglerfish_turn_direction:
 anglerfish_turnright_direction:
   .byte ANGLERFISH_DIRECTION_DOWN
@@ -83,14 +74,10 @@ spotlight_offset_direction_y_lo:
 spotlight_offset_direction_y_hi:
   .hibytes spotlight_offset_direction_y
 
-.enum
-ANGLERFISH_STATE_INIT
-ANGLERFISH_STATE_MAIN
-.endenum
-
 .define anglerfish_states \
   anglerfish_state_init, \
-  anglerfish_state_main
+  anglerfish_state_main, \
+  anglerfish_state_die
 
 anglerfish_lo:
   .lobytes anglerfish_states
@@ -133,7 +120,7 @@ anglerfish_state_init:
   sta anglerfish_attacked_counter,x
 
   jsr anglerfish_get_animation_params
-  
+
   ;spawn a spotlight entity
   txa
   pha
@@ -223,6 +210,39 @@ do_not_move_anglerfish:
   jsr anglerfish_get_animation_params
 
   jsr entity_update_animation
+
+  rts
+
+anglerfish_state_die:
+
+  txa
+  pha
+
+  lda #entity_index_explosion
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  pla
+  tax
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  ldy anglerfish_spotlight_entity_index,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
 
   rts
 
