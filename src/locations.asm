@@ -74,7 +74,8 @@
     dungeon_2_3_w, \
     dungeon_2_3_s, \
     dungeon_2_3_e, \
-    dungeon_3_3_w
+    dungeon_3_3_w, \
+    dungeon1_boss_area_entrance
 
 locations_lo:
   .lobytes locations
@@ -127,6 +128,15 @@ dungeon_entity_set:
   .byte sprite_chr_group_index_door
   .byte sprite_chr_group_index_anglerfish
   .byte sprite_chr_group_index_spotlight
+
+dungeon1_boss_entity_set:
+  .byte 6   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_key
 
 ;****************************************************************
 ;Entity instance sets
@@ -278,6 +288,9 @@ dungeon_3_3_entity_instances:
   .byte entity_index_pufferfish, 56, 53, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_door, 49, 52, 0, 2, location_index_dungeon_2_3_e, DOOR_TYPE_UNLOCKED
 
+dungeon1_boss_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -299,6 +312,10 @@ meadow3_palette:
 
 dungeon_palette:
   .byte $0e,$0a,$0b,$08,$0e,$0b,$08,$18,$0e,$08,$07,$28,$00,$00,$00,$00
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
+
+dungeon1_boss_palette:
+  .byte $0e,$0a,$0b,$08,$0e,$0b,$08,$18,$0e,$08,$07,$28,$0e,$08,$01,$12
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
 
 ;****************************************************************
@@ -494,3 +511,9 @@ dungeon_2_3_e:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_2_3_entity_instances, dungeon_palette, 32, 45, 46, 52, sfx_door, 3, soundeffect_one, HERO_DIRECTION_LEFT
 dungeon_3_3_w:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_3_3_entity_instances, dungeon_palette, 48, 45, 49, 52, sfx_door, 3, soundeffect_one, HERO_DIRECTION_RIGHT
+
+dungeon1_boss_area_entrance:
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
+                        area_index_dungeon1_boss, dungeon1_boss_entity_set, dungeon1_boss_entity_instances, dungeon1_boss_palette,\
+                        0, 15, 7, 32,\
+                        0, 0, 0, HERO_DIRECTION_UP

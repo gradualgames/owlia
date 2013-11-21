@@ -11,7 +11,8 @@ BG_CHR_DATA_INC = 1
 .global meadow_trees
 .global meadow_trees_corners
 .global meadow_dungeon1_entrance
-.global dungeon_chr
+.global dungeon1_main_chr
+.global dungeon1_pool_chr
 .global inventory_chr
 .global title_chr
 .global game_over_chr

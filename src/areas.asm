@@ -24,7 +24,8 @@
     meadow1_area, \
     meadow2_area, \
     meadow3_area, \
-    dungeon_area
+    dungeon_area, \
+    dungeon1_boss_area
 
 areas_lo:
   .lobytes areas
@@ -328,4 +329,31 @@ dungeon_area:
 dungeon_area_bg_chr_groups:
   .byte 1  ;count
   .byte 8  ;bank
-  .word dungeon_chr
+  .word dungeon1_main_chr
+
+dungeon1_boss_area:
+  .byte 1   ;music_bank .byte
+  .byte 1   ;map_bank .byte
+  .byte 0   ;conversations_bank .byte
+  .word dungeon1_boss_area_bg_chr_groups
+  .word song2
+  .byte $22 ;textbox_attribute
+  .word dungeon1_boss_map
+  .word dungeon1_boss_metatile_table_properties
+  .word dungeon1_boss_metatile_table_params
+  .word dungeon1_boss_metatile_table_attributes
+  .word dungeon1_boss_metatile_table_top_left_tiles
+  .word dungeon1_boss_metatile_table_top_right_tiles
+  .word dungeon1_boss_metatile_table_bottom_left_tiles
+  .word dungeon1_boss_metatile_table_bottom_right_tiles
+  .word dungeon1_boss_big_metatile_table_top_left
+  .word dungeon1_boss_big_metatile_table_top_right
+  .word dungeon1_boss_big_metatile_table_bottom_left
+  .word dungeon1_boss_big_metatile_table_bottom_right
+
+dungeon1_boss_area_bg_chr_groups:
+  .byte 2  ;count
+  .byte 8  ;bank
+  .word dungeon1_main_chr
+  .byte 9  ;bank
+  .word dungeon1_pool_chr

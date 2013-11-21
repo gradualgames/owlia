@@ -155,4 +155,18 @@ MAP_DATA_INC = 1
 .global dungeon_metatile_table_top_right_tiles
 .global dungeon_metatile_table_top_left_tiles
 
+.global dungeon1_boss_palette
+.global dungeon1_boss_map
+.global dungeon1_boss_big_metatile_table_bottom_right
+.global dungeon1_boss_big_metatile_table_bottom_left
+.global dungeon1_boss_big_metatile_table_top_right
+.global dungeon1_boss_big_metatile_table_top_left
+.global dungeon1_boss_metatile_table_properties
+.global dungeon1_boss_metatile_table_params
+.global dungeon1_boss_metatile_table_attributes
+.global dungeon1_boss_metatile_table_bottom_right_tiles
+.global dungeon1_boss_metatile_table_bottom_left_tiles
+.global dungeon1_boss_metatile_table_top_right_tiles
+.global dungeon1_boss_metatile_table_top_left_tiles
+
 .endif
