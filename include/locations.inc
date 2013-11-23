@@ -166,6 +166,7 @@ location_index_dungeon_1_0_e
 location_index_dungeon_2_0_w
 location_index_dungeon_2_0_e
 location_index_dungeon_3_0_w
+location_index_dungeon_3_0_n
 location_index_dungeon_0_1_n
 location_index_dungeon_0_1_e
 location_index_dungeon_0_1_s
