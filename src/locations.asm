@@ -117,7 +117,7 @@ meadow1_entity_set:
   .byte sprite_chr_group_index_pufferfish
 
 dungeon_entity_set:
-  .byte 11   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -127,6 +127,17 @@ dungeon_entity_set:
   .byte sprite_chr_group_index_pufferfish
   .byte sprite_chr_group_index_crab
   .byte sprite_chr_group_index_door
+  .byte sprite_chr_group_index_anglerfish
+  .byte sprite_chr_group_index_spotlight
+
+dungeon_anglerfish_puzzle_entity_set:
+  .byte 8   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_anglerfish
   .byte sprite_chr_group_index_spotlight
 
@@ -514,7 +525,7 @@ define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAG
 dungeon_2_3_e:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_2_3_entity_instances, dungeon_palette, 32, 45, 46, 55, sfx_door, 3, soundeffect_one, HERO_DIRECTION_LEFT
 dungeon_3_3_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_3_3_entity_instances, dungeon_palette, 48, 45, 49, 55, sfx_door, 3, soundeffect_one, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_entity_set, dungeon_3_3_entity_instances, dungeon_palette, 48, 45, 49, 55, sfx_door, 3, soundeffect_one, HERO_DIRECTION_RIGHT
 
 dungeon1_boss_area_entrance:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
