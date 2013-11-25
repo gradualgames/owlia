@@ -1,0 +1,63 @@
+.linecont +
+.ifndef SPLASH_INC
+SPLASH_INC = 1
+
+SPLASH_WIDTH = $0f
+SPLASH_HEIGHT = $0f
+
+.enum
+SPLASH_STATE_INIT
+SPLASH_STATE_MAIN
+.endenum
+
+.define splash_states \
+  splash_state_init, \
+  splash_state_main
+
+splash_lo:
+  .lobytes splash_states
+
+splash_hi:
+  .hibytes splash_states
+
+splash_update:
+
+  entity_state_switchboard splash_lo, splash_hi
+
+splash_state_init:
+
+  jsr entity_set_drawable
+
+  lda #<Splash
+  sta entity_animation_address_lo,x
+  lda #>Splash
+  sta entity_animation_address_hi,x
+
+  jsr entity_reset_animation
+
+  lda #SPLASH_WIDTH
+  sta entity_width,x
+  lda #SPLASH_HEIGHT
+  sta entity_height,x
+
+  ;some entities are parameterized for graphics set, ones
+  ;that are always hard coded should set their chr offset here
+  ldy #sprite_chr_group_index_splash
+  lda sprite_chr_group_offsets,y
+  sta entity_sprite_group_offset,x
+
+  lda #$00
+  sta entity_sprite_flags,x
+
+  lda #SPLASH_STATE_MAIN
+  sta entity_state,x
+
+  rts
+
+splash_state_main:
+
+  jsr entity_update_animation
+
+  rts
+
+.endif

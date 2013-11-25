@@ -43,7 +43,10 @@
   traproom_update, \
   anglerfish_update, \
   spotlight_update, \
-  spotlight_puzzle_update
+  spotlight_puzzle_update, \
+  octoboss_head_update, \
+  octoboss_legs_update, \
+  splash_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -66,6 +69,9 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_anglerfish
   .byte entity_update_bank_spotlight
   .byte entity_update_bank_spotlight_puzzle
+  .byte entity_update_bank_octoboss_head
+  .byte entity_update_bank_octoboss_legs
+  .byte entity_update_bank_splash
 
 entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_explosion
@@ -83,6 +89,9 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_anglerfish
   .byte entity_sprites_and_animations_bank_spotlight
   .byte 0 ;entity_sprites_and_animations_bank_spotlight_puzzle
+  .byte entity_sprites_and_animations_bank_octoboss_head
+  .byte entity_sprites_and_animations_bank_octoboss_legs
+  .byte entity_sprites_and_animations_bank_splash
 
 .segment "ROM03"
 .include "explosion.inc"
@@ -101,3 +110,6 @@ entity_defs_sprites_and_animations_bank:
 .include "anglerfish.inc"
 .include "spotlight.inc"
 .include "spotlight_puzzle.inc"
+.include "octoboss_head.inc"
+.include "octoboss_legs.inc"
+.include "splash.inc"

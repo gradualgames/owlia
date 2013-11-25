@@ -142,13 +142,15 @@ dungeon_anglerfish_puzzle_entity_set:
   .byte sprite_chr_group_index_spotlight
 
 dungeon1_boss_entity_set:
-  .byte 6   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_key
+  .byte sprite_chr_group_index_octoboss
+  .byte sprite_chr_group_index_splash
 
 ;****************************************************************
 ;Entity instance sets
@@ -302,7 +304,10 @@ dungeon_3_3_entity_instances:
   .byte entity_index_door, 49, 55, 0, 2, location_index_dungeon_2_3_e, DOOR_TYPE_UNLOCKED
 
 dungeon1_boss_entity_instances:
-  .byte 0
+  .byte 3
+  .byte entity_index_octoboss_head, 10, 10, 0, 0
+  .byte entity_index_octoboss_legs, 10, 16, 0, 0
+  .byte entity_index_splash, 10, 15, 0, 0
 
 ;****************************************************************
 ;Palettes.

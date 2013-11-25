@@ -25,6 +25,8 @@ sprite_chr_group_index_crab
 sprite_chr_group_index_door
 sprite_chr_group_index_anglerfish
 sprite_chr_group_index_spotlight
+sprite_chr_group_index_octoboss
+sprite_chr_group_index_splash
 .endenum
 
 sprite_chr_group_bank_hero = 1
@@ -46,5 +48,7 @@ sprite_chr_group_bank_crab = 2
 sprite_chr_group_bank_door = 2
 sprite_chr_group_bank_anglerfish = 2
 sprite_chr_group_bank_spotlight = 2
+sprite_chr_group_bank_octoboss = 2
+sprite_chr_group_bank_splash = 2
 
 .endif

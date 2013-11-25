@@ -88,4 +88,9 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 
 .global SpotLight
 
+.global OctobossHead
+.global OctobossLegsDangle
+
+.global Splash
+
 .endif
