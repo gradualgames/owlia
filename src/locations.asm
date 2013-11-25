@@ -305,9 +305,9 @@ dungeon_3_3_entity_instances:
 
 dungeon1_boss_entity_instances:
   .byte 3
-  .byte entity_index_octoboss_head, 10, 10, 0, 0
-  .byte entity_index_octoboss_legs, 10, 16, 0, 0
-  .byte entity_index_splash, 10, 15, 0, 0
+  .byte entity_index_octoboss_head, 10, 3, 0, 0
+  .byte entity_index_octoboss_legs, 10, 5, 0, 0
+  .byte entity_index_splash, 10, 4, 0, 0
 
 ;****************************************************************
 ;Palettes.
@@ -533,7 +533,9 @@ dungeon_3_3_w:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_entity_set, dungeon_3_3_entity_instances, dungeon_palette, 48, 45, 49, 55, sfx_door, 3, soundeffect_one, HERO_DIRECTION_RIGHT
 
 dungeon1_boss_area_entrance:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
+                  LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
+                  LOCATION_BRIGHTNESS_LEVEL_4)},\
                         area_index_dungeon1_boss, dungeon1_boss_entity_set, dungeon1_boss_entity_instances, dungeon1_boss_palette,\
-                        0, 15, 7, 32,\
+                        0, 0, 7, 12,\
                         0, 0, 0, HERO_DIRECTION_UP
