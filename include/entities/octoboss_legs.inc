@@ -2,17 +2,16 @@
 .ifndef OCTOBOSS_LEGS_INC
 OCTOBOSS_LEGS_INC = 1
 
+.include "octoboss_legs_constants.inc"
+
 OCTOBOSS_LEGS_WIDTH = $0f
 OCTOBOSS_LEGS_HEIGHT = $0f
 
-.enum
-OCTOBOSS_LEGS_STATE_INIT
-OCTOBOSS_LEGS_STATE_MAIN
-.endenum
-
 .define octoboss_legs_states \
   octoboss_legs_state_init, \
-  octoboss_legs_state_main
+  octoboss_legs_state_nop, \
+  octoboss_legs_state_dangle_init, \
+  octoboss_legs_state_dangle
 
 octoboss_legs_lo:
   .lobytes octoboss_legs_states
@@ -26,14 +25,7 @@ octoboss_legs_update:
 
 octoboss_legs_state_init:
 
-  jsr entity_set_drawable
-
-  lda #<OctobossLegsDangle
-  sta entity_animation_address_lo,x
-  lda #>OctobossLegsDangle
-  sta entity_animation_address_hi,x
-
-  jsr entity_reset_animation
+  jsr entity_clear_drawable
 
   lda #OCTOBOSS_LEGS_WIDTH
   sta entity_width,x
@@ -49,12 +41,33 @@ octoboss_legs_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
-  lda #OCTOBOSS_LEGS_STATE_MAIN
+  ;put legs into a passive state til the head tells them what to do
+  lda #OCTOBOSS_LEGS_STATE_NOP
   sta entity_state,x
 
   rts
 
-octoboss_legs_state_main:
+octoboss_legs_state_nop:
+
+  rts
+
+octoboss_legs_state_dangle_init:
+
+  jsr entity_set_drawable
+
+  lda #<OctobossLegsDangle
+  sta entity_animation_address_lo,x
+  lda #>OctobossLegsDangle
+  sta entity_animation_address_hi,x
+
+  jsr entity_reset_animation
+
+  lda #OCTOBOSS_LEGS_STATE_DANGLE
+  sta entity_state,x
+
+  jmp octoboss_legs_state_dangle
+
+octoboss_legs_state_dangle:
 
   jsr entity_update_animation
 

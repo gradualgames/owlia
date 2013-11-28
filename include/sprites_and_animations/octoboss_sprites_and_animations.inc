@@ -171,7 +171,7 @@ Splash:
   .word Splash0
   .word Splash1
 OctobossRise:
-  .byte $0a,$0c
+  .byte $08,$0c
   .word OctobossRise0
   .word OctobossRise1
   .word OctobossRise2
