@@ -2,17 +2,16 @@
 .ifndef SPLASH_INC
 SPLASH_INC = 1
 
+.include "splash_constants.inc"
+
 SPLASH_WIDTH = $0f
 SPLASH_HEIGHT = $0f
 
-.enum
-SPLASH_STATE_INIT
-SPLASH_STATE_MAIN
-.endenum
-
 .define splash_states \
   splash_state_init, \
-  splash_state_main
+  splash_state_splash, \
+  splash_state_hide, \
+  splash_state_show
 
 splash_lo:
   .lobytes splash_states
@@ -26,7 +25,7 @@ splash_update:
 
 splash_state_init:
 
-  jsr entity_set_drawable
+  jsr entity_clear_drawable
 
   lda #<Splash
   sta entity_animation_address_lo,x
@@ -49,15 +48,35 @@ splash_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
-  lda #SPLASH_STATE_MAIN
+  lda #SPLASH_STATE_SHOW
   sta entity_state,x
 
   rts
 
-splash_state_main:
+splash_state_splash:
+
+  jsr entity_set_sorted
 
   jsr entity_update_animation
 
   rts
+
+splash_state_hide:
+
+  jsr entity_clear_drawable
+
+  lda #SPLASH_STATE_SPLASH
+  sta entity_state,x
+
+  jmp splash_state_splash
+
+splash_state_show:
+
+  jsr entity_set_drawable
+
+  lda #SPLASH_STATE_SPLASH
+  sta entity_state,x
+
+  jmp splash_state_splash
 
 .endif

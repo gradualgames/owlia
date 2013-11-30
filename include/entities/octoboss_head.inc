@@ -3,6 +3,7 @@
 OCTOBOSS_HEAD_INC = 1
 
 .include "octoboss_legs_constants.inc"
+.include "splash_constants.inc"
 
 OCTOBOSS_HEAD_WIDTH = $0f
 OCTOBOSS_HEAD_HEIGHT = $0f
@@ -88,6 +89,43 @@ octoboss_head_state_init:
   lda b0
   sta octoboss_head_legs_entity_index,x
 
+  ;spawn the splash
+  txa
+  pha
+
+  lda #entity_index_splash
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  ;remember index of the splash entity
+  stx b0
+
+  pla
+  tax
+
+  lda b0
+  sta octoboss_head_splash_entity_index,x
+
+  ;move the splash according to its offset
+  ldy octoboss_head_splash_entity_index,x
+  clc
+  lda entity_y_lo,y
+  adc #<SPLASH_Y_OFFSET
+  sta entity_y_lo,y
+  lda entity_y_hi,y
+  adc #>SPLASH_Y_OFFSET
+  sta entity_y_hi,y
+
   lda #OCTOBOSS_HEAD_STATE_RISE_LENGTH
   sta octoboss_head_state_counter,x
 
@@ -110,6 +148,11 @@ octoboss_head_state_rise:
 
   dec octoboss_head_state_counter,x
   bne do_not_switch_to_float_state
+
+  ;tell the splash entity to hide itself
+  ldy octoboss_head_splash_entity_index,x
+  lda #SPLASH_STATE_HIDE
+  sta entity_state,y
 
   ;tell the legs to start drawing themselves and dangle
   ldy octoboss_head_legs_entity_index,x

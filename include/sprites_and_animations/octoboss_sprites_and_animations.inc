@@ -157,7 +157,7 @@ Splash1:
   .byte $00,$08,$01,$10,$00
   .byte $08,$09,$01,$00,$10
   .byte $08,$0a,$01,$08,$08
-  .byte $08,$05,$01,$10,$00
+  .byte $08,$0b,$01,$10,$00
 
 OctobossHead:
   .byte $0a,$02
@@ -167,7 +167,7 @@ OctobossLegsDangle:
   .word OctobossLegsDangle0
   .word OctobossLegsDangle1
 Splash:
-  .byte $0a,$04
+  .byte $04,$04
   .word Splash0
   .word Splash1
 OctobossRise:
