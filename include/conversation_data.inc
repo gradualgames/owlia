@@ -1,7 +1,7 @@
 .ifndef CONVERSATION_DATA
 CONVERSATION_DATA = 1
 
-CONVERSATIONS_BANK = 0
+CONVERSATIONS_BANK = 10
 
 .global conversations_lo
 .global conversations_hi

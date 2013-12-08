@@ -23,7 +23,7 @@ conversations_lo:
 conversations_hi:
   .hibytes conversations
 
-.segment "ROM00"
+.segment "ROM10"
 
 welcome_to_demo:
   .byte 1, W,E,L,C,O,M,E,EN,WT,EC
