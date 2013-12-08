@@ -352,7 +352,7 @@ inventory_state_exit:
 
 .endproc
 
-.segment "ROM03"
+.segment "ROM01"
 
 ;****************************************************************
 ;This data comprises all the strings visible on the inventory

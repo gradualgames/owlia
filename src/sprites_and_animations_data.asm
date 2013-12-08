@@ -14,7 +14,6 @@
 ;associated with the entities tables. Each entity
 ;type knows the bank that its set of sprites and
 ;animations reside in.
-.segment "ROM06"
 
 .include "octopus_sprites_and_animations.inc"
 .include "explosion_sprites_and_animations.inc"
