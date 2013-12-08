@@ -58,7 +58,7 @@ village_area:
 
 village_area_bg_chr_groups:
   .byte 1         ;count
-  .byte 8         ;bank
+  .byte BG_CHR_DATA_BANK1
   .word map0_chr
 
 house1_area:
@@ -83,7 +83,7 @@ house1_area:
 
 house1_area_bg_chr_groups:
   .byte 1  ;count
-  .byte 8  ;bank
+  .byte BG_CHR_DATA_BANK1
   .word house1_chr
 
 housebl_area:
@@ -108,7 +108,7 @@ housebl_area:
 
 housebl_area_bg_chr_groups:
   .byte 1  ;count
-  .byte 8  ;bank
+  .byte BG_CHR_DATA_BANK1
   .word house1_chr
 
 housebr_area:
@@ -133,7 +133,7 @@ housebr_area:
 
 housebr_area_bg_chr_groups:
   .byte 1  ;count
-  .byte 8  ;bank
+  .byte BG_CHR_DATA_BANK1
   .word house1_chr
 
 housetr_area:
@@ -158,7 +158,7 @@ housetr_area:
 
 housetr_area_bg_chr_groups:
   .byte 1  ;count
-  .byte 8  ;bank
+  .byte BG_CHR_DATA_BANK1
   .word house1_chr
 
 inn_area:
@@ -183,7 +183,7 @@ inn_area:
 
 inn_area_bg_chr_groups:
   .byte 1  ;count
-  .byte 8  ;bank
+  .byte BG_CHR_DATA_BANK1
   .word house1_chr
 
 store_area:
@@ -208,7 +208,7 @@ store_area:
 
 store_area_bg_chr_groups:
   .byte 1  ;count
-  .byte 8  ;bank
+  .byte BG_CHR_DATA_BANK1
   .word house1_chr
 
 meadow1_area:
@@ -233,15 +233,15 @@ meadow1_area:
 
 meadow1_area_bg_chr_groups:
   .byte 5  ;count
-  .byte 8  ;bank
+  .byte BG_CHR_DATA_BANK1
   .word meadow_trees
-  .byte 8
+  .byte BG_CHR_DATA_BANK1
   .word meadow_trees_corners
-  .byte 8
+  .byte BG_CHR_DATA_BANK1
   .word meadow_grass_flowers
-  .byte 8
+  .byte BG_CHR_DATA_BANK1
   .word meadow_dirt1
-  .byte 8
+  .byte BG_CHR_DATA_BANK1
   .word meadow_dirt2
 
 meadow2_area:
@@ -268,13 +268,13 @@ meadow2_area_bg_chr_groups:
   .byte 5  ;count
   .byte 8  ;bank
   .word meadow_trees
-  .byte 8
+  .byte BG_CHR_DATA_BANK1
   .word meadow_trees_corners
-  .byte 8
+  .byte BG_CHR_DATA_BANK1
   .word meadow_grass_flowers
-  .byte 8
+  .byte BG_CHR_DATA_BANK1
   .word meadow_dirt1
-  .byte 8
+  .byte BG_CHR_DATA_BANK1
   .word meadow_dirt2
 
 meadow3_area:
@@ -299,11 +299,11 @@ meadow3_area:
 
 meadow3_area_bg_chr_groups:
   .byte 3  ;count
-  .byte 8  ;bank
+  .byte BG_CHR_DATA_BANK1
   .word meadow_trees
-  .byte 8
+  .byte BG_CHR_DATA_BANK1
   .word meadow_trees_corners
-  .byte 8
+  .byte BG_CHR_DATA_BANK1
   .word meadow_dungeon1_entrance
 
 dungeon_area:
@@ -328,7 +328,7 @@ dungeon_area:
 
 dungeon_area_bg_chr_groups:
   .byte 1  ;count
-  .byte 8  ;bank
+  .byte BG_CHR_DATA_BANK1
   .word dungeon1_main_chr
 
 dungeon1_boss_area:
@@ -353,7 +353,7 @@ dungeon1_boss_area:
 
 dungeon1_boss_area_bg_chr_groups:
   .byte 2  ;count
-  .byte 8  ;bank
+  .byte BG_CHR_DATA_BANK1
   .word dungeon1_main_chr
-  .byte 9  ;bank
+  .byte BG_CHR_DATA_BANK2
   .word dungeon1_pool_chr

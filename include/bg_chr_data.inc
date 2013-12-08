@@ -1,6 +1,9 @@
 .ifndef BG_CHR_DATA_INC
 BG_CHR_DATA_INC = 1
 
+BG_CHR_DATA_BANK1 = 8
+BG_CHR_DATA_BANK2 = 9
+
 .global textbox_chr
 .global digits_chr
 .global map0_chr
