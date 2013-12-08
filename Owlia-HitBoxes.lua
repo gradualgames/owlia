@@ -18,15 +18,15 @@ b5 = 0x0005
 w4 = 0x0014
 w5 = 0x0016
 
-camera_x = 0x05C8
-camera_y = 0x05CA
+camera_x = 0x05C6
+camera_y = 0x05C8
 
-entity_action_rect1_x = 0x058B
-entity_action_rect1_y = 0x058D
-entity_action_rect1_width = 0x058F
-entity_action_rect1_height = 0x0590
+entity_action_rect1_x = 0x0588
+entity_action_rect1_y = 0x058A
+entity_action_rect1_width = 0x058C
+entity_action_rect1_height = 0x058D
 
-geotests_rect_in_rect_16bit = 0xD94B
+geotests_rect_in_rect_16bit = 0xDA99
 
 -- draw a box and take care of coordinate checking
 local function box(x1,y1,x2,y2,color)

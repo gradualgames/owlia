@@ -7,9 +7,11 @@ OCTOBOSS_LEGS_INC = 1
 OCTOBOSS_LEGS_WIDTH = $0f
 OCTOBOSS_LEGS_HEIGHT = $0f
 
-OCTOBOSS_LEGS_STATE_PUNCH_LENGTH = 80
+OCTOBOSS_LEGS_STATE_PUNCH_LENGTH = 52
 
 octoboss_legs_state_counter = entity_local0
+octoboss_legs_punch_y_offset = entity_local1
+octoboss_legs_punch_y_velocity = entity_local2
 
 .define octoboss_legs_states \
   octoboss_legs_state_init, \
@@ -88,6 +90,12 @@ octoboss_legs_state_punch_init:
 
   jsr entity_reset_animation
 
+  lda #(8*3)
+  sta octoboss_legs_punch_y_offset,x
+
+  lda #4
+  sta octoboss_legs_punch_y_velocity,x
+
   lda #OCTOBOSS_LEGS_STATE_PUNCH_LENGTH
   sta octoboss_legs_state_counter,x
 
@@ -97,7 +105,64 @@ octoboss_legs_state_punch_init:
 
 octoboss_legs_state_punch:
 
-  jsr entity_update_animation
+  ;transfer entity rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  clc
+  lda entity_x_lo,x
+  adc #$08
+  sta w2
+  lda entity_x_hi,x
+  adc #$00
+  sta w2+1
+
+  lda entity_y_lo,x
+  sta w3
+  lda entity_y_hi,x
+  sta w3+1
+  lda #8
+  sta b2
+  lda octoboss_legs_punch_y_offset,x
+  sta b3
+
+  ;transfer hero rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda hero_x
+  sta w4
+  lda hero_x+1
+  sta w4+1
+  lda hero_y
+  sta w5
+  lda hero_y+1
+  sta w5+1
+  lda hero_width
+  sta b4
+  lda hero_height
+  sta b5
+
+  jsr geotests_rect_in_rect_16bit
+
+  bne tentacle_not_hitting_hero
+
+  lda #HERO_DIRECTION_DOWN
+  sta b0
+  jsr hero_hurt
+
+tentacle_not_hitting_hero:
+
+  clc
+  lda octoboss_legs_punch_y_offset,x
+  adc octoboss_legs_punch_y_velocity,x
+  sta octoboss_legs_punch_y_offset,x
+
+  lda octoboss_legs_punch_y_offset,x
+  cmp #(8 * 16)
+  bne do_not_reverse_punch_velocity
+
+  clc
+  lda octoboss_legs_punch_y_velocity,x
+  eor #$ff
+  adc #$01
+  sta octoboss_legs_punch_y_velocity,x
+
+do_not_reverse_punch_velocity:
 
   .scope
   dec octoboss_legs_state_counter,x
@@ -108,6 +173,8 @@ octoboss_legs_state_punch:
 
 do_not_switch_state:
   .endscope
+
+  jsr entity_update_animation
 
   rts
 

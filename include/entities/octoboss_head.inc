@@ -16,7 +16,7 @@ OCTOBOSS_HEAD_STATE_FLOAT_LENGTH = 100
 OCTOBOSS_HEAD_RISE_SPEED = 1
 OCTOBOSS_HEAD_STATE_RISE_LENGTH = 48
 
-OCTOBOSS_HEAD_STATE_PAUSE_LENGTH = 100
+OCTOBOSS_HEAD_STATE_PAUSE_LENGTH = 70
 
 OCTOBOSS_HEAD_X_CENTER = 115
 OCTOBOSS_HEAD_X_ACCELERATION = 20
@@ -155,6 +155,8 @@ octoboss_head_state_init:
   sta octoboss_head_y_fine,x
   sta octoboss_head_x_velocity_lo,x
   sta octoboss_head_x_velocity_hi,x
+  sta octoboss_head_y_velocity_lo,x
+  sta octoboss_head_y_velocity_hi,x
 
   lda #OCTOBOSS_HEAD_STATE_RISE_LENGTH
   sta octoboss_head_state_counter,x
@@ -194,13 +196,13 @@ octoboss_head_state_rise:
 
   jsr octoboss_head_position_shadow_spot
 
-  lda #OCTOBOSS_HEAD_STATE_FLOAT_LENGTH
-  sta octoboss_head_state_counter,x
-
   lda #<OctobossHeadLook
   sta entity_animation_address_lo,x
   lda #>OctobossHeadLook
   sta entity_animation_address_hi,x
+
+  lda #OCTOBOSS_HEAD_STATE_FLOAT_LENGTH
+  sta octoboss_head_state_counter,x
 
   lda #OCTOBOSS_HEAD_STATE_FLOAT
   sta entity_state,x
@@ -345,6 +347,11 @@ done:
   dec octoboss_head_state_counter,x
   bne do_not_pause_yet
 
+  lda #<OctobossHead
+  sta entity_animation_address_lo,x
+  lda #>OctobossHead
+  sta entity_animation_address_hi,x
+
   ldy octoboss_head_legs_entity_index,x
   lda #OCTOBOSS_LEGS_STATE_PUNCH_INIT
   sta entity_state,y
@@ -369,6 +376,11 @@ octoboss_head_state_pause:
 
   dec octoboss_head_state_counter,x
   bne do_not_unpause_yet
+
+  lda #<OctobossHeadLook
+  sta entity_animation_address_lo,x
+  lda #>OctobossHeadLook
+  sta entity_animation_address_hi,x
 
   lda #OCTOBOSS_HEAD_STATE_FLOAT_LENGTH
   sta octoboss_head_state_counter,x
