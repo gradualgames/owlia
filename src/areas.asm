@@ -38,7 +38,7 @@ areas_hi:
 ;****************************************************************
 village_area:
   .byte MUSIC_BANK
-  .byte 0  ;map_bank .byte
+  .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word village_area_bg_chr_groups
   .word song3
@@ -63,7 +63,7 @@ village_area_bg_chr_groups:
 
 house1_area:
   .byte MUSIC_BANK
-  .byte 0   ;map_bank .byte
+  .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word house1_area_bg_chr_groups
   .word song3
@@ -88,7 +88,7 @@ house1_area_bg_chr_groups:
 
 housebl_area:
   .byte MUSIC_BANK
-  .byte 0   ;map_bank .byte
+  .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word housebl_area_bg_chr_groups
   .word song3
@@ -113,7 +113,7 @@ housebl_area_bg_chr_groups:
 
 housebr_area:
   .byte MUSIC_BANK
-  .byte 0   ;map_bank .byte
+  .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word housebr_area_bg_chr_groups
   .word song3
@@ -138,7 +138,7 @@ housebr_area_bg_chr_groups:
 
 housetr_area:
   .byte MUSIC_BANK
-  .byte 0   ;map_bank .byte
+  .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word housetr_area_bg_chr_groups
   .word song3
@@ -163,7 +163,7 @@ housetr_area_bg_chr_groups:
 
 inn_area:
   .byte MUSIC_BANK
-  .byte 0   ;map_bank .byte
+  .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word inn_area_bg_chr_groups
   .word song3
@@ -188,7 +188,7 @@ inn_area_bg_chr_groups:
 
 store_area:
   .byte MUSIC_BANK
-  .byte 0   ;map_bank .byte
+  .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word store_area_bg_chr_groups
   .word song3
@@ -213,7 +213,7 @@ store_area_bg_chr_groups:
 
 meadow1_area:
   .byte MUSIC_BANK
-  .byte 0   ;map_bank .byte
+  .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word meadow1_area_bg_chr_groups
   .word song1
@@ -246,7 +246,7 @@ meadow1_area_bg_chr_groups:
 
 meadow2_area:
   .byte MUSIC_BANK
-  .byte 1   ;map_bank .byte
+  .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word meadow2_area_bg_chr_groups
   .word song1
@@ -279,7 +279,7 @@ meadow2_area_bg_chr_groups:
 
 meadow3_area:
   .byte MUSIC_BANK
-  .byte 1   ;map_bank .byte
+  .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word meadow3_area_bg_chr_groups
   .word song1
@@ -308,7 +308,7 @@ meadow3_area_bg_chr_groups:
 
 dungeon_area:
   .byte MUSIC_BANK
-  .byte 1   ;map_bank .byte
+  .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word dungeon_area_bg_chr_groups
   .word song2
@@ -333,7 +333,7 @@ dungeon_area_bg_chr_groups:
 
 dungeon1_boss_area:
   .byte MUSIC_BANK
-  .byte 1   ;map_bank .byte
+  .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word dungeon1_boss_area_bg_chr_groups
   .word song2

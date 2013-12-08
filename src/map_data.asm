@@ -4,7 +4,7 @@
 .include "areas.inc"
 .include "locations.inc"
 
-.segment "ROM00"
+.segment "ROM11"
 
 .scope village_data
 .include "village.inc"
@@ -141,7 +141,7 @@ meadow1_big_metatile_table_bottom_left = meadow1_data::big_metatile_table_bottom
 meadow1_big_metatile_table_bottom_right = meadow1_data::big_metatile_table_bottom_right
 meadow1_map = meadow1_data::map
 
-.segment "ROM01"
+.segment "ROM12"
 
 .scope meadow2_data
 .include "meadow2.inc"

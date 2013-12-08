@@ -1,6 +1,9 @@
 .ifndef MAP_DATA_INC
 MAP_DATA_INC = 1
 
+MAP_DATA_BANK1 = 11
+MAP_DATA_BANK2 = 12
+
 .global village_palette
 .global village_map
 .global village_big_metatile_table_bottom_right
