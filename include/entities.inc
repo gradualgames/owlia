@@ -61,8 +61,8 @@ entity_sprites_and_animations_bank_crab = 1
 entity_sprites_and_animations_bank_anglerfish = 1
 entity_sprites_and_animations_bank_spotlight = 1
 ;entity_sprites_and_animations_bank_spotlight_puzzle ;this entity has no graphics
-entity_sprites_and_animations_bank_octoboss_head = 1
-entity_sprites_and_animations_bank_octoboss_legs = 1
-entity_sprites_and_animations_bank_splash = 1
+entity_sprites_and_animations_bank_octoboss_head = 3
+entity_sprites_and_animations_bank_octoboss_legs = 3
+entity_sprites_and_animations_bank_splash = 3
 
 .endif

@@ -8,24 +8,48 @@ OCTOBOSS_HEAD_INC = 1
 OCTOBOSS_HEAD_WIDTH = $0f
 OCTOBOSS_HEAD_HEIGHT = $0f
 
-OCTOBOSS_RISE_SPEED = 1
+OCTOBOSS_HEAD_SHADOW_SPOT_X_OFFSET = 8
+OCTOBOSS_HEAD_SHADOW_SPOT_Y_OFFSET = 50
 
+OCTOBOSS_HEAD_STATE_FLOAT_LENGTH = 100
+
+OCTOBOSS_HEAD_RISE_SPEED = 1
 OCTOBOSS_HEAD_STATE_RISE_LENGTH = 48
 
+OCTOBOSS_HEAD_STATE_PAUSE_LENGTH = 100
+
+OCTOBOSS_HEAD_X_CENTER = 115
+OCTOBOSS_HEAD_X_ACCELERATION = 20
+
+OCTOBOSS_HEAD_Y_CENTER = 30
+OCTOBOSS_HEAD_Y_ACCELERATION = 50
+
+octoboss_head_x_lo = entity_x_lo
+octoboss_head_x_hi = entity_x_hi
+octoboss_head_y_lo = entity_y_lo
+octoboss_head_y_hi = entity_y_hi
 octoboss_head_state_counter = entity_local0
 octoboss_head_legs_entity_index = entity_local1
 octoboss_head_splash_entity_index = entity_local2
+octoboss_head_x_fine = entity_local3
+octoboss_head_y_fine = entity_local4
+octoboss_head_x_velocity_lo = entity_local5
+octoboss_head_x_velocity_hi = entity_local6
+octoboss_head_y_velocity_lo = entity_local7
+octoboss_head_y_velocity_hi = entity_local8
 
 .enum
 OCTOBOSS_HEAD_STATE_INIT
 OCTOBOSS_HEAD_STATE_RISE
 OCTOBOSS_HEAD_STATE_FLOAT
+OCTOBOSS_HEAD_STATE_PAUSE
 .endenum
 
 .define octoboss_head_states \
   octoboss_head_state_init, \
   octoboss_head_state_rise, \
-  octoboss_head_state_float
+  octoboss_head_state_float, \
+  octoboss_head_state_pause
 
 octoboss_head_lo:
   .lobytes octoboss_head_states
@@ -126,6 +150,12 @@ octoboss_head_state_init:
   adc #>SPLASH_Y_OFFSET
   sta entity_y_hi,y
 
+  lda #0
+  sta octoboss_head_x_fine,x
+  sta octoboss_head_y_fine,x
+  sta octoboss_head_x_velocity_lo,x
+  sta octoboss_head_x_velocity_hi,x
+
   lda #OCTOBOSS_HEAD_STATE_RISE_LENGTH
   sta octoboss_head_state_counter,x
 
@@ -138,10 +168,10 @@ octoboss_head_state_rise:
 
   sec
   lda entity_y_lo,x
-  sbc #<OCTOBOSS_RISE_SPEED
+  sbc #<OCTOBOSS_HEAD_RISE_SPEED
   sta entity_y_lo,x
   lda entity_y_hi,x
-  sbc #>OCTOBOSS_RISE_SPEED
+  sbc #>OCTOBOSS_HEAD_RISE_SPEED
   sta entity_y_hi,x
 
   jsr entity_update_animation
@@ -160,17 +190,16 @@ octoboss_head_state_rise:
   sta entity_state,y
 
   ;move the legs to beneath the head
-  clc
-  lda entity_y_lo,x
-  adc #<OCTOBOSS_LEGS_Y_OFFSET
-  sta entity_y_lo,y
-  lda entity_y_hi,x
-  adc #>OCTOBOSS_LEGS_Y_OFFSET
-  sta entity_y_hi,y
+  jsr octoboss_head_position_legs
 
-  lda #<OctobossHead
+  jsr octoboss_head_position_shadow_spot
+
+  lda #OCTOBOSS_HEAD_STATE_FLOAT_LENGTH
+  sta octoboss_head_state_counter,x
+
+  lda #<OctobossHeadLook
   sta entity_animation_address_lo,x
-  lda #>OctobossHead
+  lda #>OctobossHeadLook
   sta entity_animation_address_hi,x
 
   lda #OCTOBOSS_HEAD_STATE_FLOAT
@@ -182,8 +211,217 @@ do_not_switch_to_float_state:
 
 octoboss_head_state_float:
 
+  .scope
+  sec
+  lda octoboss_head_x_lo,x
+  sbc #<OCTOBOSS_HEAD_X_CENTER
+  lda octoboss_head_x_hi,x
+  sbc #>OCTOBOSS_HEAD_X_CENTER
+  bpl decelerate
+accelerate:
+  clc
+  lda octoboss_head_x_velocity_lo,x
+  adc #<OCTOBOSS_HEAD_X_ACCELERATION
+  sta octoboss_head_x_velocity_lo,x
+  lda octoboss_head_x_velocity_hi,x
+  adc #>OCTOBOSS_HEAD_X_ACCELERATION
+  sta octoboss_head_x_velocity_hi,x
+  jmp done
+decelerate:
+  sec
+  lda octoboss_head_x_velocity_lo,x
+  sbc #<OCTOBOSS_HEAD_X_ACCELERATION
+  sta octoboss_head_x_velocity_lo,x
+  lda octoboss_head_x_velocity_hi,x
+  sbc #>OCTOBOSS_HEAD_X_ACCELERATION
+  sta octoboss_head_x_velocity_hi,x
+done:
+  .endscope
+
+  .scope
+  sec
+  lda octoboss_head_y_lo,x
+  sbc #<OCTOBOSS_HEAD_Y_CENTER
+  lda octoboss_head_y_hi,x
+  sbc #>OCTOBOSS_HEAD_Y_CENTER
+  bpl decelerate
+accelerate:
+  clc
+  lda octoboss_head_y_velocity_lo,x
+  adc #<OCTOBOSS_HEAD_Y_ACCELERATION
+  sta octoboss_head_y_velocity_lo,x
+  lda octoboss_head_y_velocity_hi,x
+  adc #>OCTOBOSS_HEAD_Y_ACCELERATION
+  sta octoboss_head_y_velocity_hi,x
+  jmp done
+decelerate:
+  sec
+  lda octoboss_head_y_velocity_lo,x
+  sbc #<OCTOBOSS_HEAD_Y_ACCELERATION
+  sta octoboss_head_y_velocity_lo,x
+  lda octoboss_head_y_velocity_hi,x
+  sbc #>OCTOBOSS_HEAD_Y_ACCELERATION
+  sta octoboss_head_y_velocity_hi,x
+done:
+  .endscope
+
+  .scope
+  lda octoboss_head_x_velocity_hi,x
+  bmi velocity_negative
+velocity_positive:
+  clc
+  lda octoboss_head_x_fine,x
+  adc octoboss_head_x_velocity_lo,x
+  sta octoboss_head_x_fine,x
+  lda octoboss_head_x_lo,x
+  adc octoboss_head_x_velocity_hi,x
+  sta octoboss_head_x_lo,x
+  lda octoboss_head_x_hi,x
+  adc #0
+  sta octoboss_head_x_hi,x
+  jmp done
+velocity_negative:
+  clc
+  lda octoboss_head_x_fine,x
+  adc octoboss_head_x_velocity_lo,x
+  sta octoboss_head_x_fine,x
+  lda octoboss_head_x_lo,x
+  adc octoboss_head_x_velocity_hi,x
+  sta octoboss_head_x_lo,x
+  lda octoboss_head_x_hi,x
+  adc #$ff
+  sta octoboss_head_x_hi,x
+done:
+  .endscope
+
+  .scope
+  lda octoboss_head_y_velocity_hi,x
+  bmi velocity_negative
+velocity_positive:
+  clc
+  lda octoboss_head_y_fine,x
+  adc octoboss_head_y_velocity_lo,x
+  sta octoboss_head_y_fine,x
+  lda octoboss_head_y_lo,x
+  adc octoboss_head_y_velocity_hi,x
+  sta octoboss_head_y_lo,x
+  lda octoboss_head_y_hi,x
+  adc #0
+  sta octoboss_head_y_hi,x
+  jmp done
+velocity_negative:
+  clc
+  lda octoboss_head_y_fine,x
+  adc octoboss_head_y_velocity_lo,x
+  sta octoboss_head_y_fine,x
+  lda octoboss_head_y_lo,x
+  adc octoboss_head_y_velocity_hi,x
+  sta octoboss_head_y_lo,x
+  lda octoboss_head_y_hi,x
+  adc #$ff
+  sta octoboss_head_y_hi,x
+done:
+  .endscope
+
+  .scope
+  lda octoboss_head_x_velocity_hi,x
+  bmi look_left
+look_right:
+  lda #%00000000
+  sta entity_sprite_flags,x
+  jmp done
+look_left:
+  lda #%01000000
+  sta entity_sprite_flags,x
+done:
+  .endscope
+
+  jsr octoboss_head_position_legs
+
+  jsr octoboss_head_position_shadow_spot
+
   jsr entity_update_animation
 
+  dec octoboss_head_state_counter,x
+  bne do_not_pause_yet
+
+  ldy octoboss_head_legs_entity_index,x
+  lda #OCTOBOSS_LEGS_STATE_PUNCH_INIT
+  sta entity_state,y
+
+  lda #OCTOBOSS_HEAD_STATE_PAUSE_LENGTH
+  sta octoboss_head_state_counter,x
+
+  lda #OCTOBOSS_HEAD_STATE_PAUSE
+  sta entity_state,x
+
+do_not_pause_yet:
+
   rts
+
+octoboss_head_state_pause:
+
+  jsr octoboss_head_position_legs
+
+  jsr octoboss_head_position_shadow_spot
+
+  jsr entity_update_animation
+
+  dec octoboss_head_state_counter,x
+  bne do_not_unpause_yet
+
+  lda #OCTOBOSS_HEAD_STATE_FLOAT_LENGTH
+  sta octoboss_head_state_counter,x
+
+  lda #OCTOBOSS_HEAD_STATE_FLOAT
+  sta entity_state,x
+
+do_not_unpause_yet:
+
+  rts
+
+.proc octoboss_head_position_legs
+
+  ldy octoboss_head_legs_entity_index,x
+  lda entity_x_lo,x
+  sta entity_x_lo,y
+  lda entity_x_hi,x
+  sta entity_x_hi,y
+
+  clc
+  lda entity_y_lo,x
+  adc #<OCTOBOSS_LEGS_Y_OFFSET
+  sta entity_y_lo,y
+  lda entity_y_hi,x
+  adc #>OCTOBOSS_LEGS_Y_OFFSET
+  sta entity_y_hi,y
+
+  rts
+
+.endproc
+
+.proc octoboss_head_position_shadow_spot
+
+  clc
+  lda octoboss_head_x_lo,x
+  adc #<OCTOBOSS_HEAD_SHADOW_SPOT_X_OFFSET
+  sta w0
+  lda octoboss_head_x_hi,x
+  adc #>OCTOBOSS_HEAD_SHADOW_SPOT_X_OFFSET
+  sta w0+1
+
+  clc
+  lda octoboss_head_y_lo,x
+  adc #<OCTOBOSS_HEAD_SHADOW_SPOT_Y_OFFSET
+  sta w1
+  lda octoboss_head_y_hi,x
+  adc #>OCTOBOSS_HEAD_SHADOW_SPOT_Y_OFFSET
+  sta w1+1
+
+  jsr sprite_add_shadow_spot
+
+  rts
+
+.endproc
 
 .endif

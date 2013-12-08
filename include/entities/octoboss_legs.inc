@@ -7,11 +7,17 @@ OCTOBOSS_LEGS_INC = 1
 OCTOBOSS_LEGS_WIDTH = $0f
 OCTOBOSS_LEGS_HEIGHT = $0f
 
+OCTOBOSS_LEGS_STATE_PUNCH_LENGTH = 80
+
+octoboss_legs_state_counter = entity_local0
+
 .define octoboss_legs_states \
   octoboss_legs_state_init, \
   octoboss_legs_state_nop, \
   octoboss_legs_state_dangle_init, \
-  octoboss_legs_state_dangle
+  octoboss_legs_state_dangle, \
+  octoboss_legs_state_punch_init, \
+  octoboss_legs_state_punch
 
 octoboss_legs_lo:
   .lobytes octoboss_legs_states
@@ -70,6 +76,38 @@ octoboss_legs_state_dangle_init:
 octoboss_legs_state_dangle:
 
   jsr entity_update_animation
+
+  rts
+
+octoboss_legs_state_punch_init:
+
+  lda #<OctobossLegsPunch
+  sta entity_animation_address_lo,x
+  lda #>OctobossLegsPunch
+  sta entity_animation_address_hi,x
+
+  jsr entity_reset_animation
+
+  lda #OCTOBOSS_LEGS_STATE_PUNCH_LENGTH
+  sta octoboss_legs_state_counter,x
+
+  lda #OCTOBOSS_LEGS_STATE_PUNCH
+  sta entity_state,x
+  jmp octoboss_legs_state_punch
+
+octoboss_legs_state_punch:
+
+  jsr entity_update_animation
+
+  .scope
+  dec octoboss_legs_state_counter,x
+  bne do_not_switch_state
+
+  lda #OCTOBOSS_LEGS_STATE_DANGLE_INIT
+  sta entity_state,x
+
+do_not_switch_state:
+  .endscope
 
   rts
 

@@ -91,6 +91,8 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 .global OctobossHead
 .global OctobossLegsDangle
 .global OctobossRise
+.global OctobossHeadLook
+.global OctobossLegsPunch
 
 .global Splash
 

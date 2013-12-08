@@ -305,7 +305,7 @@ dungeon_3_3_entity_instances:
 
 dungeon1_boss_entity_instances:
   .byte 1
-  .byte entity_index_octoboss_head, 6, 4, 0, 0
+  .byte entity_index_octoboss_head, 4, 4, 0, 0
 
 ;****************************************************************
 ;Palettes.
