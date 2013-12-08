@@ -8,7 +8,7 @@
 .include "entities.inc"
 .include "conversation_data.inc"
 
-.segment "ROM02"
+.segment "ROM00"
 
 ;****************************************************************
 ;Area LUTs

@@ -15,7 +15,7 @@
 .include "ram.inc"
 .include "inventory.inc"
 
-.segment "ROM02"
+.segment "ROM00"
 
 ;****************************************************************
 ;Location LUTs
