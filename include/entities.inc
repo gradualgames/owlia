@@ -27,42 +27,42 @@ entity_index_octoboss_legs
 entity_index_splash
 .endenum
 
-entity_update_bank_explosion = 3
-entity_update_bank_bomb = 3
-entity_update_bank_octopus = 3
-entity_update_bank_npc = 3
-entity_update_bank_key = 3
-entity_update_bank_door = 3
-entity_update_bank_lantern = 4
-entity_update_bank_item = 4
-entity_update_bank_innkeep = 4
-entity_update_bank_pufferfish = 4
-entity_update_bank_crab = 4
-entity_update_bank_traproom = 4
-entity_update_bank_anglerfish = 4
-entity_update_bank_spotlight = 4
-entity_update_bank_spotlight_puzzle = 4
-entity_update_bank_octoboss_head = 4
-entity_update_bank_octoboss_legs = 4
-entity_update_bank_splash = 4
+entity_update_bank_explosion = 5
+entity_update_bank_bomb = 5
+entity_update_bank_octopus = 5
+entity_update_bank_npc = 5
+entity_update_bank_key = 5
+entity_update_bank_door = 5
+entity_update_bank_lantern = 5
+entity_update_bank_item = 5
+entity_update_bank_innkeep = 5
+entity_update_bank_pufferfish = 5
+entity_update_bank_crab = 5
+entity_update_bank_traproom = 5
+entity_update_bank_anglerfish = 5
+entity_update_bank_spotlight = 5
+entity_update_bank_spotlight_puzzle = 5
+entity_update_bank_octoboss_head = 5
+entity_update_bank_octoboss_legs = 5
+entity_update_bank_splash = 5
 
-entity_sprites_and_animations_bank_explosion = 0
-entity_sprites_and_animations_bank_bomb = 0
-entity_sprites_and_animations_bank_octopus = 0
-entity_sprites_and_animations_bank_npc = 0
-entity_sprites_and_animations_bank_key = 1
-entity_sprites_and_animations_bank_door = 1
-entity_sprites_and_animations_bank_lantern = 0
-entity_sprites_and_animations_bank_item = 0
-entity_sprites_and_animations_bank_innkeep = 1
-entity_sprites_and_animations_bank_pufferfish = 1
-entity_sprites_and_animations_bank_crab = 1
+entity_sprites_and_animations_bank_explosion = 6
+entity_sprites_and_animations_bank_bomb = 6
+entity_sprites_and_animations_bank_octopus = 6
+entity_sprites_and_animations_bank_npc = 6
+entity_sprites_and_animations_bank_key = 6
+entity_sprites_and_animations_bank_door = 6
+entity_sprites_and_animations_bank_lantern = 6
+entity_sprites_and_animations_bank_item = 6
+entity_sprites_and_animations_bank_innkeep = 6
+entity_sprites_and_animations_bank_pufferfish = 6
+entity_sprites_and_animations_bank_crab = 6
 ;entity_sprites_and_animations_bank_traproom ;this entity has no graphics
-entity_sprites_and_animations_bank_anglerfish = 1
-entity_sprites_and_animations_bank_spotlight = 1
+entity_sprites_and_animations_bank_anglerfish = 6
+entity_sprites_and_animations_bank_spotlight = 6
 ;entity_sprites_and_animations_bank_spotlight_puzzle ;this entity has no graphics
-entity_sprites_and_animations_bank_octoboss_head = 3
-entity_sprites_and_animations_bank_octoboss_legs = 3
-entity_sprites_and_animations_bank_splash = 3
+entity_sprites_and_animations_bank_octoboss_head = 6
+entity_sprites_and_animations_bank_octoboss_legs = 6
+entity_sprites_and_animations_bank_splash = 6
 
 .endif

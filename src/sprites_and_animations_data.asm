@@ -3,7 +3,7 @@
 ;The following sets of sprites and animations are
 ;not associated with the entities module directly.
 ;They are known about by their respective modules.
-.segment "ROM00"
+.segment "ROM06"
 
 .include "hero_sprites_and_animations.inc"
 .include "familiar_sprites_and_animations.inc"
@@ -14,7 +14,7 @@
 ;associated with the entities tables. Each entity
 ;type knows the bank that its set of sprites and
 ;animations reside in.
-.segment "ROM00"
+.segment "ROM06"
 
 .include "octopus_sprites_and_animations.inc"
 .include "explosion_sprites_and_animations.inc"
@@ -24,16 +24,10 @@
 .include "lantern_sprites_and_animations.inc"
 .include "rope_sprites_and_animations.inc"
 .include "coins_sprites_and_animations.inc"
-
-.segment "ROM01"
-
 .include "key_sprites_and_animations.inc"
 .include "pufferfish_sprites_and_animations.inc"
 .include "crab_sprites_and_animations.inc"
 .include "door_sprites_and_animations.inc"
 .include "anglerfish_sprites_and_animations.inc"
 .include "spotlight_sprites_and_animations.inc"
-
-.segment "ROM03"
-
 .include "octoboss_sprites_and_animations.inc"

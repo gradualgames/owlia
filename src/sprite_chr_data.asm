@@ -54,7 +54,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_octoboss
   .byte sprite_chr_group_bank_splash
 
-.segment "ROM01"
+.segment "ROM07"
 
 Hero_chr:
   .word $0740
@@ -337,8 +337,6 @@ NpcWoman_chr:
   .byte $00,$00,$00,$f8,$f8,$fc,$7c,$3e,$00,$00,$00,$00,$f0,$78,$98,$dc
   .byte $84,$84,$88,$c8,$67,$1f,$03,$01,$7b,$7b,$77,$37,$18,$00,$00,$00
   .byte $3e,$1e,$42,$8c,$f8,$f0,$f8,$f8,$cc,$e0,$bc,$70,$00,$20,$40,$00
-
-.segment "ROM02"
 
 Key_chr:
   .word $0020

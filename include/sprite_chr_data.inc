@@ -29,26 +29,26 @@ sprite_chr_group_index_octoboss
 sprite_chr_group_index_splash
 .endenum
 
-sprite_chr_group_bank_hero = 1
-sprite_chr_group_bank_familiar = 1
-sprite_chr_group_bank_explosion = 1
-sprite_chr_group_bank_shadowspot = 1
-sprite_chr_group_bank_bomb = 1
-sprite_chr_group_bank_octopus = 1
-sprite_chr_group_bank_npcman = 1
-sprite_chr_group_bank_npcwoman = 1
-sprite_chr_group_bank_key = 2
-sprite_chr_group_bank_inventory = 2
-sprite_chr_group_bank_lantern = 2
-sprite_chr_group_bank_rope = 2
-sprite_chr_group_bank_coins = 2
-sprite_chr_group_bank_title = 2
-sprite_chr_group_bank_pufferfish = 2
-sprite_chr_group_bank_crab = 2
-sprite_chr_group_bank_door = 2
-sprite_chr_group_bank_anglerfish = 2
-sprite_chr_group_bank_spotlight = 2
-sprite_chr_group_bank_octoboss = 2
-sprite_chr_group_bank_splash = 2
+sprite_chr_group_bank_hero = 7
+sprite_chr_group_bank_familiar = 7
+sprite_chr_group_bank_explosion = 7
+sprite_chr_group_bank_shadowspot = 7
+sprite_chr_group_bank_bomb = 7
+sprite_chr_group_bank_octopus = 7
+sprite_chr_group_bank_npcman = 7
+sprite_chr_group_bank_npcwoman = 7
+sprite_chr_group_bank_key = 7
+sprite_chr_group_bank_inventory = 7
+sprite_chr_group_bank_lantern = 7
+sprite_chr_group_bank_rope = 7
+sprite_chr_group_bank_coins = 7
+sprite_chr_group_bank_title = 7
+sprite_chr_group_bank_pufferfish = 7
+sprite_chr_group_bank_crab = 7
+sprite_chr_group_bank_door = 7
+sprite_chr_group_bank_anglerfish = 7
+sprite_chr_group_bank_spotlight = 7
+sprite_chr_group_bank_octoboss = 7
+sprite_chr_group_bank_splash = 7
 
 .endif

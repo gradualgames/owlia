@@ -93,14 +93,13 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_octoboss_legs
   .byte entity_sprites_and_animations_bank_splash
 
-.segment "ROM03"
+.segment "ROM05"
 .include "explosion.inc"
 .include "bomb.inc"
 .include "octopus.inc"
 .include "npc.inc"
 .include "key.inc"
 .include "door.inc"
-.segment "ROM04"
 .include "lantern.inc"
 .include "item.inc"
 .include "innkeep.inc"
