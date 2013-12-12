@@ -81,7 +81,7 @@ do_not_set_knockback_direction:
 
   jsr entity_attacked
 
-  jsr familiar_hit_enemy
+  far_call #FAMILIAR_BANK, familiar_hit_enemy
 
 action_rect2_not_deadly:
 
@@ -865,6 +865,7 @@ entity_not_alive:
 
   switch_bank_ldy #HERO_BANK
   jsr hero_calculate_screen_coordinates
+  switch_bank_ldy #FAMILIAR_BANK
   jsr familiar_calculate_screen_coordinates
 
   ;iterate over all entities

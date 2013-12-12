@@ -49,6 +49,22 @@
 
 .endproc
 
+.proc hero_spawn_familiar_spawn_rush
+
+  far_call #FAMILIAR_BANK, familiar_spawn_rush
+
+  rts
+
+.endproc
+
+.proc hero_spawn_familiar_spawn_fetch
+
+  far_call #FAMILIAR_BANK, familiar_spawn_fetch
+
+  rts
+
+.endproc
+
 .proc hero_prepare_familiar_carry_hero
 tile_x = w7
 tile_y = w8
@@ -280,7 +296,7 @@ done:
   lda hero_state
   cmp #HERO_STATE_CARRIED
   bne skip_spawn_carry_hero
-  jsr familiar_spawn_carry_hero
+  far_call #FAMILIAR_BANK, familiar_spawn_carry_hero
 skip_spawn_carry_hero:
 
   rts
@@ -295,7 +311,7 @@ skip_spawn_carry_hero:
   beq no_bombs_left
   dec inventory_bombs
   .endif
-  jsr familiar_spawn_carry_bomb
+  far_call #FAMILIAR_BANK, familiar_spawn_carry_bomb
 
   rts
 
@@ -332,7 +348,7 @@ no_bombs_left:
   dec inventory_lanterns
   .endif
 
-  jsr familiar_spawn_carry_lantern
+  far_call #FAMILIAR_BANK, familiar_spawn_carry_lantern
 
   rts
 
@@ -355,6 +371,22 @@ no_lanterns_left:
 
   pla
   tax
+
+  rts
+
+.endproc
+
+.proc hero_spawn_familiar_spawn_shield
+
+  far_call #FAMILIAR_BANK, familiar_spawn_shield
+
+  rts
+
+.endproc
+
+.proc hero_spawn_familiar_spawn_homing
+
+  far_call #FAMILIAR_BANK, familiar_spawn_homing
 
   rts
 
@@ -488,13 +520,13 @@ hero_invincible:
 .endproc
 
 .define familiar_spawn_tech \
-  familiar_spawn_rush, \
-  familiar_spawn_fetch, \
+  hero_spawn_familiar_spawn_rush, \
+  hero_spawn_familiar_spawn_fetch, \
   hero_spawn_familiar_spawn_carry_bomb, \
   hero_spawn_familiar_spawn_carry_lantern, \
   hero_spawn_familiar_spawn_carry_hero, \
-  familiar_spawn_shield, \
-  familiar_spawn_homing
+  hero_spawn_familiar_spawn_shield, \
+  hero_spawn_familiar_spawn_homing
 
 familiar_spawn_tech_lo:
   .lobytes familiar_spawn_tech

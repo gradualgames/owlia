@@ -22,6 +22,8 @@
 .include "map.inc"
 .include "mapper.inc"
 
+.segment "ROM03"
+
 ;this is just a placeholder until all techs are implemented
 ;so unimplemented ones can be selected from the inventory
 ;screen and not cause a crash.
@@ -32,11 +34,7 @@
 .endproc
 
 ;sets the familiar to be alive and initializes the rush attack.
-.segment "CODE"
 .proc familiar_spawn_rush
-  define_trampoline #FAMILIAR_BANK
-.segment "ROM03"
-impl:
 
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
@@ -59,11 +57,7 @@ impl:
 .endproc
 
 ;sets the familiar to be alive and initializes the fetch technique.
-.segment "CODE"
 .proc familiar_spawn_fetch
-  define_trampoline #FAMILIAR_BANK
-.segment "ROM03"
-impl:
 
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
@@ -86,11 +80,7 @@ impl:
 .endproc
 
 ;sets the familiar to be alive and initializes the carry bomb technique.
-.segment "CODE"
 .proc familiar_spawn_carry_bomb
-  define_trampoline #FAMILIAR_BANK
-.segment "ROM03"
-impl:
 
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
@@ -130,11 +120,7 @@ impl:
 .endproc
 
 ;sets the familiar to be alive and initializes the carry lantern technique.
-.segment "CODE"
 .proc familiar_spawn_carry_lantern
-  define_trampoline #FAMILIAR_BANK
-.segment "ROM03"
-impl:
 
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
@@ -167,11 +153,7 @@ impl:
 .endproc
 
 ;sets the familiar to be alive and initializes the carry hero technique.
-.segment "CODE"
 .proc familiar_spawn_carry_hero
-  define_trampoline #FAMILIAR_BANK
-.segment "ROM03"
-impl:
 
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
@@ -209,11 +191,7 @@ impl:
 .endproc
 
 ;sets the familiar to be alive and initializes the shield technique.
-.segment "CODE"
 .proc familiar_spawn_shield
-  define_trampoline #FAMILIAR_BANK
-.segment "ROM03"
-impl:
 
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
@@ -236,11 +214,7 @@ impl:
 .endproc
 
 ;sets the familiar to be alive and initializes the homing technique.
-.segment "CODE"
 .proc familiar_spawn_homing
-  define_trampoline #FAMILIAR_BANK
-.segment "ROM03"
-impl:
 
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
@@ -262,11 +236,7 @@ impl:
 
 .endproc
 
-.segment "CODE"
 .proc familiar_setup_initial_location_and_direction
-  define_trampoline #FAMILIAR_BANK
-.segment "ROM03"
-impl:
 
   ;parameterize the familiar's location and direction
   ldy hero_direction
@@ -295,7 +265,6 @@ impl:
 
 ;informs the familiar that it hit an entity that wants to be fetched
 ;back to the hero.
-.segment "CODE"
 .proc familiar_fetch_return_to_hero
 
   lda #FAMILIAR_STATE_FETCH_HOME_IN_TO_HERO
@@ -305,7 +274,6 @@ impl:
 .endproc
 
 ;informs the familiar that it hit an enemy.
-.segment "CODE"
 .proc familiar_hit_enemy
 
   ;home back in to the hero
@@ -316,11 +284,8 @@ impl:
 
 .endproc
 
-.segment "CODE"
 .proc familiar_calculate_screen_coordinates
-  define_trampoline #FAMILIAR_BANK
-.segment "ROM03"
-impl:
+
   sec
   lda familiar_x
   sbc camera_x
@@ -351,11 +316,8 @@ impl:
 
 .endproc
 
-.segment "CODE"
 .proc align_familiar_if_occluded_by_textbox
-  define_trampoline #FAMILIAR_BANK
-.segment "ROM03"
-impl:
+
   ;transfer familiar rectangle to w2 = left and w3 = top and b2 = width and b3 = height
   lda familiar_screen_x
   sta w2

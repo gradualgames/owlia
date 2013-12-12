@@ -192,7 +192,7 @@ action_rect1_not_deadly:
 
   jsr anglerfish_attacked
 
-  jsr familiar_hit_enemy
+  far_call #FAMILIAR_BANK, familiar_hit_enemy
 
 action_rect2_not_deadly:
 
