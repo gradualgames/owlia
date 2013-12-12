@@ -2,6 +2,7 @@
 MAPPER_INC = 1
 
 .global bank_table
+.global far_call_impl
 
 .macro switch_bank_y
   sty current_bank
@@ -71,6 +72,16 @@ MAPPER_INC = 1
   jsr impl
   restore_calling_bank
   rts
+.endmacro
+
+.macro far_call bank, address
+  lda bank
+  sta next_bank
+  lda #<address
+  sta far_call_address
+  lda #>address
+  sta far_call_address+1
+  jsr far_call_impl
 .endmacro
 
 .endif

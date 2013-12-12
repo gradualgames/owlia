@@ -54,7 +54,10 @@ ZP_INC = 1
 .globalzp entity_set_address
 .globalzp palette_address
 
+.globalzp processor_status
 .globalzp current_bank
+.globalzp next_bank
+.globalzp far_call_address
 
 .globalzp controller_routine
 

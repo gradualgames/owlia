@@ -301,7 +301,7 @@ not_intersecting_hero:
   jsr geotests_rect_in_rect_16bit
   bne do_not_start_conversation
 
-  jsr hero_is_attacking
+  far_call #HERO_BANK, hero_is_attacking
   bne do_not_start_conversation
 
   jsr start_conversation
@@ -320,7 +320,7 @@ start_conversation:
   sta hero_flags
 
   ;cancel the hero's attack, overriding the default a button behavior.
-  jsr hero_cancel_attack
+  far_call #HERO_BANK, hero_cancel_attack
 
   ;face the hero
 
@@ -491,14 +491,14 @@ done:
   tay
   lda npc_opposite_direction,y
   sta hero_direction
-  jsr hero_face_in_current_direction
+  far_call #HERO_BANK, hero_face_in_current_direction
 
   ;put hero into a passive state so she cannot
   ;get input from the controller immediately upon
   ;finishing a conversation with the NPC.
   lda #3
   sta b0
-  jsr hero_wait_frames
+  far_call #HERO_BANK, hero_wait_frames
 
   ;enter conversation mode
   lda #ACTION_START_CONVERSATION

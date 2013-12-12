@@ -881,6 +881,7 @@ spin_hero_loop:
   wait_vblank_flag
   tya
   pha
+  switch_bank_ldy #HERO_BANK
   jsr hero_turn_clockwise
   jsr hero_face_in_current_direction
   jsr sprite_clear_all

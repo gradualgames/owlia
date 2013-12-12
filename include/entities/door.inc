@@ -106,10 +106,10 @@ do_not_flash_door:
 
   bne do_not_activate_door
 
-  jsr hero_is_attacking
+  far_call #HERO_BANK, hero_is_attacking
   bne do_not_activate_door
 
-  jsr hero_cancel_attack
+  far_call #HERO_BANK, hero_cancel_attack
 
   ;at this point, we know that the hero is trying to activate the door
 
@@ -179,7 +179,7 @@ door_state_flash:
   ;locked door textbox again.
   lda #1
   sta b0
-  jsr hero_wait_frames
+  far_call #HERO_BANK, hero_wait_frames
 
   ;if the hero does not have a key, we start a conversation
   ;saying the door is locked

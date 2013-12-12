@@ -1780,7 +1780,7 @@ do_not_modify_goal:
   ora familiar_y_velocity+1
   bne familiar_not_at_goal
 
-  jsr hero_set_down
+  far_call #HERO_BANK, hero_set_down
 
   lda #FAMILIAR_STATE_HOME_IN_TO_HERO
   sta familiar_state

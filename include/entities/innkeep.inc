@@ -126,7 +126,7 @@ innkeep_state_prompt_for_stay:
   jsr entity_test_hero_rect
   bne not_touching_hero
 
-  jsr hero_is_attacking
+  far_call #HERO_BANK, hero_is_attacking
   bne hero_not_attacking
 
   ;initialize brightness counter for when the innkeep entity
@@ -143,14 +143,14 @@ innkeep_state_prompt_for_stay:
 
   ;cancel attack this frame because hero pressed a against a
   ;purchasable item!
-  jsr hero_cancel_attack
+  far_call #HERO_BANK, hero_cancel_attack
 
   ;put hero into a passive state so she cannot
   ;get input from the controller between now and when the not-enough-gp
   ;box has been cleared.
   lda #10
   sta b0
-  jsr hero_wait_frames
+  far_call #HERO_BANK, hero_wait_frames
 
   ;enter conversation mode
   lda #ACTION_START_CONVERSATION

@@ -361,7 +361,7 @@ done:
 done:
   .endscope
 
-  jsr hero_hurt
+  far_call #HERO_BANK, hero_hurt
 
   rts
 
@@ -787,6 +787,7 @@ found_dead_entity:
 ;hiding sprites that intersect with the textbox.
 .proc align_entities_if_occluded_by_textbox
 
+  switch_bank_ldy #HERO_BANK
   jsr align_hero_if_occluded_by_textbox
   jsr align_familiar_if_occluded_by_textbox
 
@@ -862,6 +863,7 @@ entity_not_alive:
 ;compute screen coordinates for all entities
 .proc entity_calculate_screen_coordinates_all
 
+  switch_bank_ldy #HERO_BANK
   jsr hero_calculate_screen_coordinates
   jsr familiar_calculate_screen_coordinates
 

@@ -23,6 +23,7 @@
 .include "camera.inc"
 .include "textbox.inc"
 .include "ppu.inc"
+.include "mapper.inc"
 
 .segment "CODE"
 
