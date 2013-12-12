@@ -789,6 +789,7 @@ found_dead_entity:
 
   switch_bank_ldy #HERO_BANK
   jsr align_hero_if_occluded_by_textbox
+  switch_bank_ldy #FAMILIAR_BANK
   jsr align_familiar_if_occluded_by_textbox
 
   ;iterate over all entities
