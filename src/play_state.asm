@@ -1189,6 +1189,7 @@ play_state_action_start_conversation:
 
   set_vblank_flag
 
+  switch_bank_ldy #TEXTBOX_BANK
   jsr draw_textbox
 
   ;when an NPC starts a conversation, the NPC specifies the index of a

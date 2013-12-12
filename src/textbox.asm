@@ -147,6 +147,8 @@ end_of_string:
 
 .endproc
 
+.segment "ROM10"
+
 ;This routine takes an address of a conversation script as a
 ;parameter in w0 and then reads the script to display text on
 ;the text box and animate it at a reasonable speed, as well
@@ -160,8 +162,6 @@ row_y_offset = b0
 
   ;make sure any previous ppu uploads are complete before proceeding
   wait_vblank_flag
-
-  switch_bank_ldy conversations_bank
 
   ;Read row number. Reset row index
   ldy #0
@@ -209,9 +209,7 @@ read_next_row:
   sta w1+1
   ;Decode map at this row.
   ;Call draw_textbox_middle_row at this row.
-  switch_bank_ldy map_bank
   jsr draw_textbox_middle_row
-  switch_bank_ldy conversations_bank
 
   ;restore local state
   pla
@@ -362,9 +360,7 @@ clear_textbox:
   tya
   pha
 
-  switch_bank_ldy map_bank
   jsr draw_textbox
-  switch_bank_ldy conversations_bank
 
   ;restore local state
   pla
@@ -396,8 +392,6 @@ clear_textbox:
 .proc draw_textbox
 
   wait_vblank_flag
-
-  switch_bank_ldy map_bank
 
   ;set up coordinates and draw top row
   clc
@@ -476,8 +470,6 @@ next_middle_row:
 
   wait_vblank_flag
 
-  switch_bank_ldy map_bank
-
   ;set up coordinates and draw top row
   clc
   lda camera_x
@@ -494,8 +486,8 @@ next_middle_row:
   lda camera_y+1
   adc #0
   sta w1+1
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
+  far_call map_bank, map_decode_row
+  far_call map_bank, map_process_intermediate_attribute_row_buffer
   lda #1
   sta row_ready
 
@@ -517,8 +509,8 @@ next_middle_row:
   ;save x, the map routines are destructive of most cpu state
   txa
   pha
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
+  far_call map_bank, map_decode_row
+  far_call map_bank, map_process_intermediate_attribute_row_buffer
   ;restore x
   pla
   tax
@@ -540,8 +532,8 @@ next_middle_row:
   lda w1+1
   adc #$00
   sta w1+1
-  jsr map_decode_row
-  jsr map_process_intermediate_attribute_row_buffer
+  far_call map_bank, map_decode_row
+  far_call map_bank, map_process_intermediate_attribute_row_buffer
   lda #1
   sta row_ready
 
@@ -560,7 +552,7 @@ next_middle_row:
 ;the location of this row is determined by w0 and w1
 .proc draw_textbox_top_row
 
-  jsr map_decode_row
+  far_call map_bank, map_decode_row
 
   ldx #0
   ;draw top left corner
@@ -593,7 +585,7 @@ next_intermediate_attribute:
   sta intermediate_attribute_row_buffer,x
   dex
   bpl next_intermediate_attribute
-  jsr map_process_intermediate_attribute_row_buffer
+  far_call map_bank, map_process_intermediate_attribute_row_buffer
 
   rts
 
@@ -607,7 +599,7 @@ next_intermediate_attribute:
 ;the location of this row is determined by w0 and w1
 .proc draw_textbox_middle_row
 
-  jsr map_decode_row
+  far_call map_bank, map_decode_row
 
   ldx #0
   ;draw left side
@@ -641,7 +633,7 @@ next_intermediate_attribute:
   dex
   bpl next_intermediate_attribute
 
-  jsr map_process_intermediate_attribute_row_buffer
+  far_call map_bank, map_process_intermediate_attribute_row_buffer
 
   rts
 
@@ -655,7 +647,7 @@ next_intermediate_attribute:
 ;the location of this row is determined by w0 and w1
 .proc draw_textbox_bottom_row
 
-  jsr map_decode_row
+  far_call map_bank, map_decode_row
 
   ldx #0
   ;draw bottom left tile
@@ -688,7 +680,7 @@ next_intermediate_attribute:
   sta intermediate_attribute_row_buffer,x
   dex
   bpl next_intermediate_attribute
-  jsr map_process_intermediate_attribute_row_buffer
+  far_call map_bank, map_process_intermediate_attribute_row_buffer
 
   rts
 
