@@ -84,6 +84,6 @@ not_enough_gp:
   .byte 1, _Y,O,U,SP,D,O,SP,N,O,T,SP,H,_A,V,E,SP,E,N,O,U,G,H,SP,G,P,PD,WT,EC
 
 intro_cut_scene_slide1_text:
-  .byte 1, T,H,E,S,E,SP,_A,R,E,SP,O,W,L,S,PD,WT,EL
+  .byte 1, T,H,E,S,E,SP,_A,R,E,SP,O,W,L,S,PD,TM,75,EL
   .byte 2, T,H,E,_Y,SP,W,I,L,L,SP,B,O,R,E,SP,_A,EL
-  .byte 3, H,O,L,E,SP,I,N,SP,_Y,O,U,R,SP,S,O,U,L,PD,WT,EC
+  .byte 3, H,O,L,E,SP,I,N,SP,_Y,O,U,R,SP,S,O,U,L,PD,TM,75,EC

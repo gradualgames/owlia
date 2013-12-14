@@ -306,6 +306,8 @@ interpret_control_character:
   beq clear_textbox
   cmp #EC
   beq end_conversation
+  cmp #TM
+  beq time
 confirm_cancel:
   ;If it is CC, wait til user hits A or B button,
   ;then store TEXTBOX_CONFIRM or TEXTBOX_CANCEL in textbox_result
@@ -392,6 +394,50 @@ clear_textbox:
   sta w0+1
   pla
   sta w0
+
+  ;read next character
+  jmp read_next_character
+
+time:
+
+  .scope
+  ;advance the conversation read address, then
+  ;read the next byte and wait that number of frames
+  clc
+  lda conversation_address
+  adc #$01
+  sta conversation_address
+  lda conversation_address+1
+  adc #$00
+  sta conversation_address+1
+
+  ldy #0
+  lda (conversation_address),y
+  tax
+
+time_wait_loop:
+  wait_vblank_flag
+
+  jsr controller_indirect
+
+  ;exit conversation if start button is pressed
+  lda buffer_controller+buttons::_start
+  and #%00000011
+  cmp #%00000001
+  bne :+
+  lda #TEXTBOX_EXIT
+  sta textbox_result
+  jmp end_conversation
+:
+
+  dex
+  beq exit_wait_loop
+
+  set_vblank_flag
+
+  jmp time_wait_loop
+exit_wait_loop:
+  .endscope
 
   ;read next character
   jmp read_next_character

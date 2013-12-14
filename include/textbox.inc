@@ -117,7 +117,9 @@ EP = -2 ;end of page
 WT = -3 ;wait for player to hit A button
 CC = -4 ;wait for player to hit A or B button, where A is "confirm" and B is "cancel." Store
         ;the result (1 for confirm and 0 for cancel) in a global variable called textbox_result.
-EC = -5 ;end of conversation
+TM = -5 ;wait for a given number of frames before reading next character. This must ALWAYS be
+        ;followed by a byte with the number of frames to wait!!!
+EC = -6 ;end of conversation
 
 ;string control characters
 ES = -6 ;end of string
