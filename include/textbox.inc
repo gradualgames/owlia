@@ -8,6 +8,9 @@ TEXTBOX_INC = 1
 ;loaded in the same bank as the textbox code.
 TEXTBOX_BANK = 10
 
+TEXTBOX_PLAY_STATE_ROW = (16 * 10)
+TEXTBOX_CUT_SCENE_ROW = (16 * 8)
+
 TEXTBOX_BG_CHR_BANK = BG_CHR_DATA_BANK1
 
 TEXTBOX_SCREEN_X = 0

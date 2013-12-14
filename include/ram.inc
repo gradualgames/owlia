@@ -11,6 +11,7 @@ MAX_SHADOW_SPOTS = 4
 .global map_bank
 .global conversations_bank
 
+.global textbox_row
 .global textbox_attribute
 .global textbox_result
 

@@ -1189,6 +1189,9 @@ play_state_action_start_conversation:
 
   set_vblank_flag
 
+  lda #TEXTBOX_PLAY_STATE_ROW
+  sta textbox_row
+
   switch_bank_ldy #TEXTBOX_BANK
   jsr draw_textbox
 

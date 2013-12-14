@@ -175,7 +175,7 @@ read_next_row:
   asl
   ;add on Y coordinate of top of textbox
   clc
-  adc #(16*10)
+  adc textbox_row
   ;store the offset
   sta row_y_offset
 
@@ -404,7 +404,7 @@ clear_textbox:
 
   clc
   lda camera_y
-  adc #(16*10)
+  adc textbox_row
   sta w1
   lda camera_y+1
   adc #0
@@ -481,7 +481,7 @@ next_middle_row:
 
   clc
   lda camera_y
-  adc #(16*10)
+  adc textbox_row
   sta w1
   lda camera_y+1
   adc #0

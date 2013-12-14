@@ -143,6 +143,9 @@ play_cut_scene:
   lda #0
   sta textbox_attribute
 
+  lda #TEXTBOX_CUT_SCENE_ROW
+  sta textbox_row
+
   switch_bank_ldy #TEXTBOX_BANK
   jsr draw_textbox
 

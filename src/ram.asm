@@ -17,9 +17,10 @@ conversations_bank: .res 1
 
 ;****************************************************************
 ;Global variables for the conversation textbox such as color
-;attribute for current area, and result of a confirm/cancel
-;dialog
+;attribute for current area, result of a confirm/cancel dialog,
+;and the row at which to begin displaying the textbox.
 ;****************************************************************
+textbox_row: .res 1
 textbox_attribute: .res 1
 textbox_result: .res 1
 
