@@ -19,3 +19,7 @@ game_over:
 .scope
 .include "game_over.inc"
 .endscope
+title_theme:
+.scope
+.include "title_theme.inc"
+.endscope

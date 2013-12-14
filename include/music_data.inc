@@ -7,5 +7,6 @@ MUSIC_BANK = 4
 .global song2
 .global song3
 .global game_over
+.global title_theme
 
 .endif

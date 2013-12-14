@@ -15,6 +15,7 @@
 .include "soundengine.inc"
 .include "locations.inc"
 .include "sfx_data.inc"
+.include "music_data.inc"
 .include "inventory.inc"
 .include "cut_scene_state.inc"
 .include "slide_data.inc"
@@ -157,6 +158,24 @@ title_state_init:
   lda #>sfx_set1
   sta sound_param_word_0+1
   jsr sfx_initialize
+
+  ;load title theme if not already playing
+  lda song_address
+  cmp #<title_theme
+  bne :+
+  lda song_address+1
+  cmp #>title_theme
+  beq already_playing_title_theme
+:
+  lda #MUSIC_BANK
+  sta music_bank
+  lda #<title_theme
+  sta song_address
+  lda #>title_theme
+  sta song_address+1
+  switch_bank_ldy music_bank
+  jsr song_initialize
+already_playing_title_theme:
 
   lda #<TITLE_STATE_TIME_TIL_CUT_SCENE
   sta state_control_params+title_state_control::title_state_counter

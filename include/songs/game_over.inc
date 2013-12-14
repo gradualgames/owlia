@@ -1,4 +1,3 @@
-
 Song1:
   .byte 255
   .word Square1
