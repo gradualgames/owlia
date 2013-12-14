@@ -24,6 +24,7 @@ FILES           += zp \
                    inventory_state\
                    title_state\
                    game_over_state\
+                   cut_scene_state\
                    camera \
                    entity \
                    controller \
@@ -42,6 +43,7 @@ FILES           += zp \
                    sprite_chr_data \
                    bg_chr_data \
                    nametable_data \
+                   slide_data \
                    music_data \
                    sfx_data \
                    map_data \
@@ -84,6 +86,16 @@ NAMELIST_GENERATOR_FLAGS = -rom $(NES_FILE) \
                            -nl 2   ROM02    8000 \
                            -nl 3   ROM03    8000 \
                            -nl 4   ROM04    8000 \
+                           -nl 5   ROM05    8000 \
+                           -nl 6   ROM06    8000 \
+                           -nl 7   ROM07    8000 \
+                           -nl 8   ROM08    8000 \
+                           -nl 9   ROM09    8000 \
+                           -nl 10  ROM10    8000 \
+                           -nl 11  ROM11    8000 \
+                           -nl 12  ROM12    8000 \
+                           -nl 13  ROM13    8000 \
+                           -nl 14  ROM14    8000 \
                            -nl 15  CODE     C000 \
                            -map $(MAP_FILE) \
                            $(addprefix -lst ,$(LST_FILES))

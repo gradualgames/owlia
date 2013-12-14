@@ -16,6 +16,8 @@
 .include "locations.inc"
 .include "sfx_data.inc"
 .include "inventory.inc"
+.include "cut_scene_state.inc"
+.include "slide_data.inc"
 
 .segment "CODE"
 
@@ -174,27 +176,33 @@ title_state_exit:
   sta palette_address+1
   jsr ppu_fade_out_palette
 
-  jsr play_state_initialize
+  lda #<intro_cut_scene_slide1
+  sta state_control_params+cut_scene_state_control::slide_address
+  lda #>intro_cut_scene_slide1
+  sta state_control_params+cut_scene_state_control::slide_address+1
+  jmp play_cut_scene
 
-  ;initialize inventory since we're starting a new game
-  jsr inventory_max_all
+  ; jsr play_state_initialize
 
-  ;initialize persistent hero state
-  lda #3
-  sta hero_health
-  lda #0
-  sta hero_flags
+  ; ;initialize inventory since we're starting a new game
+  ; jsr inventory_max_all
 
-  lda #<sfx_set1
-  sta sound_param_word_0
-  lda #>sfx_set1
-  sta sound_param_word_0+1
-  jsr sfx_initialize
+  ; ;initialize persistent hero state
+  ; lda #3
+  ; sta hero_health
+  ; lda #0
+  ; sta hero_flags
 
-  ldx #location_index_village_house1_entrance
-  switch_bank_ldy #LOCATIONS_BANK
-  lda locations_lo,x
-  sta location_address
-  lda locations_hi,x
-  sta location_address+1
-  jmp play_state_load_location
+  ; lda #<sfx_set1
+  ; sta sound_param_word_0
+  ; lda #>sfx_set1
+  ; sta sound_param_word_0+1
+  ; jsr sfx_initialize
+
+  ; ldx #location_index_village_house1_entrance
+  ; switch_bank_ldy #LOCATIONS_BANK
+  ; lda locations_lo,x
+  ; sta location_address
+  ; lda locations_hi,x
+  ; sta location_address+1
+  ; jmp play_state_load_location
