@@ -41,7 +41,7 @@ village_area:
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word village_area_bg_chr_groups
-  .word song3
+  .word town_theme
   .byte $00 ;textbox_attribute
   .word village_map
   .word village_metatile_table_properties
@@ -66,7 +66,7 @@ house1_area:
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word house1_area_bg_chr_groups
-  .word song3
+  .word town_theme
   .byte $00 ;textbox_attribute
   .word house1_map
   .word house1_metatile_table_properties
@@ -91,7 +91,7 @@ housebl_area:
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word housebl_area_bg_chr_groups
-  .word song3
+  .word town_theme
   .byte $00 ;textbox_attribute
   .word housebl_map
   .word housebl_metatile_table_properties
@@ -116,7 +116,7 @@ housebr_area:
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word housebr_area_bg_chr_groups
-  .word song3
+  .word town_theme
   .byte $00 ;textbox_attribute
   .word housebr_map
   .word housebr_metatile_table_properties
@@ -141,7 +141,7 @@ housetr_area:
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word housetr_area_bg_chr_groups
-  .word song3
+  .word town_theme
   .byte $00 ;textbox_attribute
   .word housetr_map
   .word housetr_metatile_table_properties
@@ -166,7 +166,7 @@ inn_area:
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word inn_area_bg_chr_groups
-  .word song3
+  .word town_theme
   .byte $00 ;textbox_attribute
   .word inn_map
   .word inn_metatile_table_properties
@@ -191,7 +191,7 @@ store_area:
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word store_area_bg_chr_groups
-  .word song3
+  .word town_theme
   .byte $00 ;textbox_attribute
   .word store_map
   .word store_metatile_table_properties
@@ -216,7 +216,7 @@ meadow1_area:
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word meadow1_area_bg_chr_groups
-  .word song1
+  .word hero_theme
   .byte $00 ;textbox_attribute
   .word meadow1_map
   .word meadow1_metatile_table_properties
@@ -249,7 +249,7 @@ meadow2_area:
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word meadow2_area_bg_chr_groups
-  .word song1
+  .word hero_theme
   .byte $00 ;textbox_attribute
   .word meadow2_map
   .word meadow2_metatile_table_properties
@@ -282,7 +282,7 @@ meadow3_area:
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word meadow3_area_bg_chr_groups
-  .word song1
+  .word hero_theme
   .byte $00 ;textbox_attribute
   .word meadow3_map
   .word meadow3_metatile_table_properties
@@ -311,7 +311,7 @@ dungeon_area:
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word dungeon_area_bg_chr_groups
-  .word song2
+  .word dungeon_theme
   .byte $22 ;textbox_attribute
   .word dungeon_map
   .word dungeon_metatile_table_properties
@@ -336,7 +336,7 @@ dungeon1_boss_area:
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word dungeon1_boss_area_bg_chr_groups
-  .word song2
+  .word dungeon_theme
   .byte $22 ;textbox_attribute
   .word dungeon1_boss_map
   .word dungeon1_boss_metatile_table_properties

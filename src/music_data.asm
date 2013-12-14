@@ -3,15 +3,15 @@
 
 .segment "ROM04"
 
-song1:
+hero_theme:
 .scope
 .include "hero_theme.inc"
 .endscope
-song2:
+dungeon_theme:
 .scope
 .include "dungeon_theme.inc"
 .endscope
-song3:
+town_theme:
 .scope
 .include "town_theme.inc"
 .endscope
