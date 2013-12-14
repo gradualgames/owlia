@@ -1,3 +1,6 @@
+.include "play_state.inc"
+.include "inventory.inc"
+.include "locations.inc"
 .include "conversation_data.inc"
 .include "cut_scene_state.inc"
 .include "slide_data.inc"
@@ -12,6 +15,50 @@
 .segment "CODE"
 
 play_cut_scene:
+
+  jsr load_slide
+
+  ;advance slide address
+  clc
+  lda state_control_params+cut_scene_state_control::slide_address
+  adc #<(.sizeof(slide))
+  sta state_control_params+cut_scene_state_control::slide_address
+  lda state_control_params+cut_scene_state_control::slide_address+1
+  adc #>(.sizeof(slide))
+  sta state_control_params+cut_scene_state_control::slide_address+1
+
+  ;check to see if this is the end of the cut scene and exit if so (marked with a $ff)
+  lda state_control_params+cut_scene_state_control::slide_address
+  sta w0
+  lda state_control_params+cut_scene_state_control::slide_address+1
+  sta w0+1
+  ldy #0
+  lda (w0),y
+  cmp #LAST_SLIDE
+  bne play_cut_scene
+
+exit_cut_scene_state:
+
+  jsr play_state_initialize
+
+  ;initialize inventory since we're starting a new game
+  jsr inventory_max_all
+
+  ;initialize persistent hero state
+  lda #3
+  sta hero_health
+  lda #0
+  sta hero_flags
+
+  ldx #location_index_village_house1_entrance
+  switch_bank_ldy #LOCATIONS_BANK
+  lda locations_lo,x
+  sta location_address
+  lda locations_hi,x
+  sta location_address+1
+  jmp play_state_load_location
+
+.proc load_slide
 
   ;set blank nmi routine
   lda #<ppu_vblank_nop
@@ -158,5 +205,17 @@ play_cut_scene:
   lda conversations_hi,x
   sta w0+1
   jsr run_conversation
-:
-  jmp :-
+
+  ;fade out from current slide palette
+  switch_bank_ldy #SLIDE_DATA_BANK
+  ldy #slide::palette_address
+  lda (w10),y
+  sta palette_address
+  iny
+  lda (w10),y
+  sta palette_address+1
+  jsr ppu_fade_out_palette
+
+  rts
+
+.endproc
