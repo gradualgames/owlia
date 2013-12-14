@@ -1195,6 +1195,11 @@ play_state_action_start_conversation:
   switch_bank_ldy #TEXTBOX_BANK
   jsr draw_textbox
 
+  lda #<controller_read_ignore_start
+  sta controller_routine
+  lda #>controller_read_ignore_start
+  sta controller_routine+1
+
   ;when an NPC starts a conversation, the NPC specifies the index of a
   ;conversation to load, load it here.
   ldx state_control_params+play_state_control::param
@@ -1209,6 +1214,11 @@ play_state_action_start_conversation:
   ;make sure the controller buffer is cleared out. It is possible an entity
   ;such as the innkeep will want it to be clear at this point.
   jsr controller_clear
+
+  lda #<controller_read
+  sta controller_routine
+  lda #>controller_read
+  sta controller_routine+1
 
   ;the user has finished advancing through the conversation, make
   ;sure the play state control action is a nop as we return to the

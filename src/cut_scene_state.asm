@@ -1,3 +1,4 @@
+.include "controller.inc"
 .include "play_state.inc"
 .include "inventory.inc"
 .include "locations.inc"
@@ -11,12 +12,22 @@
 .include "zp.inc"
 .include "textbox.inc"
 .include "map.inc"
+.include "title_state.inc"
 
 .segment "CODE"
 
 play_cut_scene:
 
+  lda #<controller_read
+  sta controller_routine
+  lda #>controller_read
+  sta controller_routine+1
+
   jsr load_slide
+
+  lda textbox_result
+  cmp #TEXTBOX_EXIT
+  beq exit_cut_scene_state
 
   ;advance slide address
   clc
@@ -39,24 +50,26 @@ play_cut_scene:
 
 exit_cut_scene_state:
 
-  jsr play_state_initialize
+  jmp title_state_init
 
-  ;initialize inventory since we're starting a new game
-  jsr inventory_max_all
+  ; jsr play_state_initialize
 
-  ;initialize persistent hero state
-  lda #3
-  sta hero_health
-  lda #0
-  sta hero_flags
+  ; ;initialize inventory since we're starting a new game
+  ; jsr inventory_max_all
 
-  ldx #location_index_village_house1_entrance
-  switch_bank_ldy #LOCATIONS_BANK
-  lda locations_lo,x
-  sta location_address
-  lda locations_hi,x
-  sta location_address+1
-  jmp play_state_load_location
+  ; ;initialize persistent hero state
+  ; lda #3
+  ; sta hero_health
+  ; lda #0
+  ; sta hero_flags
+
+  ; ldx #location_index_village_house1_entrance
+  ; switch_bank_ldy #LOCATIONS_BANK
+  ; lda locations_lo,x
+  ; sta location_address
+  ; lda locations_hi,x
+  ; sta location_address+1
+  ; jmp play_state_load_location
 
 .proc load_slide
 

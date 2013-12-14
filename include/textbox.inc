@@ -123,6 +123,8 @@ EC = -5 ;end of conversation
 ES = -6 ;end of string
 
 ;values for textbox_result when CC is used to confirm/cancel a prompt
+TEXTBOX_NO_RESULT = 255
+TEXTBOX_EXIT = 2
 TEXTBOX_CONFIRM = 1
 TEXTBOX_CANCEL = 0
 

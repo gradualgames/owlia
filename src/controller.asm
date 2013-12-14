@@ -48,45 +48,106 @@
 
 .endproc
 
-;deserializes the controller into a buffer
-;output: buffer_controller
-.proc controller_read
-  lda #$01  ; strobe joypad
+.proc controller_read_ignore_start
+
+  lda #$01
   sta $4016
   lda #$00
   sta $4016
 
-  lda $4016  ; A
-  ;put button bit into carry
+  ;a
+  lda $4016
   ror
-  ;put carry bit into controller buffer. use rol to keep
-  ;history of button presses.
   rol buffer_controller
 
-  lda $4016  ; B
+  ;b
+  lda $4016
   ror
   rol buffer_controller+1
 
-  lda $4016          ; Select
+  ;select
+  lda $4016
   ror
   rol buffer_controller+2
 
-  lda $4016          ; Start
+  ;start
+  lda $4016
+  lda #0
+  sta buffer_controller+3
+
+  ;up
+  lda $4016
+  ror
+  rol buffer_controller+4
+
+  ;down
+  lda $4016
+  ror
+  rol buffer_controller+5
+
+  ;left
+  lda $4016
+  ror
+  rol buffer_controller+6
+
+  ;right
+  lda $4016
+  ror
+  rol buffer_controller+7
+
+  rts
+
+.endproc
+
+;deserializes the controller into a buffer
+;output: buffer_controller
+.proc controller_read
+
+  lda #$01
+  sta $4016
+  lda #$00
+  sta $4016
+
+  ;a
+  lda $4016
+  ror
+  rol buffer_controller
+
+  ;b
+  lda $4016
+  ror
+  rol buffer_controller+1
+
+  ;select
+  lda $4016
+  ror
+  rol buffer_controller+2
+
+  ;start
+  lda $4016
   ror
   rol buffer_controller+3
 
-  lda $4016          ; Up
+  ;up
+  lda $4016
   ror
   rol buffer_controller+4
-  lda $4016          ; Down
+
+  ;down
+  lda $4016
   ror
   rol buffer_controller+5
-  lda $4016          ; Left
+
+  ;left
+  lda $4016
   ror
   rol buffer_controller+6
-  lda $4016          ; Right
+
+  ;right
+  lda $4016
   ror
   rol buffer_controller+7
+
   rts
 .endproc
 

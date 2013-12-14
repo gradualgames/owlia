@@ -158,9 +158,23 @@ title_state_init:
   sta sound_param_word_0+1
   jsr sfx_initialize
 
+  lda #<TITLE_STATE_TIME_TIL_CUT_SCENE
+  sta state_control_params+title_state_control::title_state_counter
+  lda #>TITLE_STATE_TIME_TIL_CUT_SCENE
+  sta state_control_params+title_state_control::title_state_counter+1
+
 title_state_main:
 
   wait_vblank_flag
+
+  sec
+  lda state_control_params+title_state_control::title_state_counter
+  sbc #$01
+  sta state_control_params+title_state_control::title_state_counter
+  lda state_control_params+title_state_control::title_state_counter+1
+  sbc #$00
+  sta state_control_params+title_state_control::title_state_counter+1
+  beq title_state_show_cut_scene
 
   jsr controller_read
 
@@ -168,13 +182,13 @@ title_state_main:
   lda buffer_controller+buttons::_start
   and #%00000011
   cmp #%00000001
-  beq title_state_exit
+  beq title_state_start_game
 
   set_vblank_flag
 
   jmp title_state_main
 
-title_state_exit:
+title_state_show_cut_scene:
 
   ;fade out title palette
   lda #<title_screen_palette
@@ -188,3 +202,31 @@ title_state_exit:
   lda #>intro_cut_scene_slide1
   sta state_control_params+cut_scene_state_control::slide_address+1
   jmp play_cut_scene
+
+title_state_start_game:
+
+  ;fade out title palette
+  lda #<title_screen_palette
+  sta palette_address
+  lda #>title_screen_palette
+  sta palette_address+1
+  jsr ppu_fade_out_palette
+
+  jsr play_state_initialize
+
+  ;initialize inventory since we're starting a new game
+  jsr inventory_max_all
+
+  ;initialize persistent hero state
+  lda #3
+  sta hero_health
+  lda #0
+  sta hero_flags
+
+  ldx #location_index_village_house1_entrance
+  switch_bank_ldy #LOCATIONS_BANK
+  lda locations_lo,x
+  sta location_address
+  lda locations_hi,x
+  sta location_address+1
+  jmp play_state_load_location

@@ -9,10 +9,12 @@ TITLE_STATE_BG_CHR_BANK = BG_CHR_DATA_BANK2
 TITLE_STATE_BG_NAMETABLE_BANK = NAMETABLE_DATA_BANK1
 TITLE_STATE_SPRITES_AND_ANIMATIONS_BANK = SPRITES_AND_ANIMATIONS_DATA_BANK1
 
+TITLE_STATE_TIME_TIL_CUT_SCENE = 1000
+
 .global title_state_init
 
 .struct title_state_control
-  ;TODO: Add state variables for title state (position of cursors, etc.)
+  title_state_counter .word
 .endstruct
 
 .endif

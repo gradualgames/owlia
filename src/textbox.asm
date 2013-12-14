@@ -163,6 +163,9 @@ row_y_offset = b0
   ;make sure any previous ppu uploads are complete before proceeding
   wait_vblank_flag
 
+  lda #TEXTBOX_NO_RESULT
+  sta textbox_result
+
   ;Read row number. Reset row index
   ldy #0
 read_next_row:
@@ -228,6 +231,24 @@ read_next_row:
   ldx #2
   ;Read a character.
 read_next_character:
+
+  ;Read controller here in inner loop. This allows us to
+  ;exit the conversation when the start button is pressed
+  ;during a cut scene. During normal play, the start button
+  ;will be ignored because we will install a special controller
+  ;routine for that purpose.
+  jsr controller_indirect
+
+  ;exit conversation if start button is pressed
+  lda buffer_controller+buttons::_start
+  and #%00000011
+  cmp #%00000001
+  bne :+
+  lda #TEXTBOX_EXIT
+  sta textbox_result
+  jmp end_conversation
+:
+
   clc
   lda conversation_address
   adc #$01
@@ -290,8 +311,6 @@ confirm_cancel:
   ;then store TEXTBOX_CONFIRM or TEXTBOX_CANCEL in textbox_result
   wait_vblank_flag
 
-  jsr controller_read
-
   set_vblank_flag
 
   lda buffer_controller+buttons::_a
@@ -321,7 +340,7 @@ wait:
   ;If it is WT, just wait til user hits A button.
   wait_vblank_flag
 
-  jsr controller_read
+  jsr controller_indirect
 
   set_vblank_flag
 
