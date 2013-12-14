@@ -21,6 +21,7 @@ conversation_index_purchase_lantern
 conversation_index_purchase_health
 conversation_index_purchase_rope
 conversation_index_not_enough_gp
+conversation_index_intro_cut_scene_slide1_text
 .endenum
 
 .endif

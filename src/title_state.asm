@@ -151,6 +151,13 @@ title_state_init:
   sta b5
   jsr ppu_fade_in_palette
 
+  ;load sfx
+  lda #<sfx_set1
+  sta sound_param_word_0
+  lda #>sfx_set1
+  sta sound_param_word_0+1
+  jsr sfx_initialize
+
 title_state_main:
 
   wait_vblank_flag
@@ -192,12 +199,6 @@ title_state_exit:
   ; sta hero_health
   ; lda #0
   ; sta hero_flags
-
-  ; lda #<sfx_set1
-  ; sta sound_param_word_0
-  ; lda #>sfx_set1
-  ; sta sound_param_word_0+1
-  ; jsr sfx_initialize
 
   ; ldx #location_index_village_house1_entrance
   ; switch_bank_ldy #LOCATIONS_BANK
