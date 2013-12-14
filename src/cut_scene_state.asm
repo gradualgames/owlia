@@ -149,7 +149,10 @@ play_cut_scene:
   switch_bank_ldy #TEXTBOX_BANK
   jsr draw_textbox
 
-  ldx #conversation_index_intro_cut_scene_slide1_text
+  switch_bank_ldy #SLIDE_DATA_BANK
+  ldy #slide::conversation_index
+  lda (w10),y
+  tax
   lda conversations_lo,x
   sta w0
   lda conversations_hi,x
