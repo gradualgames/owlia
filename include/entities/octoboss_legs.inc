@@ -19,7 +19,8 @@ octoboss_legs_punch_y_velocity = entity_local2
   octoboss_legs_state_dangle_init, \
   octoboss_legs_state_dangle, \
   octoboss_legs_state_punch_init, \
-  octoboss_legs_state_punch
+  octoboss_legs_state_punch, \
+  octoboss_legs_state_die
 
 octoboss_legs_lo:
   .lobytes octoboss_legs_states
@@ -175,6 +176,34 @@ do_not_switch_state:
   .endscope
 
   jsr entity_update_animation
+
+  rts
+
+octoboss_legs_state_die:
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  txa
+  pha
+
+  lda #entity_index_explosion
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  pla
+  tax
 
   rts
 

@@ -5,8 +5,8 @@ OCTOBOSS_HEAD_INC = 1
 .include "octoboss_legs_constants.inc"
 .include "splash_constants.inc"
 
-OCTOBOSS_HEAD_WIDTH = $0f
-OCTOBOSS_HEAD_HEIGHT = $0f
+OCTOBOSS_HEAD_WIDTH = $17
+OCTOBOSS_HEAD_HEIGHT = $17
 
 OCTOBOSS_HEAD_SHADOW_SPOT_X_OFFSET = 8
 OCTOBOSS_HEAD_SHADOW_SPOT_Y_OFFSET = 50
@@ -17,6 +17,10 @@ OCTOBOSS_HEAD_RISE_SPEED = 1
 OCTOBOSS_HEAD_STATE_RISE_LENGTH = 48
 
 OCTOBOSS_HEAD_STATE_PAUSE_LENGTH = 70
+
+OCTOBOSS_HEAD_ATTACKED_LENGTH = 20
+
+OCTOBOSS_HEAD_INITIAL_HEALTH = 3
 
 OCTOBOSS_HEAD_X_CENTER = 115
 OCTOBOSS_HEAD_X_ACCELERATION = 20
@@ -37,6 +41,8 @@ octoboss_head_x_velocity_lo = entity_local5
 octoboss_head_x_velocity_hi = entity_local6
 octoboss_head_y_velocity_lo = entity_local7
 octoboss_head_y_velocity_hi = entity_local8
+octoboss_head_attacked_counter = entity_local9
+octoboss_head_health = entity_local10
 
 .enum
 OCTOBOSS_HEAD_STATE_INIT
@@ -157,6 +163,12 @@ octoboss_head_state_init:
   sta octoboss_head_x_velocity_hi,x
   sta octoboss_head_y_velocity_lo,x
   sta octoboss_head_y_velocity_hi,x
+
+  lda #OCTOBOSS_HEAD_INITIAL_HEALTH
+  sta octoboss_head_health,x
+
+  lda #0
+  sta octoboss_head_attacked_counter,x
 
   lda #OCTOBOSS_HEAD_STATE_RISE_LENGTH
   sta octoboss_head_state_counter,x
@@ -364,6 +376,10 @@ done:
 
 do_not_pause_yet:
 
+  jsr octoboss_head_combat
+
+  jsr octoboss_head_advance_attacked_state
+
   rts
 
 octoboss_head_state_pause:
@@ -390,7 +406,134 @@ octoboss_head_state_pause:
 
 do_not_unpause_yet:
 
+  jsr octoboss_head_combat
+
+  jsr octoboss_head_advance_attacked_state
+
   rts
+
+.proc octoboss_head_combat
+
+  lda entity_action_rect1_action
+  cmp #ACTION_ATTACK
+  bne action_rect1_not_deadly
+
+  jsr entity_test_entity_action_rect1
+  bne action_rect1_not_deadly
+
+  jsr octoboss_head_attacked
+
+action_rect1_not_deadly:
+
+  lda entity_action_rect2_action
+  cmp #ACTION_ATTACK
+  bne action_rect2_not_deadly
+
+  jsr entity_test_entity_action_rect2
+  bne action_rect2_not_deadly
+
+  jsr octoboss_head_attacked
+
+  far_call #FAMILIAR_BANK, familiar_hit_enemy
+
+action_rect2_not_deadly:
+
+  rts
+
+.endproc
+
+.proc octoboss_head_attacked
+
+  lda octoboss_head_attacked_counter,x
+  bne attacked_state_machine_already_running
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_hit
+  sta sound_param_word_0
+  lda #>sfx_hit
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  lda #OCTOBOSS_HEAD_ATTACKED_LENGTH
+  sta octoboss_head_attacked_counter,x
+
+  dec octoboss_head_health,x
+  bne entity_not_dead_yet
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  ldy octoboss_head_legs_entity_index,x
+  lda #OCTOBOSS_LEGS_STATE_DIE
+  sta entity_state,y
+
+  txa
+  pha
+
+  lda #entity_index_explosion
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  pla
+  tax
+entity_not_dead_yet:
+
+attacked_state_machine_already_running:
+
+  rts
+
+.endproc
+
+.proc octoboss_head_advance_attacked_state
+
+  lda octoboss_head_attacked_counter,x
+  beq attacked_state_machine_not_running
+
+  dec octoboss_head_attacked_counter,x
+
+  lda octoboss_head_attacked_counter,x
+  and #%00000011
+  sta b0
+
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b0
+  sta entity_sprite_flags,x
+
+  ;make the legs flash along with the head
+  ldy octoboss_head_legs_entity_index,x
+  lda entity_sprite_flags,y
+  and #%11111100
+  ora b0
+  sta entity_sprite_flags,y
+
+attacked_state_machine_not_running:
+
+  rts
+
+.endproc
 
 .proc octoboss_head_position_legs
 

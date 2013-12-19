@@ -242,7 +242,8 @@ title_state_start_game:
   lda #0
   sta hero_flags
 
-  ldx #location_index_village_house1_entrance
+  ; ldx #location_index_village_house1_entrance
+  ldx #location_index_dungeon1_boss_entrance
   switch_bank_ldy #LOCATIONS_BANK
   lda locations_lo,x
   sta location_address
