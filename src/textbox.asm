@@ -313,6 +313,8 @@ confirm_cancel:
   ;then store TEXTBOX_CONFIRM or TEXTBOX_CANCEL in textbox_result
   wait_vblank_flag
 
+  jsr controller_indirect
+
   set_vblank_flag
 
   lda buffer_controller+buttons::_a
