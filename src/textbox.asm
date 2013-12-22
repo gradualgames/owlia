@@ -300,7 +300,7 @@ interpret_control_character:
   beq wait
   cmp #CC
   beq confirm_cancel
-  cmp #EL
+  cmp #NL
   beq advance_to_next_row
   cmp #EP
   beq clear_textbox

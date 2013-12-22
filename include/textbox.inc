@@ -112,7 +112,7 @@ QN ;QuestioN
 SP = 4  ;space is the same offset as the middle tile (just a blank black tile)
 
 ;conversation control characters
-EL = -1 ;end of line. This must ALWAYS be followed by a row number and some text to print!!!
+NL = -1 ;newline. This must ALWAYS be followed by a row number and some text to print!!!
 EP = -2 ;end of page
 WT = -3 ;wait for player to hit A button
 CC = -4 ;wait for player to hit A or B button, where A is "confirm" and B is "cancel." Store
