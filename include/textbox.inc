@@ -73,43 +73,7 @@ BOTTOM_RIGHT_TILE_OFFSET = 6
 TOP_TILE_OFFSET          = 7
 BOTTOM_TILE_OFFSET       = 8
 
-;offsets of tiles in the textbox chr graphics font.
-;A few reserved literals, A, X, and Y had to be prefixed
-;with an underscore for use.
-.enum
-_A = 9
-B
-C
-D
-E
-F
-G
-H
-I
-J
-K
-L
-M
-N
-O
-P
-Q
-R
-S
-T
-U
-V
-W
-_X
-_Y
-Z
-CA ;CommA
-PD ;PerioD
-EN ;ExclamatioN
-QN ;QuestioN
-.endenum
-
-SP = 4  ;space is the same offset as the middle tile (just a blank black tile)
+.include "charmap.inc"
 
 ;conversation control characters
 NL = -1 ;newline. This must ALWAYS be followed by a row number and some text to print!!!

@@ -16,6 +16,7 @@
 .include "soundengine.inc"
 .include "sfx_data.inc"
 .include "textbox.inc"
+.include "charmap.inc"
 .include "inventory.inc"
 
 .segment "CODE"
@@ -360,31 +361,31 @@ inventory_state_exit:
 ;****************************************************************
 
 ;inventory title string
-inventory_string: .byte I,N,V,E,N,T,O,R,_Y,ES
+inventory_string: .byte "INVENTORY",ES
 
 ;stat strings
-gp_string: .byte G,P,ES
-keys_string: .byte K,E,_Y,S,ES
+gp_string: .byte "GP",ES
+keys_string: .byte "KEYS",ES
 
 ;use item menu strings
-use_item_string: .byte U,S,E,ES
-health_string: .byte H,E,_A,L,T,H,ES
-rope_string: .byte R,O,P,E,ES
+use_item_string: .byte "USE",ES
+health_string: .byte "HEALTH",ES
+rope_string: .byte "ROPE",ES
 
 ;carry item menu strings
-carry_string: .byte C,_A,R,R,_Y,ES
-bomb_string: .byte B,O,M,B,ES
-lantern_string: .byte L,_A,N,T,E,R,N,ES
+carry_string: .byte "CARRY",ES
+bomb_string: .byte "BOMB",ES
+lantern_string: .byte "LANTERN",ES
 
 ;tech menu strings
-tech_string: .byte T,E,C,H,ES
-rush_string: .byte R,U,S,H,ES
-fetch_string: .byte F,E,T,C,H,ES
-carry_bomb_string: .byte C,_A,R,R,_Y,SP,B,O,M,B,ES
-carry_lantern_string: .byte C,_A,R,R,_Y,SP,L,_A,N,T,E,R,N,ES
-carry_adlanniel_string: .byte C,_A,R,R,_Y,SP,_A,D,L,_A,N,N,I,E,L,ES
-shield_string: .byte S,H,I,E,L,D,ES
-homing_string: .byte H,O,M,I,N,G,ES
+tech_string: .byte "TECH",ES
+rush_string: .byte "RUSH",ES
+fetch_string: .byte "FETCH",ES
+carry_bomb_string: .byte "CARRY BOMB",ES
+carry_lantern_string: .byte "CARRY LANTERN",ES
+carry_adlanniel_string: .byte "CARRY ADLANNIEL",ES
+shield_string: .byte "SHIELD",ES
+homing_string: .byte "HOMING",ES
 
 ;****************************************************************
 ;These routines are used for drawing the inventory screen. Some
