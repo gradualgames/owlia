@@ -29,6 +29,7 @@
     village_housebr_entrance, \
     village_housetr_entrance, \
     village_bottom_entrance, \
+    house1_intro, \
     house1_exit, \
     inn_exit, \
     weaponstore_exit, \
@@ -165,6 +166,10 @@ village_entity_instances:
   ; .byte entity_index_octopus, 20, 53, sprite_chr_group_index_octopus, 0
   .byte entity_index_npc, 8, 20, sprite_chr_group_index_npcman, 6, conversation_index_hi_adlanniel, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
   .byte entity_index_npc, 31, 37, sprite_chr_group_index_npcman, 6, conversation_index_owlia_school_of_falconry, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+
+house1_intro_entity_instances:
+  .byte 1
+  .byte entity_index_intro, 16, 10, 0, 0
 
 house1_entity_instances:
   .byte 0
@@ -381,6 +386,11 @@ define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       31, 62, 0, 0, 0, HERO_DIRECTION_UP
 
 ;house1 locations
+house1_intro:
+define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
+                         area_index_house, house_entity_set, house1_intro_entity_instances, house_palette,\
+                         11, 15, 0, 0, 0, HERO_DIRECTION_DOWN
+
 house1_exit:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_house, house_entity_set, house1_entity_instances, house_palette,\

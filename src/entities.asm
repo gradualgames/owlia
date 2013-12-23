@@ -47,7 +47,8 @@
   spotlight_puzzle_update, \
   octoboss_head_update, \
   octoboss_legs_update, \
-  splash_update
+  splash_update, \
+  intro_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -73,6 +74,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_octoboss_head
   .byte entity_update_bank_octoboss_legs
   .byte entity_update_bank_splash
+  .byte entity_update_bank_intro
 
 entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_explosion
@@ -93,6 +95,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_octoboss_head
   .byte entity_sprites_and_animations_bank_octoboss_legs
   .byte entity_sprites_and_animations_bank_splash
+  .byte entity_sprites_and_animations_bank_intro
 
 .segment "ROM05"
 .include "explosion.inc"
@@ -113,3 +116,4 @@ entity_defs_sprites_and_animations_bank:
 .include "octoboss_head.inc"
 .include "octoboss_legs.inc"
 .include "splash.inc"
+.include "intro.inc"

@@ -25,6 +25,7 @@ entity_index_spotlight_puzzle
 entity_index_octoboss_head
 entity_index_octoboss_legs
 entity_index_splash
+entity_index_intro
 .endenum
 
 entity_update_bank_explosion = 5
@@ -45,6 +46,7 @@ entity_update_bank_spotlight_puzzle = 5
 entity_update_bank_octoboss_head = 5
 entity_update_bank_octoboss_legs = 5
 entity_update_bank_splash = 5
+entity_update_bank_intro = 5
 
 entity_sprites_and_animations_bank_explosion = 6
 entity_sprites_and_animations_bank_bomb = 6
@@ -64,5 +66,6 @@ entity_sprites_and_animations_bank_spotlight = 6
 entity_sprites_and_animations_bank_octoboss_head = 6
 entity_sprites_and_animations_bank_octoboss_legs = 6
 entity_sprites_and_animations_bank_splash = 6
+entity_sprites_and_animations_bank_intro = 6
 
 .endif
