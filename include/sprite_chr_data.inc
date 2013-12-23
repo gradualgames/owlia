@@ -8,6 +8,7 @@ SPRITE_CHR_INC = 1
 .enum
 sprite_chr_group_index_hero
 sprite_chr_group_index_familiar
+sprite_chr_group_index_tyto
 sprite_chr_group_index_explosion
 sprite_chr_group_index_shadowspot
 sprite_chr_group_index_bomb
@@ -31,6 +32,7 @@ sprite_chr_group_index_splash
 
 sprite_chr_group_bank_hero = 7
 sprite_chr_group_bank_familiar = 7
+sprite_chr_group_bank_tyto = 7
 sprite_chr_group_bank_explosion = 7
 sprite_chr_group_bank_shadowspot = 7
 sprite_chr_group_bank_bomb = 7

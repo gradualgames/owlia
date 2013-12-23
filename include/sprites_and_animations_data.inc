@@ -98,4 +98,10 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 
 .global Splash
 
+.global TytoWake0
+.global TytoWake1
+.global TytoWake2
+
+.global TytoWake
+
 .endif

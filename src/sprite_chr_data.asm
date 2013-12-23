@@ -6,6 +6,7 @@
 .define sprite_chr_group_addresses \
   Hero_chr, \
   Familiar_chr, \
+  Tyto_chr, \
   explosion_chr, \
   ShadowSpot_chr, \
   Bomb_chr, \
@@ -34,6 +35,7 @@ sprite_chr_group_addresses_hi:
 sprite_chr_group_bank:
   .byte sprite_chr_group_bank_hero
   .byte sprite_chr_group_bank_familiar
+  .byte sprite_chr_group_bank_tyto
   .byte sprite_chr_group_bank_explosion
   .byte sprite_chr_group_bank_shadowspot
   .byte sprite_chr_group_bank_bomb
@@ -201,6 +203,19 @@ Familiar_chr:
   .byte $c0,$e0,$d0,$38,$f4,$e2,$42,$26,$00,$c0,$20,$c0,$08,$1c,$bc,$d8
   .byte $c4,$88,$cc,$98,$b5,$79,$3d,$13,$3b,$77,$33,$67,$4a,$26,$12,$00
   .byte $42,$26,$62,$32,$5a,$3c,$78,$90,$bc,$d8,$9c,$cc,$a4,$c8,$90,$00
+
+Tyto_chr:
+  .word $00A0
+  .byte $07,$08,$17,$1f,$1f,$1f,$2f,$4f,$00,$07,$08,$06,$0f,$09,$1e,$36
+  .byte $c0,$20,$d0,$f0,$f0,$f0,$e8,$e4,$00,$c0,$20,$c0,$e0,$20,$f0,$d8
+  .byte $57,$6f,$4d,$2e,$3b,$0a,$1f,$0a,$2b,$14,$37,$13,$04,$04,$0a,$00
+  .byte $d4,$ec,$64,$e8,$b8,$a0,$f0,$a0,$a8,$50,$d8,$90,$40,$40,$a0,$00
+  .byte $07,$08,$17,$1f,$1f,$1b,$2f,$4f,$00,$07,$08,$06,$09,$0f,$1e,$36
+  .byte $c0,$20,$d0,$f0,$f0,$b0,$e8,$e4,$00,$c0,$20,$c0,$20,$e0,$f0,$d8
+  .byte $07,$0f,$1f,$1b,$1f,$0f,$17,$23,$00,$06,$0b,$0f,$0e,$06,$0b,$1c
+  .byte $c0,$e0,$f0,$b0,$f0,$e0,$d0,$88,$00,$c0,$a0,$e0,$e0,$c0,$a0,$70
+  .byte $5d,$6a,$4d,$2e,$3b,$0a,$1f,$0a,$27,$17,$37,$13,$04,$04,$0a,$00
+  .byte $74,$ac,$64,$e8,$b8,$a0,$f0,$a0,$c8,$d0,$d8,$90,$40,$40,$a0,$00
 
 Octopus_chr:
   .word $0120

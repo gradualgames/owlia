@@ -97,9 +97,10 @@ village_entity_set:
   .byte sprite_chr_group_index_octopus
 
 house_entity_set:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_tyto
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
