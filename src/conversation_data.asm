@@ -5,8 +5,8 @@
 .segment "CODE"
 
 .define conversations \
-    welcome_to_demo, \
-    welcome_to_my_house, \
+    hi_adlanniel, \
+    npc_housetr, \
     welcome_to_my_store, \
     welcome_to_my_inn, \
     prompt_for_stay_at_inn, \
@@ -26,21 +26,24 @@ conversations_hi:
 
 .segment "ROM10"
 
-welcome_to_demo:
-  .byte    1, "WELCOME!",WT
-  .byte NL,2, "HAVE A LOOK AROUND AT"
-  .byte NL,3, "THIS DEMO OF OUR IN"
-  .byte NL,4, "DEVELOPMENT TITLE!",WT,EP
+hi_adlanniel:
+  .byte    1, "HI,",TM,5," ADLANNIEL!",TM,10," TYTO IS"
+  .byte NL,2, "LOOKING BRIGHT EYED TODAY!",TM,20
+  .byte NL,3, "BE CAREFUL IF YOU GO TO THE"
+  .byte NL,4, "FOREST SOUTH OF HERE, I HAVE",WT,EP
 
-  .byte NL,1, "DO NOT FORGET"
-  .byte NL,2, "TO TRY HITTING BOTH",WT
-  .byte NL,3, "A AND B.",WT,EP
+  .byte NL,1, "HEARD TELL OF A HOVERING SEA"
+  .byte NL,2, "MONSTER THREATENING THE"
+  .byte NL,3, "TOWNFOLK.",WT,EC
 
-  .byte NL,1, "ALSO DO NOT FORGET TO"
-  .byte NL,2, "VISIT HOUSES!",WT,EC
+npc_housetr:
+  .byte    1, "THE LAND OF OWLIA HAS ALWAYS"
+  .byte NL,2, "BEEN SO PEACEFUL.",TM,20," BUT WITH"
+  .byte NL,3, "THE STORIES I HAVE BEEN"
+  .byte NL,4, "HEARING LATELY, ALL I WANT",WT,EP
 
-welcome_to_my_house:
-  .byte    1, "WELCOME TO MY HOUSE!",WT,EC
+  .byte NL,1, "TO DO IS PACE AROUND"
+  .byte NL,2, "NERVOUSLY AT HOME.",WT,EC
 
 welcome_to_my_store:
   .byte    1, "WELCOME TO MY STORE!",WT

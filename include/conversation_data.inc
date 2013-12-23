@@ -10,8 +10,8 @@ CONVERSATIONS_BANK = 10
 .global conversations_hi
 
 .enum
-conversation_index_welcome_to_demo
-conversation_index_welcome_to_my_house
+conversation_index_hi_adlanniel
+conversation_index_npc_housetr
 conversation_index_welcome_to_my_store
 conversation_index_welcome_to_my_inn
 conversation_index_prompt_for_stay_at_inn

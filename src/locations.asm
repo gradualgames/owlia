@@ -162,23 +162,22 @@ village_entity_instances:
   ; .byte entity_index_octopus, 31, 32, sprite_chr_group_index_octopus, 0
   ; .byte entity_index_octopus, 39, 53, sprite_chr_group_index_octopus, 0
   ; .byte entity_index_octopus, 20, 53, sprite_chr_group_index_octopus, 0
-  .byte entity_index_npc, 8, 20, sprite_chr_group_index_npcman, 6, conversation_index_welcome_to_demo, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte entity_index_npc, 8, 20, sprite_chr_group_index_npcman, 6, conversation_index_hi_adlanniel, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
 
 house1_entity_instances:
-  .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte 0
 
 housebl_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_npc_housetr, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
 
 housebr_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_npc_housetr, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
 
 housetr_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_npc_housetr, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
 
 inn_entity_instances:
   .byte 2  ;count

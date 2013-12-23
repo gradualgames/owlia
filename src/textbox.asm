@@ -415,7 +415,7 @@ time:
 
   ldy #0
   lda (conversation_address),y
-  tax
+  sta b0
 
 time_wait_loop:
   wait_vblank_flag
@@ -432,7 +432,7 @@ time_wait_loop:
   jmp end_conversation
 :
 
-  dex
+  dec b0
   beq exit_wait_loop
 
   set_vblank_flag
