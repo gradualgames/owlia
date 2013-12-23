@@ -7,6 +7,8 @@
 .define conversations \
     hi_adlanniel, \
     npc_housetr, \
+    npc_housebl, \
+    npc_housebr, \
     owlia_school_of_falconry, \
     welcome_to_my_store, \
     welcome_to_my_inn, \
@@ -45,6 +47,29 @@ npc_housetr:
 
   .byte NL,1, "TO DO IS PACE AROUND"
   .byte NL,2, "NERVOUSLY AT HOME.",WT,EC
+
+npc_housebl:
+  .byte    1, "I WENT DOWN TO THE BEACH"
+  .byte NL,2, "LAST SUMMER",TM,10,".",TM,10,".",TM,10," AND I COULD"
+  .byte NL,3, "SWEAR I SAW A LARGE,",TM,10," OMINOUS"
+  .byte NL,4, "MOUND CRESTING THE SURFACE",WT,EP
+
+  .byte NL,1, "OF THE WATER SEVERAL MILES"
+  .byte NL,2, "OFF SHORE.",TM,30," WHAT COULD IT"
+  .byte NL,3, "HAVE BEEN, ADLANNIEL?",WT,EC
+
+npc_housebr:
+  .byte    1, "I AM FAMILIAR WITH BIRDS"
+  .byte NL,2, "LIKE YOUR OWL, TYTO.",TM,30
+  .byte NL,3, "BUT MY HUSBAND TOLD ME HE"
+  .byte NL,4, "SAW AN ENORMOUS SNOWY OWL",WT,EP
+
+  .byte NL,1, "IN THE CANOPY OF THE FOREST"
+  .byte NL,2, "EARLY THIS MORNING.",TM,30
+  .byte NL,3, "I HAVE HEARD THE LEGENDS"
+  .byte NL,4, "OF OWLIA...COULD THAT REALLY",WT,EP
+
+  .byte NL,1, "BE SILMARAN, THE KING OWL???",WT,EC
 
 owlia_school_of_falconry:
   .byte    1, "WELCOME TO OWLIA'S SCHOOL OF"

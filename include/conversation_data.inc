@@ -12,6 +12,8 @@ CONVERSATIONS_BANK = 10
 .enum
 conversation_index_hi_adlanniel
 conversation_index_npc_housetr
+conversation_index_npc_housebl
+conversation_index_npc_housebr
 conversation_index_owlia_school_of_falconry
 conversation_index_welcome_to_my_store
 conversation_index_welcome_to_my_inn
