@@ -7,6 +7,7 @@
 .define conversations \
     hi_adlanniel, \
     npc_housetr, \
+    owlia_school_of_falconry, \
     welcome_to_my_store, \
     welcome_to_my_inn, \
     prompt_for_stay_at_inn, \
@@ -44,6 +45,34 @@ npc_housetr:
 
   .byte NL,1, "TO DO IS PACE AROUND"
   .byte NL,2, "NERVOUSLY AT HOME.",WT,EC
+
+owlia_school_of_falconry:
+  .byte    1, "WELCOME TO OWLIA'S SCHOOL OF"
+  .byte NL,2, "FALCRONY. WOULD YOU LIKE TO"
+  .byte NL,3, "HEAR A SUMMARY OF HOW TO"
+  .byte NL,4, "COMMAND YOUR OWL TO PERFORM",WT,EP
+
+  .byte NL,1, "FLYING TECHNIQUES FOR YOU?"
+  .byte NL,2, "HIT A IF YES."
+  .byte NL,3, "HIT B IF NOT.",CC,EIC,EP
+
+  .byte NL,1, "YOUR OWL CAN SWITCH BETWEEN"
+  .byte NL,2, "TWO TECHNIQUES AT A TIME."
+  .byte NL,3, "HIT SELECT TO SWITCH BETWEEN"
+  .byte NL,4, "TECH ONE AND TECH TWO. HIT",WT,EP
+
+  .byte NL,1, "START TO SEE WHAT TECHS YOUR"
+  .byte NL,2, "OWL CURRENTLY KNOWS. ONCE"
+  .byte NL,3, "YOUR OWL LEARNS MORE THAN TWO"
+  .byte NL,4, "TECHS, YOU CAN SELECT ANY",WT,EP
+
+  .byte NL,1, "PAIR OF TECHS YOU FIND"
+  .byte NL,2, "USEFUL.",WT,EP
+
+  .byte NL,1, "IF YOUR OWL IS HELPING YOU"
+  .byte NL,2, "FIGHT OFF A FOE, YOU CAN"
+  .byte NL,3, "ALWAYS DEFEND YOURSELF WITH"
+  .byte NL,4, "YOUR SWORD BY HITTING A.",WT,EC
 
 welcome_to_my_store:
   .byte    1, "WELCOME TO MY STORE!",WT

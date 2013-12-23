@@ -296,67 +296,36 @@ interpret_font_character:
   jmp read_next_character
   ;If negative (it is a control character)
 interpret_control_character:
-  cmp #WT
-  beq wait
-  cmp #CC
-  beq confirm_cancel
   cmp #NL
   beq advance_to_next_row
   cmp #EP
   beq clear_textbox
-  cmp #EC
-  beq end_conversation
+  cmp #WT
+  beq wait
+  cmp #CC
+  beq confirm_cancel
   cmp #TM
   beq time
-confirm_cancel:
-  ;If it is CC, wait til user hits A or B button,
-  ;then store TEXTBOX_CONFIRM or TEXTBOX_CANCEL in textbox_result
-  wait_vblank_flag
-
-  jsr controller_indirect
-
-  set_vblank_flag
-
-  lda buffer_controller+buttons::_a
-  and #%00000011
-  cmp #%00000001
-  beq store_result_confirm
-  lda buffer_controller+buttons::_b
-  and #%00000011
-  cmp #%00000001
-  beq store_result_cancel
-  ;if we reach here, neither A nor B was pressed, keep waiting
-  jmp confirm_cancel
-store_result_confirm:
-  lda #TEXTBOX_CONFIRM
-  sta textbox_result
-  jmp read_next_character
-store_result_cancel:
-  lda #TEXTBOX_CANCEL
-  sta textbox_result
-  jmp read_next_character
-
-end_conversation:
-  ;If it is EC, exit the whole algorithm
-  rts
-
-wait:
-  ;If it is WT, just wait til user hits A button.
-  wait_vblank_flag
-
-  jsr controller_indirect
-
-  set_vblank_flag
-
-  lda buffer_controller+buttons::_a
-  and #%00000011
-  cmp #%00000001
-  bne wait
-
-  ;read next character
-  jmp read_next_character
-
+  cmp #EIC
+  beq end_conversation_if_cancelled
+  cmp #EC
+  beq end_conversation
 advance_to_next_row:
+  jmp advance_to_next_row_impl
+clear_textbox:
+  jmp clear_textbox_impl
+wait:
+  jmp wait_impl
+confirm_cancel:
+  jmp confirm_cancel_impl
+end_conversation_if_cancelled:
+  jmp end_conversation_if_cancelled_impl
+end_conversation:
+  jmp end_conversation_impl
+time:
+  jmp time_impl
+
+.proc advance_to_next_row_impl
   ;If it is EL, advance the conversation read address and read next character
   ;as a row number.
   clc
@@ -368,8 +337,9 @@ advance_to_next_row:
   sta conversation_address+1
   ;interpret next character as a row number and start a new line
   jmp read_next_row
+.endproc
 
-clear_textbox:
+.proc clear_textbox_impl
   ;If it is EP, redraw the textbox blank (see sub routine)
   ;save local state---map decoding is very destructive
   lda w0
@@ -399,8 +369,55 @@ clear_textbox:
 
   ;read next character
   jmp read_next_character
+.endproc
 
-time:
+.proc wait_impl
+  ;If it is WT, just wait til user hits A button.
+  wait_vblank_flag
+
+  jsr controller_indirect
+
+  set_vblank_flag
+
+  lda buffer_controller+buttons::_a
+  and #%00000011
+  cmp #%00000001
+  bne wait
+
+  ;read next character
+  jmp read_next_character
+.endproc
+
+.proc confirm_cancel_impl
+  ;If it is CC, wait til user hits A or B button,
+  ;then store TEXTBOX_CONFIRM or TEXTBOX_CANCEL in textbox_result
+  wait_vblank_flag
+
+  jsr controller_indirect
+
+  set_vblank_flag
+
+  lda buffer_controller+buttons::_a
+  and #%00000011
+  cmp #%00000001
+  beq store_result_confirm
+  lda buffer_controller+buttons::_b
+  and #%00000011
+  cmp #%00000001
+  beq store_result_cancel
+  ;if we reach here, neither A nor B was pressed, keep waiting
+  jmp confirm_cancel
+store_result_confirm:
+  lda #TEXTBOX_CONFIRM
+  sta textbox_result
+  jmp read_next_character
+store_result_cancel:
+  lda #TEXTBOX_CANCEL
+  sta textbox_result
+  jmp read_next_character
+.endproc
+
+.proc time_impl
 
   .scope
   ;advance the conversation read address, then
@@ -443,6 +460,20 @@ exit_wait_loop:
 
   ;read next character
   jmp read_next_character
+.endproc
+
+.proc end_conversation_if_cancelled_impl
+  lda textbox_result
+  cmp #TEXTBOX_CANCEL
+  bne :+
+  rts
+: jmp read_next_character
+.endproc
+
+.proc end_conversation_impl
+  ;If it is EC, exit the whole algorithm
+  rts
+.endproc
 
 .endproc
 
