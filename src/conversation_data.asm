@@ -19,7 +19,10 @@
     purchase_health, \
     purchase_rope, \
     not_enough_gp, \
-    intro_cut_scene_slide1_text
+    intro_cut_scene_slide1_text, \
+    house_intro_scene_window, \
+    house_intro_scene_call_tyto1, \
+    house_intro_scene_call_tyto2
 
 conversations_lo:
   .lobytes conversations
@@ -147,3 +150,15 @@ intro_cut_scene_slide1_text:
   .byte    1, "THESE ARE OWLS.",TM,75
   .byte NL,2, "THEY WILL BORE A"
   .byte NL,3, "HOLE IN YOUR SOUL.",TM,75,EC
+
+house_intro_scene_window:
+  .byte    1, "WHAT A BEAUTIFUL DAY!",TM,30," I"
+  .byte NL,2, "THINK I'M GOING TO TAKE TYTO"
+  .byte NL,3, "OUTSIDE TO STRETCH HIS"
+  .byte NL,4, "WINGS.",TM,75,EC
+
+house_intro_scene_call_tyto1:
+  .byte    1, "TYTO!",TM,75,EC
+
+house_intro_scene_call_tyto2:
+  .byte    1, "TO ME!",TM,30,EC

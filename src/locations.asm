@@ -389,7 +389,7 @@ define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
 house1_intro:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_house, house_entity_set, house1_intro_entity_instances, house_palette,\
-                         11, 15, 0, 0, 0, HERO_DIRECTION_DOWN
+                         11, 13, 0, 0, 0, HERO_DIRECTION_UP
 
 house1_exit:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
