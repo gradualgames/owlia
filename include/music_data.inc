@@ -8,5 +8,6 @@ MUSIC_BANK = 4
 .global town_theme
 .global game_over
 .global title_theme
+.global silmaran_theme
 
 .endif

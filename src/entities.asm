@@ -9,6 +9,7 @@
 .include "sprite_chr_data.inc"
 .include "soundengine.inc"
 .include "sfx_data.inc"
+.include "music_data.inc"
 .include "zp.inc"
 .include "ram.inc"
 .include "sprites_and_animations_data.inc"

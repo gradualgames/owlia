@@ -23,3 +23,7 @@ title_theme:
 .scope
 .include "title_theme.inc"
 .endscope
+silmaran_theme:
+.scope
+.include "silmaran_theme.inc"
+.endscope

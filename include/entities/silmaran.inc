@@ -7,12 +7,14 @@ SILMARAN_HEIGHT = $0f
 
 .enum
 SILMARAN_STATE_INIT
-SILMARAN_STATE_MAIN
+SILMARAN_STATE_WAIT
+SILMARAN_STATE_DESCEND
 .endenum
 
 .define silmaran_states \
   silmaran_state_init, \
-  silmaran_state_main
+  silmaran_state_wait, \
+  silmaran_state_descend
 
 silmaran_lo:
   .lobytes silmaran_states
@@ -26,7 +28,7 @@ silmaran_update:
 
 silmaran_state_init:
 
-  jsr entity_set_drawable
+  jsr entity_clear_drawable
 
   lda #<SilmaranDescend
   sta entity_animation_address_lo,x
@@ -49,14 +51,30 @@ silmaran_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
-  lda #SILMARAN_STATE_MAIN
+  lda #SILMARAN_STATE_WAIT
   sta entity_state,x
 
   rts
 
-silmaran_state_main:
+silmaran_state_wait:
 
-  jsr entity_update_animation
+  jsr entity_test_hero_rect
+  bne entity_not_hitting_hero
+
+  lda #<silmaran_theme
+  sta song_address
+  lda #>silmaran_theme
+  sta song_address+1
+  far_call music_bank, song_initialize
+
+  lda #SILMARAN_STATE_DESCEND
+  sta entity_state,x
+
+entity_not_hitting_hero:
+
+  rts
+
+silmaran_state_descend:
 
   rts
 

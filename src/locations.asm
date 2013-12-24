@@ -212,7 +212,7 @@ store_entity_instances:
 
 meadow1_entity_instances:
   .byte 1  ;count
-  .byte entity_index_silmaran, 45, 45, 0, 0
+  .byte entity_index_silmaran, 45, 47, 0, 0
 
 meadow2_entity_instances:
 meadow3_entity_instances:
