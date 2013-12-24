@@ -21,7 +21,7 @@ TytoWake2:
   .byte $08,$09,$01,$08,$00
 
 TytoWake:
-  .byte $01,$22
+  .byte $04,$22
   .word TytoWake0
   .word TytoWake0
   .word TytoWake0

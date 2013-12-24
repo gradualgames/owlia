@@ -161,4 +161,4 @@ house_intro_scene_call_tyto1:
   .byte    1, "TYTO!",TM,75,EC
 
 house_intro_scene_call_tyto2:
-  .byte    1, "TO ME!",TM,30,EC
+  .byte    1, "TO ME!",TM,75,EC

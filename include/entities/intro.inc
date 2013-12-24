@@ -150,7 +150,7 @@ intro_state_call_tyto:
   lda #conversation_index_house_intro_scene_call_tyto1
   sta state_control_params+play_state_control::param
 
-  lda #16
+  lda #64
   sta intro_state_counter,x
 
   lda #INTRO_STATE_TYTO_AWAKEN
