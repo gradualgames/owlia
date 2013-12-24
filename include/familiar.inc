@@ -16,5 +16,6 @@ FAMILIAR_INC = 1
 .global familiar_fetch_return_to_hero
 .global familiar_hit_enemy
 .global familiar_common_init
+.global familiar_play_flap_sound
 
 .endif

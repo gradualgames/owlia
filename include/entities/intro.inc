@@ -210,6 +210,8 @@ intro_state_fly_to_adlanniel:
 
   far_call #FAMILIAR_BANK, familiar_common_init
 
+  far_call #FAMILIAR_BANK, familiar_play_flap_sound
+
   ;restore control to the player
   lda #$ff
   jsr controller_fill_buffer_with_accumulator
