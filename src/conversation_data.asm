@@ -76,7 +76,7 @@ npc_housebr:
 
 owlia_school_of_falconry:
   .byte    1, "WELCOME TO OWLIA'S SCHOOL OF"
-  .byte NL,2, "FALCRONY. WOULD YOU LIKE TO"
+  .byte NL,2, "FALCONRY. WOULD YOU LIKE TO"
   .byte NL,3, "HEAR A SUMMARY OF HOW TO"
   .byte NL,4, "COMMAND YOUR OWL TO PERFORM",WT,EP
 
