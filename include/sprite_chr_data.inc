@@ -28,6 +28,7 @@ sprite_chr_group_index_anglerfish
 sprite_chr_group_index_spotlight
 sprite_chr_group_index_octoboss
 sprite_chr_group_index_splash
+sprite_chr_group_index_silmaran
 .endenum
 
 sprite_chr_group_bank_hero = 7
@@ -52,5 +53,6 @@ sprite_chr_group_bank_anglerfish = 7
 sprite_chr_group_bank_spotlight = 7
 sprite_chr_group_bank_octoboss = 7
 sprite_chr_group_bank_splash = 7
+sprite_chr_group_bank_silmaran = 7
 
 .endif

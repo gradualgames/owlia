@@ -39,7 +39,6 @@
     housetr_exit, \
     meadow1_top_entrance, \
     meadow1_west_entrance, \
-    meadow1_dungeon_entrance, \
     meadow2_north_entrance, \
     meadow2_east_entrance,\
     meadow3_southwest_entrance,\
@@ -110,6 +109,16 @@ house_entity_set:
   .byte sprite_chr_group_index_npcwoman
 
 meadow1_entity_set:
+  .byte 6   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_silmaran
+
+meadow2_entity_set:
+meadow3_entity_set:
   .byte 6   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -203,8 +212,9 @@ store_entity_instances:
 
 meadow1_entity_instances:
   .byte 1  ;count
-  .byte entity_index_pufferfish, 52, 23, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_silmaran, 45, 45, 0, 0
 
+meadow2_entity_instances:
 meadow3_entity_instances:
   .byte 0  ;count
 
@@ -326,8 +336,9 @@ house_palette:
 
 meadow1_palette:
   .byte $0e,$0a,$08,$19,$0e,$08,$19,$18,$0e,$0a,$19,$15,$0e,$0a,$19,$28
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$28,$20,$0e,$00,$00,$00
 
+meadow2_palette:
 meadow3_palette:
   .byte $0e,$0a,$08,$19,$0e,$08,$19,$18,$0e,$08,$19,$28,$00,$00,$00,$00
   .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$17,$20,$0d,$0d,$18,$36
@@ -443,33 +454,28 @@ define_location LOCATION_BRIGHTNESS_LEVEL_4,\
                 0, 16, 1, 24,\
                 0, 0, 0, HERO_DIRECTION_RIGHT
 
-meadow1_dungeon_entrance:
-define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                         area_index_meadow1, meadow1_entity_set, meadow1_entity_instances, meadow1_palette,\
-                         30, 13, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
-
 ;meadow2 locations
 meadow2_north_entrance:
 define_north_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                        area_index_meadow2, meadow1_entity_set, meadow1_entity_instances, meadow1_palette,\
+                        area_index_meadow2, meadow2_entity_set, meadow2_entity_instances, meadow2_palette,\
                         8, 1, 0, 0, 0, HERO_DIRECTION_DOWN
 
 meadow2_east_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                area_index_meadow2, meadow1_entity_set, meadow1_entity_instances, meadow1_palette,\
+                area_index_meadow2, meadow2_entity_set, meadow2_entity_instances, meadow2_palette,\
                 48, 15, 62, 22,\
                 0, 0, 0, HERO_DIRECTION_LEFT
 
 ;meadow3 locations
 meadow3_southwest_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                area_index_meadow3, meadow1_entity_set, meadow3_entity_instances, meadow3_palette,\
+                area_index_meadow3, meadow3_entity_set, meadow3_entity_instances, meadow3_palette,\
                 0, 50, 8, 61,\
                 0, 0, 0, HERO_DIRECTION_UP
 
 meadow3_dungeon_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                        area_index_meadow3, meadow1_entity_set, meadow3_entity_instances, meadow3_palette,\
+                        area_index_meadow3, meadow3_entity_set, meadow3_entity_instances, meadow3_palette,\
                         1, 0, 9, 2,\
                         0, 0, 0, HERO_DIRECTION_DOWN
 
