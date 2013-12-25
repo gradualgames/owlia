@@ -14,6 +14,10 @@ SILMARAN_TOP_LEFT_SCREEN_Y = (39 * 16)
 SILMARAN_WIDTH = $0f
 SILMARAN_HEIGHT = $0f
 
+silmaran_state_counter = entity_local0
+
+SILMARAN_STATE_ASCEND_LENGTH = 200
+
 .enum
 SILMARAN_STATE_INIT
 SILMARAN_STATE_WAIT
@@ -21,6 +25,7 @@ SILMARAN_STATE_ALIGN_CAMERA_HORIZ
 SILMARAN_STATE_ALIGN_CAMERA_VERT
 SILMARAN_STATE_DESCEND
 SILMARAN_STATE_PERCH
+SILMARAN_STATE_ASCEND
 .endenum
 
 .define silmaran_states \
@@ -29,7 +34,8 @@ SILMARAN_STATE_PERCH
   silmaran_state_align_camera_horiz, \
   silmaran_state_align_camera_vert, \
   silmaran_state_descend, \
-  silmaran_state_perch
+  silmaran_state_perch, \
+  silmaran_state_ascend
 
 silmaran_lo:
   .lobytes silmaran_states
@@ -262,6 +268,78 @@ not_equal:
   rts
 
 silmaran_state_perch:
+
+  lda #SILMARAN_STATE_ASCEND_LENGTH
+  sta silmaran_state_counter,x
+
+  ;play a flapping sound
+  txa
+  pha
+
+  lda #<sfx_flap
+  sta sound_param_word_0
+  lda #>sfx_flap
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  sec
+  lda entity_x_lo,x
+  sbc #<SILMARAN_PERCH_X_OFFSET
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  sbc #>SILMARAN_PERCH_X_OFFSET
+  sta entity_x_hi,x
+
+  lda #<SilmaranDescend
+  sta entity_animation_address_lo,x
+  lda #>SilmaranDescend
+  sta entity_animation_address_hi,x
+
+  lda #SILMARAN_STATE_ASCEND
+  sta entity_state,x
+
+  jsr entity_update_animation
+
+  rts
+
+silmaran_state_ascend:
+
+  .scope
+  dec silmaran_state_counter,x
+  bne not_gone_yet
+
+  ;restore control to the player
+  lda #$ff
+  jsr controller_fill_buffer_with_accumulator
+  lda #<controller_read
+  sta controller_routine
+  lda #>controller_read
+  sta controller_routine+1
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+
+not_gone_yet:
+  .endscope
+
+  sec
+  lda entity_y_lo,x
+  sbc #1
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  sbc #0
+  sta entity_y_hi,x
 
   jsr entity_update_animation
 
