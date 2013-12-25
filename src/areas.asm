@@ -217,7 +217,7 @@ meadow1_area:
   .byte CONVERSATIONS_BANK
   .word meadow1_area_bg_chr_groups
   .word hero_theme
-  .byte $00 ;textbox_attribute
+  .byte $33 ;textbox_attribute
   .word meadow1_map
   .word meadow1_metatile_table_properties
   .word meadow1_metatile_table_params

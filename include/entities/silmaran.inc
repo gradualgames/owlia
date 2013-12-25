@@ -246,6 +246,11 @@ silmaran_state_descend:
 
   jsr entity_reset_animation
 
+  lda #ACTION_START_CONVERSATION
+  sta state_control_params+play_state_control::action
+  lda #conversation_index_silmaran_encounter_scene
+  sta state_control_params+play_state_control::param
+
   lda #SILMARAN_STATE_PERCH
   sta entity_state,x
 

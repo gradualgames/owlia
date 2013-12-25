@@ -22,7 +22,9 @@
     intro_cut_scene_slide1_text, \
     house_intro_scene_window, \
     house_intro_scene_call_tyto1, \
-    house_intro_scene_call_tyto2
+    house_intro_scene_call_tyto2, \
+    silmaran_call_adlanniel, \
+    silmaran_encounter_scene
 
 conversations_lo:
   .lobytes conversations
@@ -162,3 +164,37 @@ house_intro_scene_call_tyto1:
 
 house_intro_scene_call_tyto2:
   .byte    1, "...",TM,30,"TO ME!",TM,75,EC
+
+silmaran_call_adlanniel:
+  .byte    1, "...",TM,75,"ADLANNIEL",TM,30,".",TM,30,".",TM,30,".",WT,EC
+
+silmaran_encounter_scene:
+  .byte    1, "ADLANNIEL, WHO DOTH SPEAK"
+  .byte NL,2, "TO OWLS. DO NOT BE ALARMED,"
+  .byte NL,3, "FOR I AM SILMARAN!",TM,30
+  .byte NL,4, "THE KING OF THE GREAT OWLS",WT,EP
+
+  .byte NL,1, "OF OWLIA.",TM,30,"I SUMMONED YOU"
+  .byte NL,2, "HERE BECAUSE A GREAT EVIL"
+  .byte NL,3, "STIRS IN THE DEEP,",TM,10," SEEKING"
+  .byte NL,4, "TO RISE AND CONQUER THESE",WT,EP
+
+  .byte NL,1, "FAIR LANDS.",TM,30,"I SENSED IN YOU"
+  .byte NL,2, "A COURAGEOUS HEART,",TM,20," AND"
+  .byte NL,3, "STEADFAST DETERMINATION."
+  .byte NL,4, "FIVE OF THE GREAT OWLS HAVE",WT,EP
+
+  .byte NL,1, "BEEN CAPTURED BY MERMON,",TM,20," THE"
+  .byte NL,2, "EVIL KING OF MERMEN. OUR"
+  .byte NL,3, "POWER IS FADING QUICKLY."
+  .byte NL,4, "WE NEED YOU,",TM,20," ADLANNIEL,",WT,EP
+
+  .byte NL,1, "TO RESCUE THE GREAT OWLS,",TM,20
+  .byte NL,2, "DEFEAT MERMON AND RESTORE"
+  .byte NL,3, "BALANCE TO THE LAND OF"
+  .byte NL,4, "OWLIA.",WT,EP
+
+  .byte NL,1, "THE LAST OF OUR POWER SHALL"
+  .byte NL,2, "PASS TO YOUR OWL,",TM,20," TYTO,",TM,20," TO"
+  .byte NL,3, "AID YOU IN YOUR QUEST."
+  .byte NL,4, "GOOD LUCK,",TM,20," ADLANNIEL...",WT,EC
