@@ -492,7 +492,7 @@ house1_chr:
   .byte $38,$eb,$00,$35,$7c,$df,$00,$72,$eb,$71,$00,$ce,$ff,$38,$00,$e9
   .byte $f9,$1a,$00,$3b,$5c,$5b,$00,$eb,$f2,$e9,$00,$4c,$3f,$24,$00,$b0
 
-meadow_trees:
+meadow1_trees:
   .word $0570
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$7f,$bb,$df,$f3,$c7,$6f,$fd,$7f
   .byte $ff,$ff,$f8,$f6,$ef,$df,$bf,$6f,$ee,$f7,$78,$f0,$e6,$db,$95,$4b
@@ -581,14 +581,7 @@ meadow_trees:
   .byte $fa,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$92,$ea,$ba,$bd,$ab,$fd,$ce,$7f
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$97,$ea,$ba,$bd,$ab,$fd,$ce,$7f
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$d3,$51,$cf,$ee,$8b,$ef,$33,$fe
-meadow_trees_corners:
-  .word $0050
-  .byte $bc,$b9,$3a,$74,$ed,$d9,$31,$e3,$8c,$88,$08,$30,$20,$c0,$20,$40
-  .byte $bf,$30,$e0,$66,$8f,$1f,$3f,$6f,$26,$30,$e0,$40,$06,$1b,$15,$4b
-  .byte $58,$fe,$5f,$8a,$24,$78,$2d,$ea,$48,$34,$1b,$0a,$00,$08,$01,$0a
-  .byte $e4,$35,$da,$87,$af,$5b,$b8,$3f,$00,$20,$10,$03,$03,$00,$00,$03
-  .byte $3a,$9c,$cd,$e7,$f7,$f9,$fa,$f9,$20,$10,$08,$44,$a0,$68,$c8,$01
-meadow_grass_flowers:
+meadow1_flowers:
   .word $02C0
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
   .byte $2e,$14,$88,$00,$00,$00,$28,$10,$01,$c8,$43,$67,$2c,$98,$91,$02
@@ -634,95 +627,48 @@ meadow_grass_flowers:
   .byte $17,$0e,$45,$a2,$01,$8c,$21,$08,$f4,$f8,$b0,$58,$f8,$70,$de,$f7
   .byte $ba,$d4,$58,$22,$00,$a6,$0c,$61,$8d,$37,$0f,$0d,$0f,$01,$f3,$9e
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ef,$3e,$f7,$da,$cc,$ed,$fe
-meadow_dirt1:
-  .word $03F0
-  .byte $00,$00,$00,$00,$00,$01,$02,$05,$ff,$fa,$d8,$f0,$e0,$c0,$40,$81
-  .byte $00,$00,$0f,$17,$ff,$7f,$fb,$ff,$60,$00,$02,$00,$40,$00,$08,$00
-  .byte $00,$28,$95,$6a,$ff,$ff,$ff,$ff,$00,$00,$00,$00,$08,$00,$41,$00
-  .byte $00,$50,$2a,$55,$ff,$ff,$ff,$ff,$00,$00,$00,$00,$08,$00,$00,$00
-  .byte $00,$00,$f0,$e8,$ff,$fe,$df,$ff,$06,$00,$40,$00,$02,$00,$10,$00
-  .byte $00,$00,$00,$00,$00,$80,$40,$a0,$df,$5a,$1b,$0d,$07,$03,$02,$81
-  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$7f,$ef,$e7,$7b,$f9,$6d,$ef,$b6
-  .byte $0b,$1b,$0f,$15,$1f,$2f,$37,$2f,$80,$88,$80,$00,$08,$21,$00,$00
-  .byte $7f,$ef,$ff,$ff,$ff,$f7,$ff,$ff,$02,$00,$90,$04,$00,$30,$02,$00
-  .byte $fe,$ff,$ff,$ff,$f7,$ff,$ff,$ff,$0e,$00,$00,$00,$10,$00,$04,$00
-  .byte $ff,$f7,$ff,$ff,$ff,$ff,$ff,$ff,$00,$30,$00,$00,$40,$08,$00,$00
-  .byte $fe,$f7,$ff,$ff,$ff,$ef,$ff,$ff,$40,$00,$09,$20,$00,$0c,$40,$00
-  .byte $d0,$d8,$f0,$a8,$f8,$f4,$ec,$f4,$01,$11,$01,$00,$10,$84,$00,$00
-  .byte $1f,$15,$2f,$17,$0f,$1f,$2f,$17,$00,$00,$20,$00,$08,$00,$01,$00
-  .byte $ff,$ff,$fb,$7f,$ff,$ff,$ff,$ff,$00,$00,$00,$00,$08,$00,$00,$00
-  .byte $ff,$ff,$ef,$ff,$ff,$ff,$ff,$ff,$01,$00,$20,$00,$08,$00,$40,$00
-  .byte $ff,$ff,$fb,$7f,$ff,$ff,$fe,$ff,$00,$00,$00,$00,$08,$00,$00,$00
-  .byte $ff,$ff,$df,$fe,$ff,$ff,$ff,$ff,$00,$00,$00,$00,$10,$00,$00,$00
-  .byte $f8,$a8,$f4,$e8,$f0,$f8,$f4,$e8,$00,$00,$04,$00,$10,$00,$80,$00
-  .byte $00,$00,$00,$00,$00,$01,$02,$05,$fb,$5a,$d8,$b0,$e0,$c0,$40,$81
-  .byte $1e,$2f,$17,$2f,$37,$17,$0f,$17,$0e,$00,$00,$00,$10,$01,$00,$00
-  .byte $ff,$f7,$ff,$ff,$ff,$ff,$ff,$ff,$02,$30,$00,$00,$40,$08,$00,$00
-  .byte $fe,$ff,$7f,$ff,$f7,$ff,$ff,$ff,$02,$00,$00,$00,$10,$00,$00,$80
-  .byte $ff,$f7,$ff,$ff,$ff,$ff,$ff,$ff,$00,$30,$00,$00,$40,$08,$00,$01
-  .byte $ff,$ef,$ff,$ff,$ff,$ff,$ff,$ff,$40,$0c,$00,$00,$02,$10,$00,$00
-  .byte $78,$f4,$e8,$f4,$ec,$e8,$f0,$e8,$70,$00,$00,$00,$08,$80,$00,$00
-  .byte $2f,$17,$37,$2f,$16,$0b,$15,$0a,$00,$00,$21,$08,$00,$80,$00,$80
-  .byte $ff,$ff,$f7,$ff,$ff,$ff,$ef,$ff,$00,$02,$30,$00,$04,$90,$00,$02
-  .byte $ff,$ff,$ef,$ff,$ff,$ff,$ff,$ff,$00,$00,$20,$00,$08,$00,$41,$00
-  .byte $ff,$ff,$ef,$ff,$ff,$ff,$f7,$ff,$00,$40,$0c,$00,$20,$09,$00,$40
-  .byte $f4,$e8,$ec,$f4,$68,$d0,$a8,$50,$00,$00,$84,$10,$00,$01,$00,$01
-  .byte $00,$02,$07,$0b,$0f,$1f,$1f,$2f,$ff,$fd,$fd,$fe,$f7,$f3,$fb,$ff
-  .byte $00,$5a,$ff,$57,$fe,$ff,$ff,$ff,$ff,$ad,$bc,$fa,$d3,$6f,$7d,$e7
-  .byte $05,$02,$01,$00,$00,$00,$00,$00,$81,$40,$c0,$e0,$b0,$e8,$aa,$ff
-  .byte $7f,$bb,$5e,$ab,$15,$02,$00,$00,$00,$08,$00,$00,$00,$02,$00,$40
-  .byte $fe,$ff,$ff,$6a,$d5,$61,$00,$00,$0e,$00,$00,$00,$10,$00,$00,$00
-  .byte $ff,$f7,$fb,$db,$55,$8a,$00,$00,$00,$30,$00,$00,$40,$08,$00,$00
-  .byte $fe,$dd,$7a,$d5,$a8,$40,$00,$00,$00,$10,$00,$00,$00,$40,$00,$02
-  .byte $a0,$40,$80,$00,$00,$00,$00,$00,$81,$02,$03,$07,$0d,$17,$55,$ff
-  .byte $5f,$2f,$5f,$2f,$1f,$2f,$5f,$3f,$eb,$ff,$f7,$f7,$f5,$f3,$fd,$ef
+meadow1_grass:
+  .word $0200
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$fd,$fd,$fe,$f7,$f3,$fb,$ff
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ad,$bc,$fa,$d3,$6f,$7d,$e7
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ef,$3e,$f7,$da,$c8,$ed,$fe
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ef,$e7,$7b,$f9,$6d,$ef,$b7
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$b5,$3f,$5f,$cb,$f6,$be,$e7
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$bf,$bf,$ff,$ef,$cf,$df,$ff
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$eb,$ff,$f7,$f7,$f5,$f3,$fd,$ef
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$f3,$7b,$ca,$9f,$ff,$b3,$f7,$b7
-  .byte $5f,$2f,$5f,$3f,$4f,$5f,$2f,$3f,$ff,$f3,$e7,$de,$b9,$ff,$fe,$eb
-  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$b7,$ff,$35,$7d,$c3,$d7,$f1,$bd
-  .byte $5f,$1f,$2f,$5f,$6f,$4f,$3f,$3f,$f2,$f9,$f3,$ef,$b9,$f3,$df,$df
-  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$9d,$db,$9f,$7f,$f5,$fd,$51,$fe
-  .byte $ff,$ff,$df,$fe,$ff,$ff,$7f,$ff,$00,$00,$00,$00,$10,$00,$00,$00
-  .byte $ff,$ff,$f7,$ff,$ff,$ff,$ff,$ff,$80,$00,$04,$00,$10,$00,$02,$00
-  .byte $3f,$5f,$2f,$1f,$2f,$5f,$2f,$5f,$ef,$fd,$f3,$f5,$f7,$f7,$ff,$eb
-  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$b7,$f7,$b3,$ff,$9f,$ca,$7b,$f3
-  .byte $fe,$ff,$7f,$ff,$f7,$7f,$3f,$1f,$02,$00,$00,$00,$10,$00,$00,$00
-  .byte $ff,$ef,$ff,$ff,$ff,$ff,$ff,$ff,$00,$0c,$00,$00,$02,$10,$00,$80
-  .byte $7f,$ff,$fe,$ff,$ef,$fe,$fc,$f8,$40,$00,$00,$00,$08,$00,$00,$00
-  .byte $3f,$1f,$0f,$1f,$0b,$06,$00,$00,$ff,$fb,$f3,$f7,$fe,$fd,$ff,$ff
-  .byte $ff,$ff,$ff,$ff,$5f,$e7,$5a,$00,$e7,$7d,$6f,$d3,$fa,$bc,$ad,$ff
-  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ef,$ff,$80,$00,$10,$02,$00,$00,$0c,$00
-  .byte $f8,$fc,$fe,$ef,$ff,$fe,$ff,$7f,$00,$00,$00,$08,$00,$00,$00,$40
-  .byte $1f,$3f,$7f,$f7,$ff,$7f,$ff,$fe,$00,$00,$00,$10,$00,$00,$00,$02
-  .byte $ff,$ff,$ff,$ff,$ff,$ff,$f7,$ff,$01,$00,$08,$40,$00,$00,$30,$00
-  .byte $ff,$7f,$ff,$ff,$fe,$df,$ff,$ff,$00,$00,$00,$10,$00,$00,$00,$00
-  .byte $ff,$ff,$ff,$ff,$ff,$f7,$ff,$ff,$00,$02,$00,$10,$00,$04,$00,$80
-  .byte $ff,$ff,$ff,$ff,$ff,$ef,$ff,$ff,$00,$40,$00,$08,$00,$20,$00,$01
-  .byte $ff,$fe,$ff,$ff,$7f,$fb,$ff,$ff,$00,$00,$00,$08,$00,$00,$00,$00
-  .byte $ff,$ff,$fb,$7f,$ff,$ff,$ff,$ff,$40,$00,$00,$00,$08,$00,$00,$00
-meadow_dirt2:
-  .word $0160
-  .byte $00,$00,$00,$00,$00,$80,$40,$a0,$df,$5a,$1b,$0d,$07,$03,$03,$81
-  .byte $fe,$ff,$ff,$ff,$f7,$ff,$ff,$ff,$0e,$00,$00,$00,$10,$00,$02,$00
-  .byte $00,$39,$d7,$bf,$ff,$ff,$ff,$ff,$ff,$ef,$3e,$f7,$da,$c8,$ed,$fe
-  .byte $00,$35,$da,$af,$ff,$ff,$ff,$ff,$ff,$ef,$e7,$7b,$f9,$6d,$ef,$b7
-  .byte $00,$5a,$e9,$f5,$ff,$ff,$ff,$ff,$ff,$b5,$3f,$5f,$cb,$f6,$be,$e7
-  .byte $00,$40,$e0,$50,$f8,$f8,$f8,$fc,$ff,$bf,$bf,$ff,$ef,$cf,$df,$ff
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$b7,$fa,$b8,$bf,$af,$fd,$4e,$7f
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$f3,$7b,$cf,$ef,$db,$bf,$33,$ff
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$cf,$de,$53,$f9,$ff,$cd,$ef,$ed
-  .byte $fa,$fc,$fa,$fc,$f4,$fc,$fa,$fc,$d7,$ff,$ef,$ef,$af,$cf,$bf,$f7
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$d7,$ff,$ef,$ef,$af,$cf,$bf,$f7
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$f3,$e7,$de,$b9,$ff,$fe,$eb
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$b7,$ff,$35,$7d,$c3,$d7,$f1,$bd
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ed,$ff,$ac,$be,$c3,$eb,$8f,$bd
-  .byte $fa,$f4,$fa,$fc,$e6,$da,$f4,$fc,$ff,$cf,$e7,$7b,$99,$ff,$7f,$d7
+  .byte $ff,$ff,$ff,$ff,$ff,$df,$f7,$ff,$ff,$cf,$e7,$7b,$99,$ff,$7f,$d7
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$f2,$f9,$f3,$ef,$b9,$f3,$df,$df
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$9d,$db,$9f,$7f,$f5,$fd,$51,$fe
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$b9,$db,$f9,$fe,$ef,$bf,$92,$3f
-  .byte $fe,$f4,$f4,$fa,$ee,$f2,$f4,$e4,$4b,$9f,$cf,$f7,$9d,$cf,$fb,$fb
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$4b,$9f,$cf,$f7,$9d,$cf,$fb,$fb
+  .byte $bf,$df,$ff,$ff,$ff,$ff,$ff,$ff,$ef,$fd,$f3,$f5,$f7,$f7,$ff,$eb
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$b7,$f7,$b3,$ff,$9f,$ca,$7b,$f3
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$2e,$bd,$ef,$bf,$b8,$fa,$b7
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$73,$ef,$ab,$ef,$ef,$7b,$f3
   .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ed,$ef,$cd,$ff,$f9,$53,$fe,$df
-  .byte $fc,$fa,$fc,$f8,$fc,$fa,$fc,$fa,$f7,$bf,$cf,$af,$ef,$ef,$ff,$d7
-  .byte $ff,$ff,$ff,$ff,$6d,$d3,$39,$00,$fe,$ed,$c8,$da,$f7,$3e,$ef,$ff
-  .byte $ff,$ff,$ff,$ff,$ad,$da,$35,$00,$b7,$ef,$6d,$f9,$7b,$e7,$ef,$ff
-  .byte $ff,$ff,$ff,$f9,$b6,$eb,$5a,$00,$e7,$be,$f6,$cf,$5f,$3d,$b5,$ff
-  .byte $fc,$f8,$f8,$e8,$d0,$f0,$40,$00,$ff,$df,$cf,$ff,$7f,$af,$bf,$ff
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$f7,$bf,$cf,$af,$ef,$ef,$ff,$d7
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$fb,$f3,$f7,$fe,$fd,$ff,$ff
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$e7,$7d,$6f,$d3,$fa,$bc,$ad,$ff
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$fe,$ed,$c8,$da,$f7,$3e,$ef,$ff
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$b7,$ef,$6d,$f9,$7b,$e7,$ef,$ff
+  .byte $ff,$ff,$ff,$f9,$b7,$eb,$fb,$ff,$e7,$be,$f6,$cf,$5f,$3d,$b5,$ff
+  .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$df,$cf,$ff,$7f,$af,$bf,$ff
+meadow1_trees_corners:
+  .word $0050
+  .byte $bc,$b9,$3a,$74,$ed,$d9,$31,$e3,$8c,$88,$08,$30,$20,$c0,$20,$40
+  .byte $bf,$30,$e0,$66,$8f,$1f,$3f,$6f,$26,$30,$e0,$40,$06,$1b,$15,$4b
+  .byte $58,$fe,$5f,$8a,$24,$78,$2d,$ea,$48,$34,$1b,$0a,$00,$08,$01,$0a
+  .byte $e4,$35,$da,$87,$af,$5b,$b8,$3f,$00,$20,$10,$03,$03,$00,$00,$03
+  .byte $3a,$9c,$cd,$e7,$f7,$f9,$fa,$f9,$20,$10,$08,$44,$a0,$68,$c8,$01
+
 meadow_dungeon1_entrance:
   .word $01D0
   .byte $00,$00,$00,$00,$00,$00,$00,$02,$ff,$ff,$ff,$fe,$fc,$f8,$f0,$f0

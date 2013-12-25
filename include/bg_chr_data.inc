@@ -8,11 +8,10 @@ BG_CHR_DATA_BANK2 = 9
 .global digits_chr
 .global map0_chr
 .global house1_chr
-.global meadow_grass_flowers
-.global meadow_dirt1
-.global meadow_dirt2
-.global meadow_trees
-.global meadow_trees_corners
+.global meadow1_trees
+.global meadow1_grass
+.global meadow1_flowers
+.global meadow1_trees_corners
 .global meadow_dungeon1_entrance
 .global dungeon1_main_chr
 .global dungeon1_pool_chr
