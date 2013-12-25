@@ -267,7 +267,7 @@ silmaran_state_perch:
 
   rts
 
-decode_row_above:
+.proc decode_row_above
 
   txa
   pha
@@ -296,7 +296,9 @@ decode_row_above:
 
   rts
 
-decode_row_below:
+.endproc
+
+.proc decode_row_below
 
   txa
   pha
@@ -328,7 +330,9 @@ decode_row_below:
 
   rts
 
-decode_column_left:
+.endproc
+
+.proc decode_column_left
 
   txa
   pha
@@ -357,7 +361,9 @@ decode_column_left:
 
   rts
 
-decode_column_right:
+.endproc
+
+.proc decode_column_right
 
   txa
   pha
@@ -387,5 +393,7 @@ decode_column_right:
   tax
 
   rts
+
+.endproc
 
 .endif
