@@ -212,16 +212,16 @@ store_entity_instances:
   .byte entity_index_item, 13, 18, sprite_chr_group_index_coins, 10, <Coins, >Coins, <inventory_gp, >inventory_gp, 0, 0, 100, <INVENTORY_MAX_GP, >INVENTORY_MAX_GP, ITEM_PICKUP | ITEM_16_BIT_VAR
 
 meadow1_entity_instances:
-  .byte 6  ;count
+  .byte 9  ;count
   .byte entity_index_silmaran, 45, 47, 0, 0
   .byte entity_index_item, 29, 44, sprite_chr_group_index_hero, 10, <Heart, >Heart, <inventory_healths, >inventory_healths, conversation_index_purchase_health, 10, 1, <INVENTORY_MAX_HEALTHS, >INVENTORY_MAX_HEALTHS, ITEM_PICKUP | ITEM_8_BIT_VAR
   .byte entity_index_octopus, 4, 24, 0, 0
   .byte entity_index_octopus, 34, 25, 0, 0
   .byte entity_index_octopus, 12, 38, 0, 0
   .byte entity_index_octopus, 52, 29, 0, 0
-  ;.byte entity_index_octopus, 50, 50, 0, 0
-  ;.byte entity_index_octopus, 37, 44, 0, 0
-  ;.byte entity_index_octopus, 30, 15, 0, 0
+  .byte entity_index_octopus, 50, 50, 0, 0
+  .byte entity_index_octopus, 37, 44, 0, 0
+  .byte entity_index_octopus, 30, 15, 0, 0
 
 meadow2_entity_instances:
 meadow3_entity_instances:

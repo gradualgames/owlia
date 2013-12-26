@@ -11,6 +11,9 @@ CAMERA_INC = 1
 CAMERA_SCREEN_ORIGIN_X = 0
 CAMERA_SCREEN_ORIGIN_Y = 15
 
+CAMERA_SCREEN_WIDTH = 255
+CAMERA_SCREEN_HEIGHT = 239
+
 .global update_camera
 .global attach_camera_to_entity
 .global increment_camera_x

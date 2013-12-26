@@ -501,6 +501,46 @@ enemy_found:
 
 .endproc
 
+;compares entity's screen rect to the camera screen rect.
+;must be called after the entity's screen coordinates have been
+;calculated or the results will be invalid. Assumes x points to
+;this entity.
+.proc entity_test_screen_rect
+
+  ;transfer entity rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda entity_x_lo,x
+  sta w2
+  lda entity_x_hi,x
+  sta w2+1
+  lda entity_y_lo,x
+  sta w3
+  lda entity_y_hi,x
+  sta w3+1
+  lda entity_width,x
+  sta b2
+  lda entity_height,x
+  sta b3
+
+  ;transfer screen rect to w4 = left and w5 = top and b4 = width and b5 = height
+  lda camera_x
+  sta w4
+  lda camera_x+1
+  sta w4+1
+  lda camera_y
+  sta w5
+  lda camera_y+1
+  sta w5+1
+  lda #CAMERA_SCREEN_WIDTH
+  sta b4
+  lda #CAMERA_SCREEN_HEIGHT
+  sta b5
+
+  jsr geotests_rect_in_rect_16bit
+
+  rts
+
+.endproc
+
 ;compares entity's rect to entity action rect 1.
 ;when zero flag is set, this indicates a hit
 ;when zero flag is clear, this indicates no hit
@@ -968,7 +1008,12 @@ done:
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_TEST
   beq :+
-  ;if we arrive here, we've found a living entity. Test to see if it is drawable.
+  ;if we arrive here, we've found a living entity. Clip it against the screen.
+
+  jsr entity_test_screen_rect
+  bne :+
+
+  ;test to see if it is drawable.
   lda entity_flags,x
   and #ENTITY_FLAGS_DRAWABLE_TEST
   beq :+
