@@ -151,6 +151,8 @@ octopus_state_main:
 
   ;determine whether hero is within range rect
   .scope
+  lda octopus_knockback_counter,x
+  bne use_initial_location
   jsr octopus_test_range_rect
   beq use_hero_location
 use_initial_location:
@@ -255,18 +257,7 @@ not_negative:
 not_negative:
   .endscope
 
-  .scope
-  lda w10+1
-  sbc #1
-  bpl do_not_move
-  lda w11+1
-  sbc #1
-  bpl do_not_move
-
   jsr octopus_move
-
-do_not_move:
-  .endscope
 
   clc
   lda entity_x_lo,x
@@ -327,35 +318,6 @@ do_not_move:
 .endproc
 
 .proc octopus_move
-
-  ;if knockback counter is nonzero, negate both x and y velocities
-  ;to give the appearance the octopus is being knocked away
-  .scope
-  lda octopus_knockback_counter,x
-  beq do_not_negate_x_and_y_velocities
-
-  clc
-  lda octopus_velocity_x_lo,x
-  eor #$ff
-  adc #$01
-  sta octopus_velocity_x_lo,x
-  lda octopus_velocity_x_hi,x
-  eor #$ff
-  adc #$00
-  sta octopus_velocity_x_hi,x
-
-  clc
-  lda octopus_velocity_y_lo,x
-  eor #$ff
-  adc #$01
-  sta octopus_velocity_y_lo,x
-  lda octopus_velocity_y_hi,x
-  eor #$ff
-  adc #$00
-  sta octopus_velocity_y_hi,x
-
-do_not_negate_x_and_y_velocities:
-  .endscope
 
   ;add 16 bit velocity to 24 bit coordinate with sign extension
   .scope
