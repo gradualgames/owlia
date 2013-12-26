@@ -112,6 +112,33 @@ item_state_pickup:
 not_touching_hero:
   .endscope
 
+  ;test whether item is intersecting familiar and set
+  ;fetched entity index if the familiar is trying to fetch
+  ;something.
+  .scope
+  lda entity_action_rect2_action
+  cmp #ACTION_FETCH
+  bne familiar_not_fetching
+
+  jsr entity_test_entity_action_rect2
+  bne familiar_not_intersecting
+
+  ;store offsets for this entity when it is being fetched by familiar
+  lda #$04
+  sta familiar_param_fetched_entity_x_offset
+  lda #$10
+  sta familiar_param_fetched_entity_y_offset
+
+  ;store the item's entity index as the entity that is to be fetched.
+  stx familiar_param_fetched_entity_index
+
+  ;tell the familiar to return to the hero with the fetched item.
+  far_call #FAMILIAR_BANK, familiar_fetch_return_to_hero
+
+familiar_not_intersecting:
+familiar_not_fetching:
+  .endscope
+
   rts
 
 item_state_prompt_for_purchase:
