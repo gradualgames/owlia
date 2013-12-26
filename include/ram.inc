@@ -2,7 +2,7 @@
 RAM_INC = 1
 
 MAX_ENTITIES = 12
-MAX_SHADOW_SPOTS = 4
+MAX_SHADOW_SPOTS = 12
 
 .global sprite
 .global next_sprite_address
