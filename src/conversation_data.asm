@@ -166,7 +166,7 @@ house_intro_scene_call_tyto2:
   .byte    1, "...",TM,30,"TO ME!",TM,75,EC
 
 silmaran_call_adlanniel:
-  .byte    1, "...",TM,75,"ADLANNIEL",TM,30,".",TM,30,".",TM,30,".",WT,EC
+  .byte    1, "...",TM,75,"ADLANNIEL",TM,30,".",TM,30,".",TM,30,".",TM,75,EC
 
 silmaran_encounter_scene:
   .byte    1, "ADLANNIEL,",TM,30," WHO DOTH SPEAK"
