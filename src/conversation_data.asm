@@ -196,5 +196,13 @@ silmaran_encounter_scene:
 
   .byte NL,1, "THE LAST OF OUR POWER SHALL"
   .byte NL,2, "PASS TO YOUR OWL,",TM,20," TYTO,",TM,20," TO"
-  .byte NL,3, "AID YOU IN YOUR QUEST.",TM,30
-  .byte NL,4, "GOOD LUCK,",TM,20," ADLANNIEL...",WT,EC
+  .byte NL,3, "AID YOU IN YOUR QUEST.",TM,30," EACH"
+  .byte NL,4, "OF US WILL TEACH TYTO A NEW",WT,EP
+
+  .byte NL,1, "TECHNIQUE.",TM,30," I NOW GIVE HIM"
+  .byte NL,2, "THE ABILITY TO FETCH ITEMS.",TM,30
+  .byte NL,3, "TRY IT OUT BY HITTING SELECT"
+  .byte NL,4, "TO CHOOSE TECH TWO,",TM,20," THEN HIT",WT,EP
+
+  .byte NL,1, "B.",TM,30," GOOD LUCK, ADLANNIEL,",TM,20
+  .byte NL,2, "AND FLY TRUE,",TM,20," NOBLE TYTO.",WT,EC

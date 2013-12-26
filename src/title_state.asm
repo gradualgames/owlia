@@ -234,7 +234,7 @@ title_state_start_game:
   jsr play_state_initialize
 
   ;initialize inventory since we're starting a new game
-  jsr inventory_max_all
+  jsr inventory_init
 
   ;initialize persistent hero state
   lda #3

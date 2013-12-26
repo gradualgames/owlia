@@ -3,24 +3,21 @@
 
 .segment "CODE"
 
-.proc inventory_max_all
+.proc inventory_init
 
-  ;max out all item counts
-  lda #7
+  lda #0
   sta inventory_lanterns
   sta inventory_bombs
   sta inventory_ropes
   sta inventory_healths
   sta inventory_owl_healths
 
-  ;set all techs earned
-  lda #tech_homing
+  lda #tech_rush
   sta inventory_earned_techs
 
-  ;select default tech 1 and tech 2
   lda #tech_rush
   sta inventory_tech1
-  lda #tech_fetch
+  lda #tech_rush
   sta inventory_tech2
 
   ;select tech1 as the currently active tech
