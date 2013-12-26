@@ -14,8 +14,8 @@ update_camera = update_camera_algorithm_2
 ;This reduces the overhead required to re-compute the direction
 ;that the camera should move.
 .proc update_camera_algorithm_2
-CAMERA_HORIZ_SIZE = 80
-CAMERA_VERT_SIZE = 80
+CAMERA_HORIZ_SIZE = 100
+CAMERA_VERT_SIZE = 90
 camera_right_x = w4
 camera_left_x = w5
 camera_top_y = w6
