@@ -2,6 +2,11 @@
 .ifndef OCTOPUS_INC
 OCTOPUS_INC = 1
 
+OCTOPUS_RANGE_RECT_WIDTH = 128
+OCTOPUS_RANGE_RECT_HEIGHT = 128
+OCTOPUS_RANGE_RECT_X_OFFSET = 64
+OCTOPUS_RANGE_RECT_Y_OFFSET = 64
+
 OCTOPUS_INITIAL_HEALTH = 2
 
 OCTOPUS_ATTACKED_LENGTH = 30
@@ -19,6 +24,14 @@ octopus_velocity_y_lo    = entity_local2
 octopus_velocity_y_hi    = entity_local3
 octopus_x_fine            = entity_local4
 octopus_y_fine            = entity_local5
+octopus_range_rect_x_lo   = entity_local6
+octopus_range_rect_x_hi   = entity_local7
+octopus_range_rect_y_lo   = entity_local8
+octopus_range_rect_y_hi   = entity_local9
+octopus_initial_x_lo      = entity_local10
+octopus_initial_x_hi      = entity_local11
+octopus_initial_y_lo      = entity_local12
+octopus_initial_y_hi      = entity_local13
 octopus_health            = entity_local17
 octopus_knockback_counter = entity_local18
 octopus_attacked_counter = entity_local19
@@ -51,6 +64,33 @@ octopus_state_init:
   ldy #sprite_chr_group_index_octopus
   lda sprite_chr_group_offsets,y
   sta entity_sprite_group_offset,x
+
+  ;save initial location
+  lda entity_x_lo,x
+  sta octopus_initial_x_lo,x
+  lda entity_x_hi,x
+  sta octopus_initial_x_hi,x
+  lda entity_y_lo,x
+  sta octopus_initial_y_lo,x
+  lda entity_y_hi,x
+  sta octopus_initial_y_hi,x
+
+  ;initialize range rect based on initial location
+  sec
+  lda entity_x_lo,x
+  sbc #<OCTOPUS_RANGE_RECT_X_OFFSET
+  sta octopus_range_rect_x_lo,x
+  lda entity_x_hi,x
+  sbc #>OCTOPUS_RANGE_RECT_X_OFFSET
+  sta octopus_range_rect_x_hi,x
+
+  sec
+  lda entity_y_lo,x
+  sbc #<OCTOPUS_RANGE_RECT_Y_OFFSET
+  sta octopus_range_rect_y_lo,x
+  lda entity_y_hi,x
+  sbc #>OCTOPUS_RANGE_RECT_Y_OFFSET
+  sta octopus_range_rect_y_hi,x
 
   ;intiialize fine x and y coordinates and velocity
   lda #0
@@ -109,13 +149,45 @@ octopus_state_main:
   sta b1
   jsr entity_combat
 
+  ;determine whether hero is within range rect
+  .scope
+  jsr octopus_test_range_rect
+  beq use_hero_location
+use_initial_location:
+
+  lda octopus_initial_x_lo,x
+  sta w0
+  lda octopus_initial_x_hi,x
+  sta w0+1
+
+  lda octopus_initial_y_lo,x
+  sta w1
+  lda octopus_initial_y_hi,x
+  sta w1+1
+
+  jmp done
+use_hero_location:
+
+  lda hero_x
+  sta w0
+  lda hero_x+1
+  sta w0+1
+
+  lda hero_y
+  sta w1
+  lda hero_y+1
+  sta w1+1
+
+done:
+  .endscope
+
   .scope
   ;calculate distance between "goal" and X coordinate
   sec
-  lda hero_x
+  lda w0
   sbc entity_x_lo,x
   sta octopus_velocity_x_lo,x
-  lda hero_x+1
+  lda w0+1
   sbc entity_x_hi,x
   sta octopus_velocity_x_hi,x
 
@@ -131,10 +203,10 @@ octopus_state_main:
   .scope
   ;calculate distance between "goal" and Y coordinate
   sec
-  lda hero_y
+  lda w1
   sbc entity_y_lo,x
   sta octopus_velocity_y_lo,x
-  lda hero_y+1
+  lda w1+1
   sbc entity_y_hi,x
   sta octopus_velocity_y_hi,x
 
@@ -217,6 +289,42 @@ do_not_move:
   jsr entity_update_animation
 
   rts
+
+.proc octopus_test_range_rect
+
+  ;transfer range rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda octopus_range_rect_x_lo,x
+  sta w2
+  lda octopus_range_rect_x_hi,x
+  sta w2+1
+  lda octopus_range_rect_y_lo,x
+  sta w3
+  lda octopus_range_rect_y_hi,x
+  sta w3+1
+  lda #OCTOPUS_RANGE_RECT_WIDTH
+  sta b2
+  lda #OCTOPUS_RANGE_RECT_HEIGHT
+  sta b3
+
+  ;transfer hero rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda hero_x
+  sta w4
+  lda hero_x+1
+  sta w4+1
+  lda hero_y
+  sta w5
+  lda hero_y+1
+  sta w5+1
+  lda hero_width
+  sta b4
+  lda hero_height
+  sta b5
+
+  jsr geotests_rect_in_rect_16bit
+
+  rts
+
+.endproc
 
 .proc octopus_move
 
