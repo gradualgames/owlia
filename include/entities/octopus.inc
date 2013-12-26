@@ -48,6 +48,10 @@ octopus_state_init:
   lda #23
   sta entity_height,x
 
+  ldy #sprite_chr_group_index_octopus
+  lda sprite_chr_group_offsets,y
+  sta entity_sprite_group_offset,x
+
   ;intiialize fine x and y coordinates and velocity
   lda #0
   sta octopus_x_fine,x
