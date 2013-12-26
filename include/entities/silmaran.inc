@@ -2,6 +2,11 @@
 .ifndef SILMARAN_INC
 SILMARAN_INC = 1
 
+SILMARAN_SUMMON_RECT_X = (1 * 16)
+SILMARAN_SUMMON_RECT_Y = (24 * 16)
+SILMARAN_SUMMON_RECT_WIDTH = (16 - 1)
+SILMARAN_SUMMON_RECT_HEIGHT = (16 * 2 - 1)
+
 SILMARAN_OFFSCREEN_X_OFFSET = 16
 SILMARAN_OFFSCREEN_Y_OFFSET = 200
 
@@ -17,6 +22,7 @@ SILMARAN_HEIGHT = $0f
 silmaran_state_counter = entity_local0
 
 SILMARAN_STATE_ASCEND_LENGTH = 200
+SILMARAN_STATE_SUMMON_ADLANNIEL_LENGTH = 8
 
 .enum
 SILMARAN_STATE_INIT
@@ -26,6 +32,7 @@ SILMARAN_STATE_ALIGN_CAMERA_VERT
 SILMARAN_STATE_DESCEND
 SILMARAN_STATE_PERCH
 SILMARAN_STATE_ASCEND
+SILMARAN_STATE_SUMMON_ADLANNIEL
 .endenum
 
 .define silmaran_states \
@@ -35,7 +42,8 @@ SILMARAN_STATE_ASCEND
   silmaran_state_align_camera_vert, \
   silmaran_state_descend, \
   silmaran_state_perch, \
-  silmaran_state_ascend
+  silmaran_state_ascend, \
+  silmaran_state_summon_adlanniel
 
 silmaran_lo:
   .lobytes silmaran_states
@@ -78,6 +86,8 @@ silmaran_state_init:
   rts
 
 silmaran_state_wait:
+
+  jsr check_summon_rect
 
   jsr entity_test_hero_rect
   bne entity_not_hitting_hero
@@ -344,6 +354,86 @@ not_gone_yet:
   jsr entity_update_animation
 
   rts
+
+silmaran_state_summon_adlanniel:
+
+  lda #1
+  sta buffer_controller+buttons::_right
+
+  dec silmaran_state_counter,x
+  bne do_not_switch_back_to_wait_state
+
+  ;restore control to the player
+  jsr controller_clear
+  lda #<controller_read
+  sta controller_routine
+  lda #>controller_read
+  sta controller_routine+1
+
+  lda #SILMARAN_STATE_WAIT
+  sta entity_state,x
+
+do_not_switch_back_to_wait_state:
+
+  rts
+
+.proc check_summon_rect
+
+  ;transfer hero rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda hero_x
+  sta w2
+  lda hero_x+1
+  sta w2+1
+  lda hero_y
+  sta w3
+  lda hero_y+1
+  sta w3+1
+  lda hero_width
+  sta b2
+  lda hero_height
+  sta b3
+
+  ;transfer summon rect to w4 = left and w5 = top and b4 = width and b5 = height
+  lda #<SILMARAN_SUMMON_RECT_X
+  sta w4
+  lda #>SILMARAN_SUMMON_RECT_X
+  sta w4+1
+  lda #<SILMARAN_SUMMON_RECT_Y
+  sta w5
+  lda #>SILMARAN_SUMMON_RECT_Y
+  sta w5+1
+  lda #SILMARAN_SUMMON_RECT_WIDTH
+  sta b4
+  lda #SILMARAN_SUMMON_RECT_HEIGHT
+  sta b5
+
+  jsr geotests_rect_in_rect_16bit
+
+  bne do_not_summon_adlanniel
+
+  ;take over the controller.
+  jsr controller_clear
+  lda #<controller_nop
+  sta controller_routine
+  lda #>controller_nop
+  sta controller_routine+1
+
+  lda #ACTION_START_CONVERSATION
+  sta state_control_params+play_state_control::action
+  lda #conversation_index_silmaran_call_adlanniel
+  sta state_control_params+play_state_control::param
+
+  lda #SILMARAN_STATE_SUMMON_ADLANNIEL_LENGTH
+  sta silmaran_state_counter,x
+
+  lda #SILMARAN_STATE_SUMMON_ADLANNIEL
+  sta entity_state,x
+
+do_not_summon_adlanniel:
+
+  rts
+
+.endproc
 
 .proc decode_row_above
 
