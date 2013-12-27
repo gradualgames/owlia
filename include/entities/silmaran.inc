@@ -72,6 +72,8 @@ do_not_skip_silmaran_sequence:
 
   jsr entity_clear_drawable
 
+  jsr entity_set_not_pausable
+
   lda #<SilmaranDescend
   sta entity_animation_address_lo,x
   lda #>SilmaranDescend

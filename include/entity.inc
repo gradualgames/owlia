@@ -20,6 +20,7 @@ ENTITY_INC = 1
 .global entity_set_sorted
 .global entity_set_drawable
 .global entity_clear_drawable
+.global entity_set_not_pausable
 .global entity_test_entity_action_rect1
 .global entity_test_entity_action_rect2
 .global entity_test_hero_rect
@@ -42,6 +43,10 @@ ENTITY_FLAGS_IS_ENEMY_CLEAR  = %11111011
 ENTITY_FLAGS_PAUSED_SET   = %00001000
 ENTITY_FLAGS_PAUSED_TEST  = %00001000
 ENTITY_FLAGS_PAUSED_CLEAR = %11110111
+
+ENTITY_FLAGS_NOT_PAUSABLE_SET    = %00010000
+ENTITY_FLAGS_NOT_PAUSABLE_TEST   = %00010000
+ENTITY_FLAGS_NOT_PAUSABLE_CLEAR  = %11101111
 
 ;This enum mirrors all cardinal direction enums in every entity
 ;including the hero and familiar. We add a fifth value for "NONE"

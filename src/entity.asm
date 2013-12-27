@@ -501,6 +501,18 @@ enemy_found:
 
 .endproc
 
+;Flags that this entity should not be paused even if it
+;goes outside of the pause/unpause rect.
+.proc entity_set_not_pausable
+
+  lda entity_flags,x
+  ora #ENTITY_FLAGS_NOT_PAUSABLE_SET
+  sta entity_flags,x
+
+  rts
+
+.endproc
+
 ;compares entity's screen rect to the camera screen rect.
 ;must be called after the entity's screen coordinates have been
 ;calculated or the results will be invalid. Assumes x points to
@@ -948,12 +960,12 @@ entity_not_alive:
   adc #$00
   sta entity_screen_y_hi,x
 
-  ;only pause enemies
+  ;only pause if pausable
   lda entity_flags,x
-  and #ENTITY_FLAGS_IS_ENEMY_TEST
-  beq not_an_enemy
+  and #ENTITY_FLAGS_NOT_PAUSABLE_TEST
+  bne not_pausable
   jsr test_pause_rect
-not_an_enemy:
+not_pausable:
 
 entity_not_alive:
 
