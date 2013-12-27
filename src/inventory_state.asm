@@ -464,8 +464,8 @@ homing_string: .byte "HOMING",ES
   print_decimal_string inventory_healths, #0, #$20, #USE_ITEM_ROW, #24
   print_decimal_string inventory_ropes, #0, #$20, #USE_ITEM_ROW+1, #24
 
-  print_decimal_string_if_menu_item_enabled bomb_is_enabled, inventory_bombs, #0, #$20, #CARRY_LANTERN_ROW, #24
-  print_decimal_string_if_menu_item_enabled lantern_is_enabled, inventory_lanterns, #0, #$20, #CARRY_LANTERN_ROW+1, #24
+  print_decimal_string inventory_bombs, #0, #$20, #CARRY_LANTERN_ROW, #24
+  print_decimal_string inventory_lanterns, #0, #$20, #CARRY_LANTERN_ROW+1, #24
 
   lda textbox_and_font_chr_offset
   sta chr_group_offset
@@ -475,12 +475,12 @@ homing_string: .byte "HOMING",ES
   print_string keys_string, #$20, #8, #4
 
   print_string use_item_string, #$20, #USE_ITEM_ROW, #4
-  print_string_if_menu_item_enabled health_is_enabled, health_string, #$20, #USE_ITEM_ROW, #13
-  print_string_if_menu_item_enabled rope_is_enabled, rope_string, #$20, #USE_ITEM_ROW+1, #13
+  print_string health_string, #$20, #USE_ITEM_ROW, #13
+  print_string rope_string, #$20, #USE_ITEM_ROW+1, #13
 
   print_string carry_string, #$20, #CARRY_LANTERN_ROW, #4
-  print_string_if_menu_item_enabled bomb_is_enabled, bomb_string, #$20, #CARRY_LANTERN_ROW, #13
-  print_string_if_menu_item_enabled lantern_is_enabled, lantern_string, #$20, #CARRY_LANTERN_ROW+1, #13
+  print_string bomb_string, #$20, #CARRY_LANTERN_ROW, #13
+  print_string lantern_string, #$20, #CARRY_LANTERN_ROW+1, #13
 
   print_string tech_string, #$20, #TECH_MENU_ROW, #4
   print_string_if_menu_item_enabled tech_rush_is_enabled, rush_string, #$20, #TECH_MENU_ROW, #13
