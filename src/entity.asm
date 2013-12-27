@@ -535,7 +535,7 @@ enemy_found:
   lda #CAMERA_SCREEN_HEIGHT
   sta b5
 
-  jsr geotests_rect_in_rect_16bit
+  jsr geotests_rect_in_rect_size
 
   rts
 
@@ -574,7 +574,7 @@ enemy_found:
   lda entity_action_rect1_height
   sta b5
 
-  jsr geotests_rect_in_rect_16bit
+  jsr geotests_rect_in_rect_size
 
   rts
 
@@ -613,7 +613,7 @@ enemy_found:
   lda entity_action_rect2_height
   sta b5
 
-  jsr geotests_rect_in_rect_16bit
+  jsr geotests_rect_in_rect_size
 
   rts
 
@@ -652,7 +652,7 @@ enemy_found:
   lda hero_height
   sta b5
 
-  jsr geotests_rect_in_rect_16bit
+  jsr geotests_rect_in_rect_size
 
   rts
 
@@ -691,7 +691,7 @@ enemy_found:
   lda familiar_height
   sta b5
 
-  jsr geotests_rect_in_rect_16bit
+  jsr geotests_rect_in_rect_size
 
   rts
 
@@ -869,7 +869,7 @@ found_dead_entity:
   lda #TEXTBOX_HEIGHT
   sta b5
 
-  jsr geotests_rect_in_rect_16bit
+  jsr geotests_rect_in_rect_size
   bne does_not_intersect_textbox
 
   lda entity_screen_y_lo,x

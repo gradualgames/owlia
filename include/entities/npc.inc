@@ -298,7 +298,7 @@ not_intersecting_hero:
   lda hero_height
   sta b5
 
-  jsr geotests_rect_in_rect_16bit
+  jsr geotests_rect_in_rect_size
   bne do_not_start_conversation
 
   far_call #HERO_BANK, hero_is_attacking

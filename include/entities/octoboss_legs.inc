@@ -138,7 +138,7 @@ octoboss_legs_state_punch:
   lda hero_height
   sta b5
 
-  jsr geotests_rect_in_rect_16bit
+  jsr geotests_rect_in_rect_size
 
   bne tentacle_not_hitting_hero
 

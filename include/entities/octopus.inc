@@ -311,7 +311,7 @@ not_negative:
   lda hero_height
   sta b5
 
-  jsr geotests_rect_in_rect_16bit
+  jsr geotests_rect_in_rect_size
 
   rts
 

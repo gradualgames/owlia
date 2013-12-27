@@ -693,7 +693,7 @@ familiar_still_alive:
   lda #TEXTBOX_HEIGHT
   sta b5
 
-  jsr geotests_rect_in_rect_16bit
+  jsr geotests_rect_in_rect_size
   bne does_not_intersect_textbox
 
   lda hero_screen_y

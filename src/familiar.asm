@@ -346,7 +346,7 @@
   lda #TEXTBOX_HEIGHT
   sta b5
 
-  jsr geotests_rect_in_rect_16bit
+  jsr geotests_rect_in_rect_size
   bne does_not_intersect_textbox
 
   lda familiar_screen_y

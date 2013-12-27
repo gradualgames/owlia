@@ -430,7 +430,7 @@ do_not_switch_back_to_wait_state:
   lda #SILMARAN_SUMMON_RECT_HEIGHT
   sta b5
 
-  jsr geotests_rect_in_rect_16bit
+  jsr geotests_rect_in_rect_size
 
   bne do_not_summon_adlanniel
 
