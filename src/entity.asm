@@ -948,7 +948,12 @@ entity_not_alive:
   adc #$00
   sta entity_screen_y_hi,x
 
+  ;only pause enemies
+  lda entity_flags,x
+  and #ENTITY_FLAGS_IS_ENEMY_TEST
+  beq not_an_enemy
   jsr test_pause_rect
+not_an_enemy:
 
 entity_not_alive:
 
