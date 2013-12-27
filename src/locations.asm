@@ -120,13 +120,14 @@ meadow1_entity_set:
 
 meadow2_entity_set:
 meadow3_entity_set:
-  .byte 6   ;sprite_chr_groups .byte
+  .byte 7   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_pufferfish
+  .byte sprite_chr_group_index_octopus
 
 dungeon_entity_set:
   .byte 9   ;sprite_chr_groups .byte
@@ -233,7 +234,14 @@ meadow2_entity_instances:
   .byte entity_index_pufferfish, 18, 9, 0, 0
 
 meadow3_entity_instances:
-  .byte 0  ;count
+  .byte 7
+  .byte entity_index_pufferfish, 18, 14, 0, 0
+  .byte entity_index_pufferfish, 51, 14, 0, 0
+  .byte entity_index_pufferfish, 41, 28, 0, 0
+  .byte entity_index_pufferfish, 55, 41, 0, 0
+  .byte entity_index_pufferfish, 23, 56, 0, 0
+  .byte entity_index_octopus, 7, 40, 0, 0
+  .byte entity_index_pufferfish, 19, 27, 0, 0
 
 dungeon_0_0_entity_instances:
   .byte 2
