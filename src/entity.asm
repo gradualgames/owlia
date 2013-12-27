@@ -797,8 +797,12 @@ found_dead_entity:
   ldx #(MAX_ENTITIES-1)
 
 : lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_TEST
+  and #(ENTITY_FLAGS_ALIVE_TEST)
   beq :+
+  lda entity_flags,x
+  and #(ENTITY_FLAGS_PAUSED_TEST)
+  bne :+
+  lda entity_flags,x
   ;if we arrive here, we've found a living entity. Call its update routine.
   lda entity_type,x
   tay
@@ -943,10 +947,97 @@ entity_not_alive:
   lda entity_screen_y_hi,x
   adc #$00
   sta entity_screen_y_hi,x
+
+  jsr test_pause_rect
+
 entity_not_alive:
 
   dex
   bpl :-
+  rts
+
+test_pause_rect:
+
+  ;now calculate a pause/unpause area rectangle based on the location of
+  ;the camera. Test whether the entity rect is within this area rectangle.
+  ;Unpause it if so, pause it if not.
+  PAUSE_RECT_MARGIN = 50
+  sec
+  lda camera_x
+  sbc #PAUSE_RECT_MARGIN
+  sta w2
+  lda camera_x+1
+  sbc #0
+  sta w2+1
+
+  clc
+  lda camera_x
+  adc #<(256 + PAUSE_RECT_MARGIN)
+  sta w6
+  lda camera_x+1
+  adc #>(256 + PAUSE_RECT_MARGIN)
+  sta w6+1
+
+  sec
+  lda camera_y
+  sbc #PAUSE_RECT_MARGIN
+  sta w3
+  lda camera_y+1
+  sbc #0
+  sta w3+1
+
+  clc
+  lda camera_y
+  adc #<(240 + PAUSE_RECT_MARGIN)
+  sta w7
+  lda camera_y+1
+  adc #>(240 + PAUSE_RECT_MARGIN)
+  sta w7+1
+
+  lda entity_x_lo,x
+  sta w4
+  lda entity_x_hi,x
+  sta w4+1
+  lda entity_y_lo,x
+  sta w5
+  lda entity_y_hi,x
+  sta w5+1
+
+  clc
+  lda entity_x_lo,x
+  adc entity_width,x
+  sta w8
+  lda entity_x_hi,x
+  adc #$00
+  sta w8+1
+
+  clc
+  lda entity_y_lo,x
+  adc entity_height,x
+  sta w9
+  lda entity_y_hi,x
+  adc #$00
+  sta w9+1
+
+  .scope
+  jsr geotests_rect_in_rect
+  bne pause
+unpause:
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_PAUSED_CLEAR
+  sta entity_flags,x
+
+  jmp done
+pause:
+
+  lda entity_flags,x
+  ora #ENTITY_FLAGS_PAUSED_SET
+  sta entity_flags,x
+
+done:
+  .endscope
+
   rts
 
 .endproc
