@@ -18,6 +18,7 @@
 .include "textbox.inc"
 .include "charmap.inc"
 .include "inventory.inc"
+.include "hero_constants.inc"
 
 .segment "CODE"
 
@@ -161,6 +162,12 @@ inventory_state_init:
   upload_ppu_2005
 
   ;initialize and draw initial cursor
+  lda #0
+  sta state_control_params+inventory_state_control::string_address
+  sta state_control_params+inventory_state_control::string_address+1
+  sta state_control_params+inventory_state_control::string_row
+  sta state_control_params+inventory_state_control::string_column
+
   lda #menu_position_tech1_rush
   sta state_control_params+inventory_state_control::menu_position
 
@@ -255,6 +262,42 @@ inventory_state_exit:
 .proc ppu_inventory_vblank
 
   jsr sprite_update_all
+
+
+  lda state_control_params+inventory_state_control::string_address
+  sta w0
+  lda state_control_params+inventory_state_control::string_address+1
+  beq no_string_to_print
+  sta w0+1
+
+  lda state_control_params+inventory_state_control::digits_chr_offset
+  sta chr_group_offset
+
+  lda #$20
+  sta b0
+  lda state_control_params+inventory_state_control::string_row
+  sta b1
+  lda state_control_params+inventory_state_control::string_column
+  sta b2
+  jsr print_string_impl
+
+  lda #0
+  sta state_control_params+inventory_state_control::string_address
+  sta state_control_params+inventory_state_control::string_address+1
+
+  ;reset scroll
+  lda #$20
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006
+  upload_ppu_2006
+
+  lda #0
+  sta ppu_2005
+  sta ppu_2005+1
+  upload_ppu_2005
+
+no_string_to_print:
 
   lda #0
   sta vblank_wait_flag
@@ -454,7 +497,6 @@ homing_string: .byte "HOMING",ES
 
 .proc play_dpad_sound
 
-  ;play a sound
   txa
   pha
 
@@ -477,7 +519,7 @@ homing_string: .byte "HOMING",ES
 .endproc
 
 .proc play_action_sound
-  ;play a sound
+
   txa
   pha
 
@@ -487,6 +529,52 @@ homing_string: .byte "HOMING",ES
   sta sound_param_word_0+1
 
   lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  rts
+
+.endproc
+
+.proc play_use_item_sound
+
+  txa
+  pha
+
+  lda #<sfx_get_item
+  sta sound_param_word_0
+  lda #>sfx_get_item
+  sta sound_param_word_0+1
+
+  lda #1
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  rts
+
+.endproc
+
+.proc play_error_sound
+
+  txa
+  pha
+
+  lda #<sfx_error
+  sta sound_param_word_0
+  lda #>sfx_error
+  sta sound_param_word_0+1
+
+  lda #1
   sta sound_param_byte_0
 
   ldx #soundeffect_one
@@ -755,7 +843,7 @@ menu_position_next_down:
 ;the two selected techniques.
 ;****************************************************************
 .define menu_position_action_callbacks \
-  menu_position_action_callback_test, \
+  menu_position_action_callback_health, \
   menu_position_action_callback_test, \
   menu_position_tech1_column_callback, \
   menu_position_tech1_column_callback, \
@@ -777,6 +865,51 @@ menu_position_action_callbacks_lo:
 
 menu_position_action_callbacks_hi:
   .hibytes menu_position_action_callbacks
+
+.proc menu_position_action_callback_health
+
+  lda #HERO_MAX_HEALTH
+  cmp hero_health
+  beq do_not_inc_health
+
+  lda inventory_healths
+  beq do_not_inc_health
+
+  jsr play_use_item_sound
+
+  dec inventory_healths
+
+  inc hero_health
+
+  lda inventory_healths
+  sta w0
+  lda #0
+  sta w0+1
+  lda #<string_buffer
+  sta w1
+  lda #>string_buffer
+  sta w1+1
+  jsr create_decimal_string
+
+  lda #<string_buffer
+  sta state_control_params+inventory_state_control::string_address
+  lda #>string_buffer
+  sta state_control_params+inventory_state_control::string_address+1
+
+  lda #USE_ITEM_ROW
+  sta state_control_params+inventory_state_control::string_row
+  lda #24
+  sta state_control_params+inventory_state_control::string_column
+
+  rts
+
+do_not_inc_health:
+
+  jsr play_error_sound
+
+  rts
+
+.endproc
 
 .proc menu_position_action_callback_test
 

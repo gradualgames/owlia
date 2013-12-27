@@ -21,6 +21,9 @@ TECH_MENU_ROW = 17
   cursor_column .byte
   menu_position .byte
   digits_chr_offset .byte
+  string_address .word
+  string_row .byte
+  string_column .byte
 .endstruct
 
 ;menu position enumeration
