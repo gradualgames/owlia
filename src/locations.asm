@@ -223,6 +223,15 @@ meadow1_entity_instances:
   .byte entity_index_octopus, 30, 15, 0, 0
 
 meadow2_entity_instances:
+  .byte 7
+  .byte entity_index_pufferfish, 39, 9, 0, 0
+  .byte entity_index_pufferfish, 47, 23, 0, 0
+  .byte entity_index_pufferfish, 58, 37, 0, 0
+  .byte entity_index_pufferfish, 28, 42, 0, 0
+  .byte entity_index_pufferfish, 8, 42, 0, 0
+  .byte entity_index_pufferfish, 29, 30, 0, 0
+  .byte entity_index_pufferfish, 18, 9, 0, 0
+
 meadow3_entity_instances:
   .byte 0  ;count
 
@@ -349,7 +358,7 @@ meadow1_palette:
 meadow2_palette:
 meadow3_palette:
   .byte $0e,$0a,$08,$19,$0e,$08,$19,$18,$0e,$08,$19,$28,$00,$00,$00,$00
-  .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$17,$20,$0d,$0d,$18,$36
+  .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0e,$0e,$13,$23,$0d,$0d,$18,$36
 
 dungeon_palette:
   .byte $0e,$0a,$0b,$08,$0e,$0b,$08,$18,$0e,$08,$07,$28,$00,$00,$00,$00
