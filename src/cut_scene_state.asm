@@ -13,6 +13,7 @@
 .include "textbox.inc"
 .include "map.inc"
 .include "title_state.inc"
+.include "sprite_chr_data.inc"
 
 .segment "CODE"
 
@@ -105,6 +106,14 @@ exit_cut_scene_state:
   sta w0+1
   switch_bank_ldy #TEXTBOX_BG_CHR_BANK
   jsr ppu_load_chr_amount
+
+  ;load sprite chr data for slide
+  jsr load_slide_sprite_chr_groups
+
+  ;draw sprites for the slide
+  jsr load_slide_sprite_overlays
+
+  jsr sprite_update_all
 
   ;load nametable data for slide
   lda #$20
@@ -209,6 +218,150 @@ exit_cut_scene_state:
   lda (w10),y
   sta palette_address+1
   jsr ppu_fade_out_palette
+
+  rts
+
+.endproc
+
+.proc load_slide_sprite_chr_groups
+slide_address = w10
+sprite_chr_groups_address = w11
+sprite_chr_groups_count = b10
+sprite_chr_groups_index = b11
+
+  lda #$10
+  sta $2006
+  lda #$00
+  sta $2006
+
+  ;get address of sprite chr groups for this slide
+  switch_bank_ldy #SLIDE_DATA_BANK
+  ldy #slide::sprite_chr_groups_address
+  lda (slide_address),y
+  sta sprite_chr_groups_address
+  iny
+  lda (slide_address),y
+  sta sprite_chr_groups_address+1
+
+  ;check if this address is zero and bail if so
+  lda sprite_chr_groups_address
+  bne nonzero_address
+  lda sprite_chr_groups_address+1
+  bne nonzero_address
+  rts
+nonzero_address:
+
+  ;get count
+  ldy #0
+  sty sprite_chr_groups_index
+  lda (sprite_chr_groups_address),y
+  sta sprite_chr_groups_count
+  inc sprite_chr_groups_index
+
+next_set:
+
+  switch_bank_ldy #SLIDE_DATA_BANK
+  ;get index of next group
+  ldy sprite_chr_groups_index
+  lda (sprite_chr_groups_address),y
+  tax
+
+  ;get address of group
+  lda sprite_chr_group_addresses_lo,x
+  sta w0
+  lda sprite_chr_group_addresses_hi,x
+  sta w0+1
+
+  ldy sprite_chr_group_bank,x
+  switch_bank_y
+
+  jsr ppu_load_chr_amount
+
+  inc sprite_chr_groups_index
+
+  dec sprite_chr_groups_count
+  bne next_set
+
+  rts
+
+.endproc
+
+.proc load_slide_sprite_overlays
+slide_address = w10
+sprite_overlays_address = w11
+sprite_overlays_count = b9
+sprite_overlays_index = b10
+sprite_overlay_bank = b11
+
+  ;get address of sprite chr groups for this slide
+  switch_bank_ldy #SLIDE_DATA_BANK
+  ldy #slide::sprite_overlays_address
+  lda (slide_address),y
+  sta sprite_overlays_address
+  iny
+  lda (slide_address),y
+  sta sprite_overlays_address+1
+
+  ;check if this address is zero and bail if so
+  lda sprite_overlays_address
+  bne nonzero_address
+  lda sprite_overlays_address+1
+  bne nonzero_address
+  rts
+nonzero_address:
+
+  ;get count
+  ldy #0
+  sty sprite_overlays_index
+  lda (sprite_overlays_address),y
+  sta sprite_overlays_count
+  inc sprite_overlays_index
+
+next_overlay:
+
+  switch_bank_ldy #SLIDE_DATA_BANK
+  ;load bank of overlay
+  ldy sprite_overlays_index
+  lda (sprite_overlays_address),y
+  sta sprite_overlay_bank
+  iny
+
+  ;load address of overlay
+  lda (sprite_overlays_address),y
+  sta w0
+  iny
+  lda (sprite_overlays_address),y
+  sta w0+1
+  iny
+
+  ;load x coordinate of overlay
+  lda (sprite_overlays_address),y
+  sta w3
+  lda #0
+  sta w3+1
+  iny
+
+  ;load y coordinate of overlay
+  lda (sprite_overlays_address),y
+  sta w4
+  lda #0
+  sta w4+1
+  iny
+
+  sty sprite_overlays_index
+
+  lda #0
+  sta b2
+
+  ;assume chr group is at 0 for now
+  lda #0
+  sta chr_group_offset
+
+  switch_bank_ldx sprite_overlay_bank
+  jsr sprite_draw_metasprite
+
+  dec sprite_overlays_count
+  bne next_overlay
 
   rts
 

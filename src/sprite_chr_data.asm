@@ -26,7 +26,8 @@
   SpotLight_chr, \
   Octoboss_chr, \
   Splash_chr, \
-  Silmaran_chr
+  Silmaran_chr, \
+  OwlEyes_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -57,6 +58,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_octoboss
   .byte sprite_chr_group_bank_splash
   .byte sprite_chr_group_bank_silmaran
+  .byte sprite_chr_group_bank_owleyes
 
 .segment "ROM07"
 
@@ -715,3 +717,11 @@ Silmaran_chr:
   .byte $00,$00,$00,$01,$01,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
   .byte $ff,$7f,$ff,$ff,$ff,$ff,$7f,$05,$29,$3b,$53,$ef,$b7,$67,$01,$00
   .byte $fe,$fc,$f8,$f8,$fc,$fe,$fe,$54,$44,$b0,$b0,$30,$98,$dc,$54,$00
+
+OwlEyes_chr:
+  .word $0050
+  .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$20,$20,$20,$31,$11,$00,$00
+  .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+  .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$04,$04,$04,$8c,$88,$00,$00
+  .byte $00,$40,$40,$00,$48,$30,$00,$00,$00,$40,$40,$00,$48,$30,$00,$00
+  .byte $00,$02,$02,$00,$12,$0c,$00,$00,$00,$02,$02,$00,$12,$0c,$00,$00

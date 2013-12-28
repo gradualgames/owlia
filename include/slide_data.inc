@@ -11,6 +11,8 @@ LAST_SLIDE = 255
   nametable_address .word
   palette_address .word
   conversation_index .byte
+  sprite_chr_groups_address .word
+  sprite_overlays_address .word
 .endstruct
 
 .global intro_cut_scene_slide1
