@@ -403,6 +403,7 @@ time:
   beq space
 cursor:
 
+  clc
   lda #LEFT_TILE_OFFSET
   adc textbox_and_font_chr_offset
   sta nametable_row_buffer,x
@@ -412,6 +413,7 @@ cursor:
   jmp done
 space:
 
+  clc
   lda #MIDDLE_TILE_OFFSET
   adc textbox_and_font_chr_offset
   sta nametable_row_buffer,x
@@ -427,6 +429,23 @@ done:
   and #%00000011
   cmp #%00000001
   bne wait_impl
+
+  ;make sure to erase the cursor
+  wait_vblank_flag
+
+  clc
+  lda #MIDDLE_TILE_OFFSET
+  adc textbox_and_font_chr_offset
+  sta nametable_row_buffer,x
+  lda #1
+  sta row_ready
+
+  set_vblank_flag
+
+  ;make certain that cursor erase gets uploaded before decoding
+  ;the next character in the script
+  wait_vblank_flag
+  set_vblank_flag
 
   ;read next character
   jmp read_next_character
