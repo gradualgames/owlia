@@ -315,6 +315,25 @@ advance_to_next_row:
 clear_textbox:
   jmp clear_textbox_impl
 wait:
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_get_item
+  sta sound_param_word_0
+  lda #>sfx_get_item
+  sta sound_param_word_0+1
+
+  lda #2
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
   jmp wait_impl
 confirm_cancel:
   jmp confirm_cancel_impl
@@ -377,12 +396,37 @@ time:
 
   jsr controller_indirect
 
+  .scope
+  dec b2
+  lda b2
+  and #%00001000
+  beq space
+cursor:
+
+  lda #LEFT_TILE_OFFSET
+  adc textbox_and_font_chr_offset
+  sta nametable_row_buffer,x
+  lda #1
+  sta row_ready
+
+  jmp done
+space:
+
+  lda #MIDDLE_TILE_OFFSET
+  adc textbox_and_font_chr_offset
+  sta nametable_row_buffer,x
+  lda #1
+  sta row_ready
+
+done:
+  .endscope
+
   set_vblank_flag
 
   lda buffer_controller+buttons::_a
   and #%00000011
   cmp #%00000001
-  bne wait
+  bne wait_impl
 
   ;read next character
   jmp read_next_character
