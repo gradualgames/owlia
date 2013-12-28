@@ -34,6 +34,8 @@ spotlight_puzzle_state_init:
 
   jsr entity_clear_drawable
 
+  jsr entity_set_not_pausable
+
   ;find both spotlight entities
   spotlight_counter = b0
   lda #0

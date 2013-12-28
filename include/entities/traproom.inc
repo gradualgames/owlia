@@ -31,6 +31,8 @@ traproom_state_init:
 
   jsr entity_clear_drawable
 
+  jsr entity_set_not_pausable
+
   lda #0
   sta traproom_state_counter,x
 
