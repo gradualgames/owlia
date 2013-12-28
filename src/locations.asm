@@ -224,24 +224,32 @@ meadow1_entity_instances:
   .byte entity_index_octopus, 30, 15, 0, 0
 
 meadow2_entity_instances:
-  .byte 7
+  .byte 11
   .byte entity_index_pufferfish, 39, 9, 0, 0
   .byte entity_index_pufferfish, 47, 23, 0, 0
   .byte entity_index_pufferfish, 58, 37, 0, 0
   .byte entity_index_pufferfish, 28, 42, 0, 0
-  .byte entity_index_pufferfish, 8, 42, 0, 0
+  .byte entity_index_octopus, 8, 42, 0, 0
   .byte entity_index_pufferfish, 29, 30, 0, 0
-  .byte entity_index_pufferfish, 18, 9, 0, 0
+  .byte entity_index_octopus, 18, 9, 0, 0
+  .byte entity_index_pufferfish, 31, 19, 0, 0
+  .byte entity_index_pufferfish, 41, 51, 0, 0
+  .byte entity_index_octopus, 18, 49, 0, 0
+  .byte entity_index_pufferfish, 17, 28, 0, 0
 
 meadow3_entity_instances:
-  .byte 7
+  .byte 11
   .byte entity_index_pufferfish, 18, 14, 0, 0
-  .byte entity_index_pufferfish, 51, 14, 0, 0
+  .byte entity_index_octopus, 51, 14, 0, 0
   .byte entity_index_pufferfish, 41, 28, 0, 0
   .byte entity_index_pufferfish, 55, 41, 0, 0
   .byte entity_index_pufferfish, 23, 56, 0, 0
   .byte entity_index_octopus, 7, 40, 0, 0
   .byte entity_index_pufferfish, 19, 27, 0, 0
+  .byte entity_index_pufferfish, 35, 9, 0, 0
+  .byte entity_index_pufferfish, 58, 24, 0, 0
+  .byte entity_index_pufferfish, 40, 57, 0, 0
+  .byte entity_index_octopus, 7, 56, 0, 0
 
 dungeon_0_0_entity_instances:
   .byte 2
