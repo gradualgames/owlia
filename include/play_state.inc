@@ -8,7 +8,7 @@ PLAY_STATE_INC = 1
 
 .struct play_state_control
   action .byte
-  param  .byte
+  param  .word
 .endstruct
 
 .endif

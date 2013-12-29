@@ -137,7 +137,7 @@ sfx_text:
   .byte TRM
 
 sfx_get_item:
-  .byte STV,8,STP,0,SDU,1,STL,3,D6,A6
+  .byte STV,8,STP,0,SDU,1,STL,3,D6,A6,STV,0,D6
   .byte TRM
 
 sfx_move_cursor:

@@ -24,7 +24,8 @@
     house_intro_scene_call_tyto1, \
     house_intro_scene_call_tyto2, \
     silmaran_call_adlanniel, \
-    silmaran_encounter_scene
+    silmaran_encounter_scene, \
+    thanks_for_playing_demo
 
 conversations_lo:
   .lobytes conversations
@@ -206,3 +207,11 @@ silmaran_encounter_scene:
 
   .byte NL,1, "B.",TM,30," GOOD LUCK, ADLANNIEL,",TM,20
   .byte NL,2, "AND FLY TRUE,",TM,20," NOBLE TYTO.",WT,EC
+
+thanks_for_playing_demo:
+  .byte    1, "THANKS FOR PLAYING OUR DEMO"
+  .byte NL,2, "OF THE LEGENDS OF OWLIA.",TM,30," WE"
+  .byte NL,3, "HOPE YOU ENJOYED IT.",TM,30," PLEASE"
+  .byte NL,4, "MAKE SURE TO FOLLOW US ON",WT,EP
+
+  .byte NL,1, "TWITTER AT GRADUALGAMES.",WT,EC

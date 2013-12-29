@@ -7,5 +7,6 @@ NAMETABLE_DATA_BANK1 = 13
 .global title_screen
 .global game_over_screen
 .global intro_cut_scene_slide1_nametable
+.global thanks_for_playing_demo_nametable
 
 .endif

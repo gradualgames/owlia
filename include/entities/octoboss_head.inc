@@ -49,13 +49,15 @@ OCTOBOSS_HEAD_STATE_INIT
 OCTOBOSS_HEAD_STATE_RISE
 OCTOBOSS_HEAD_STATE_FLOAT
 OCTOBOSS_HEAD_STATE_PAUSE
+OCTOBOSS_HEAD_STATE_THANKS_FOR_PLAYING_DEMO
 .endenum
 
 .define octoboss_head_states \
   octoboss_head_state_init, \
   octoboss_head_state_rise, \
   octoboss_head_state_float, \
-  octoboss_head_state_pause
+  octoboss_head_state_pause, \
+  octoboss_head_thanks_for_playing_demo
 
 octoboss_head_lo:
   .lobytes octoboss_head_states
@@ -414,6 +416,31 @@ do_not_unpause_yet:
 
   rts
 
+octoboss_head_thanks_for_playing_demo:
+
+  dec octoboss_head_state_counter,x
+  bne do_not_die_yet
+
+  ;stop all sound
+  jsr sound_stop
+
+  ;transition to thanks for playing demo cut scene
+  lda #ACTION_PLAY_CUT_SCENE
+  sta state_control_params+play_state_control::action
+
+  lda #<thanks_for_playing_demo_slide1
+  sta state_control_params+play_state_control::param
+  lda #>thanks_for_playing_demo_slide1
+  sta state_control_params+play_state_control::param+1
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+do_not_die_yet:
+
+  rts
+
 .proc octoboss_head_combat
 
   lda entity_action_rect1_action
@@ -473,9 +500,13 @@ action_rect2_not_deadly:
   dec octoboss_head_health,x
   bne entity_not_dead_yet
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  jsr entity_clear_drawable
+
+  lda #100
+  sta octoboss_head_state_counter,x
+
+  lda #OCTOBOSS_HEAD_STATE_THANKS_FOR_PLAYING_DEMO
+  sta entity_state,x
 
   ldy octoboss_head_legs_entity_index,x
   lda #OCTOBOSS_LEGS_STATE_DIE

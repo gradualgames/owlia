@@ -1,5 +1,7 @@
 .linecont +
 .include "main.inc"
+.include "cut_scene_state.inc"
+.include "slide_data.inc"
 .include "play_state.inc"
 .include "inventory_state.inc"
 .include "title_state.inc"
@@ -410,7 +412,8 @@ done:
   play_state_action_goto_location_group1, \
   play_state_action_start_conversation, \
   play_state_action_nop, \
-  play_state_action_game_over
+  play_state_action_game_over, \
+  play_state_action_cut_scene
 
 play_state_action_handlers_lo:
   .lobytes play_state_action_handlers
@@ -944,6 +947,31 @@ spin_hero_loop:
   jsr ppu_fade_out_palette
 
   jmp game_over_state_init
+
+;****************************************************************
+;This branch location is a sub-state of the play state intended
+;to prepare for and transition to the cut scene state.
+;****************************************************************
+play_state_action_cut_scene:
+
+  ;fade out from current palette
+  switch_bank_ldy #LOCATIONS_BANK
+  jsr ppu_fade_out_palette
+
+  ;transfer address param from ACTION_PLAY_CUT_SCENE action
+  ;using the stack, since state_control_params is a union and
+  ;we want to guarantee putting data in the right locations
+  lda state_control_params+play_state_control::param
+  pha
+  lda state_control_params+play_state_control::param+1
+  pha
+
+  pla
+  sta state_control_params+cut_scene_state_control::slide_address+1
+  pla
+  sta state_control_params+cut_scene_state_control::slide_address
+
+  jmp play_cut_scene
 
 ;****************************************************************
 ;This branch location is a sub-state of the play state intended

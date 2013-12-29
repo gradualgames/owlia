@@ -25,6 +25,7 @@
 .include "textbox.inc"
 .include "ppu.inc"
 .include "mapper.inc"
+.include "slide_data.inc"
 
 .segment "CODE"
 
