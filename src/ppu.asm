@@ -432,7 +432,7 @@ done_fading:
 :
 
   ;pad CPU cycles for finely tuned graphics hiding
-  ldx #216
+  ldx #218
 : dex
   bne :-
 
