@@ -24,6 +24,10 @@ intro_cut_scene_mermon_leer_palette:
   .byte $0e,$12,$22,$3c,$0e,$08,$38,$20,$00,$00,$00,$00,$00,$00,$00,$00
   .byte $0e,$2d,$10,$20,$0e,$0e,$0e,$28,$00,$00,$00,$00,$00,$00,$00,$00
 
+intro_cut_scene_silmaran_palette:
+  .byte $0e,$28,$10,$20,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+  .byte $0e,$28,$10,$20,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+
 thanks_for_playing_demo_palette:
   .byte $0e,$10,$20,$30,$0e,$10,$20,$30,$0e,$10,$20,$20,$0e,$10,$20,$20
   .byte $0e,$10,$20,$30,$0e,$10,$20,$30,$0e,$10,$20,$20,$0e,$10,$20,$20
@@ -69,6 +73,16 @@ intro_cut_scene_slide4:
   .byte conversation_index_intro_cut_scene_mermon_leer_text  ; conversation_index .byte
   .word intro_cut_scene_slide4_sprite_chr_sets               ; sprite_chr_sets_address .word
   .word intro_cut_scene_slide4_sprite_overlays               ; sprite_overlays_address .word
+
+intro_cut_scene_slide5:
+  .byte 13                                                   ; bg_chr_bank .byte
+  .word intro_cut_scene_silmaran                             ; bg_chr_address .word
+  .byte 13                                                   ; nametable_bank .byte
+  .word intro_cut_scene_silmaran_nametable                   ; nametable_address .word
+  .word intro_cut_scene_silmaran_palette                     ; palette_address .word
+  .byte conversation_index_intro_cut_scene_silmaran_text     ; conversation_index .byte
+  .word 0                                                    ; sprite_chr_sets_address .word
+  .word 0                                                    ; sprite_overlays_address .word
 
   ;marks end of slide show
   .byte LAST_SLIDE

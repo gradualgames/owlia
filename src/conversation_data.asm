@@ -23,6 +23,7 @@
     intro_cut_scene_mermon_text, \
     intro_cut_scene_mermon_mad_text, \
     intro_cut_scene_mermon_leer_text, \
+    intro_cut_scene_silmaran_text, \
     house_intro_scene_window, \
     house_intro_scene_call_tyto1, \
     house_intro_scene_call_tyto2, \
@@ -189,6 +190,17 @@ intro_cut_scene_mermon_leer_text:
   .byte NL,2, "THE LAND OF OWLIA TO CLAIM"
   .byte NL,3, "IT FOR HIS OWN.",TM,30," HOWEVER,",TM,20," ONE"
   .byte NL,4, "GREAT OWL ELUDED HIM...",TM,75,EC
+
+intro_cut_scene_silmaran_text:
+  .byte    1, "SILMARAN,",TM,20," THE WHITE KING.",TM,30
+  .byte NL,2, "SOARING HIGH ABOVE THE LAND"
+  .byte NL,3, "OF OWLIA,",TM,20," AS MERMON'S FORCES"
+  .byte NL,4, "GREW IN POWER,",TM,20," HE SEARCHED",TM,75,EP
+
+  .byte NL,1, "FOR ONE WHO MIGHT HEED"
+  .byte NL,2, "HIS CALL TO RESCUE THE"
+  .byte NL,3, "GREAT OWLS AND RESTORE"
+  .byte NL,4, "THE LAND OF OWLIA.",TM,75,EC
 
 house_intro_scene_window:
   .byte    1, "WHAT A BEAUTIFUL DAY!",TM,30," I"
