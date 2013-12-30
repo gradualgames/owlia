@@ -20,5 +20,8 @@ BG_CHR_DATA_BANK2 = 9
 .global game_over_chr
 .global intro_cut_scene_slide1_bg_chr
 .global thanks_for_playing_demo_bg_chr
+.global intro_cut_scene_mermon
+.global intro_cut_scene_mermon_mad
+.global intro_cut_scene_mermon_leer
 
 .endif

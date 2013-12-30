@@ -19,7 +19,10 @@
     purchase_health, \
     purchase_rope, \
     not_enough_gp, \
-    intro_cut_scene_slide1_text, \
+    intro_cut_scene_owls_text, \
+    intro_cut_scene_mermon_text, \
+    intro_cut_scene_mermon_mad_text, \
+    intro_cut_scene_mermon_leer_text, \
     house_intro_scene_window, \
     house_intro_scene_call_tyto1, \
     house_intro_scene_call_tyto2, \
@@ -149,10 +152,43 @@ purchase_rope:
 not_enough_gp:
   .byte    1, "YOU DO NOT HAVE ENOUGH GP.",WT,EC
 
-intro_cut_scene_slide1_text:
-  .byte    1, "THESE ARE OWLS.",TM,75
-  .byte NL,2, "THEY WILL BORE A"
-  .byte NL,3, "HOLE IN YOUR SOUL.",TM,75,EC
+intro_cut_scene_owls_text:
+  .byte    1, "ONCE UPON A TIME,",TM,20," ON A"
+  .byte NL,2, "WORLD FAR BEYOND IMAGINING,",TM,20
+  .byte NL,3, "SIX GREAT OWLS BROUGHT FORTH"
+  .byte NL,4, "A LAND CALLED OWLIA.",TM,75,EP
+
+  .byte NL,1, "TOGETHER,",TM,20," THEY REIGNED IN"
+  .byte NL,2, "PEACE AND WISDOM FOR"
+  .byte NL,3, "EIGHTY THOUSAND YEARS.",TM,30
+  .byte NL,4, "HOWEVER, THEIR PRIDE IN THE",TM,75,EP
+
+  .byte NL,1, "BEAUTIFUL LAND AND SKY OF"
+  .byte NL,2, "OWLIA LED THEM TO FORGET THE"
+  .byte NL,3, "VAST SEAS...",TM,75,EC
+
+intro_cut_scene_mermon_text:
+  .byte    1, "MERMON, KING OF MERMEN,",TM,20," OFT"
+  .byte NL,2, "ROSE TO THE SURFACE TO VIEW"
+  .byte NL,3, "THE LAND OF OWLIA.",TM,30," HIS DESIRE"
+  .byte NL,4, "FOR SUNLIGHT,",TM,20," SKY,",TM,20," AND GREEN",TM,75,EC
+
+intro_cut_scene_mermon_mad_text:
+  .byte    1, "FORESTS GREW UNTIL HE DECIDED"
+  .byte NL,2, "THE SEAS WERE NOT ENOUGH FOR"
+  .byte NL,3, "HIM.",TM,30," HE BEGAN TO PLOT AGAINST"
+  .byte NL,4, "THE GREAT OWLS AND USED MAGIC",TM,75,EC
+
+intro_cut_scene_mermon_leer_text:
+  .byte    1, "TO SUMMON THE SIX GREAT OWLS"
+  .byte NL,2, "ONE BY ONE.",TM,30," HE BEGAN SAPPING"
+  .byte NL,3, "THEIR POWER OF FLIGHT TO"
+  .byte NL,4, "EMPOWER HIS MINIONS TO FLOAT",TM,75,EP
+
+  .byte NL,1, "THROUGH THE AIR TOWARDS THE"
+  .byte NL,2, "LAND OF OWLIA TO CLAIM IT"
+  .byte NL,3, "FOR HIS OWN.",TM,30," HOWEVER,",TM,20," ONE OF"
+  .byte NL,4, "THE GREAT OWLS ELUDED HIM...",TM,75,EC
 
 house_intro_scene_window:
   .byte    1, "WHAT A BEAUTIFUL DAY!",TM,30," I"
