@@ -153,42 +153,42 @@ not_enough_gp:
   .byte    1, "YOU DO NOT HAVE ENOUGH GP.",WT,EC
 
 intro_cut_scene_owls_text:
-  .byte    1, "ONCE UPON A TIME,",TM,20," ON A"
-  .byte NL,2, "WORLD FAR BEYOND IMAGINING,",TM,20
-  .byte NL,3, "SIX GREAT OWLS BROUGHT FORTH"
-  .byte NL,4, "A LAND CALLED OWLIA.",TM,75,EP
+  .byte    1, "ONCE UPON A TIME,",TM,20," ON A WORLD"
+  .byte NL,2, "FAR BEYOND IMAGINING,",TM,20," SIX"
+  .byte NL,3, "GREAT OWLS BROUGHT FORTH A"
+  .byte NL,4, "LAND CALLED OWLIA.",TM,75,EP
 
   .byte NL,1, "TOGETHER,",TM,20," THEY REIGNED IN"
   .byte NL,2, "PEACE AND WISDOM FOR"
   .byte NL,3, "EIGHTY THOUSAND YEARS.",TM,30
-  .byte NL,4, "HOWEVER, THEIR PRIDE IN THE",TM,75,EP
+  .byte NL,4, "HOWEVER,",TM,20," THEIR PRIDE IN THE",TM,75,EP
 
   .byte NL,1, "BEAUTIFUL LAND AND SKY OF"
   .byte NL,2, "OWLIA LED THEM TO FORGET THE"
   .byte NL,3, "VAST SEAS...",TM,75,EC
 
 intro_cut_scene_mermon_text:
-  .byte    1, "MERMON, KING OF MERMEN,",TM,20," OFT"
+  .byte    1, "MERMON,",TM,20," KING OF MERMEN,",TM,20," OFT"
   .byte NL,2, "ROSE TO THE SURFACE TO VIEW"
-  .byte NL,3, "THE LAND OF OWLIA.",TM,30," HIS DESIRE"
-  .byte NL,4, "FOR SUNLIGHT,",TM,20," SKY,",TM,20," AND GREEN",TM,75,EC
+  .byte NL,3, "THE LAND OF OWLIA.",TM,30," HIS"
+  .byte NL,4, "DESIRE FOR SUNLIGHT,",TM,20," SKY,",TM,75,EC
 
 intro_cut_scene_mermon_mad_text:
-  .byte    1, "FORESTS GREW UNTIL HE DECIDED"
-  .byte NL,2, "THE SEAS WERE NOT ENOUGH FOR"
-  .byte NL,3, "HIM.",TM,30," HE BEGAN TO PLOT AGAINST"
-  .byte NL,4, "THE GREAT OWLS AND USED MAGIC",TM,75,EC
+  .byte    1, "AND GREEN FORESTS GREW UNTIL"
+  .byte NL,2, "HE DECIDED THE SEAS WERE NOT"
+  .byte NL,3, "ENOUGH FOR HIM.",TM,30," HE STROVE TO"
+  .byte NL,4, "LEARN ANCIENT DARK MAGIC",TM,75,EC
 
 intro_cut_scene_mermon_leer_text:
   .byte    1, "TO SUMMON THE SIX GREAT OWLS"
   .byte NL,2, "ONE BY ONE.",TM,30," HE BEGAN SAPPING"
-  .byte NL,3, "THEIR POWER OF FLIGHT TO"
-  .byte NL,4, "EMPOWER HIS MINIONS TO FLOAT",TM,75,EP
+  .byte NL,3, "THEIR POWER OF FLIGHT,",TM,20
+  .byte NL,4, "EMPOWERING HIS MINIONS TO",TM,75,EP
 
-  .byte NL,1, "THROUGH THE AIR TOWARDS THE"
-  .byte NL,2, "LAND OF OWLIA TO CLAIM IT"
-  .byte NL,3, "FOR HIS OWN.",TM,30," HOWEVER,",TM,20," ONE OF"
-  .byte NL,4, "THE GREAT OWLS ELUDED HIM...",TM,75,EC
+  .byte NL,1, "RISE INTO THE AIR TOWARDS"
+  .byte NL,2, "THE LAND OF OWLIA TO CLAIM"
+  .byte NL,3, "IT FOR HIS OWN.",TM,30," HOWEVER,",TM,20," ONE"
+  .byte NL,4, "GREAT OWL ELUDED HIM...",TM,75,EC
 
 house_intro_scene_window:
   .byte    1, "WHAT A BEAUTIFUL DAY!",TM,30," I"
