@@ -88,7 +88,7 @@ intro_cut_scene_slide5:
   .byte LAST_SLIDE
 
 thanks_for_playing_demo_slide1:
-  .byte 9                                              ; bg_chr_bank .byte
+  .byte 13                                             ; bg_chr_bank .byte
   .word thanks_for_playing_demo_bg_chr                 ; bg_chr_address .word
   .byte 13                                             ; nametable_bank .byte
   .word thanks_for_playing_demo_nametable              ; nametable_address .word
