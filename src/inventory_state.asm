@@ -172,50 +172,7 @@ inventory_state_init:
   lda #>rush_tech1_menu_position
   sta state_control_params+inventory_state_control::current_menu_position_address+1
 
-  ;start at the beginning of the menu labels
-  lda #<menu_labels
-  sta w10
-  lda #>menu_labels
-  sta w10+1
-
-  lda #<print_menu_label
-  sta w2
-  lda #>print_menu_label
-  sta w2+1
-
-  far_call #INVENTORY_STATE_BANK, draw_all_menu_items
-
-  ;start at the beginning of the menu variables
-  lda #<menu_word_variables
-  sta w10
-  lda #>menu_word_variables
-  sta w10+1
-
-  lda #<print_menu_word_variable
-  sta w2
-  lda #>print_menu_word_variable
-  sta w2+1
-
-  far_call #INVENTORY_STATE_BANK, draw_all_menu_items
-
-  ;start at the beginning of the menu variables
-  lda #<menu_byte_variables
-  sta w10
-  lda #>menu_byte_variables
-  sta w10+1
-
-  lda #<print_menu_byte_variable
-  sta w2
-  lda #>print_menu_byte_variable
-  sta w2+1
-
-  far_call #INVENTORY_STATE_BANK, draw_all_menu_items
-
-  far_call #INVENTORY_STATE_BANK, draw_cursor
-
-  far_call #INVENTORY_STATE_BANK, draw_tech_selectors
-
-  jsr sprite_update_all
+  far_call #INVENTORY_STATE_BANK, inventory_state_draw
 
   jsr ppu_safely_enable_graphics
 
@@ -331,6 +288,57 @@ no_string_to_print:
 .endproc
 
 .segment "ROM01"
+
+.proc inventory_state_draw
+
+  ;start at the beginning of the menu labels
+  lda #<menu_labels
+  sta w10
+  lda #>menu_labels
+  sta w10+1
+
+  lda #<print_menu_label
+  sta w2
+  lda #>print_menu_label
+  sta w2+1
+
+  jsr draw_all_menu_items
+
+  ;start at the beginning of the menu variables
+  lda #<menu_word_variables
+  sta w10
+  lda #>menu_word_variables
+  sta w10+1
+
+  lda #<print_menu_word_variable
+  sta w2
+  lda #>print_menu_word_variable
+  sta w2+1
+
+  jsr draw_all_menu_items
+
+  ;start at the beginning of the menu variables
+  lda #<menu_byte_variables
+  sta w10
+  lda #>menu_byte_variables
+  sta w10+1
+
+  lda #<print_menu_byte_variable
+  sta w2
+  lda #>print_menu_byte_variable
+  sta w2+1
+
+  jsr draw_all_menu_items
+
+  jsr draw_cursor
+
+  jsr draw_tech_selectors
+
+  jsr sprite_update_all
+
+  rts
+
+.endproc
 
 .proc inventory_state_update
 
