@@ -624,6 +624,7 @@ row_offset = b0
 .endproc
 
 .proc update_cursor
+DPAD_TEST = %01000000
 menu_position_address = w10
 
   lda state_control_params+inventory_state_control::current_menu_position_address
@@ -650,32 +651,36 @@ a_not_pressed:
 
   ;check all dpad buttons one at a time.
   lda buffer_controller+buttons::_down
-  and #%00000011
-  cmp #%00000001
-  beq down
+  and #DPAD_TEST
+  bne down
   lda buffer_controller+buttons::_up
-  and #%00000011
-  cmp #%00000001
-  beq up
+  and #DPAD_TEST
+  bne up
   lda buffer_controller+buttons::_left
-  and #%00000011
-  cmp #%00000001
-  beq left
+  and #DPAD_TEST
+  bne left
   lda buffer_controller+buttons::_right
-  and #%00000011
-  cmp #%00000001
-  beq right
+  and #DPAD_TEST
+  bne right
   rts
 down:
+  lda #0
+  sta buffer_controller+buttons::_down
   ldy #inventory_state_menu_position::next_menu_item_down_address
   jmp update_menu_item
 up:
+  lda #0
+  sta buffer_controller+buttons::_up
   ldy #inventory_state_menu_position::next_menu_item_up_address
   jmp update_menu_item
 left:
+  lda #0
+  sta buffer_controller+buttons::_left
   ldy #inventory_state_menu_position::next_menu_item_left_address
   jmp update_menu_item
 right:
+  lda #0
+  sta buffer_controller+buttons::_right
   ldy #inventory_state_menu_position::next_menu_item_right_address
   jmp update_menu_item
 update_menu_item:
@@ -928,7 +933,7 @@ rope_menu_position:
 
 rush_tech1_menu_position:
   .word not_enabled_callback_nop
-  .word a_button_callback_nop
+  .word tech1_a_button_callback
   a_button_callback_param tech_rush
   next_up    rope_menu_position
   next_right rush_tech2_menu_position
