@@ -926,7 +926,7 @@ rope_menu_position:
   next_up    health_menu_position
   next_right 0
   next_left  0
-  next_down  rush_tech1_menu_position
+  next_down  rush_tech2_menu_position
   .word Radio0
   .byte ((USE_ITEM_ROW+1) * 8)
   .byte (11 * 8)
