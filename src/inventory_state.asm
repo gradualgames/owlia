@@ -521,15 +521,17 @@ menu_position_address = w10
   lda sprite_chr_group_offsets,y
   sta chr_group_offset
 
-  lda #<Cursor0
-  sta w0
-  lda #>Cursor0
-  sta w0+1
-
   lda state_control_params+inventory_state_control::current_menu_position_address
   sta menu_position_address
   lda state_control_params+inventory_state_control::current_menu_position_address+1
   sta menu_position_address+1
+
+  ldy #inventory_state_menu_position::cursor_metasprite
+  lda (menu_position_address),y
+  sta w0
+  iny
+  lda (menu_position_address),y
+  sta w0+1
 
   ;column
   ldy #inventory_state_menu_position::cursor_column
@@ -642,8 +644,6 @@ menu_position_address = w10
   sta w0+1
   jsr indirect_jsr_w0
 
-  jsr play_action_sound
-
   rts
 
 a_not_pressed:
@@ -748,6 +748,52 @@ item_was_null:
 
 .endproc
 
+.proc play_use_item_sound
+
+  txa
+  pha
+
+  lda #<sfx_get_item
+  sta sound_param_word_0
+  lda #>sfx_get_item
+  sta sound_param_word_0+1
+
+  lda #1
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  rts
+
+.endproc
+
+.proc play_error_sound
+
+  txa
+  pha
+
+  lda #<sfx_error
+  sta sound_param_word_0
+  lda #>sfx_error
+  sta sound_param_word_0+1
+
+  lda #1
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  rts
+
+.endproc
+
 .proc indirect_jsr_w0
   jmp (w0)
 .endproc
@@ -769,6 +815,57 @@ print_callback_nop:
 
 .endproc
 
+.proc health_a_button_callback
+menu_position_address = w10
+
+  lda state_control_params+inventory_state_control::current_menu_position_address
+  sta menu_position_address
+  lda state_control_params+inventory_state_control::current_menu_position_address+1
+  sta menu_position_address+1
+
+  lda #HERO_MAX_HEALTH
+  cmp hero_health
+  beq do_not_inc_health
+
+  lda inventory_healths
+  beq do_not_inc_health
+
+  jsr play_use_item_sound
+
+  dec inventory_healths
+
+  inc hero_health
+
+  lda inventory_healths
+  sta w0
+  lda #0
+  sta w0+1
+  lda #<string_buffer
+  sta w1
+  lda #>string_buffer
+  sta w1+1
+  jsr create_decimal_string
+
+  lda #<string_buffer
+  sta state_control_params+inventory_state_control::string_address
+  lda #>string_buffer
+  sta state_control_params+inventory_state_control::string_address+1
+
+  lda #USE_ITEM_ROW
+  sta state_control_params+inventory_state_control::string_row
+  lda #24
+  sta state_control_params+inventory_state_control::string_column
+
+  rts
+
+do_not_inc_health:
+
+  jsr play_error_sound
+
+  rts
+
+.endproc
+
 .proc tech1_a_button_callback
 menu_position_address = w10
 
@@ -780,6 +877,8 @@ menu_position_address = w10
   ldy #inventory_state_menu_position::a_button_callback_param
   lda (menu_position_address),y
   sta inventory_tech1
+
+  jsr play_action_sound
 
   rts
 
@@ -797,19 +896,45 @@ menu_position_address = w10
   lda (menu_position_address),y
   sta inventory_tech2
 
+  jsr play_action_sound
+
   rts
 
 .endproc
 
+health_menu_position:
+  .word not_enabled_callback_nop
+  .word health_a_button_callback
+  a_button_callback_param 0
+  next_up    0
+  next_right 0
+  next_left  0
+  next_down  rope_menu_position
+  .word Radio0
+  .byte (USE_ITEM_ROW * 8)
+  .byte (11 * 8)
+
+rope_menu_position:
+  .word not_enabled_callback_nop
+  .word a_button_callback_nop
+  a_button_callback_param 0
+  next_up    health_menu_position
+  next_right 0
+  next_left  0
+  next_down  rush_tech1_menu_position
+  .word Radio0
+  .byte ((USE_ITEM_ROW+1) * 8)
+  .byte (11 * 8)
+
 rush_tech1_menu_position:
   .word not_enabled_callback_nop
-  .word tech1_a_button_callback
+  .word a_button_callback_nop
   a_button_callback_param tech_rush
-  next_up    0
+  next_up    rope_menu_position
   next_right rush_tech2_menu_position
   next_left  0
   next_down  fetch_tech1_menu_position
-  .byte 0
+  .word Cursor0
   .byte (TECH_MENU_ROW * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -821,7 +946,7 @@ fetch_tech1_menu_position:
   next_right fetch_tech2_menu_position
   next_left  0
   next_down  carry_bomb_tech1_menu_position
-  .byte 0
+  .word Cursor0
   .byte ((TECH_MENU_ROW+1) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -833,7 +958,7 @@ carry_bomb_tech1_menu_position:
   next_right carry_bomb_tech2_menu_position
   next_left  0
   next_down  carry_lantern_tech1_menu_position
-  .byte 0
+  .word Cursor0
   .byte ((TECH_MENU_ROW+2) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -845,7 +970,7 @@ carry_lantern_tech1_menu_position:
   next_right carry_lantern_tech2_menu_position
   next_left  0
   next_down  carry_adlanniel_tech1_menu_position
-  .byte 0
+  .word Cursor0
   .byte ((TECH_MENU_ROW+3) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -857,7 +982,7 @@ carry_adlanniel_tech1_menu_position:
   next_right carry_adlanniel_tech2_menu_position
   next_left  0
   next_down  shield_tech1_menu_position
-  .byte 0
+  .word Cursor0
   .byte ((TECH_MENU_ROW+4) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -869,7 +994,7 @@ shield_tech1_menu_position:
   next_right shield_tech2_menu_position
   next_left  0
   next_down  homing_tech1_menu_position
-  .byte 0
+  .word Cursor0
   .byte ((TECH_MENU_ROW+5) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -881,7 +1006,7 @@ homing_tech1_menu_position:
   next_right homing_tech2_menu_position
   next_left  0
   next_down  0
-  .byte 0
+  .word Cursor0
   .byte ((TECH_MENU_ROW+6) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -889,11 +1014,11 @@ rush_tech2_menu_position:
   .word not_enabled_callback_nop
   .word tech2_a_button_callback
   a_button_callback_param tech_rush
-  next_up    0
+  next_up    rope_menu_position
   next_right 0
   next_left  rush_tech1_menu_position
   next_down  fetch_tech2_menu_position
-  .byte 0
+  .word Cursor0
   .byte ((TECH_MENU_ROW) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
@@ -905,7 +1030,7 @@ fetch_tech2_menu_position:
   next_right 0
   next_left  fetch_tech1_menu_position
   next_down  carry_bomb_tech2_menu_position
-  .byte 0
+  .word Cursor0
   .byte ((TECH_MENU_ROW+1) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
@@ -917,7 +1042,7 @@ carry_bomb_tech2_menu_position:
   next_right 0
   next_left  carry_bomb_tech1_menu_position
   next_down  carry_lantern_tech2_menu_position
-  .byte 0
+  .word Cursor0
   .byte ((TECH_MENU_ROW+2) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
@@ -929,7 +1054,7 @@ carry_lantern_tech2_menu_position:
   next_right 0
   next_left  carry_lantern_tech1_menu_position
   next_down  carry_adlanniel_tech2_menu_position
-  .byte 0
+  .word Cursor0
   .byte ((TECH_MENU_ROW+3) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
@@ -941,7 +1066,7 @@ carry_adlanniel_tech2_menu_position:
   next_right 0
   next_left  carry_adlanniel_tech1_menu_position
   next_down  shield_tech2_menu_position
-  .byte 0
+  .word Cursor0
   .byte ((TECH_MENU_ROW+4) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
@@ -953,7 +1078,7 @@ shield_tech2_menu_position:
   next_right 0
   next_left  shield_tech1_menu_position
   next_down  homing_tech2_menu_position
-  .byte 0
+  .word Cursor0
   .byte ((TECH_MENU_ROW+5) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
@@ -965,7 +1090,7 @@ homing_tech2_menu_position:
   next_right 0
   next_left  homing_tech1_menu_position
   next_down  0
-  .byte 0
+  .word Cursor0
   .byte ((TECH_MENU_ROW+6) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 

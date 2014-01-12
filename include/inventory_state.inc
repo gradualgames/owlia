@@ -36,7 +36,7 @@ TECH2_OFFSET = -2
   next_menu_item_right_address .word
   next_menu_item_left_address .word
   next_menu_item_down_address .word
-  cursor_tile_offset .byte
+  cursor_metasprite .word
   cursor_row .byte
   cursor_column .byte
 .endstruct
