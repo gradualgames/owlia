@@ -879,12 +879,12 @@ menu_item_address = w10
 .endproc
 
 .proc tech_menu_position_is_enabled_callback
-menu_position_address = w11
+next_menu_position_address = w11
 
   ldy #inventory_state_menu_position::callback_param
 
   lda inventory_earned_techs
-  cmp (menu_position_address),y
+  cmp (next_menu_position_address),y
   bpl :+
   lda #1
   rts
