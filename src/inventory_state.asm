@@ -191,6 +191,8 @@ inventory_state_init:
   lda #>ppu_inventory_vblank
   sta vblank_routine+1
 
+  jsr controller_clear
+
 inventory_state_main:
 
   wait_vblank_flag
