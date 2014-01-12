@@ -497,8 +497,20 @@ next_menu_item:
   cmp #LAST_MENU_ITEM
   beq done
 
+  ;test to see if the menu item is enabled
+  ldy #inventory_state_menu_item::is_enabled_callback_address
+  lda (menu_items_address),y
+  sta w3
+  iny
+  lda (menu_items_address),y
+  sta w3+1
+
+  jsr indirect_jsr_w3
+  bne not_enabled
+
   ;draw the menu item
   jsr indirect_jsr_w2
+not_enabled:
 
   ;advance to next menu label
   clc
@@ -628,6 +640,7 @@ row_offset = b0
 .proc update_cursor
 DPAD_TEST = %01000000
 menu_position_address = w10
+next_menu_position_address = w11
 
   lda state_control_params+inventory_state_control::current_menu_position_address
   sta menu_position_address
@@ -696,13 +709,29 @@ update_menu_item:
   ;the item was not null, update the current menu item address and finish
   dey
   lda (menu_position_address),y
-  sta state_control_params+inventory_state_control::current_menu_position_address
+  sta next_menu_position_address
   iny
   lda (menu_position_address),y
+  sta next_menu_position_address+1
+
+  ldy #inventory_state_menu_position::is_enabled_callback_address
+  lda (next_menu_position_address),y
+  sta w0
+  iny
+  lda (next_menu_position_address),y
+  sta w0+1
+
+  jsr indirect_jsr_w0
+  bne not_enabled
+
+  ;item is enabled, advance to next_menu_position_address
+  lda next_menu_position_address
+  sta state_control_params+inventory_state_control::current_menu_position_address
+  lda next_menu_position_address+1
   sta state_control_params+inventory_state_control::current_menu_position_address+1
 
   jsr play_dpad_sound
-
+not_enabled:
 item_was_null:
 
   rts
@@ -813,11 +842,54 @@ item_was_null:
   jmp (w2)
 .endproc
 
-not_enabled_callback_nop:
+.proc indirect_jsr_w3
+  jmp (w3)
+.endproc
+
+.proc is_enabled_callback_nop
+
+  lda #0
+
+  rts
+
+.endproc
+
 a_button_callback_nop:
 print_callback_nop:
 .proc callback_nop
 
+  rts
+
+.endproc
+
+.proc tech_label_is_enabled_callback
+menu_item_address = w10
+
+  ldy #inventory_state_menu_item::callback_param
+
+  lda inventory_earned_techs
+  cmp (menu_item_address),y
+  bpl :+
+  lda #1
+  rts
+:
+  lda #0
+  rts
+
+.endproc
+
+.proc tech_menu_position_is_enabled_callback
+menu_position_address = w11
+
+  ldy #inventory_state_menu_position::callback_param
+
+  lda inventory_earned_techs
+  cmp (menu_position_address),y
+  bpl :+
+  lda #1
+  rts
+:
+  lda #0
   rts
 
 .endproc
@@ -881,7 +953,7 @@ menu_position_address = w10
   lda state_control_params+inventory_state_control::current_menu_position_address+1
   sta menu_position_address+1
 
-  ldy #inventory_state_menu_position::a_button_callback_param
+  ldy #inventory_state_menu_position::callback_param
   lda (menu_position_address),y
   sta inventory_tech1
 
@@ -899,7 +971,7 @@ menu_position_address = w10
   lda state_control_params+inventory_state_control::current_menu_position_address+1
   sta menu_position_address+1
 
-  ldy #inventory_state_menu_position::a_button_callback_param
+  ldy #inventory_state_menu_position::callback_param
   lda (menu_position_address),y
   sta inventory_tech2
 
@@ -910,9 +982,9 @@ menu_position_address = w10
 .endproc
 
 health_menu_position:
-  .word not_enabled_callback_nop
+  .word is_enabled_callback_nop
   .word health_a_button_callback
-  a_button_callback_param 0
+  callback_param 0
   next_up    0
   next_right 0
   next_left  0
@@ -922,9 +994,9 @@ health_menu_position:
   .byte (11 * 8)
 
 rope_menu_position:
-  .word not_enabled_callback_nop
+  .word is_enabled_callback_nop
   .word a_button_callback_nop
-  a_button_callback_param 0
+  callback_param 0
   next_up    health_menu_position
   next_right 0
   next_left  0
@@ -934,9 +1006,9 @@ rope_menu_position:
   .byte (11 * 8)
 
 rush_tech1_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech1_a_button_callback
-  a_button_callback_param tech_rush
+  callback_param tech_rush
   next_up    rope_menu_position
   next_right rush_tech2_menu_position
   next_left  0
@@ -946,9 +1018,9 @@ rush_tech1_menu_position:
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 fetch_tech1_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech1_a_button_callback
-  a_button_callback_param tech_fetch
+  callback_param tech_fetch
   next_up    rush_tech1_menu_position
   next_right fetch_tech2_menu_position
   next_left  0
@@ -958,9 +1030,9 @@ fetch_tech1_menu_position:
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 carry_bomb_tech1_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech1_a_button_callback
-  a_button_callback_param tech_carry_bomb
+  callback_param tech_carry_bomb
   next_up    fetch_tech1_menu_position
   next_right carry_bomb_tech2_menu_position
   next_left  0
@@ -970,9 +1042,9 @@ carry_bomb_tech1_menu_position:
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 carry_lantern_tech1_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech1_a_button_callback
-  a_button_callback_param tech_carry_lantern
+  callback_param tech_carry_lantern
   next_up    carry_bomb_tech1_menu_position
   next_right carry_lantern_tech2_menu_position
   next_left  0
@@ -982,9 +1054,9 @@ carry_lantern_tech1_menu_position:
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 carry_adlanniel_tech1_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech1_a_button_callback
-  a_button_callback_param tech_carry_adlanniel
+  callback_param tech_carry_adlanniel
   next_up    carry_lantern_tech1_menu_position
   next_right carry_adlanniel_tech2_menu_position
   next_left  0
@@ -994,9 +1066,9 @@ carry_adlanniel_tech1_menu_position:
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 shield_tech1_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech1_a_button_callback
-  a_button_callback_param tech_shield
+  callback_param tech_shield
   next_up    carry_adlanniel_tech1_menu_position
   next_right shield_tech2_menu_position
   next_left  0
@@ -1006,9 +1078,9 @@ shield_tech1_menu_position:
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 homing_tech1_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech1_a_button_callback
-  a_button_callback_param tech_homing
+  callback_param tech_homing
   next_up    shield_tech1_menu_position
   next_right homing_tech2_menu_position
   next_left  0
@@ -1018,9 +1090,9 @@ homing_tech1_menu_position:
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 rush_tech2_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech2_a_button_callback
-  a_button_callback_param tech_rush
+  callback_param tech_rush
   next_up    rope_menu_position
   next_right 0
   next_left  rush_tech1_menu_position
@@ -1030,9 +1102,9 @@ rush_tech2_menu_position:
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
 fetch_tech2_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech2_a_button_callback
-  a_button_callback_param tech_fetch
+  callback_param tech_fetch
   next_up    rush_tech2_menu_position
   next_right 0
   next_left  fetch_tech1_menu_position
@@ -1042,9 +1114,9 @@ fetch_tech2_menu_position:
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
 carry_bomb_tech2_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech2_a_button_callback
-  a_button_callback_param tech_carry_bomb
+  callback_param tech_carry_bomb
   next_up    fetch_tech2_menu_position
   next_right 0
   next_left  carry_bomb_tech1_menu_position
@@ -1054,9 +1126,9 @@ carry_bomb_tech2_menu_position:
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
 carry_lantern_tech2_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech2_a_button_callback
-  a_button_callback_param tech_carry_lantern
+  callback_param tech_carry_lantern
   next_up    carry_bomb_tech2_menu_position
   next_right 0
   next_left  carry_lantern_tech1_menu_position
@@ -1066,9 +1138,9 @@ carry_lantern_tech2_menu_position:
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
 carry_adlanniel_tech2_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech2_a_button_callback
-  a_button_callback_param tech_carry_adlanniel
+  callback_param tech_carry_adlanniel
   next_up    carry_lantern_tech2_menu_position
   next_right 0
   next_left  carry_adlanniel_tech1_menu_position
@@ -1078,9 +1150,9 @@ carry_adlanniel_tech2_menu_position:
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
 shield_tech2_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech2_a_button_callback
-  a_button_callback_param tech_shield
+  callback_param tech_shield
   next_up    carry_adlanniel_tech2_menu_position
   next_right 0
   next_left  shield_tech1_menu_position
@@ -1090,9 +1162,9 @@ shield_tech2_menu_position:
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
 homing_tech2_menu_position:
-  .word not_enabled_callback_nop
+  .word tech_menu_position_is_enabled_callback
   .word tech2_a_button_callback
-  a_button_callback_param tech_homing
+  callback_param tech_homing
   next_up    shield_tech2_menu_position
   next_right 0
   next_left  homing_tech1_menu_position
@@ -1136,24 +1208,36 @@ homing_string: .byte "HOMING",ES
 menu_word_variables:
 gp_variable:
   .word inventory_gp
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte 7
   .byte 9
   .word LAST_MENU_ITEM
 
 menu_byte_variables:
   .word inventory_keys
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte 8
   .byte 9
   .word inventory_healths
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte USE_ITEM_ROW
   .byte 24
   .word inventory_ropes
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte USE_ITEM_ROW+1
   .byte 24
   .word inventory_bombs
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte CARRY_LANTERN_ROW
   .byte 24
   .word inventory_lanterns
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte CARRY_LANTERN_ROW+1
   .byte 24
   .word LAST_MENU_ITEM
@@ -1161,70 +1245,104 @@ menu_byte_variables:
 menu_labels:
 inventory_label:
   .word inventory_string
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte 4
   .byte 11
 gp_label:
   .word gp_string
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte 7
   .byte 4
 keys_label:
   .word keys_string
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte 8
   .byte 4
 use_item_label:
   .word use_item_string
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte USE_ITEM_ROW
   .byte 4
 health_label:
   .word health_string
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte USE_ITEM_ROW
   .byte 13
 rope_label:
   .word rope_string
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte USE_ITEM_ROW+1
   .byte 13
 carry_label:
   .word carry_string
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte CARRY_LANTERN_ROW
   .byte 4
 bomb_label:
   .word bomb_string
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte CARRY_LANTERN_ROW
   .byte 13
 lantern_label:
   .word lantern_string
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte CARRY_LANTERN_ROW+1
   .byte 13
 tech_label:
   .word tech_string
+  .word is_enabled_callback_nop
+  callback_param 0
   .byte TECH_MENU_ROW
   .byte 4
 rush_menu_label:
   .word rush_string
+  .word tech_label_is_enabled_callback
+  callback_param tech_rush
   .byte TECH_MENU_ROW
   .byte TECH_MENU_COLUMN
 fetch_menu_label:
   .word fetch_string
+  .word tech_label_is_enabled_callback
+  callback_param tech_fetch
   .byte TECH_MENU_ROW+1
   .byte TECH_MENU_COLUMN
 carry_bomb_label:
   .word carry_bomb_string
+  .word tech_label_is_enabled_callback
+  callback_param tech_carry_bomb
   .byte TECH_MENU_ROW+2
   .byte TECH_MENU_COLUMN
 carry_lantern_label:
   .word carry_lantern_string
+  .word tech_label_is_enabled_callback
+  callback_param tech_carry_lantern
   .byte TECH_MENU_ROW+3
   .byte TECH_MENU_COLUMN
 carry_adlanniel_label:
   .word carry_adlanniel_string
+  .word tech_label_is_enabled_callback
+  callback_param tech_carry_adlanniel
   .byte TECH_MENU_ROW+4
   .byte TECH_MENU_COLUMN
 shield_label:
   .word shield_string
+  .word tech_label_is_enabled_callback
+  callback_param tech_shield
   .byte TECH_MENU_ROW+5
   .byte TECH_MENU_COLUMN
 homing_label:
   .word homing_string
+  .word tech_label_is_enabled_callback
+  callback_param tech_homing
   .byte TECH_MENU_ROW+6
   .byte TECH_MENU_COLUMN
   .word LAST_MENU_ITEM
