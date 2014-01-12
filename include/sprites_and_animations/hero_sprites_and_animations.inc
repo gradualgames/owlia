@@ -21,6 +21,16 @@ WalkUp1:
   .byte $10,$0d,$00,$08,$00
   .byte $18,$0e,$00,$00,$08
   .byte $18,$0f,$00,$08,$00
+WalkUp2:
+  .byte $08
+  .byte $00,$00,$00,$00,$08
+  .byte $00,$01,$00,$08,$00
+  .byte $08,$02,$00,$00,$08
+  .byte $08,$03,$00,$08,$00
+  .byte $10,$04,$40,$08,$08
+  .byte $10,$05,$40,$00,$00
+  .byte $18,$06,$40,$08,$08
+  .byte $18,$07,$40,$00,$00
 WalkDown0:
   .byte $08
   .byte $00,$10,$00,$00,$08
@@ -41,6 +51,16 @@ WalkDown1:
   .byte $10,$1d,$00,$08,$00
   .byte $18,$1e,$00,$00,$08
   .byte $18,$1f,$00,$08,$00
+WalkDown2:
+  .byte $08
+  .byte $00,$10,$00,$00,$08
+  .byte $00,$11,$00,$08,$00
+  .byte $08,$12,$00,$00,$08
+  .byte $08,$13,$00,$08,$00
+  .byte $10,$14,$40,$08,$08
+  .byte $10,$15,$40,$00,$00
+  .byte $18,$16,$40,$08,$08
+  .byte $18,$17,$40,$00,$00
 WalkSide0:
   .byte $08
   .byte $00,$20,$00,$00,$08
@@ -196,19 +216,19 @@ Tech1:
   .byte $00,$77,$00,$00,$00
 
 WalkUp:
-  .byte $08,$08
+  .byte $07,$08
   .word WalkUp1
   .word WalkUp0
   .word WalkUp1
-  .word WalkUp0
+  .word WalkUp2
 WalkDown:
-  .byte $08,$08
+  .byte $07,$08
   .word WalkDown0
   .word WalkDown1
-  .word WalkDown0
+  .word WalkDown2
   .word WalkDown1
 WalkSide:
-  .byte $08,$08
+  .byte $07,$08
   .word WalkSide1
   .word WalkSide2
   .word WalkSide1
