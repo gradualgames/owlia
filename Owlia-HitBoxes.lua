@@ -18,15 +18,15 @@ b5 = 0x0005
 w4 = 0x0014
 w5 = 0x0016
 
-camera_x = 0x05C6
-camera_y = 0x05C8
+camera_x = 0x05e7
+camera_y = 0x05e9
 
-entity_action_rect1_x = 0x0588
-entity_action_rect1_y = 0x058A
-entity_action_rect1_width = 0x058C
-entity_action_rect1_height = 0x058D
+entity_action_rect1_x = 0x05a9
+entity_action_rect1_y = 0x05ab
+entity_action_rect1_width = 0x05ad
+entity_action_rect1_height = 0x05ae
 
-geotests_rect_in_rect_16bit = 0xDA99
+geotests_rect_in_rect = 0xdec1
 
 -- draw a box and take care of coordinate checking
 local function box(x1,y1,x2,y2,color)
@@ -99,7 +99,7 @@ local function rect_in_rect_executed()
 
 end;
 
-memory.registerexecute(geotests_rect_in_rect_16bit, 110, rect_in_rect_executed)
+memory.registerexecute(geotests_rect_in_rect, 110, rect_in_rect_executed)
 
 local a,b,c,d;
 while (running) do
