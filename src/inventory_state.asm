@@ -161,32 +161,61 @@ inventory_state_init:
   sta ppu_2005+1
   upload_ppu_2005
 
-  ;initialize and draw initial cursor
   lda #0
   sta state_control_params+inventory_state_control::string_address
   sta state_control_params+inventory_state_control::string_address+1
   sta state_control_params+inventory_state_control::string_row
   sta state_control_params+inventory_state_control::string_column
 
-  lda #menu_position_tech1_rush
-  sta state_control_params+inventory_state_control::menu_position
+  lda #<rush_tech1_menu_position
+  sta state_control_params+inventory_state_control::current_menu_position_address
+  lda #>rush_tech1_menu_position
+  sta state_control_params+inventory_state_control::current_menu_position_address+1
 
-  ldx state_control_params+inventory_state_control::menu_position
-  switch_bank_ldy #INVENTORY_STATE_BANK
-  lda menu_position_row,x
-  sta state_control_params+inventory_state_control::cursor_row
-  lda menu_position_column,x
-  sta state_control_params+inventory_state_control::cursor_column
+  ;start at the beginning of the menu labels
+  lda #<menu_labels
+  sta w10
+  lda #>menu_labels
+  sta w10+1
 
-  jsr draw_cursor
+  lda #<print_menu_label
+  sta w2
+  lda #>print_menu_label
+  sta w2+1
 
-  jsr draw_tech_selectors
+  far_call #INVENTORY_STATE_BANK, draw_all_menu_items
+
+  ;start at the beginning of the menu variables
+  lda #<menu_word_variables
+  sta w10
+  lda #>menu_word_variables
+  sta w10+1
+
+  lda #<print_menu_word_variable
+  sta w2
+  lda #>print_menu_word_variable
+  sta w2+1
+
+  far_call #INVENTORY_STATE_BANK, draw_all_menu_items
+
+  ;start at the beginning of the menu variables
+  lda #<menu_byte_variables
+  sta w10
+  lda #>menu_byte_variables
+  sta w10+1
+
+  lda #<print_menu_byte_variable
+  sta w2
+  lda #>print_menu_byte_variable
+  sta w2+1
+
+  far_call #INVENTORY_STATE_BANK, draw_all_menu_items
+
+  far_call #INVENTORY_STATE_BANK, draw_cursor
+
+  far_call #INVENTORY_STATE_BANK, draw_tech_selectors
 
   jsr sprite_update_all
-
-  ;draw menu layout with strings
-  switch_bank_ldy #INVENTORY_STATE_BANK
-  jsr draw_inventory_strings
 
   jsr ppu_safely_enable_graphics
 
@@ -213,12 +242,7 @@ inventory_state_main:
 
   jsr sprite_clear_all
 
-  switch_bank_ldy #INVENTORY_STATE_BANK
-  jsr update_cursor
-
-  jsr draw_cursor
-
-  jsr draw_tech_selectors
+  far_call #INVENTORY_STATE_BANK, inventory_state_update
 
   ;test start button
   lda buffer_controller+buttons::_start
@@ -306,23 +330,209 @@ no_string_to_print:
 
 .endproc
 
+.segment "ROM01"
+
+.proc inventory_state_update
+
+  jsr update_cursor
+  jsr draw_cursor
+  jsr draw_tech_selectors
+
+  rts
+
+.endproc
+
+.proc print_menu_label
+menu_labels_address = w10
+
+  lda textbox_and_font_chr_offset
+  sta chr_group_offset
+
+  ldy #inventory_state_menu_item::item_address
+  lda (menu_labels_address),y
+  sta w0
+  iny
+  lda (menu_labels_address),y
+  sta w0+1
+
+  lda #$20
+  sta b0
+
+  ldy #inventory_state_menu_item::item_row
+  lda (menu_labels_address),y
+  sta b1
+  ldy #inventory_state_menu_item::item_column
+  lda (menu_labels_address),y
+  sta b2
+  jsr print_string_impl
+
+  rts
+
+.endproc
+
+.proc print_menu_word_variable
+menu_labels_address = w10
+
+  lda state_control_params+inventory_state_control::digits_chr_offset
+  sta chr_group_offset
+
+  ldy #inventory_state_menu_item::item_address
+  lda (menu_labels_address),y
+  sta w0
+  iny
+  lda (menu_labels_address),y
+  sta w0+1
+
+  ;transfer value at w0 into w0 using the stack
+  ldy #0
+  lda (w0),y
+  pha
+  iny
+  lda (w0),y
+
+  sta w0+1
+  pla
+  sta w0
+
+  lda #<string_buffer
+  sta w1
+  lda #>string_buffer
+  sta w1+1
+  jsr create_decimal_string
+
+  lda #$20
+  sta b0
+
+  ldy #inventory_state_menu_item::item_row
+  lda (menu_labels_address),y
+  sta b1
+
+  ldy #inventory_state_menu_item::item_column
+  lda (menu_labels_address),y
+  sta b2
+
+  lda #<string_buffer
+  sta w0
+  lda #>string_buffer
+  sta w0+1
+
+  jsr print_string_impl
+
+  rts
+
+.endproc
+
+.proc print_menu_byte_variable
+menu_labels_address = w10
+
+  lda state_control_params+inventory_state_control::digits_chr_offset
+  sta chr_group_offset
+
+  ldy #inventory_state_menu_item::item_address
+  lda (menu_labels_address),y
+  sta w0
+  iny
+  lda (menu_labels_address),y
+  sta w0+1
+
+  ;transfer value at w0 into w0. Assume hi byte is 0 since we are
+  ;printing a byte variable.
+  ldy #0
+  lda (w0),y
+  sta w0
+  lda #0
+  sta w0+1
+
+  lda #<string_buffer
+  sta w1
+  lda #>string_buffer
+  sta w1+1
+  jsr create_decimal_string
+
+  lda #$20
+  sta b0
+
+  ldy #inventory_state_menu_item::item_row
+  lda (menu_labels_address),y
+  sta b1
+
+  ldy #inventory_state_menu_item::item_column
+  lda (menu_labels_address),y
+  sta b2
+
+  lda #<string_buffer
+  sta w0
+  lda #>string_buffer
+  sta w0+1
+
+  jsr print_string_impl
+
+  rts
+
+.endproc
+
+;draws all menu items in a list.
+;expects w2 to contain a callback for printing each menu item
+;expects w10 to point to the first item to begin drawing.
+.proc draw_all_menu_items
+menu_item_print_callback = w2
+menu_items_address = w10
+
+next_menu_item:
+  ;exit loop if we have reached the end of all menu labels
+  ldy #0
+  lda (menu_items_address),y
+  iny
+  ora (menu_items_address),y
+  cmp #LAST_MENU_ITEM
+  beq done
+
+  ;draw the menu item
+  jsr indirect_jsr_w2
+
+  ;advance to next menu label
+  clc
+  lda menu_items_address
+  adc #<(.sizeof(inventory_state_menu_item))
+  sta menu_items_address
+  lda menu_items_address+1
+  adc #>(.sizeof(inventory_state_menu_item))
+  sta menu_items_address+1
+
+  jmp next_menu_item
+done:
+
+  rts
+
+.endproc
+
 .proc draw_cursor
+menu_position_address = w10
+
   ldy #sprite_chr_group_index_inventory
   lda sprite_chr_group_offsets,y
   sta chr_group_offset
 
-  switch_bank_ldy #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK
   lda #<Cursor0
   sta w0
   lda #>Cursor0
   sta w0+1
 
-  lda state_control_params+inventory_state_control::cursor_column
+  lda state_control_params+inventory_state_control::current_menu_position_address
+  sta menu_position_address
+  lda state_control_params+inventory_state_control::current_menu_position_address+1
+  sta menu_position_address+1
+
+  ;column
+  ldy #inventory_state_menu_position::cursor_column
+  lda (menu_position_address),y
   sta w3
   lda #0
   sta w3+1
 
-  lda state_control_params+inventory_state_control::cursor_row
+  ;row
+  ldy #inventory_state_menu_position::cursor_row
+  lda (menu_position_address),y
   sta w4
   lda #0
   sta w4+1
@@ -330,28 +540,33 @@ no_string_to_print:
   lda #0
   sta b2
 
-  jsr sprite_draw_metasprite
+  far_call #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK, sprite_draw_metasprite
 
   rts
 
 .endproc
 
 .proc draw_tech_selectors
+row_offset = b0
 
   ;draw the tech1 radio button
-  switch_bank_ldy #INVENTORY_STATE_BANK
-  clc
-  lda inventory_tech1
-  adc #menu_position_tech1_rush
-  tax
-  lda menu_position_column,x
+  lda #((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
   sta w3
   lda #0
   sta w3+1
 
-  lda menu_position_row,x
+  lda inventory_tech1
+  asl
+  asl
+  asl
+  sta row_offset
+
+  clc
+  lda #(TECH_MENU_ROW * 8)
+  adc row_offset
   sta w4
   lda #0
+  adc #0
   sta w4+1
 
   lda #0
@@ -362,23 +577,26 @@ no_string_to_print:
   lda #>Tech1_Selector
   sta w0+1
 
-  switch_bank_ldy #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK
-  jsr sprite_draw_metasprite
+  far_call #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK, sprite_draw_metasprite
 
   ;draw the tech2 radio button
-  switch_bank_ldy #INVENTORY_STATE_BANK
-  clc
-  lda inventory_tech2
-  adc #menu_position_tech2_rush
-  tax
-  lda menu_position_column,x
+  lda #((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
   sta w3
   lda #0
   sta w3+1
 
-  lda menu_position_row,x
+  lda inventory_tech2
+  asl
+  asl
+  asl
+  sta row_offset
+
+  clc
+  lda #(TECH_MENU_ROW * 8)
+  adc row_offset
   sta w4
   lda #0
+  adc #0
   sta w4+1
 
   lda #0
@@ -389,107 +607,88 @@ no_string_to_print:
   lda #>Tech2_Selector
   sta w0+1
 
-  switch_bank_ldy #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK
-  jsr sprite_draw_metasprite
+  far_call #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK, sprite_draw_metasprite
 
   rts
 
 .endproc
 
-.segment "ROM01"
+.proc update_cursor
+menu_position_address = w10
 
-;****************************************************************
-;This data comprises all the strings visible on the inventory
-;screen.
-;****************************************************************
+  lda state_control_params+inventory_state_control::current_menu_position_address
+  sta menu_position_address
+  lda state_control_params+inventory_state_control::current_menu_position_address+1
+  sta menu_position_address+1
 
-;inventory title string
-inventory_string: .byte "INVENTORY",ES
+  lda buffer_controller+buttons::_a
+  and #%00000011
+  cmp #%00000001
+  bne a_not_pressed
 
-;stat strings
-gp_string: .byte "GP",ES
-keys_string: .byte "KEYS",ES
+  ldy #inventory_state_menu_position::a_button_callback_address
+  lda (menu_position_address),y
+  sta w0
+  iny
+  lda (menu_position_address),y
+  sta w0+1
+  jsr indirect_jsr_w0
 
-;use item menu strings
-use_item_string: .byte "USE",ES
-health_string: .byte "HEALTH",ES
-rope_string: .byte "ROPE",ES
+  jsr play_action_sound
 
-;carry item menu strings
-carry_string: .byte "CARRY",ES
-bomb_string: .byte "BOMB",ES
-lantern_string: .byte "LANTERN",ES
+  rts
 
-;tech menu strings
-tech_string: .byte "TECH",ES
-rush_string: .byte "RUSH",ES
-fetch_string: .byte "FETCH",ES
-carry_bomb_string: .byte "CARRY BOMB",ES
-carry_lantern_string: .byte "CARRY LANTERN",ES
-carry_adlanniel_string: .byte "CARRY ADLANNIEL",ES
-shield_string: .byte "SHIELD",ES
-homing_string: .byte "HOMING",ES
+a_not_pressed:
 
-;****************************************************************
-;These routines are used for drawing the inventory screen. Some
-;are used for drawing the entire screen when graphics are off,
-;others are used for one-off updates of individual menu items
-;when an action has been performed.
-;****************************************************************
-.macro print_string_if_menu_item_enabled is_enabled_callback, string_address, nametable_hibyte, row, column
+  ;check all dpad buttons one at a time.
+  lda buffer_controller+buttons::_down
+  and #%00000011
+  cmp #%00000001
+  beq down
+  lda buffer_controller+buttons::_up
+  and #%00000011
+  cmp #%00000001
+  beq up
+  lda buffer_controller+buttons::_left
+  and #%00000011
+  cmp #%00000001
+  beq left
+  lda buffer_controller+buttons::_right
+  and #%00000011
+  cmp #%00000001
+  beq right
+  rts
+down:
+  ldy #inventory_state_menu_position::next_menu_item_down_address
+  jmp update_menu_item
+up:
+  ldy #inventory_state_menu_position::next_menu_item_up_address
+  jmp update_menu_item
+left:
+  ldy #inventory_state_menu_position::next_menu_item_left_address
+  jmp update_menu_item
+right:
+  ldy #inventory_state_menu_position::next_menu_item_right_address
+  jmp update_menu_item
+update_menu_item:
 
-  jsr is_enabled_callback
-  beq :+
-  print_string string_address, nametable_hibyte, row, column
-:
+  ;if the next item is null, bail
+  lda (menu_position_address),y
+  iny
+  ora (menu_position_address),y
+  beq item_was_null
 
-.endmacro
+  ;the item was not null, update the current menu item address and finish
+  dey
+  lda (menu_position_address),y
+  sta state_control_params+inventory_state_control::current_menu_position_address
+  iny
+  lda (menu_position_address),y
+  sta state_control_params+inventory_state_control::current_menu_position_address+1
 
-.macro print_decimal_string_if_menu_item_enabled is_enabled_callback, lo, hi, nametable_hibyte, row, column
+  jsr play_dpad_sound
 
-  jsr is_enabled_callback
-  beq :+
-  print_decimal_string lo, hi, nametable_hibyte, row, column
-:
-
-.endmacro
-
-.proc draw_inventory_strings
-
-  lda state_control_params+inventory_state_control::digits_chr_offset
-  sta chr_group_offset
-
-  print_decimal_string inventory_gp, inventory_gp+1, #$20, #7, #9
-  print_decimal_string inventory_keys, #0, #$20, #8, #9
-  print_decimal_string inventory_healths, #0, #$20, #USE_ITEM_ROW, #24
-  print_decimal_string inventory_ropes, #0, #$20, #USE_ITEM_ROW+1, #24
-
-  print_decimal_string inventory_bombs, #0, #$20, #CARRY_LANTERN_ROW, #24
-  print_decimal_string inventory_lanterns, #0, #$20, #CARRY_LANTERN_ROW+1, #24
-
-  lda textbox_and_font_chr_offset
-  sta chr_group_offset
-  print_string inventory_string, #$20, #4, #11
-
-  print_string gp_string, #$20, #7, #4
-  print_string keys_string, #$20, #8, #4
-
-  print_string use_item_string, #$20, #USE_ITEM_ROW, #4
-  print_string health_string, #$20, #USE_ITEM_ROW, #13
-  print_string rope_string, #$20, #USE_ITEM_ROW+1, #13
-
-  print_string carry_string, #$20, #CARRY_LANTERN_ROW, #4
-  print_string bomb_string, #$20, #CARRY_LANTERN_ROW, #13
-  print_string lantern_string, #$20, #CARRY_LANTERN_ROW+1, #13
-
-  print_string tech_string, #$20, #TECH_MENU_ROW, #4
-  print_string_if_menu_item_enabled tech_rush_is_enabled, rush_string, #$20, #TECH_MENU_ROW, #13
-  print_string_if_menu_item_enabled tech_fetch_is_enabled, fetch_string, #$20, #TECH_MENU_ROW+1, #13
-  print_string_if_menu_item_enabled tech_carry_bomb_is_enabled, carry_bomb_string, #$20, #TECH_MENU_ROW+2, #13
-  print_string_if_menu_item_enabled tech_carry_lantern_is_enabled, carry_lantern_string, #$20, #TECH_MENU_ROW+3, #13
-  print_string_if_menu_item_enabled tech_carry_adlanniel_is_enabled, carry_adlanniel_string, #$20, #TECH_MENU_ROW+4, #13
-  print_string_if_menu_item_enabled tech_shield_is_enabled, shield_string, #$20, #TECH_MENU_ROW+5, #13
-  print_string_if_menu_item_enabled tech_homing_is_enabled, homing_string, #$20, #TECH_MENU_ROW+6, #13
+item_was_null:
 
   rts
 
@@ -541,511 +740,351 @@ homing_string: .byte "HOMING",ES
 
 .endproc
 
-.proc play_use_item_sound
+.proc indirect_jsr_w0
+  jmp (w0)
+.endproc
 
-  txa
-  pha
+.proc indirect_jsr_w1
+  jmp (w1)
+.endproc
 
-  lda #<sfx_get_item
-  sta sound_param_word_0
-  lda #>sfx_get_item
-  sta sound_param_word_0+1
+.proc indirect_jsr_w2
+  jmp (w2)
+.endproc
 
-  lda #1
-  sta sound_param_byte_0
-
-  ldx #soundeffect_one
-  jsr stream_initialize
-
-  pla
-  tax
+not_enabled_callback_nop:
+a_button_callback_nop:
+print_callback_nop:
+.proc callback_nop
 
   rts
 
 .endproc
 
-.proc play_error_sound
+.proc tech1_a_button_callback
+menu_position_address = w10
 
-  txa
-  pha
+  lda state_control_params+inventory_state_control::current_menu_position_address
+  sta menu_position_address
+  lda state_control_params+inventory_state_control::current_menu_position_address+1
+  sta menu_position_address+1
 
-  lda #<sfx_error
-  sta sound_param_word_0
-  lda #>sfx_error
-  sta sound_param_word_0+1
-
-  lda #1
-  sta sound_param_byte_0
-
-  ldx #soundeffect_one
-  jsr stream_initialize
-
-  pla
-  tax
-
-  rts
-
-.endproc
-
-;****************************************************************
-;This is the main menu navigation routine. It uses the look up
-;tables below to determine where to put the cursor next based
-;on which dpad button was pressed, plays a sound for moving the
-;cursor, and also calls action callback routines when the action
-;(A) button is pressed. It also skips over menu items that are
-;currently disabled due to not having any of a certain item or
-;not having earned a given technique.
-;****************************************************************
-.proc update_cursor
-
-  ;test A button and call callback for current menu position if pressed
-  .scope
-  lda buffer_controller+buttons::_a
-  and #%00000011
-  cmp #%00000001
-  bne a_not_pressed
-
-  ldx state_control_params+inventory_state_control::menu_position
-  lda menu_position_action_callbacks_lo,x
-  sta w0
-  lda menu_position_action_callbacks_hi,x
-  sta w0+1
-  jsr indirect_jsr_w0
-
-  jmp done
-a_not_pressed:
-  ;if A button was not pressed, then figure out where the cursor
-  ;should go next
-  lda buffer_controller+buttons::_left
-  and #%00000011
-  cmp #%00000001
-  bne left_not_pressed
-
-  jsr play_dpad_sound
-  ldx state_control_params+inventory_state_control::menu_position
-  lda menu_position_next_left,x
-  sta state_control_params+inventory_state_control::menu_position
-  tax
-  lda menu_position_row,x
-  sta state_control_params+inventory_state_control::cursor_row
-  lda menu_position_column,x
-  sta state_control_params+inventory_state_control::cursor_column
-
-  jmp done
-left_not_pressed:
-  lda buffer_controller+buttons::_right
-  and #%00000011
-  cmp #%00000001
-  bne right_not_pressed
-
-  jsr play_dpad_sound
-  ldx state_control_params+inventory_state_control::menu_position
-  lda menu_position_next_right,x
-  sta state_control_params+inventory_state_control::menu_position
-  tax
-  lda menu_position_row,x
-  sta state_control_params+inventory_state_control::cursor_row
-  lda menu_position_column,x
-  sta state_control_params+inventory_state_control::cursor_column
-
-  jmp done
-right_not_pressed:
-  lda buffer_controller+buttons::_down
-  and #%00000011
-  cmp #%00000001
-  bne down_not_pressed
-
-  jsr play_dpad_sound
-  .scope
-  ldx state_control_params+inventory_state_control::menu_position
-  ldy #menu_position_tech2_homing
-try_next_menu_item:
-  lda menu_position_next_down,x
-  tax
-  lda menu_position_is_enabled_callbacks_lo,x
-  sta w0
-  lda menu_position_is_enabled_callbacks_hi,x
-  sta w0+1
-  jsr indirect_jsr_w0
-  beq menu_item_disabled
-  stx state_control_params+inventory_state_control::menu_position
-  lda menu_position_row,x
-  sta state_control_params+inventory_state_control::cursor_row
-  lda menu_position_column,x
-  sta state_control_params+inventory_state_control::cursor_column
-  jmp done
-menu_item_disabled:
-  dey
-  bne try_next_menu_item
-done:
-  .endscope
-
-  jmp done
-down_not_pressed:
-  lda buffer_controller+buttons::_up
-  and #%00000011
-  cmp #%00000001
-  bne up_not_pressed
-
-  jsr play_dpad_sound
-  .scope
-  ldx state_control_params+inventory_state_control::menu_position
-  ldy #menu_position_tech2_homing
-try_next_menu_item:
-  lda menu_position_next_up,x
-  tax
-  lda menu_position_is_enabled_callbacks_lo,x
-  sta w0
-  lda menu_position_is_enabled_callbacks_hi,x
-  sta w0+1
-  jsr indirect_jsr_w0
-  beq menu_item_disabled
-  stx state_control_params+inventory_state_control::menu_position
-  lda menu_position_row,x
-  sta state_control_params+inventory_state_control::cursor_row
-  lda menu_position_column,x
-  sta state_control_params+inventory_state_control::cursor_column
-  jmp done
-menu_item_disabled:
-  dey
-  bne try_next_menu_item
-done:
-  .endscope
-
-  jmp done
-up_not_pressed:
-
-dpad_not_pressed:
-done:
-  .endscope
-  rts
-
-.endproc
-
-;****************************************************************
-;These look up tables define menu navigation. They define where
-;the cursor should be located for each menu position and also
-;where the cursor should go for up, down, left, right for every
-;position in the menu.
-;****************************************************************
-menu_position_row:
-  .byte 8 * 13
-  .byte 8 * 14
-  .byte 8 * 17
-  .byte 8 * 18
-  .byte 8 * 19
-  .byte 8 * 20
-  .byte 8 * 21
-  .byte 8 * 22
-  .byte 8 * 23
-  .byte 8 * 17
-  .byte 8 * 18
-  .byte 8 * 19
-  .byte 8 * 20
-  .byte 8 * 21
-  .byte 8 * 22
-  .byte 8 * 23
-
-menu_position_column:
-  .byte 8 * 11
-  .byte 8 * 11
-  .byte 8 * 9
-  .byte 8 * 9
-  .byte 8 * 9
-  .byte 8 * 9
-  .byte 8 * 9
-  .byte 8 * 9
-  .byte 8 * 9
-  .byte 8 * 11
-  .byte 8 * 11
-  .byte 8 * 11
-  .byte 8 * 11
-  .byte 8 * 11
-  .byte 8 * 11
-  .byte 8 * 11
-
-menu_position_next_left:
-  .byte menu_position_health
-  .byte menu_position_rope
-  .byte menu_position_tech1_rush
-  .byte menu_position_tech1_fetch
-  .byte menu_position_tech1_carry_bomb
-  .byte menu_position_tech1_carry_lantern
-  .byte menu_position_tech1_carry_adlanniel
-  .byte menu_position_tech1_shield
-  .byte menu_position_tech1_homing
-  .byte menu_position_tech1_rush
-  .byte menu_position_tech1_fetch
-  .byte menu_position_tech1_carry_bomb
-  .byte menu_position_tech1_carry_lantern
-  .byte menu_position_tech1_carry_adlanniel
-  .byte menu_position_tech1_shield
-  .byte menu_position_tech1_homing
-
-menu_position_next_right:
-  .byte menu_position_health
-  .byte menu_position_rope
-  .byte menu_position_tech2_rush
-  .byte menu_position_tech2_fetch
-  .byte menu_position_tech2_carry_bomb
-  .byte menu_position_tech2_carry_lantern
-  .byte menu_position_tech2_carry_adlanniel
-  .byte menu_position_tech2_shield
-  .byte menu_position_tech2_homing
-  .byte menu_position_tech2_rush
-  .byte menu_position_tech2_fetch
-  .byte menu_position_tech2_carry_bomb
-  .byte menu_position_tech2_carry_lantern
-  .byte menu_position_tech2_carry_adlanniel
-  .byte menu_position_tech2_shield
-  .byte menu_position_tech2_homing
-
-menu_position_next_up:
-  .byte menu_position_health
-  .byte menu_position_health
-  .byte menu_position_rope
-  .byte menu_position_tech1_rush
-  .byte menu_position_tech1_fetch
-  .byte menu_position_tech1_carry_bomb
-  .byte menu_position_tech1_carry_lantern
-  .byte menu_position_tech1_carry_adlanniel
-  .byte menu_position_tech1_shield
-  .byte menu_position_rope
-  .byte menu_position_tech2_rush
-  .byte menu_position_tech2_fetch
-  .byte menu_position_tech2_carry_bomb
-  .byte menu_position_tech2_carry_lantern
-  .byte menu_position_tech2_carry_adlanniel
-  .byte menu_position_tech2_shield
-
-menu_position_next_down:
-  .byte menu_position_rope
-  .byte menu_position_tech2_rush
-  .byte menu_position_tech1_fetch
-  .byte menu_position_tech1_carry_bomb
-  .byte menu_position_tech1_carry_lantern
-  .byte menu_position_tech1_carry_adlanniel
-  .byte menu_position_tech1_shield
-  .byte menu_position_tech1_homing
-  .byte menu_position_tech1_homing
-  .byte menu_position_tech2_fetch
-  .byte menu_position_tech2_carry_bomb
-  .byte menu_position_tech2_carry_lantern
-  .byte menu_position_tech2_carry_adlanniel
-  .byte menu_position_tech2_shield
-  .byte menu_position_tech2_homing
-  .byte menu_position_tech2_homing
-
-;****************************************************************
-;These callbacks perform actions for each menu position. They
-;use items (health, owl health, rope, etc.), or select which item
-;the owl can carry when using the carry item technique, or select
-;the two selected techniques.
-;****************************************************************
-.define menu_position_action_callbacks \
-  menu_position_action_callback_health, \
-  menu_position_action_callback_test, \
-  menu_position_tech1_column_callback, \
-  menu_position_tech1_column_callback, \
-  menu_position_tech1_column_callback, \
-  menu_position_tech1_column_callback, \
-  menu_position_tech1_column_callback, \
-  menu_position_tech1_column_callback, \
-  menu_position_tech1_column_callback, \
-  menu_position_tech2_column_callback, \
-  menu_position_tech2_column_callback, \
-  menu_position_tech2_column_callback, \
-  menu_position_tech2_column_callback, \
-  menu_position_tech2_column_callback, \
-  menu_position_tech2_column_callback, \
-  menu_position_tech2_column_callback
-
-menu_position_action_callbacks_lo:
-  .lobytes menu_position_action_callbacks
-
-menu_position_action_callbacks_hi:
-  .hibytes menu_position_action_callbacks
-
-.proc menu_position_action_callback_health
-
-  lda #HERO_MAX_HEALTH
-  cmp hero_health
-  beq do_not_inc_health
-
-  lda inventory_healths
-  beq do_not_inc_health
-
-  jsr play_use_item_sound
-
-  dec inventory_healths
-
-  inc hero_health
-
-  lda inventory_healths
-  sta w0
-  lda #0
-  sta w0+1
-  lda #<string_buffer
-  sta w1
-  lda #>string_buffer
-  sta w1+1
-  jsr create_decimal_string
-
-  lda #<string_buffer
-  sta state_control_params+inventory_state_control::string_address
-  lda #>string_buffer
-  sta state_control_params+inventory_state_control::string_address+1
-
-  lda #USE_ITEM_ROW
-  sta state_control_params+inventory_state_control::string_row
-  lda #24
-  sta state_control_params+inventory_state_control::string_column
-
-  rts
-
-do_not_inc_health:
-
-  jsr play_error_sound
-
-  rts
-
-.endproc
-
-.proc menu_position_action_callback_test
-
-  jsr play_action_sound
-
-  rts
-
-.endproc
-
-.proc menu_position_tech1_column_callback
-
-  jsr play_action_sound
-  sec
-  lda state_control_params+inventory_state_control::menu_position
-  sbc #menu_position_tech1_rush
+  ldy #inventory_state_menu_position::a_button_callback_param
+  lda (menu_position_address),y
   sta inventory_tech1
 
   rts
 
 .endproc
 
-.proc menu_position_tech2_column_callback
+.proc tech2_a_button_callback
+menu_position_address = w10
 
-  jsr play_action_sound
-  sec
-  lda state_control_params+inventory_state_control::menu_position
-  sbc #menu_position_tech2_rush
+  lda state_control_params+inventory_state_control::current_menu_position_address
+  sta menu_position_address
+  lda state_control_params+inventory_state_control::current_menu_position_address+1
+  sta menu_position_address+1
+
+  ldy #inventory_state_menu_position::a_button_callback_param
+  lda (menu_position_address),y
   sta inventory_tech2
 
   rts
 
 .endproc
 
+rush_tech1_menu_position:
+  .word not_enabled_callback_nop
+  .word tech1_a_button_callback
+  a_button_callback_param tech_rush
+  next_up    0
+  next_right rush_tech2_menu_position
+  next_left  0
+  next_down  fetch_tech1_menu_position
+  .byte 0
+  .byte (TECH_MENU_ROW * 8)
+  .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
+
+fetch_tech1_menu_position:
+  .word not_enabled_callback_nop
+  .word tech1_a_button_callback
+  a_button_callback_param tech_fetch
+  next_up    rush_tech1_menu_position
+  next_right fetch_tech2_menu_position
+  next_left  0
+  next_down  carry_bomb_tech1_menu_position
+  .byte 0
+  .byte ((TECH_MENU_ROW+1) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
+
+carry_bomb_tech1_menu_position:
+  .word not_enabled_callback_nop
+  .word tech1_a_button_callback
+  a_button_callback_param tech_carry_bomb
+  next_up    fetch_tech1_menu_position
+  next_right carry_bomb_tech2_menu_position
+  next_left  0
+  next_down  carry_lantern_tech1_menu_position
+  .byte 0
+  .byte ((TECH_MENU_ROW+2) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
+
+carry_lantern_tech1_menu_position:
+  .word not_enabled_callback_nop
+  .word tech1_a_button_callback
+  a_button_callback_param tech_carry_lantern
+  next_up    carry_bomb_tech1_menu_position
+  next_right carry_lantern_tech2_menu_position
+  next_left  0
+  next_down  carry_adlanniel_tech1_menu_position
+  .byte 0
+  .byte ((TECH_MENU_ROW+3) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
+
+carry_adlanniel_tech1_menu_position:
+  .word not_enabled_callback_nop
+  .word tech1_a_button_callback
+  a_button_callback_param tech_carry_adlanniel
+  next_up    carry_lantern_tech1_menu_position
+  next_right carry_adlanniel_tech2_menu_position
+  next_left  0
+  next_down  shield_tech1_menu_position
+  .byte 0
+  .byte ((TECH_MENU_ROW+4) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
+
+shield_tech1_menu_position:
+  .word not_enabled_callback_nop
+  .word tech1_a_button_callback
+  a_button_callback_param tech_shield
+  next_up    carry_adlanniel_tech1_menu_position
+  next_right shield_tech2_menu_position
+  next_left  0
+  next_down  homing_tech1_menu_position
+  .byte 0
+  .byte ((TECH_MENU_ROW+5) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
+
+homing_tech1_menu_position:
+  .word not_enabled_callback_nop
+  .word tech1_a_button_callback
+  a_button_callback_param tech_homing
+  next_up    shield_tech1_menu_position
+  next_right homing_tech2_menu_position
+  next_left  0
+  next_down  0
+  .byte 0
+  .byte ((TECH_MENU_ROW+6) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
+
+rush_tech2_menu_position:
+  .word not_enabled_callback_nop
+  .word tech2_a_button_callback
+  a_button_callback_param tech_rush
+  next_up    0
+  next_right 0
+  next_left  rush_tech1_menu_position
+  next_down  fetch_tech2_menu_position
+  .byte 0
+  .byte ((TECH_MENU_ROW) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
+
+fetch_tech2_menu_position:
+  .word not_enabled_callback_nop
+  .word tech2_a_button_callback
+  a_button_callback_param tech_fetch
+  next_up    rush_tech2_menu_position
+  next_right 0
+  next_left  fetch_tech1_menu_position
+  next_down  carry_bomb_tech2_menu_position
+  .byte 0
+  .byte ((TECH_MENU_ROW+1) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
+
+carry_bomb_tech2_menu_position:
+  .word not_enabled_callback_nop
+  .word tech2_a_button_callback
+  a_button_callback_param tech_carry_bomb
+  next_up    fetch_tech2_menu_position
+  next_right 0
+  next_left  carry_bomb_tech1_menu_position
+  next_down  carry_lantern_tech2_menu_position
+  .byte 0
+  .byte ((TECH_MENU_ROW+2) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
+
+carry_lantern_tech2_menu_position:
+  .word not_enabled_callback_nop
+  .word tech2_a_button_callback
+  a_button_callback_param tech_carry_lantern
+  next_up    carry_bomb_tech2_menu_position
+  next_right 0
+  next_left  carry_lantern_tech1_menu_position
+  next_down  carry_adlanniel_tech2_menu_position
+  .byte 0
+  .byte ((TECH_MENU_ROW+3) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
+
+carry_adlanniel_tech2_menu_position:
+  .word not_enabled_callback_nop
+  .word tech2_a_button_callback
+  a_button_callback_param tech_carry_adlanniel
+  next_up    carry_lantern_tech2_menu_position
+  next_right 0
+  next_left  carry_adlanniel_tech1_menu_position
+  next_down  shield_tech2_menu_position
+  .byte 0
+  .byte ((TECH_MENU_ROW+4) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
+
+shield_tech2_menu_position:
+  .word not_enabled_callback_nop
+  .word tech2_a_button_callback
+  a_button_callback_param tech_shield
+  next_up    carry_adlanniel_tech2_menu_position
+  next_right 0
+  next_left  shield_tech1_menu_position
+  next_down  homing_tech2_menu_position
+  .byte 0
+  .byte ((TECH_MENU_ROW+5) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
+
+homing_tech2_menu_position:
+  .word not_enabled_callback_nop
+  .word tech2_a_button_callback
+  a_button_callback_param tech_homing
+  next_up    shield_tech2_menu_position
+  next_right 0
+  next_left  homing_tech1_menu_position
+  next_down  0
+  .byte 0
+  .byte ((TECH_MENU_ROW+6) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
+
 ;****************************************************************
-;These callbacks help the menu system determine whether to skip
-;over or even draw individual bits of the menu. They look at
-;global inventory state to determine if the player owns any
-;of an item type or has earned a given technique type. In
-;general, these routines will set the zero flag when not enabled
-;and clear the zero flag when enabled.
+;This data comprises all the strings visible on the inventory
+;screen.
 ;****************************************************************
-.define menu_position_is_enabled_callbacks \
-  health_is_enabled, \
-  rope_is_enabled, \
-  tech_rush_is_enabled, \
-  tech_fetch_is_enabled, \
-  tech_carry_bomb_is_enabled, \
-  tech_carry_lantern_is_enabled, \
-  tech_carry_adlanniel_is_enabled, \
-  tech_shield_is_enabled, \
-  tech_homing_is_enabled, \
-  tech_rush_is_enabled, \
-  tech_fetch_is_enabled, \
-  tech_carry_bomb_is_enabled, \
-  tech_carry_lantern_is_enabled, \
-  tech_carry_adlanniel_is_enabled, \
-  tech_shield_is_enabled, \
-  tech_homing_is_enabled
 
-menu_position_is_enabled_callbacks_lo:
-  .lobytes menu_position_is_enabled_callbacks
+;inventory title string
+inventory_string: .byte "INVENTORY",ES
 
-menu_position_is_enabled_callbacks_hi:
-  .hibytes menu_position_is_enabled_callbacks
+;stat strings
+gp_string: .byte "GP",ES
+keys_string: .byte "KEYS",ES
 
-.proc health_is_enabled
-  lda inventory_healths
-  rts
-.endproc
+;use item menu strings
+use_item_string: .byte "USE",ES
+health_string: .byte "HEALTH",ES
+rope_string: .byte "ROPE",ES
 
-.proc rope_is_enabled
-  lda inventory_ropes
-  rts
-.endproc
+;carry item menu strings
+carry_string: .byte "CARRY",ES
+bomb_string: .byte "BOMB",ES
+lantern_string: .byte "LANTERN",ES
 
-.proc bomb_is_enabled
-  lda inventory_bombs
-  rts
-.endproc
+;tech menu strings
+tech_string: .byte "TECH",ES
+rush_string: .byte "RUSH",ES
+fetch_string: .byte "FETCH",ES
+carry_bomb_string: .byte "CARRY BOMB",ES
+carry_lantern_string: .byte "CARRY LANTERN",ES
+carry_adlanniel_string: .byte "CARRY ADLANNIEL",ES
+shield_string: .byte "SHIELD",ES
+homing_string: .byte "HOMING",ES
 
-.proc lantern_is_enabled
-  lda inventory_lanterns
-  rts
-.endproc
+menu_word_variables:
+gp_variable:
+  .word inventory_gp
+  .byte 7
+  .byte 9
+  .word LAST_MENU_ITEM
 
-.macro tech_is_enabled tech
-  lda inventory_earned_techs
-  cmp #tech
-  bpl :+
-  ;result was negative, this means inventory_earned_techs was smaller than
-  ;the tech we're looking at, which means this tech has not been earned yet,
-  ;so it is not enabled, so we want to set the zero flag.
-  lda #0
-  rts
-:
-  ;result was positive, this means inventory_earned_techs was greater than
-  ;the tech we're looking at, which means this tech is earned, so it is
-  ;enabled, so we want to clear the zero flag.
-  lda #1
-.endmacro
+menu_byte_variables:
+  .word inventory_keys
+  .byte 8
+  .byte 9
+  .word inventory_healths
+  .byte USE_ITEM_ROW
+  .byte 24
+  .word inventory_ropes
+  .byte USE_ITEM_ROW+1
+  .byte 24
+  .word inventory_bombs
+  .byte CARRY_LANTERN_ROW
+  .byte 24
+  .word inventory_lanterns
+  .byte CARRY_LANTERN_ROW+1
+  .byte 24
+  .word LAST_MENU_ITEM
 
-.proc tech_rush_is_enabled
-  tech_is_enabled tech_rush_earned
-  rts
-.endproc
-
-.proc tech_fetch_is_enabled
-  tech_is_enabled tech_fetch_earned
-  rts
-.endproc
-
-.proc tech_carry_bomb_is_enabled
-  tech_is_enabled tech_carry_bomb_earned
-  rts
-.endproc
-
-.proc tech_carry_lantern_is_enabled
-  tech_is_enabled tech_carry_lantern_earned
-  rts
-.endproc
-
-.proc tech_carry_adlanniel_is_enabled
-  tech_is_enabled tech_carry_adlanniel_earned
-  rts
-.endproc
-
-.proc tech_shield_is_enabled
-  tech_is_enabled tech_shield_earned
-  rts
-.endproc
-
-.proc tech_homing_is_enabled
-  tech_is_enabled tech_homing_earned
-  rts
-.endproc
-
-.proc indirect_jsr_w0
-  jmp (w0)
-.endproc
+menu_labels:
+inventory_label:
+  .word inventory_string
+  .byte 4
+  .byte 11
+gp_label:
+  .word gp_string
+  .byte 7
+  .byte 4
+keys_label:
+  .word keys_string
+  .byte 8
+  .byte 4
+use_item_label:
+  .word use_item_string
+  .byte USE_ITEM_ROW
+  .byte 4
+health_label:
+  .word health_string
+  .byte USE_ITEM_ROW
+  .byte 13
+rope_label:
+  .word rope_string
+  .byte USE_ITEM_ROW+1
+  .byte 13
+carry_label:
+  .word carry_string
+  .byte CARRY_LANTERN_ROW
+  .byte 4
+bomb_label:
+  .word bomb_string
+  .byte CARRY_LANTERN_ROW
+  .byte 13
+lantern_label:
+  .word lantern_string
+  .byte CARRY_LANTERN_ROW+1
+  .byte 13
+tech_label:
+  .word tech_string
+  .byte TECH_MENU_ROW
+  .byte 4
+rush_menu_label:
+  .word rush_string
+  .byte TECH_MENU_ROW
+  .byte TECH_MENU_COLUMN
+fetch_menu_label:
+  .word fetch_string
+  .byte TECH_MENU_ROW+1
+  .byte TECH_MENU_COLUMN
+carry_bomb_label:
+  .word carry_bomb_string
+  .byte TECH_MENU_ROW+2
+  .byte TECH_MENU_COLUMN
+carry_lantern_label:
+  .word carry_lantern_string
+  .byte TECH_MENU_ROW+3
+  .byte TECH_MENU_COLUMN
+carry_adlanniel_label:
+  .word carry_adlanniel_string
+  .byte TECH_MENU_ROW+4
+  .byte TECH_MENU_COLUMN
+shield_label:
+  .word shield_string
+  .byte TECH_MENU_ROW+5
+  .byte TECH_MENU_COLUMN
+homing_label:
+  .word homing_string
+  .byte TECH_MENU_ROW+6
+  .byte TECH_MENU_COLUMN
+  .word LAST_MENU_ITEM

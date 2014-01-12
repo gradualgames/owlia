@@ -19,7 +19,7 @@ power_table_hi:
   .byte >10000, >1000, >100, >10, >1
 
 ;This routine creates a decimal string from a 16 bit input number.
-;w0 is expected to be the address of the input number to translate into a decimal string.
+;w0 is expected to be the input number to translate into a decimal string.
 ;w1 is expected to be the address of the output string buffer in RAM.
 ;b0 is used to count how many times each power fit into the input number
 ;b1 is used to count remaining digits
