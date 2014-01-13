@@ -72,6 +72,7 @@ BOTTOM_LEFT_TILE_OFFSET  = 5
 BOTTOM_RIGHT_TILE_OFFSET = 6
 TOP_TILE_OFFSET          = 7
 BOTTOM_TILE_OFFSET       = 8
+ARROW_TILE_OFFSET        = 9
 
 .include "charmap.inc"
 

@@ -404,7 +404,7 @@ time:
 cursor:
 
   clc
-  lda #LEFT_TILE_OFFSET
+  lda #ARROW_TILE_OFFSET
   adc textbox_and_font_chr_offset
   sta nametable_row_buffer,x
   lda #1
