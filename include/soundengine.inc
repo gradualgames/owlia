@@ -1,8 +1,6 @@
 .ifndef SOUNDENGINE_INC
 SOUNDENGINE_INC = 1
 
-.globalzp tempo_counter
-.globalzp tempo
 .globalzp apu_data_ready
 .globalzp apu_square_1_old
 .globalzp apu_square_2_old
@@ -44,7 +42,7 @@ SOUNDENGINE_INC = 1
 
 ;The max number of streams we support. The engine assumes the first
 ;four streams are music, so this number must never be less than four!
-MAX_STREAMS = 8
+MAX_STREAMS = 6
 
   ;****************************************************************
   ;The following are all opcodes. All opcodes in range 0-93 are
@@ -194,6 +192,20 @@ _QUARTER = 2*_8TH
 ;values to use for x for playing sound effects
 soundeffect_one = 4
 soundeffect_two = 5
+
+;default tempo. 
+DEFAULT_TEMPO = 255
+
+.struct song_header
+  tempo .byte
+  square1_stream_address .word
+  square2_stream_address .word
+  triangle_stream_address .word
+  noise_stream_address .word
+  volume_envelopes_address .word
+  pitch_envelopes_address .word
+  duty_envelopes_address .word
+.endstruct
 
 .macro advance_stream_read_address
 

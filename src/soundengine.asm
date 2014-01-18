@@ -2,9 +2,6 @@
 .include "soundengine.inc"
 
 .segment "ZEROPAGE"
-tempo_counter: .res 2
-tempo:          .res 1
-
 sound_local_byte_0: .res 1
 sound_local_byte_1: .res 1
 sound_local_byte_2: .res 1
@@ -62,6 +59,9 @@ stream_channel_register_4: .res MAX_STREAMS
 
 stream_read_address_lo:    .res MAX_STREAMS
 stream_read_address_hi:    .res MAX_STREAMS
+
+stream_tempo_counter:      .res MAX_STREAMS
+stream_tempo:              .res MAX_STREAMS
 
 ;five total channels, 4 bytes per channel, so 40 bytes.
 apu_register_sets: .res 40
@@ -121,13 +121,6 @@ loop:
   lda #0
   sta apu_data_ready
 
-  ;see if tempo counter is going to set carry bit
-  ;and update music streams if so
-  clc
-  lda tempo_counter
-  adc tempo
-  bcc do_not_update_music
-
   ;first copy all music streams, or the first four streams
   lda song_base_address_volume_envelopes
   sta base_address_volume_envelopes
@@ -173,15 +166,6 @@ song_stream_not_active:
   cpx #4
   bne song_stream_register_copy_loop
 do_not_update_music:
-
-  ;update tempo counter
-  clc
-  lda tempo_counter
-  adc tempo
-  sta tempo_counter
-  lda tempo_counter+1
-  adc #0
-  sta tempo_counter+1
 
   ;next, copy all sfx streams, or the last four streams
   lda sfx_base_address_volume_envelopes
@@ -792,18 +776,8 @@ volume_stop:
   txa
   pha
 
-  ;initialize tempo
-  lda #0
-  sta tempo_counter
-  sta tempo_counter+1
-
-  ;load tempo
-  ldy #0
-  lda (song_address),y
-  sta tempo
-
   ;load square 1 stream
-  iny
+  ldy #song_header::square1_stream_address
   lda (song_address),y
   sta sound_param_word_0
   iny
@@ -816,10 +790,14 @@ volume_stop:
 
   ldx #0
   jsr stream_initialize
+
+  ldy #song_header::tempo
+  lda (song_address),y
+  sta stream_tempo,x
 no_square_1:
 
   ;load square 2 stream
-  iny
+  ldy #song_header::square2_stream_address
   lda (song_address),y
   sta sound_param_word_0
   iny
@@ -832,10 +810,14 @@ no_square_1:
 
   ldx #1
   jsr stream_initialize
+
+  ldy #song_header::tempo
+  lda (song_address),y
+  sta stream_tempo,x
 no_square_2:
 
   ;load triangle stream
-  iny
+  ldy #song_header::triangle_stream_address
   lda (song_address),y
   sta sound_param_word_0
   iny
@@ -848,10 +830,14 @@ no_square_2:
 
   ldx #2
   jsr stream_initialize
+
+  ldy #song_header::tempo
+  lda (song_address),y
+  sta stream_tempo,x
 no_triangle:
 
   ;load noise stream
-  iny
+  ldy #song_header::noise_stream_address
   lda (song_address),y
   sta sound_param_word_0
   iny
@@ -864,10 +850,14 @@ no_triangle:
 
   ldx #3
   jsr stream_initialize
+
+  ldy #song_header::tempo
+  lda (song_address),y
+  sta stream_tempo,x
 no_noise:
 
   ;load volume envelopes
-  iny
+  ldy #song_header::volume_envelopes_address
   lda (song_address),y
   sta song_base_address_volume_envelopes
   iny
@@ -875,7 +865,7 @@ no_noise:
   sta song_base_address_volume_envelopes+1
 
   ;load pitch envelopes
-  iny
+  ldy #song_header::pitch_envelopes_address
   lda (song_address),y
   sta song_base_address_pitch_envelopes
   iny
@@ -883,7 +873,7 @@ no_noise:
   sta song_base_address_pitch_envelopes+1
 
   ;load duty envelopes
-  iny
+  ldy #song_header::duty_envelopes_address
   lda (song_address),y
   sta song_base_address_duty_envelopes
   iny
@@ -987,6 +977,12 @@ starting_read_address = sound_param_word_0
   lda starting_read_address+1
   sta stream_read_address_hi,x
 
+  ;set default tempo
+  lda #DEFAULT_TEMPO
+  sta stream_tempo,x
+  lda #0
+  sta stream_tempo_counter,x
+
   ;set stream to be active
   lda #1
   sta stream_active,x
@@ -1038,6 +1034,13 @@ process_note:
   ;call the channel callback!
   jsr indirect_jsr_callback_address
 
+  ;add the tempo to the current counter. On carry, advance.
+  clc
+  lda stream_tempo_counter,x
+  adc stream_tempo,x
+  sta stream_tempo_counter,x
+  bcc do_not_advance_frame_counter
+
   ;decrement the frame counter. on zero, advance the stream's read address.
   dec stream_frame_counter,x
   bne frame_counter_not_zero
@@ -1054,7 +1057,7 @@ process_note:
 
   ;advance the stream's read address.
   advance_stream_read_address
-
+do_not_advance_frame_counter:
 frame_counter_not_zero:
 
   rts
