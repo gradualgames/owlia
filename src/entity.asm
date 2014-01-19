@@ -374,10 +374,10 @@ done:
   ldx #(MAX_ENTITIES-1)
 next_entity:
 
-  ;exit the loop only if an entity is found which is both alive and an enemy.
+  ;exit the loop only if an entity is found which is alive, an enemy, and NOT paused.
   ;otherwise, the loop will end with x as $ff, meaning no live enemy was found.
   lda entity_flags,x
-  and #(ENTITY_FLAGS_ALIVE_TEST|ENTITY_FLAGS_IS_ENEMY_TEST)
+  and #(ENTITY_FLAGS_ALIVE_TEST|ENTITY_FLAGS_IS_ENEMY_TEST|ENTITY_FLAGS_PAUSED_TEST)
   cmp #(ENTITY_FLAGS_ALIVE_TEST|ENTITY_FLAGS_IS_ENEMY_TEST)
   beq enemy_found
 
