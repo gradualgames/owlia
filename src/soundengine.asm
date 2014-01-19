@@ -62,6 +62,7 @@ stream_read_address_lo:    .res MAX_STREAMS
 stream_read_address_hi:    .res MAX_STREAMS
 
 stream_tempo_counter:      .res MAX_STREAMS
+stream_tempo_carry:        .res MAX_STREAMS
 stream_tempo:              .res MAX_STREAMS
 
 ;five total channels, 4 bytes per channel, so 40 bytes.
@@ -1001,6 +1002,7 @@ starting_read_address = sound_param_word_0
   sta stream_tempo,x
   lda #0
   sta stream_tempo_counter,x
+  sta stream_tempo_carry,x
 
   ;set stream to be active
   lda #1
@@ -1061,11 +1063,13 @@ process_note:
   jsr indirect_jsr_callback_address
 
   ;add the tempo to the current counter. On carry, advance.
-  clc
+  ror stream_tempo_carry,x
   lda stream_tempo_counter,x
   adc stream_tempo,x
   sta stream_tempo_counter,x
-  bcc do_not_advance_frame_counter
+  rol stream_tempo_carry,x
+  lda stream_tempo_carry,x
+  beq do_not_advance_frame_counter
 
   ;decrement the frame counter. on zero, advance the stream's read address.
   dec stream_frame_counter,x
