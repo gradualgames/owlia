@@ -24,6 +24,7 @@ base_address_duty_envelopes:   .res 2
 
 stream_byte: .res 1
 
+sound_disable_update: .res 1
 apu_data_ready: .res 1
 apu_square_1_old: .res 1
 apu_square_2_old: .res 1
@@ -70,16 +71,20 @@ apu_register_sets: .res 40
 
 .proc sound_initialize
 
+  lda #1
+  sta sound_disable_update
+
   ;enable square 1, square 2, triangle and noise
   lda #%00001111
   sta $4015
 
-  lda #0
   sta apu_data_ready
   jsr sound_initialize_apu_buffer
 
   ;make sure all streams are killed
   jsr sound_stop
+
+  dec sound_disable_update
 
   rts
 
@@ -92,6 +97,8 @@ apu_register_sets: .res 40
   txa
   pha
 
+  inc sound_disable_update
+
   ;kill all streams
   ldx #(MAX_STREAMS-1)
 loop:
@@ -103,6 +110,8 @@ loop:
   bpl loop
 
   jsr sound_initialize_apu_buffer
+
+  dec sound_disable_update
 
   ;restore x
   pla
@@ -776,6 +785,8 @@ volume_stop:
   txa
   pha
 
+  inc sound_disable_update
+
   ;load square 1 stream
   ldy #song_header::square1_stream_address
   lda (song_address),y
@@ -880,6 +891,8 @@ no_noise:
   lda (song_address),y
   sta song_base_address_duty_envelopes+1
 
+  dec sound_disable_update
+
   ;restore index regs
   pla
   tax
@@ -900,6 +913,8 @@ sfx_address = sound_param_word_0
   pha
   txa
   pha
+
+  inc sound_disable_update
 
   ;load volume envelopes
   ldy #0
@@ -925,6 +940,8 @@ sfx_address = sound_param_word_0
   lda (sfx_address),y
   sta sfx_base_address_duty_envelopes+1
 
+  dec sound_disable_update
+
   ;restore index regs
   pla
   tax
@@ -942,6 +959,8 @@ sfx_address = sound_param_word_0
 .proc stream_initialize
 channel = sound_param_byte_0
 starting_read_address = sound_param_word_0
+
+  inc sound_disable_update
 
   lda starting_read_address
   ora starting_read_address+1
@@ -988,6 +1007,8 @@ starting_read_address = sound_param_word_0
   sta stream_active,x
 null_starting_read_address:
 
+  dec sound_disable_update
+
   rts
 .endproc
 
@@ -995,8 +1016,13 @@ null_starting_read_address:
 ;assumes x contains the index of the stream to kill
 .proc stream_stop
 
+  inc sound_disable_update
+
   lda #0
   sta stream_active,x
+
+  dec sound_disable_update
+
   rts
 
 .endproc

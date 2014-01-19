@@ -1,6 +1,7 @@
 .ifndef SOUNDENGINE_INC
 SOUNDENGINE_INC = 1
 
+.globalzp sound_disable_update
 .globalzp apu_data_ready
 .globalzp apu_square_1_old
 .globalzp apu_square_2_old
@@ -193,7 +194,7 @@ _QUARTER = 2*_8TH
 soundeffect_one = 4
 soundeffect_two = 5
 
-;default tempo. 
+;default tempo.
 DEFAULT_TEMPO = 255
 
 .struct song_header
@@ -223,6 +224,8 @@ DEFAULT_TEMPO = 255
 ;be used at the end of an nmi routine, after ppu synchronization.
 .macro safe_soundengine_update
 
+  lda sound_disable_update
+  bne sound_update_disabled
   ;switch to music bank
   ldy music_bank
   lda bank_table,y
@@ -235,6 +238,7 @@ DEFAULT_TEMPO = 255
   ldy current_bank
   lda bank_table,y
   sta bank_table,y
+sound_update_disabled:
 
 .endmacro
 
