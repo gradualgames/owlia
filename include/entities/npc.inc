@@ -177,6 +177,8 @@ npc_state_pause:
 
   jsr npc_randomly_turn_or_pause
 
+  jsr test_whether_hero_wants_to_start_conversation
+
   rts
 
 npc_state_walk:
