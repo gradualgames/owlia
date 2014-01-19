@@ -7,6 +7,7 @@ NPC_INC = 1
 .enum
 NPC_STATE_INIT
 NPC_STATE_WALK
+NPC_STATE_PAUSE
 NPC_STATE_MOTIONLESS
 .endenum
 
@@ -27,12 +28,13 @@ npc_walk_rect_height = entity_local3
 npc_mode = entity_local4
 npc_direction = entity_local5
 npc_pseudo_random_number = entity_local6
-npc_frame_counter = entity_local7
-npc_pseudo_random_number_sample = entity_local8
-npc_spawn_x_lo = entity_local9
-npc_spawn_x_hi = entity_local10
-npc_spawn_y_lo = entity_local11
-npc_spawn_y_hi = entity_local12
+npc_random_turnleft_counter = entity_local7
+npc_random_turnright_counter = entity_local8
+npc_random_pause_counter = entity_local9
+npc_spawn_x_lo = entity_local10
+npc_spawn_x_hi = entity_local11
+npc_spawn_y_lo = entity_local12
+npc_spawn_y_hi = entity_local13
 
 npc_direction_speed_x_lo:
   .byte NPC_SPEED, -NPC_SPEED, 0, 0
@@ -51,6 +53,18 @@ npc_opposite_direction:
   .byte NPC_DIRECTION_RIGHT
   .byte NPC_DIRECTION_UP
   .byte NPC_DIRECTION_DOWN
+
+npc_turnright_direction:
+  .byte NPC_DIRECTION_DOWN
+  .byte NPC_DIRECTION_UP
+  .byte NPC_DIRECTION_LEFT
+  .byte NPC_DIRECTION_RIGHT
+
+npc_turnleft_direction:
+  .byte NPC_DIRECTION_UP
+  .byte NPC_DIRECTION_DOWN
+  .byte NPC_DIRECTION_RIGHT
+  .byte NPC_DIRECTION_LEFT
 
 .define npc_animation_addresses\
   NpcManWalkSide,\
@@ -75,6 +89,7 @@ npc_sprite_flags_direction:
 .define npc_states \
   npc_state_init, \
   npc_state_walk, \
+  npc_state_pause, \
   npc_state_motionless
 
 npc_lo:
@@ -110,10 +125,17 @@ npc_state_init:
 
   jsr entity_reset_animation
 
-  ;seed the random number
-  lda stream_read_address_lo
-  eor hero_x
-  sta npc_pseudo_random_number,x
+  ;initialize random turn counters. Each time they count
+  ;down the npc will turn (or pause), and then a new value will
+  ;be selected via a pseudo random number generator.
+  lda #255
+  sta npc_random_turnright_counter,x
+
+  lda #100
+  sta npc_random_turnleft_counter,x
+
+  lda #50
+  sta npc_random_pause_counter,x
 
   ;remember spawn position
   lda entity_x_lo,x
@@ -151,65 +173,15 @@ npc_state_motionless:
 
   rts
 
+npc_state_pause:
+
+  jsr npc_randomly_turn_or_pause
+
+  rts
+
 npc_state_walk:
 
-  ;permute the pseudo random number
-: lda npc_pseudo_random_number,x
-  beq doEor
-  asl
-  beq noEor ;if the input was $80, skip the EOR
-  bcc noEor
-doEor:
-  eor #$1d
-noEor:
-  sta npc_pseudo_random_number,x
-  dey
-  bne :-
-
-  sta npc_pseudo_random_number,x
-
-  ;decrement the frame counter
-  dec npc_frame_counter,x
-  bne npc_frame_counter_not_zero
-
-  ;sample lowest 6 bits of pseudo random number and use it as new frame counter
-  and #%00111111
-  sta npc_frame_counter,x
-
-  ;sample lowest 3 bits of pseudo random number
-  and #%00000111
-  sta npc_pseudo_random_number_sample,x
-  and #%00000100
-  bne do_not_use_as_direction
-
-  ;lowest 3 bits was between 0 and 3, use it as the new direction for the npc
-  lda npc_pseudo_random_number_sample,x
-  sta npc_direction,x
-
-  ;face in that direction
-  clc
-  adc npc_graphics_set,x
-  tay
-  lda npc_animation_addresses_lo,y
-  sta entity_animation_address_lo,x
-  lda npc_animation_addresses_hi,y
-  sta entity_animation_address_hi,x
-  lda npc_sprite_flags_direction,y
-  sta entity_sprite_flags,x
-do_not_use_as_direction:
-
-  ;seed the random number
-  lda stream_read_address_lo
-  eor hero_x
-  sta npc_pseudo_random_number,x
-
-npc_frame_counter_not_zero:
-
-  ;move the npc man in the direction he is facing if the random number sample is between 0 and 3
-  ;anything else is interpreted as a "pause."
-  lda npc_pseudo_random_number_sample,x
-  and #%00000100
-  bne do_not_move
+  jsr npc_randomly_turn_or_pause
 
   ;use direction as index into increment luts
   ldy npc_direction,x
@@ -237,6 +209,90 @@ npc_frame_counter_not_zero:
 do_not_move:
 
   jsr test_whether_hero_wants_to_start_conversation
+
+  rts
+
+npc_randomly_turn_or_pause:
+
+  ;permute the pseudo random number
+: lda npc_pseudo_random_number,x
+  beq doEor
+  asl
+  beq noEor ;if the input was $80, skip the EOR
+  bcc noEor
+doEor:
+  eor #$1d
+noEor:
+  sta npc_pseudo_random_number,x
+  dey
+  bne :-
+
+  sta npc_pseudo_random_number,x
+
+  .scope
+  dec npc_random_turnleft_counter,x
+  bne do_not_turn_npc
+
+  lda #NPC_STATE_WALK
+  sta entity_state,x
+
+  ldy npc_direction,x
+  lda npc_turnleft_direction,y
+  sta npc_direction,x
+
+  lda npc_pseudo_random_number,x
+  sta npc_random_turnleft_counter,x
+
+do_not_turn_npc:
+  .endscope
+
+  .scope
+  dec npc_random_turnright_counter,x
+  bne do_not_turn_npc
+
+  lda #NPC_STATE_WALK
+  sta entity_state,x
+
+  ldy npc_direction,x
+  lda npc_turnright_direction,y
+  sta npc_direction,x
+
+  ;select random number with an offset
+  clc
+  lda npc_pseudo_random_number,x
+  adc #128
+  sta npc_random_turnleft_counter,x
+
+do_not_turn_npc:
+  .endscope
+
+  .scope
+  dec npc_random_pause_counter,x
+  bne do_not_pause_npc
+
+  lda #NPC_STATE_PAUSE
+  sta entity_state,x
+
+  ;select random number with an offset
+  clc
+  lda npc_pseudo_random_number,x
+  adc #128
+  sta npc_random_pause_counter,x
+
+do_not_pause_npc:
+  .endscope
+
+  ;face in that direction
+  lda npc_direction,x
+  clc
+  adc npc_graphics_set,x
+  tay
+  lda npc_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda npc_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+  lda npc_sprite_flags_direction,y
+  sta entity_sprite_flags,x
 
   rts
 
@@ -527,9 +583,8 @@ keep_within_walk_rectangle:
   lda npc_spawn_x_hi,x
   sta entity_x_hi,x
 
-  ;stop npc from walking
-  lda #4
-  sta npc_pseudo_random_number_sample,x
+  lda #NPC_DIRECTION_RIGHT
+  sta npc_direction,x
 
 not_left_of_rect:
 
@@ -548,9 +603,8 @@ not_left_of_rect:
   adc #0
   sta entity_x_hi,x
 
-  ;stop npc from walking
-  lda #4
-  sta npc_pseudo_random_number_sample,x
+  lda #NPC_DIRECTION_LEFT
+  sta npc_direction,x
 
 not_right_of_rect:
 
@@ -569,9 +623,8 @@ not_right_of_rect:
   lda npc_spawn_y_hi,x
   sta entity_y_hi,x
 
-  ;stop npc from walking
-  lda #4
-  sta npc_pseudo_random_number_sample,x
+  lda #NPC_DIRECTION_DOWN
+  sta npc_direction,x
 
 not_above_rect:
 
@@ -590,9 +643,8 @@ not_above_rect:
   adc #0
   sta entity_y_hi,x
 
-  ;stop npc from walking
-  lda #4
-  sta npc_pseudo_random_number_sample,x
+  lda #NPC_DIRECTION_UP
+  sta npc_direction,x
 
 not_below_rect:
 
