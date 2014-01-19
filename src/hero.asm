@@ -614,6 +614,10 @@ familiar_still_alive:
   lda #ACTION_NOP
   sta entity_action_rect1_action
 
+  lda hero_flags
+  and #HERO_FLAGS_MOVING_CLEAR
+  sta hero_flags
+
   lda #HERO_STATE_WAIT_FRAMES
   sta hero_state
 

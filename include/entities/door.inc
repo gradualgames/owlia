@@ -103,14 +103,17 @@ do_not_flash_door:
   sta b5
 
   jsr geotests_rect_inside_rect_16bit
-
   bne do_not_activate_door
 
   far_call #HERO_BANK, hero_is_attacking
+  beq do_not_activate_door
+
+  far_call #HERO_BANK, hero_is_moving
+  beq do_not_activate_door
+
+  lda hero_direction
+  cmp door_orientation,x
   bne do_not_activate_door
-
-  far_call #HERO_BANK, hero_cancel_attack
-
   ;at this point, we know that the hero is trying to activate the door
 
   .scope

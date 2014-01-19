@@ -253,104 +253,104 @@ meadow3_entity_instances:
 
 dungeon_0_0_entity_instances:
   .byte 2
-  .byte entity_index_door, 11, 13, 0, 2, location_index_dungeon_0_1_n, 0
-  .byte entity_index_door, 14, 7, 0, 2, location_index_dungeon_1_0_w, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 11, 13, 0, DOOR_PARAMS, location_index_dungeon_0_1_n, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_SOUTH
+  .byte entity_index_door, 14, 7, 0, DOOR_PARAMS, location_index_dungeon_1_0_w, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_EAST
 
 dungeon_1_0_entity_instances:
   .byte 2
-  .byte entity_index_door, 17, 7, 0, 2, location_index_dungeon_0_0_e, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 30, 7, 0, 2, location_index_dungeon_2_0_w, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 17, 7, 0, DOOR_PARAMS, location_index_dungeon_0_0_e, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_WEST
+  .byte entity_index_door, 30, 7, 0, DOOR_PARAMS, location_index_dungeon_2_0_w, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_EAST
 
 dungeon_2_0_entity_instances:
   .byte 5
   .byte entity_index_pufferfish, 39, 6, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 39, 10, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_door, 33, 7, 0, 2, location_index_dungeon_1_0_e, DOOR_TYPE_LOCKED
-  .byte entity_index_door, 46, 9, 0, 2, location_index_dungeon_3_0_w, DOOR_TYPE_LOCKED
+  .byte entity_index_door, 33, 7, 0, DOOR_PARAMS, location_index_dungeon_1_0_e, DOOR_TYPE_LOCKED, DOOR_DIRECTION_WEST
+  .byte entity_index_door, 46, 9, 0, DOOR_PARAMS, location_index_dungeon_3_0_w, DOOR_TYPE_LOCKED, DOOR_DIRECTION_EAST
   .byte entity_index_traproom, 0, 0, 0, 0
 
 dungeon_3_0_entity_instances:
   .byte 3
   .byte entity_index_pufferfish, 56, 53, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_door, 49, 9, 0, 2, location_index_dungeon_2_0_e, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 55, 3, 0, 2, location_index_dungeon1_boss_entrance, DOOR_TYPE_KEYED
+  .byte entity_index_door, 49, 9, 0, DOOR_PARAMS, location_index_dungeon_2_0_e, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_WEST
+  .byte entity_index_door, 55, 3, 0, DOOR_PARAMS, location_index_dungeon1_boss_entrance, DOOR_TYPE_KEYED, DOOR_DIRECTION_NORTH
 
 dungeon_0_1_entity_instances:
   .byte 5
   .byte entity_index_pufferfish, 4, 22, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 11, 22, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_door, 11, 18, 0, 2, location_index_dungeon_0_0_s, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 14, 22, 0, 2, location_index_dungeon_1_1_w, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 4, 28, 0, 2, location_index_dungeon_0_2_n, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 11, 18, 0, DOOR_PARAMS, location_index_dungeon_0_0_s, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_NORTH
+  .byte entity_index_door, 14, 22, 0, DOOR_PARAMS, location_index_dungeon_1_1_w, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_EAST
+  .byte entity_index_door, 4, 28, 0, DOOR_PARAMS, location_index_dungeon_0_2_n, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_SOUTH
 
 dungeon_1_1_entity_instances:
   .byte 2
-  .byte entity_index_door, 17, 22, 0, 2, location_index_dungeon_0_1_e, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 30, 22, 0, 2, location_index_dungeon_2_1_w, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 17, 22, 0, DOOR_PARAMS, location_index_dungeon_0_1_e, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_WEST
+  .byte entity_index_door, 30, 22, 0, DOOR_PARAMS, location_index_dungeon_2_1_w, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_EAST
 
 dungeon_2_1_entity_instances:
   .byte 3
   .byte entity_index_pufferfish, 39, 23, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_door, 33, 22, 0, 2, location_index_dungeon_1_1_e, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 46, 22, 0, 2, location_index_dungeon_3_1_w, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 33, 22, 0, DOOR_PARAMS, location_index_dungeon_1_1_e, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_WEST
+  .byte entity_index_door, 46, 22, 0, DOOR_PARAMS, location_index_dungeon_3_1_w, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_EAST
 
 dungeon_3_1_entity_instances:
   .byte 3
   .byte entity_index_pufferfish, 56, 23, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_door, 49, 22, 0, 2, location_index_dungeon_2_1_e, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 56, 28, 0, 2, location_index_dungeon_3_2_n, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 49, 22, 0, DOOR_PARAMS, location_index_dungeon_2_1_e, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_WEST
+  .byte entity_index_door, 56, 28, 0, DOOR_PARAMS, location_index_dungeon_3_2_n, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_SOUTH
 
 dungeon_0_2_entity_instances:
   .byte 3
   .byte entity_index_pufferfish, 7, 38, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_door, 4, 33, 0, 2, location_index_dungeon_0_1_s, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 7, 43, 0, 2, location_index_dungeon_0_3_n, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 4, 33, 0, DOOR_PARAMS, location_index_dungeon_0_1_s, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_NORTH
+  .byte entity_index_door, 7, 43, 0, DOOR_PARAMS, location_index_dungeon_0_3_n, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_SOUTH
 
 dungeon_1_2_entity_instances:
   .byte 3
   .byte entity_index_pufferfish, 23, 37, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_door, 26, 43, 0, 2, location_index_dungeon_1_3_n, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 30, 37, 0, 2, location_index_dungeon_2_2_w, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 26, 43, 0, DOOR_PARAMS, location_index_dungeon_1_3_n, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_SOUTH
+  .byte entity_index_door, 30, 37, 0, DOOR_PARAMS, location_index_dungeon_2_2_w, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_EAST
 
 dungeon_2_2_entity_instances:
   .byte 4
   .byte entity_index_pufferfish, 38, 36, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 38, 40, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_door, 33, 37, 0, 2, location_index_dungeon_1_2_e, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 46, 37, 0, 2, location_index_dungeon_3_2_w, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 33, 37, 0, DOOR_PARAMS, location_index_dungeon_1_2_e, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_WEST
+  .byte entity_index_door, 46, 37, 0, DOOR_PARAMS, location_index_dungeon_3_2_w, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_EAST
 
 dungeon_3_2_entity_instances:
   .byte 2
-  .byte entity_index_door, 49, 37, 0, 2, location_index_dungeon_2_2_e, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 56, 33, 0, 2, location_index_dungeon_3_1_s, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 49, 37, 0, DOOR_PARAMS, location_index_dungeon_2_2_e, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_WEST
+  .byte entity_index_door, 56, 33, 0, DOOR_PARAMS, location_index_dungeon_3_1_s, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_NORTH
 
 dungeon_0_3_entity_instances:
   .byte 6
   .byte entity_index_pufferfish, 4, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_crab, 11, 53, 0, 0
-  .byte entity_index_door, 7, 48, 0, 2, location_index_dungeon_0_2_s, DOOR_TYPE_LOCKED
-  .byte entity_index_door, 7, 58, 0, 2, location_index_meadow3_dungeon_entrance, DOOR_TYPE_LOCKED
+  .byte entity_index_door, 7, 48, 0, DOOR_PARAMS, location_index_dungeon_0_2_s, DOOR_TYPE_LOCKED, DOOR_DIRECTION_NORTH
+  .byte entity_index_door, 7, 58, 0, DOOR_PARAMS, location_index_meadow3_dungeon_entrance, DOOR_TYPE_LOCKED, DOOR_DIRECTION_SOUTH
   .byte entity_index_traproom, 0, 0, 0, 0
 
 dungeon_1_3_entity_instances:
   .byte 3
   .byte entity_index_pufferfish, 22, 53, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_door, 26, 48, 0, 2, location_index_dungeon_1_2_s, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 30, 52, 0, 2, location_index_dungeon_2_3_w, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 26, 48, 0, DOOR_PARAMS, location_index_dungeon_1_2_s, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_NORTH
+  .byte entity_index_door, 30, 52, 0, DOOR_PARAMS, location_index_dungeon_2_3_w, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_EAST
 
 dungeon_2_3_entity_instances:
   .byte 3
   .byte entity_index_pufferfish, 39, 53, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_door, 33, 52, 0, 2, location_index_dungeon_1_3_e, DOOR_TYPE_UNLOCKED
-  .byte entity_index_door, 46, 55, 0, 2, location_index_dungeon_3_3_w, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 33, 52, 0, DOOR_PARAMS, location_index_dungeon_1_3_e, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_WEST
+  .byte entity_index_door, 46, 55, 0, DOOR_PARAMS, location_index_dungeon_3_3_w, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_EAST
 
 dungeon_3_3_entity_instances:
   .byte 4
   .byte entity_index_anglerfish, 52, 47, 0, 3, ANGLERFISH_TURN_MODE_LEFT, ANGLERFISH_DIRECTION_DOWN, ANGLERFISH_SPOTLIGHT_OFF
   .byte entity_index_anglerfish, 59, 47, 0, 3, ANGLERFISH_TURN_MODE_RIGHT, ANGLERFISH_DIRECTION_DOWN, ANGLERFISH_SPOTLIGHT_ON
   .byte entity_index_spotlight_puzzle, 0, 0, 0, 0
-  .byte entity_index_door, 49, 55, 0, 2, location_index_dungeon_2_3_e, DOOR_TYPE_UNLOCKED
+  .byte entity_index_door, 49, 55, 0, DOOR_PARAMS, location_index_dungeon_2_3_e, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_WEST
 
 dungeon1_boss_entity_instances:
   .byte 1
