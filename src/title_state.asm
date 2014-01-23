@@ -246,9 +246,9 @@ title_state_start_game:
   ;ldx #location_index_meadow1_top_entrance
   ;ldx #location_index_village_bottom_entrance
   ;ldx #location_index_house1_intro
-  ;ldx #location_index_dungeon_0_3_s
+  ldx #location_index_dungeon_0_3_s
   ;ldx #location_index_dungeon1_boss_entrance
-  ldx #location_index_village_house1_entrance
+  ;ldx #location_index_village_house1_entrance
   switch_bank_ldy #LOCATIONS_BANK
   lda locations_lo,x
   sta location_address
