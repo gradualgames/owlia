@@ -252,9 +252,11 @@ meadow3_entity_instances:
   .byte entity_index_octopus, 7, 56, 0, 0
 
 dungeon_0_0_entity_instances:
-  .byte 2
-  .byte entity_index_door, 11, 13, 0, DOOR_PARAMS, location_index_dungeon_0_1_n, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_SOUTH
-  .byte entity_index_door, 14, 7, 0, DOOR_PARAMS, location_index_dungeon_1_0_w, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_EAST
+  .byte 4
+  .byte entity_index_monolith, 1, 8, 0, 0
+  .byte entity_index_monolith, 7, 3, 0, 0
+  .byte entity_index_monolith, 14, 8, 0, 0
+  .byte entity_index_monolith, 7, 12, 0, 0
 
 dungeon_1_0_entity_instances:
   .byte 2
@@ -513,7 +515,7 @@ define_location LOCATION_BRIGHTNESS_LEVEL_4,\
 
 ;dungeon locations
 dungeon_0_0_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_0_0_entity_instances, dungeon_palette, 0, 0, 11, 13, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_0_0_entity_instances, dungeon_palette, 0, 0, 11, 5, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 dungeon_0_0_e:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_entity_set, dungeon_0_0_entity_instances, dungeon_palette, 0, 0, 14, 7, sfx_door, 3, soundeffect_one, HERO_DIRECTION_LEFT
 dungeon_1_0_w:

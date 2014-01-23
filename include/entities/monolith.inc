@@ -43,6 +43,36 @@ monolith_state_init:
 
   jsr set_dynamic_single_screen_collision_field_bit
 
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  sec
+  lda entity_y_lo,x
+  sbc #<16
+  sta w1
+  lda entity_y_hi,x
+  sbc #>16
+  sta w1+1
+
+  jsr set_dynamic_single_screen_collision_field_bit
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  sec
+  lda entity_y_lo,x
+  sbc #<32
+  sta w1
+  lda entity_y_hi,x
+  sbc #>32
+  sta w1+1
+
+  jsr set_dynamic_single_screen_collision_field_bit
+
 ; ;This routine marks a bit in the dynamic single screen collision field
 ; ;expects w0 to contain screen x coordinate
 ; ;expects w1 to contain screen y coordinate
