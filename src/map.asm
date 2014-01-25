@@ -247,8 +247,10 @@ test_second_byte:
 ;expects w1 to contain map y coordinate in metatile coordinates
 ;returns result in b0
 .proc test_dynamic_single_screen_collision_field_bit
-x_coord = w0
-y_coord = w1
+input_x_coord = w0
+input_y_coord = w1
+x_coord = w5
+y_coord = w6
 row_offset = w2
 result = b0
 
@@ -257,13 +259,13 @@ result = b0
   pha
 
   ;wrap the coordinates so that they fit in the single screen collision field
-  lda x_coord
+  lda input_x_coord
   and #%00001111
   sta x_coord
   lda #$00
   sta x_coord+1
 
-  lda y_coord
+  lda input_y_coord
   tax
   lda mod15lut,x
   sta y_coord
