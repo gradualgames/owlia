@@ -55,6 +55,8 @@ village_area:
   .word village_big_metatile_table_top_right
   .word village_big_metatile_table_bottom_left
   .word village_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
 
 village_area_bg_chr_groups:
   .byte 1         ;count
@@ -80,6 +82,8 @@ house1_area:
   .word house1_big_metatile_table_top_right
   .word house1_big_metatile_table_bottom_left
   .word house1_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
 
 house1_area_bg_chr_groups:
   .byte 1  ;count
@@ -105,6 +109,8 @@ housebl_area:
   .word housebl_big_metatile_table_top_right
   .word housebl_big_metatile_table_bottom_left
   .word housebl_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
 
 housebl_area_bg_chr_groups:
   .byte 1  ;count
@@ -130,6 +136,8 @@ housebr_area:
   .word housebr_big_metatile_table_top_right
   .word housebr_big_metatile_table_bottom_left
   .word housebr_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
 
 housebr_area_bg_chr_groups:
   .byte 1  ;count
@@ -155,6 +163,8 @@ housetr_area:
   .word housetr_big_metatile_table_top_right
   .word housetr_big_metatile_table_bottom_left
   .word housetr_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
 
 housetr_area_bg_chr_groups:
   .byte 1  ;count
@@ -180,6 +190,8 @@ inn_area:
   .word inn_big_metatile_table_top_right
   .word inn_big_metatile_table_bottom_left
   .word inn_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
 
 inn_area_bg_chr_groups:
   .byte 1  ;count
@@ -205,6 +217,8 @@ store_area:
   .word store_big_metatile_table_top_right
   .word store_big_metatile_table_bottom_left
   .word store_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
 
 store_area_bg_chr_groups:
   .byte 1  ;count
@@ -230,6 +244,8 @@ meadow1_area:
   .word meadow1_big_metatile_table_top_right
   .word meadow1_big_metatile_table_bottom_left
   .word meadow1_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
 
 meadow1_area_bg_chr_groups:
   .byte 4  ;count
@@ -261,6 +277,8 @@ meadow2_area:
   .word meadow2_big_metatile_table_top_right
   .word meadow2_big_metatile_table_bottom_left
   .word meadow2_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
 
 meadow2_area_bg_chr_groups:
   .byte 4  ;count
@@ -292,6 +310,8 @@ meadow3_area:
   .word meadow3_big_metatile_table_top_right
   .word meadow3_big_metatile_table_bottom_left
   .word meadow3_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
 
 meadow3_area_bg_chr_groups:
   .byte 3  ;count
@@ -321,11 +341,33 @@ dungeon_area:
   .word dungeon_big_metatile_table_top_right
   .word dungeon_big_metatile_table_bottom_left
   .word dungeon_big_metatile_table_bottom_right
+  .word dungeon_area_nametable_patches
+  .word 0 ;attribute_patches_address
 
 dungeon_area_bg_chr_groups:
   .byte 1  ;count
   .byte BG_CHR_DATA_BANK1
   .word dungeon1_main_chr
+
+dungeon_area_nametable_patches:
+  .word dungeon_area_nametable_monolith_patch
+  .word dungeon_area_nametable_keyed_monolith_patch
+  .word dungeon_area_nametable_monolith_north_bg_patch
+  .word dungeon_area_nametable_monolith_south_bg_patch
+  .word dungeon_area_nametable_monolith_west_bg_patch
+  .word dungeon_area_nametable_monolith_east_bg_patch
+
+dungeon_area_nametable_monolith_patch:
+  .byte $02,$06,$03,$04,$09,$0a,$13,$14,$13,$14,$13,$14,$09,$0a
+dungeon_area_nametable_keyed_monolith_patch:
+  .byte $02,$06,$8a,$8b,$8e,$8f,$13,$14,$13,$14,$13,$14,$09,$0a
+dungeon_area_nametable_monolith_north_bg_patch:
+dungeon_area_nametable_monolith_south_bg_patch:
+  .byte $02,$06,$82,$81,$87,$76,$82,$81,$87,$76,$82,$81,$87,$76
+dungeon_area_nametable_monolith_west_bg_patch:
+  .byte $02,$06,$2f,$7f,$42,$43,$52,$53,$5f,$60,$52,$53,$9a,$9b
+dungeon_area_nametable_monolith_east_bg_patch:
+  .byte $02,$06,$83,$32,$44,$45,$8c,$8d,$93,$94,$8c,$8d,$9e,$9f
 
 dungeon1_boss_area:
   .byte MUSIC_BANK
@@ -346,6 +388,8 @@ dungeon1_boss_area:
   .word dungeon1_boss_big_metatile_table_top_right
   .word dungeon1_boss_big_metatile_table_bottom_left
   .word dungeon1_boss_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
 
 dungeon1_boss_area_bg_chr_groups:
   .byte 2  ;count
