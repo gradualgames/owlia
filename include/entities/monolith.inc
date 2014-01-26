@@ -10,7 +10,10 @@ MONOLITH_HEIGHT = $0f
 .define monolith_states \
   monolith_state_init, \
   monolith_state_test, \
-  monolith_state_main
+  monolith_state_draw_patch_second_row, \
+  monolith_state_draw_patch_first_row, \
+  monolith_state_draw_bg_patch_row, \
+  monolith_state_idle
 
 monolith_lo:
   .lobytes monolith_states
@@ -71,7 +74,15 @@ monolith_state_init:
 
   jsr set_dynamic_single_screen_collision_field_bit
 
-  lda #1
+  lda #<(-16)
+  sta monolith_patch_offset_y_lo,x
+  lda #>(-16)
+  sta monolith_patch_offset_y_hi,x
+
+  lda #0
+  sta monolith_patch_bg_row,x
+
+  lda #5
   sta monolith_state_counter,x
 
   lda #MONOLITH_STATE_TEST
@@ -81,40 +92,137 @@ monolith_state_init:
 
 monolith_state_test:
 
-  .scope
   dec monolith_state_counter,x
-  bne do_not_switch_state
+  bne :+
 
-  ;just for testing, add a nametable patch for the bg tile patch
+  lda #MONOLITH_STATE_DRAW_PATCH_SECOND_ROW
+  sta entity_state,x
+:
+  rts
+
+monolith_state_draw_patch_second_row:
+
+  ;patch index
+  lda monolith_foreground_patch_index,x
+  sta b0
+
+  ;patch row
+  lda #1
+  sta b1
+
   lda entity_x_lo,x
   sta w0
   lda entity_x_hi,x
   sta w0+1
 
+  clc
   lda entity_y_lo,x
+  adc monolith_patch_offset_y_lo,x
   sta w1
   lda entity_y_hi,x
+  adc monolith_patch_offset_y_hi,x
   sta w1+1
 
+  jsr decode_nametable_patch_row
+
+  lda #MONOLITH_STATE_DRAW_PATCH_FIRST_ROW
+  sta entity_state,x
+
+  rts
+
+monolith_state_draw_patch_first_row:
+
   ;patch index
-  lda monolith_background_patch_index,x
+  lda monolith_foreground_patch_index,x
   sta b0
 
   ;patch row
   lda #0
   sta b1
 
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc monolith_patch_offset_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  adc monolith_patch_offset_y_hi,x
+  sta w1+1
+
+  sec
+  lda w1
+  sbc #8
+  sta w1
+  lda w1+1
+  sbc #0
+  sta w1+1
+
   jsr decode_nametable_patch_row
 
-  lda #MONOLITH_STATE_MAIN
+  lda #MONOLITH_STATE_DRAW_BG_PATCH_ROW
   sta entity_state,x
-
-do_not_switch_state:
-  .endscope
 
   rts
 
-monolith_state_main:
+monolith_state_draw_bg_patch_row:
+
+  ;patch index
+  lda monolith_background_patch_index,x
+  sta b0
+
+  ;patch row
+  lda monolith_patch_bg_row,x
+  sta b1
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc monolith_patch_offset_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  adc monolith_patch_offset_y_hi,x
+  sta w1+1
+
+  sec
+  lda w1
+  sbc #16
+  sta w1
+  lda w1+1
+  sbc #0
+  sta w1+1
+
+  jsr decode_nametable_patch_row
+
+  clc
+  lda monolith_patch_offset_y_lo,x
+  adc #<8
+  sta monolith_patch_offset_y_lo,x
+  lda monolith_patch_offset_y_hi,x
+  adc #>8
+  sta monolith_patch_offset_y_hi,x
+
+  inc monolith_patch_bg_row,x
+  lda monolith_patch_bg_row,x
+  cmp #4
+  bne :+
+
+  lda #MONOLITH_STATE_IDLE
+  sta entity_state,x
+  rts
+:
+  lda #MONOLITH_STATE_DRAW_PATCH_SECOND_ROW
+  sta entity_state,x
+  rts
+
+monolith_state_idle:
 
   rts
 

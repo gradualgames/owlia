@@ -116,8 +116,9 @@ patch_address = w3
 : clc
   lda patch_offset
   adc patch_width
+  sta patch_offset
   dec patch_row
-  bpl :-
+  bne :-
 
   ;now read from patch at patch_offset for patch_width tiles and copy them into
   ;nametable_row_buffer at row_offset.
