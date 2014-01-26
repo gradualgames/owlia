@@ -9,6 +9,7 @@
 .include "npc_constants.inc"
 .include "door_constants.inc"
 .include "anglerfish_constants.inc"
+.include "monolith_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -327,13 +328,11 @@ dungeon_3_2_entity_instances:
   .byte entity_index_door, 56, 33, 0, DOOR_PARAMS, location_index_dungeon_3_1_s, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_NORTH
 
 dungeon_0_3_entity_instances:
-  .byte 5
-  ;.byte entity_index_pufferfish, 4, 52, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_monolith, 1, 53, 0, 0
-  .byte entity_index_monolith, 14, 53, 0, 0
-  .byte entity_index_monolith, 7, 48, 0, 0
-  .byte entity_index_monolith, 7, 57, 0, 0
-  .byte entity_index_traproom, 0, 0, 0, 0
+  .byte 4
+  .byte entity_index_monolith, 1, 53, 0, MONOLITH_PARAMS, 0, 4
+  .byte entity_index_monolith, 14, 53, 0, MONOLITH_PARAMS, 0, 5
+  .byte entity_index_monolith, 7, 48, 0, MONOLITH_PARAMS, 0, 2
+  .byte entity_index_monolith, 7, 57, 0, MONOLITH_PARAMS, 0, 3
 
 dungeon_1_3_entity_instances:
   .byte 3

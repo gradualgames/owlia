@@ -2,13 +2,10 @@
 .ifndef MONOLITH_INC
 MONOLITH_INC = 1
 
+.include "monolith_constants.inc"
+
 MONOLITH_WIDTH = $0f
 MONOLITH_HEIGHT = $0f
-
-.enum
-MONOLITH_STATE_INIT
-MONOLITH_STATE_MAIN
-.endenum
 
 .define monolith_states \
   monolith_state_init, \
@@ -77,6 +74,10 @@ monolith_state_init:
 ; ;expects w0 to contain screen x coordinate
 ; ;expects w1 to contain screen y coordinate
 ; .proc set_dynamic_single_screen_collision_field_bit
+
+  ;just for testing, add a nametable patch for the bg tile patch
+  lda monolith_background_patch_index,x
+  ;jsr add_nametable_patch
 
   lda #MONOLITH_STATE_MAIN
   sta entity_state,x
