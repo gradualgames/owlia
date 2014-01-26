@@ -30,6 +30,7 @@ FILES           += zp \
                    controller \
                    geotests \
                    map \
+                   patch \
                    textbox \
                    conversation_data \
                    soundengine \
