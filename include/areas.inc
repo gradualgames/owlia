@@ -26,10 +26,6 @@ AREAS_BANK = 0
   attribute_patches_address .word
 .endstruct
 
-.struct patch
-  
-.endstruct
-
 ;****************************************************************
 ;Area LUTs
 ;****************************************************************
