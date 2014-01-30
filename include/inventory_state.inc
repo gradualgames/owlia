@@ -21,6 +21,7 @@ TECH2_OFFSET = -2
 .global inventory_state_init
 
 .struct inventory_state_control
+  nametable_hi .byte
   current_menu_position_address .word
   digits_chr_offset .byte
   string_address .word

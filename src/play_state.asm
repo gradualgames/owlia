@@ -852,6 +852,8 @@ play_state_action_nop:
 ;****************************************************************
 transition_to_inventory_state:
 
+  wait_vblank_flag
+
   jmp inventory_state_init
 
 ;****************************************************************
@@ -1024,6 +1026,28 @@ play_state_reload:
   sta w4+1
   jsr load_sprite_chr_groups
 
+  .scope
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::flags
+  lda (location_address),y
+  and #(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_TEST | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_TEST)
+  cmp #(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_TEST | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_TEST)
+  bne decode_full_screen
+
+  lda camera_nametable_hibyte
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  lda camera_scroll_x
+  sta ppu_2005
+  lda camera_scroll_y
+  sta ppu_2005+1
+
+  upload_ppu_2006
+  upload_ppu_2005
+
+  jmp done
+decode_full_screen:
   ;save camera variables
   lda camera_x
   pha
@@ -1060,6 +1084,8 @@ odd:
 even:
   lda #$20
   sta camera_nametable_hibyte
+done:
+  .endscope
 done:
   .endscope
 

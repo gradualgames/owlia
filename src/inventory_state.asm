@@ -137,31 +137,27 @@ inventory_state_init:
   switch_bank_y
   jsr ppu_load_chr_amount
 
-  ;load nametable data for inventory screen
-  ;load the nametable and attribute table.
-  lda #$20
+  ;load nametable data for inventory screen on opposite nametable from
+  ;camera. This won't matter for overworld, since we never use nametable
+  ;patching, but for dungeons which are always done at the top left of
+  ;one of the two nametables, this will help preserve any nametable
+  ;patching that had been previously performed.
+  lda camera_nametable_hibyte
+  eor #$04
+  sta state_control_params+inventory_state_control::nametable_hi
+
+  lda state_control_params+inventory_state_control::nametable_hi
   sta ppu_2006
   lda #$00
   sta ppu_2006+1
   upload_ppu_2006
+
   lda #<inventory_screen
   sta w0
   lda #>inventory_screen
   sta w0+1
   switch_bank_ldy #INVENTORY_STATE_BG_NAMETABLE_BANK
   jsr ppu_load_nametable
-
-  ;reset scroll
-  lda #$20
-  sta ppu_2006
-  lda #$00
-  sta ppu_2006+1
-  upload_ppu_2006
-
-  lda #0
-  sta ppu_2005
-  sta ppu_2005+1
-  upload_ppu_2005
 
   lda #0
   sta state_control_params+inventory_state_control::string_address
@@ -175,6 +171,18 @@ inventory_state_init:
   sta state_control_params+inventory_state_control::current_menu_position_address+1
 
   far_call #INVENTORY_STATE_BANK, inventory_state_draw
+
+  ;reset scroll
+  lda state_control_params+inventory_state_control::nametable_hi
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  upload_ppu_2006
+
+  lda #0
+  sta ppu_2005
+  sta ppu_2005+1
+  upload_ppu_2005
 
   jsr ppu_safely_enable_graphics
 
@@ -257,7 +265,7 @@ inventory_state_exit:
   lda state_control_params+inventory_state_control::digits_chr_offset
   sta chr_group_offset
 
-  lda #$20
+  lda state_control_params+inventory_state_control::nametable_hi
   sta b0
   lda state_control_params+inventory_state_control::string_row
   sta b1
@@ -269,16 +277,7 @@ inventory_state_exit:
   sta state_control_params+inventory_state_control::string_address
   sta state_control_params+inventory_state_control::string_address+1
 
-  ;reset scroll
-  lda #$20
-  sta ppu_2006
-  lda #$00
-  sta ppu_2006+1
   upload_ppu_2006
-
-  lda #0
-  sta ppu_2005
-  sta ppu_2005+1
   upload_ppu_2005
 
 no_string_to_print:
@@ -366,7 +365,7 @@ menu_labels_address = w10
   lda (menu_labels_address),y
   sta w0+1
 
-  lda #$20
+  lda state_control_params+inventory_state_control::nametable_hi
   sta b0
 
   ldy #inventory_state_menu_item::item_row
@@ -411,7 +410,7 @@ menu_labels_address = w10
   sta w1+1
   jsr create_decimal_string
 
-  lda #$20
+  lda state_control_params+inventory_state_control::nametable_hi
   sta b0
 
   ldy #inventory_state_menu_item::item_row
@@ -460,7 +459,7 @@ menu_labels_address = w10
   sta w1+1
   jsr create_decimal_string
 
-  lda #$20
+  lda state_control_params+inventory_state_control::nametable_hi
   sta b0
 
   ldy #inventory_state_menu_item::item_row
