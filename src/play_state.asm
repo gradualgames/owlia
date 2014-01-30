@@ -483,8 +483,9 @@ play_state_load_location:
   jsr ppu_safely_disable_graphics
 
   lda #$00
-  sta $2006
-  sta $2006
+  sta ppu_2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   ;begin chr tile accumulator at 0
   lda #$00
@@ -508,9 +509,10 @@ play_state_load_location:
   jsr ppu_load_chr_amount
 
   lda #$10
-  sta $2006
+  sta ppu_2006
   lda #$00
-  sta $2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   switch_bank_ldy #LOCATIONS_BANK
   lda entity_set_address
@@ -983,8 +985,9 @@ play_state_reload:
   jsr ppu_safely_disable_graphics
 
   lda #$00
-  sta $2006
-  sta $2006
+  sta ppu_2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   ;start tile accumulator
   lda #$00
@@ -1009,9 +1012,10 @@ play_state_reload:
   jsr ppu_load_chr_amount
 
   lda #$10
-  sta $2006
+  sta ppu_2006
   lda #$00
-  sta $2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   switch_bank_ldy #LOCATIONS_BANK
   lda entity_set_address

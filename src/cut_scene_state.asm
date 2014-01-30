@@ -69,8 +69,9 @@ exit_cut_scene_state:
 
   ;load chr data
   lda #$00
-  sta $2006
-  sta $2006
+  sta ppu_2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   lda state_control_params+cut_scene_state_control::slide_address
   sta w10
@@ -141,7 +142,7 @@ exit_cut_scene_state:
   lda #$20
   sta ppu_2006
   lda #$00
-  sta ppu_2006
+  sta ppu_2006+1
   upload_ppu_2006
 
   lda #0
@@ -230,9 +231,10 @@ sprite_chr_groups_count = b10
 sprite_chr_groups_index = b11
 
   lda #$10
-  sta $2006
+  sta ppu_2006
   lda #$00
-  sta $2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   ;get address of sprite chr groups for this slide
   switch_bank_ldy #SLIDE_DATA_BANK

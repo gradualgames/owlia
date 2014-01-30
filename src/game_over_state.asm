@@ -33,8 +33,9 @@ game_over_state_init:
 
   ;load chr data for game_over screen
   lda #$00
-  sta $2006
-  sta $2006
+  sta ppu_2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   lda #<game_over_chr
   sta w0
@@ -61,7 +62,7 @@ game_over_state_init:
   lda #$20
   sta ppu_2006
   lda #$00
-  sta ppu_2006
+  sta ppu_2006+1
   upload_ppu_2006
 
   lda #0

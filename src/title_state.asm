@@ -40,8 +40,9 @@ title_state_init:
 
   ;load chr data for title screen
   lda #$00
-  sta $2006
-  sta $2006
+  sta ppu_2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   lda #<title_chr
   sta w0
@@ -51,9 +52,10 @@ title_state_init:
   jsr ppu_load_chr_amount
 
   lda #$10
-  sta $2006
+  sta ppu_2006
   lda #$00
-  sta $2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   ldx #sprite_chr_group_index_title
   lda sprite_chr_group_addresses_lo,x
@@ -132,7 +134,7 @@ title_state_init:
   lda #$20
   sta ppu_2006
   lda #$00
-  sta ppu_2006
+  sta ppu_2006+1
   upload_ppu_2006
 
   lda #0

@@ -70,8 +70,9 @@ inventory_state_init:
 
   ;load chr data for inventory screen
   lda #$00
-  sta $2006
-  sta $2006
+  sta ppu_2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   ;reset tile accumulator
   lda #$00
@@ -111,9 +112,10 @@ inventory_state_init:
 
   ;load cursor graphics
   lda #$10
-  sta $2006
+  sta ppu_2006
   lda #$00
-  sta $2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   ;reset tile accumulator
   lda #$00
@@ -153,7 +155,7 @@ inventory_state_init:
   lda #$20
   sta ppu_2006
   lda #$00
-  sta ppu_2006
+  sta ppu_2006+1
   upload_ppu_2006
 
   lda #0
@@ -271,7 +273,7 @@ inventory_state_exit:
   lda #$20
   sta ppu_2006
   lda #$00
-  sta ppu_2006
+  sta ppu_2006+1
   upload_ppu_2006
 
   lda #0
