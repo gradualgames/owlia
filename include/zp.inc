@@ -57,6 +57,8 @@ ZP_INC = 1
 .globalzp processor_status
 .globalzp current_bank
 .globalzp next_bank
+.globalzp far_copy_source
+.globalzp far_copy_dest
 .globalzp far_call_address
 
 .globalzp controller_routine

@@ -58,6 +58,8 @@ palette_address: .res 2
 processor_status: .res 1
 current_bank: .res 1
 next_bank: .res 1
+far_copy_source: .res 2
+far_copy_dest: .res 2
 far_call_address: .res 2
 
 controller_routine: .res 2

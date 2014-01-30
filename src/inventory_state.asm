@@ -20,7 +20,7 @@
 .include "inventory.inc"
 .include "hero_constants.inc"
 
-.segment "CODE"
+.segment "ROM01"
 
 inventory_screen_palette:
   .byte $0e,$05,$28,$38,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -47,14 +47,19 @@ inventory_state_init:
   tax
 
   ;fade out from current palette
-  switch_bank_ldy #LOCATIONS_BANK
-  ldy #location::palette_address
-  lda (location_address),y
-  sta palette_address
-  iny
-  lda (location_address),y
-  sta palette_address+1
-  jsr ppu_fade_out_palette
+  lda #LOCATIONS_BANK
+  sta next_bank
+  lda location_address
+  sta far_copy_source
+  lda location_address+1
+  sta far_copy_source+1
+  lda palette_address
+  sta far_copy_dest
+  lda palette_address+1
+  sta far_copy_dest+1
+  ldx #2
+  jsr far_copy
+  far_call #LOCATIONS_BANK, ppu_fade_out_palette
 
   ;set blank nmi routine
   lda #<ppu_vblank_nop
@@ -82,8 +87,7 @@ inventory_state_init:
   sta w0
   lda #>inventory_chr
   sta w0+1
-  switch_bank_ldy #INVENTORY_STATE_BG_CHR_BANK
-  jsr ppu_load_chr_amount
+  far_call #INVENTORY_STATE_BG_CHR_BANK, ppu_load_chr_amount
 
   ;grab tile accumulator to know where the textbox and font group begins
   lda b3
@@ -94,8 +98,7 @@ inventory_state_init:
   sta w0
   lda #>textbox_chr
   sta w0+1
-  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
-  jsr ppu_load_chr_amount
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
   ;grab tile accumulator to know where the digits group begins
   lda b3
@@ -107,8 +110,7 @@ inventory_state_init:
   sta w0
   lda #>digits_chr
   sta w0+1
-  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
-  jsr ppu_load_chr_amount
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
   ;load cursor graphics
   lda #$10
@@ -132,10 +134,7 @@ inventory_state_init:
   lda b3
   sta sprite_chr_group_offsets,y
 
-  lda sprite_chr_group_bank,y
-  tay
-  switch_bank_y
-  jsr ppu_load_chr_amount
+  far_call {sprite_chr_group_bank,y}, ppu_load_chr_amount
 
   ;load nametable data for inventory screen on opposite nametable from
   ;camera. This won't matter for overworld, since we never use nametable
@@ -156,8 +155,7 @@ inventory_state_init:
   sta w0
   lda #>inventory_screen
   sta w0+1
-  switch_bank_ldy #INVENTORY_STATE_BG_NAMETABLE_BANK
-  jsr ppu_load_nametable
+  far_call #INVENTORY_STATE_BG_NAMETABLE_BANK, ppu_load_nametable
 
   lda #0
   sta state_control_params+inventory_state_control::string_address
@@ -170,7 +168,7 @@ inventory_state_init:
   lda #>rush_tech1_menu_position
   sta state_control_params+inventory_state_control::current_menu_position_address+1
 
-  far_call #INVENTORY_STATE_BANK, inventory_state_draw
+  jsr inventory_state_draw
 
   ;reset scroll
   lda state_control_params+inventory_state_control::nametable_hi
@@ -288,8 +286,6 @@ no_string_to_print:
   rts
 
 .endproc
-
-.segment "ROM01"
 
 .proc inventory_state_draw
 

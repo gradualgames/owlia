@@ -854,6 +854,7 @@ transition_to_inventory_state:
 
   wait_vblank_flag
 
+  switch_bank_ldy #INVENTORY_STATE_BANK
   jmp inventory_state_init
 
 ;****************************************************************
