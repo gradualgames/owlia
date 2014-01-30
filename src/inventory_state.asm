@@ -246,7 +246,6 @@ inventory_state_exit:
 
   jsr sprite_update_all
 
-
   lda state_control_params+inventory_state_control::string_address
   sta w0
   lda state_control_params+inventory_state_control::string_address+1
