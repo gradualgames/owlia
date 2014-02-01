@@ -38,6 +38,12 @@ patch_address = w3
   lda current_bank
   pha
 
+  ;skip decoding a map row if a row is already ready. This enables us to
+  ;perform patches across an entire row all during a single frame, such as
+  ;for monoliths that are across from one another.
+  lda row_ready
+  bne skip_row_decode
+
   ;save patch params, the map decode routines clobber a lot of zp state
   lda map_x
   pha
@@ -73,8 +79,10 @@ patch_address = w3
   sta map_x+1
   pla
   sta map_x
+skip_row_decode:
 
   ;calculate row_offset from map_x
+  clc
   lda map_x
   ror
   ror

@@ -328,9 +328,9 @@ dungeon_3_2_entity_instances:
   .byte entity_index_door, 56, 33, 0, DOOR_PARAMS, location_index_dungeon_3_1_s, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_NORTH
 
 dungeon_0_3_entity_instances:
-  .byte 1
+  .byte 2
   .byte entity_index_monolith, 1, 53, 0, MONOLITH_PARAMS, 1, 4
-  ; .byte entity_index_monolith, 14, 53, 0, MONOLITH_PARAMS, 0, 5
+  .byte entity_index_monolith, 14, 53, 0, MONOLITH_PARAMS, 1, 5
   ; .byte entity_index_monolith, 7, 48, 0, MONOLITH_PARAMS, 0, 2
   ; .byte entity_index_monolith, 7, 57, 0, MONOLITH_PARAMS, 0, 3
 
