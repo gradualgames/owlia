@@ -9,7 +9,7 @@ MONOLITH_HEIGHT = $0f
 
 .define monolith_states \
   monolith_state_init, \
-  monolith_state_fall_init, \
+  monolith_state_fall_using_rows_init, \
   monolith_state_fall_draw_patch_second_row, \
   monolith_state_fall_draw_patch_first_row, \
   monolith_state_fall_draw_bg_patch_row, \
@@ -85,12 +85,12 @@ monolith_state_init:
   lda #5
   sta monolith_state_counter,x
 
-  lda #MONOLITH_STATE_FALL_INIT
+  lda #MONOLITH_STATE_FALL_USING_ROWS_INIT
   sta entity_state,x
 
   rts
 
-monolith_state_fall_init:
+monolith_state_fall_using_rows_init:
 
   dec monolith_state_counter,x
   bne :+
