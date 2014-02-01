@@ -58,10 +58,12 @@ patch_address = w3
   lda patch_row
   pha
 
-  ;temporarily modify map_x to be the nearest screen boundary. This is so that we decode
+  ;temporarily modify map_x to be camera_x. This is so that we decode
   ;a full row that fits the current screen, not bleeding into opposing nametables.
-  lda #0
+  lda camera_x
   sta map_x
+  lda camera_x+1
+  sta map_x+1
 
   far_call map_bank, map_decode_row
   far_call map_bank, map_process_intermediate_attribute_row_buffer
