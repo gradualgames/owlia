@@ -9,10 +9,10 @@ MONOLITH_HEIGHT = $0f
 
 .define monolith_states \
   monolith_state_init, \
-  monolith_state_test, \
-  monolith_state_draw_patch_second_row, \
-  monolith_state_draw_patch_first_row, \
-  monolith_state_draw_bg_patch_row, \
+  monolith_state_fall_init, \
+  monolith_state_fall_draw_patch_second_row, \
+  monolith_state_fall_draw_patch_first_row, \
+  monolith_state_fall_draw_bg_patch_row, \
   monolith_state_idle
 
 monolith_lo:
@@ -85,22 +85,22 @@ monolith_state_init:
   lda #5
   sta monolith_state_counter,x
 
-  lda #MONOLITH_STATE_TEST
+  lda #MONOLITH_STATE_FALL_INIT
   sta entity_state,x
 
   rts
 
-monolith_state_test:
+monolith_state_fall_init:
 
   dec monolith_state_counter,x
   bne :+
 
-  lda #MONOLITH_STATE_DRAW_PATCH_SECOND_ROW
+  lda #MONOLITH_STATE_FALL_DRAW_PATCH_SECOND_ROW
   sta entity_state,x
 :
   rts
 
-monolith_state_draw_patch_second_row:
+monolith_state_fall_draw_patch_second_row:
 
   ;patch index
   lda monolith_foreground_patch_index,x
@@ -125,12 +125,12 @@ monolith_state_draw_patch_second_row:
 
   jsr decode_nametable_patch_row
 
-  lda #MONOLITH_STATE_DRAW_PATCH_FIRST_ROW
+  lda #MONOLITH_STATE_FALL_DRAW_PATCH_FIRST_ROW
   sta entity_state,x
 
   rts
 
-monolith_state_draw_patch_first_row:
+monolith_state_fall_draw_patch_first_row:
 
   ;patch index
   lda monolith_foreground_patch_index,x
@@ -163,12 +163,12 @@ monolith_state_draw_patch_first_row:
 
   jsr decode_nametable_patch_row
 
-  lda #MONOLITH_STATE_DRAW_BG_PATCH_ROW
+  lda #MONOLITH_STATE_FALL_DRAW_BG_PATCH_ROW
   sta entity_state,x
 
   rts
 
-monolith_state_draw_bg_patch_row:
+monolith_state_fall_draw_bg_patch_row:
 
   ;patch index
   lda monolith_background_patch_index,x
@@ -218,7 +218,7 @@ monolith_state_draw_bg_patch_row:
   sta entity_state,x
   rts
 :
-  lda #MONOLITH_STATE_DRAW_PATCH_SECOND_ROW
+  lda #MONOLITH_STATE_FALL_DRAW_PATCH_SECOND_ROW
   sta entity_state,x
   rts
 
