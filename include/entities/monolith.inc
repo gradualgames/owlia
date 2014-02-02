@@ -51,6 +51,8 @@ monolith_state_init:
 
 monolith_state_fall_using_rows_init:
 
+  jsr monolith_play_slam_sound
+
   lda #<(-16)
   sta monolith_patch_offset_y_lo,x
   lda #>(-16)
@@ -190,6 +192,8 @@ monolith_state_fall_draw_bg_patch_row:
 
 monolith_state_fall_using_columns_init:
 
+  jsr monolith_play_slam_sound
+
   lda #<(-32)
   sta monolith_patch_offset_y_lo,x
   lda #>(-32)
@@ -264,6 +268,8 @@ monolith_state_fall_using_columns_pause_one_frame:
   rts
 
 monolith_state_rise_using_rows_init:
+
+  jsr monolith_play_slam_sound
 
   jsr monolith_make_impassable
 
@@ -407,6 +413,8 @@ monolith_state_rise_draw_patch_third_row:
   rts
 
 monolith_state_rise_using_columns_init:
+
+  jsr monolith_play_slam_sound
 
   jsr monolith_make_impassable
 
@@ -702,6 +710,30 @@ monolith_state_idle:
   sta w1+1
 
   jsr set_dynamic_single_screen_collision_field_bit
+
+  rts
+
+.endproc
+
+.proc monolith_play_slam_sound
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_monolith_slam
+  sta sound_param_word_0
+  lda #>sfx_monolith_slam
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
 
   rts
 
