@@ -331,7 +331,7 @@ dungeon_0_3_entity_instances:
   .byte 5
   .byte entity_index_pufferfish, 4, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, MONOLITH_TYPE_UNLOCKED, MONOLITH_DIRECTION_NORTH, location_index_dungeon_0_2_s, 0, 2
+  .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, MONOLITH_DIRECTION_NORTH, location_index_dungeon_0_2_s, 0, 2
   .byte entity_index_monolith, 7, 59, 0, MONOLITH_PARAMS, MONOLITH_TYPE_UNLOCKED, MONOLITH_DIRECTION_SOUTH, location_index_meadow3_dungeon_entrance, 0, 2
   .byte entity_index_traproom, 0, 0, 0, 0
 

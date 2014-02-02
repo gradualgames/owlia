@@ -44,6 +44,9 @@ monolith_state_init:
   lda #MONOLITH_HEIGHT
   sta entity_height,x
 
+  lda #0
+  sta monolith_state_counter,x
+
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
 
@@ -182,6 +185,9 @@ monolith_state_fall_draw_bg_patch_row:
 
   jsr monolith_make_passable
 
+  lda #MONOLITH_SHAKE_SCREEN_COUNTER
+  sta monolith_state_counter,x
+
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
   rts
@@ -249,6 +255,9 @@ monolith_state_fall_draw_patch_right_column:
   bne :+
 
   jsr monolith_make_passable
+
+  lda #MONOLITH_SHAKE_SCREEN_COUNTER
+  sta monolith_state_counter,x
 
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
@@ -331,6 +340,9 @@ monolith_state_rise_draw_patch_first_row:
   lda monolith_patch_step,x
   cmp #4
   bne :+
+
+  lda #MONOLITH_SHAKE_SCREEN_COUNTER
+  sta monolith_state_counter,x
 
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
@@ -472,6 +484,9 @@ monolith_state_rise_draw_patch_right_column:
   cmp #4
   bne :+
 
+  lda #MONOLITH_SHAKE_SCREEN_COUNTER
+  sta monolith_state_counter,x
+
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
   rts
@@ -489,6 +504,27 @@ monolith_state_rise_using_columns_pause_one_frame:
   rts
 
 monolith_state_idle:
+
+  ;if the shake screen flag is set, shake the screen as long as the state counter is not zero
+  .scope
+  lda monolith_flags,x
+  and #MONOLITH_FLAGS_SHAKE_SCREEN_TEST
+  beq do_not_shake_screen
+
+  lda monolith_state_counter,x
+  beq do_not_shake_screen
+
+  dec monolith_state_counter,x
+
+  lda camera_y
+  eor #$04
+  sta camera_y
+  lda camera_scroll_y
+  eor #$04
+  sta camera_scroll_y
+
+do_not_shake_screen:
+  .endscope
 
   rts
 
