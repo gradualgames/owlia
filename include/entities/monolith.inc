@@ -426,7 +426,9 @@ monolith_state_rise_draw_patch_third_row:
   sta b0
 
   ;patch row
-  lda #2
+  sec
+  lda #5
+  sbc monolith_patch_step,x
   sta b1
 
   lda entity_x_lo,x
