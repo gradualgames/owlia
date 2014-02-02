@@ -44,20 +44,12 @@ monolith_state_init:
   lda #MONOLITH_HEIGHT
   sta entity_height,x
 
-  lda #5
-  sta monolith_state_counter,x
-
-  jsr monolith_make_impassable
-
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
 
   rts
 
 monolith_state_fall_using_rows_init:
-
-  dec monolith_state_counter,x
-  bne :+
 
   lda #<(-16)
   sta monolith_patch_offset_y_lo,x
@@ -69,7 +61,7 @@ monolith_state_fall_using_rows_init:
 
   lda #MONOLITH_STATE_FALL_DRAW_PATCH_SECOND_ROW
   sta entity_state,x
-:
+
   rts
 
 monolith_state_fall_draw_patch_second_row:
@@ -198,9 +190,6 @@ monolith_state_fall_draw_bg_patch_row:
 
 monolith_state_fall_using_columns_init:
 
-  dec monolith_state_counter,x
-  bne :+
-
   lda #<(-32)
   sta monolith_patch_offset_y_lo,x
   lda #>(-32)
@@ -211,7 +200,6 @@ monolith_state_fall_using_columns_init:
 
   lda #MONOLITH_STATE_FALL_USING_COLUMNS_PAUSE_ONE_FRAME
   sta entity_state,x
-:
 
   rts
 
@@ -279,9 +267,6 @@ monolith_state_rise_using_rows_init:
 
   jsr monolith_make_impassable
 
-  dec monolith_state_counter,x
-  bne :+
-
   lda #<(8)
   sta monolith_patch_offset_y_lo,x
   lda #>(8)
@@ -292,7 +277,6 @@ monolith_state_rise_using_rows_init:
 
   lda #MONOLITH_STATE_RISE_DRAW_PATCH_THIRD_ROW
   sta entity_state,x
-:
 
   rts
 
@@ -426,9 +410,6 @@ monolith_state_rise_using_columns_init:
 
   jsr monolith_make_impassable
 
-  dec monolith_state_counter,x
-  bne :+
-
   lda #<(-16)
   sta monolith_patch_offset_y_lo,x
   lda #>(-16)
@@ -439,7 +420,6 @@ monolith_state_rise_using_columns_init:
 
   lda #MONOLITH_STATE_RISE_USING_COLUMNS_PAUSE_ONE_FRAME
   sta entity_state,x
-:
 
   rts
 

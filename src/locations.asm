@@ -328,10 +328,12 @@ dungeon_3_2_entity_instances:
   .byte entity_index_door, 56, 33, 0, DOOR_PARAMS, location_index_dungeon_3_1_s, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_NORTH
 
 dungeon_0_3_entity_instances:
-  .byte 3
+  .byte 5
   .byte entity_index_pufferfish, 4, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, MONOLITH_TYPE_UNLOCKED, MONOLITH_DIRECTION_NORTH, location_index_dungeon_0_2_s, 0, 4
+  .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, MONOLITH_TYPE_UNLOCKED, MONOLITH_DIRECTION_NORTH, location_index_dungeon_0_2_s, 0, 2
+  .byte entity_index_monolith, 7, 59, 0, MONOLITH_PARAMS, MONOLITH_TYPE_UNLOCKED, MONOLITH_DIRECTION_SOUTH, location_index_meadow3_dungeon_entrance, 0, 2
+  .byte entity_index_traproom, 0, 0, 0, 0
 
 dungeon_1_3_entity_instances:
   .byte 3

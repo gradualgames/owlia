@@ -144,20 +144,6 @@ row_offset = w2
   txa
   pha
 
-  ;wrap the coordinates so that they fit in the single screen collision field
-  lda x_coord
-  and #%00001111
-  sta x_coord
-  lda #$00
-  sta x_coord+1
-
-  lda y_coord
-  tax
-  lda mod15lut,x
-  sta y_coord
-  lda #$00
-  sta y_coord+1
-
   ;find metatile coordinates from 16 bit x and y
   lda x_coord
   lsr x_coord+1
@@ -180,6 +166,20 @@ row_offset = w2
   lsr y_coord+1
   ror
   sta y_coord
+
+  ;wrap the coordinates so that they fit in the single screen collision field
+  lda x_coord
+  and #%00001111
+  sta x_coord
+  lda #$00
+  sta x_coord+1
+
+  lda y_coord
+  tax
+  lda mod15lut,x
+  sta y_coord
+  lda #$00
+  sta y_coord+1
 
   ;-metatile Y * 2 = row to check. This is because we use two bytes per
   ;row.
