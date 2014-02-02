@@ -44,48 +44,6 @@ monolith_state_init:
   lda #MONOLITH_HEIGHT
   sta entity_height,x
 
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-
-  lda entity_y_lo,x
-  sta w1
-  lda entity_y_hi,x
-  sta w1+1
-
-  jsr set_dynamic_single_screen_collision_field_bit
-
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-
-  sec
-  lda entity_y_lo,x
-  sbc #<16
-  sta w1
-  lda entity_y_hi,x
-  sbc #>16
-  sta w1+1
-
-  jsr set_dynamic_single_screen_collision_field_bit
-
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-
-  sec
-  lda entity_y_lo,x
-  sbc #<32
-  sta w1
-  lda entity_y_hi,x
-  sbc #>32
-  sta w1+1
-
-  jsr set_dynamic_single_screen_collision_field_bit
-
   lda #5
   sta monolith_state_counter,x
 
@@ -226,6 +184,8 @@ monolith_state_fall_draw_bg_patch_row:
   cmp #4
   bne :+
 
+  jsr monolith_make_passable
+
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
   rts
@@ -294,6 +254,8 @@ monolith_state_fall_draw_patch_right_column:
   cmp #4
   bne :+
 
+  jsr monolith_make_passable
+
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
   rts
@@ -312,6 +274,8 @@ monolith_state_fall_using_columns_pause_one_frame:
   rts
 
 monolith_state_rise_using_rows_init:
+
+  jsr monolith_make_impassable
 
   dec monolith_state_counter,x
   bne :+
@@ -375,6 +339,7 @@ monolith_state_rise_draw_patch_first_row:
   lda monolith_patch_step,x
   cmp #4
   bne :+
+
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
   rts
@@ -456,6 +421,8 @@ monolith_state_rise_draw_patch_third_row:
   rts
 
 monolith_state_rise_using_columns_init:
+
+  jsr monolith_make_impassable
 
   dec monolith_state_counter,x
   bne :+
@@ -657,6 +624,102 @@ monolith_state_idle:
   sta w1+1
 
   jsr decode_nametable_patch_column
+
+  rts
+
+.endproc
+
+.proc monolith_make_passable
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr clear_dynamic_single_screen_collision_field_bit
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  sec
+  lda entity_y_lo,x
+  sbc #<16
+  sta w1
+  lda entity_y_hi,x
+  sbc #>16
+  sta w1+1
+
+  jsr clear_dynamic_single_screen_collision_field_bit
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  sec
+  lda entity_y_lo,x
+  sbc #<32
+  sta w1
+  lda entity_y_hi,x
+  sbc #>32
+  sta w1+1
+
+  jsr clear_dynamic_single_screen_collision_field_bit
+
+  rts
+
+.endproc
+
+.proc monolith_make_impassable
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr set_dynamic_single_screen_collision_field_bit
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  sec
+  lda entity_y_lo,x
+  sbc #<16
+  sta w1
+  lda entity_y_hi,x
+  sbc #>16
+  sta w1+1
+
+  jsr set_dynamic_single_screen_collision_field_bit
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  sec
+  lda entity_y_lo,x
+  sbc #<32
+  sta w1
+  lda entity_y_hi,x
+  sbc #>32
+  sta w1+1
+
+  jsr set_dynamic_single_screen_collision_field_bit
 
   rts
 
