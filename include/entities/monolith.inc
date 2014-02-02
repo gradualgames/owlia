@@ -17,6 +17,10 @@ MONOLITH_HEIGHT = $0f
   monolith_state_fall_draw_patch_left_column, \
   monolith_state_fall_draw_patch_right_column, \
   monolith_state_fall_using_columns_pause_one_frame, \
+  monolith_state_rise_using_rows_init, \
+  monolith_state_rise_draw_patch_first_row, \
+  monolith_state_rise_draw_patch_second_row, \
+  monolith_state_rise_draw_patch_third_row, \
   monolith_state_idle
 
 monolith_lo:
@@ -97,7 +101,7 @@ monolith_state_fall_using_rows_init:
   sta monolith_patch_offset_y_hi,x
 
   lda #0
-  sta monolith_patch_bg_row,x
+  sta monolith_patch_step,x
 
   lda #MONOLITH_STATE_FALL_DRAW_PATCH_SECOND_ROW
   sta entity_state,x
@@ -179,7 +183,7 @@ monolith_state_fall_draw_bg_patch_row:
   sta b0
 
   ;patch row
-  lda monolith_patch_bg_row,x
+  lda monolith_patch_step,x
   sta b1
 
   lda entity_x_lo,x
@@ -213,8 +217,8 @@ monolith_state_fall_draw_bg_patch_row:
   adc #>8
   sta monolith_patch_offset_y_hi,x
 
-  inc monolith_patch_bg_row,x
-  lda monolith_patch_bg_row,x
+  inc monolith_patch_step,x
+  lda monolith_patch_step,x
   cmp #4
   bne :+
 
@@ -237,7 +241,7 @@ monolith_state_fall_using_columns_init:
   sta monolith_patch_offset_y_hi,x
 
   lda #0
-  sta monolith_patch_bg_row,x
+  sta monolith_patch_step,x
 
   lda #MONOLITH_STATE_FALL_USING_COLUMNS_PAUSE_ONE_FRAME
   sta entity_state,x
@@ -281,8 +285,8 @@ monolith_state_fall_draw_patch_right_column:
   adc #>(8)
   sta monolith_patch_offset_y_hi,x
 
-  inc monolith_patch_bg_row,x
-  lda monolith_patch_bg_row,x
+  inc monolith_patch_step,x
+  lda monolith_patch_step,x
   cmp #4
   bne :+
 
@@ -299,6 +303,148 @@ monolith_state_fall_draw_patch_right_column:
 monolith_state_fall_using_columns_pause_one_frame:
 
   lda #MONOLITH_STATE_FALL_DRAW_PATCH_LEFT_COLUMN
+  sta entity_state,x
+
+  rts
+
+monolith_state_rise_using_rows_init:
+
+  dec monolith_state_counter,x
+  bne :+
+
+  lda #<(8)
+  sta monolith_patch_offset_y_lo,x
+  lda #>(8)
+  sta monolith_patch_offset_y_hi,x
+
+  lda #0
+  sta monolith_patch_step,x
+
+  lda #MONOLITH_STATE_RISE_DRAW_PATCH_THIRD_ROW
+  sta entity_state,x
+:
+
+  rts
+
+monolith_state_rise_draw_patch_first_row:
+
+  ;patch index
+  lda monolith_foreground_patch_index,x
+  sta b0
+
+  ;patch row
+  lda #0
+  sta b1
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc monolith_patch_offset_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  adc monolith_patch_offset_y_hi,x
+  sta w1+1
+
+  clc
+  lda w1
+  adc #<(-16)
+  sta w1
+  lda w1+1
+  adc #>(-16)
+  sta w1+1
+
+  jsr decode_nametable_patch_row
+
+  sec
+  lda monolith_patch_offset_y_lo,x
+  sbc #8
+  sta monolith_patch_offset_y_lo,x
+  lda monolith_patch_offset_y_hi,x
+  sbc #0
+  sta monolith_patch_offset_y_hi,x
+
+  inc monolith_patch_step,x
+  lda monolith_patch_step,x
+  cmp #4
+  bne :+
+  lda #MONOLITH_STATE_IDLE
+  sta entity_state,x
+  rts
+:
+
+  lda #MONOLITH_STATE_RISE_DRAW_PATCH_THIRD_ROW
+  sta entity_state,x
+
+  rts
+
+monolith_state_rise_draw_patch_second_row:
+
+  ;patch index
+  lda monolith_foreground_patch_index,x
+  sta b0
+
+  ;patch row
+  lda #1
+  sta b1
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc monolith_patch_offset_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  adc monolith_patch_offset_y_hi,x
+  sta w1+1
+
+  clc
+  lda w1
+  adc #<(-8)
+  sta w1
+  lda w1+1
+  adc #>(-8)
+  sta w1+1
+
+  jsr decode_nametable_patch_row
+
+  lda #MONOLITH_STATE_RISE_DRAW_PATCH_FIRST_ROW
+  sta entity_state,x
+
+  rts
+
+monolith_state_rise_draw_patch_third_row:
+
+  ;patch index
+  lda monolith_foreground_patch_index,x
+  sta b0
+
+  ;patch row
+  lda #2
+  sta b1
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc monolith_patch_offset_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  adc monolith_patch_offset_y_hi,x
+  sta w1+1
+
+  jsr decode_nametable_patch_row
+
+  lda #MONOLITH_STATE_RISE_DRAW_PATCH_SECOND_ROW
   sta entity_state,x
 
   rts
@@ -348,7 +494,7 @@ monolith_state_idle:
   sta b1
 
   ;height of the column to decode
-  lda monolith_patch_bg_row,x
+  lda monolith_patch_step,x
   cmp #3
   beq :+
   lda #3

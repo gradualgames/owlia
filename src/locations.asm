@@ -254,10 +254,10 @@ meadow3_entity_instances:
 
 dungeon_0_0_entity_instances:
   .byte 4
-  .byte entity_index_monolith, 1, 8, 0, 0
-  .byte entity_index_monolith, 7, 3, 0, 0
-  .byte entity_index_monolith, 14, 8, 0, 0
-  .byte entity_index_monolith, 7, 12, 0, 0
+  .byte entity_index_monolith, 1, 8, 0, MONOLITH_PARAMS, 1, 4, MONOLITH_STATE_RISE_USING_ROWS_INIT
+  .byte entity_index_monolith, 14, 8, 0, MONOLITH_PARAMS, 1, 5, MONOLITH_STATE_RISE_USING_ROWS_INIT
+  .byte entity_index_monolith, 7, 3, 0, MONOLITH_PARAMS, 1, 2, MONOLITH_STATE_IDLE
+  .byte entity_index_monolith, 7, 12, 0, MONOLITH_PARAMS, 1, 3, MONOLITH_STATE_IDLE
 
 dungeon_1_0_entity_instances:
   .byte 2
