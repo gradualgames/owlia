@@ -8,12 +8,14 @@ traproom_state_counter = entity_local0
 TRAPROOM_STATE_INIT
 TRAPROOM_STATE_RAISE_MONOLITHS
 TRAPROOM_STATE_WAIT_FOR_ENEMIES_TO_BE_KILLED
+TRAPROOM_STATE_LOWER_MONOLITHS
 .endenum
 
 .define traproom_states \
   traproom_state_init, \
   traproom_state_raise_monoliths, \
-  traproom_state_wait_for_enemies_to_be_killed
+  traproom_state_wait_for_enemies_to_be_killed, \
+  traproom_state_lower_monoliths
 
 traproom_lo:
   .lobytes traproom_states
@@ -101,9 +103,24 @@ not_enemy:
   bpl next_entity
   .endscope
 
-  ;if there are no enemies alive, make the monoliths fall, then kill self
+  ;if there are no enemies alive, transition to lower monoliths state
   lda b0
   bne enemies_still_alive
+
+  lda #30
+  sta traproom_state_counter,x
+
+  lda #TRAPROOM_STATE_LOWER_MONOLITHS
+  sta entity_state,x
+
+enemies_still_alive:
+
+  rts
+
+traproom_state_lower_monoliths:
+
+  dec traproom_state_counter,x
+  bne do_not_lower_monoliths_yet
 
   ldy #(MAX_ENTITIES-1)
   .scope
@@ -150,7 +167,7 @@ not_monolith:
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
 
-enemies_still_alive:
+do_not_lower_monoliths_yet:
 
   rts
 
