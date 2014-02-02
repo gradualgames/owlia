@@ -16,6 +16,7 @@ MONOLITH_HEIGHT = $0f
   monolith_state_fall_using_columns_init, \
   monolith_state_fall_draw_patch_left_column, \
   monolith_state_fall_draw_patch_right_column, \
+  monolith_state_fall_using_columns_pause_one_frame, \
   monolith_state_idle
 
 monolith_lo:
@@ -238,7 +239,7 @@ monolith_state_fall_using_columns_init:
   lda #0
   sta monolith_patch_bg_row,x
 
-  lda #MONOLITH_STATE_FALL_DRAW_PATCH_LEFT_COLUMN
+  lda #MONOLITH_STATE_FALL_USING_COLUMNS_PAUSE_ONE_FRAME
   sta entity_state,x
 :
 
@@ -289,6 +290,13 @@ monolith_state_fall_draw_patch_right_column:
   sta entity_state,x
   rts
 :
+
+  lda #MONOLITH_STATE_FALL_USING_COLUMNS_PAUSE_ONE_FRAME
+  sta entity_state,x
+
+  rts
+
+monolith_state_fall_using_columns_pause_one_frame:
 
   lda #MONOLITH_STATE_FALL_DRAW_PATCH_LEFT_COLUMN
   sta entity_state,x
