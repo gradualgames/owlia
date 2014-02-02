@@ -47,7 +47,9 @@ monolith_state_init:
   lda #5
   sta monolith_state_counter,x
 
-  lda monolith_state_after_init,x
+  jsr monolith_make_impassable
+
+  lda #MONOLITH_STATE_IDLE
   sta entity_state,x
 
   rts

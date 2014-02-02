@@ -2,6 +2,19 @@
 MONOLITH_CONSTANTS_INC = 1
 
 .enum
+MONOLITH_TYPE_UNLOCKED
+MONOLITH_TYPE_KEYED
+MONOLITH_TYPE_LOCKED
+.endenum
+
+.enum
+MONOLITH_DIRECTION_EAST
+MONOLITH_DIRECTION_WEST
+MONOLITH_DIRECTION_SOUTH
+MONOLITH_DIRECTION_NORTH
+.endenum
+
+.enum
 MONOLITH_STATE_INIT
 MONOLITH_STATE_FALL_USING_ROWS_INIT
 MONOLITH_STATE_FALL_DRAW_PATCH_SECOND_ROW
@@ -22,17 +35,19 @@ MONOLITH_STATE_RISE_USING_COLUMNS_PAUSE_ONE_FRAME
 MONOLITH_STATE_IDLE
 .endenum
 
-MONOLITH_PARAMS = 3
+MONOLITH_PARAMS = 5
 
-monolith_foreground_patch_index = entity_local0
-monolith_background_patch_index = entity_local1
-monolith_state_after_init = entity_local2
-monolith_state_counter = entity_local3
-monolith_patch_offset_x_lo = entity_local4
-monolith_patch_offset_x_hi = entity_local5
-monolith_patch_offset_y_lo = entity_local6
-monolith_patch_offset_y_hi = entity_local7
-monolith_patch_step = entity_local8
-monolith_patch_column = entity_local9
+monolith_type = entity_local0
+monolith_direction = entity_local1
+monolith_location_index = entity_local2
+monolith_foreground_patch_index = entity_local3
+monolith_background_patch_index = entity_local4
+monolith_state_counter = entity_local5
+monolith_patch_offset_x_lo = entity_local6
+monolith_patch_offset_x_hi = entity_local7
+monolith_patch_offset_y_lo = entity_local8
+monolith_patch_offset_y_hi = entity_local9
+monolith_patch_step = entity_local10
+monolith_patch_column = entity_local11
 
 .endif
