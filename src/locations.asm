@@ -328,11 +328,11 @@ dungeon_3_2_entity_instances:
   .byte entity_index_door, 56, 33, 0, DOOR_PARAMS, location_index_dungeon_3_1_s, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_NORTH
 
 dungeon_0_3_entity_instances:
-  .byte 4
-  .byte entity_index_monolith, 1, 53, 0, MONOLITH_PARAMS, 1, 4, MONOLITH_STATE_FALL_USING_ROWS_INIT
-  .byte entity_index_monolith, 14, 53, 0, MONOLITH_PARAMS, 1, 5, MONOLITH_STATE_FALL_USING_ROWS_INIT
-  .byte entity_index_monolith, 7, 48, 0, MONOLITH_PARAMS, 1, 2, MONOLITH_STATE_FALL_USING_COLUMNS_INIT
-  .byte entity_index_monolith, 7, 57, 0, MONOLITH_PARAMS, 1, 3, MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  .byte 2
+;  .byte entity_index_monolith, 1, 53, 0, MONOLITH_PARAMS, 1, 4, MONOLITH_STATE_FALL_USING_ROWS_INIT
+;  .byte entity_index_monolith, 14, 53, 0, MONOLITH_PARAMS, 1, 5, MONOLITH_STATE_FALL_USING_ROWS_INIT
+  .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, 0, 2, MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  .byte entity_index_monolith, 7, 59, 0, MONOLITH_PARAMS, 0, 3, MONOLITH_STATE_FALL_USING_COLUMNS_INIT
 
 dungeon_1_3_entity_instances:
   .byte 3
