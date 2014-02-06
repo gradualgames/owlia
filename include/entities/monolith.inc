@@ -505,6 +505,9 @@ monolith_state_rise_using_columns_pause_one_frame:
 
 monolith_state_idle:
 
+  ;test this monolith's exit
+  jsr monolith_test_exit
+
   ;if the shake screen flag is set, shake the screen as long as the state counter is not zero
   .scope
   lda monolith_flags,x
@@ -770,6 +773,121 @@ do_not_shake_screen:
 
   pla
   tax
+
+  rts
+
+.endproc
+
+.define monolith_exits \
+  monolith_test_east_exit, \
+  monolith_test_west_exit, \
+  monolith_test_south_exit, \
+  monolith_test_north_exit
+
+monolith_exits_lo:
+  .lobytes monolith_exits
+
+monolith_exits_hi:
+  .hibytes monolith_exits
+
+.proc monolith_test_exit
+
+  ;transfer hero rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda hero_x
+  sta w4
+  lda hero_x+1
+  sta w4+1
+  lda hero_y
+  sta w5
+  lda hero_y+1
+  sta w5+1
+  lda hero_width
+  sta b4
+  lda hero_height
+  sta b5
+
+  ;now jump to the correct exit handler to load the north, south, east, or west
+  ;screen edge rect and perform the test. the call will return with the zero flag
+  ;set if the test succeeds.
+  ldy monolith_direction,x
+  lda monolith_exits_lo,y
+  sta w0
+  lda monolith_exits_hi,y
+  sta w0+1
+  jsr indirect_jsr_w0
+
+  jsr geotests_rect_in_rect_size
+  bne not_exiting
+
+  ;tell the play state to goto destination location
+  lda #ACTION_GOTO_LOCATION_GROUP1
+  sta state_control_params+play_state_control::action
+  lda monolith_location_index,x
+  sta state_control_params+play_state_control::param
+
+not_exiting:
+
+  rts
+
+indirect_jsr_w0:
+  jmp (w0)
+
+.endproc
+
+.proc monolith_test_north_exit
+
+  ;transfer north screen edge rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda camera_x
+  sta w2
+  lda camera_x+1
+  sta w2+1
+  lda camera_y
+  sta w3
+  lda camera_y+1
+  sta w3+1
+  lda #255
+  sta b2
+  lda #1
+  sta b3
+
+  rts
+
+.endproc
+
+.proc monolith_test_south_exit
+
+  ;transfer north screen edge rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda camera_x
+  sta w2
+  lda camera_x+1
+  sta w2+1
+  clc
+  lda camera_y
+  adc #224
+  sta w3
+  lda camera_y+1
+  adc #0
+  sta w3+1
+  lda #255
+  sta b2
+  lda #1
+  sta b3
+
+  rts
+
+.endproc
+
+.proc monolith_test_west_exit
+
+  lda #$ff
+
+  rts
+
+.endproc
+
+.proc monolith_test_east_exit
+
+  lda #$ff
 
   rts
 
