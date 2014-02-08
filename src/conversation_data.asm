@@ -1,3 +1,4 @@
+.feature force_range
 .linecont +
 .include "textbox.inc"
 .include "conversation_data.inc"

@@ -61,7 +61,7 @@ DEBUG_FILE      = $(OUTPUT_NAME).dbg
 #Switches
 INCLUDE_FLAGS = -I include -I include/maps -I include/entities -I include/songs -I include/sprites_and_animations
 
-ASSEMBLER_FLAGS = -g -l $(INCLUDE_FLAGS) -o
+ASSEMBLER_FLAGS = -g $(INCLUDE_FLAGS) -o
 ifdef DEMO
 ADDITIONAL_ASSEMBLER_FLAGS += -DDEMO_BUILD
 endif
@@ -80,7 +80,7 @@ endif
 ifdef CPU_USAGE
 ADDITIONAL_ASSEMBLER_FLAGS += -DCPU_USAGE
 endif
-LINKER_FLAGS    = -C $(CONFIG_FILE) -m $(MAP_FILE) --dbgfile $(DEBUG_FILE) -o
+LINKER_FLAGS    = -o $(NES_FILE) -C $(CONFIG_FILE) -m $(MAP_FILE) --dbgfile $(DEBUG_FILE)
 NAMELIST_GENERATOR_FLAGS = -rom $(NES_FILE) \
                            -nl ram ZEROPAGE 0000 \
                            -nl ram STACK    0100 \
@@ -119,7 +119,7 @@ debug: $(NES_FILE)
 
 #Rule for linking the final NES rom
 $(NES_FILE): $(OBJECT_FILES) $(CONFIG_FILE)
-	$(LINKER) $(OBJECT_FILES) $(LINKER_FLAGS) $(NES_FILE)
+	$(LINKER) $(OBJECT_FILES) $(LINKER_FLAGS)
 
 #Rule for assembling all the object files from source files
 $(OBJECT_FILES): $(BIN_DIR)/%.o : $(SRC_DIR)/%.asm $(BIN_DIR)

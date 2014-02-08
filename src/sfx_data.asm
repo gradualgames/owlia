@@ -1,3 +1,4 @@
+.feature force_range
 .include "sfx_data.inc"
 .include "soundengine.inc"
 

@@ -1,3 +1,4 @@
+.feature force_range
 .include "map.inc"
 .include "ram.inc"
 .include "zp.inc"

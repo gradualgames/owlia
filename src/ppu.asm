@@ -1,3 +1,4 @@
+.feature force_range
 .include "zp.inc"
 .include "ram.inc"
 .include "ppu.inc"

@@ -1,3 +1,4 @@
+.feature force_range
 .ifndef INVENTORY_STATE_INC
 INVENTORY_STATE_INC = 1
 
@@ -32,7 +33,7 @@ TECH2_OFFSET = -2
 .struct inventory_state_menu_position
   is_enabled_callback_address .word
   a_button_callback_address .word
-  callback_param .byte
+  callback_param_value .byte
   next_menu_item_up_address .word
   next_menu_item_right_address .word
   next_menu_item_left_address .word
@@ -65,7 +66,7 @@ TECH2_OFFSET = -2
 .struct inventory_state_menu_item
   item_address .word
   is_enabled_callback_address .word
-  callback_param .byte
+  callback_param_value .byte
   item_row .byte
   item_column .byte
 .endstruct
