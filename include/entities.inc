@@ -1,6 +1,8 @@
 .ifndef ENTITIES_INC
 ENTITIES_INC = 1
 
+.feature force_range
+
 .global entity_defs_update_address_lo
 .global entity_defs_update_address_hi
 .global entity_defs_update_address_bank

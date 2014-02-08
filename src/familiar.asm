@@ -1,3 +1,4 @@
+.feature force_range
 .linecont +
 .include "hero.inc"
 .include "hero_constants.inc"

@@ -861,7 +861,7 @@ print_callback_nop:
 .proc tech_label_is_enabled_callback
 menu_item_address = w10
 
-  ldy #inventory_state_menu_item::callback_param
+  ldy #inventory_state_menu_item::callback_param_value
 
   lda inventory_earned_techs
   cmp (menu_item_address),y
@@ -877,7 +877,7 @@ menu_item_address = w10
 .proc tech_menu_position_is_enabled_callback
 next_menu_position_address = w11
 
-  ldy #inventory_state_menu_position::callback_param
+  ldy #inventory_state_menu_position::callback_param_value
 
   lda inventory_earned_techs
   cmp (next_menu_position_address),y
@@ -949,7 +949,7 @@ menu_position_address = w10
   lda state_control_params+inventory_state_control::current_menu_position_address+1
   sta menu_position_address+1
 
-  ldy #inventory_state_menu_position::callback_param
+  ldy #inventory_state_menu_position::callback_param_value
   lda (menu_position_address),y
   sta inventory_tech1
 
@@ -967,7 +967,7 @@ menu_position_address = w10
   lda state_control_params+inventory_state_control::current_menu_position_address+1
   sta menu_position_address+1
 
-  ldy #inventory_state_menu_position::callback_param
+  ldy #inventory_state_menu_position::callback_param_value
   lda (menu_position_address),y
   sta inventory_tech2
 
