@@ -304,7 +304,12 @@ dungeon_0_2_entity_instances:
   .byte 3
   .byte entity_index_pufferfish, 7, 38, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_door, 4, 33, 0, DOOR_PARAMS, location_index_dungeon_0_1_s, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_NORTH
-  .byte entity_index_door, 7, 43, 0, DOOR_PARAMS, location_index_dungeon_0_3_n, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_SOUTH
+  .byte entity_index_monolith, 7, 43, 0, MONOLITH_PARAMS, \
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, \
+                                         MONOLITH_DIRECTION_SOUTH, \
+                                         ACTION_NOP, \
+                                         0, 0, 2
+  ;.byte entity_index_door, 7, 43, 0, DOOR_PARAMS, location_index_dungeon_0_3_n, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_SOUTH
 
 dungeon_1_2_entity_instances:
   .byte 3
@@ -328,8 +333,17 @@ dungeon_0_3_entity_instances:
   .byte 5
   .byte entity_index_pufferfish, 4, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, MONOLITH_DIRECTION_NORTH, ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_0_2_s, 0, 2
-  .byte entity_index_monolith, 7, 59, 0, MONOLITH_PARAMS, MONOLITH_TYPE_UNLOCKED, MONOLITH_DIRECTION_SOUTH, ACTION_GOTO_LOCATION_GROUP1, location_index_meadow3_dungeon_entrance, 0, 2
+  .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, \
+                                         MONOLITH_TYPE_UNLOCKED | \
+                                         MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
+                                         MONOLITH_DIRECTION_NORTH, \
+                                         ACTION_SCROLLTO_LOCATION_GROUP1, \
+                                         location_index_dungeon_0_2_s, 0, 2
+  .byte entity_index_monolith, 7, 59, 0, MONOLITH_PARAMS, \
+                                         MONOLITH_TYPE_UNLOCKED, \
+                                         MONOLITH_DIRECTION_SOUTH, \
+                                         ACTION_GOTO_LOCATION_GROUP1, \
+                                         location_index_meadow3_dungeon_entrance, 0, 2
   .byte entity_index_traproom, 0, 0, 0, 0
 
 dungeon_1_3_entity_instances:

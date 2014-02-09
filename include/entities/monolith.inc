@@ -44,6 +44,16 @@ monolith_state_init:
   lda #MONOLITH_HEIGHT
   sta entity_height,x
 
+  .scope
+  lda monolith_flags,x
+  and #MONOLITH_FLAGS_UP_OR_DOWN_ISOLATE
+  beq not_up
+
+  jsr monolith_make_impassable
+
+not_up:
+  .endscope
+
   lda #0
   sta monolith_state_counter,x
 
