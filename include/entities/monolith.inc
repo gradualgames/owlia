@@ -819,8 +819,8 @@ monolith_exits_hi:
   jsr geotests_rect_in_rect_size
   bne not_exiting
 
-  ;tell the play state to goto destination location
-  lda #ACTION_GOTO_LOCATION_GROUP1
+  ;tell the play state to go to destination location
+  lda monolith_goto_location_action,x
   sta state_control_params+play_state_control::action
   lda monolith_location_index,x
   sta state_control_params+play_state_control::param

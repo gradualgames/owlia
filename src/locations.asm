@@ -1,4 +1,5 @@
 .linecont +
+.include "actions.inc"
 .include "areas.inc"
 .include "locations.inc"
 .include "sfx_data.inc"
@@ -253,11 +254,7 @@ meadow3_entity_instances:
   .byte entity_index_octopus, 7, 56, 0, 0
 
 dungeon_0_0_entity_instances:
-  .byte 4
-  .byte entity_index_monolith, 1, 8, 0, MONOLITH_PARAMS, 1, 4, MONOLITH_STATE_RISE_USING_ROWS_INIT
-  .byte entity_index_monolith, 14, 8, 0, MONOLITH_PARAMS, 1, 5, MONOLITH_STATE_RISE_USING_ROWS_INIT
-  .byte entity_index_monolith, 7, 3, 0, MONOLITH_PARAMS, 1, 2, MONOLITH_STATE_RISE_USING_COLUMNS_INIT
-  .byte entity_index_monolith, 7, 12, 0, MONOLITH_PARAMS, 1, 3, MONOLITH_STATE_RISE_USING_COLUMNS_INIT
+  .byte 0
 
 dungeon_1_0_entity_instances:
   .byte 2
@@ -331,8 +328,8 @@ dungeon_0_3_entity_instances:
   .byte 5
   .byte entity_index_pufferfish, 4, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, MONOLITH_DIRECTION_NORTH, location_index_dungeon_0_2_s, 0, 2
-  .byte entity_index_monolith, 7, 59, 0, MONOLITH_PARAMS, MONOLITH_TYPE_UNLOCKED, MONOLITH_DIRECTION_SOUTH, location_index_meadow3_dungeon_entrance, 0, 2
+  .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, MONOLITH_DIRECTION_NORTH, ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_0_2_s, 0, 2
+  .byte entity_index_monolith, 7, 59, 0, MONOLITH_PARAMS, MONOLITH_TYPE_UNLOCKED, MONOLITH_DIRECTION_SOUTH, ACTION_GOTO_LOCATION_GROUP1, location_index_meadow3_dungeon_entrance, 0, 2
   .byte entity_index_traproom, 0, 0, 0, 0
 
 dungeon_1_3_entity_instances:
@@ -552,7 +549,7 @@ define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_
 dungeon_0_2_n:
 define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4, area_index_dungeon, dungeon_entity_set, dungeon_0_2_entity_instances, dungeon_palette, 0, 30, 4, 33, 0, 0, 0, HERO_DIRECTION_DOWN
 dungeon_0_2_s:
-define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4, area_index_dungeon, dungeon_entity_set, dungeon_0_2_entity_instances, dungeon_palette, 0, 30, 7, 43, 0, 0, 0, HERO_DIRECTION_UP
+define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4, area_index_dungeon, dungeon_entity_set, dungeon_0_2_entity_instances, dungeon_palette, 0, 30, 7, 40, 0, 0, 0, HERO_DIRECTION_UP
 dungeon_1_2_s:
 define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4, area_index_dungeon, dungeon_entity_set, dungeon_1_2_entity_instances, dungeon_palette, 16, 30, 26, 43, 0, 0, 0, HERO_DIRECTION_UP
 dungeon_1_2_e:

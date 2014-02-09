@@ -41,19 +41,20 @@ MONOLITH_STATE_RISE_USING_COLUMNS_PAUSE_ONE_FRAME
 MONOLITH_STATE_IDLE
 .endenum
 
-MONOLITH_PARAMS = 5
+MONOLITH_PARAMS = 6
 
 monolith_flags = entity_local0
 monolith_direction = entity_local1
-monolith_location_index = entity_local2
-monolith_foreground_patch_index = entity_local3
-monolith_background_patch_index = entity_local4
-monolith_state_counter = entity_local5
-monolith_patch_offset_x_lo = entity_local6
-monolith_patch_offset_x_hi = entity_local7
-monolith_patch_offset_y_lo = entity_local8
-monolith_patch_offset_y_hi = entity_local9
-monolith_patch_step = entity_local10
-monolith_patch_column = entity_local11
+monolith_goto_location_action = entity_local2
+monolith_location_index = entity_local3
+monolith_foreground_patch_index = entity_local4
+monolith_background_patch_index = entity_local5
+monolith_state_counter = entity_local6
+monolith_patch_offset_x_lo = entity_local7
+monolith_patch_offset_x_hi = entity_local8
+monolith_patch_offset_y_lo = entity_local9
+monolith_patch_offset_y_hi = entity_local10
+monolith_patch_step = entity_local11
+monolith_patch_column = entity_local12
 
 .endif

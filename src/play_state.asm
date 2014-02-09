@@ -411,6 +411,7 @@ done:
 .define play_state_action_handlers \
   play_state_action_nop, \
   play_state_action_goto_location_group1, \
+  play_state_action_scrollto_location_group1, \
   play_state_action_start_conversation, \
   play_state_action_nop, \
   play_state_action_game_over, \
@@ -1209,7 +1210,7 @@ play_state_action_goto_location_group1:
   switch_bank_ldy #LOCATIONS_BANK
   jsr ppu_fade_out_palette
 
-  ;now that we know the area, make sure the state control
+  ;now that we know the location, make sure the state control
   ;param is nop again
   lda #ACTION_NOP
   sta state_control_params+play_state_control::action
@@ -1217,6 +1218,201 @@ play_state_action_goto_location_group1:
   sta state_control_params+play_state_control::param
 
   jmp play_state_load_location
+
+;****************************************************************
+;This action handler scrolls to the location specified by the
+;action param. It assumes that the entity set specified by the
+;new location is the same as the old location. It marks all enti-
+;ties in the current location as "marked for kill," then spawns
+;all entities in the new location, then scrolls by X and then by
+;Y to the new location, then kills all "marked for kill"
+;entities. Finally, it moves the hero to the position specified
+;by the new location.
+;****************************************************************
+play_state_action_scrollto_location_group1:
+
+  ;mark all currently living entities to be killed after we scroll
+  jsr entity_mark_all_for_kill
+
+  ;load the new location address and spawn the entities from it,
+  ;assuming the entity set has not changed.
+  ldx state_control_params+play_state_control::param
+  switch_bank_ldy #LOCATIONS_BANK
+  lda locations_lo,x
+  sta location_address
+  lda locations_hi,x
+  sta location_address+1
+
+  ;spawn all non-hero entities in new location
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::entity_instances_address
+  lda (location_address),y
+  sta w3
+  iny
+  lda (location_address),y
+  sta w3+1
+
+  jsr spawn_entities
+
+  ;****************************************************************
+  ;Run all frame logic for a single frame except taking user input
+  ;to get all entities onscreen
+  ;****************************************************************
+  .scope
+  wait_vblank_flag
+
+  jsr sprite_clear_all
+
+  jsr sprite_clear_shadow_spots
+
+  jsr entity_update_all
+
+  jsr entity_calculate_screen_coordinates_all
+
+  jsr entity_draw_all
+
+  jsr sprite_draw_shadow_spots
+
+  jsr hero_draw_status
+
+  set_vblank_flag
+  .endscope
+
+  ;now scroll to the new location
+  jsr scroll_to_current_location
+
+  jsr entity_kill_all_marked_for_kill
+
+  ;now that we know the location, make sure the state control
+  ;param is nop again
+  lda #ACTION_NOP
+  sta state_control_params+play_state_control::action
+  lda #0
+  sta state_control_params+play_state_control::param
+
+  jmp play_state
+
+;scrolls the camera vertically and then horizontally to align
+;with the currently loaded location. This is used with dungeons
+;and assumes that it will be scrolling only vertically or only
+;horizontally. It also assumes that SCROLL_SPEED evenly divides
+;the vertical or horizontal distance between the current and the
+;next location. If this is not true scrolling will continue
+;indefinitely.
+.proc scroll_to_current_location
+SCROLL_SPEED = 4
+location_y = w3
+location_y_delta = w4
+
+  ;save old scrolling enable flags
+  lda camera_x_scrolling_enabled
+  pha
+  lda camera_y_scrolling_enabled
+  pha
+
+  ;temporarily enable scrolling
+  lda #1
+  sta camera_x_scrolling_enabled
+  sta camera_y_scrolling_enabled
+
+  jsr get_location_y_delta
+
+  ;see if they are the same first
+  lda location_y_delta
+  ora location_y_delta+1
+  beq no_vertical_scroll
+
+  ;now test the sign
+  lda location_y_delta+1
+  bmi scroll_down
+  bpl scroll_up
+scroll_up:
+:
+  wait_vblank_flag
+
+  jsr get_location_y_delta
+  ;see if they are the same first
+  lda location_y_delta
+  ora location_y_delta+1
+  beq no_vertical_scroll
+
+  lda #SCROLL_SPEED
+  sta b0
+  jsr decrement_camera_y
+
+  jsr decode_map_row_top
+
+  jsr draw_sprites
+
+  set_vblank_flag
+
+  jmp :-
+
+  jmp no_vertical_scroll
+
+scroll_down:
+
+:
+  wait_vblank_flag
+
+  lda #SCROLL_SPEED
+  sta b0
+  jsr increment_camera_y
+
+  jsr decode_map_row_bottom
+
+  jsr draw_sprites
+
+  set_vblank_flag
+
+  jmp :-
+
+no_vertical_scroll:
+
+  ;restore old scrolling enable flags
+  pla
+  sta camera_y_scrolling_enabled
+  pla
+  sta camera_x_scrolling_enabled
+
+  rts
+
+get_location_y_delta:
+
+  ;get location Y coordinate
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::camera_start_y
+  lda (location_address),y
+  sta location_y
+  iny
+  lda (location_address),y
+  sta location_y+1
+
+  ;compare location Y to camera Y
+  sec
+  lda camera_y
+  sbc location_y
+  sta location_y_delta
+  lda camera_y+1
+  sbc location_y+1
+  sta location_y_delta+1
+  rts
+
+draw_sprites:
+
+  jsr sprite_clear_all
+
+  jsr entity_calculate_screen_coordinates_all
+
+  jsr entity_draw_all
+
+  jsr sprite_only_draw_shadow_spots
+
+  jsr hero_draw_status
+
+  rts
+
+.endproc
 
 ;****************************************************************
 ;This action handler starts displaying a conversation in a text
@@ -1475,7 +1671,9 @@ done:
 
   rts
 
-decode_map_row_top:
+.endproc
+
+.proc decode_map_row_top
 
   clc
   lda camera_x
@@ -1495,7 +1693,9 @@ decode_map_row_top:
 
   rts
 
-decode_map_row_bottom:
+.endproc
+
+.proc decode_map_row_bottom
 
   clc
   lda camera_x
@@ -1518,7 +1718,9 @@ decode_map_row_bottom:
 
   rts
 
-decode_map_column_left:
+.endproc
+
+.proc decode_map_column_left
 
   clc
   lda camera_x
@@ -1538,7 +1740,9 @@ decode_map_column_left:
 
   rts
 
-decode_map_column_right:
+.endproc
+
+.proc decode_map_column_right
 
   clc
   lda camera_x
