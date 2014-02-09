@@ -96,6 +96,7 @@ reset:
 
   jsr clear_dynamic_single_screen_collision_field
 
+  switch_bank_ldy #TITLE_STATE_BANK
   jmp title_state_init
 
 vblank:

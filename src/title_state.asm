@@ -20,7 +20,7 @@
 .include "cut_scene_state.inc"
 .include "slide_data.inc"
 
-.segment "CODE"
+.segment "ROM01"
 
 title_screen_palette:
   .byte $0e,$04,$14,$24,$0e,$0e,$18,$20,$0e,$17,$28,$38,$0e,$00,$00,$00
@@ -48,8 +48,7 @@ title_state_init:
   sta w0
   lda #>title_chr
   sta w0+1
-  switch_bank_ldy #TITLE_STATE_BG_CHR_BANK
-  jsr ppu_load_chr_amount
+  far_call #TITLE_STATE_BG_CHR_BANK, ppu_load_chr_amount
 
   lda #$10
   sta ppu_2006
@@ -63,11 +62,7 @@ title_state_init:
   lda sprite_chr_group_addresses_hi,x
   sta w0+1
 
-  lda sprite_chr_group_bank,x
-  tay
-  switch_bank_y
-
-  jsr ppu_load_chr_amount
+  far_call {sprite_chr_group_bank,x}, ppu_load_chr_amount
 
   ;load nametable data for title screen
   lda #$20
@@ -79,14 +74,11 @@ title_state_init:
   sta w0
   lda #>title_screen
   sta w0+1
-  switch_bank_ldy #TITLE_STATE_BG_NAMETABLE_BANK
-  jsr ppu_load_nametable
+  far_call #TITLE_STATE_BG_NAMETABLE_BANK, ppu_load_nametable
 
   ;draw overlay sprites
   lda #$00
   sta chr_group_offset
-
-  switch_bank_ldy #TITLE_STATE_SPRITES_AND_ANIMATIONS_BANK
 
   lda #<OwliaTitle0
   sta w0
@@ -106,7 +98,7 @@ title_state_init:
   lda #0
   sta b2
 
-  jsr sprite_draw_metasprite
+  far_call #TITLE_STATE_SPRITES_AND_ANIMATIONS_BANK, sprite_draw_metasprite
 
   lda #<OwliaTitle1
   sta w0
@@ -126,7 +118,7 @@ title_state_init:
   lda #0
   sta b2
 
-  jsr sprite_draw_metasprite
+  far_call #TITLE_STATE_SPRITES_AND_ANIMATIONS_BANK, sprite_draw_metasprite
 
   jsr sprite_update_all
 
@@ -175,8 +167,7 @@ title_state_init:
   sta song_address
   lda #>title_theme
   sta song_address+1
-  switch_bank_ldy music_bank
-  jsr song_initialize
+  far_call music_bank, song_initialize
 already_playing_title_theme:
 
   lda #<TITLE_STATE_TIME_TIL_CUT_SCENE
@@ -203,7 +194,9 @@ title_state_main:
   lda buffer_controller+buttons::_start
   and #%00000011
   cmp #%00000001
-  beq title_state_start_game
+  bne :+
+  jmp title_state_start_game
+:
 
   set_vblank_flag
 
@@ -223,6 +216,8 @@ title_state_show_cut_scene:
   lda #>intro_cut_scene_slide1
   sta state_control_params+cut_scene_state_control::slide_address+1
   jmp play_cut_scene
+
+.segment "CODE"
 
 title_state_start_game:
 
@@ -252,6 +247,7 @@ title_state_start_game:
   ;ldx #location_index_dungeon_0_0_s
   ;ldx #location_index_dungeon1_boss_entrance
   ;ldx #location_index_village_house1_entrance
+
   switch_bank_ldy #LOCATIONS_BANK
   lda locations_lo,x
   sta location_address
