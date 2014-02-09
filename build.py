@@ -5,7 +5,7 @@ import shutil
 import sys
 
 nes_file = "owlia.nes"
-linker_cfg_file = "linker.cfg"
+linker_cfg_file = "owlia.cfg"
 map_file = "owlia.map"
 debug_file = "owlia.nes.dbg"
 include_paths = ["include",
