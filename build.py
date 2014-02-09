@@ -52,6 +52,7 @@ def make_build(additional_args):
         ca65_args_file_name.append(os.path.normpath("%s/%s.lst" % (bin_path, file_name)))
         ca65_args_file_name.append("-o")
         ca65_args_file_name.append(os.path.normpath("%s/%s.o" % (bin_path, file_name)))
+        ca65_args_file_name.append("-DDEBUG")
         if additional_args != None:
             ca65_args_file_name.extend(additional_args)
         call(ca65_args_file_name)
