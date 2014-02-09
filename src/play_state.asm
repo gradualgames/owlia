@@ -1,4 +1,5 @@
 .linecont +
+.include "ndxdebug.h"
 .include "main.inc"
 .include "cut_scene_state.inc"
 .include "slide_data.inc"
@@ -104,7 +105,7 @@ next_bg_chr_group:
   rts
 .endproc
 
-;this routine loads all sprite chr groups for the current area, which
+;this routine loads all sprite chr groups for the current location, which
 ;basically just means it will load all chr data for entities into
 ;VRAM and remember where they were loaded in sprite_chr_group_addresses.
 .proc load_sprite_chr_groups
@@ -117,8 +118,8 @@ sprite_chr_groups_index = b0
   lda #$00
   sta chr_offset
 
-  ;get count for number of entity types in this area
-  switch_bank_ldy #AREAS_BANK
+  ;get count for number of entity types in this location
+  switch_bank_ldy #LOCATIONS_BANK
   ldy #0
   lda (sprite_chr_groups_address),y
   ;put it in x for counting
@@ -130,8 +131,8 @@ sprite_chr_groups_index = b0
 
 next_entity_type:
 
-  switch_bank_ldy #AREAS_BANK
   ;get next entity type index
+  switch_bank_ldy #LOCATIONS_BANK
   ldy sprite_chr_groups_index
   lda (sprite_chr_groups_address),y
 
@@ -162,16 +163,16 @@ next_entity_type:
 
 .endproc
 
-;this routine spawns all entities for a given area.
+;this routine spawns all entities for a given location.
 .proc spawn_entities
 entities_address = w3
 entities_index = b1
 entities_count = b2
 entities_params_count = b3
 
-  switch_bank_ldy #AREAS_BANK
+  switch_bank_ldy #LOCATIONS_BANK
 
-  ;get count for number of entity instances in this area
+  ;get count for number of entity instances in this location
   ldy #0
   lda (entities_address),y
   sta entities_count
@@ -435,6 +436,7 @@ play_state_load_location:
   ldy #location::area_index
   lda (location_address),y
   tax
+  switch_bank_ldy #AREAS_BANK
   lda areas_lo,x
   sta area_address
   lda areas_hi,x
