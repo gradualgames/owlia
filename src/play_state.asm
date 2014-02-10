@@ -30,10 +30,21 @@
 .include "hero_constants.inc"
 .include "familiar.inc"
 .include "familiar_constants.inc"
+.include "monolith_constants.inc"
 .include "textbox.inc"
 .include "conversation_data.inc"
 
 .segment "CODE"
+
+;This LUT can be used to determine the opposite direction
+;from which we are scrolling to a new location (probably in
+;a single screen dungeon environment). This is needed for
+;searching for monoliths that may be in the hero's way.
+scroll_direction_opposite:
+  .byte SCROLL_DIRECTION_WEST
+  .byte SCROLL_DIRECTION_EAST
+  .byte SCROLL_DIRECTION_NORTH
+  .byte SCROLL_DIRECTION_SOUTH
 
 ;this routine must be called before using the play state when
 ;the game boots up. It ensures that all play state specific
@@ -1283,6 +1294,115 @@ play_state_action_scrollto_location_group1:
 
   jsr entity_kill_all_marked_for_kill
 
+  ;now search for monoliths that may be in the hero's way configured
+  ;for the opposite direction that had been passed into this action
+  ;handler.
+  ldy #(MAX_ENTITIES-1)
+  .scope
+next_entity:
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq not_alive
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne not_monolith
+
+  ;found a monolith. Test to see if its direction is opposite to the
+  ;direction that was passed into the scrollto action handler.
+  ldx monolith_direction,y
+  lda scroll_direction_opposite,x
+  cmp state_control_params+play_state_control::param+1
+  bne not_opposite_direction
+
+  ;here, we have found a monolith whose direction is opposite to that
+  ;in which we scrolled. Now we want to test if it is currently up. If
+  ;it is, we need to initialize its falling state, and then update its
+  ;state until it is done falling.
+  lda monolith_flags,y
+  and #MONOLITH_FLAGS_UP_OR_DOWN_ISOLATE
+  beq done
+
+  ;We found a monolith in the hero's way. Tell it to start falling,
+  ;and then execute enough frames to allow it to fall all the way
+  ;down.
+  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  sta entity_state,y
+
+  ;take over the controller. Once we animate any monoliths in the hero's
+  ;way, we will move the hero into the position specified by the new
+  ;location.
+  jsr controller_clear
+  lda #<controller_nop
+  sta controller_routine
+  lda #>controller_nop
+  sta controller_routine+1
+
+  .scope
+  lda #20
+  sta b10
+
+: wait_vblank_flag
+
+  lda b10
+  pha
+
+  jsr sprite_clear_all
+
+  jsr sprite_clear_shadow_spots
+
+  jsr entity_update_all
+
+  jsr entity_calculate_screen_coordinates_all
+
+  jsr entity_draw_all
+
+  jsr sprite_draw_shadow_spots
+
+  jsr hero_draw_status
+
+  set_vblank_flag
+
+  pla
+  sta b10
+  dec b10
+  bne :-
+  .endscope
+
+  jmp done
+
+not_opposite_direction:
+not_alive:
+not_monolith:
+  dey
+  bpl next_entity
+done:
+  .endscope
+
+  ;based on the direction passed into the scrollto action handler,
+  ;move the hero until she matches the newly loaded location.
+  .scope
+  lda state_control_params+play_state_control::param+1
+  cmp #SCROLL_DIRECTION_NORTH
+  beq walk_north
+  cmp #SCROLL_DIRECTION_SOUTH
+  beq walk_south
+walk_north:
+  jsr walk_north_impl
+  jmp done
+walk_south:
+  jsr walk_south_impl
+  jmp done
+done:
+  .endscope
+
+  ;restore control to the player
+  lda #$ff
+  jsr controller_fill_buffer_with_accumulator
+  lda #<controller_read
+  sta controller_routine
+  lda #>controller_read
+  sta controller_routine+1
+
   ;now that we know the location, make sure the state control
   ;param is nop again
   lda #ACTION_NOP
@@ -1291,6 +1411,64 @@ play_state_action_scrollto_location_group1:
   sta state_control_params+play_state_control::param
 
   jmp play_state
+
+;makes the hero walk north until she matches the newly loaded
+;location.
+.proc walk_north_impl
+
+  lda #1
+  sta buffer_controller+buttons::_up
+
+  .scope
+:
+  wait_vblank_flag
+
+  jsr sprite_clear_all
+
+  jsr sprite_clear_shadow_spots
+
+  jsr entity_update_all
+
+  jsr entity_calculate_screen_coordinates_all
+
+  jsr entity_draw_all
+
+  jsr sprite_draw_shadow_spots
+
+  jsr hero_draw_status
+
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::hero_start_y
+  lda (location_address),y
+  cmp hero_y
+  bne not_equal
+  iny
+  lda (location_address),y
+  cmp hero_y+1
+  bne not_equal
+
+  jmp done
+
+not_equal:
+
+  set_vblank_flag
+  jmp :-
+done:
+  .endscope
+
+  jsr controller_clear
+
+  rts
+
+.endproc
+
+;makes the hero walk south until she matches the newly loaded
+;location.
+.proc walk_south_impl
+
+  rts
+
+.endproc
 
 ;scrolls the camera vertically and then horizontally to align
 ;with the newly loaded location. This is used with dungeons

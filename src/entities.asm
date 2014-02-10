@@ -1,4 +1,5 @@
 .linecont +
+.include "ndxdebug.h"
 .include "entities.inc"
 .include "hero_constants.inc"
 .include "hero.inc"

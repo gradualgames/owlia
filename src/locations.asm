@@ -304,7 +304,7 @@ dungeon_0_2_entity_instances:
   .byte 3
   .byte entity_index_pufferfish, 7, 38, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_door, 4, 33, 0, DOOR_PARAMS, location_index_dungeon_0_1_s, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_NORTH
-  .byte entity_index_monolith, 7, 43, 0, MONOLITH_PARAMS, \
+  .byte entity_index_monolith, 7, 44, 0, MONOLITH_PARAMS, \
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, \
                                          MONOLITH_DIRECTION_SOUTH, \
                                          ACTION_NOP, \
