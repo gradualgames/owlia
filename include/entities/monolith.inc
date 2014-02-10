@@ -834,6 +834,9 @@ monolith_exits_hi:
   sta state_control_params+play_state_control::action
   lda monolith_location_index,x
   sta state_control_params+play_state_control::param
+  ;also tell the play state what direction this monolith's exit is in
+  lda monolith_direction,x
+  sta state_control_params+play_state_control::param+1
 
 not_exiting:
 

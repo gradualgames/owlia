@@ -1279,7 +1279,7 @@ play_state_action_scrollto_location_group1:
   .endscope
 
   ;now scroll to the new location
-  jsr scroll_to_current_location
+  jsr scroll_to_new_location
 
   jsr entity_kill_all_marked_for_kill
 
@@ -1293,16 +1293,15 @@ play_state_action_scrollto_location_group1:
   jmp play_state
 
 ;scrolls the camera vertically and then horizontally to align
-;with the currently loaded location. This is used with dungeons
-;and assumes that it will be scrolling only vertically or only
-;horizontally. It also assumes that SCROLL_SPEED evenly divides
-;the vertical or horizontal distance between the current and the
-;next location. If this is not true scrolling will continue
-;indefinitely.
-.proc scroll_to_current_location
+;with the newly loaded location. This is used with dungeons
+;and assumes that the state control params "param" member of
+;play_state_control will have a second byte representing the
+;direction to scroll in, passed in by a monolith entity and
+;being one of four cardinal direction enum values specified
+;in the monolith entity constants.
+.proc scroll_to_new_location
 SCROLL_SPEED = 4
-location_y = w3
-location_y_delta = w4
+scroll_counter = b10
 
   ;save old scrolling enable flags
   lda camera_x_scrolling_enabled
@@ -1315,26 +1314,40 @@ location_y_delta = w4
   sta camera_x_scrolling_enabled
   sta camera_y_scrolling_enabled
 
-  jsr get_location_y_delta
+  ;get direction that we were told to scroll in
+  lda state_control_params+play_state_control::param+1
+  cmp #SCROLL_DIRECTION_NORTH
+  beq scroll_north
+  cmp #SCROLL_DIRECTION_SOUTH
+  beq scroll_south
+scroll_north:
+  jsr scroll_north_impl
+  jmp done
+scroll_south:
+  jsr scroll_south_impl
+  jmp done
+done:
 
-  ;see if they are the same first
-  lda location_y_delta
-  ora location_y_delta+1
-  beq no_vertical_scroll
+no_vertical_scroll:
 
-  ;now test the sign
-  lda location_y_delta+1
-  bmi scroll_down
-  bpl scroll_up
-scroll_up:
+  ;restore old scrolling enable flags
+  pla
+  sta camera_y_scrolling_enabled
+  pla
+  sta camera_x_scrolling_enabled
+
+  rts
+
+scroll_north_impl:
+
+  lda #240
+  sta scroll_counter
+
 :
   wait_vblank_flag
 
-  jsr get_location_y_delta
-  ;see if they are the same first
-  lda location_y_delta
-  ora location_y_delta+1
-  beq no_vertical_scroll
+  lda scroll_counter
+  pha
 
   lda #SCROLL_SPEED
   sta b0
@@ -1346,12 +1359,18 @@ scroll_up:
 
   set_vblank_flag
 
-  jmp :-
+  pla
+  sta scroll_counter
 
-  jmp no_vertical_scroll
+  sec
+  lda scroll_counter
+  sbc #SCROLL_SPEED
+  sta scroll_counter
+  bne :-
 
-scroll_down:
+  rts
 
+scroll_south_impl:
 :
   wait_vblank_flag
 
@@ -1367,35 +1386,6 @@ scroll_down:
 
   jmp :-
 
-no_vertical_scroll:
-
-  ;restore old scrolling enable flags
-  pla
-  sta camera_y_scrolling_enabled
-  pla
-  sta camera_x_scrolling_enabled
-
-  rts
-
-get_location_y_delta:
-
-  ;get location Y coordinate
-  switch_bank_ldy #LOCATIONS_BANK
-  ldy #location::camera_start_y
-  lda (location_address),y
-  sta location_y
-  iny
-  lda (location_address),y
-  sta location_y+1
-
-  ;compare location Y to camera Y
-  sec
-  lda camera_y
-  sbc location_y
-  sta location_y_delta
-  lda camera_y+1
-  sbc location_y+1
-  sta location_y_delta+1
   rts
 
 draw_sprites:
