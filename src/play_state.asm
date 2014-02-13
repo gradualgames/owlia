@@ -712,7 +712,7 @@ play_state_load_location:
   ;Run all frame logic for a single frame except taking user input
   ;to get all entities onscreen before fading in
   ;****************************************************************
-  jsr frame_update
+  jsr frame_update_no_controller_input
 
   ;****************************************************************
   ;Load song for the current area if different from the already
@@ -791,40 +791,7 @@ same_song:
 ;****************************************************************
 play_state:
 
-  wait_vblank_done
-
-  jsr controller_indirect
-
-  .ifdef CPU_USAGE
-  set_ppu_2001_bit PPU1_DISPLAY_TYPE
-  upload_ppu_2001
-  .endif
-
-  jsr sprite_reset_next_sprite_address
-
-  jsr sprite_clear_shadow_spots
-
-  jsr entity_update_all
-
-  switch_bank_ldy map_bank
-  jsr update_camera
-
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  jsr sprite_clear_all_remaining
-
-  .ifdef CPU_USAGE
-  clear_ppu_2001_bit PPU1_DISPLAY_TYPE
-  upload_ppu_2001
-  .endif
-
-  clear_vblank_done
+  jsr frame_update_controller_input
 
   ;switchboard for controlling the play state logic
   lda state_control_params+play_state_control::action
@@ -1054,7 +1021,7 @@ done:
   .endscope
 
   ;execute a single frame to get entities onscreen before palette fade in and music
-  jsr frame_update
+  jsr frame_update_no_controller_input
 
   jsr ppu_safely_enable_graphics
 
@@ -1196,7 +1163,7 @@ play_state_action_scrollto_location_group1:
   ;Run all frame logic for a single frame except taking user input
   ;to get all entities onscreen
   ;****************************************************************
-  jsr frame_update
+  jsr frame_update_no_controller_input
 
   ;now scroll to the new location
   jsr scroll_to_new_location
@@ -1475,20 +1442,6 @@ scroll_south_impl:
 
   rts
 
-draw_sprites:
-
-  jsr sprite_clear_all
-
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_only_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  rts
-
 .endproc
 
 ;****************************************************************
@@ -1588,8 +1541,6 @@ keep_incrementing_camera_x:
   and #%00001111
   beq done
 
-  jsr sprite_clear_all
-
   lda #1
   sta b0
   jsr increment_camera_x
@@ -1608,7 +1559,7 @@ keep_incrementing_camera_x:
 
   jsr decode_map_column_right
 
-  jsr update_entities
+  jsr draw_sprites
 
   clear_vblank_done
 
@@ -1622,8 +1573,6 @@ keep_decrementing_camera_x:
   lda camera_x
   and #%00001111
   beq done
-
-  jsr sprite_clear_all
 
   lda #1
   sta b0
@@ -1643,7 +1592,7 @@ keep_decrementing_camera_x:
 
   jsr decode_map_column_left
 
-  jsr update_entities
+  jsr draw_sprites
 
   clear_vblank_done
 
@@ -1661,8 +1610,6 @@ keep_incrementing_camera_y:
   lda camera_y
   and #%00001111
   beq done
-
-  jsr sprite_clear_all
 
   lda #1
   sta b0
@@ -1682,7 +1629,7 @@ keep_incrementing_camera_y:
 
   jsr decode_map_row_bottom
 
-  jsr update_entities
+  jsr draw_sprites
 
   clear_vblank_done
 
@@ -1693,8 +1640,6 @@ keep_decrementing_camera_y:
   lda camera_y
   and #%00001111
   beq done
-
-  jsr sprite_clear_all
 
   lda #1
   sta b0
@@ -1714,7 +1659,7 @@ keep_decrementing_camera_y:
 
   jsr decode_map_row_top
 
-  jsr update_entities
+  jsr draw_sprites
 
   clear_vblank_done
 
@@ -1724,18 +1669,6 @@ done:
 
   rts
 
-update_entities:
-
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_only_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  rts
-  
 .endproc
 
 .proc decode_map_row_top
@@ -1831,15 +1764,26 @@ update_entities:
 
 .endproc
 
-.proc frame_update
+.proc frame_update_controller_input
 
+  clear_vblank_done
   wait_vblank_done
 
-  jsr sprite_clear_all
+  jsr controller_indirect
+
+  .ifdef CPU_USAGE
+  set_ppu_2001_bit PPU1_DISPLAY_TYPE
+  upload_ppu_2001
+  .endif
+
+  jsr sprite_reset_next_sprite_address
 
   jsr sprite_clear_shadow_spots
 
   jsr entity_update_all
+
+  switch_bank_ldy map_bank
+  jsr update_camera
 
   jsr entity_calculate_screen_coordinates_all
 
@@ -1849,7 +1793,43 @@ update_entities:
 
   jsr hero_draw_status
 
+  jsr sprite_clear_all_remaining
+
+  .ifdef CPU_USAGE
+  clear_ppu_2001_bit PPU1_DISPLAY_TYPE
+  upload_ppu_2001
+  .endif
+
+  rts
+
+.endproc
+
+.proc frame_update_no_controller_input
+
   clear_vblank_done
+  wait_vblank_done
+
+  jsr sprite_clear_all
+
+  jsr sprite_clear_shadow_spots
+
+  jsr entity_update_all
+
+  jsr draw_sprites
+
+  rts
+
+.endproc
+
+.proc draw_sprites
+
+  jsr entity_calculate_screen_coordinates_all
+
+  jsr entity_draw_all
+
+  jsr sprite_draw_shadow_spots
+
+  jsr hero_draw_status
 
   rts
 
