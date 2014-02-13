@@ -701,25 +701,7 @@ play_state_load_location:
   ;Run all frame logic for a single frame except taking user input
   ;to get all entities onscreen before fading in
   ;****************************************************************
-  .scope execute_single_frame
-  wait_vblank_flag
-
-  jsr sprite_clear_all
-
-  jsr sprite_clear_shadow_spots
-
-  jsr entity_update_all
-
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  set_vblank_flag
-  .endscope
+  jsr frame_update
 
   ;****************************************************************
   ;Load song for the current area if different from the already
@@ -1105,23 +1087,7 @@ done:
   .endscope
 
   ;execute a single frame to get entities onscreen before palette fade in and music
-  .scope
-  wait_vblank_flag
-
-  jsr sprite_clear_all
-
-  jsr sprite_clear_shadow_spots
-
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  set_vblank_flag
-  .endscope
+  jsr frame_update
 
   jsr ppu_safely_enable_graphics
 
@@ -1269,25 +1235,7 @@ play_state_action_scrollto_location_group1:
   ;Run all frame logic for a single frame except taking user input
   ;to get all entities onscreen
   ;****************************************************************
-  .scope
-  wait_vblank_flag
-
-  jsr sprite_clear_all
-
-  jsr sprite_clear_shadow_spots
-
-  jsr entity_update_all
-
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  set_vblank_flag
-  .endscope
+  jsr frame_update
 
   ;now scroll to the new location
   jsr scroll_to_new_location
@@ -1929,6 +1877,30 @@ done:
   jsr map_process_intermediate_attribute_column_buffer
   lda #1
   sta column_ready
+
+  rts
+
+.endproc
+
+.proc frame_update
+
+  wait_vblank_flag
+
+  jsr sprite_clear_all
+
+  jsr sprite_clear_shadow_spots
+
+  jsr entity_update_all
+
+  jsr entity_calculate_screen_coordinates_all
+
+  jsr entity_draw_all
+
+  jsr sprite_draw_shadow_spots
+
+  jsr hero_draw_status
+
+  set_vblank_flag
 
   rts
 
