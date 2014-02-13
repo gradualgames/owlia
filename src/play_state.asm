@@ -1608,13 +1608,7 @@ keep_incrementing_camera_x:
 
   jsr decode_map_column_right
 
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_only_draw_shadow_spots
-
-  jsr hero_draw_status
+  jsr update_entities
 
   clear_vblank_done
 
@@ -1649,13 +1643,7 @@ keep_decrementing_camera_x:
 
   jsr decode_map_column_left
 
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_only_draw_shadow_spots
-
-  jsr hero_draw_status
+  jsr update_entities
 
   clear_vblank_done
 
@@ -1694,13 +1682,7 @@ keep_incrementing_camera_y:
 
   jsr decode_map_row_bottom
 
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_only_draw_shadow_spots
-
-  jsr hero_draw_status
+  jsr update_entities
 
   clear_vblank_done
 
@@ -1732,13 +1714,7 @@ keep_decrementing_camera_y:
 
   jsr decode_map_row_top
 
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_only_draw_shadow_spots
-
-  jsr hero_draw_status
+  jsr update_entities
 
   clear_vblank_done
 
@@ -1748,6 +1724,18 @@ done:
 
   rts
 
+update_entities:
+
+  jsr entity_calculate_screen_coordinates_all
+
+  jsr entity_draw_all
+
+  jsr sprite_only_draw_shadow_spots
+
+  jsr hero_draw_status
+
+  rts
+  
 .endproc
 
 .proc decode_map_row_top
