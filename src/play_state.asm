@@ -66,6 +66,68 @@ scroll_direction_opposite:
   rts
 .endproc
 
+;This routine loads all chr data for bg and sprites for the
+;current location. It is used from both play_state_load_location
+;and play_state_reload.
+.proc load_chr_data
+
+  lda #$00
+  sta ppu_2006
+  sta ppu_2006+1
+  upload_ppu_2006
+
+  ;begin chr tile accumulator at 0
+  lda #$00
+  sta b3
+
+  jsr load_bg_chr_groups
+
+  ;grab tile accumulator to know where the textbox and font group begins
+  lda b3
+  sta textbox_and_font_chr_offset
+
+  ;load the textbox graphics. This is hardcoded because it is the same
+  ;for the entire game. The assumption here is that the background
+  ;graphics we use will never occupy so many tiles that we cannot
+  ;display a textbox or font.
+  lda #<textbox_chr
+  sta w0
+  lda #>textbox_chr
+  sta w0+1
+  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
+  jsr ppu_load_chr_amount
+
+  lda #$10
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  upload_ppu_2006
+
+  switch_bank_ldy #LOCATIONS_BANK
+  lda entity_set_address
+  sta w4
+  lda entity_set_address+1
+  sta w4+1
+  jsr load_sprite_chr_groups
+
+  ;load the shadow spot graphic; this is always present so it is
+  ;hard coded
+  lda b3
+  sta shadow_spot_chr_offset
+
+  ldx #sprite_chr_group_index_shadowspot
+  lda sprite_chr_group_addresses_lo,x
+  sta w0
+  lda sprite_chr_group_addresses_hi,x
+  sta w0+1
+  ldy sprite_chr_group_bank,x
+  switch_bank_y
+  jsr ppu_load_chr_amount
+
+  rts
+
+.endproc
+
 ;this routine loads all bg chr groups for the current area.
 .proc load_bg_chr_groups
 count = b0
@@ -496,58 +558,7 @@ play_state_load_location:
   ;****************************************************************
   jsr ppu_safely_disable_graphics
 
-  lda #$00
-  sta ppu_2006
-  sta ppu_2006+1
-  upload_ppu_2006
-
-  ;begin chr tile accumulator at 0
-  lda #$00
-  sta b3
-
-  jsr load_bg_chr_groups
-
-  ;grab tile accumulator to know where the textbox and font group begins
-  lda b3
-  sta textbox_and_font_chr_offset
-
-  ;load the textbox graphics. This is hardcoded because it is the same
-  ;for the entire game. The assumption here is that the background
-  ;graphics we use will never occupy so many tiles that we cannot
-  ;display a textbox or font.
-  lda #<textbox_chr
-  sta w0
-  lda #>textbox_chr
-  sta w0+1
-  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
-  jsr ppu_load_chr_amount
-
-  lda #$10
-  sta ppu_2006
-  lda #$00
-  sta ppu_2006+1
-  upload_ppu_2006
-
-  switch_bank_ldy #LOCATIONS_BANK
-  lda entity_set_address
-  sta w4
-  lda entity_set_address+1
-  sta w4+1
-  jsr load_sprite_chr_groups
-
-  ;load the shadow spot graphic; this is always present so it is
-  ;hard coded
-  lda b3
-  sta shadow_spot_chr_offset
-
-  ldx #sprite_chr_group_index_shadowspot
-  lda sprite_chr_group_addresses_lo,x
-  sta w0
-  lda sprite_chr_group_addresses_hi,x
-  sta w0+1
-  ldy sprite_chr_group_bank,x
-  switch_bank_y
-  jsr ppu_load_chr_amount
+  jsr load_chr_data
 
   ;****************************************************************
   ;Load all map addresses
@@ -983,45 +994,7 @@ play_state_reload:
   ;Disable graphics while we re-load everything
   jsr ppu_safely_disable_graphics
 
-  lda #$00
-  sta ppu_2006
-  sta ppu_2006+1
-  upload_ppu_2006
-
-  ;start tile accumulator
-  lda #$00
-  sta b3
-  sta b3+1
-
-  jsr load_bg_chr_groups
-
-  ;b3 should now be the correct offset for the textbox and font graphics
-  lda b3
-  sta textbox_and_font_chr_offset
-
-  ;load the textbox graphics. This is hardcoded because it is the same
-  ;for the entire game. The assumption here is that the background
-  ;graphics we use will never occupy so many tiles that we cannot
-  ;display a textbox or font.
-  lda #<textbox_chr
-  sta w0
-  lda #>textbox_chr
-  sta w0+1
-  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
-  jsr ppu_load_chr_amount
-
-  lda #$10
-  sta ppu_2006
-  lda #$00
-  sta ppu_2006+1
-  upload_ppu_2006
-
-  switch_bank_ldy #LOCATIONS_BANK
-  lda entity_set_address
-  sta w4
-  lda entity_set_address+1
-  sta w4+1
-  jsr load_sprite_chr_groups
+  jsr load_chr_data
 
   .scope
   switch_bank_ldy #LOCATIONS_BANK
