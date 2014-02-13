@@ -62,10 +62,7 @@ inventory_state_init:
   far_call #LOCATIONS_BANK, ppu_fade_out_palette
 
   ;set blank nmi routine
-  lda #<ppu_vblank_nop
-  sta vblank_routine
-  lda #>ppu_vblank_nop
-  sta vblank_routine+1
+  safely_set_vblank_routine ppu_vblank_nop
 
   jsr ppu_safely_disable_graphics
 
@@ -194,16 +191,13 @@ inventory_state_init:
   sta b5
   jsr ppu_fade_in_palette
 
-  lda #<ppu_inventory_vblank
-  sta vblank_routine
-  lda #>ppu_inventory_vblank
-  sta vblank_routine+1
+  safely_set_vblank_routine ppu_inventory_vblank
 
   jsr controller_clear
 
 inventory_state_main:
 
-  wait_vblank_flag
+  wait_vblank_done
 
   jsr controller_read
 
@@ -217,7 +211,7 @@ inventory_state_main:
   cmp #%00000001
   beq inventory_state_exit
 
-  set_vblank_flag
+  clear_vblank_done
 
   jmp inventory_state_main
 
@@ -280,8 +274,7 @@ inventory_state_exit:
 
 no_string_to_print:
 
-  lda #0
-  sta vblank_wait_flag
+  set_vblank_done
 
   rts
 

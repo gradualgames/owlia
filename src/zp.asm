@@ -65,6 +65,6 @@ far_call_address: .res 2
 controller_routine: .res 2
 
 vblank_routine: .res 2
-vblank_wait_flag: .res 1
+vblank_done_flag: .res 1
 hide_graphics_top: .res 1
 cycle_pad_lut_index: .res 1

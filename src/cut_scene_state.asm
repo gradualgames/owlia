@@ -56,10 +56,7 @@ exit_cut_scene_state:
 .proc load_slide
 
   ;set blank nmi routine
-  lda #<ppu_vblank_nop
-  sta vblank_routine
-  lda #>ppu_vblank_nop
-  sta vblank_routine+1
+  safely_set_vblank_routine ppu_vblank_nop
 
   jsr ppu_safely_disable_graphics
 
@@ -179,17 +176,11 @@ exit_cut_scene_state:
 
   ;initialize vblank routine
   lda #0
-  sta vblank_wait_flag
-
-  lda #0
   sta row_ready
   lda #0
   sta column_ready
 
-  lda #<nametable_and_attribute_update_ppu
-  sta vblank_routine
-  lda #>nametable_and_attribute_update_ppu
-  sta vblank_routine+1
+  safely_set_vblank_routine nametable_and_attribute_update_ppu
 
   lda #0
   sta textbox_attribute

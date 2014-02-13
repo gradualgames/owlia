@@ -158,22 +158,55 @@ wait:
   
 .endmacro
 
-.macro wait_vblank_flag
+.macro wait_vblank_done
 
-  ;wait til data has been consumed by nmi routine
+;wait til vblank says it is done
 .scope
 wait:
-  lda vblank_wait_flag
-  bne wait
+  lda vblank_done_flag
+  beq wait
 .endscope
 
 .endmacro
 
-.macro set_vblank_flag
+;clear the vblank done flag (usually used right before a wait,
+;so that we can be certain we're outside of vblank and not about
+;to be interrupted)
+.macro clear_vblank_done
 
-  ;tell nmi routine data is ready to consume
+  lda #0
+  sta vblank_done_flag
+
+.endmacro
+
+;set the vblank done flag.
+;use this flag to determine when it is safe to
+;operate on the PPU when graphics are off, or swap out the
+;indirect vblank_routine itself.
+.macro set_vblank_done
+
   lda #1
-  sta vblank_wait_flag
+  sta vblank_done_flag
+
+.endmacro
+
+.macro safely_set_vblank_routine address
+
+  clear_vblank_done
+  wait_vblank_done
+  lda #<address
+  sta vblank_routine
+  lda #>address
+  sta vblank_routine+1
+
+.endmacro
+
+.macro unsafely_set_vblank_routine address
+
+  lda #<address
+  sta vblank_routine
+  lda #>address
+  sta vblank_routine+1
 
 .endmacro
 

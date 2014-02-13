@@ -2399,6 +2399,8 @@ not_enough_time_for_palette:
   upload_ppu_2006
   upload_ppu_2005
 
+  set_vblank_done
+
   ;cycle pad this ppu upload routine for the artificial scroll
   ;update hiding bar (see the main module)
   ldx cycle_pad_lut_index
@@ -2411,9 +2413,6 @@ not_enough_time_for_palette:
   tax
 : dex
   bne :-
-
-  lda #0
-  sta vblank_wait_flag
 
   rts
 

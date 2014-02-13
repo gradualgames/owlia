@@ -20,10 +20,7 @@ game_over_screen_palette:
 game_over_state_init:
 
   ;set blank nmi routine
-  lda #<ppu_vblank_nop
-  sta vblank_routine
-  lda #>ppu_vblank_nop
-  sta vblank_routine+1
+  safely_set_vblank_routine ppu_vblank_nop
 
   jsr ppu_safely_disable_graphics
 
@@ -84,7 +81,7 @@ game_over_state_init:
 
 game_over_state_main:
 
-  wait_vblank_flag
+  wait_vblank_done
 
   jsr controller_read
 
@@ -94,7 +91,7 @@ game_over_state_main:
   cmp #%00000001
   beq game_over_state_exit
 
-  set_vblank_flag
+  clear_vblank_done
 
   jmp game_over_state_main
 

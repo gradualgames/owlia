@@ -775,17 +775,11 @@ same_song:
 
   ;initialize vblank routine
   lda #0
-  sta vblank_wait_flag
-
-  lda #0
   sta row_ready
   lda #0
   sta column_ready
 
-  lda #<nametable_and_attribute_update_ppu
-  sta vblank_routine
-  lda #>nametable_and_attribute_update_ppu
-  sta vblank_routine+1
+  safely_set_vblank_routine nametable_and_attribute_update_ppu
 
 ;****************************************************************
 ;This branch location is the main game loop. It handles map
@@ -797,7 +791,7 @@ same_song:
 ;****************************************************************
 play_state:
 
-  wait_vblank_flag
+  wait_vblank_done
 
   jsr controller_indirect
 
@@ -830,7 +824,7 @@ play_state:
   upload_ppu_2001
   .endif
 
-  set_vblank_flag
+  clear_vblank_done
 
   ;switchboard for controlling the play state logic
   lda state_control_params+play_state_control::action
@@ -859,7 +853,7 @@ play_state_action_nop:
 ;****************************************************************
 transition_to_inventory_state:
 
-  wait_vblank_flag
+  wait_vblank_done
 
   switch_bank_ldy #INVENTORY_STATE_BANK
   jmp inventory_state_init
@@ -875,8 +869,8 @@ play_state_action_game_over:
 
   ;pause a few frames
   ldx #4
-: set_vblank_flag
-  wait_vblank_flag
+: clear_vblank_done
+  wait_vblank_done
   dex
   bne :-
 
@@ -893,7 +887,7 @@ play_state_action_game_over:
   .scope
   ldy #28
 spin_hero_loop:
-  wait_vblank_flag
+  wait_vblank_done
   tya
   pha
   switch_bank_ldy #HERO_BANK
@@ -906,8 +900,8 @@ spin_hero_loop:
 
   ;pause a few frames
   ldx #4
-: set_vblank_flag
-  wait_vblank_flag
+: clear_vblank_done
+  wait_vblank_done
   dex
   bne :-
 
@@ -936,7 +930,7 @@ spin_hero_loop:
   ;execute a few frames, doing nothing but updating non-player entities
   ;(the explosion entity we just spawned) and drawing non-player entities.
   ldy #32
-: wait_vblank_flag
+: wait_vblank_done
 
   tya
   pha
@@ -950,7 +944,7 @@ spin_hero_loop:
   pla
   tay
 
-  set_vblank_flag
+  clear_vblank_done
   dey
   bne :-
 
@@ -1093,9 +1087,6 @@ done:
 
   ;initialize vblank routine
   lda #0
-  sta vblank_wait_flag
-
-  lda #0
   sta row_ready
   lda #0
   sta column_ready
@@ -1103,10 +1094,7 @@ done:
   lda #1
   sta hide_graphics_top
 
-  lda #<nametable_and_attribute_update_ppu
-  sta vblank_routine
-  lda #>nametable_and_attribute_update_ppu
-  sta vblank_routine+1
+  safely_set_vblank_routine nametable_and_attribute_update_ppu
 
   ;make sure current action of play state is a no-op
   lda #ACTION_NOP
@@ -1129,7 +1117,7 @@ play_state_action_goto_location_group1:
 
   ;now wait for the current frame to finish so all sprites are in
   ;the correct location
-  wait_vblank_flag
+  wait_vblank_done
 
   ;load the location to transition to
   ldx state_control_params+play_state_control::param
@@ -1262,7 +1250,7 @@ next_entity:
   lda #20
   sta b10
 
-: wait_vblank_flag
+: wait_vblank_done
 
   lda b10
   pha
@@ -1281,7 +1269,7 @@ next_entity:
 
   jsr hero_draw_status
 
-  set_vblank_flag
+  clear_vblank_done
 
   pla
   sta b10
@@ -1342,7 +1330,7 @@ done:
 
   .scope
 :
-  wait_vblank_flag
+  wait_vblank_done
 
   jsr sprite_clear_all
 
@@ -1372,7 +1360,7 @@ done:
 
 not_equal:
 
-  set_vblank_flag
+  clear_vblank_done
   jmp :-
 done:
   .endscope
@@ -1443,7 +1431,7 @@ scroll_north_impl:
   sta scroll_counter
 
 :
-  wait_vblank_flag
+  wait_vblank_done
 
   lda scroll_counter
   pha
@@ -1456,7 +1444,7 @@ scroll_north_impl:
 
   jsr draw_sprites
 
-  set_vblank_flag
+  clear_vblank_done
 
   pla
   sta scroll_counter
@@ -1471,7 +1459,7 @@ scroll_north_impl:
 
 scroll_south_impl:
 :
-  wait_vblank_flag
+  wait_vblank_done
 
   lda #SCROLL_SPEED
   sta b0
@@ -1481,7 +1469,7 @@ scroll_south_impl:
 
   jsr draw_sprites
 
-  set_vblank_flag
+  clear_vblank_done
 
   jmp :-
 
@@ -1519,7 +1507,7 @@ play_state_action_start_conversation:
 
   jsr align_entities_if_occluded_by_textbox
 
-  wait_vblank_flag
+  wait_vblank_done
 
   jsr sprite_clear_all
 
@@ -1533,7 +1521,7 @@ play_state_action_start_conversation:
   sta b0
   jsr sprite_hide_all_below
 
-  set_vblank_flag
+  clear_vblank_done
 
   lda #TEXTBOX_PLAY_STATE_ROW
   sta textbox_row
@@ -1594,7 +1582,7 @@ play_state_action_start_conversation:
   and #%00001000
   beq keep_decrementing_camera_x
 keep_incrementing_camera_x:
-  wait_vblank_flag
+  wait_vblank_done
 
   lda camera_x
   and #%00001111
@@ -1628,14 +1616,14 @@ keep_incrementing_camera_x:
 
   jsr hero_draw_status
 
-  set_vblank_flag
+  clear_vblank_done
 
   jmp keep_incrementing_camera_x
 
   jmp done
 
 keep_decrementing_camera_x:
-  wait_vblank_flag
+  wait_vblank_done
 
   lda camera_x
   and #%00001111
@@ -1669,7 +1657,7 @@ keep_decrementing_camera_x:
 
   jsr hero_draw_status
 
-  set_vblank_flag
+  clear_vblank_done
 
   jmp keep_decrementing_camera_x
 done:
@@ -1680,7 +1668,7 @@ done:
   and #%00001000
   beq keep_decrementing_camera_y
 keep_incrementing_camera_y:
-  wait_vblank_flag
+  wait_vblank_done
 
   lda camera_y
   and #%00001111
@@ -1714,11 +1702,11 @@ keep_incrementing_camera_y:
 
   jsr hero_draw_status
 
-  set_vblank_flag
+  clear_vblank_done
 
   jmp keep_incrementing_camera_y
 keep_decrementing_camera_y:
-  wait_vblank_flag
+  wait_vblank_done
 
   lda camera_y
   and #%00001111
@@ -1752,7 +1740,7 @@ keep_decrementing_camera_y:
 
   jsr hero_draw_status
 
-  set_vblank_flag
+  clear_vblank_done
 
   jmp keep_decrementing_camera_y
 done:
@@ -1857,7 +1845,7 @@ done:
 
 .proc frame_update
 
-  wait_vblank_flag
+  wait_vblank_done
 
   jsr sprite_clear_all
 
@@ -1873,7 +1861,7 @@ done:
 
   jsr hero_draw_status
 
-  set_vblank_flag
+  clear_vblank_done
 
   rts
 

@@ -29,10 +29,7 @@ title_screen_palette:
 title_state_init:
 
   ;set blank nmi routine
-  lda #<ppu_vblank_nop
-  sta vblank_routine
-  lda #>ppu_vblank_nop
-  sta vblank_routine+1
+  safely_set_vblank_routine ppu_vblank_nop
 
   jsr ppu_safely_disable_graphics
 
@@ -177,7 +174,7 @@ already_playing_title_theme:
 
 title_state_main:
 
-  wait_vblank_flag
+  wait_vblank_done
 
   sec
   lda state_control_params+title_state_control::title_state_counter
@@ -198,7 +195,7 @@ title_state_main:
   jmp title_state_start_game
 :
 
-  set_vblank_flag
+  clear_vblank_done
 
   jmp title_state_main
 
