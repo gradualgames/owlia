@@ -51,6 +51,7 @@ play_cut_scene:
 
 exit_cut_scene_state:
 
+  switch_bank_ldy #TITLE_STATE_BANK
   jmp title_state_init
 
 .proc load_slide
