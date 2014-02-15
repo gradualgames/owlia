@@ -1397,7 +1397,7 @@ scroll_north_impl:
   lda #240
   sta scroll_counter
 
-:
+: clear_vblank_done
   wait_vblank_done
 
   lda scroll_counter
@@ -1409,9 +1409,9 @@ scroll_north_impl:
 
   jsr decode_map_row_top
 
-  jsr draw_sprites
+  jsr sprite_clear_all
 
-  clear_vblank_done
+  jsr draw_sprites
 
   pla
   sta scroll_counter
@@ -1425,20 +1425,6 @@ scroll_north_impl:
   rts
 
 scroll_south_impl:
-:
-  wait_vblank_done
-
-  lda #SCROLL_SPEED
-  sta b0
-  jsr increment_camera_y
-
-  jsr decode_map_row_bottom
-
-  jsr draw_sprites
-
-  clear_vblank_done
-
-  jmp :-
 
   rts
 
@@ -1460,15 +1446,10 @@ play_state_action_start_conversation:
 
   jsr align_entities_if_occluded_by_textbox
 
+  clear_vblank_done
   wait_vblank_done
 
-  jsr sprite_clear_all
-
-  jsr entity_draw_all
-
-  jsr sprite_only_draw_shadow_spots
-
-  jsr hero_draw_status
+  jsr draw_sprites
 
   lda #TEXTBOX_SCREEN_SPRITE_OCCLUDE_Y
   sta b0
@@ -1545,18 +1526,6 @@ keep_incrementing_camera_x:
   sta b0
   jsr increment_camera_x
 
-  .scope
-  lda #<(-1)
-  sta w0
-  lda #>(-1)
-  sta w0+1
-  lda #0
-  sta w1
-  sta w1+1
-
-  jsr sprite_slide_shadow_spots
-  .endscope
-
   jsr decode_map_column_right
 
   jsr draw_sprites
@@ -1577,18 +1546,6 @@ keep_decrementing_camera_x:
   lda #1
   sta b0
   jsr decrement_camera_x
-
-  .scope
-  lda #<(1)
-  sta w0
-  lda #>(1)
-  sta w0+1
-  lda #0
-  sta w1
-  sta w1+1
-
-  jsr sprite_slide_shadow_spots
-  .endscope
 
   jsr decode_map_column_left
 
@@ -1615,18 +1572,6 @@ keep_incrementing_camera_y:
   sta b0
   jsr increment_camera_y
 
-  .scope
-  lda #0
-  sta w0
-  sta w0+1
-  lda #<(-1)
-  sta w1
-  lda #>(-1)
-  sta w1+1
-
-  jsr sprite_slide_shadow_spots
-  .endscope
-
   jsr decode_map_row_bottom
 
   jsr draw_sprites
@@ -1644,18 +1589,6 @@ keep_decrementing_camera_y:
   lda #1
   sta b0
   jsr decrement_camera_y
-
-  .scope
-  lda #0
-  sta w0
-  sta w0+1
-  lda #<(1)
-  sta w1
-  lda #>(1)
-  sta w1+1
-
-  jsr sprite_slide_shadow_spots
-  .endscope
 
   jsr decode_map_row_top
 

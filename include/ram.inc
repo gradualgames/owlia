@@ -72,6 +72,10 @@ MAX_SHADOW_SPOTS = 12
 .global shadow_spot_x_hi
 .global shadow_spot_y_lo
 .global shadow_spot_y_hi
+.global shadow_spot_screen_x_lo
+.global shadow_spot_screen_x_hi
+.global shadow_spot_screen_y_lo
+.global shadow_spot_screen_y_hi
 
 .global inventory_gp
 .global inventory_keys
