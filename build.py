@@ -8,6 +8,7 @@ nes_file = "owlia.nes"
 linker_cfg_file = "owlia.cfg"
 map_file = "owlia.map"
 debug_file = "owlia.nes.dbg"
+ndx_file = "owlia.nes.ndx"
 include_paths = ["include",
                  "include/maps",
                  "include/entities",
@@ -24,6 +25,8 @@ def clean_build():
         os.remove(map_file)
     if os.path.exists(debug_file):
         os.remove(debug_file)
+    if os.path.exists(ndx_file):
+        os.remove(ndx_file)
     if os.path.exists(bin_path):
         shutil.rmtree(bin_path)
 
