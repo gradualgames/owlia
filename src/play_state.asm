@@ -1342,6 +1342,60 @@ monolith_not_up:
 ;location.
 .proc walk_south_impl
 
+  lda #1
+  sta buffer_controller+buttons::_down
+
+  .scope
+: jsr frame_update_no_controller_input
+
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::hero_start_y
+  lda (location_address),y
+  cmp hero_y
+  bne not_equal
+  iny
+  lda (location_address),y
+  cmp hero_y+1
+  bne not_equal
+
+  jmp done
+
+not_equal:
+  jmp :-
+done:
+  .endscope
+
+  jsr controller_clear
+
+  ;now, tell the monolith we found earlier to start rising (if it was
+  ;originally set as "up" and wait enough frames for it to rise all the way.
+  .scope
+  ldy state_control_params+play_state_control::monolith_index
+  lda monolith_flags,y
+  and #MONOLITH_FLAGS_UP_OR_DOWN_ISOLATE
+  beq monolith_not_up
+
+  lda #MONOLITH_STATE_RISE_USING_COLUMNS_INIT
+  sta entity_state,y
+
+  .scope
+  lda #20
+  sta b10
+
+: lda b10
+  pha
+
+  jsr frame_update_no_controller_input
+
+  pla
+  sta b10
+  dec b10
+  bne :-
+  .endscope
+
+monolith_not_up:
+  .endscope
+
   rts
 
 .endproc
@@ -1425,6 +1479,34 @@ scroll_north_impl:
   rts
 
 scroll_south_impl:
+
+  lda #240
+  sta scroll_counter
+
+: clear_vblank_done
+  wait_vblank_done
+
+  lda scroll_counter
+  pha
+
+  lda #SCROLL_SPEED
+  sta b0
+  jsr increment_camera_y
+
+  jsr decode_map_row_bottom
+
+  jsr sprite_clear_all
+
+  jsr draw_sprites
+
+  pla
+  sta scroll_counter
+
+  sec
+  lda scroll_counter
+  sbc #SCROLL_SPEED
+  sta scroll_counter
+  bne :-
 
   rts
 

@@ -102,7 +102,7 @@ do_not_flash_door:
   lda hero_height
   sta b5
 
-  jsr geotests_rect_inside_rect_16bit
+  jsr geotests_rect_inside_rect_size
   bne do_not_activate_door
 
   far_call #HERO_BANK, hero_is_attacking

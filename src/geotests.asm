@@ -89,9 +89,14 @@ point_not_in_rect:
 
 .endproc
 
+;this routine has two entry points, geotests_rect_inside_rect_size,
+;and geotests_rect_inside_rect. geotests_rect_inside_rect_size computes
+;the dimensions of both rectangles based on 8 bit sizes, and
+;geotests_rect_inside_rect assumes that all these values have already
+;been computed.
 ;tests rectangle B for whether it is inside rectangle A.
 ;sets zero flag if rectangle B is inside rectangle A.
-.proc geotests_rect_inside_rect_16bit
+geotests_rect_inside_rect_size:
 ;parameters
 rectangle_a_left_x = w2
 rectangle_a_top_y = w3
@@ -147,6 +152,7 @@ b_inside_a_count = b6
   adc #0
   sta rectangle_b_bottom_y+1
 
+geotests_rect_inside_rect:
   ;if left side of B is greater than the left side of A then B might be inside A
   sec
   lda rectangle_b_left_x
@@ -201,8 +207,6 @@ bottom_of_a_is_not_greater_than_bottom_of_b:
   ;at this point, if zero flag is set, B is inside A
 
   rts
-
-.endproc
 
 ;tests one rectangle for whether it intersects another. There are two
 ;entry points for this routine. geotests_rect_in_rect_size uses the

@@ -885,7 +885,7 @@ monolith_touch_rect_height:
   lda hero_height
   sta b5
 
-  jsr geotests_rect_inside_rect_16bit
+  jsr geotests_rect_inside_rect_size
   bne not_touching_hero
   lda hero_direction
   cmp monolith_direction,x
