@@ -9,14 +9,50 @@ linker_cfg_file = "owlia.cfg"
 map_file = "owlia.map"
 debug_file = "owlia.nes.dbg"
 ndx_file = "owlia.nes.ndx"
+
+src_path = "src"
+bin_path = "bin"
+
 include_paths = ["include",
                  "include/maps",
                  "include/entities",
                  "include/songs",
                  "include/sprites_and_animations"]
 
-src_path = "src"
-bin_path = "bin"
+files =["zp.asm",
+        "ram.asm",
+        "soundengine.asm",
+        "areas.asm",
+        "bg_chr_data.asm",
+        "camera.asm",
+        "controller.asm",
+        "conversation_data.asm",
+        "cut_scene_state.asm",
+        "entities.asm",
+        "entity.asm",
+        "familiar.asm",
+        "game_over_state.asm",
+        "geotests.asm",
+        "hero.asm",
+        "inventory.asm",
+        "inventory_state.asm",
+        "locations.asm",
+        "main.asm",
+        "map.asm",
+        "map_data.asm",
+        "mapper.asm",
+        "music_data.asm",
+        "nametable_data.asm",
+        "patch.asm",
+        "play_state.asm",
+        "ppu.asm",
+        "sfx_data.asm",
+        "slide_data.asm",
+        "sprite.asm",
+        "sprite_chr_data.asm",
+        "sprites_and_animations_data.asm",
+        "textbox.asm",
+        "title_state.asm"]
 
 def clean_build():
     if os.path.exists(nes_file):
@@ -31,11 +67,11 @@ def clean_build():
         shutil.rmtree(bin_path, ignore_errors=True)
 
 def make_build(additional_args):
+    global files
     abs_include_paths = []
     for include_path in include_paths:
         abs_include_paths.append(os.path.normpath(include_path))
 
-    files = os.listdir(src_path)
     file_names = [os.path.splitext(file_name)[0]
         for file_name in files]
 

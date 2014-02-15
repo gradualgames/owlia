@@ -4,9 +4,6 @@ MONOLITH_INC = 1
 
 .include "monolith_constants.inc"
 
-MONOLITH_WIDTH = $0f
-MONOLITH_HEIGHT = $0f
-
 .define monolith_states \
   monolith_state_init, \
   monolith_state_fall_using_rows_init, \
@@ -515,6 +512,17 @@ monolith_state_rise_using_columns_pause_one_frame:
 
 monolith_state_idle:
 
+  lda monolith_flags,x
+  and #MONOLITH_TYPE_ISOLATE
+  cmp #MONOLITH_TYPE_UNLOCKED
+  bne monolith_not_unlocked
+  lda monolith_flags,x
+  and #MONOLITH_FLAGS_UP_OR_DOWN_ISOLATE
+  beq monolith_not_up
+  jsr monolith_fall_if_touching_hero
+monolith_not_up:
+monolith_not_unlocked:
+
   ;test this monolith's exit
   jsr monolith_test_exit
 
@@ -809,6 +817,93 @@ monolith_exits_lo:
 
 monolith_exits_hi:
   .hibytes monolith_exits
+
+.define monolith_touch_rect_offsets_x \
+  0, \
+  0, \
+  -8, \
+  -8
+
+monolith_touch_rect_offset_x_lo:
+  .lobytes monolith_touch_rect_offsets_x
+
+monolith_touch_rect_offset_x_hi:
+  .hibytes monolith_touch_rect_offsets_x
+
+.define monolith_touch_rect_offsets_y \
+  0, \
+  0, \
+  -64, \
+  0
+
+monolith_touch_rect_offset_y_lo:
+  .lobytes monolith_touch_rect_offsets_y
+
+monolith_touch_rect_offset_y_hi:
+  .hibytes monolith_touch_rect_offsets_y
+
+monolith_touch_rect_width:
+  .byte 32, 32, 32, 32
+
+monolith_touch_rect_height:
+  .byte 32, 32, 32, 32
+
+.proc monolith_fall_if_touching_hero
+
+  ;transfer entity rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  ldy monolith_direction,x
+  clc
+  lda entity_x_lo,x
+  adc monolith_touch_rect_offset_x_lo,y
+  sta w2
+  lda entity_x_hi,x
+  adc monolith_touch_rect_offset_x_hi,y
+  sta w2+1
+  clc
+  lda entity_y_lo,x
+  adc monolith_touch_rect_offset_y_lo,y
+  sta w3
+  lda entity_y_hi,x
+  adc monolith_touch_rect_offset_y_hi,y
+  sta w3+1
+  lda monolith_touch_rect_width,y
+  sta b2
+  lda monolith_touch_rect_height,y
+  sta b3
+
+  ;transfer hero rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda hero_x
+  sta w4
+  lda hero_x+1
+  sta w4+1
+  lda hero_y
+  sta w5
+  lda hero_y+1
+  sta w5+1
+  lda hero_width
+  sta b4
+  lda hero_height
+  sta b5
+
+  jsr geotests_rect_inside_rect_16bit
+  bne not_touching_hero
+  lda hero_direction
+  cmp monolith_direction,x
+  bne do_not_activate_monolith
+  ;at this point, we know that the hero is trying to activate the monolith
+  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  sta entity_state,x
+
+  lda monolith_flags,x
+  and #MONOLITH_FLAGS_DOWN_CLEAR
+  sta monolith_flags,x
+
+do_not_activate_monolith:
+not_touching_hero:
+
+  rts
+
+.endproc
 
 .proc monolith_test_exit
 
