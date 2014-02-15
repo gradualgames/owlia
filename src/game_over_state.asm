@@ -104,5 +104,5 @@ game_over_state_exit:
   sta palette_address+1
   jsr ppu_fade_out_palette
 
+  switch_bank_ldy #TITLE_STATE_BANK
   jmp title_state_init
-
