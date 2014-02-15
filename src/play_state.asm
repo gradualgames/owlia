@@ -1502,6 +1502,7 @@ keep_incrementing_camera_x:
 
   jsr decode_map_column_right
 
+  jsr sprite_clear_all
   jsr draw_sprites
 
   jmp keep_incrementing_camera_x
@@ -1522,6 +1523,7 @@ keep_decrementing_camera_x:
 
   jsr decode_map_column_left
 
+  jsr sprite_clear_all
   jsr draw_sprites
 
   jmp keep_decrementing_camera_x
@@ -1546,6 +1548,7 @@ keep_incrementing_camera_y:
 
   jsr decode_map_row_bottom
 
+  jsr sprite_clear_all
   jsr draw_sprites
 
   jmp keep_incrementing_camera_y
@@ -1563,6 +1566,7 @@ keep_decrementing_camera_y:
 
   jsr decode_map_row_top
 
+  jsr sprite_clear_all
   jsr draw_sprites
 
   jmp keep_decrementing_camera_y
