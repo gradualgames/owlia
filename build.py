@@ -28,7 +28,7 @@ def clean_build():
     if os.path.exists(ndx_file):
         os.remove(ndx_file)
     if os.path.exists(bin_path):
-        shutil.rmtree(bin_path)
+        shutil.rmtree(bin_path, ignore_errors=True)
 
 def make_build(additional_args):
     abs_include_paths = []
