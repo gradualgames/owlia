@@ -1197,6 +1197,7 @@ next_entity:
   ;in which we scrolled. Now we want to test if it is currently up. If
   ;it is, we need to initialize its falling state, and then update its
   ;state until it is done falling.
+  sty state_control_params+play_state_control::monolith_index
   lda monolith_flags,y
   and #MONOLITH_FLAGS_UP_OR_DOWN_ISOLATE
   beq done
@@ -1220,10 +1221,7 @@ next_entity:
   lda #20
   sta b10
 
-: clear_vblank_done
-  wait_vblank_done
-
-  lda b10
+: lda b10
   pha
 
   jsr frame_update_no_controller_input
@@ -1306,6 +1304,35 @@ done:
   .endscope
 
   jsr controller_clear
+
+  ;now, tell the monolith we found earlier to start rising (if it was
+  ;originally set as "up" and wait enough frames for it to rise all the way.
+  .scope
+  ldy state_control_params+play_state_control::monolith_index
+  lda monolith_flags,y
+  and #MONOLITH_FLAGS_UP_OR_DOWN_ISOLATE
+  beq monolith_not_up
+
+  lda #MONOLITH_STATE_RISE_USING_COLUMNS_INIT
+  sta entity_state,y
+
+  .scope
+  lda #20
+  sta b10
+
+: lda b10
+  pha
+
+  jsr frame_update_no_controller_input
+
+  pla
+  sta b10
+  dec b10
+  bne :-
+  .endscope
+
+monolith_not_up:
+  .endscope
 
   rts
 
