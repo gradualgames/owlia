@@ -543,35 +543,7 @@ do_not_shake_screen:
 
 .proc monolith_draw_falling_column
 
-  ;patch index
-  lda monolith_background_patch_index,x
-  sta b0
-
-  ;patch column
-  lda monolith_patch_column,x
-  sta b1
-
-  ;height of the column to decode
-  lda #4
-  sta b2
-
-  clc
-  lda entity_x_lo,x
-  adc monolith_patch_offset_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  adc monolith_patch_offset_x_hi,x
-  sta w0+1
-
-  clc
-  lda entity_y_lo,x
-  adc #<(-32)
-  sta w1
-  lda entity_y_hi,x
-  adc #>(-32)
-  sta w1+1
-
-  jsr decode_nametable_patch_column
+  jsr monolith_draw_background_patch_column
 
   ;patch index
   lda monolith_foreground_patch_index,x
@@ -623,6 +595,8 @@ do_not_shake_screen:
 
 .proc monolith_draw_rising_column
 
+  jsr monolith_draw_background_patch_column
+
   ;patch index
   lda monolith_foreground_patch_index,x
   sta b0
@@ -660,6 +634,42 @@ do_not_shake_screen:
   sta w1
   lda w1+1
   adc #0
+  sta w1+1
+
+  jsr decode_nametable_patch_column
+
+  rts
+
+.endproc
+
+.proc monolith_draw_background_patch_column
+
+  ;patch index
+  lda monolith_background_patch_index,x
+  sta b0
+
+  ;patch column
+  lda monolith_patch_column,x
+  sta b1
+
+  ;height of the column to decode
+  lda #4
+  sta b2
+
+  clc
+  lda entity_x_lo,x
+  adc monolith_patch_offset_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  adc monolith_patch_offset_x_hi,x
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc #<(-32)
+  sta w1
+  lda entity_y_hi,x
+  adc #>(-32)
   sta w1+1
 
   jsr decode_nametable_patch_column
