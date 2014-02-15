@@ -820,6 +820,7 @@ play_state_action_nop:
 ;****************************************************************
 transition_to_inventory_state:
 
+  clear_vblank_done
   wait_vblank_done
 
   switch_bank_ldy #INVENTORY_STATE_BANK
@@ -854,6 +855,7 @@ play_state_action_game_over:
   .scope
   ldy #28
 spin_hero_loop:
+  clear_vblank_done
   wait_vblank_done
   tya
   pha
@@ -897,7 +899,8 @@ spin_hero_loop:
   ;execute a few frames, doing nothing but updating non-player entities
   ;(the explosion entity we just spawned) and drawing non-player entities.
   ldy #32
-: wait_vblank_done
+: clear_vblank_done
+  wait_vblank_done
 
   tya
   pha
@@ -911,7 +914,6 @@ spin_hero_loop:
   pla
   tay
 
-  clear_vblank_done
   dey
   bne :-
 
@@ -1084,6 +1086,7 @@ play_state_action_goto_location_group1:
 
   ;now wait for the current frame to finish so all sprites are in
   ;the correct location
+  clear_vblank_done
   wait_vblank_done
 
   ;load the location to transition to
@@ -1217,26 +1220,13 @@ next_entity:
   lda #20
   sta b10
 
-: wait_vblank_done
+: clear_vblank_done
+  wait_vblank_done
 
   lda b10
   pha
 
-  jsr sprite_clear_all
-
-  jsr sprite_clear_shadow_spots
-
-  jsr entity_update_all
-
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  clear_vblank_done
+  jsr frame_update_no_controller_input
 
   pla
   sta b10
@@ -1296,22 +1286,7 @@ done:
   sta buffer_controller+buttons::_up
 
   .scope
-:
-  wait_vblank_done
-
-  jsr sprite_clear_all
-
-  jsr sprite_clear_shadow_spots
-
-  jsr entity_update_all
-
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_draw_shadow_spots
-
-  jsr hero_draw_status
+: jsr frame_update_no_controller_input
 
   switch_bank_ldy #LOCATIONS_BANK
   ldy #location::hero_start_y
@@ -1326,8 +1301,6 @@ done:
   jmp done
 
 not_equal:
-
-  clear_vblank_done
   jmp :-
 done:
   .endscope
@@ -1516,6 +1489,7 @@ play_state_action_start_conversation:
   and #%00001000
   beq keep_decrementing_camera_x
 keep_incrementing_camera_x:
+  clear_vblank_done
   wait_vblank_done
 
   lda camera_x
@@ -1530,13 +1504,12 @@ keep_incrementing_camera_x:
 
   jsr draw_sprites
 
-  clear_vblank_done
-
   jmp keep_incrementing_camera_x
 
   jmp done
 
 keep_decrementing_camera_x:
+  clear_vblank_done
   wait_vblank_done
 
   lda camera_x
@@ -1551,8 +1524,6 @@ keep_decrementing_camera_x:
 
   jsr draw_sprites
 
-  clear_vblank_done
-
   jmp keep_decrementing_camera_x
 done:
   .endscope
@@ -1562,6 +1533,7 @@ done:
   and #%00001000
   beq keep_decrementing_camera_y
 keep_incrementing_camera_y:
+  clear_vblank_done
   wait_vblank_done
 
   lda camera_y
@@ -1576,10 +1548,9 @@ keep_incrementing_camera_y:
 
   jsr draw_sprites
 
-  clear_vblank_done
-
   jmp keep_incrementing_camera_y
 keep_decrementing_camera_y:
+  clear_vblank_done
   wait_vblank_done
 
   lda camera_y
@@ -1593,8 +1564,6 @@ keep_decrementing_camera_y:
   jsr decode_map_row_top
 
   jsr draw_sprites
-
-  clear_vblank_done
 
   jmp keep_decrementing_camera_y
 done:
