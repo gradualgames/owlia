@@ -1,4 +1,5 @@
 .linecont +
+.include "ndxdebug.h"
 .include "main.inc"
 .include "cut_scene_state.inc"
 .include "slide_data.inc"
@@ -29,10 +30,21 @@
 .include "hero_constants.inc"
 .include "familiar.inc"
 .include "familiar_constants.inc"
+.include "monolith_constants.inc"
 .include "textbox.inc"
 .include "conversation_data.inc"
 
 .segment "CODE"
+
+;This LUT can be used to determine the opposite direction
+;from which we are scrolling to a new location (probably in
+;a single screen dungeon environment). This is needed for
+;searching for monoliths that may be in the hero's way.
+scroll_direction_opposite:
+  .byte SCROLL_DIRECTION_WEST
+  .byte SCROLL_DIRECTION_EAST
+  .byte SCROLL_DIRECTION_NORTH
+  .byte SCROLL_DIRECTION_SOUTH
 
 ;this routine must be called before using the play state when
 ;the game boots up. It ensures that all play state specific
@@ -52,6 +64,68 @@
   sta song_address+1
 
   rts
+.endproc
+
+;This routine loads all chr data for bg and sprites for the
+;current location. It is used from both play_state_load_location
+;and play_state_reload.
+.proc load_chr_data
+
+  lda #$00
+  sta ppu_2006
+  sta ppu_2006+1
+  upload_ppu_2006
+
+  ;begin chr tile accumulator at 0
+  lda #$00
+  sta b3
+
+  jsr load_bg_chr_groups
+
+  ;grab tile accumulator to know where the textbox and font group begins
+  lda b3
+  sta textbox_and_font_chr_offset
+
+  ;load the textbox graphics. This is hardcoded because it is the same
+  ;for the entire game. The assumption here is that the background
+  ;graphics we use will never occupy so many tiles that we cannot
+  ;display a textbox or font.
+  lda #<textbox_chr
+  sta w0
+  lda #>textbox_chr
+  sta w0+1
+  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
+  jsr ppu_load_chr_amount
+
+  lda #$10
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  upload_ppu_2006
+
+  switch_bank_ldy #LOCATIONS_BANK
+  lda entity_set_address
+  sta w4
+  lda entity_set_address+1
+  sta w4+1
+  jsr load_sprite_chr_groups
+
+  ;load the shadow spot graphic; this is always present so it is
+  ;hard coded
+  lda b3
+  sta shadow_spot_chr_offset
+
+  ldx #sprite_chr_group_index_shadowspot
+  lda sprite_chr_group_addresses_lo,x
+  sta w0
+  lda sprite_chr_group_addresses_hi,x
+  sta w0+1
+  ldy sprite_chr_group_bank,x
+  switch_bank_y
+  jsr ppu_load_chr_amount
+
+  rts
+
 .endproc
 
 ;this routine loads all bg chr groups for the current area.
@@ -104,7 +178,7 @@ next_bg_chr_group:
   rts
 .endproc
 
-;this routine loads all sprite chr groups for the current area, which
+;this routine loads all sprite chr groups for the current location, which
 ;basically just means it will load all chr data for entities into
 ;VRAM and remember where they were loaded in sprite_chr_group_addresses.
 .proc load_sprite_chr_groups
@@ -117,8 +191,8 @@ sprite_chr_groups_index = b0
   lda #$00
   sta chr_offset
 
-  ;get count for number of entity types in this area
-  switch_bank_ldy #AREAS_BANK
+  ;get count for number of entity types in this location
+  switch_bank_ldy #LOCATIONS_BANK
   ldy #0
   lda (sprite_chr_groups_address),y
   ;put it in x for counting
@@ -130,8 +204,8 @@ sprite_chr_groups_index = b0
 
 next_entity_type:
 
-  switch_bank_ldy #AREAS_BANK
   ;get next entity type index
+  switch_bank_ldy #LOCATIONS_BANK
   ldy sprite_chr_groups_index
   lda (sprite_chr_groups_address),y
 
@@ -162,16 +236,16 @@ next_entity_type:
 
 .endproc
 
-;this routine spawns all entities for a given area.
+;this routine spawns all entities for a given location.
 .proc spawn_entities
 entities_address = w3
 entities_index = b1
 entities_count = b2
 entities_params_count = b3
 
-  switch_bank_ldy #AREAS_BANK
+  switch_bank_ldy #LOCATIONS_BANK
 
-  ;get count for number of entity instances in this area
+  ;get count for number of entity instances in this location
   ldy #0
   lda (entities_address),y
   sta entities_count
@@ -410,6 +484,7 @@ done:
 .define play_state_action_handlers \
   play_state_action_nop, \
   play_state_action_goto_location_group1, \
+  play_state_action_scrollto_location_group1, \
   play_state_action_start_conversation, \
   play_state_action_nop, \
   play_state_action_game_over, \
@@ -435,6 +510,7 @@ play_state_load_location:
   ldy #location::area_index
   lda (location_address),y
   tax
+  switch_bank_ldy #AREAS_BANK
   lda areas_lo,x
   sta area_address
   lda areas_hi,x
@@ -482,56 +558,7 @@ play_state_load_location:
   ;****************************************************************
   jsr ppu_safely_disable_graphics
 
-  lda #$00
-  sta $2006
-  sta $2006
-
-  ;begin chr tile accumulator at 0
-  lda #$00
-  sta b3
-
-  jsr load_bg_chr_groups
-
-  ;grab tile accumulator to know where the textbox and font group begins
-  lda b3
-  sta textbox_and_font_chr_offset
-
-  ;load the textbox graphics. This is hardcoded because it is the same
-  ;for the entire game. The assumption here is that the background
-  ;graphics we use will never occupy so many tiles that we cannot
-  ;display a textbox or font.
-  lda #<textbox_chr
-  sta w0
-  lda #>textbox_chr
-  sta w0+1
-  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
-  jsr ppu_load_chr_amount
-
-  lda #$10
-  sta $2006
-  lda #$00
-  sta $2006
-
-  switch_bank_ldy #LOCATIONS_BANK
-  lda entity_set_address
-  sta w4
-  lda entity_set_address+1
-  sta w4+1
-  jsr load_sprite_chr_groups
-
-  ;load the shadow spot graphic; this is always present so it is
-  ;hard coded
-  lda b3
-  sta shadow_spot_chr_offset
-
-  ldx #sprite_chr_group_index_shadowspot
-  lda sprite_chr_group_addresses_lo,x
-  sta w0
-  lda sprite_chr_group_addresses_hi,x
-  sta w0+1
-  ldy sprite_chr_group_bank,x
-  switch_bank_y
-  jsr ppu_load_chr_amount
+  jsr load_chr_data
 
   ;****************************************************************
   ;Load all map addresses
@@ -685,25 +712,7 @@ play_state_load_location:
   ;Run all frame logic for a single frame except taking user input
   ;to get all entities onscreen before fading in
   ;****************************************************************
-  .scope execute_single_frame
-  wait_vblank_flag
-
-  jsr sprite_clear_all
-
-  jsr sprite_clear_shadow_spots
-
-  jsr entity_update_all
-
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  set_vblank_flag
-  .endscope
+  jsr frame_update_no_controller_input
 
   ;****************************************************************
   ;Load song for the current area if different from the already
@@ -766,17 +775,11 @@ same_song:
 
   ;initialize vblank routine
   lda #0
-  sta vblank_wait_flag
-
-  lda #0
   sta row_ready
   lda #0
   sta column_ready
 
-  lda #<nametable_and_attribute_update_ppu
-  sta vblank_routine
-  lda #>nametable_and_attribute_update_ppu
-  sta vblank_routine+1
+  safely_set_vblank_routine nametable_and_attribute_update_ppu
 
 ;****************************************************************
 ;This branch location is the main game loop. It handles map
@@ -788,40 +791,7 @@ same_song:
 ;****************************************************************
 play_state:
 
-  wait_vblank_flag
-
-  jsr controller_indirect
-
-  .ifdef CPU_USAGE
-  set_ppu_2001_bit PPU1_DISPLAY_TYPE
-  upload_ppu_2001
-  .endif
-
-  jsr sprite_reset_next_sprite_address
-
-  jsr sprite_clear_shadow_spots
-
-  jsr entity_update_all
-
-  switch_bank_ldy map_bank
-  jsr update_camera
-
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  jsr sprite_clear_all_remaining
-
-  .ifdef CPU_USAGE
-  clear_ppu_2001_bit PPU1_DISPLAY_TYPE
-  upload_ppu_2001
-  .endif
-
-  set_vblank_flag
+  jsr frame_update_controller_input
 
   ;switchboard for controlling the play state logic
   lda state_control_params+play_state_control::action
@@ -850,6 +820,10 @@ play_state_action_nop:
 ;****************************************************************
 transition_to_inventory_state:
 
+  clear_vblank_done
+  wait_vblank_done
+
+  switch_bank_ldy #INVENTORY_STATE_BANK
   jmp inventory_state_init
 
 ;****************************************************************
@@ -863,8 +837,8 @@ play_state_action_game_over:
 
   ;pause a few frames
   ldx #4
-: set_vblank_flag
-  wait_vblank_flag
+: clear_vblank_done
+  wait_vblank_done
   dex
   bne :-
 
@@ -881,7 +855,8 @@ play_state_action_game_over:
   .scope
   ldy #28
 spin_hero_loop:
-  wait_vblank_flag
+  clear_vblank_done
+  wait_vblank_done
   tya
   pha
   switch_bank_ldy #HERO_BANK
@@ -894,8 +869,8 @@ spin_hero_loop:
 
   ;pause a few frames
   ldx #4
-: set_vblank_flag
-  wait_vblank_flag
+: clear_vblank_done
+  wait_vblank_done
   dex
   bne :-
 
@@ -924,7 +899,8 @@ spin_hero_loop:
   ;execute a few frames, doing nothing but updating non-player entities
   ;(the explosion entity we just spawned) and drawing non-player entities.
   ldy #32
-: wait_vblank_flag
+: clear_vblank_done
+  wait_vblank_done
 
   tya
   pha
@@ -938,7 +914,6 @@ spin_hero_loop:
   pla
   tay
 
-  set_vblank_flag
   dey
   bne :-
 
@@ -982,44 +957,30 @@ play_state_reload:
   ;Disable graphics while we re-load everything
   jsr ppu_safely_disable_graphics
 
-  lda #$00
-  sta $2006
-  sta $2006
+  jsr load_chr_data
 
-  ;start tile accumulator
-  lda #$00
-  sta b3
-  sta b3+1
-
-  jsr load_bg_chr_groups
-
-  ;b3 should now be the correct offset for the textbox and font graphics
-  lda b3
-  sta textbox_and_font_chr_offset
-
-  ;load the textbox graphics. This is hardcoded because it is the same
-  ;for the entire game. The assumption here is that the background
-  ;graphics we use will never occupy so many tiles that we cannot
-  ;display a textbox or font.
-  lda #<textbox_chr
-  sta w0
-  lda #>textbox_chr
-  sta w0+1
-  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
-  jsr ppu_load_chr_amount
-
-  lda #$10
-  sta $2006
-  lda #$00
-  sta $2006
-
+  .scope
   switch_bank_ldy #LOCATIONS_BANK
-  lda entity_set_address
-  sta w4
-  lda entity_set_address+1
-  sta w4+1
-  jsr load_sprite_chr_groups
+  ldy #location::flags
+  lda (location_address),y
+  and #(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_TEST | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_TEST)
+  cmp #(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_TEST | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_TEST)
+  bne decode_full_screen
 
+  lda camera_nametable_hibyte
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  lda camera_scroll_x
+  sta ppu_2005
+  lda camera_scroll_y
+  sta ppu_2005+1
+
+  upload_ppu_2006
+  upload_ppu_2005
+
+  jmp done
+decode_full_screen:
   ;save camera variables
   lda camera_x
   pha
@@ -1058,25 +1019,11 @@ even:
   sta camera_nametable_hibyte
 done:
   .endscope
+done:
+  .endscope
 
   ;execute a single frame to get entities onscreen before palette fade in and music
-  .scope
-  wait_vblank_flag
-
-  jsr sprite_clear_all
-
-  jsr sprite_clear_shadow_spots
-
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  set_vblank_flag
-  .endscope
+  jsr frame_update_no_controller_input
 
   jsr ppu_safely_enable_graphics
 
@@ -1109,9 +1056,6 @@ done:
 
   ;initialize vblank routine
   lda #0
-  sta vblank_wait_flag
-
-  lda #0
   sta row_ready
   lda #0
   sta column_ready
@@ -1119,10 +1063,7 @@ done:
   lda #1
   sta hide_graphics_top
 
-  lda #<nametable_and_attribute_update_ppu
-  sta vblank_routine
-  lda #>nametable_and_attribute_update_ppu
-  sta vblank_routine+1
+  safely_set_vblank_routine nametable_and_attribute_update_ppu
 
   ;make sure current action of play state is a no-op
   lda #ACTION_NOP
@@ -1145,7 +1086,8 @@ play_state_action_goto_location_group1:
 
   ;now wait for the current frame to finish so all sprites are in
   ;the correct location
-  wait_vblank_flag
+  clear_vblank_done
+  wait_vblank_done
 
   ;load the location to transition to
   ldx state_control_params+play_state_control::param
@@ -1176,7 +1118,7 @@ play_state_action_goto_location_group1:
   switch_bank_ldy #LOCATIONS_BANK
   jsr ppu_fade_out_palette
 
-  ;now that we know the area, make sure the state control
+  ;now that we know the location, make sure the state control
   ;param is nop again
   lda #ACTION_NOP
   sta state_control_params+play_state_control::action
@@ -1184,6 +1126,309 @@ play_state_action_goto_location_group1:
   sta state_control_params+play_state_control::param
 
   jmp play_state_load_location
+
+;****************************************************************
+;This action handler scrolls to the location specified by the
+;action param. It assumes that the entity set specified by the
+;new location is the same as the old location. It marks all enti-
+;ties in the current location as "marked for kill," then spawns
+;all entities in the new location, then scrolls by X and then by
+;Y to the new location, then kills all "marked for kill"
+;entities. Finally, it moves the hero to the position specified
+;by the new location.
+;****************************************************************
+play_state_action_scrollto_location_group1:
+
+  ;mark all currently living entities to be killed after we scroll
+  jsr entity_mark_all_for_kill
+
+  ;load the new location address and spawn the entities from it,
+  ;assuming the entity set has not changed.
+  ldx state_control_params+play_state_control::param
+  switch_bank_ldy #LOCATIONS_BANK
+  lda locations_lo,x
+  sta location_address
+  lda locations_hi,x
+  sta location_address+1
+
+  ;spawn all non-hero entities in new location
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::entity_instances_address
+  lda (location_address),y
+  sta w3
+  iny
+  lda (location_address),y
+  sta w3+1
+
+  jsr spawn_entities
+
+  ;****************************************************************
+  ;Run all frame logic for a single frame except taking user input
+  ;to get all entities onscreen
+  ;****************************************************************
+  jsr frame_update_no_controller_input
+
+  ;now scroll to the new location
+  jsr scroll_to_new_location
+
+  jsr entity_kill_all_marked_for_kill
+
+  ;now search for monoliths that may be in the hero's way configured
+  ;for the opposite direction that had been passed into this action
+  ;handler.
+  ldy #(MAX_ENTITIES-1)
+  .scope
+next_entity:
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq not_alive
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne not_monolith
+
+  ;found a monolith. Test to see if its direction is opposite to the
+  ;direction that was passed into the scrollto action handler.
+  ldx monolith_direction,y
+  lda scroll_direction_opposite,x
+  cmp state_control_params+play_state_control::param+1
+  bne not_opposite_direction
+
+  ;here, we have found a monolith whose direction is opposite to that
+  ;in which we scrolled. Now we want to test if it is currently up. If
+  ;it is, we need to initialize its falling state, and then update its
+  ;state until it is done falling.
+  sty state_control_params+play_state_control::monolith_index
+  lda monolith_flags,y
+  and #MONOLITH_FLAGS_UP_OR_DOWN_ISOLATE
+  beq done
+
+  ;We found a monolith in the hero's way. Tell it to start falling,
+  ;and then execute enough frames to allow it to fall all the way
+  ;down.
+  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  sta entity_state,y
+
+  ;take over the controller. Once we animate any monoliths in the hero's
+  ;way, we will move the hero into the position specified by the new
+  ;location.
+  jsr controller_clear
+  lda #<controller_nop
+  sta controller_routine
+  lda #>controller_nop
+  sta controller_routine+1
+
+  .scope
+  lda #20
+  sta b10
+
+: lda b10
+  pha
+
+  jsr frame_update_no_controller_input
+
+  pla
+  sta b10
+  dec b10
+  bne :-
+  .endscope
+
+  jmp done
+
+not_opposite_direction:
+not_alive:
+not_monolith:
+  dey
+  bpl next_entity
+done:
+  .endscope
+
+  ;based on the direction passed into the scrollto action handler,
+  ;move the hero until she matches the newly loaded location.
+  .scope
+  lda state_control_params+play_state_control::param+1
+  cmp #SCROLL_DIRECTION_NORTH
+  beq walk_north
+  cmp #SCROLL_DIRECTION_SOUTH
+  beq walk_south
+walk_north:
+  jsr walk_north_impl
+  jmp done
+walk_south:
+  jsr walk_south_impl
+  jmp done
+done:
+  .endscope
+
+  ;restore control to the player
+  lda #$ff
+  jsr controller_fill_buffer_with_accumulator
+  lda #<controller_read
+  sta controller_routine
+  lda #>controller_read
+  sta controller_routine+1
+
+  ;now that we know the location, make sure the state control
+  ;param is nop again
+  lda #ACTION_NOP
+  sta state_control_params+play_state_control::action
+  lda #0
+  sta state_control_params+play_state_control::param
+
+  jmp play_state
+
+;makes the hero walk north until she matches the newly loaded
+;location.
+.proc walk_north_impl
+
+  lda #1
+  sta buffer_controller+buttons::_up
+
+  .scope
+: jsr frame_update_no_controller_input
+
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::hero_start_y
+  lda (location_address),y
+  cmp hero_y
+  bne not_equal
+  iny
+  lda (location_address),y
+  cmp hero_y+1
+  bne not_equal
+
+  jmp done
+
+not_equal:
+  jmp :-
+done:
+  .endscope
+
+  jsr controller_clear
+
+  ;now, tell the monolith we found earlier to start rising (if it was
+  ;originally set as "up" and wait enough frames for it to rise all the way.
+  .scope
+  ldy state_control_params+play_state_control::monolith_index
+  lda monolith_flags,y
+  and #MONOLITH_FLAGS_UP_OR_DOWN_ISOLATE
+  beq monolith_not_up
+
+  lda #MONOLITH_STATE_RISE_USING_COLUMNS_INIT
+  sta entity_state,y
+
+  .scope
+  lda #20
+  sta b10
+
+: lda b10
+  pha
+
+  jsr frame_update_no_controller_input
+
+  pla
+  sta b10
+  dec b10
+  bne :-
+  .endscope
+
+monolith_not_up:
+  .endscope
+
+  rts
+
+.endproc
+
+;makes the hero walk south until she matches the newly loaded
+;location.
+.proc walk_south_impl
+
+  rts
+
+.endproc
+
+;scrolls the camera vertically and then horizontally to align
+;with the newly loaded location. This is used with dungeons
+;and assumes that the state control params "param" member of
+;play_state_control will have a second byte representing the
+;direction to scroll in, passed in by a monolith entity and
+;being one of four cardinal direction enum values specified
+;in the monolith entity constants.
+.proc scroll_to_new_location
+SCROLL_SPEED = 4
+scroll_counter = b10
+
+  ;save old scrolling enable flags
+  lda camera_x_scrolling_enabled
+  pha
+  lda camera_y_scrolling_enabled
+  pha
+
+  ;temporarily enable scrolling
+  lda #1
+  sta camera_x_scrolling_enabled
+  sta camera_y_scrolling_enabled
+
+  ;get direction that we were told to scroll in
+  lda state_control_params+play_state_control::param+1
+  cmp #SCROLL_DIRECTION_NORTH
+  beq scroll_north
+  cmp #SCROLL_DIRECTION_SOUTH
+  beq scroll_south
+scroll_north:
+  jsr scroll_north_impl
+  jmp done
+scroll_south:
+  jsr scroll_south_impl
+  jmp done
+done:
+
+no_vertical_scroll:
+
+  ;restore old scrolling enable flags
+  pla
+  sta camera_y_scrolling_enabled
+  pla
+  sta camera_x_scrolling_enabled
+
+  rts
+
+scroll_north_impl:
+
+  lda #240
+  sta scroll_counter
+
+: clear_vblank_done
+  wait_vblank_done
+
+  lda scroll_counter
+  pha
+
+  lda #SCROLL_SPEED
+  sta b0
+  jsr decrement_camera_y
+
+  jsr decode_map_row_top
+
+  jsr sprite_clear_all
+
+  jsr draw_sprites
+
+  pla
+  sta scroll_counter
+
+  sec
+  lda scroll_counter
+  sbc #SCROLL_SPEED
+  sta scroll_counter
+  bne :-
+
+  rts
+
+scroll_south_impl:
+
+  rts
+
+.endproc
 
 ;****************************************************************
 ;This action handler starts displaying a conversation in a text
@@ -1201,21 +1446,16 @@ play_state_action_start_conversation:
 
   jsr align_entities_if_occluded_by_textbox
 
-  wait_vblank_flag
+  clear_vblank_done
+  wait_vblank_done
 
-  jsr sprite_clear_all
-
-  jsr entity_draw_all
-
-  jsr sprite_only_draw_shadow_spots
-
-  jsr hero_draw_status
+  jsr draw_sprites
 
   lda #TEXTBOX_SCREEN_SPRITE_OCCLUDE_Y
   sta b0
   jsr sprite_hide_all_below
 
-  set_vblank_flag
+  clear_vblank_done
 
   lda #TEXTBOX_PLAY_STATE_ROW
   sta textbox_row
@@ -1276,82 +1516,42 @@ play_state_action_start_conversation:
   and #%00001000
   beq keep_decrementing_camera_x
 keep_incrementing_camera_x:
-  wait_vblank_flag
+  clear_vblank_done
+  wait_vblank_done
 
   lda camera_x
   and #%00001111
   beq done
 
-  jsr sprite_clear_all
-
   lda #1
   sta b0
   jsr increment_camera_x
 
-  .scope
-  lda #<(-1)
-  sta w0
-  lda #>(-1)
-  sta w0+1
-  lda #0
-  sta w1
-  sta w1+1
-
-  jsr sprite_slide_shadow_spots
-  .endscope
-
   jsr decode_map_column_right
 
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_only_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  set_vblank_flag
+  jsr sprite_clear_all
+  jsr draw_sprites
 
   jmp keep_incrementing_camera_x
 
   jmp done
 
 keep_decrementing_camera_x:
-  wait_vblank_flag
+  clear_vblank_done
+  wait_vblank_done
 
   lda camera_x
   and #%00001111
   beq done
 
-  jsr sprite_clear_all
-
   lda #1
   sta b0
   jsr decrement_camera_x
 
-  .scope
-  lda #<(1)
-  sta w0
-  lda #>(1)
-  sta w0+1
-  lda #0
-  sta w1
-  sta w1+1
-
-  jsr sprite_slide_shadow_spots
-  .endscope
-
   jsr decode_map_column_left
 
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_only_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  set_vblank_flag
+  jsr sprite_clear_all
+  jsr draw_sprites
 
   jmp keep_decrementing_camera_x
 done:
@@ -1362,79 +1562,39 @@ done:
   and #%00001000
   beq keep_decrementing_camera_y
 keep_incrementing_camera_y:
-  wait_vblank_flag
+  clear_vblank_done
+  wait_vblank_done
 
   lda camera_y
   and #%00001111
   beq done
-
-  jsr sprite_clear_all
 
   lda #1
   sta b0
   jsr increment_camera_y
 
-  .scope
-  lda #0
-  sta w0
-  sta w0+1
-  lda #<(-1)
-  sta w1
-  lda #>(-1)
-  sta w1+1
-
-  jsr sprite_slide_shadow_spots
-  .endscope
-
   jsr decode_map_row_bottom
 
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_only_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  set_vblank_flag
+  jsr sprite_clear_all
+  jsr draw_sprites
 
   jmp keep_incrementing_camera_y
 keep_decrementing_camera_y:
-  wait_vblank_flag
+  clear_vblank_done
+  wait_vblank_done
 
   lda camera_y
   and #%00001111
   beq done
 
-  jsr sprite_clear_all
-
   lda #1
   sta b0
   jsr decrement_camera_y
 
-  .scope
-  lda #0
-  sta w0
-  sta w0+1
-  lda #<(1)
-  sta w1
-  lda #>(1)
-  sta w1+1
-
-  jsr sprite_slide_shadow_spots
-  .endscope
-
   jsr decode_map_row_top
 
-  jsr entity_calculate_screen_coordinates_all
-
-  jsr entity_draw_all
-
-  jsr sprite_only_draw_shadow_spots
-
-  jsr hero_draw_status
-
-  set_vblank_flag
+  jsr sprite_clear_all
+  jsr draw_sprites
 
   jmp keep_decrementing_camera_y
 done:
@@ -1442,7 +1602,9 @@ done:
 
   rts
 
-decode_map_row_top:
+.endproc
+
+.proc decode_map_row_top
 
   clc
   lda camera_x
@@ -1462,7 +1624,9 @@ decode_map_row_top:
 
   rts
 
-decode_map_row_bottom:
+.endproc
+
+.proc decode_map_row_bottom
 
   clc
   lda camera_x
@@ -1485,7 +1649,9 @@ decode_map_row_bottom:
 
   rts
 
-decode_map_column_left:
+.endproc
+
+.proc decode_map_column_left
 
   clc
   lda camera_x
@@ -1505,7 +1671,9 @@ decode_map_column_left:
 
   rts
 
-decode_map_column_right:
+.endproc
+
+.proc decode_map_column_right
 
   clc
   lda camera_x
@@ -1524,6 +1692,77 @@ decode_map_column_right:
   jsr map_process_intermediate_attribute_column_buffer
   lda #1
   sta column_ready
+
+  rts
+
+.endproc
+
+.proc frame_update_controller_input
+
+  clear_vblank_done
+  wait_vblank_done
+
+  jsr controller_indirect
+
+  .ifdef CPU_USAGE
+  set_ppu_2001_bit PPU1_DISPLAY_TYPE
+  upload_ppu_2001
+  .endif
+
+  jsr sprite_reset_next_sprite_address
+
+  jsr sprite_clear_shadow_spots
+
+  jsr entity_update_all
+
+  switch_bank_ldy map_bank
+  jsr update_camera
+
+  jsr entity_calculate_screen_coordinates_all
+
+  jsr entity_draw_all
+
+  jsr sprite_draw_shadow_spots
+
+  jsr hero_draw_status
+
+  jsr sprite_clear_all_remaining
+
+  .ifdef CPU_USAGE
+  clear_ppu_2001_bit PPU1_DISPLAY_TYPE
+  upload_ppu_2001
+  .endif
+
+  rts
+
+.endproc
+
+.proc frame_update_no_controller_input
+
+  clear_vblank_done
+  wait_vblank_done
+
+  jsr sprite_clear_all
+
+  jsr sprite_clear_shadow_spots
+
+  jsr entity_update_all
+
+  jsr draw_sprites
+
+  rts
+
+.endproc
+
+.proc draw_sprites
+
+  jsr entity_calculate_screen_coordinates_all
+
+  jsr entity_draw_all
+
+  jsr sprite_draw_shadow_spots
+
+  jsr hero_draw_status
 
   rts
 

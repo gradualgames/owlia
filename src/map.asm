@@ -1,3 +1,4 @@
+.feature force_range
 .include "map.inc"
 .include "ram.inc"
 .include "zp.inc"
@@ -23,8 +24,8 @@
 .endproc
 
 ;This routine marks a bit in the dynamic single screen collision field
-;expects w0 to contain screen x coordinate
-;expects w1 to contain screen y coordinate
+;expects w0 to contain map x coordinate
+;expects w1 to contain map y coordinate
 .proc set_dynamic_single_screen_collision_field_bit
 x_coord = w0
 y_coord = w1
@@ -56,6 +57,20 @@ row_offset = w2
   lsr y_coord+1
   ror
   sta y_coord
+
+  ;wrap the coordinates so that they fit in the single screen collision field
+  lda x_coord
+  and #%00001111
+  sta x_coord
+  lda #$00
+  sta x_coord+1
+
+  lda y_coord
+  tax
+  lda mod15lut,x
+  sta y_coord
+  lda #$00
+  sta y_coord+1
 
   ;-metatile Y * 2 = row to check. This is because we use two bytes per
   ;row.
@@ -119,8 +134,8 @@ test_second_byte:
 .endproc
 
 ;This routine clears a bit in the dynamic single screen collision field
-;expects w0 to contain screen x coordinate
-;expects w1 to contain screen y coordinate
+;expects w0 to contain map x coordinate
+;expects w1 to contain map y coordinate
 .proc clear_dynamic_single_screen_collision_field_bit
 x_coord = w0
 y_coord = w1
@@ -152,6 +167,20 @@ row_offset = w2
   lsr y_coord+1
   ror
   sta y_coord
+
+  ;wrap the coordinates so that they fit in the single screen collision field
+  lda x_coord
+  and #%00001111
+  sta x_coord
+  lda #$00
+  sta x_coord+1
+
+  lda y_coord
+  tax
+  lda mod15lut,x
+  sta y_coord
+  lda #$00
+  sta y_coord+1
 
   ;-metatile Y * 2 = row to check. This is because we use two bytes per
   ;row.
@@ -215,36 +244,34 @@ test_second_byte:
 .endproc
 
 ;This routine tests a bit in the dynamic single screen collision field
-;expects w0 to contain screen x coordinate in metatile coordinates
-;expects w1 to contain screen y coordinate in metatile coordinates
+;expects w0 to contain map x coordinate in metatile coordinates
+;expects w1 to contain map y coordinate in metatile coordinates
 ;returns result in b0
 .proc test_dynamic_single_screen_collision_field_bit
-x_coord = w0
-y_coord = w1
+input_x_coord = w0
+input_y_coord = w1
+x_coord = w5
+y_coord = w6
 row_offset = w2
 result = b0
-
-  ;validate coordinates before proceeding---this can only
-  ;test a full screen of solid tiles.
-  lda #$00
-  sta result
-
-  lda x_coord
-  and #%11110000
-  beq valid_x_coordinate
-invalid_x_coordinate:
-  rts
-valid_x_coordinate:
-  lda y_coord
-  and #%11110000
-  beq valid_y_coordinate
-invalid_y_coordinate:
-  rts
-valid_y_coordinate:
 
   ;save x, this routine may be called by entities
   txa
   pha
+
+  ;wrap the coordinates so that they fit in the single screen collision field
+  lda input_x_coord
+  and #%00001111
+  sta x_coord
+  lda #$00
+  sta x_coord+1
+
+  lda input_y_coord
+  tax
+  lda mod15lut,x
+  sta y_coord
+  lda #$00
+  sta y_coord+1
 
   ;-metatile Y * 2 = row to check. This is because we use two bytes per
   ;row.
@@ -2372,6 +2399,8 @@ not_enough_time_for_palette:
   upload_ppu_2006
   upload_ppu_2005
 
+  set_vblank_done
+
   ;cycle pad this ppu upload routine for the artificial scroll
   ;update hiding bar (see the main module)
   ldx cycle_pad_lut_index
@@ -2384,9 +2413,6 @@ not_enough_time_for_palette:
   tax
 : dex
   bne :-
-
-  lda #0
-  sta vblank_wait_flag
 
   rts
 

@@ -20,10 +20,7 @@ game_over_screen_palette:
 game_over_state_init:
 
   ;set blank nmi routine
-  lda #<ppu_vblank_nop
-  sta vblank_routine
-  lda #>ppu_vblank_nop
-  sta vblank_routine+1
+  safely_set_vblank_routine ppu_vblank_nop
 
   jsr ppu_safely_disable_graphics
 
@@ -33,8 +30,9 @@ game_over_state_init:
 
   ;load chr data for game_over screen
   lda #$00
-  sta $2006
-  sta $2006
+  sta ppu_2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   lda #<game_over_chr
   sta w0
@@ -61,7 +59,7 @@ game_over_state_init:
   lda #$20
   sta ppu_2006
   lda #$00
-  sta ppu_2006
+  sta ppu_2006+1
   upload_ppu_2006
 
   lda #0
@@ -83,7 +81,7 @@ game_over_state_init:
 
 game_over_state_main:
 
-  wait_vblank_flag
+  wait_vblank_done
 
   jsr controller_read
 
@@ -93,7 +91,7 @@ game_over_state_main:
   cmp #%00000001
   beq game_over_state_exit
 
-  set_vblank_flag
+  clear_vblank_done
 
   jmp game_over_state_main
 
@@ -106,5 +104,5 @@ game_over_state_exit:
   sta palette_address+1
   jsr ppu_fade_out_palette
 
+  switch_bank_ldy #TITLE_STATE_BANK
   jmp title_state_init
-

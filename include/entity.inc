@@ -7,6 +7,8 @@ ENTITY_INC = 1
 .global entity_advance_attacked_state
 .global entity_hurt_hero
 .global entity_find_enemy
+.global entity_mark_all_for_kill
+.global entity_kill_all_marked_for_kill
 .global entity_spawn
 .global entity_update_all
 .global entity_update_npe
@@ -47,6 +49,10 @@ ENTITY_FLAGS_PAUSED_CLEAR = %11110111
 ENTITY_FLAGS_NOT_PAUSABLE_SET    = %00010000
 ENTITY_FLAGS_NOT_PAUSABLE_TEST   = %00010000
 ENTITY_FLAGS_NOT_PAUSABLE_CLEAR  = %11101111
+
+ENTITY_FLAGS_MARKED_FOR_KILL_SET   = %00100000
+ENTITY_FLAGS_MARKED_FOR_KILL_TEST  = %00100000
+ENTITY_FLAGS_MARKED_FOR_KILL_CLEAR = %11011111
 
 ;This enum mirrors all cardinal direction enums in every entity
 ;including the hero and familiar. We add a fifth value for "NONE"

@@ -6,16 +6,16 @@ traproom_state_counter = entity_local0
 
 .enum
 TRAPROOM_STATE_INIT
-TRAPROOM_STATE_FLASH_DOORS
-TRAPROOM_STATE_MAIN
-TRAPROOM_STATE_DELAY_THEN_FLASH_DOORS_AND_DIE
+TRAPROOM_STATE_RAISE_MONOLITHS
+TRAPROOM_STATE_WAIT_FOR_ENEMIES_TO_BE_KILLED
+TRAPROOM_STATE_LOWER_MONOLITHS
 .endenum
 
 .define traproom_states \
   traproom_state_init, \
-  traproom_state_flash_doors, \
-  traproom_state_main, \
-  traproom_state_delay_then_flash_doors_and_die
+  traproom_state_raise_monoliths, \
+  traproom_state_wait_for_enemies_to_be_killed, \
+  traproom_state_lower_monoliths
 
 traproom_lo:
   .lobytes traproom_states
@@ -36,23 +36,56 @@ traproom_state_init:
   lda #0
   sta traproom_state_counter,x
 
-  lda #TRAPROOM_STATE_FLASH_DOORS
+  lda #TRAPROOM_STATE_RAISE_MONOLITHS
   sta entity_state,x
 
   rts
 
-traproom_state_flash_doors:
+traproom_state_raise_monoliths:
 
-  jsr flash_all_doors
+  ldy #(MAX_ENTITIES-1)
+  .scope
+next_entity:
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne not_monolith
 
-  jsr play_door_slam_sound
+  lda monolith_direction,y
+  cmp #MONOLITH_DIRECTION_EAST
+  beq e_w_monolith
+  cmp #MONOLITH_DIRECTION_WEST
+  beq e_w_monolith
+  cmp #MONOLITH_DIRECTION_NORTH
+  beq n_s_monolith
+  cmp #MONOLITH_DIRECTION_SOUTH
+  beq n_s_monolith
+n_s_monolith:
 
-  lda #TRAPROOM_STATE_MAIN
+  lda #MONOLITH_STATE_RISE_USING_COLUMNS_INIT
+  sta entity_state,y
+
+  dey
+  bpl next_entity
+
+e_w_monolith:
+
+  lda #MONOLITH_STATE_RISE_USING_ROWS_INIT
+  sta entity_state,y
+
+  dey
+  bpl next_entity
+
+not_monolith:
+  dey
+  bpl next_entity
+  .endscope
+
+  lda #TRAPROOM_STATE_WAIT_FOR_ENEMIES_TO_BE_KILLED
   sta entity_state,x
 
   rts
 
-traproom_state_main:
+traproom_state_wait_for_enemies_to_be_killed:
 
   ;count the number of enemies currently alive
   lda #0
@@ -70,98 +103,72 @@ not_enemy:
   bpl next_entity
   .endscope
 
-  ;if there are no enemies alive, unlock the doors and die
+  ;if there are no enemies alive, transition to lower monoliths state
   lda b0
   bne enemies_still_alive
 
-  ;find all doors and set them to DOOR_TYPE_UNLOCKED
-  ldy #(MAX_ENTITIES-1)
-  .scope
-next_entity:
-  lda entity_type,y
-  cmp #entity_index_door
-  bne not_door
-
-  lda #DOOR_TYPE_UNLOCKED
-  sta door_type,y
-
-not_door:
-  dey
-  bpl next_entity
-  .endscope
-
-  lda #20
+  lda #30
   sta traproom_state_counter,x
 
-  lda #TRAPROOM_STATE_DELAY_THEN_FLASH_DOORS_AND_DIE
+  lda #TRAPROOM_STATE_LOWER_MONOLITHS
   sta entity_state,x
 
 enemies_still_alive:
 
   rts
 
-traproom_state_delay_then_flash_doors_and_die:
+traproom_state_lower_monoliths:
 
   dec traproom_state_counter,x
-  bne delay_not_over_yet
+  bne do_not_lower_monoliths_yet
 
-  jsr flash_all_doors
-
-  jsr play_door_slam_sound
-
-  ;kill self
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-delay_not_over_yet:
-
-  rts
-
-.proc flash_all_doors
-
-  ;find all doors and set their state to DOOR_STATE_FLASH
   ldy #(MAX_ENTITIES-1)
   .scope
 next_entity:
+  lda entity_flags,y
+  and #(ENTITY_FLAGS_ALIVE_TEST)
+  cmp #(ENTITY_FLAGS_ALIVE_TEST)
+  bne not_monolith
   lda entity_type,y
-  cmp #entity_index_door
-  bne not_door
+  cmp #entity_index_monolith
+  bne not_monolith
 
-  lda #DOOR_STATE_FLASH
+  lda monolith_direction,y
+  cmp #MONOLITH_DIRECTION_EAST
+  beq e_w_monolith
+  cmp #MONOLITH_DIRECTION_WEST
+  beq e_w_monolith
+  cmp #MONOLITH_DIRECTION_NORTH
+  beq n_s_monolith
+  cmp #MONOLITH_DIRECTION_SOUTH
+  beq n_s_monolith
+n_s_monolith:
+
+  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
   sta entity_state,y
 
-not_door:
+  dey
+  bpl next_entity
+
+e_w_monolith:
+
+  lda #MONOLITH_STATE_FALL_USING_ROWS_INIT
+  sta entity_state,y
+
+  dey
+  bpl next_entity
+
+not_monolith:
   dey
   bpl next_entity
   .endscope
 
-  rts
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
 
-.endproc
-
-.proc play_door_slam_sound
-
-  ;play a sound
-  txa
-  pha
-
-  lda #<sfx_door_slam
-  sta sound_param_word_0
-  lda #>sfx_door_slam
-  sta sound_param_word_0+1
-
-  lda #3
-  sta sound_param_byte_0
-
-  ldx #soundeffect_two
-  jsr stream_initialize
-
-  pla
-  tax
+do_not_lower_monoliths_yet:
 
   rts
-
-.endproc
 
 .endif

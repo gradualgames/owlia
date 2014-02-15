@@ -57,12 +57,14 @@ ZP_INC = 1
 .globalzp processor_status
 .globalzp current_bank
 .globalzp next_bank
+.globalzp far_copy_source
+.globalzp far_copy_dest
 .globalzp far_call_address
 
 .globalzp controller_routine
 
 .globalzp vblank_routine
-.globalzp vblank_wait_flag
+.globalzp vblank_done_flag
 .globalzp forward_to_default_graphics_hiding_routine
 .globalzp graphics_hiding_routine
 .globalzp hide_graphics_top

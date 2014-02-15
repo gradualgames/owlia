@@ -9,6 +9,14 @@ PLAY_STATE_INC = 1
 .struct play_state_control
   action .byte
   param  .word
+  monolith_index .byte
 .endstruct
+
+.enum
+SCROLL_DIRECTION_EAST
+SCROLL_DIRECTION_WEST
+SCROLL_DIRECTION_SOUTH
+SCROLL_DIRECTION_NORTH
+.endenum
 
 .endif

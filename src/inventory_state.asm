@@ -20,7 +20,7 @@
 .include "inventory.inc"
 .include "hero_constants.inc"
 
-.segment "CODE"
+.segment "ROM01"
 
 inventory_screen_palette:
   .byte $0e,$05,$28,$38,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -47,20 +47,22 @@ inventory_state_init:
   tax
 
   ;fade out from current palette
-  switch_bank_ldy #LOCATIONS_BANK
-  ldy #location::palette_address
-  lda (location_address),y
-  sta palette_address
-  iny
-  lda (location_address),y
-  sta palette_address+1
-  jsr ppu_fade_out_palette
+  lda #LOCATIONS_BANK
+  sta next_bank
+  lda location_address
+  sta far_copy_source
+  lda location_address+1
+  sta far_copy_source+1
+  lda palette_address
+  sta far_copy_dest
+  lda palette_address+1
+  sta far_copy_dest+1
+  ldx #2
+  jsr far_copy
+  far_call #LOCATIONS_BANK, ppu_fade_out_palette
 
   ;set blank nmi routine
-  lda #<ppu_vblank_nop
-  sta vblank_routine
-  lda #>ppu_vblank_nop
-  sta vblank_routine+1
+  safely_set_vblank_routine ppu_vblank_nop
 
   jsr ppu_safely_disable_graphics
 
@@ -70,8 +72,9 @@ inventory_state_init:
 
   ;load chr data for inventory screen
   lda #$00
-  sta $2006
-  sta $2006
+  sta ppu_2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   ;reset tile accumulator
   lda #$00
@@ -81,8 +84,7 @@ inventory_state_init:
   sta w0
   lda #>inventory_chr
   sta w0+1
-  switch_bank_ldy #INVENTORY_STATE_BG_CHR_BANK
-  jsr ppu_load_chr_amount
+  far_call #INVENTORY_STATE_BG_CHR_BANK, ppu_load_chr_amount
 
   ;grab tile accumulator to know where the textbox and font group begins
   lda b3
@@ -93,8 +95,7 @@ inventory_state_init:
   sta w0
   lda #>textbox_chr
   sta w0+1
-  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
-  jsr ppu_load_chr_amount
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
   ;grab tile accumulator to know where the digits group begins
   lda b3
@@ -106,14 +107,14 @@ inventory_state_init:
   sta w0
   lda #>digits_chr
   sta w0+1
-  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
-  jsr ppu_load_chr_amount
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
   ;load cursor graphics
   lda #$10
-  sta $2006
+  sta ppu_2006
   lda #$00
-  sta $2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   ;reset tile accumulator
   lda #$00
@@ -130,36 +131,28 @@ inventory_state_init:
   lda b3
   sta sprite_chr_group_offsets,y
 
-  lda sprite_chr_group_bank,y
-  tay
-  switch_bank_y
-  jsr ppu_load_chr_amount
+  far_call {sprite_chr_group_bank,y}, ppu_load_chr_amount
 
-  ;load nametable data for inventory screen
-  ;load the nametable and attribute table.
-  lda #$20
+  ;load nametable data for inventory screen on opposite nametable from
+  ;camera. This won't matter for overworld, since we never use nametable
+  ;patching, but for dungeons which are always done at the top left of
+  ;one of the two nametables, this will help preserve any nametable
+  ;patching that had been previously performed.
+  lda camera_nametable_hibyte
+  eor #$04
+  sta state_control_params+inventory_state_control::nametable_hi
+
+  lda state_control_params+inventory_state_control::nametable_hi
   sta ppu_2006
   lda #$00
   sta ppu_2006+1
   upload_ppu_2006
+
   lda #<inventory_screen
   sta w0
   lda #>inventory_screen
   sta w0+1
-  switch_bank_ldy #INVENTORY_STATE_BG_NAMETABLE_BANK
-  jsr ppu_load_nametable
-
-  ;reset scroll
-  lda #$20
-  sta ppu_2006
-  lda #$00
-  sta ppu_2006
-  upload_ppu_2006
-
-  lda #0
-  sta ppu_2005
-  sta ppu_2005+1
-  upload_ppu_2005
+  far_call #INVENTORY_STATE_BG_NAMETABLE_BANK, ppu_load_nametable
 
   lda #0
   sta state_control_params+inventory_state_control::string_address
@@ -172,7 +165,19 @@ inventory_state_init:
   lda #>rush_tech1_menu_position
   sta state_control_params+inventory_state_control::current_menu_position_address+1
 
-  far_call #INVENTORY_STATE_BANK, inventory_state_draw
+  jsr inventory_state_draw
+
+  ;reset scroll
+  lda state_control_params+inventory_state_control::nametable_hi
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  upload_ppu_2006
+
+  lda #0
+  sta ppu_2005
+  sta ppu_2005+1
+  upload_ppu_2005
 
   jsr ppu_safely_enable_graphics
 
@@ -186,16 +191,13 @@ inventory_state_init:
   sta b5
   jsr ppu_fade_in_palette
 
-  lda #<ppu_inventory_vblank
-  sta vblank_routine
-  lda #>ppu_inventory_vblank
-  sta vblank_routine+1
+  safely_set_vblank_routine ppu_inventory_vblank
 
   jsr controller_clear
 
 inventory_state_main:
 
-  wait_vblank_flag
+  wait_vblank_done
 
   jsr controller_read
 
@@ -209,7 +211,7 @@ inventory_state_main:
   cmp #%00000001
   beq inventory_state_exit
 
-  set_vblank_flag
+  clear_vblank_done
 
   jmp inventory_state_main
 
@@ -246,7 +248,6 @@ inventory_state_exit:
 
   jsr sprite_update_all
 
-
   lda state_control_params+inventory_state_control::string_address
   sta w0
   lda state_control_params+inventory_state_control::string_address+1
@@ -256,7 +257,7 @@ inventory_state_exit:
   lda state_control_params+inventory_state_control::digits_chr_offset
   sta chr_group_offset
 
-  lda #$20
+  lda state_control_params+inventory_state_control::nametable_hi
   sta b0
   lda state_control_params+inventory_state_control::string_row
   sta b1
@@ -268,28 +269,16 @@ inventory_state_exit:
   sta state_control_params+inventory_state_control::string_address
   sta state_control_params+inventory_state_control::string_address+1
 
-  ;reset scroll
-  lda #$20
-  sta ppu_2006
-  lda #$00
-  sta ppu_2006
   upload_ppu_2006
-
-  lda #0
-  sta ppu_2005
-  sta ppu_2005+1
   upload_ppu_2005
 
 no_string_to_print:
 
-  lda #0
-  sta vblank_wait_flag
+  set_vblank_done
 
   rts
 
 .endproc
-
-.segment "ROM01"
 
 .proc inventory_state_draw
 
@@ -365,7 +354,7 @@ menu_labels_address = w10
   lda (menu_labels_address),y
   sta w0+1
 
-  lda #$20
+  lda state_control_params+inventory_state_control::nametable_hi
   sta b0
 
   ldy #inventory_state_menu_item::item_row
@@ -410,7 +399,7 @@ menu_labels_address = w10
   sta w1+1
   jsr create_decimal_string
 
-  lda #$20
+  lda state_control_params+inventory_state_control::nametable_hi
   sta b0
 
   ldy #inventory_state_menu_item::item_row
@@ -459,7 +448,7 @@ menu_labels_address = w10
   sta w1+1
   jsr create_decimal_string
 
-  lda #$20
+  lda state_control_params+inventory_state_control::nametable_hi
   sta b0
 
   ldy #inventory_state_menu_item::item_row
@@ -865,7 +854,7 @@ print_callback_nop:
 .proc tech_label_is_enabled_callback
 menu_item_address = w10
 
-  ldy #inventory_state_menu_item::callback_param
+  ldy #inventory_state_menu_item::callback_param_value
 
   lda inventory_earned_techs
   cmp (menu_item_address),y
@@ -881,7 +870,7 @@ menu_item_address = w10
 .proc tech_menu_position_is_enabled_callback
 next_menu_position_address = w11
 
-  ldy #inventory_state_menu_position::callback_param
+  ldy #inventory_state_menu_position::callback_param_value
 
   lda inventory_earned_techs
   cmp (next_menu_position_address),y
@@ -953,7 +942,7 @@ menu_position_address = w10
   lda state_control_params+inventory_state_control::current_menu_position_address+1
   sta menu_position_address+1
 
-  ldy #inventory_state_menu_position::callback_param
+  ldy #inventory_state_menu_position::callback_param_value
   lda (menu_position_address),y
   sta inventory_tech1
 
@@ -971,7 +960,7 @@ menu_position_address = w10
   lda state_control_params+inventory_state_control::current_menu_position_address+1
   sta menu_position_address+1
 
-  ldy #inventory_state_menu_position::callback_param
+  ldy #inventory_state_menu_position::callback_param_value
   lda (menu_position_address),y
   sta inventory_tech2
 

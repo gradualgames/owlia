@@ -15,8 +15,6 @@ SPRITE_INC = 1
 .global sprite_clear_shadow_spots
 .global sprite_add_shadow_spot
 .global sprite_draw_shadow_spots
-.global sprite_only_draw_shadow_spots
-.global sprite_slide_shadow_spots
 
 .struct sprite_struct
   ycoord .byte

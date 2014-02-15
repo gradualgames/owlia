@@ -51,15 +51,13 @@ play_cut_scene:
 
 exit_cut_scene_state:
 
+  switch_bank_ldy #TITLE_STATE_BANK
   jmp title_state_init
 
 .proc load_slide
 
   ;set blank nmi routine
-  lda #<ppu_vblank_nop
-  sta vblank_routine
-  lda #>ppu_vblank_nop
-  sta vblank_routine+1
+  safely_set_vblank_routine ppu_vblank_nop
 
   jsr ppu_safely_disable_graphics
 
@@ -69,8 +67,9 @@ exit_cut_scene_state:
 
   ;load chr data
   lda #$00
-  sta $2006
-  sta $2006
+  sta ppu_2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   lda state_control_params+cut_scene_state_control::slide_address
   sta w10
@@ -141,7 +140,7 @@ exit_cut_scene_state:
   lda #$20
   sta ppu_2006
   lda #$00
-  sta ppu_2006
+  sta ppu_2006+1
   upload_ppu_2006
 
   lda #0
@@ -178,17 +177,11 @@ exit_cut_scene_state:
 
   ;initialize vblank routine
   lda #0
-  sta vblank_wait_flag
-
-  lda #0
   sta row_ready
   lda #0
   sta column_ready
 
-  lda #<nametable_and_attribute_update_ppu
-  sta vblank_routine
-  lda #>nametable_and_attribute_update_ppu
-  sta vblank_routine+1
+  safely_set_vblank_routine nametable_and_attribute_update_ppu
 
   lda #0
   sta textbox_attribute
@@ -230,9 +223,10 @@ sprite_chr_groups_count = b10
 sprite_chr_groups_index = b11
 
   lda #$10
-  sta $2006
+  sta ppu_2006
   lda #$00
-  sta $2006
+  sta ppu_2006+1
+  upload_ppu_2006
 
   ;get address of sprite chr groups for this slide
   switch_bank_ldy #SLIDE_DATA_BANK

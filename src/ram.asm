@@ -122,6 +122,10 @@ shadow_spot_x_lo: .res MAX_SHADOW_SPOTS
 shadow_spot_x_hi: .res MAX_SHADOW_SPOTS
 shadow_spot_y_lo: .res MAX_SHADOW_SPOTS
 shadow_spot_y_hi: .res MAX_SHADOW_SPOTS
+shadow_spot_screen_x_lo: .res MAX_SHADOW_SPOTS
+shadow_spot_screen_x_hi: .res MAX_SHADOW_SPOTS
+shadow_spot_screen_y_lo: .res MAX_SHADOW_SPOTS
+shadow_spot_screen_y_hi: .res MAX_SHADOW_SPOTS
 
 ;****************************************************************
 ;These variables constitute inventory state for the player.

@@ -22,6 +22,8 @@ AREAS_BANK = 0
   big_metatile_table_top_right_address .word
   big_metatile_table_bottom_left_address .word
   big_metatile_table_bottom_right_address .word
+  nametable_patches_address .word
+  attribute_patches_address .word
 .endstruct
 
 ;****************************************************************

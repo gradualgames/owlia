@@ -1,3 +1,4 @@
+.feature force_range
 .include "textbox.inc"
 .include "ram.inc"
 .include "zp.inc"
@@ -161,7 +162,7 @@ conversation_address = w0
 row_y_offset = b0
 
   ;make sure any previous ppu uploads are complete before proceeding
-  wait_vblank_flag
+  wait_vblank_done
 
   lda #TEXTBOX_NO_RESULT
   sta textbox_result
@@ -285,14 +286,14 @@ interpret_font_character:
   tax
 
   ;Sync with vblank so the animation is reasonable.
-  wait_vblank_flag
-  set_vblank_flag
-  wait_vblank_flag
-  set_vblank_flag
-  wait_vblank_flag
+  wait_vblank_done
+  clear_vblank_done
+  wait_vblank_done
+  clear_vblank_done
+  wait_vblank_done
   lda #1
   sta row_ready
-  set_vblank_flag
+  clear_vblank_done
   jmp read_next_character
   ;If negative (it is a control character)
 interpret_control_character:
@@ -392,7 +393,7 @@ time:
 
 .proc wait_impl
   ;If it is WT, just wait til user hits A button.
-  wait_vblank_flag
+  wait_vblank_done
 
   jsr controller_indirect
 
@@ -423,7 +424,7 @@ space:
 done:
   .endscope
 
-  set_vblank_flag
+  clear_vblank_done
 
   lda buffer_controller+buttons::_a
   and #%00000011
@@ -431,7 +432,7 @@ done:
   bne wait_impl
 
   ;make sure to erase the cursor
-  wait_vblank_flag
+  wait_vblank_done
 
   clc
   lda #MIDDLE_TILE_OFFSET
@@ -440,12 +441,12 @@ done:
   lda #1
   sta row_ready
 
-  set_vblank_flag
+  clear_vblank_done
 
   ;make certain that cursor erase gets uploaded before decoding
   ;the next character in the script
-  wait_vblank_flag
-  set_vblank_flag
+  wait_vblank_done
+  clear_vblank_done
 
   ;read next character
   jmp read_next_character
@@ -454,11 +455,11 @@ done:
 .proc confirm_cancel_impl
   ;If it is CC, wait til user hits A or B button,
   ;then store TEXTBOX_CONFIRM or TEXTBOX_CANCEL in textbox_result
-  wait_vblank_flag
+  wait_vblank_done
 
   jsr controller_indirect
 
-  set_vblank_flag
+  clear_vblank_done
 
   lda buffer_controller+buttons::_a
   and #%00000011
@@ -498,7 +499,7 @@ store_result_cancel:
   sta b0
 
 time_wait_loop:
-  wait_vblank_flag
+  wait_vblank_done
 
   jsr controller_indirect
 
@@ -515,7 +516,7 @@ time_wait_loop:
   dec b0
   beq exit_wait_loop
 
-  set_vblank_flag
+  clear_vblank_done
 
   jmp time_wait_loop
 exit_wait_loop:
@@ -552,7 +553,7 @@ exit_wait_loop:
 ;to get the resulting textbox graphics onto the screen.
 .proc draw_textbox
 
-  wait_vblank_flag
+  wait_vblank_done
 
   ;set up coordinates and draw top row
   clc
@@ -574,12 +575,12 @@ exit_wait_loop:
   lda #1
   sta row_ready
 
-  set_vblank_flag
+  clear_vblank_done
 
   ;draw all middle rows, incrementing y coordinate (w1)
   ldx #5
 next_middle_row:
-  wait_vblank_flag
+  wait_vblank_done
 
   clc
   lda w1
@@ -599,13 +600,13 @@ next_middle_row:
   lda #1
   sta row_ready
 
-  set_vblank_flag
+  clear_vblank_done
 
   dex
   bne next_middle_row
 
   ;draw bottom row, incrementing y coordinate once (w1)
-  wait_vblank_flag
+  wait_vblank_done
 
   clc
   lda w1
@@ -618,7 +619,7 @@ next_middle_row:
   lda #1
   sta row_ready
 
-  set_vblank_flag
+  clear_vblank_done
 
   rts
 
@@ -629,7 +630,7 @@ next_middle_row:
 ;look cool.
 .proc erase_textbox
 
-  wait_vblank_flag
+  wait_vblank_done
 
   ;set up coordinates and draw top row
   clc
@@ -652,12 +653,12 @@ next_middle_row:
   lda #1
   sta row_ready
 
-  set_vblank_flag
+  clear_vblank_done
 
   ;draw all middle rows, incrementing y coordinate (w1)
   ldx #6
 next_middle_row:
-  wait_vblank_flag
+  wait_vblank_done
 
   clc
   lda w1
@@ -678,13 +679,13 @@ next_middle_row:
   lda #1
   sta row_ready
 
-  set_vblank_flag
+  clear_vblank_done
 
   dex
   bne next_middle_row
 
   ;draw bottom row, incrementing y coordinate once (w1)
-  wait_vblank_flag
+  wait_vblank_done
 
   clc
   lda w1
@@ -698,7 +699,7 @@ next_middle_row:
   lda #1
   sta row_ready
 
-  set_vblank_flag
+  clear_vblank_done
 
   rts
 

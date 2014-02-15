@@ -726,6 +726,56 @@ enemy_found:
 
 .endproc
 
+;marks all currently living entities to be killed later. As of this
+;comment, this is primarily used for marking all currently living
+;entities to be killed after successfully scrolling to a new location.
+.proc entity_mark_all_for_kill
+
+  ldx #(MAX_ENTITIES-1)
+:
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq not_alive
+
+  lda entity_flags,x
+  ora #ENTITY_FLAGS_MARKED_FOR_KILL_SET
+  sta entity_flags,x
+
+not_alive:
+
+  dex
+  bpl :-
+
+  rts
+
+.endproc
+
+;kills all entities marked as "marked for kill."
+.proc entity_kill_all_marked_for_kill
+
+  ldx #(MAX_ENTITIES-1)
+:
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq not_alive
+  lda entity_flags,x
+  and #ENTITY_FLAGS_MARKED_FOR_KILL_TEST
+  beq not_marked_for_kill
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+not_marked_for_kill:
+not_alive:
+
+  dex
+  bpl :-
+
+  rts
+
+.endproc
+
 ;spawns an entity
 ;b0 is assumed to be the type of entity to spawn
 ;w0 is assumed to be the 16 bit x coordinate at which to spawn the entity

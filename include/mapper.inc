@@ -3,6 +3,7 @@ MAPPER_INC = 1
 
 .global bank_table
 .global far_call_impl
+.global far_copy
 
 .macro switch_bank_y
   sty current_bank

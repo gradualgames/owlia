@@ -1,3 +1,5 @@
+.feature force_range
+.include "ndxdebug.h"
 .include "main.inc"
 .include "ppu.inc"
 .include "zp.inc"
@@ -60,15 +62,11 @@ reset:
   wait_vblank
   wait_vblank
 
-  ;initialize vblank flags
-  lda #0
-  sta vblank_wait_flag
-
-  ;install blank nmi routine at first
-  lda #<ppu_vblank_nop
-  sta vblank_routine
-  lda #>ppu_vblank_nop
-  sta vblank_routine+1
+  ;install blank nmi routine at first. NMI is off right now, and
+  ;we are within the second PPU ready window, so we can just
+  ;install the routine without ensuring we will not be interrupted
+  ;between loading bytes.
+  unsafely_set_vblank_routine ppu_vblank_nop
 
   ;install default controller read routine
   lda #<controller_read
@@ -95,6 +93,7 @@ reset:
 
   jsr clear_dynamic_single_screen_collision_field
 
+  switch_bank_ldy #TITLE_STATE_BANK
   jmp title_state_init
 
 vblank:

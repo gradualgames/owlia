@@ -1,4 +1,5 @@
 .linecont +
+.include "ndxdebug.h"
 .include "entities.inc"
 .include "hero_constants.inc"
 .include "hero.inc"
@@ -16,6 +17,7 @@
 .include "entity.inc"
 .include "controller.inc"
 .include "map.inc"
+.include "patch.inc"
 .include "actions.inc"
 .include "play_state.inc"
 .include "geotests.inc"
@@ -51,7 +53,8 @@
   octoboss_legs_update, \
   splash_update, \
   intro_update, \
-  silmaran_update
+  silmaran_update, \
+  monolith_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -79,6 +82,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_splash
   .byte entity_update_bank_intro
   .byte entity_update_bank_silmaran
+  .byte entity_update_bank_monolith
 
 entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_explosion
@@ -101,6 +105,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_splash
   .byte entity_sprites_and_animations_bank_intro
   .byte entity_sprites_and_animations_bank_silmaran
+  .byte 0 ;entity_sprites_and_animations_bank_monolith
 
 .segment "ROM05"
 .include "explosion.inc"
@@ -123,3 +128,4 @@ entity_defs_sprites_and_animations_bank:
 .include "splash.inc"
 .include "intro.inc"
 .include "silmaran.inc"
+.include "monolith.inc"

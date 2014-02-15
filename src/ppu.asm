@@ -1,3 +1,4 @@
+.feature force_range
 .include "zp.inc"
 .include "ram.inc"
 .include "ppu.inc"
@@ -9,8 +10,16 @@
 ;nmi routine which does nothing except continue music driver
 .proc ppu_vblank_nop
 
-  lda #0
-  sta vblank_wait_flag
+  set_vblank_done
+
+  ;pad CPU cycles for finely tuned graphics hiding
+  ldx #255
+: dex
+  bne :-
+
+  ldx #208
+: dex
+  bne :-
 
   rts
 
@@ -25,23 +34,22 @@
 ;turns off artificial graphics hiding bar
 .proc ppu_safely_disable_graphics
 
+  clear_vblank_done
+  wait_vblank_done
+
   ;turn off graphics hiding
   lda #0
   sta hide_graphics_top
 
   ;set nop vblank routine
-  lda #<ppu_vblank_nop
-  sta vblank_routine
-  lda #>ppu_vblank_nop
-  sta vblank_routine+1
+  safely_set_vblank_routine ppu_vblank_nop
 
   ;turn off sprite visibility
   clear_ppu_2001_bit PPU1_SPRITE_VISIBILITY
   ;turn off background visibility
   clear_ppu_2001_bit PPU1_BACKGROUND_VISIBILITY
-  set_vblank_flag
-  wait_vblank_flag
   upload_ppu_2001
+
   rts
 
 .endproc
@@ -50,18 +58,17 @@
 ;assumes that we are somewhere in the middle of rendering a frame
 .proc ppu_safely_enable_graphics
 
+  clear_vblank_done
+  wait_vblank_done
+
   ;set nop vblank routine
-  lda #<ppu_vblank_nop
-  sta vblank_routine
-  lda #>ppu_vblank_nop
-  sta vblank_routine+1
+  safely_set_vblank_routine ppu_vblank_nop
 
   ;turn sprite and background visibility on
   set_ppu_2001_bit PPU1_SPRITE_VISIBILITY
   set_ppu_2001_bit PPU1_BACKGROUND_VISIBILITY
-  set_vblank_flag
-  wait_vblank_flag
   upload_ppu_2001
+
   rts
 
 .endproc
@@ -239,10 +246,7 @@ brightness_level_spr = b7
   pha
 
   ;switch to nmi routine for uploading the dynamic palette
-  lda #<ppu_upload_dynamic_palette_ppu
-  sta vblank_routine
-  lda #>ppu_upload_dynamic_palette_ppu
-  sta vblank_routine+1
+  safely_set_vblank_routine ppu_upload_dynamic_palette_ppu
 
 fading_loop:
   ;load dynamic palette for current bg and spr brightness levels independently
@@ -255,8 +259,8 @@ fading_loop:
 
   ;pause for FADING_SPEED frames
   ldx #FADING_SPEED
-: wait_vblank_flag
-  set_vblank_flag
+: wait_vblank_done
+  clear_vblank_done
   dex
   bne :-
 
@@ -288,10 +292,10 @@ do_not_increment_brightness_level_spr:
   jmp fading_loop
 done_fading:
 
-  ;do one more wait to make sure the vblank clears the ready
+  ;do one more wait to make sure the vblank clears the done
   ;flag, so that when we restore the old vblank routine, we
   ;don't upload unprepared garbage data!
-  wait_vblank_flag
+  wait_vblank_done
 
   ;restore previous nmi routine
   pla
@@ -319,10 +323,7 @@ brightness_level_spr = b5
   pha
 
   ;switch to nmi routine for uploading the dynamic palette
-  lda #<ppu_upload_dynamic_palette_ppu
-  sta vblank_routine
-  lda #>ppu_upload_dynamic_palette_ppu
-  sta vblank_routine+1
+  safely_set_vblank_routine ppu_upload_dynamic_palette_ppu
 
   ;fade out from the current global brightness level
   lda dynamic_palette_brightness_level_bg
@@ -342,8 +343,8 @@ fading_loop:
 
   ;pause for FADING_SPEED frames
   ldx #FADING_SPEED
-: wait_vblank_flag
-  set_vblank_flag
+: wait_vblank_done
+  clear_vblank_done
   dex
   bne :-
 
@@ -382,7 +383,7 @@ done_fading:
   ;do one more wait to make sure the vblank clears the ready
   ;flag, so that when we restore the old vblank routine, we
   ;don't upload unprepared garbage data!
-  wait_vblank_flag
+  wait_vblank_done
 
   ;restore previous nmi routine
   pla
@@ -395,9 +396,6 @@ done_fading:
 
 ;nmi routine for uploading the dynamic palette
 .proc ppu_upload_dynamic_palette_ppu
-
-  lda vblank_wait_flag
-  beq :+
 
   jsr sprite_update_all
 
@@ -427,9 +425,7 @@ done_fading:
   upload_ppu_2006
   upload_ppu_2005
 
-  lda #0
-  sta vblank_wait_flag
-:
+  set_vblank_done
 
   ;pad CPU cycles for finely tuned graphics hiding
   ldx #218
