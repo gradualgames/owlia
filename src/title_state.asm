@@ -243,8 +243,8 @@ title_state_start_game:
   ;ldx #location_index_dungeon_0_3_s
   ;ldx #location_index_dungeon_0_0_s
   ;ldx #location_index_dungeon_0_2_s
-  ;ldx #location_index_dungeon_0_1_s
-  ldx #location_index_dungeon_1_1_w
+  ldx #location_index_dungeon_0_1_s
+  ;ldx #location_index_dungeon_1_1_w
   ;ldx #location_index_dungeon1_boss_entrance
   ;ldx #location_index_village_house1_entrance
   ;ldx #location_index_meadow3_dungeon_entrance

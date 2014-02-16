@@ -365,7 +365,7 @@ dungeon_0_3_entity_instances:
                                          MONOLITH_DIRECTION_SOUTH, \
                                          ACTION_GOTO_LOCATION_GROUP1, \
                                          location_index_meadow3_dungeon_entrance, 0, 2
-  .byte entity_index_traproom, 0, 0, 0, 0
+  .byte entity_index_traproom, (0*16), (3*15), 0, 0
 
 dungeon_1_3_entity_instances:
   .byte 3

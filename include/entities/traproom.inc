@@ -247,39 +247,44 @@ do_not_lower_monoliths_yet:
 
   ;start with the full screen rect, then bring it in based on
   ;current living monoliths
-  lda camera_x
+  lda entity_x_lo,x
   sta traproom_trigger_rect_west_x_lo,x
-  lda camera_x+1
+  lda entity_x_hi,x
   sta traproom_trigger_rect_west_x_hi,x
 
-  lda camera_y
+  lda entity_y_lo,x
   sta traproom_trigger_rect_north_y_lo,x
-  lda camera_y+1
+  lda entity_y_hi,x
   sta traproom_trigger_rect_north_y_hi,x
 
   clc
-  lda camera_x
+  lda entity_x_lo,x
   adc #<256
   sta traproom_trigger_rect_east_x_lo,x
-  lda camera_x+1
+  lda entity_x_hi,x
   adc #>256
   sta traproom_trigger_rect_east_x_hi,x
 
   clc
-  lda camera_y
+  lda entity_y_lo,x
   adc #<240
   sta traproom_trigger_rect_south_y_lo,x
-  lda camera_y+1
+  lda entity_y_hi,x
   adc #>240
   sta traproom_trigger_rect_north_y_hi,x
 
   ldy #(MAX_ENTITIES-1)
   .scope
 next_entity:
+  ;ignore dead monoliths
   lda entity_flags,y
   and #(ENTITY_FLAGS_ALIVE_TEST)
-  cmp #(ENTITY_FLAGS_ALIVE_TEST)
+  beq not_monolith
+  ;ignore monoliths marked for kill after scroll
+  lda entity_flags,y
+  and #(ENTITY_FLAGS_MARKED_FOR_KILL_TEST)
   bne not_monolith
+  ;we only care about monoliths
   lda entity_type,y
   cmp #entity_index_monolith
   bne not_monolith
