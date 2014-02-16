@@ -39,7 +39,6 @@
   octopus_update, \
   npc_update, \
   key_update, \
-  door_update, \
   lantern_update, \
   item_update, \
   innkeep_update, \
@@ -67,7 +66,6 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_octopus
   .byte entity_update_bank_npc
   .byte entity_update_bank_key
-  .byte entity_update_bank_door
   .byte entity_update_bank_lantern
   .byte entity_update_bank_item
   .byte entity_update_bank_innkeep
@@ -90,7 +88,6 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_octopus
   .byte entity_sprites_and_animations_bank_npc
   .byte entity_sprites_and_animations_bank_key
-  .byte entity_sprites_and_animations_bank_door
   .byte entity_sprites_and_animations_bank_lantern
   .byte entity_sprites_and_animations_bank_item
   .byte entity_sprites_and_animations_bank_innkeep
@@ -113,7 +110,6 @@ entity_defs_sprites_and_animations_bank:
 .include "octopus.inc"
 .include "npc.inc"
 .include "key.inc"
-.include "door.inc"
 .include "lantern.inc"
 .include "item.inc"
 .include "innkeep.inc"

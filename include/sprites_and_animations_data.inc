@@ -70,11 +70,6 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 
 .global CrabWalk
 
-.global DoorFlash0
-.global DoorFlash1
-
-.global DoorFlash
-
 .global AnglerFishUp0
 .global AnglerFishUp1
 .global AnglerFishDown0

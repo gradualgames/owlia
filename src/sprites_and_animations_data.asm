@@ -26,7 +26,6 @@
 .include "key_sprites_and_animations.inc"
 .include "pufferfish_sprites_and_animations.inc"
 .include "crab_sprites_and_animations.inc"
-.include "door_sprites_and_animations.inc"
 .include "anglerfish_sprites_and_animations.inc"
 .include "spotlight_sprites_and_animations.inc"
 .include "octoboss_sprites_and_animations.inc"

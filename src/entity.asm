@@ -466,11 +466,10 @@ enemy_found:
 
 ;Sets this entity to be the third participant this frame in the
 ;3 way sorting system between the hero, familiar, and entity.
-;Typically this is only used by NPCs. It can also be used by
-;doors, etc. Everything else is an enemy and will hit the hero
-;and cause her to knock back and flash, or, the familiar will
-;be flying above everything, etc. etc. So we only use it in very
-;limited and special circumstances.
+;Typically this is only used by NPCs. Everything else is an enemy
+;and will hit the hero and cause her to knock back and flash, or,
+;the familiar will be flying above everything, etc. etc. So we
+;only use it in very limited and special circumstances.
 .proc entity_set_sorted
 
   stx sorted_entity_index

@@ -14,7 +14,6 @@
     welcome_to_my_store, \
     welcome_to_my_inn, \
     prompt_for_stay_at_inn, \
-    door_is_locked, \
     purchase_bomb, \
     purchase_lantern, \
     purchase_health, \
@@ -123,9 +122,6 @@ prompt_for_stay_at_inn:
   .byte    1, "ONE NIGHT IS TEN GP."
   .byte NL,2, "TO STAY, HIT A."
   .byte NL,3, "IF NOT, HIT B.",CC,EC
-
-door_is_locked:
-  .byte    1, "THIS DOOR IS LOCKED!",WT,EC
 
 purchase_bomb:
   .byte    1, "BOMBS ARE TEN GP."

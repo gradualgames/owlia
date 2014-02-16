@@ -23,7 +23,6 @@ sprite_chr_group_index_coins
 sprite_chr_group_index_title
 sprite_chr_group_index_pufferfish
 sprite_chr_group_index_crab
-sprite_chr_group_index_door
 sprite_chr_group_index_anglerfish
 sprite_chr_group_index_spotlight
 sprite_chr_group_index_octoboss
@@ -50,7 +49,6 @@ sprite_chr_group_bank_coins = 7
 sprite_chr_group_bank_title = 7
 sprite_chr_group_bank_pufferfish = 7
 sprite_chr_group_bank_crab = 7
-sprite_chr_group_bank_door = 7
 sprite_chr_group_bank_anglerfish = 7
 sprite_chr_group_bank_spotlight = 7
 sprite_chr_group_bank_octoboss = 7

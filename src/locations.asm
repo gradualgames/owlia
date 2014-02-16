@@ -8,7 +8,6 @@
 .include "hero_constants.inc"
 .include "item_constants.inc"
 .include "npc_constants.inc"
-.include "door_constants.inc"
 .include "anglerfish_constants.inc"
 .include "monolith_constants.inc"
 .include "sprite_chr_data.inc"
@@ -132,7 +131,7 @@ meadow3_entity_set:
   .byte sprite_chr_group_index_octopus
 
 dungeon_entity_set:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -141,7 +140,6 @@ dungeon_entity_set:
   .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_pufferfish
   .byte sprite_chr_group_index_crab
-  .byte sprite_chr_group_index_door
   .byte sprite_chr_group_index_anglerfish
   .byte sprite_chr_group_index_spotlight
 
