@@ -280,8 +280,20 @@ dungeon_0_1_entity_instances:
   .byte entity_index_pufferfish, 4, 22, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 11, 22, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_door, 11, 18, 0, DOOR_PARAMS, location_index_dungeon_0_0_s, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_NORTH
-  .byte entity_index_door, 14, 22, 0, DOOR_PARAMS, location_index_dungeon_1_1_w, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_EAST
-  .byte entity_index_door, 4, 28, 0, DOOR_PARAMS, location_index_dungeon_0_2_n, DOOR_TYPE_UNLOCKED, DOOR_DIRECTION_SOUTH
+  .byte entity_index_monolith, 14, 23, 0, MONOLITH_PARAMS, \
+                                         MONOLITH_TYPE_UNLOCKED | \
+                                         MONOLITH_FLAGS_SHAKE_SCREEN_SET | \
+                                         MONOLITH_FLAGS_UP_SET, \
+                                         MONOLITH_DIRECTION_EAST, \
+                                         ACTION_GOTO_LOCATION_GROUP1, \
+                                         location_index_dungeon_1_1_w, 0, 5
+  .byte entity_index_monolith, 4, 29, 0, MONOLITH_PARAMS, \
+                                         MONOLITH_TYPE_UNLOCKED | \
+                                         MONOLITH_FLAGS_SHAKE_SCREEN_SET | \
+                                         MONOLITH_FLAGS_UP_SET, \
+                                         MONOLITH_DIRECTION_SOUTH, \
+                                         ACTION_SCROLLTO_LOCATION_GROUP1, \
+                                         location_index_dungeon_0_2_n, 0, 2
 
 dungeon_1_1_entity_instances:
   .byte 2
@@ -550,7 +562,7 @@ define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_
 dungeon_0_1_e:
 define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4, area_index_dungeon, dungeon_entity_set, dungeon_0_1_entity_instances, dungeon_palette, 0, 15, 14, 22, 0, 0, 0, HERO_DIRECTION_LEFT
 dungeon_0_1_s:
-define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4, area_index_dungeon, dungeon_entity_set, dungeon_0_1_entity_instances, dungeon_palette, 0, 15, 4, 28, 0, 0, 0, HERO_DIRECTION_UP
+define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4, area_index_dungeon, dungeon_entity_set, dungeon_0_1_entity_instances, dungeon_palette, 0, 15, 4, 25, 0, 0, 0, HERO_DIRECTION_UP
 dungeon_1_1_w:
 define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4, area_index_dungeon, dungeon_entity_set, dungeon_1_1_entity_instances, dungeon_palette, 16, 15, 17, 22, 0, 0, 0, HERO_DIRECTION_RIGHT
 dungeon_1_1_e:

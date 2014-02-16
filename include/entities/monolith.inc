@@ -819,8 +819,8 @@ monolith_exits_hi:
   .hibytes monolith_exits
 
 .define monolith_touch_rect_offsets_x \
-  0, \
-  0, \
+  -16, \
+  -8, \
   -8, \
   -8
 
@@ -831,8 +831,8 @@ monolith_touch_rect_offset_x_hi:
   .hibytes monolith_touch_rect_offsets_x
 
 .define monolith_touch_rect_offsets_y \
-  0, \
-  0, \
+  -16, \
+  -16, \
   -64, \
   0
 
@@ -997,7 +997,19 @@ indirect_jsr_w0:
 
 .proc monolith_test_west_exit
 
-  lda #$ff
+  ;transfer west screen edge rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda camera_x
+  sta w2
+  lda camera_x+1
+  sta w2+1
+  lda camera_y
+  sta w3
+  lda camera_y+1
+  sta w3+1
+  lda #0
+  sta b2
+  lda #239
+  sta b3
 
   rts
 
@@ -1005,7 +1017,22 @@ indirect_jsr_w0:
 
 .proc monolith_test_east_exit
 
-  lda #$ff
+  ;transfer east screen edge rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  clc
+  lda camera_x
+  adc #255
+  sta w2
+  lda camera_x+1
+  adc #0
+  sta w2+1
+  lda camera_y
+  sta w3
+  lda camera_y+1
+  sta w3+1
+  lda #0
+  sta b2
+  lda #239
+  sta b3
 
   rts
 
