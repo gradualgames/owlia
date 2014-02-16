@@ -839,8 +839,8 @@ monolith_touch_rect_offset_x_hi:
   .hibytes monolith_touch_rect_offsets_x
 
 .define monolith_touch_rect_offsets_y \
-  -16, \
-  -16, \
+  -24, \
+  -24, \
   -64, \
   0
 
@@ -854,7 +854,7 @@ monolith_touch_rect_width:
   .byte 32, 32, 32, 32
 
 monolith_touch_rect_height:
-  .byte 32, 32, 32, 32
+  .byte 48, 48, 32, 32
 
 .proc monolith_fall_if_touching_hero
 
