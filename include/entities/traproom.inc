@@ -306,14 +306,14 @@ east_monolith:
 
 west_monolith:
 
-  ;get the right edge of the monolith as the right edge of the traproom rect
+  ;get the right edge of the monolith as the left edge of the traproom rect
   clc
   lda entity_x_lo,y
   adc entity_width,y
-  sta traproom_trigger_rect_east_x_lo,x
+  sta traproom_trigger_rect_west_x_lo,x
   lda entity_x_hi,y
   adc #0
-  sta traproom_trigger_rect_east_x_hi,x
+  sta traproom_trigger_rect_west_x_hi,x
 
   dey
   bpl next_entity
