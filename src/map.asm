@@ -95,7 +95,7 @@ row_offset = w2
 test_first_byte:
 
   ;-metatile X, lowest 3 bits (bits 0, 1, and 2), indicate which bit to
-  ;set in the byte. Probably use a lut to get the right bit to test rat-
+  ;use in the byte. Probably use a lut to get the right bit rat-
   ;her than a loop for rotating a bit.
 
   lda x_coord
@@ -114,7 +114,7 @@ test_first_byte:
 test_second_byte:
 
   ;-metatile X, lowest 3 bits (bits 0, 1, and 2), indicate which bit to
-  ;set in the byte. Probably use a lut to get the right bit to test rat-
+  ;use in the byte. Probably use a lut to get the right bit rat-
   ;her than a loop for rotating a bit.
 
   lda x_coord
@@ -205,7 +205,7 @@ row_offset = w2
 test_first_byte:
 
   ;-metatile X, lowest 3 bits (bits 0, 1, and 2), indicate which bit to
-  ;set in the byte. Probably use a lut to get the right bit to test rat-
+  ;use in the byte. Probably use a lut to get the right bit rat-
   ;her than a loop for rotating a bit.
 
   lda x_coord
@@ -224,7 +224,7 @@ test_first_byte:
 test_second_byte:
 
   ;-metatile X, lowest 3 bits (bits 0, 1, and 2), indicate which bit to
-  ;set in the byte. Probably use a lut to get the right bit to test rat-
+  ;use in the byte. Probably use a lut to get the right bit rat-
   ;her than a loop for rotating a bit.
 
   lda x_coord
@@ -232,7 +232,7 @@ test_second_byte:
   tax
 
   lda dynamic_single_screen_collision_field+1,y
-  and bit_select_lut,x
+  and bit_clear_lut,x
   sta dynamic_single_screen_collision_field+1,y
 
   ;restore x
@@ -296,7 +296,7 @@ result = b0
 test_first_byte:
 
   ;-metatile X, lowest 3 bits (bits 0, 1, and 2), indicate which bit to
-  ;set in the byte. Probably use a lut to get the right bit to test rat-
+  ;use in the byte. Probably use a lut to get the right bit rat-
   ;her than a loop for rotating a bit.
 
   lda x_coord
@@ -315,7 +315,7 @@ test_first_byte:
 test_second_byte:
 
   ;-metatile X, lowest 3 bits (bits 0, 1, and 2), indicate which bit to
-  ;set in the byte. Probably use a lut to get the right bit to test rat-
+  ;use in the byte. Probably use a lut to get the right bit rat-
   ;her than a loop for rotating a bit.
 
   lda x_coord
