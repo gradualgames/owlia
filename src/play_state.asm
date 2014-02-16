@@ -1198,6 +1198,12 @@ next_entity:
   ;it is, we need to initialize its falling state, and then update its
   ;state until it is done falling.
   sty state_control_params+play_state_control::monolith_index
+
+  ;turn off this monolith's exit detection until we re-raise it later.
+  lda monolith_flags,y
+  and #MONOLITH_FLAGS_EXIT_DISABLED_CLEAR
+  sta monolith_flags,y
+
   lda monolith_flags,y
   and #MONOLITH_FLAGS_UP_OR_DOWN_ISOLATE
   beq done
@@ -1246,10 +1252,20 @@ done:
   ;move the hero until she matches the newly loaded location.
   .scope
   lda state_control_params+play_state_control::param+1
+  cmp #SCROLL_DIRECTION_EAST
+  beq walk_east
+  cmp #SCROLL_DIRECTION_WEST
+  beq walk_west
   cmp #SCROLL_DIRECTION_NORTH
   beq walk_north
   cmp #SCROLL_DIRECTION_SOUTH
   beq walk_south
+walk_east:
+  jsr walk_east_impl
+  jmp done
+walk_west:
+  jsr walk_west_impl
+  jmp done
 walk_north:
   jsr walk_north_impl
   jmp done
@@ -1275,6 +1291,72 @@ done:
   sta state_control_params+play_state_control::param
 
   jmp play_state
+
+.proc walk_east_impl
+
+  lda #1
+  sta buffer_controller+buttons::_right
+
+  .scope
+: jsr frame_update_no_controller_input
+
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::hero_start_x
+  lda (location_address),y
+  cmp hero_x
+  bne not_equal
+  iny
+  lda (location_address),y
+  cmp hero_x+1
+  bne not_equal
+
+  jmp done
+
+not_equal:
+  jmp :-
+done:
+  .endscope
+
+  jsr controller_clear
+
+  jsr reraise_monolith
+
+  rts
+
+.endproc
+
+.proc walk_west_impl
+
+  lda #1
+  sta buffer_controller+buttons::_left
+
+  .scope
+: jsr frame_update_no_controller_input
+
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::hero_start_x
+  lda (location_address),y
+  cmp hero_x
+  bne not_equal
+  iny
+  lda (location_address),y
+  cmp hero_x+1
+  bne not_equal
+
+  jmp done
+
+not_equal:
+  jmp :-
+done:
+  .endscope
+
+  jsr controller_clear
+
+  jsr reraise_monolith
+
+  rts
+
+.endproc
 
 ;makes the hero walk north until she matches the newly loaded
 ;location.
@@ -1305,34 +1387,7 @@ done:
 
   jsr controller_clear
 
-  ;now, tell the monolith we found earlier to start rising (if it was
-  ;originally set as "up" and wait enough frames for it to rise all the way.
-  .scope
-  ldy state_control_params+play_state_control::monolith_index
-  lda monolith_flags,y
-  and #MONOLITH_FLAGS_UP_OR_DOWN_ISOLATE
-  beq monolith_not_up
-
-  lda #MONOLITH_STATE_RISE_USING_COLUMNS_INIT
-  sta entity_state,y
-
-  .scope
-  lda #20
-  sta b10
-
-: lda b10
-  pha
-
-  jsr frame_update_no_controller_input
-
-  pla
-  sta b10
-  dec b10
-  bne :-
-  .endscope
-
-monolith_not_up:
-  .endscope
+  jsr reraise_monolith
 
   rts
 
@@ -1367,6 +1422,14 @@ done:
 
   jsr controller_clear
 
+  jsr reraise_monolith
+
+  rts
+
+.endproc
+
+.proc reraise_monolith
+
   ;now, tell the monolith we found earlier to start rising (if it was
   ;originally set as "up" and wait enough frames for it to rise all the way.
   .scope
@@ -1396,6 +1459,11 @@ done:
 monolith_not_up:
   .endscope
 
+  ldy state_control_params+play_state_control::monolith_index
+  lda monolith_flags,y
+  ora #MONOLITH_FLAGS_EXIT_ENABLED_SET
+  sta monolith_flags,y
+
   rts
 
 .endproc
@@ -1424,10 +1492,20 @@ scroll_counter = b10
 
   ;get direction that we were told to scroll in
   lda state_control_params+play_state_control::param+1
+  cmp #SCROLL_DIRECTION_EAST
+  beq scroll_east
+  cmp #SCROLL_DIRECTION_WEST
+  beq scroll_west
   cmp #SCROLL_DIRECTION_NORTH
   beq scroll_north
   cmp #SCROLL_DIRECTION_SOUTH
   beq scroll_south
+scroll_east:
+  jsr scroll_east_impl
+  jmp done
+scroll_west:
+  jsr scroll_west_impl
+  jmp done
 scroll_north:
   jsr scroll_north_impl
   jmp done
@@ -1443,6 +1521,70 @@ no_vertical_scroll:
   sta camera_y_scrolling_enabled
   pla
   sta camera_x_scrolling_enabled
+
+  rts
+
+scroll_east_impl:
+
+  lda #0
+  sta scroll_counter
+
+: clear_vblank_done
+  wait_vblank_done
+
+  lda scroll_counter
+  pha
+
+  lda #SCROLL_SPEED
+  sta b0
+  jsr increment_camera_x
+
+  jsr decode_map_column_right
+
+  jsr sprite_clear_all
+
+  jsr draw_sprites
+
+  pla
+  sta scroll_counter
+
+  clc
+  lda scroll_counter
+  adc #SCROLL_SPEED
+  sta scroll_counter
+  bne :-
+
+  rts
+
+scroll_west_impl:
+
+  lda #0
+  sta scroll_counter
+
+: clear_vblank_done
+  wait_vblank_done
+
+  lda scroll_counter
+  pha
+
+  lda #SCROLL_SPEED
+  sta b0
+  jsr decrement_camera_x
+
+  jsr decode_map_column_left
+
+  jsr sprite_clear_all
+
+  jsr draw_sprites
+
+  pla
+  sta scroll_counter
+
+  clc
+  lda scroll_counter
+  adc #SCROLL_SPEED
+  sta scroll_counter
+  bne :-
 
   rts
 

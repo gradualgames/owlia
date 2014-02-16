@@ -51,6 +51,10 @@ monolith_state_init:
 not_up:
   .endscope
 
+  lda monolith_flags,x
+  ora #MONOLITH_FLAGS_EXIT_ENABLED_SET
+  sta monolith_flags,x
+
   lda #0
   sta monolith_state_counter,x
 
@@ -523,8 +527,12 @@ monolith_state_idle:
 monolith_not_up:
 monolith_not_unlocked:
 
-  ;test this monolith's exit
+  ;test this monolith's exit if it is enabled
+  lda monolith_flags,x
+  and #MONOLITH_FLAGS_EXIT_ENABLED_TEST
+  beq monolith_exit_disabled
   jsr monolith_test_exit
+monolith_exit_disabled:
 
   ;if the shake screen flag is set, shake the screen as long as the state counter is not zero
   .scope
@@ -820,7 +828,7 @@ monolith_exits_hi:
 
 .define monolith_touch_rect_offsets_x \
   -16, \
-  -8, \
+  0, \
   -8, \
   -8
 
@@ -1006,7 +1014,7 @@ indirect_jsr_w0:
   sta w3
   lda camera_y+1
   sta w3+1
-  lda #0
+  lda #1
   sta b2
   lda #239
   sta b3
@@ -1029,7 +1037,7 @@ indirect_jsr_w0:
   sta w3
   lda camera_y+1
   sta w3+1
-  lda #0
+  lda #1
   sta b2
   lda #239
   sta b3
