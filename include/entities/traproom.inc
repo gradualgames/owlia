@@ -271,7 +271,7 @@ do_not_lower_monoliths_yet:
   sta traproom_trigger_rect_south_y_lo,x
   lda entity_y_hi,x
   adc #>240
-  sta traproom_trigger_rect_north_y_hi,x
+  sta traproom_trigger_rect_south_y_hi,x
 
   ldy #(MAX_ENTITIES-1)
   .scope
@@ -308,6 +308,7 @@ east_monolith:
 
   dey
   bpl next_entity
+  rts
 
 west_monolith:
 
@@ -322,6 +323,7 @@ west_monolith:
 
   dey
   bpl next_entity
+  rts
 
 north_monolith:
 
@@ -336,6 +338,7 @@ north_monolith:
 
   dey
   bpl next_entity
+  rts
 
 south_monolith:
 
@@ -350,13 +353,13 @@ south_monolith:
 
   dey
   bpl next_entity
+  rts
 
 not_monolith:
   dey
   bpl next_entity
-  .endscope
-
   rts
+  .endscope
 
 .endproc
 

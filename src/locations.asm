@@ -346,20 +346,20 @@ dungeon_1_1_entity_instances:
 
 
 dungeon_2_1_entity_instances:
-  .byte 3
+  .byte 4
   .byte entity_index_pufferfish, 39, 23, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_monolith, 33, 23, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
+                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
                                           MONOLITH_DIRECTION_WEST, \
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_1_1_e, \
                                           0, 4
 
   .byte entity_index_monolith, 46, 23, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
+                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_3_1_w, \
                                           0, 5
-
+  .byte entity_index_traproom, (2 * 16), (1 * 15), 0, 0
 
 dungeon_3_1_entity_instances:
   .byte 3
