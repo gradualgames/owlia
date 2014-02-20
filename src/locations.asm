@@ -10,6 +10,7 @@
 .include "npc_constants.inc"
 .include "anglerfish_constants.inc"
 .include "monolith_constants.inc"
+.include "traproom_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -359,7 +360,7 @@ dungeon_2_1_entity_instances:
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_3_1_w, \
                                           0, 5
-  .byte entity_index_traproom, (2 * 16), (1 * 15), 0, 0
+  .byte entity_index_traproom, (2 * 16), (1 * 15), 0, TRAPROOM_PARAMS, TRAPROOM_STATE_RAISE_MONOLITHS_ALIGNED
 
 dungeon_3_1_entity_instances:
   .byte 3
@@ -455,7 +456,7 @@ dungeon_0_3_entity_instances:
                                           MONOLITH_DIRECTION_SOUTH, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_meadow3_dungeon_entrance, \
                                           0, 2
-  .byte entity_index_traproom, 0, (3*15), 0, 0
+  .byte entity_index_traproom, 0, (3*15), 0, TRAPROOM_PARAMS, TRAPROOM_STATE_RAISE_MONOLITHS_ALIGNED
 
 dungeon_1_3_entity_instances:
   .byte 3
@@ -474,19 +475,20 @@ dungeon_1_3_entity_instances:
 
 
 dungeon_2_3_entity_instances:
-  .byte 3
+  .byte 4
   .byte entity_index_pufferfish, 39, 53, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_monolith, 33, 53, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
+                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
                                           MONOLITH_DIRECTION_WEST, \
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_1_3_e, \
                                           0, 4
 
   .byte entity_index_monolith, 46, 56, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
+                                          MONOLITH_TYPE_UNLOCKED, \
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon_3_3_w, \
                                           0, 5
+  .byte entity_index_traproom, (2 * 16), (3 * 15), 0, TRAPROOM_PARAMS, TRAPROOM_STATE_RAISE_MONOLITH_PAIR
 
 dungeon_3_3_entity_instances:
   .byte 4

@@ -2,30 +2,16 @@
 .ifndef TRAPROOM_INC
 TRAPROOM_INC = 1
 
-traproom_state_counter = entity_local0
-traproom_trigger_rect_west_x_lo = entity_local1
-traproom_trigger_rect_west_x_hi = entity_local2
-traproom_trigger_rect_north_y_lo = entity_local3
-traproom_trigger_rect_north_y_hi = entity_local4
-traproom_trigger_rect_east_x_lo = entity_local5
-traproom_trigger_rect_east_x_hi = entity_local6
-traproom_trigger_rect_south_y_lo = entity_local7
-traproom_trigger_rect_south_y_hi = entity_local8
-
-.enum
-TRAPROOM_STATE_INIT
-TRAPROOM_STATE_WAIT_FOR_HERO_TO_ENTER_ROOM
-TRAPROOM_STATE_RAISE_MONOLITHS
-TRAPROOM_STATE_WAIT_FOR_ENEMIES_TO_BE_KILLED
-TRAPROOM_STATE_LOWER_MONOLITHS
-.endenum
+.include "traproom_constants.inc"
 
 .define traproom_states \
   traproom_state_init, \
   traproom_state_wait_for_hero_to_enter_room, \
-  traproom_state_raise_monoliths, \
   traproom_state_wait_for_enemies_to_be_killed, \
-  traproom_state_lower_monoliths
+  traproom_state_raise_monoliths_aligned, \
+  traproom_state_lower_monoliths_aligned, \
+  traproom_state_raise_monolith_pair, \
+  traproom_state_lower_monolith_pair
 
 traproom_lo:
   .lobytes traproom_states
@@ -106,14 +92,14 @@ traproom_state_wait_for_hero_to_enter_room:
   jsr geotests_rect_inside_rect
   bne traproom_not_triggered
 
-  lda #TRAPROOM_STATE_RAISE_MONOLITHS
+  lda traproom_raise_state,x
   sta entity_state,x
 
 traproom_not_triggered:
 
   rts
 
-traproom_state_raise_monoliths:
+traproom_state_raise_monoliths_aligned:
 
   ldy #(MAX_ENTITIES-1)
   .scope
@@ -182,14 +168,18 @@ not_enemy:
   lda #30
   sta traproom_state_counter,x
 
-  lda #TRAPROOM_STATE_LOWER_MONOLITHS
+  ;switch to the corresponding "lower" state of this raise state. Assumed
+  ;to be +1 from the raise state.
+  clc
+  lda traproom_raise_state,x
+  adc #1
   sta entity_state,x
 
 enemies_still_alive:
 
   rts
 
-traproom_state_lower_monoliths:
+traproom_state_lower_monoliths_aligned:
 
   dec traproom_state_counter,x
   bne do_not_lower_monoliths_yet
@@ -199,8 +189,7 @@ traproom_state_lower_monoliths:
 next_entity:
   lda entity_flags,y
   and #(ENTITY_FLAGS_ALIVE_TEST)
-  cmp #(ENTITY_FLAGS_ALIVE_TEST)
-  bne not_monolith
+  beq not_monolith
   lda entity_type,y
   cmp #entity_index_monolith
   bne not_monolith
@@ -240,6 +229,99 @@ not_monolith:
   sta entity_flags,x
 
 do_not_lower_monoliths_yet:
+
+  rts
+
+traproom_state_raise_monolith_pair:
+
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_flags,y
+  and #(ENTITY_FLAGS_ALIVE_TEST)
+  beq not_monolith
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne not_monolith
+
+  lda #MONOLITH_STATE_RISE_USING_ROWS_INIT
+  sta entity_state,y
+  dey
+  jmp first_monolith_done
+not_monolith:
+  dey
+  bpl next_entity
+first_monolith_done:
+  .endscope
+
+  .scope
+  bmi second_monolith_done
+next_entity:
+  lda entity_flags,y
+  and #(ENTITY_FLAGS_ALIVE_TEST)
+  beq not_monolith
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne not_monolith
+
+  lda #MONOLITH_STATE_RISE_USING_COLUMNS_INIT
+  sta entity_state,y
+  jmp second_monolith_done
+not_monolith:
+  dey
+  bpl next_entity
+second_monolith_done:
+  .endscope
+
+  lda #TRAPROOM_STATE_WAIT_FOR_ENEMIES_TO_BE_KILLED
+  sta entity_state,x
+
+  rts
+
+traproom_state_lower_monolith_pair:
+
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_flags,y
+  and #(ENTITY_FLAGS_ALIVE_TEST)
+  beq not_monolith
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne not_monolith
+
+  lda #MONOLITH_STATE_FALL_USING_ROWS_INIT
+  sta entity_state,y
+  dey
+  jmp first_monolith_done
+not_monolith:
+  dey
+  bpl next_entity
+first_monolith_done:
+  .endscope
+
+  .scope
+  bmi second_monolith_done
+next_entity:
+  lda entity_flags,y
+  and #(ENTITY_FLAGS_ALIVE_TEST)
+  beq not_monolith
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne not_monolith
+
+  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  sta entity_state,y
+  jmp second_monolith_done
+not_monolith:
+  dey
+  bpl next_entity
+second_monolith_done:
+  .endscope
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
 
   rts
 

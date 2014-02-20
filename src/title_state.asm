@@ -240,8 +240,9 @@ title_state_start_game:
   ;ldx #location_index_meadow1_top_entrance
   ;ldx #location_index_village_bottom_entrance
   ;ldx #location_index_house1_intro
-  ldx #location_index_dungeon_0_3_s
+  ;ldx #location_index_dungeon_0_3_s
   ;ldx #location_index_dungeon_2_1_w
+  ldx #location_index_dungeon_2_3_w
   ;ldx #location_index_dungeon_0_0_s
   ;ldx #location_index_dungeon_0_2_s
   ;ldx #location_index_dungeon_0_1_s
