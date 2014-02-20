@@ -45,10 +45,11 @@ monolith_state_init:
   lda monolith_flags,x
   and #MONOLITH_FLAGS_UP_OR_DOWN_ISOLATE
   beq not_up
-
   jsr monolith_make_impassable
-
+  jmp done
 not_up:
+  jsr monolith_make_passable
+done:
   .endscope
 
   lda monolith_flags,x
