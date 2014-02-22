@@ -66,6 +66,12 @@
 
 .endproc
 
+.proc hero_spawn_familiar_spawn_unlock
+
+  rts
+
+.endproc
+
 .proc hero_prepare_familiar_carry_hero
 tile_x = w7
 tile_y = w8
@@ -523,6 +529,7 @@ hero_invincible:
 .define familiar_spawn_tech \
   hero_spawn_familiar_spawn_rush, \
   hero_spawn_familiar_spawn_fetch, \
+  hero_spawn_familiar_spawn_unlock, \
   hero_spawn_familiar_spawn_carry_bomb, \
   hero_spawn_familiar_spawn_carry_lantern, \
   hero_spawn_familiar_spawn_carry_hero, \

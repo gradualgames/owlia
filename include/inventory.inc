@@ -24,6 +24,7 @@ tech2
 .enum
 tech_rush
 tech_fetch
+tech_unlock
 tech_carry_bomb
 tech_carry_lantern
 tech_carry_adlanniel
@@ -35,6 +36,7 @@ tech_homing
 .enum
 tech_rush_earned
 tech_fetch_earned
+tech_unlock_earned
 tech_carry_bomb_earned
 tech_carry_lantern_earned
 tech_carry_adlanniel_earned

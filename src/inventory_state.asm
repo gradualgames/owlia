@@ -1003,7 +1003,7 @@ rush_tech1_menu_position:
   next_left  0
   next_down  fetch_tech1_menu_position
   .word Cursor0
-  .byte (TECH_MENU_ROW * 8)
+  .byte ((TECH_MENU_ROW+tech_rush) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 fetch_tech1_menu_position:
@@ -1013,21 +1013,33 @@ fetch_tech1_menu_position:
   next_up    rush_tech1_menu_position
   next_right fetch_tech2_menu_position
   next_left  0
+  next_down  unlock_tech1_menu_position
+  .word Cursor0
+  .byte ((TECH_MENU_ROW+tech_fetch) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
+
+unlock_tech1_menu_position:
+  .word tech_menu_position_is_enabled_callback
+  .word tech1_a_button_callback
+  callback_param tech_unlock
+  next_up    fetch_tech1_menu_position
+  next_right unlock_tech2_menu_position
+  next_left  0
   next_down  carry_bomb_tech1_menu_position
   .word Cursor0
-  .byte ((TECH_MENU_ROW+1) * 8)
+  .byte ((TECH_MENU_ROW+tech_unlock) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 carry_bomb_tech1_menu_position:
   .word tech_menu_position_is_enabled_callback
   .word tech1_a_button_callback
   callback_param tech_carry_bomb
-  next_up    fetch_tech1_menu_position
+  next_up    unlock_tech1_menu_position
   next_right carry_bomb_tech2_menu_position
   next_left  0
   next_down  carry_lantern_tech1_menu_position
   .word Cursor0
-  .byte ((TECH_MENU_ROW+2) * 8)
+  .byte ((TECH_MENU_ROW+tech_carry_bomb) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 carry_lantern_tech1_menu_position:
@@ -1039,7 +1051,7 @@ carry_lantern_tech1_menu_position:
   next_left  0
   next_down  carry_adlanniel_tech1_menu_position
   .word Cursor0
-  .byte ((TECH_MENU_ROW+3) * 8)
+  .byte ((TECH_MENU_ROW+tech_carry_lantern) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 carry_adlanniel_tech1_menu_position:
@@ -1051,7 +1063,7 @@ carry_adlanniel_tech1_menu_position:
   next_left  0
   next_down  shield_tech1_menu_position
   .word Cursor0
-  .byte ((TECH_MENU_ROW+4) * 8)
+  .byte ((TECH_MENU_ROW+tech_carry_adlanniel) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 shield_tech1_menu_position:
@@ -1063,7 +1075,7 @@ shield_tech1_menu_position:
   next_left  0
   next_down  homing_tech1_menu_position
   .word Cursor0
-  .byte ((TECH_MENU_ROW+5) * 8)
+  .byte ((TECH_MENU_ROW+tech_shield) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 homing_tech1_menu_position:
@@ -1075,7 +1087,7 @@ homing_tech1_menu_position:
   next_left  0
   next_down  0
   .word Cursor0
-  .byte ((TECH_MENU_ROW+6) * 8)
+  .byte ((TECH_MENU_ROW+tech_homing) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
 rush_tech2_menu_position:
@@ -1087,7 +1099,7 @@ rush_tech2_menu_position:
   next_left  rush_tech1_menu_position
   next_down  fetch_tech2_menu_position
   .word Cursor0
-  .byte ((TECH_MENU_ROW) * 8)
+  .byte ((TECH_MENU_ROW+tech_rush) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
 fetch_tech2_menu_position:
@@ -1097,21 +1109,33 @@ fetch_tech2_menu_position:
   next_up    rush_tech2_menu_position
   next_right 0
   next_left  fetch_tech1_menu_position
+  next_down  unlock_tech2_menu_position
+  .word Cursor0
+  .byte ((TECH_MENU_ROW+tech_fetch) * 8)
+  .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
+
+unlock_tech2_menu_position:
+  .word tech_menu_position_is_enabled_callback
+  .word tech2_a_button_callback
+  callback_param tech_unlock
+  next_up    fetch_tech2_menu_position
+  next_right 0
+  next_left  unlock_tech1_menu_position
   next_down  carry_bomb_tech2_menu_position
   .word Cursor0
-  .byte ((TECH_MENU_ROW+1) * 8)
+  .byte ((TECH_MENU_ROW+tech_unlock) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
 carry_bomb_tech2_menu_position:
   .word tech_menu_position_is_enabled_callback
   .word tech2_a_button_callback
   callback_param tech_carry_bomb
-  next_up    fetch_tech2_menu_position
+  next_up    unlock_tech2_menu_position
   next_right 0
   next_left  carry_bomb_tech1_menu_position
   next_down  carry_lantern_tech2_menu_position
   .word Cursor0
-  .byte ((TECH_MENU_ROW+2) * 8)
+  .byte ((TECH_MENU_ROW+tech_carry_bomb) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
 carry_lantern_tech2_menu_position:
@@ -1123,7 +1147,7 @@ carry_lantern_tech2_menu_position:
   next_left  carry_lantern_tech1_menu_position
   next_down  carry_adlanniel_tech2_menu_position
   .word Cursor0
-  .byte ((TECH_MENU_ROW+3) * 8)
+  .byte ((TECH_MENU_ROW+tech_carry_lantern) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
 carry_adlanniel_tech2_menu_position:
@@ -1135,7 +1159,7 @@ carry_adlanniel_tech2_menu_position:
   next_left  carry_adlanniel_tech1_menu_position
   next_down  shield_tech2_menu_position
   .word Cursor0
-  .byte ((TECH_MENU_ROW+4) * 8)
+  .byte ((TECH_MENU_ROW+tech_carry_adlanniel) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
 shield_tech2_menu_position:
@@ -1147,7 +1171,7 @@ shield_tech2_menu_position:
   next_left  shield_tech1_menu_position
   next_down  homing_tech2_menu_position
   .word Cursor0
-  .byte ((TECH_MENU_ROW+5) * 8)
+  .byte ((TECH_MENU_ROW+tech_shield) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
 homing_tech2_menu_position:
@@ -1159,7 +1183,7 @@ homing_tech2_menu_position:
   next_left  homing_tech1_menu_position
   next_down  0
   .word Cursor0
-  .byte ((TECH_MENU_ROW+6) * 8)
+  .byte ((TECH_MENU_ROW+tech_homing) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
 ;****************************************************************
@@ -1188,6 +1212,7 @@ lantern_string: .byte "LANTERN",ES
 tech_string: .byte "TECH",ES
 rush_string: .byte "RUSH",ES
 fetch_string: .byte "FETCH",ES
+unlock_string: .byte "UNLOCK",ES
 carry_bomb_string: .byte "CARRY BOMB",ES
 carry_lantern_string: .byte "CARRY LANTERN",ES
 carry_adlanniel_string: .byte "CARRY ADLANNIEL",ES
@@ -1296,42 +1321,48 @@ rush_menu_label:
   .word rush_string
   .word tech_label_is_enabled_callback
   callback_param tech_rush
-  .byte TECH_MENU_ROW
+  .byte TECH_MENU_ROW+tech_rush
   .byte TECH_MENU_COLUMN
 fetch_menu_label:
   .word fetch_string
   .word tech_label_is_enabled_callback
   callback_param tech_fetch
-  .byte TECH_MENU_ROW+1
+  .byte TECH_MENU_ROW+tech_fetch
+  .byte TECH_MENU_COLUMN
+unlock_menu_label:
+  .word unlock_string
+  .word tech_label_is_enabled_callback
+  callback_param tech_unlock
+  .byte TECH_MENU_ROW+tech_unlock
   .byte TECH_MENU_COLUMN
 carry_bomb_label:
   .word carry_bomb_string
   .word tech_label_is_enabled_callback
   callback_param tech_carry_bomb
-  .byte TECH_MENU_ROW+2
+  .byte TECH_MENU_ROW+tech_carry_bomb
   .byte TECH_MENU_COLUMN
 carry_lantern_label:
   .word carry_lantern_string
   .word tech_label_is_enabled_callback
   callback_param tech_carry_lantern
-  .byte TECH_MENU_ROW+3
+  .byte TECH_MENU_ROW+tech_carry_lantern
   .byte TECH_MENU_COLUMN
 carry_adlanniel_label:
   .word carry_adlanniel_string
   .word tech_label_is_enabled_callback
   callback_param tech_carry_adlanniel
-  .byte TECH_MENU_ROW+4
+  .byte TECH_MENU_ROW+tech_carry_adlanniel
   .byte TECH_MENU_COLUMN
 shield_label:
   .word shield_string
   .word tech_label_is_enabled_callback
   callback_param tech_shield
-  .byte TECH_MENU_ROW+5
+  .byte TECH_MENU_ROW+tech_shield
   .byte TECH_MENU_COLUMN
 homing_label:
   .word homing_string
   .word tech_label_is_enabled_callback
   callback_param tech_homing
-  .byte TECH_MENU_ROW+6
+  .byte TECH_MENU_ROW+tech_homing
   .byte TECH_MENU_COLUMN
   .word LAST_MENU_ITEM
