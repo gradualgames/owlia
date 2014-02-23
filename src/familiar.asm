@@ -2240,6 +2240,8 @@ done:
   sta familiar_flags
   lda #ACTION_NOP
   sta entity_action_rect2_action
+  lda #$ff
+  sta familiar_carried_entity_index
 
 do_not_kill_familiar:
 
