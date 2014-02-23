@@ -17,7 +17,6 @@
     purchase_bomb, \
     purchase_lantern, \
     purchase_health, \
-    purchase_rope, \
     not_enough_gp, \
     intro_cut_scene_owls_text, \
     intro_cut_scene_mermon_text, \
@@ -137,12 +136,6 @@ purchase_lantern:
 
 purchase_health:
   .byte    1, "HEALTH IS TEN GP."
-  .byte NL,2, "BUY?"
-  .byte NL,3, "HIT A FOR YES"
-  .byte NL,4, "HIT B FOR NO",CC,EC
-
-purchase_rope:
-  .byte    1, "ROPE IS TEN GP."
   .byte NL,2, "BUY?"
   .byte NL,3, "HIT A FOR YES"
   .byte NL,4, "HIT B FOR NO",CC,EC

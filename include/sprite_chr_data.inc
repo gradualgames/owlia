@@ -18,7 +18,6 @@ sprite_chr_group_index_npcwoman
 sprite_chr_group_index_key
 sprite_chr_group_index_inventory
 sprite_chr_group_index_lantern
-sprite_chr_group_index_rope
 sprite_chr_group_index_coins
 sprite_chr_group_index_title
 sprite_chr_group_index_pufferfish
@@ -44,7 +43,6 @@ sprite_chr_group_bank_npcwoman = 7
 sprite_chr_group_bank_key = 7
 sprite_chr_group_bank_inventory = 7
 sprite_chr_group_bank_lantern = 7
-sprite_chr_group_bank_rope = 7
 sprite_chr_group_bank_coins = 7
 sprite_chr_group_bank_title = 7
 sprite_chr_group_bank_pufferfish = 7

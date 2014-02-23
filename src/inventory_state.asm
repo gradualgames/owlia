@@ -977,28 +977,16 @@ health_menu_position:
   next_up    0
   next_right 0
   next_left  0
-  next_down  rope_menu_position
-  .word Radio0
-  .byte (USE_ITEM_ROW * 8)
-  .byte (11 * 8)
-
-rope_menu_position:
-  .word is_enabled_callback_nop
-  .word a_button_callback_nop
-  callback_param 0
-  next_up    health_menu_position
-  next_right 0
-  next_left  0
   next_down  rush_tech2_menu_position
   .word Radio0
-  .byte ((USE_ITEM_ROW+1) * 8)
+  .byte (USE_ITEM_ROW * 8)
   .byte (11 * 8)
 
 rush_tech1_menu_position:
   .word tech_menu_position_is_enabled_callback
   .word tech1_a_button_callback
   callback_param tech_rush
-  next_up    rope_menu_position
+  next_up    health_menu_position
   next_right rush_tech2_menu_position
   next_left  0
   next_down  fetch_tech1_menu_position
@@ -1094,7 +1082,7 @@ rush_tech2_menu_position:
   .word tech_menu_position_is_enabled_callback
   .word tech2_a_button_callback
   callback_param tech_rush
-  next_up    rope_menu_position
+  next_up    health_menu_position
   next_right 0
   next_left  rush_tech1_menu_position
   next_down  fetch_tech2_menu_position
@@ -1201,7 +1189,6 @@ keys_string: .byte "KEYS",ES
 ;use item menu strings
 use_item_string: .byte "USE",ES
 health_string: .byte "HEALTH",ES
-rope_string: .byte "ROPE",ES
 
 ;carry item menu strings
 carry_string: .byte "CARRY",ES
@@ -1238,11 +1225,6 @@ menu_byte_variables:
   .word is_enabled_callback_nop
   callback_param 0
   .byte USE_ITEM_ROW
-  .byte 24
-  .word inventory_ropes
-  .word is_enabled_callback_nop
-  callback_param 0
-  .byte USE_ITEM_ROW+1
   .byte 24
   .word inventory_bombs
   .word is_enabled_callback_nop
@@ -1286,12 +1268,6 @@ health_label:
   .word is_enabled_callback_nop
   callback_param 0
   .byte USE_ITEM_ROW
-  .byte 13
-rope_label:
-  .word rope_string
-  .word is_enabled_callback_nop
-  callback_param 0
-  .byte USE_ITEM_ROW+1
   .byte 13
 carry_label:
   .word carry_string

@@ -11,7 +11,6 @@
   lda #7
   sta inventory_lanterns
   sta inventory_bombs
-  sta inventory_ropes
   sta inventory_healths
   sta inventory_owl_healths
   sta inventory_keys
@@ -39,7 +38,6 @@
   lda #0
   sta inventory_lanterns
   sta inventory_bombs
-  sta inventory_ropes
   sta inventory_healths
   sta inventory_owl_healths
   sta inventory_keys

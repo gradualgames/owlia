@@ -81,7 +81,6 @@ MAX_SHADOW_SPOTS = 12
 .global inventory_keys
 .global inventory_lanterns
 .global inventory_bombs
-.global inventory_ropes
 .global inventory_healths
 .global inventory_owl_healths
 .global inventory_earned_techs

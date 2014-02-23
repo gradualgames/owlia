@@ -16,7 +16,6 @@
   Key_chr, \
   Inventory_chr, \
   Lantern_chr, \
-  Rope_chr, \
   Coins_chr, \
   OwliaTitle_chr, \
   PufferFish_chr, \
@@ -47,7 +46,6 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_key
   .byte sprite_chr_group_bank_inventory
   .byte sprite_chr_group_bank_lantern
-  .byte sprite_chr_group_bank_rope
   .byte sprite_chr_group_bank_coins
   .byte sprite_chr_group_bank_title
   .byte sprite_chr_group_bank_pufferfish
@@ -384,10 +382,6 @@ Inventory_chr:
 Lantern_chr:
   .word $0010
   .byte $3c,$7e,$ff,$ff,$ff,$ff,$7e,$00,$00,$00,$24,$5a,$5a,$24,$00,$00
-
-Rope_chr:
-  .word $0010
-  .byte $3f,$42,$bd,$42,$bd,$42,$bd,$42,$00,$3c,$42,$bd,$42,$bd,$42,$3c
 
 Coins_chr:
   .word $0010

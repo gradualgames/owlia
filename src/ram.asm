@@ -134,7 +134,6 @@ inventory_gp:             .res 2
 inventory_keys:           .res 1
 inventory_lanterns:       .res 1
 inventory_bombs:          .res 1
-inventory_ropes:          .res 1
 inventory_healths:        .res 1
 inventory_owl_healths:    .res 1
 inventory_earned_techs:   .res 1
