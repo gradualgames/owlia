@@ -206,15 +206,15 @@ store_entity_instances:
   .byte 6  ;count
   .byte entity_index_npc, 9, 13, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 6, 16 * 1, NPC_MODE_WALK, NPC_DIRECTION_DOWN
   .byte entity_index_npc, 15, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
-  .byte entity_index_item, 10, 17, sprite_chr_group_index_bomb, 10, <Bomb, >Bomb, <inventory_bombs, >inventory_bombs, conversation_index_purchase_bomb, 10, 5, <INVENTORY_MAX_BOMBS, >INVENTORY_MAX_BOMBS, ITEM_PURCHASE | ITEM_8_BIT_VAR
-  .byte entity_index_item, 11, 17, sprite_chr_group_index_lantern, 10, <Lantern, >Lantern, <inventory_lanterns, >inventory_lanterns, conversation_index_purchase_lantern, 10, 5, <INVENTORY_MAX_LANTERNS, >INVENTORY_MAX_LANTERNS, ITEM_PURCHASE | ITEM_8_BIT_VAR
-  .byte entity_index_item, 12, 17, sprite_chr_group_index_hero, 10, <Heart, >Heart, <inventory_healths, >inventory_healths, conversation_index_purchase_health, 10, 1, <INVENTORY_MAX_HEALTHS, >INVENTORY_MAX_HEALTHS, ITEM_PURCHASE | ITEM_8_BIT_VAR
-  .byte entity_index_item, 13, 18, sprite_chr_group_index_coins, 10, <Coins, >Coins, <inventory_gp, >inventory_gp, 0, 0, 100, <INVENTORY_MAX_GP, >INVENTORY_MAX_GP, ITEM_PICKUP | ITEM_16_BIT_VAR
+  .byte entity_index_item, 10, 17, sprite_chr_group_index_bomb, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE, ITEM_TYPE_BOMB, 10, 5
+  .byte entity_index_item, 11, 17, sprite_chr_group_index_lantern, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE, ITEM_TYPE_LANTERN, 10, 5
+  .byte entity_index_item, 12, 17, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE, ITEM_TYPE_HEALTH, 10, 1
+  .byte entity_index_item, 13, 18, sprite_chr_group_index_coins, ITEM_PARAMS, ITEM_STATE_PICKUP, ITEM_TYPE_GP, 0, 100
 
 meadow1_entity_instances:
   .byte 8  ;count
   .byte entity_index_silmaran, 45, 47, 0, 0
-  .byte entity_index_item, 29, 44, sprite_chr_group_index_hero, 10, <Heart, >Heart, <inventory_healths, >inventory_healths, conversation_index_purchase_health, 10, 1, <INVENTORY_MAX_HEALTHS, >INVENTORY_MAX_HEALTHS, ITEM_PICKUP | ITEM_8_BIT_VAR
+  .byte entity_index_item, 29, 44, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP, ITEM_TYPE_HEALTH, 0, 0
   .byte entity_index_octopus, 4, 24, 0, 0
   .byte entity_index_octopus, 34, 25, 0, 0
   .byte entity_index_octopus, 12, 38, 0, 0

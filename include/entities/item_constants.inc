@@ -1,22 +1,35 @@
 .ifndef ITEM_CONSTANTS_INC
 ITEM_CONSTANTS_INC = 1
 
-;these constants are for initializing the item's state
-;machine. ITEM_PURCHASE means that the item will prompt
-;the user for purchase if they hit A while contacting it,
-;ITEM_PICKUP means that the item will simply increment
-;that inventory slot and then disappear.
-ITEM_PURCHASE   = %00000000
-ITEM_PICKUP     = %00000001
-ITEM_MODE_TEST  = %00000001
+.enum
+ITEM_TYPE_BOMB
+ITEM_TYPE_LANTERN
+ITEM_TYPE_HEALTH
+ITEM_TYPE_GP
+.endenum
 
-;these constants are for telling this item whether the
-;variable it is incrementing is an 8 bit or a 16 bit
-;variable (whether to carry to second byte). Typically
-;this is only used to differentiate between GP and
-;regular types of items.
-ITEM_8_BIT_VAR  = %00000000
-ITEM_16_BIT_VAR = %00000010
-ITEM_WIDTH_TEST = %00000010
+;these constants represent the size of the inventory
+;variable affected by picking up the item.
+.enum
+ITEM_8_BIT_VAR
+ITEM_16_BIT_VAR
+.endenum
+
+ITEM_WIDTH = $07
+ITEM_HEIGHT = $07
+
+ITEM_PARAMS = 4
+
+item_initial_state = entity_local0
+item_type = entity_local1
+item_price = entity_local2
+item_quantity = entity_local3
+
+.enum
+ITEM_STATE_INIT
+ITEM_STATE_PROMPT_FOR_PURCHASE
+ITEM_STATE_ADD_ITEM_OR_NOT
+ITEM_STATE_PICKUP
+.endenum
 
 .endif

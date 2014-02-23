@@ -4,26 +4,47 @@ ITEM_INC = 1
 
 .include "item_constants.inc"
 
-ITEM_WIDTH = $07
-ITEM_HEIGHT = $07
+.define item_animation_addresses \
+  Bomb, Lantern, Heart, Coins
 
-item_animation_lo = entity_local0
-item_animation_hi = entity_local1
-inventory_lo = entity_local2
-inventory_hi = entity_local3
-item_conversation = entity_local4
-item_price = entity_local5
-item_increment = entity_local6
-item_max_lo = entity_local7
-item_max_hi = entity_local8
-item_mode = entity_local9
+item_animation_addresses_lo:
+  .lobytes item_animation_addresses
 
-.enum
-ITEM_STATE_INIT
-ITEM_STATE_PROMPT_FOR_PURCHASE
-ITEM_STATE_ADD_ITEM_OR_NOT
-ITEM_STATE_PICKUP
-.endenum
+item_animation_addresses_hi:
+  .hibytes item_animation_addresses
+
+.define item_inventory_addresses \
+  inventory_bombs, inventory_lanterns, inventory_healths, inventory_gp
+
+item_inventory_addresses_lo:
+  .lobytes item_inventory_addresses
+
+item_inventory_addresses_hi:
+  .hibytes item_inventory_addresses
+
+.define item_inventory_max_count \
+  INVENTORY_MAX_BOMBS, \
+  INVENTORY_MAX_LANTERNS, \
+  INVENTORY_MAX_HEALTHS, \
+  INVENTORY_MAX_GP
+
+item_inventory_max_count_lo:
+  .lobytes item_inventory_max_count
+
+item_inventory_max_count_hi:
+  .hibytes item_inventory_max_count
+
+item_inventory_var_type:
+  .byte ITEM_8_BIT_VAR
+  .byte ITEM_8_BIT_VAR
+  .byte ITEM_8_BIT_VAR
+  .byte ITEM_16_BIT_VAR
+
+item_purchase_conversation_indices:
+  .byte conversation_index_purchase_bomb
+  .byte conversation_index_purchase_lantern
+  .byte conversation_index_purchase_health
+  .byte 0
 
 .define item_states \
   item_state_init, \
@@ -45,9 +66,10 @@ item_state_init:
 
   jsr entity_set_drawable
 
-  lda item_animation_lo,x
+  ldy item_type,x
+  lda item_animation_addresses_lo,y
   sta entity_animation_address_lo,x
-  lda item_animation_hi,x
+  lda item_animation_addresses_hi,y
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
@@ -60,21 +82,7 @@ item_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
-  ;decide what part of the state machine to enter with the
-  ;item mode parameter
-  lda item_mode,x
-  and #ITEM_MODE_TEST
-  cmp #ITEM_PURCHASE
-  beq purchase_mode
-  cmp #ITEM_PICKUP
-  beq pickup_mode
-purchase_mode:
-  lda #ITEM_STATE_PROMPT_FOR_PURCHASE
-  sta entity_state,x
-
-  rts
-pickup_mode:
-  lda #ITEM_STATE_PICKUP
+  lda item_initial_state,x
   sta entity_state,x
 
   rts
@@ -164,7 +172,8 @@ item_state_prompt_for_purchase:
   ;enter conversation mode
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
-  lda item_conversation,x
+  ldy item_type,x
+  lda item_purchase_conversation_indices,y
   sta state_control_params+play_state_control::param
 
   ;on next frame, transition to add-item-or-not state to respond to
@@ -249,13 +258,14 @@ not_enough_gp:
 ;16 bit target values here.
 .proc increment_var
 
-  lda inventory_lo,x
+  ldy item_type,x
+  lda item_inventory_addresses_lo,y
   sta w0
-  lda inventory_hi,x
+  lda item_inventory_addresses_hi,y
   sta w0+1
 
-  lda item_mode,x
-  and #ITEM_WIDTH_TEST
+  ldy item_type,x
+  lda item_inventory_var_type,y
   cmp #ITEM_8_BIT_VAR
   beq eight_bit_var
   cmp #ITEM_16_BIT_VAR
@@ -270,19 +280,21 @@ eight_bit_var:
   ;add the specified 8 bit increment
   clc
   lda b0
-  adc item_increment,x
+  adc item_quantity,x
   sta b0
 
   ;now find out if we've exceeded the max
   .scope
   sec
-  lda item_max_lo,x
+  ldy item_type,x
+  lda item_inventory_max_count_lo,y
   sbc b0
   bmi exceeded_max
 did_not_exceed_max:
 
   ;store the result in the target variable
   lda b0
+  ldy #0
   sta (w0),y
 
   rts
@@ -290,7 +302,9 @@ did_not_exceed_max:
 exceeded_max:
 
   ;store the max value in the target variable
-  lda item_max_lo,x
+  ldy item_type,x
+  lda item_inventory_max_count_lo,y
+  ldy #0
   sta (w0),y
 
   rts
@@ -307,12 +321,12 @@ sixteen_bit_var:
   sta w1+1
 
   ;add the specified increment sign extended for 16 bit
-  lda item_increment,x
+  lda item_quantity,x
   bmi sign_extend_negative
 sign_extend_positive:
   clc
   lda w1
-  adc item_increment,x
+  adc item_quantity,x
   sta w1
   lda w1+1
   adc #$00
@@ -321,7 +335,7 @@ sign_extend_positive:
 sign_extend_negative:
   clc
   lda w1
-  adc item_increment,x
+  adc item_quantity,x
   sta w1
   iny
   lda w1+1
@@ -332,9 +346,10 @@ done:
   ;now find out if we've exceeded the max
   .scope
   sec
-  lda item_max_lo,x
+  ldy item_type,x
+  lda item_inventory_max_count_lo,y
   sbc w1
-  lda item_max_hi,x
+  lda item_inventory_max_count_hi,y
   sbc w1+1
   bmi exceeded_max
 did_not_exceed_max:
@@ -352,11 +367,14 @@ did_not_exceed_max:
 exceeded_max:
 
   ;store max in target variable
+  ldy item_type,x
+  lda item_inventory_max_count_lo,y
   ldy #0
-  lda item_max_lo,x
   sta (w0),y
-  iny
-  lda item_max_hi,x
+
+  ldy item_type,x
+  lda item_inventory_max_count_hi,y
+  ldy #1
   sta (w0),y
 
   rts
