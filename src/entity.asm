@@ -1221,8 +1221,6 @@ done:
 
 ;draws entity currently pointed to by x register
 ;assumes entity is alive and drawable
-;this routine is private to this module and should
-;not be exposed
 .proc draw_entity
 
   lda entity_animation_address_lo,x

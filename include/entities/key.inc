@@ -98,12 +98,12 @@ entity_not_hitting_hero:
 
   ;store offsets for this entity when it is being fetched by familiar
   lda #$04
-  sta familiar_param_fetched_entity_x_offset
+  sta familiar_carried_entity_x_offset
   lda #$10
-  sta familiar_param_fetched_entity_y_offset
+  sta familiar_carried_entity_y_offset
 
   ;store the key's entity index as the entity that is to be fetched.
-  stx familiar_param_fetched_entity_index
+  stx familiar_carried_entity_index
 
   ;tell the familiar to return to the hero with the fetched item.
   far_call #FAMILIAR_BANK, familiar_fetch_return_to_hero

@@ -49,9 +49,9 @@ lantern_state_init:
 
   ;tell the familiar what x and y offset to carry the lantern at
   lda #LANTERN_CARRIED_X_OFFSET
-  sta familiar_param_carry_lantern_x_offset
+  sta familiar_carried_entity_x_offset
   lda #LANTERN_CARRIED_Y_OFFSET
-  sta familiar_param_carry_lantern_y_offset
+  sta familiar_carried_entity_y_offset
 
   ;initialize members of the lantern
   lda #$00

@@ -114,7 +114,7 @@
 
   jsr entity_spawn
 
-  stx familiar_param_carry_bomb_entity_index
+  stx familiar_carried_entity_index
 
   rts
 
@@ -147,7 +147,7 @@
 
   jsr entity_spawn
 
-  stx familiar_param_carry_lantern_entity_index
+  stx familiar_carried_entity_index
 
   rts
 
@@ -410,12 +410,16 @@ does_not_intersect_textbox:
   switch_bank_ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_draw_animation
 
-  ldy familiar_state
-  lda familiar_extended_draw_handlers_lo,y
-  sta w0
-  lda familiar_extended_draw_handlers_hi,y
-  sta w0+1
-  jsr indirect_jsr_w0
+  ldx familiar_carried_entity_index
+  bmi do_not_draw_carried_entity
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq do_not_draw_carried_entity
+
+  jsr draw_entity
+
+do_not_draw_carried_entity:
 
 familiar_not_alive:
 
@@ -423,110 +427,6 @@ familiar_not_alive:
 
 indirect_jsr_w0:
   jmp (w0)
-
-.endproc
-
-.define familiar_extended_draw_handlers \
-  familiar_extended_draw_nop,\
-  familiar_extended_draw_nop,\
-  familiar_extended_draw_nop,\
-  familiar_extended_draw_nop,\
-  familiar_extended_draw_nop,\
-  familiar_extended_draw_nop,\
-  familiar_extended_draw_bomb,\
-  familiar_extended_draw_bomb,\
-  familiar_extended_draw_bomb,\
-  familiar_extended_draw_lantern,\
-  familiar_extended_draw_lantern,\
-  familiar_extended_draw_nop,\
-  familiar_extended_draw_nop,\
-  familiar_extended_draw_nop,\
-  familiar_extended_draw_nop,\
-  familiar_extended_draw_nop,\
-  familiar_extended_draw_nop,\
-  familiar_extended_draw_nop
-
-familiar_extended_draw_handlers_lo:
-  .lobytes familiar_extended_draw_handlers
-
-familiar_extended_draw_handlers_hi:
-  .hibytes familiar_extended_draw_handlers
-
-.proc familiar_extended_draw_nop
-
-  rts
-
-.endproc
-
-.proc familiar_extended_draw_bomb
-
-  lda #<Bomb0
-  sta w0
-  lda #>Bomb0
-  sta w0+1
-
-  clc
-  lda familiar_screen_x
-  adc #<BOMB_CARRIED_X_OFFSET
-  sta w3
-  lda familiar_screen_x+1
-  adc #>BOMB_CARRIED_X_OFFSET
-  sta w3+1
-
-  clc
-  lda familiar_screen_y
-  adc #<BOMB_CARRIED_Y_OFFSET
-  sta w4
-  lda familiar_screen_y+1
-  adc #>BOMB_CARRIED_Y_OFFSET
-  sta w4+1
-
-  lda #0
-  sta b2
-
-  ldy #sprite_chr_group_index_bomb
-  lda sprite_chr_group_offsets,y
-  sta chr_group_offset
-
-  jsr sprite_draw_metasprite
-
-  rts
-
-.endproc
-
-.proc familiar_extended_draw_lantern
-
-  lda #<Lantern0
-  sta w0
-  lda #>Lantern0
-  sta w0+1
-
-  clc
-  lda familiar_screen_x
-  adc #<LANTERN_CARRIED_X_OFFSET
-  sta w3
-  lda familiar_screen_x+1
-  adc #>LANTERN_CARRIED_X_OFFSET
-  sta w3+1
-
-  clc
-  lda familiar_screen_y
-  adc #<LANTERN_CARRIED_Y_OFFSET
-  sta w4
-  lda familiar_screen_y+1
-  adc #>LANTERN_CARRIED_Y_OFFSET
-  sta w4+1
-
-  lda #0
-  sta b2
-
-  ldy #sprite_chr_group_index_lantern
-  lda sprite_chr_group_offsets,y
-  sta chr_group_offset
-
-  jsr sprite_draw_metasprite
-
-  rts
 
 .endproc
 
@@ -850,7 +750,7 @@ state_counter_not_zero:
 
   ;clear fetched entity index
   lda #$ff
-  sta familiar_param_fetched_entity_index
+  sta familiar_carried_entity_index
 not_ready_yet:
 
   rts
@@ -928,13 +828,13 @@ state_counter_not_zero:
 
   ;clear the fetched entity index if familiar died getting close to hero
   lda #$ff
-  sta familiar_param_fetched_entity_index
+  sta familiar_carried_entity_index
 
 familiar_still_alive:
 
   ;now make the fetched entity match the familiar's coordinates if there is an entity
   ;being fetched and that entity is alive
-  ldx familiar_param_fetched_entity_index
+  ldx familiar_carried_entity_index
   bmi no_fetched_entity
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_TEST
@@ -942,7 +842,7 @@ familiar_still_alive:
 
   clc
   lda familiar_x
-  adc familiar_param_fetched_entity_x_offset
+  adc familiar_carried_entity_x_offset
   sta entity_x_lo,x
   lda familiar_x+1
   adc #$00
@@ -950,7 +850,7 @@ familiar_still_alive:
 
   clc
   lda familiar_y
-  adc familiar_param_fetched_entity_y_offset
+  adc familiar_carried_entity_y_offset
   sta entity_y_lo,x
   lda familiar_y+1
   adc #$00
@@ -1019,14 +919,14 @@ not_ready_yet:
 
   ;make the bomb's coordinates match that of the familiar
   .scope
-  ldx familiar_param_carry_bomb_entity_index
+  ldx familiar_carried_entity_index
   bmi no_bomb
   lda entity_state,x
   cmp #BOMB_STATE_CARRIED
   bne bomb_has_been_dropped
   clc
   lda familiar_x
-  adc familiar_param_carry_bomb_x_offset
+  adc familiar_carried_entity_x_offset
   sta entity_x_lo,x
   lda familiar_x+1
   adc #$00
@@ -1034,7 +934,7 @@ not_ready_yet:
 
   clc
   lda familiar_y
-  adc familiar_param_carry_bomb_y_offset
+  adc familiar_carried_entity_y_offset
   sta entity_y_lo,x
   lda familiar_y+1
   adc #$00
@@ -1088,7 +988,7 @@ bomb_has_been_dropped:
 
   ;tell the bomb to initialize its falling state
   .scope
-  ldx familiar_param_carry_bomb_entity_index
+  ldx familiar_carried_entity_index
   bmi no_bomb
   lda #BOMB_STATE_INIT_FALL
   sta entity_state,x
@@ -1141,14 +1041,14 @@ cannot_drop_here:
 
   ;make the bomb's coordinates match that of the familiar
   .scope
-  ldx familiar_param_carry_bomb_entity_index
+  ldx familiar_carried_entity_index
   bmi no_bomb
   lda entity_state,x
   cmp #BOMB_STATE_CARRIED
   bne bomb_has_been_dropped
   clc
   lda familiar_x
-  adc familiar_param_carry_bomb_x_offset
+  adc familiar_carried_entity_x_offset
   sta entity_x_lo,x
   lda familiar_x+1
   adc #$00
@@ -1156,7 +1056,7 @@ cannot_drop_here:
 
   clc
   lda familiar_y
-  adc familiar_param_carry_bomb_y_offset
+  adc familiar_carried_entity_y_offset
   sta entity_y_lo,x
   lda familiar_y+1
   adc #$00
@@ -1171,7 +1071,7 @@ bomb_has_been_dropped:
 
   ;tell the bomb to initialize its falling state
   .scope
-  ldx familiar_param_carry_bomb_entity_index
+  ldx familiar_carried_entity_index
   bmi no_bomb
   lda #BOMB_STATE_INIT_FALL
   sta entity_state,x
@@ -1227,7 +1127,7 @@ do_not_drop_bomb_yet:
   bne do_not_transition_to_return_to_hero_state
 
   .scope
-  ldx familiar_param_carry_lantern_entity_index
+  ldx familiar_carried_entity_index
   bmi no_lantern
   lda #LANTERN_STATE_REVERT_BRIGHTNESS
   sta entity_state,x
@@ -1326,11 +1226,11 @@ done:
 
   ;make the lantern's coordinates match that of the familiar
   .scope
-  ldx familiar_param_carry_lantern_entity_index
+  ldx familiar_carried_entity_index
   bmi no_lantern
   clc
   lda familiar_x
-  adc familiar_param_carry_lantern_x_offset
+  adc familiar_carried_entity_x_offset
   sta entity_x_lo,x
   lda familiar_x+1
   adc #$00
@@ -1338,7 +1238,7 @@ done:
 
   clc
   lda familiar_y
-  adc familiar_param_carry_lantern_y_offset
+  adc familiar_carried_entity_y_offset
   sta entity_y_lo,x
   lda familiar_y+1
   adc #$00
@@ -1366,11 +1266,11 @@ follow_hero:
 
   ;make the lantern's coordinates match that of the familiar
   .scope
-  ldx familiar_param_carry_lantern_entity_index
+  ldx familiar_carried_entity_index
   bmi no_lantern
   clc
   lda familiar_x
-  adc familiar_param_carry_lantern_x_offset
+  adc familiar_carried_entity_x_offset
   sta entity_x_lo,x
   lda familiar_x+1
   adc #$00
@@ -1378,7 +1278,7 @@ follow_hero:
 
   clc
   lda familiar_y
-  adc familiar_param_carry_lantern_y_offset
+  adc familiar_carried_entity_y_offset
   sta entity_y_lo,x
   lda familiar_y+1
   adc #$00

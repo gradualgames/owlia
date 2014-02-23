@@ -16,6 +16,7 @@ ENTITY_INC = 1
 .global entity_calculate_screen_coordinates_all
 .global entity_draw_all
 .global entity_draw_npe
+.global draw_entity
 .global entity_reset_animation
 .global entity_update_animation
 .global entity_set_is_enemy

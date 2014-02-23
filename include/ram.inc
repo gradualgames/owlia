@@ -130,18 +130,11 @@ MAX_SHADOW_SPOTS = 12
 .global familiar_direction_change
 .global familiar_state_counter
 
-.global familiar_param_fetched_entity_x_offset
-.global familiar_param_fetched_entity_y_offset
-.global familiar_param_fetched_entity_index
+.global familiar_carried_entity_x_offset
+.global familiar_carried_entity_y_offset
+.global familiar_carried_entity_index
 
-.global familiar_param_carry_bomb_x_offset
-.global familiar_param_carry_bomb_y_offset
-.global familiar_param_carry_bomb_entity_index
 .global familiar_param_carry_bomb_return_state
-
-.global familiar_param_carry_lantern_x_offset
-.global familiar_param_carry_lantern_y_offset
-.global familiar_param_carry_lantern_entity_index
 
 .global familiar_param_destination_x
 .global familiar_param_destination_y

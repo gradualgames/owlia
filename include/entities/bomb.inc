@@ -46,9 +46,9 @@ bomb_state_init_carried:
   sta entity_sprite_flags,x
 
   lda #BOMB_CARRIED_X_OFFSET
-  sta familiar_param_carry_bomb_x_offset
+  sta familiar_carried_entity_x_offset
   lda #BOMB_CARRIED_Y_OFFSET
-  sta familiar_param_carry_bomb_y_offset
+  sta familiar_carried_entity_y_offset
 
   lda #BOMB_STATE_CARRIED
   sta entity_state,x

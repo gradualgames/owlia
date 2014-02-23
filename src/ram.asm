@@ -191,10 +191,18 @@ familiar_state_counter:           .res 1
 
 ;****************************************************************
 ;These variables describe various parameters that need to be set
-;up for the familiar before initializing various techniques. They
-;are set up intentionally to be unions, since only one technique
-;is active at a time.
+;up for the familiar before initializing various techniques.
 ;****************************************************************
+
+;these variables are used for keeping track of an entity being
+;carried, such as a key, a bomb, or a lantern. Whenever an entity
+;is being carried, it should no longer draw itself. The familiar
+;must draw itself so that the 2 and 3 way sorting system doesn't
+;insert the hero or third participant entity between the familiar
+;and the carried entity.
+familiar_carried_entity_x_offset: .res 1
+familiar_carried_entity_y_offset: .res 1
+familiar_carried_entity_index: .res 1
 
 ;these generic symbols are not exported, they are just placeholders
 ;for the union of parameters for owl techs below.
@@ -206,25 +214,10 @@ familiar_param_w1:
 familiar_param_b2:  .res 1
 familiar_param_b3:  .res 1
 
-familiar_param_w2:
-familiar_param_b4:  .res 1
-familiar_param_b5:  .res 1
-
-;fetch
-familiar_param_fetched_entity_x_offset = familiar_param_b0
-familiar_param_fetched_entity_y_offset = familiar_param_b1
-familiar_param_fetched_entity_index = familiar_param_b2
-
+;The following symbols use the above symbols as a union between
+;various familiar techniques.
 ;carry bomb
-familiar_param_carry_bomb_x_offset = familiar_param_b0
-familiar_param_carry_bomb_y_offset = familiar_param_b1
-familiar_param_carry_bomb_entity_index = familiar_param_b2
-familiar_param_carry_bomb_return_state = familiar_param_b3
-
-;carry lantern
-familiar_param_carry_lantern_x_offset = familiar_param_b0
-familiar_param_carry_lantern_y_offset = familiar_param_b1
-familiar_param_carry_lantern_entity_index = familiar_param_b2
+familiar_param_carry_bomb_return_state = familiar_param_b0
 
 ;carry hero
 familiar_param_destination_x = familiar_param_w0
