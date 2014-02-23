@@ -3,6 +3,7 @@ FAMILIAR_INC = 1
 
 .global familiar_spawn_rush
 .global familiar_spawn_fetch
+.global familiar_spawn_unlock
 .global familiar_spawn_carry_bomb
 .global familiar_spawn_carry_lantern
 .global familiar_spawn_carry_hero

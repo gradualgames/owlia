@@ -134,6 +134,10 @@ MAX_SHADOW_SPOTS = 12
 .global familiar_carried_entity_y_offset
 .global familiar_carried_entity_index
 
+.global familiar_param_keyhole_x
+.global familiar_param_keyhole_y
+.global familiar_param_keyed_monolith_entity_index
+
 .global familiar_param_carry_bomb_return_state
 
 .global familiar_param_destination_x

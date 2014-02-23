@@ -300,13 +300,17 @@ dungeon_2_0_entity_instances:
 
 
 dungeon_3_0_entity_instances:
-  .byte 1
+  .byte 2
   .byte entity_index_monolith, 49, 10, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
                                           MONOLITH_DIRECTION_WEST, \
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_2_0_e, \
                                           0, 4
-
+  .byte entity_index_monolith, 55, 4, 0, MONOLITH_PARAMS, \
+                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
+                                          MONOLITH_DIRECTION_NORTH, \
+                                          ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon1_boss_entrance, \
+                                          1, 2
 
 dungeon_0_1_entity_instances:
   .byte 5

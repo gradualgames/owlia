@@ -247,6 +247,9 @@ close_enough:
 
   jsr entity_spawn
 
+  lda #KEY_STATE_PICKUP
+  sta key_initial_state,x
+
   pla
   tax
 

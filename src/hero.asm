@@ -7,6 +7,7 @@
 .include "sprite_chr_data.inc"
 .include "familiar.inc"
 .include "familiar_constants.inc"
+.include "monolith_constants.inc"
 .include "ram.inc"
 .include "zp.inc"
 .include "play_state.inc"
@@ -67,6 +68,87 @@
 .endproc
 
 .proc hero_spawn_familiar_spawn_unlock
+
+  .ifndef INFINITE_ITEMS
+  lda inventory_keys
+  beq no_keys_left
+  dec inventory_keys
+  .endif
+
+  ;clear out the keyed monolith entity index in case we do not find one
+  lda #$ff
+  sta familiar_param_keyed_monolith_entity_index
+
+  ;search for a keyed monolith that is up and store its index
+  ldx #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq not_keyed_monolith
+  lda entity_type,x
+  cmp #entity_index_monolith
+  bne not_keyed_monolith
+  lda monolith_flags,x
+  and #MONOLITH_TYPE_ISOLATE
+  cmp #MONOLITH_TYPE_KEYED
+  bne not_keyed_monolith
+  lda monolith_flags,x
+  and #MONOLITH_FLAGS_UNLOCKED_TEST
+  bne already_unlocked
+
+  stx familiar_param_keyed_monolith_entity_index
+  jmp found_keyed_monolith
+
+already_unlocked:
+not_keyed_monolith:
+
+  dex
+  bpl next_entity
+found_keyed_monolith:
+
+  lda familiar_param_keyed_monolith_entity_index
+  bmi no_keyed_monolith_found
+
+  ;compute the x and y coordinate of the keyhole
+  clc
+  lda entity_x_lo,x
+  adc #<MONOLITH_KEYHOLE_X_OFFSET
+  sta familiar_param_keyhole_x
+  lda entity_x_hi,x
+  adc #>MONOLITH_KEYHOLE_X_OFFSET
+  sta familiar_param_keyhole_x+1
+
+  clc
+  lda entity_y_lo,x
+  adc #<MONOLITH_KEYHOLE_Y_OFFSET
+  sta familiar_param_keyhole_y
+  lda entity_y_hi,x
+  adc #>MONOLITH_KEYHOLE_Y_OFFSET
+  sta familiar_param_keyhole_y+1
+
+  far_call #FAMILIAR_BANK, familiar_spawn_unlock
+
+  rts
+no_keys_left:
+no_keyed_monolith_found:
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_error
+  sta sound_param_word_0
+  lda #>sfx_error
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
 
   rts
 

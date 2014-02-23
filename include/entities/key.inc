@@ -2,14 +2,14 @@
 .ifndef KEY_INC
 KEY_INC = 1
 
-.enum
-KEY_STATE_INIT
-KEY_STATE_MAIN
-.endenum
+.include "key_constants.inc"
 
 .define key_states \
   key_state_init, \
-  key_state_main
+  key_state_pickup, \
+  key_state_passive_init, \
+  key_state_passive_inserted_init, \
+  key_state_passive
 
 key_lo:
   .lobytes key_states
@@ -44,12 +44,12 @@ key_state_init:
   lda #$0f
   sta entity_height,x
 
-  lda #KEY_STATE_MAIN
+  lda key_initial_state,x
   sta entity_state,x
 
   rts
 
-key_state_main:
+key_state_pickup:
 
   .scope
   jsr entity_test_hero_rect
@@ -97,9 +97,9 @@ entity_not_hitting_hero:
   bne familiar_not_intersecting
 
   ;store offsets for this entity when it is being fetched by familiar
-  lda #$04
+  lda #KEY_FAMILIAR_X_OFFSET
   sta familiar_carried_entity_x_offset
-  lda #$10
+  lda #KEY_FAMILIAR_Y_OFFSET
   sta familiar_carried_entity_y_offset
 
   ;store the key's entity index as the entity that is to be fetched.
@@ -113,6 +113,46 @@ familiar_not_fetching:
   .endscope
 
   jsr entity_update_animation
+
+  rts
+
+key_state_passive_init:
+
+  ;store offsets for this entity
+  lda #KEY_FAMILIAR_X_OFFSET
+  sta familiar_carried_entity_x_offset
+  lda #KEY_FAMILIAR_Y_OFFSET
+  sta familiar_carried_entity_y_offset
+
+  ;store the key's entity index
+  stx familiar_carried_entity_index
+
+  lda #KEY_STATE_PASSIVE
+  sta entity_state,x
+
+  rts
+
+key_state_passive_inserted_init:
+
+  lda #<KeyInserted
+  sta entity_animation_address_lo,x
+  lda #>KeyInserted
+  sta entity_animation_address_hi,x
+
+  ;store offsets for this entity
+  lda #KEY_FAMILIAR_X_OFFSET
+  sta familiar_carried_entity_x_offset
+  lda #KEY_FAMILIAR_Y_OFFSET
+  sta familiar_carried_entity_y_offset
+
+  ;store the key's entity index
+  stx familiar_carried_entity_index
+
+  lda #KEY_STATE_PASSIVE
+  sta entity_state,x
+  rts
+
+key_state_passive:
 
   rts
 

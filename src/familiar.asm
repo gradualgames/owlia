@@ -1,11 +1,14 @@
 .feature force_range
 .linecont +
+.include "ndxdebug.h"
 .include "hero.inc"
 .include "hero_constants.inc"
 .include "familiar.inc"
 .include "familiar_constants.inc"
 .include "bomb_constants.inc"
 .include "lantern_constants.inc"
+.include "key_constants.inc"
+.include "monolith_constants.inc"
 .include "ram.inc"
 .include "zp.inc"
 .include "sprites_and_animations_data.inc"
@@ -65,6 +68,29 @@
   sta familiar_flags
 
   lda #FAMILIAR_STATE_FETCH_INIT
+  sta familiar_state
+
+  ;let the tech init state know to pause a few frames before passing
+  ;control to the main tech state
+  lda #FAMILIAR_LENGTH_BEFORE_TECH_INIT
+  sta familiar_state_counter
+
+  jsr familiar_setup_initial_location_and_direction
+
+  jsr familiar_common_init
+
+  rts
+
+.endproc
+
+;sets the familiar to be alive and initializes the unlock technique.
+.proc familiar_spawn_unlock
+
+  lda familiar_flags
+  ora #FAMILIAR_FLAGS_ALIVE_SET
+  sta familiar_flags
+
+  lda #FAMILIAR_STATE_UNLOCK_INIT
   sta familiar_state
 
   ;let the tech init state know to pause a few frames before passing
@@ -504,6 +530,11 @@ familiar_direction_change_init:
     familiar_state_fetch_init, \
     familiar_state_fetch, \
     familiar_state_fetch_home_in_to_hero, \
+    familiar_state_unlock_init, \
+    familiar_state_unlock_fly_to_keyhole, \
+    familiar_state_unlock_insert_key, \
+    familiar_state_unlock_fall_with_monolith, \
+    familiar_state_unlock_pause_with_monolith, \
     familiar_state_carry_bomb_init, \
     familiar_state_carry_bomb, \
     familiar_state_carry_bomb_home_in_to_hero, \
@@ -857,6 +888,389 @@ familiar_still_alive:
   sta entity_y_hi,x
 
 no_fetched_entity:
+
+  rts
+
+.endproc
+
+;****************************************************************
+;This state initializes the unlock tech.
+;****************************************************************
+.proc familiar_state_unlock_init
+
+  dec familiar_state_counter
+  bne not_ready_yet
+
+  jsr familiar_play_flap_sound
+
+  ;spawn a key entity and put it in passive state
+  lda #entity_index_key
+  sta b0
+
+  clc
+  lda familiar_x
+  adc #KEY_FAMILIAR_X_OFFSET
+  sta w0
+  lda familiar_x+1
+  adc #0
+  sta w0+1
+  clc
+  lda familiar_y
+  adc #KEY_FAMILIAR_Y_OFFSET
+  sta w1
+  lda familiar_y+1
+  adc #0
+  sta w1+1
+
+  jsr entity_spawn
+
+  lda #KEY_STATE_PASSIVE_INIT
+  sta key_initial_state,x
+
+  ;done initializing, set fly to keyhole state
+  lda #FAMILIAR_STATE_UNLOCK_FLY_TO_KEYHOLE
+  sta familiar_state
+not_ready_yet:
+
+  rts
+
+.endproc
+
+;****************************************************************
+;This state causes the familiar to home into the coordinates of
+;the keyed monolith keyhole that we computed in
+;familiar_state_unlock_init. Then it transitions to
+;familiar_state_unlock_insert_key to display the animation of
+;the familiar inserting the key into the keyhole before causing
+;the monolith to descend.
+;****************************************************************
+.proc familiar_state_unlock_fly_to_keyhole
+
+  sec
+  lda familiar_param_keyhole_x
+  sbc familiar_x
+  sta familiar_x_velocity
+  lda familiar_param_keyhole_x+1
+  sbc familiar_x+1
+  sta familiar_x_velocity+1
+
+  sec
+  lda familiar_param_keyhole_y
+  sbc familiar_y
+  sta familiar_y_velocity
+  lda familiar_param_keyhole_y+1
+  sbc familiar_y+1
+  sta familiar_y_velocity+1
+
+  jsr familiar_home_in_to_goal
+
+  ;now make the carried entity match the familiar's coordinates if there is an entity
+  ;being carried and that entity is alive
+  ldx familiar_carried_entity_index
+  bmi no_carried_entity
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq no_carried_entity
+
+  clc
+  lda familiar_x
+  adc familiar_carried_entity_x_offset
+  sta entity_x_lo,x
+  lda familiar_x+1
+  adc #$00
+  sta entity_x_hi,x
+
+  clc
+  lda familiar_y
+  adc familiar_carried_entity_y_offset
+  sta entity_y_lo,x
+  lda familiar_y+1
+  adc #$00
+  sta entity_y_hi,x
+no_carried_entity:
+
+  sec
+  lda familiar_x
+  sbc familiar_param_keyhole_x
+  sta w0
+  lda familiar_x+1
+  sbc familiar_param_keyhole_x+1
+  sta w0+1
+
+  sec
+  lda familiar_y
+  sbc familiar_param_keyhole_y
+  sta w1
+  lda familiar_y+1
+  sbc familiar_param_keyhole_y+1
+  sta w1+1
+
+  lda w0
+  ora w0+1
+  ora w1
+  ora w1+1
+  bne not_at_keyhole_yet
+
+  ;make sure the familiar is facing south
+  lda #FAMILIAR_DIRECTION_DOWN
+  sta familiar_direction
+
+  lda #50
+  sta familiar_state_counter
+
+  lda #0
+  sta familiar_x_velocity
+  sta familiar_x_velocity+1
+
+  lda #<256
+  sta familiar_y_velocity
+  lda #>256
+  sta familiar_y_velocity+1
+
+  ;transition to the insert key state
+  lda #FAMILIAR_STATE_UNLOCK_INSERT_KEY
+  sta familiar_state
+
+not_at_keyhole_yet:
+
+  rts
+
+.endproc
+
+;****************************************************************
+;This state animates the familiar carrying the key downwards and
+;then changing the key's animation to only show the top half of
+;the key as though its shaft were inserted into the keyhole of
+;the monolith. Then it transitions to the fall with monolith
+;state.
+;****************************************************************
+.proc familiar_state_unlock_insert_key
+
+  dec familiar_state_counter
+  bne :+
+
+  lda #FAMILIAR_STATE_FALL_WITH_MONOLITH_LENGTH
+  sta familiar_state_counter
+
+  ;set up the familiar's x and y velocity so he falls with the monolith precisely
+  lda #<FAMILIAR_FALL_WITH_MONOLITH_X_VELOCITY
+  sta familiar_x_velocity
+  lda #>FAMILIAR_FALL_WITH_MONOLITH_X_VELOCITY
+  sta familiar_x_velocity+1
+
+  lda #<FAMILIAR_FALL_WITH_MONOLITH_Y_VELOCITY
+  sta familiar_y_velocity
+  lda #>FAMILIAR_FALL_WITH_MONOLITH_Y_VELOCITY
+  sta familiar_y_velocity+1
+
+  ;cause the keyed monolith to fall
+  ldx familiar_param_keyed_monolith_entity_index
+  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  sta entity_state,x
+
+  ;mark this keyed monolith as unlocked
+  lda monolith_flags,x
+  ora #MONOLITH_FLAGS_UNLOCKED_SET
+  sta monolith_flags,x
+
+  ;transition to the fall with monolith state
+  lda #FAMILIAR_STATE_UNLOCK_FALL_WITH_MONOLITH
+  sta familiar_state
+
+  rts
+:
+
+  ;play a get item sound as the key being used sound, right
+  ;at the top of the insertion animation
+  lda familiar_state_counter
+  cmp #8
+  bne :+
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_get_item
+  sta sound_param_word_0
+  lda #>sfx_get_item
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+:
+
+  ;only move when the familiar is done hovering above the keyhole
+  lda familiar_state_counter
+  cmp #8
+  bpl :+
+  jsr familiar_move
+:
+
+  ;tell the key to start drawing only its upper half when we have
+  ;4 frames left of the key insertion animation
+  lda familiar_state_counter
+  cmp #4
+  bne :+
+
+  ldx familiar_carried_entity_index
+  lda #KEY_STATE_PASSIVE_INSERTED_INIT
+  sta entity_state,x
+
+:
+
+  ;now make the carried entity match the familiar's coordinates if there is an entity
+  ;being carried and that entity is alive
+  ldx familiar_carried_entity_index
+  bmi no_carried_entity
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq no_carried_entity
+
+  clc
+  lda familiar_x
+  adc familiar_carried_entity_x_offset
+  sta entity_x_lo,x
+  lda familiar_x+1
+  adc #$00
+  sta entity_x_hi,x
+
+  clc
+  lda familiar_y
+  adc familiar_carried_entity_y_offset
+  sta entity_y_lo,x
+  lda familiar_y+1
+  adc #$00
+  sta entity_y_hi,x
+no_carried_entity:
+
+  ldy familiar_direction
+  lda familiar_animation_addresses_lo,y
+  sta familiar_animation_address
+  sta w2
+  lda familiar_animation_addresses_hi,y
+  sta familiar_animation_address+1
+  sta w2+1
+  lda familiar_sprite_flags_direction,y
+  sta familiar_sprite_flags
+
+  lda familiar_animation_address
+  sta w2
+  lda familiar_animation_address+1
+  sta w2+1
+
+  lda #<familiar_animation_object
+  sta w1
+  lda #>familiar_animation_object
+  sta w1+1
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
+  jsr sprite_update_animation
+
+  rts
+
+.endproc
+
+;****************************************************************
+;****************************************************************
+.proc familiar_state_unlock_fall_with_monolith
+
+  dec familiar_state_counter
+  beq transition_to_pause_with_monolith_state
+
+  jsr familiar_move
+
+  ;now make the carried entity match the familiar's coordinates if there is an entity
+  ;being carried and that entity is alive
+  ldx familiar_carried_entity_index
+  bmi no_carried_entity
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq no_carried_entity
+
+  clc
+  lda familiar_x
+  adc familiar_carried_entity_x_offset
+  sta entity_x_lo,x
+  lda familiar_x+1
+  adc #$00
+  sta entity_x_hi,x
+
+  clc
+  lda familiar_y
+  adc familiar_carried_entity_y_offset
+  sta entity_y_lo,x
+  lda familiar_y+1
+  adc #$00
+  sta entity_y_hi,x
+no_carried_entity:
+
+  ldy familiar_direction
+  lda familiar_animation_addresses_lo,y
+  sta familiar_animation_address
+  sta w2
+  lda familiar_animation_addresses_hi,y
+  sta familiar_animation_address+1
+  sta w2+1
+  lda familiar_sprite_flags_direction,y
+  sta familiar_sprite_flags
+
+  lda familiar_animation_address
+  sta w2
+  lda familiar_animation_address+1
+  sta w2+1
+
+  lda #<familiar_animation_object
+  sta w1
+  lda #>familiar_animation_object
+  sta w1+1
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
+  jsr sprite_update_animation
+
+  rts
+
+transition_to_pause_with_monolith_state:
+
+  lda #FAMILIAR_STATE_UNLOCK_PAUSE_WITH_MONOLITH_LENGTH
+  sta familiar_state_counter
+
+  lda #FAMILIAR_STATE_UNLOCK_PAUSE_WITH_MONOLITH
+  sta familiar_state
+
+  rts
+
+.endproc
+
+;****************************************************************
+;In this state the familiar just pauses for a few frames before
+;homing back into the hero
+;****************************************************************
+.proc familiar_state_unlock_pause_with_monolith
+
+  dec familiar_state_counter
+  bne :+
+
+  lda familiar_animation_address
+  sta w2
+  lda familiar_animation_address+1
+  sta w2+1
+
+  lda #<familiar_animation_object
+  sta w1
+  lda #>familiar_animation_object
+  sta w1+1
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
+  jsr sprite_update_animation
+
+  lda #FAMILIAR_STATE_HOME_IN_TO_HERO
+  sta familiar_state
+
+:
 
   rts
 
@@ -2295,7 +2709,7 @@ do_not_kill_familiar:
 
   .scope
   ;it is assumed familiar_x_velocity has been previously computed as
-  ;the X distance between the familiar and the hero.
+  ;the X distance between the familiar and the goal.
   asl familiar_x_velocity
   rol familiar_x_velocity+1
   asl familiar_x_velocity
@@ -2310,7 +2724,7 @@ do_not_kill_familiar:
 
   .scope
   ;it is assumed familiar_y_velocity has been previously computed as
-  ;the Y distance between the familiar and the hero.
+  ;the Y distance between the familiar and the goal.
   asl familiar_y_velocity
   rol familiar_y_velocity+1
   asl familiar_y_velocity

@@ -214,8 +214,17 @@ familiar_param_w1:
 familiar_param_b2:  .res 1
 familiar_param_b3:  .res 1
 
+familiar_param_w2:
+familiar_param_b4:  .res 1
+familiar_param_b5:  .res 1
+
 ;The following symbols use the above symbols as a union between
 ;various familiar techniques.
+;unlock
+familiar_param_keyhole_x = familiar_param_w1
+familiar_param_keyhole_y = familiar_param_w2
+familiar_param_keyed_monolith_entity_index = familiar_param_b0
+
 ;carry bomb
 familiar_param_carry_bomb_return_state = familiar_param_b0
 

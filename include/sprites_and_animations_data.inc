@@ -36,6 +36,7 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 .global NpcWomanWalkSide
 
 .global Key
+.global KeyInserted
 
 .global Cursor0
 .global Radio0

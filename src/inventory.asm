@@ -14,6 +14,7 @@
   sta inventory_ropes
   sta inventory_healths
   sta inventory_owl_healths
+  sta inventory_keys
 
   ;set all techs earned
   lda #tech_homing
@@ -34,9 +35,6 @@
   lda #>20
   sta inventory_gp+1
 
-  lda #0
-  sta inventory_keys
-
   .else
   lda #0
   sta inventory_lanterns
@@ -44,6 +42,7 @@
   sta inventory_ropes
   sta inventory_healths
   sta inventory_owl_healths
+  sta inventory_keys
 
   lda #tech_rush
   sta inventory_earned_techs
@@ -62,8 +61,6 @@
   lda #>20
   sta inventory_gp+1
 
-  lda #0
-  sta inventory_keys
   .endif
 
   rts
