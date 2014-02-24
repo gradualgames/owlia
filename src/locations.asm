@@ -89,12 +89,13 @@ locations_hi:
 ;Entity sets.
 ;****************************************************************
 village_entity_set:
-  .byte 7  ;sprite_chr_groups .byte
+  .byte 8  ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_npcman
   .byte sprite_chr_group_index_octopus
 
@@ -110,33 +111,36 @@ house_entity_set:
   .byte sprite_chr_group_index_npcwoman
 
 meadow1_entity_set:
-  .byte 7   ;sprite_chr_groups .byte
-  .byte sprite_chr_group_index_hero
-  .byte sprite_chr_group_index_familiar
-  .byte sprite_chr_group_index_explosion
-  .byte sprite_chr_group_index_bomb
-  .byte sprite_chr_group_index_lantern
-  .byte sprite_chr_group_index_octopus
-  .byte sprite_chr_group_index_silmaran
-
-meadow2_entity_set:
-meadow3_entity_set:
-  .byte 7   ;sprite_chr_groups .byte
-  .byte sprite_chr_group_index_hero
-  .byte sprite_chr_group_index_familiar
-  .byte sprite_chr_group_index_explosion
-  .byte sprite_chr_group_index_bomb
-  .byte sprite_chr_group_index_lantern
-  .byte sprite_chr_group_index_pufferfish
-  .byte sprite_chr_group_index_octopus
-
-dungeon_entity_set:
   .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_octopus
+  .byte sprite_chr_group_index_silmaran
+
+meadow2_entity_set:
+meadow3_entity_set:
+  .byte 8   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_pufferfish
+  .byte sprite_chr_group_index_octopus
+
+dungeon_entity_set:
+  .byte 9   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_pufferfish
   .byte sprite_chr_group_index_crab
@@ -144,23 +148,25 @@ dungeon_entity_set:
   .byte sprite_chr_group_index_spotlight
 
 dungeon_anglerfish_puzzle_entity_set:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_anglerfish
   .byte sprite_chr_group_index_spotlight
 
 dungeon1_boss_entity_set:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_octoboss
   .byte sprite_chr_group_index_splash
@@ -206,15 +212,15 @@ store_entity_instances:
   .byte 6  ;count
   .byte entity_index_npc, 9, 13, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 6, 16 * 1, NPC_MODE_WALK, NPC_DIRECTION_DOWN
   .byte entity_index_npc, 15, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
-  .byte entity_index_item, 10, 17, sprite_chr_group_index_bomb, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE, ITEM_TYPE_BOMB, 10, 5
-  .byte entity_index_item, 11, 17, sprite_chr_group_index_lantern, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE, ITEM_TYPE_LANTERN, 10, 5
-  .byte entity_index_item, 12, 17, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE, ITEM_TYPE_HEALTH, 10, 1
-  .byte entity_index_item, 13, 18, sprite_chr_group_index_coins, ITEM_PARAMS, ITEM_STATE_PICKUP, ITEM_TYPE_GP, 0, 100
+  .byte entity_index_item, 10, 17, sprite_chr_group_index_bomb, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_BOMB, 10, 5
+  .byte entity_index_item, 11, 17, sprite_chr_group_index_lantern, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_LANTERN, 10, 5
+  .byte entity_index_item, 12, 17, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_HEALTH, 10, 1
+  .byte entity_index_item, 13, 18, sprite_chr_group_index_coins, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_GP, 0, 100
 
 meadow1_entity_instances:
   .byte 8  ;count
   .byte entity_index_silmaran, 45, 47, 0, 0
-  .byte entity_index_item, 29, 44, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP, ITEM_TYPE_HEALTH, 0, 0
+  .byte entity_index_item, 29, 44, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_HEALTH, 0, 1
   .byte entity_index_octopus, 4, 24, 0, 0
   .byte entity_index_octopus, 34, 25, 0, 0
   .byte entity_index_octopus, 12, 38, 0, 0

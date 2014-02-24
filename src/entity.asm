@@ -1,3 +1,4 @@
+.include "ndxdebug.h"
 .include "actions.inc"
 .include "entity.inc"
 .include "entities.inc"
@@ -5,6 +6,7 @@
 .include "hero_constants.inc"
 .include "familiar.inc"
 .include "familiar_constants.inc"
+.include "item_constants.inc"
 .include "ram.inc"
 .include "zp.inc"
 .include "sprite.inc"
@@ -130,9 +132,21 @@ direction = entity_local16
   dec health,x
   bne entity_not_dead_yet
 
+  jsr entity_spawn_explosion_and_drop_item
+
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
+
+entity_not_dead_yet:
+
+attacked_state_machine_already_running:
+
+  rts
+
+.endproc
+
+.proc entity_spawn_explosion_and_drop_item
 
   txa
   pha
@@ -153,9 +167,57 @@ direction = entity_local16
 
   pla
   tax
-entity_not_dead_yet:
 
-attacked_state_machine_already_running:
+  txa
+  pha
+
+  lda #entity_index_item
+  sta b0
+
+  ;calculate adjustments for initial location of dropped item to be
+  ;roughly the center of the entity
+  lda entity_width,x
+  lsr
+  sta b1
+  lda entity_height,x
+  lsr
+  sta b2
+
+  sec
+  lda b1
+  sbc #4
+  sta b1
+  sec
+  lda b2
+  sbc #4
+  sta b2
+
+  clc
+  lda entity_x_lo,x
+  adc b1
+  sta w0
+  lda entity_x_hi,x
+  adc #0
+  sta w0+1
+  clc
+  lda entity_y_lo,x
+  adc b2
+  sta w1
+  lda entity_y_hi,x
+  adc #0
+  sta w1+1
+
+  jsr entity_spawn
+
+  .scope
+  bmi entity_not_spawned
+  lda #ITEM_STATE_DROP_RANDOM_ITEM_INIT
+  sta item_initial_state,x
+entity_not_spawned:
+  .endscope
+
+  pla
+  tax
 
   rts
 

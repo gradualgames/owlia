@@ -4,8 +4,13 @@ ITEM_INC = 1
 
 .include "item_constants.inc"
 
-.define item_animation_addresses \
-  Bomb, Lantern, Heart, Coins
+item_sprite_chr_group_index:
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+
+.define item_animation_addresses Coins, Heart, Bomb, Lantern
 
 item_animation_addresses_lo:
   .lobytes item_animation_addresses
@@ -14,7 +19,7 @@ item_animation_addresses_hi:
   .hibytes item_animation_addresses
 
 .define item_inventory_addresses \
-  inventory_bombs, inventory_lanterns, inventory_healths, inventory_gp
+  inventory_gp, inventory_healths, inventory_bombs, inventory_lanterns
 
 item_inventory_addresses_lo:
   .lobytes item_inventory_addresses
@@ -23,10 +28,10 @@ item_inventory_addresses_hi:
   .hibytes item_inventory_addresses
 
 .define item_inventory_max_count \
-  INVENTORY_MAX_BOMBS, \
-  INVENTORY_MAX_LANTERNS, \
+  INVENTORY_MAX_GP, \
   INVENTORY_MAX_HEALTHS, \
-  INVENTORY_MAX_GP
+  INVENTORY_MAX_BOMBS, \
+  INVENTORY_MAX_LANTERNS
 
 item_inventory_max_count_lo:
   .lobytes item_inventory_max_count
@@ -35,22 +40,31 @@ item_inventory_max_count_hi:
   .hibytes item_inventory_max_count
 
 item_inventory_var_type:
-  .byte ITEM_8_BIT_VAR
-  .byte ITEM_8_BIT_VAR
-  .byte ITEM_8_BIT_VAR
   .byte ITEM_16_BIT_VAR
+  .byte ITEM_8_BIT_VAR
+  .byte ITEM_8_BIT_VAR
+  .byte ITEM_8_BIT_VAR
 
 item_purchase_conversation_indices:
+  .byte 0
+  .byte conversation_index_purchase_health
   .byte conversation_index_purchase_bomb
   .byte conversation_index_purchase_lantern
-  .byte conversation_index_purchase_health
-  .byte 0
+
+item_random_pickup_quantities:
+  .byte 100
+  .byte 1
+  .byte 1
+  .byte 1
 
 .define item_states \
   item_state_init, \
+  item_state_prompt_for_purchase_init, \
   item_state_prompt_for_purchase, \
   item_state_add_item_or_not, \
-  item_state_pickup
+  item_state_pickup_init, \
+  item_state_pickup, \
+  item_state_drop_random_item_init
 
 item_lo:
   .lobytes item_states
@@ -64,13 +78,7 @@ item_update:
 
 item_state_init:
 
-  jsr entity_set_drawable
-
-  ldy item_type,x
-  lda item_animation_addresses_lo,y
-  sta entity_animation_address_lo,x
-  lda item_animation_addresses_hi,y
-  sta entity_animation_address_hi,x
+  jsr entity_clear_drawable
 
   jsr entity_reset_animation
 
@@ -83,6 +91,26 @@ item_state_init:
   sta entity_sprite_flags,x
 
   lda item_initial_state,x
+  sta entity_state,x
+
+  rts
+
+item_state_pickup_init:
+
+  jsr entity_set_drawable
+
+  ldy item_type,x
+  lda item_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda item_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+
+  lda item_sprite_chr_group_index,y
+  tay
+  lda sprite_chr_group_offsets,y
+  sta entity_sprite_group_offset,x
+
+  lda #ITEM_STATE_PICKUP
   sta entity_state,x
 
   rts
@@ -117,6 +145,8 @@ item_state_pickup:
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
 
+  rts
+
 not_touching_hero:
   .endscope
 
@@ -146,6 +176,26 @@ not_touching_hero:
 familiar_not_intersecting:
 familiar_not_fetching:
   .endscope
+
+  rts
+
+item_state_prompt_for_purchase_init:
+
+  jsr entity_set_drawable
+
+  ldy item_type,x
+  lda item_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda item_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+
+  lda item_sprite_chr_group_index,y
+  tay
+  lda sprite_chr_group_offsets,y
+  sta entity_sprite_group_offset,x
+
+  lda #ITEM_STATE_PROMPT_FOR_PURCHASE
+  sta entity_state,x
 
   rts
 
@@ -251,6 +301,46 @@ not_enough_gp:
   lda #ITEM_STATE_PROMPT_FOR_PURCHASE
   sta entity_state,x
 
+  rts
+
+item_state_drop_random_item_init:
+
+  .scope
+  ldy #5
+: lda item_type,x
+  beq doEor
+  asl
+  beq noEor ;if the input was $80, skip the EOR
+  bcc noEor
+doEor:
+  eor stream_read_address_lo
+noEor:
+  sta item_type,x
+  dey
+  bne :-
+  .endscope
+
+  lda item_type,x
+  cmp #100
+  bpl do_not_drop_item
+
+  lda item_type,x
+  and #$03
+  sta item_type,x
+
+  ldy item_type,x
+  lda item_random_pickup_quantities,y
+  sta item_quantity,x
+
+  lda #ITEM_STATE_PICKUP_INIT
+  sta entity_state,x
+
+  rts
+do_not_drop_item:
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
   rts
 
 ;increments the target variable by the passed-in increment value,
