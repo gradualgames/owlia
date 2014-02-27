@@ -5,6 +5,14 @@
 
 .define sprite_chr_group_addresses \
   Hero_chr, \
+  RushTech_chr, \
+  FetchTech_chr, \
+  UnlockTech_chr, \
+  BombTech_chr, \
+  LanternTech_chr, \
+  CarryTech_chr, \
+  ShieldTech_chr, \
+  HomingTech_chr, \
   Familiar_chr, \
   Tyto_chr, \
   explosion_chr, \
@@ -35,6 +43,14 @@ sprite_chr_group_addresses_hi:
 
 sprite_chr_group_bank:
   .byte sprite_chr_group_bank_hero
+  .byte sprite_group_bank_rushtech
+  .byte sprite_group_bank_fetchtech
+  .byte sprite_group_bank_unlocktech
+  .byte sprite_group_bank_bombtech
+  .byte sprite_group_bank_lanterntech
+  .byte sprite_group_bank_carrytech
+  .byte sprite_group_bank_shieldtech
+  .byte sprite_group_bank_homingtech
   .byte sprite_chr_group_bank_familiar
   .byte sprite_chr_group_bank_tyto
   .byte sprite_chr_group_bank_explosion
@@ -61,7 +77,7 @@ sprite_chr_group_bank:
 .segment "ROM07"
 
 Hero_chr:
-  .word $0780
+  .word $0760
   .byte $00,$00,$0f,$17,$2f,$1f,$3b,$7b,$00,$00,$00,$08,$10,$20,$04,$04
   .byte $00,$00,$f0,$f8,$74,$f8,$fc,$be,$00,$00,$00,$00,$88,$04,$00,$40
   .byte $fb,$7b,$3b,$3b,$3b,$7d,$fd,$fd,$44,$04,$04,$04,$04,$02,$62,$22
@@ -180,8 +196,31 @@ Hero_chr:
   .byte $ff,$ff,$7f,$3f,$ff,$ff,$ff,$ff,$14,$38,$9e,$da,$1e,$9f,$0f,$20
   .byte $7c,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
   .byte $66,$99,$81,$81,$81,$42,$24,$18,$00,$66,$7e,$7e,$7e,$3c,$18,$00
-  .byte $ff,$99,$b9,$89,$89,$89,$bd,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
-  .byte $ff,$b9,$85,$85,$99,$a1,$bd,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+
+RushTech_chr:
+  .word $0010
+  .byte $ff,$b9,$a5,$a5,$b9,$a5,$a3,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+FetchTech_chr:
+  .word $0010
+  .byte $ff,$bd,$a1,$b9,$a1,$a1,$a1,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+UnlockTech_chr:
+  .word $0010
+  .byte $ff,$c3,$c3,$c3,$c3,$a5,$99,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+BombTech_chr:
+  .word $0010
+  .byte $ff,$bd,$a3,$a3,$bd,$a3,$bd,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+LanternTech_chr:
+  .word $0010
+  .byte $ff,$a1,$a1,$a1,$a1,$a1,$bf,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+CarryTech_chr:
+  .word $0010
+  .byte $ff,$bd,$c1,$c1,$c1,$c1,$bd,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+ShieldTech_chr:
+  .word $0010
+  .byte $ff,$bd,$c1,$e1,$9d,$85,$f9,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+HomingTech_chr:
+  .word $0010
+  .byte $ff,$a5,$a5,$bd,$a5,$a5,$a5,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
 
 Familiar_chr:
   .word $0180

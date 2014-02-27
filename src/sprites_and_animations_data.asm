@@ -6,6 +6,7 @@
 .segment "ROM06"
 
 .include "hero_sprites_and_animations.inc"
+.include "techs_sprites_and_animations.inc"
 .include "familiar_sprites_and_animations.inc"
 .include "owliatitle_sprites_and_animations.inc"
 .include "inventory_sprites_and_animations.inc"

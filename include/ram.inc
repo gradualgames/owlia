@@ -23,6 +23,8 @@ MAX_SHADOW_SPOTS = 12
 
 .global textbox_and_font_chr_offset
 .global shadow_spot_chr_offset
+.global tech1_chr_offset
+.global tech2_chr_offset
 .global sprite_chr_group_offsets
 
 .global sorted_entity_index

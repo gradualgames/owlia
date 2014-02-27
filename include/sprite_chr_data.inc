@@ -7,6 +7,14 @@ SPRITE_CHR_INC = 1
 
 .enum
 sprite_chr_group_index_hero
+sprite_chr_group_index_rushtech
+sprite_chr_group_index_fetchtech
+sprite_chr_group_index_unlocktech
+sprite_chr_group_index_bombtech
+sprite_chr_group_index_lanterntech
+sprite_chr_group_index_carrytech
+sprite_chr_group_index_shieldtech
+sprite_chr_group_index_homingtech
 sprite_chr_group_index_familiar
 sprite_chr_group_index_tyto
 sprite_chr_group_index_explosion
@@ -32,6 +40,14 @@ sprite_chr_group_index_cagedowl
 .endenum
 
 sprite_chr_group_bank_hero = 7
+sprite_group_bank_rushtech = 7
+sprite_group_bank_fetchtech = 7
+sprite_group_bank_unlocktech = 7
+sprite_group_bank_bombtech = 7
+sprite_group_bank_lanterntech = 7
+sprite_group_bank_carrytech = 7
+sprite_group_bank_shieldtech = 7
+sprite_group_bank_homingtech = 7
 sprite_chr_group_bank_familiar = 7
 sprite_chr_group_bank_tyto = 7
 sprite_chr_group_bank_explosion = 7

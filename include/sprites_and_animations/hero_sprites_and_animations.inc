@@ -208,12 +208,6 @@ ThrowUp0:
 Heart0:
   .byte $01
   .byte $00,$75,$00,$00,$00
-Tech0:
-  .byte $01
-  .byte $00,$76,$00,$00,$00
-Tech1:
-  .byte $01
-  .byte $00,$77,$00,$00,$00
 
 WalkUp:
   .byte $07,$08

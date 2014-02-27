@@ -110,6 +110,39 @@ scroll_direction_opposite:
   sta w4+1
   jsr load_sprite_chr_groups
 
+  ;individually load graphics for currently selected techs 1 and 2.
+  ;compute the correct sprite_chr_group_index relative to
+  ;sprite_chr_group_index_rushtech.
+  lda b3
+  sta tech1_chr_offset
+
+  clc
+  lda #sprite_chr_group_index_rushtech
+  adc inventory_tech1
+  tax
+  lda sprite_chr_group_addresses_lo,x
+  sta w0
+  lda sprite_chr_group_addresses_hi,x
+  sta w0+1
+  ldy sprite_chr_group_bank,x
+  switch_bank_y
+  jsr ppu_load_chr_amount
+
+  lda b3
+  sta tech2_chr_offset
+
+  clc
+  lda #sprite_chr_group_index_rushtech
+  adc inventory_tech2
+  tax
+  lda sprite_chr_group_addresses_lo,x
+  sta w0
+  lda sprite_chr_group_addresses_hi,x
+  sta w0+1
+  ldy sprite_chr_group_bank,x
+  switch_bank_y
+  jsr ppu_load_chr_amount
+
   ;load the shadow spot graphic; this is always present so it is
   ;hard coded
   lda b3

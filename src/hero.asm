@@ -929,17 +929,22 @@ no_hearts:
   lda inventory_selected_tech
   bne tech2
 tech1:
+
+  lda tech1_chr_offset
+  sta chr_group_offset
+
+  jmp done
+tech2:
+
+  lda tech2_chr_offset
+  sta chr_group_offset
+
+done:
+
   lda #<Tech0
   sta w0
   lda #>Tech0
   sta w0+1
-  jmp done
-tech2:
-  lda #<Tech1
-  sta w0
-  lda #>Tech1
-  sta w0+1
-done:
 
   clc
   lda #(CAMERA_SCREEN_ORIGIN_X+HERO_STATUS_X)

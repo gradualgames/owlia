@@ -47,6 +47,8 @@ chr_group_offset: .res 1
 ;****************************************************************
 textbox_and_font_chr_offset: .res 1
 shadow_spot_chr_offset: .res 1
+tech1_chr_offset: .res 1
+tech2_chr_offset: .res 1
 sprite_chr_group_offsets: .res 64
 
 ;****************************************************************

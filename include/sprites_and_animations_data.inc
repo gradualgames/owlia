@@ -17,7 +17,6 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 .global Heart
 
 .global Tech0
-.global Tech1
 
 .global FamiliarFlySide
 .global FamiliarFlyDown
