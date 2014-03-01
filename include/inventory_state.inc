@@ -25,6 +25,7 @@ TECH2_OFFSET = -2
   nametable_hi .byte
   current_menu_position_address .word
   digits_chr_offset .byte
+  techs_chr_offset .byte
   string_address .word
   string_row .byte
   string_column .byte

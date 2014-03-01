@@ -31,7 +31,7 @@ textbox_result: .res 1
 ;example the play state can switch to a sub-state for displaying
 ;a conversation based on some information in here.
 ;****************************************************************
-state_control_params: .res 8
+state_control_params: .res 9
 
 ;****************************************************************
 ;This is used by the sprite module to add to the tile offsets

@@ -133,6 +133,29 @@ inventory_state_init:
 
   far_call {sprite_chr_group_bank,y}, ppu_load_chr_amount
 
+  ;load all tech icon chr data
+  lda b3
+  sta state_control_params+inventory_state_control::techs_chr_offset
+
+  ldy #sprite_chr_group_index_rushtech
+next_tech:
+  lda sprite_chr_group_addresses_lo,y
+  sta w0
+  lda sprite_chr_group_addresses_hi,y
+  sta w0+1
+
+  tya
+  pha
+
+  far_call {sprite_chr_group_bank,y}, ppu_load_chr_amount
+
+  pla
+  tay
+
+  iny
+  cpy #(sprite_chr_group_index_homingtech+1)
+  bne next_tech
+
   ;load nametable data for inventory screen on opposite nametable from
   ;camera. This won't matter for overworld, since we never use nametable
   ;patching, but for dungeons which are always done at the top left of
@@ -563,6 +586,11 @@ menu_position_address = w10
 row_offset = b0
 
   ;draw the tech1 radio button
+  clc
+  lda inventory_tech1
+  adc state_control_params+inventory_state_control::techs_chr_offset
+  sta chr_group_offset
+
   lda #((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
   sta w3
   lda #0
@@ -585,14 +613,19 @@ row_offset = b0
   lda #0
   sta b2
 
-  lda #<Tech1_Selector
+  lda #<Tech0
   sta w0
-  lda #>Tech1_Selector
+  lda #>Tech0
   sta w0+1
 
   far_call #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK, sprite_draw_metasprite
 
   ;draw the tech2 radio button
+  clc
+  lda inventory_tech2
+  adc state_control_params+inventory_state_control::techs_chr_offset
+  sta chr_group_offset
+
   lda #((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
   sta w3
   lda #0
@@ -615,9 +648,9 @@ row_offset = b0
   lda #0
   sta b2
 
-  lda #<Tech2_Selector
+  lda #<Tech0
   sta w0
-  lda #>Tech2_Selector
+  lda #>Tech0
   sta w0+1
 
   far_call #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK, sprite_draw_metasprite

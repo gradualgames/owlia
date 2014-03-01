@@ -15,11 +15,5 @@ Cursor0:
 Radio0:
   .byte $01
   .byte $00,$09,$00,$00,$00
-Tech1_Selector:
-  .byte $01
-  .byte $00,$0a,$00,$00,$00
-Tech2_Selector:
-  .byte $01
-  .byte $00,$0b,$00,$00,$00
 
 .endif

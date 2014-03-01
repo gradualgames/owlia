@@ -39,8 +39,6 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 
 .global Cursor0
 .global Radio0
-.global Tech1_Selector
-.global Tech2_Selector
 
 .global Bomb0
 .global Bomb

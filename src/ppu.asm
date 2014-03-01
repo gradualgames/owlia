@@ -172,10 +172,6 @@ loadChrLoop:
   lda w1+1
   bne loadChrLoop
 
-  ;restore y
-  pla
-  tay
-
   ;shift right this 16 bit value to calculate number of tiles loaded.
   lda w2
   lsr w2+1
@@ -194,6 +190,10 @@ loadChrLoop:
   lda b3
   adc w2
   sta b3
+
+  ;restore y
+  pla
+  tay
 
   rts
 
