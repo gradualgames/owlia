@@ -252,11 +252,11 @@ knockback_state_machine_not_running:
 
   lda attacked_counter,x
   and #%00000011
-  sta b0
+  sta b10
 
   lda entity_sprite_flags,x
   and #%11111100
-  ora b0
+  ora b10
   sta entity_sprite_flags,x
 
 attacked_state_machine_not_running:
