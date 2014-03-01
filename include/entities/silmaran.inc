@@ -59,7 +59,7 @@ silmaran_state_init:
 
   ;make sure that Silmaran has only been encountered once
   lda inventory_earned_techs
-  cmp #tech_rush
+  cmp #tech_fetch
   beq do_not_skip_silmaran_sequence
 
   lda entity_flags,x
@@ -341,15 +341,9 @@ silmaran_state_ascend:
   dec silmaran_state_counter,x
   bne not_gone_yet
 
-  ;earn the fetch technique
-  lda #tech_fetch
+  ;earn the unlock technique
+  lda #tech_unlock
   sta inventory_earned_techs
-
-  ;select the fetch tech into tech2
-  lda #tech_rush
-  sta inventory_tech1
-  lda #tech_fetch
-  sta inventory_tech2
 
   ;restore control to the player
   lda #$ff

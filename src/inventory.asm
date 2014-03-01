@@ -42,12 +42,12 @@
   sta inventory_owl_healths
   sta inventory_keys
 
-  lda #tech_rush
+  lda #tech_fetch
   sta inventory_earned_techs
 
   lda #tech_rush
   sta inventory_tech1
-  lda #tech_rush
+  lda #tech_fetch
   sta inventory_tech2
 
   ;select tech1 as the currently active tech

@@ -175,7 +175,7 @@ dungeon1_boss_entity_set:
 ;Entity instance sets
 ;****************************************************************
 village_entity_instances:
-  .byte 2  ;count
+  .byte 3  ;count
   ;.byte entity_index_octopus, 25, 10, sprite_chr_group_index_octopus, 0
   ; .byte entity_index_octopus, 39, 10, sprite_chr_group_index_octopus, 0
   ; .byte entity_index_octopus, 31, 32, sprite_chr_group_index_octopus, 0
@@ -183,6 +183,7 @@ village_entity_instances:
   ; .byte entity_index_octopus, 20, 53, sprite_chr_group_index_octopus, 0
   .byte entity_index_npc, 8, 20, sprite_chr_group_index_npcman, 6, conversation_index_hi_adlanniel, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
   .byte entity_index_npc, 31, 37, sprite_chr_group_index_npcman, 6, conversation_index_owlia_school_of_falconry, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte entity_index_item, 31, 32, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_HEALTH, 0, 1
 
 house1_intro_entity_instances:
   .byte 1

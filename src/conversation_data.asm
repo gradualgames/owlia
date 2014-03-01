@@ -103,6 +103,11 @@ owlia_school_of_falconry:
   .byte NL,1, "PAIR OF TECHS YOU FIND"
   .byte NL,2, "USEFUL.",WT,EP
 
+  .byte NL,1, "WHY DON'T YOU TRY SELECTING"
+  .byte NL,2, "THE FETCH TECH AND TRY"
+  .byte NL,3, "GRABBING THAT HEART IN THE"
+  .byte NL,4, "POOL OVER THERE?",WT,EP
+
   .byte NL,1, "IF YOUR OWL IS HELPING YOU"
   .byte NL,2, "FIGHT OFF A FOE, YOU CAN"
   .byte NL,3, "ALWAYS DEFEND YOURSELF WITH"
@@ -239,12 +244,9 @@ silmaran_encounter_scene:
   .byte NL,4, "OF US WILL TEACH TYTO A NEW",WT,EP
 
   .byte NL,1, "TECHNIQUE.",TM,30," I NOW GIVE HIM"
-  .byte NL,2, "THE ABILITY TO FETCH ITEMS.",TM,30
-  .byte NL,3, "TRY IT OUT BY HITTING SELECT"
-  .byte NL,4, "TO CHOOSE TECH TWO,",TM,20," THEN HIT",WT,EP
-
-  .byte NL,1, "B.",TM,30," GOOD LUCK, ADLANNIEL,",TM,20
-  .byte NL,2, "AND FLY TRUE,",TM,20," NOBLE TYTO.",WT,EC
+  .byte NL,2, "THE ABILITY TO UNLOCK DOORS.",TM,30
+  .byte NL,3, "GOOD LUCK,",TM,20," ADLANNIEL,",TM,20
+  .byte NL,4, "AND FLY TRUE,",TM,20," NOBLE TYTO.",WT,EC
 
 thanks_for_playing_demo:
   .byte    1, "THANKS FOR PLAYING OUR DEMO"
