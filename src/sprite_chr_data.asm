@@ -199,28 +199,28 @@ Hero_chr:
 
 RushTech_chr:
   .word $0010
-  .byte $ff,$b9,$a5,$a5,$b9,$a5,$a3,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+  .byte $00,$3c,$fe,$ff,$ff,$ff,$ff,$1e,$00,$00,$3c,$be,$e6,$b6,$1a,$00
 FetchTech_chr:
   .word $0010
-  .byte $ff,$bd,$a1,$b9,$a1,$a1,$a1,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+  .byte $18,$18,$18,$7e,$ef,$c7,$6e,$00,$10,$10,$10,$6c,$82,$82,$44,$00
 UnlockTech_chr:
   .word $0010
-  .byte $ff,$c3,$c3,$c3,$c3,$a5,$99,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+  .byte $1e,$3f,$3f,$1e,$0c,$1c,$0c,$3c,$1c,$2a,$2a,$1c,$08,$18,$08,$38
 BombTech_chr:
   .word $0010
-  .byte $ff,$bd,$a3,$a3,$bd,$a3,$bd,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+  .byte $08,$3c,$7e,$7e,$7e,$7e,$3c,$00,$00,$38,$74,$7c,$7c,$7c,$38,$00
 LanternTech_chr:
   .word $0010
-  .byte $ff,$a1,$a1,$a1,$a1,$a1,$bf,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+  .byte $3c,$7e,$7e,$ff,$7e,$3c,$3c,$7e,$38,$44,$7c,$fe,$7c,$38,$38,$7c
 CarryTech_chr:
   .word $0010
-  .byte $ff,$bd,$c1,$c1,$c1,$c1,$bd,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+  .byte $58,$fc,$fe,$ff,$ff,$7f,$3f,$0e,$00,$48,$24,$52,$6c,$32,$0e,$00
 ShieldTech_chr:
   .word $0010
-  .byte $ff,$bd,$c1,$e1,$9d,$85,$f9,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+  .byte $00,$7e,$ff,$ff,$ff,$ff,$7e,$3c,$00,$00,$7e,$7e,$7e,$7e,$3c,$18
 HomingTech_chr:
   .word $0010
-  .byte $ff,$a5,$a5,$bd,$a5,$a5,$a5,$ff,$00,$7e,$7e,$7e,$7e,$7e,$7e,$00
+  .byte $00,$3c,$00,$db,$ff,$db,$00,$3c,$00,$38,$00,$92,$ba,$92,$00,$38
 
 Familiar_chr:
   .word $0180
