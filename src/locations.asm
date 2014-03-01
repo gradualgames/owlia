@@ -452,9 +452,10 @@ dungeon_3_2_entity_instances:
 
 
 dungeon_0_3_entity_instances:
-  .byte 5
+  .byte 6
   .byte entity_index_pufferfish, 4, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_crab, 12, 52, sprite_chr_group_index_crab, 0
   .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
                                           MONOLITH_DIRECTION_NORTH, \

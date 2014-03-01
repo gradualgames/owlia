@@ -11,6 +11,8 @@ CRAB_SPEED = 150
 
 CRAB_KNOCKBACK_SPEED = 500
 
+CRAB_PAUSE_SPEED = 0
+
 CRAB_ATTACKED_LENGTH = 30
 
 CRAB_KNOCKBACK_LENGTH = 10
@@ -27,9 +29,10 @@ CRAB_INITIAL_HEALTH = 3
 
 crab_random_turnleft_counter = entity_local0
 crab_random_turnright_counter = entity_local1
-crab_pseudo_random_number = entity_local2
-crab_x_fine = entity_local3
-crab_y_fine = entity_local4
+crab_random_pause_counter = entity_local2
+crab_pseudo_random_number = entity_local3
+crab_x_fine = entity_local4
+crab_y_fine = entity_local5
 crab_direction = entity_local16
 crab_health = entity_local17
 crab_knockback_counter = entity_local18
@@ -53,7 +56,8 @@ crab_turnleft_direction:
   .byte CRAB_DIRECTION_LEFT
 
 .define crab_direction_speed_x CRAB_SPEED, -CRAB_SPEED, 0, 0, \
-                               CRAB_KNOCKBACK_SPEED, -CRAB_KNOCKBACK_SPEED, 0, 0
+                               CRAB_KNOCKBACK_SPEED, -CRAB_KNOCKBACK_SPEED, 0, 0, \
+                               CRAB_PAUSE_SPEED
 
 crab_direction_speed_x_lo:
   .lobytes crab_direction_speed_x
@@ -62,7 +66,8 @@ crab_direction_speed_x_hi:
   .hibytes crab_direction_speed_x
 
 .define crab_direction_speed_y 0, 0, CRAB_SPEED, -CRAB_SPEED, \
-                               0, 0, CRAB_KNOCKBACK_SPEED, -CRAB_KNOCKBACK_SPEED
+                               0, 0, CRAB_KNOCKBACK_SPEED, -CRAB_KNOCKBACK_SPEED, \
+                               CRAB_PAUSE_SPEED
 
 crab_direction_speed_y_lo:
   .lobytes crab_direction_speed_y
@@ -213,6 +218,15 @@ do_not_turn_crab:
 do_not_turn_crab:
   .endscope
 
+  dec crab_random_pause_counter,x
+  bne :+
+
+  lda crab_pseudo_random_number,x
+  adc #196
+  sta crab_random_pause_counter,x
+
+:
+
   ldy crab_direction,x
 
   lda crab_knockback_counter,x
@@ -224,6 +238,13 @@ do_not_turn_crab:
   tay
 
 do_not_use_knockback_speed:
+
+  lda crab_random_pause_counter,x
+  bmi do_not_use_pause_speed
+
+  ldy #8
+
+do_not_use_pause_speed:
 
   .scope
   lda crab_direction_speed_x_hi,y
