@@ -41,7 +41,17 @@ direction = entity_local16
   jsr entity_test_hero_rect
   bne entity_not_hitting_hero
 
+  lda b0
+  pha
+  lda b1
+  pha
+
   jsr entity_hurt_hero
+
+  pla
+  sta b1
+  pla
+  sta b0
 
 entity_not_hitting_hero:
 
