@@ -1363,6 +1363,7 @@ entity_above_familiar:
   ;we know the order, draw them and jump out
   jsr hero_draw
   jsr familiar_draw
+  ldx sorted_entity_index
   jsr draw_entity
   jmp done_drawing_sorted
 
@@ -1380,6 +1381,7 @@ entity_below_familiar:
 hero_above_entity:
 
   ;we know the order, draw them and jump out
+  ldx sorted_entity_index
   jsr draw_entity
   jsr hero_draw
   jsr familiar_draw
@@ -1391,6 +1393,7 @@ hero_below_entity:
   ;at this point, we know the entity must be between the familiar and the hero.
   ;draw them and jump out.
   jsr hero_draw
+  ldx sorted_entity_index
   jsr draw_entity
   jsr familiar_draw
   jmp done_drawing_sorted
@@ -1411,6 +1414,7 @@ entity_above_hero:
   ;we know the order, draw them and jump out
   jsr familiar_draw
   jsr hero_draw
+  ldx sorted_entity_index
   jsr draw_entity
   jmp done_drawing_sorted
 
@@ -1428,6 +1432,7 @@ entity_below_hero:
 familiar_above_entity:
 
   ;we know the order, draw them and jump out
+  ldx sorted_entity_index
   jsr draw_entity
   jsr familiar_draw
   jsr hero_draw
@@ -1439,6 +1444,7 @@ familiar_below_entity:
   ;at this point, we know the entity must be between the familiar and the hero.
   ;draw them and jump out.
   jsr familiar_draw
+  ldx sorted_entity_index
   jsr draw_entity
   jsr hero_draw
   jmp done_drawing_sorted
