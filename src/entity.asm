@@ -55,6 +55,8 @@ direction = entity_local16
 
 entity_not_hitting_hero:
 
+  lda attacked_counter,x
+  bne action_rect1_not_deadly
   lda entity_action_rect1_action
   cmp #ACTION_ATTACK
   bne action_rect1_not_deadly
@@ -76,6 +78,8 @@ do_not_set_knockback_direction:
 
 action_rect1_not_deadly:
 
+  lda attacked_counter,x
+  bne action_rect2_not_deadly
   lda entity_action_rect2_action
   cmp #ACTION_ATTACK
   bne action_rect2_not_deadly
@@ -112,9 +116,6 @@ knockback_counter = entity_local18
 health = entity_local17
 direction = entity_local16
 
-  lda attacked_counter,x
-  bne attacked_state_machine_already_running
-
   ;play a sound
   txa
   pha
@@ -149,8 +150,6 @@ direction = entity_local16
   sta entity_flags,x
 
 entity_not_dead_yet:
-
-attacked_state_machine_already_running:
 
   rts
 
