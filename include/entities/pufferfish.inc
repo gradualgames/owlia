@@ -99,6 +99,12 @@ pufferfish_turnleft_direction:
   .byte PUFFERFISH_DIRECTION_RIGHT
   .byte PUFFERFISH_DIRECTION_LEFT
 
+pufferfish_opposite_direction:
+  .byte PUFFERFISH_DIRECTION_LEFT
+  .byte PUFFERFISH_DIRECTION_RIGHT
+  .byte PUFFERFISH_DIRECTION_UP
+  .byte PUFFERFISH_DIRECTION_DOWN
+
 .define pufferfish_animation_addresses \
   PufferFishUnpuffedSide, \
   PufferFishUnpuffedSide, \
@@ -404,7 +410,7 @@ do_not_switch_state:
   sta pufferfish_knockback_counter,x
 
   ldy pufferfish_direction,x
-  lda pufferfish_turnleft_direction,y
+  lda pufferfish_opposite_direction,y
   sta pufferfish_direction,x
 
 do_not_turn_pufferfish:
