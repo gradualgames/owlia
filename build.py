@@ -82,7 +82,7 @@ def make_build(additional_args):
         ca65_args.append(abs_include_path)
 
     clean_build()
-    os.makedirs(bin_path)
+    os.makedirs(bin_path, exist_ok=True)
 
     for file_name in file_names:
         ca65_args_file_name = list(ca65_args)
