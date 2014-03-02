@@ -7,7 +7,7 @@ CRAB_HALFWIDTH = (CRAB_WIDTH>>1)
 CRAB_HEIGHT = (8 * 2 - 1)
 CRAB_HALFHEIGHT = (CRAB_HEIGHT>1)
 
-CRAB_SPEED = 150
+CRAB_SPEED = 200
 
 CRAB_KNOCKBACK_SPEED = 500
 
@@ -54,6 +54,12 @@ crab_turnleft_direction:
   .byte CRAB_DIRECTION_DOWN
   .byte CRAB_DIRECTION_RIGHT
   .byte CRAB_DIRECTION_LEFT
+
+crab_opposite_direction:
+  .byte CRAB_DIRECTION_LEFT
+  .byte CRAB_DIRECTION_RIGHT
+  .byte CRAB_DIRECTION_UP
+  .byte CRAB_DIRECTION_DOWN
 
 .define crab_direction_speed_x CRAB_SPEED, -CRAB_SPEED, 0, 0, \
                                CRAB_KNOCKBACK_SPEED, -CRAB_KNOCKBACK_SPEED, 0, 0, \
@@ -229,22 +235,23 @@ do_not_turn_crab:
 
   ldy crab_direction,x
 
-  lda crab_knockback_counter,x
-  beq do_not_use_knockback_speed
-
-  tya
-  clc
-  adc #4
-  tay
-
-do_not_use_knockback_speed:
-
   lda crab_random_pause_counter,x
   bmi do_not_use_pause_speed
 
   ldy #8
 
 do_not_use_pause_speed:
+
+  lda crab_knockback_counter,x
+  beq do_not_use_knockback_speed
+
+  ldy crab_direction,x
+  tya
+  clc
+  adc #4
+  tay
+
+do_not_use_knockback_speed:
 
   .scope
   lda crab_direction_speed_x_hi,y
@@ -326,11 +333,14 @@ done:
   and #FLAG_SOLID
   beq do_not_turn_crab
 
+  lda #255
+  sta crab_random_pause_counter,x
+
   lda #0
   sta crab_knockback_counter,x
 
   ldy crab_direction,x
-  lda crab_turnleft_direction,y
+  lda crab_opposite_direction,y
   sta crab_direction,x
 
 do_not_turn_crab:
