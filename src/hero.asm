@@ -490,6 +490,7 @@ no_lanterns_left:
 .proc hero_hurt
 hero_knockback_direction = b0
 
+  .ifndef INVINCIBLE
   ; -if hero_invincibility_counter is 0
   lda hero_invincibility_counter
   bne hero_invincible
@@ -533,7 +534,6 @@ skip_lookup_opposite_direction:
   pla
   tax
 
-  .ifndef INVINCIBLE
   ;decrement hero's health
   dec hero_health
   bne hero_not_dead
@@ -543,12 +543,12 @@ skip_lookup_opposite_direction:
   sta state_control_params+play_state_control::action
 
 hero_not_dead:
-  .endif
 
   lda #HERO_STATE_KNOCKBACK
   sta hero_state
 
 hero_invincible:
+  .endif
 
   rts
 

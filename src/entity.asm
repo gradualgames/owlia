@@ -140,6 +140,7 @@ direction = entity_local16
   lda knockback_counter_reset
   sta knockback_counter,x
 
+  .ifndef INVINCIBLE_ENEMIES
   dec health,x
   bne entity_not_dead_yet
 
@@ -150,6 +151,7 @@ direction = entity_local16
   sta entity_flags,x
 
 entity_not_dead_yet:
+  .endif
 
   rts
 
