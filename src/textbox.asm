@@ -578,7 +578,7 @@ exit_wait_loop:
   clear_vblank_done
 
   ;draw all middle rows, incrementing y coordinate (w1)
-  ldx #5
+  ldx #4
 next_middle_row:
   wait_vblank_done
 
@@ -656,7 +656,7 @@ next_middle_row:
   clear_vblank_done
 
   ;draw all middle rows, incrementing y coordinate (w1)
-  ldx #6
+  ldx #4
 next_middle_row:
   wait_vblank_done
 

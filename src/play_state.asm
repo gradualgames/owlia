@@ -1703,16 +1703,20 @@ play_state_action_start_conversation:
 
   jsr align_entities_if_occluded_by_textbox
 
-  clear_vblank_done
-  wait_vblank_done
+  jsr sprite_clear_all
 
-  jsr draw_sprites
+  jsr entity_draw_all
+
+  jsr sprite_draw_shadow_spots
+
+  jsr hero_draw_status
 
   lda #TEXTBOX_SCREEN_SPRITE_OCCLUDE_Y
   sta b0
   jsr sprite_hide_all_below
 
   clear_vblank_done
+  wait_vblank_done
 
   lda #TEXTBOX_PLAY_STATE_ROW
   sta textbox_row

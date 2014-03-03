@@ -2,20 +2,21 @@
 TEXTBOX_INC = 1
 
 .include "bg_chr_data.inc"
+.include "camera.inc"
 
 ;please note, this bank is intended to be the same as CONVERSATIONS_BANK,
 ;as the run_conversation routine assumes that the conversation data is
 ;loaded in the same bank as the textbox code.
 TEXTBOX_BANK = 10
 
-TEXTBOX_PLAY_STATE_ROW = (16 * 10)
+TEXTBOX_PLAY_STATE_ROW = (16 * 9)
 TEXTBOX_CUT_SCENE_ROW = (16 * 10)
 
 TEXTBOX_BG_CHR_BANK = BG_CHR_DATA_BANK1
 
 TEXTBOX_SCREEN_X = 0
-TEXTBOX_SCREEN_Y = 176
-TEXTBOX_SCREEN_SPRITE_OCCLUDE_Y = (TEXTBOX_SCREEN_Y - 8)
+TEXTBOX_SCREEN_Y = TEXTBOX_PLAY_STATE_ROW + CAMERA_SCREEN_ORIGIN_Y
+TEXTBOX_SCREEN_SPRITE_OCCLUDE_Y = (TEXTBOX_SCREEN_Y-8)
 TEXTBOX_WIDTH = 255
 TEXTBOX_HEIGHT = 80
 
