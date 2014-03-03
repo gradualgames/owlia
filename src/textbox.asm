@@ -326,23 +326,7 @@ clear_textbox:
   jmp clear_textbox_impl
 wait:
 
-  ;play a sound
-  txa
-  pha
-
-  lda #<sfx_get_item
-  sta sound_param_word_0
-  lda #>sfx_get_item
-  sta sound_param_word_0+1
-
-  lda #2
-  sta sound_param_byte_0
-
-  ldx #soundeffect_one
-  jsr stream_initialize
-
-  pla
-  tax
+  jsr play_prompt_sound
 
   jmp wait_impl
 confirm_cancel:
@@ -405,7 +389,51 @@ time:
   clear_vblank_done
   wait_vblank_done
 
+  jsr blink_arrow_cursor
+
   jsr controller_indirect
+
+  lda buffer_controller+buttons::_a
+  and #%00000011
+  cmp #%00000001
+  bne wait_impl
+
+  jsr hide_arrow_cursor
+
+  ;make certain that cursor erase gets uploaded before decoding
+  ;the next character in the script
+  clear_vblank_done
+  wait_vblank_done
+
+  ;read next character
+  jmp read_next_character
+.endproc
+
+.proc play_prompt_sound
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_get_item
+  sta sound_param_word_0
+  lda #>sfx_get_item
+  sta sound_param_word_0+1
+
+  lda #2
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  rts
+
+.endproc
+
+.proc blink_arrow_cursor
 
   .scope
   dec b2
@@ -424,20 +452,16 @@ cursor:
   jmp done
 space:
 
-  clc
-  lda #MIDDLE_TILE_OFFSET
-  adc textbox_and_font_chr_offset
-  sta nametable_row_buffer,x
-  lda #1
-  sta row_ready
+  jsr hide_arrow_cursor
 
 done:
   .endscope
 
-  lda buffer_controller+buttons::_a
-  and #%00000011
-  cmp #%00000001
-  bne wait_impl
+  rts
+
+.endproc
+
+.proc hide_arrow_cursor
 
   clc
   lda #MIDDLE_TILE_OFFSET
@@ -446,20 +470,22 @@ done:
   lda #1
   sta row_ready
 
-  ;make certain that cursor erase gets uploaded before decoding
-  ;the next character in the script
-  clear_vblank_done
-  wait_vblank_done
+  rts
 
-  ;read next character
-  jmp read_next_character
 .endproc
 
 .proc confirm_cancel_impl
+
+  jsr play_prompt_sound
+
+confirm_cancel_loop:
+
   ;If it is CC, wait til user hits A or B button,
   ;then store TEXTBOX_CONFIRM or TEXTBOX_CANCEL in textbox_result
   clear_vblank_done
   wait_vblank_done
+
+  jsr blink_arrow_cursor
 
   jsr controller_indirect
 
@@ -472,14 +498,16 @@ done:
   cmp #%00000001
   beq store_result_cancel
   ;if we reach here, neither A nor B was pressed, keep waiting
-  jmp confirm_cancel
+  jmp confirm_cancel_loop
 store_result_confirm:
   lda #TEXTBOX_CONFIRM
   sta textbox_result
+  jsr hide_arrow_cursor
   jmp read_next_character
 store_result_cancel:
   lda #TEXTBOX_CANCEL
   sta textbox_result
+  jsr hide_arrow_cursor
   jmp read_next_character
 .endproc
 
