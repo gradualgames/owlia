@@ -87,6 +87,11 @@ apu_register_sets: .res 40
 
   dec sound_disable_update
 
+  ;null out song address
+  lda #0
+  sta song_address
+  sta song_address+1
+
   rts
 
 .endproc
