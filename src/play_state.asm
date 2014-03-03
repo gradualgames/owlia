@@ -1753,11 +1753,6 @@ play_state_action_start_conversation:
 
   jsr erase_textbox
 
-  ;make sure the controller buffer is cleared out. It is possible an entity
-  ;such as the innkeep will want it to be clear at this point.
-  lda #$ff
-  jsr controller_fill_buffer_with_accumulator
-
   ;the user has finished advancing through the conversation, make
   ;sure the play state control action is a nop as we return to the
   ;regular play state.

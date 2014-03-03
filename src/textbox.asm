@@ -253,6 +253,12 @@ read_next_character:
   jmp do_not_exit_conversation
 start_pressed:
 b_pressed:
+  ;ensure no off-to-on transitions can be detected
+  ;on either b or start immediately after exiting
+  ;conversation.
+  lda #$ff
+  sta buffer_controller+buttons::_b
+  sta buffer_controller+buttons::_start
   lda #TEXTBOX_EXIT
   sta textbox_result
   jmp end_conversation
