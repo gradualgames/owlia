@@ -25,7 +25,6 @@
 .define locations \
     village_house1_entrance, \
     village_inn_entrance, \
-    village_weaponstore_entrance, \
     village_potionstore_entrance, \
     village_housebl_entrance, \
     village_housebr_entrance, \
@@ -34,7 +33,6 @@
     house1_intro, \
     house1_exit, \
     inn_exit, \
-    weaponstore_exit, \
     potionstore_exit, \
     housebl_exit, \
     housebr_exit, \
@@ -211,12 +209,12 @@ inn_entity_instances:
 
 store_entity_instances:
   .byte 6  ;count
-  .byte entity_index_npc, 9, 13, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 6, 16 * 1, NPC_MODE_WALK, NPC_DIRECTION_DOWN
-  .byte entity_index_npc, 15, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
-  .byte entity_index_item, 10, 17, sprite_chr_group_index_bomb, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_BOMB, 10, 5
-  .byte entity_index_item, 11, 17, sprite_chr_group_index_lantern, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_LANTERN, 10, 5
-  .byte entity_index_item, 12, 17, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_HEALTH, 10, 1
-  .byte entity_index_item, 13, 18, sprite_chr_group_index_coins, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_GP, 0, 100
+  .byte entity_index_npc, 15, 12, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 5, 16 * 3, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte entity_index_npc, 12, 20, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, NPC_DIRECTION_RIGHT
+  .byte entity_index_item, 14, 18, sprite_chr_group_index_bomb, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_BOMB, 10, 5
+  .byte entity_index_item, 16, 18, sprite_chr_group_index_lantern, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_LANTERN, 10, 5
+  .byte entity_index_item, 18, 18, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_HEALTH, 10, 1
+  .byte entity_index_item, 16, 18, sprite_chr_group_index_coins, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_GP, 0, 100
 
 meadow1_entity_instances:
   .byte 8  ;count
@@ -558,11 +556,6 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_entity_set, village_entity_instances, village_palette,\
                          11, 35, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 
-village_weaponstore_entrance:
-define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                         area_index_village, village_entity_set, village_entity_instances, village_palette,\
-                         54, 35, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
-
 village_potionstore_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_entity_set, village_entity_instances, village_palette,\
@@ -606,15 +599,10 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          25, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 
 ;store locations
-weaponstore_exit:
-define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                         area_index_store, house_entity_set, store_entity_instances, house_palette,\
-                         25, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
-
 potionstore_exit:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_store, house_entity_set, store_entity_instances, house_palette,\
-                         13, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+                         16, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 
 ;housebl locations
 housebl_exit:
