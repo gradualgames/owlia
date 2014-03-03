@@ -1724,6 +1724,18 @@ play_state_action_start_conversation:
   switch_bank_ldy #TEXTBOX_BANK
   jsr draw_textbox
 
+  ;save current controller routine
+  lda controller_routine
+  pha
+  lda controller_routine+1
+  pha
+
+  ;install normal controller routine
+  lda #<controller_read
+  sta controller_routine
+  lda #>controller_read
+  sta controller_routine+1
+
   ;when an NPC starts a conversation, the NPC specifies the index of a
   ;conversation to load, load it here.
   ldx state_control_params+play_state_control::param
@@ -1732,6 +1744,12 @@ play_state_action_start_conversation:
   lda conversations_hi,x
   sta w0+1
   jsr run_conversation
+
+  ;restore old controller routine
+  pla
+  sta controller_routine+1
+  pla
+  sta controller_routine
 
   jsr erase_textbox
 
