@@ -1731,9 +1731,9 @@ play_state_action_start_conversation:
   pha
 
   ;install normal controller routine
-  lda #<controller_read
+  lda #<controller_read_ignore_start
   sta controller_routine
-  lda #>controller_read
+  lda #>controller_read_ignore_start
   sta controller_routine+1
 
   ;when an NPC starts a conversation, the NPC specifies the index of a

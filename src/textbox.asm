@@ -245,20 +245,7 @@ read_next_character:
   lda buffer_controller+buttons::_start
   and #%00000011
   cmp #%00000001
-  beq start_pressed
-  lda buffer_controller+buttons::_b
-  and #%00000011
-  cmp #%00000001
-  beq b_pressed
-  jmp do_not_exit_conversation
-start_pressed:
-b_pressed:
-  ;ensure no off-to-on transitions can be detected
-  ;on either b or start immediately after exiting
-  ;conversation.
-  lda #$ff
-  sta buffer_controller+buttons::_b
-  sta buffer_controller+buttons::_start
+  bne do_not_exit_conversation
   lda #TEXTBOX_EXIT
   sta textbox_result
   jmp end_conversation
