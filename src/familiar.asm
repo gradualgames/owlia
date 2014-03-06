@@ -102,6 +102,43 @@
 
   jsr familiar_common_init
 
+  ;spawn a key entity and put it in passive state
+  lda #entity_index_key
+  sta b0
+
+  clc
+  lda familiar_x
+  adc #KEY_FAMILIAR_X_OFFSET
+  sta w0
+  lda familiar_x+1
+  adc #0
+  sta w0+1
+  clc
+  lda familiar_y
+  adc #KEY_FAMILIAR_Y_OFFSET
+  sta w1
+  lda familiar_y+1
+  adc #0
+  sta w1+1
+
+  jsr entity_spawn
+
+  bmi cannot_spawn_key
+
+  stx familiar_carried_entity_index
+
+  lda #KEY_STATE_PASSIVE_INIT
+  sta key_initial_state,x
+
+  rts
+cannot_spawn_key:
+
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_ALIVE_CLEAR
+  sta familiar_flags
+
+  jsr familiar_play_error_sound
+
   rts
 
 .endproc
@@ -140,7 +177,18 @@
 
   jsr entity_spawn
 
+  bmi cannot_spawn_bomb
+
   stx familiar_carried_entity_index
+
+  rts
+cannot_spawn_bomb:
+
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_ALIVE_CLEAR
+  sta familiar_flags
+
+  jsr familiar_play_error_sound
 
   rts
 
@@ -173,7 +221,18 @@
 
   jsr entity_spawn
 
+  bmi cannot_spawn_lantern
+
   stx familiar_carried_entity_index
+
+  rts
+cannot_spawn_lantern:
+
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_ALIVE_CLEAR
+  sta familiar_flags
+
+  jsr familiar_play_error_sound
 
   rts
 
@@ -902,30 +961,6 @@ no_fetched_entity:
   bne not_ready_yet
 
   jsr familiar_play_flap_sound
-
-  ;spawn a key entity and put it in passive state
-  lda #entity_index_key
-  sta b0
-
-  clc
-  lda familiar_x
-  adc #KEY_FAMILIAR_X_OFFSET
-  sta w0
-  lda familiar_x+1
-  adc #0
-  sta w0+1
-  clc
-  lda familiar_y
-  adc #KEY_FAMILIAR_Y_OFFSET
-  sta w1
-  lda familiar_y+1
-  adc #0
-  sta w1+1
-
-  jsr entity_spawn
-
-  lda #KEY_STATE_PASSIVE_INIT
-  sta key_initial_state,x
 
   ;done initializing, set fly to keyhole state
   lda #FAMILIAR_STATE_UNLOCK_FLY_TO_KEYHOLE
@@ -2994,6 +3029,30 @@ done:
   sta sound_param_word_0+1
 
   lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  rts
+
+.endproc
+
+.proc familiar_play_error_sound
+
+  ;play an error sound
+  txa
+  pha
+
+  lda #<sfx_error
+  sta sound_param_word_0
+  lda #>sfx_error
+  sta sound_param_word_0+1
+
+  lda #0
   sta sound_param_byte_0
 
   ldx #soundeffect_one
