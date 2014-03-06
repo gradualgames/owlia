@@ -2313,10 +2313,10 @@ done:
 ;d = diagonal
 ;        s   v   h  d
 cycle_pad_lut1:
-  .byte 99, 12, 24, 1
+  .byte 97, 10, 23, 1
 
 cycle_pad_lut2:
-  .byte 99, 13, 25, 2
+  .byte 97, 10, 23, 2
 
 .proc nametable_and_attribute_update_ppu
 

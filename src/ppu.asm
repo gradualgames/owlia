@@ -428,7 +428,7 @@ done_fading:
   set_vblank_done
 
   ;pad CPU cycles for finely tuned graphics hiding
-  ldx #218
+  ldx #179
 : dex
   bne :-
 
