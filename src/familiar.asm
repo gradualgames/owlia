@@ -1501,6 +1501,10 @@ bomb_has_been_dropped:
   sta bomb_target_y_velocity_lo,x
   lda familiar_y_velocity+1
   sta bomb_target_y_velocity_hi,x
+
+  ;the familiar is no longer carrying the bomb!
+  lda #$ff
+  sta familiar_carried_entity_index
 no_bomb:
   .endscope
 
@@ -2654,8 +2658,6 @@ done:
   sta familiar_flags
   lda #ACTION_NOP
   sta entity_action_rect2_action
-  lda #$ff
-  sta familiar_carried_entity_index
 
 do_not_kill_familiar:
 
