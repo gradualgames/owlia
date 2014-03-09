@@ -86,10 +86,7 @@ intro_state_init:
   ;take over the controller. This is the intro cut scene and we
   ;don't want the player trying to do anything while it completes.
   jsr controller_clear
-  lda #<controller_nop
-  sta controller_routine
-  lda #>controller_nop
-  sta controller_routine+1
+  set_controller_routine controller_nop
 
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
@@ -215,10 +212,7 @@ intro_state_fly_to_adlanniel:
   ;restore control to the player
   lda #$ff
   jsr controller_fill_buffer_with_accumulator
-  lda #<controller_read
-  sta controller_routine
-  lda #>controller_read
-  sta controller_routine+1
+  set_controller_routine controller_read
 
   ;but wait some frames before really taking control
   lda #50

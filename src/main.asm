@@ -69,10 +69,7 @@ reset:
   unsafely_set_vblank_routine ppu_vblank_nop
 
   ;install default controller read routine
-  lda #<controller_read
-  sta controller_routine
-  lda #>controller_read
-  sta controller_routine+1
+  set_controller_routine controller_read
 
   ;initialize ppu registers with settings we're never going to change
   set_ppu_2000_bit PPU0_EXECUTE_NMI

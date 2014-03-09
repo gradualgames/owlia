@@ -20,4 +20,31 @@ CONTROLLER_INC = 1
   _right   .byte
 .endstruct
 
+.macro save_controller_routine
+
+  lda controller_routine
+  pha
+  lda controller_routine+1
+  pha
+
+.endmacro
+
+.macro restore_controller_routine
+
+  pla
+  sta controller_routine+1
+  pla
+  sta controller_routine
+
+.endmacro
+
+.macro set_controller_routine address
+
+  lda #<address
+  sta controller_routine
+  lda #>address
+  sta controller_routine+1
+
+.endmacro
+
 .endif

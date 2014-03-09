@@ -109,10 +109,7 @@ silmaran_state_wait:
 
   ;take over the controller.
   jsr controller_clear
-  lda #<controller_nop
-  sta controller_routine
-  lda #>controller_nop
-  sta controller_routine+1
+  set_controller_routine controller_nop
 
   lda #HERO_DIRECTION_UP
   sta hero_direction
@@ -348,10 +345,7 @@ silmaran_state_ascend:
   ;restore control to the player
   lda #$ff
   jsr controller_fill_buffer_with_accumulator
-  lda #<controller_read
-  sta controller_routine
-  lda #>controller_read
-  sta controller_routine+1
+  set_controller_routine controller_read
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
@@ -384,10 +378,7 @@ silmaran_state_summon_adlanniel:
 
   ;restore control to the player
   jsr controller_clear
-  lda #<controller_read
-  sta controller_routine
-  lda #>controller_read
-  sta controller_routine+1
+  set_controller_routine controller_read
 
   lda #SILMARAN_STATE_WAIT
   sta entity_state,x
@@ -432,10 +423,7 @@ do_not_switch_back_to_wait_state:
 
   ;take over the controller.
   jsr controller_clear
-  lda #<controller_nop
-  sta controller_routine
-  lda #>controller_nop
-  sta controller_routine+1
+  set_controller_routine controller_nop
 
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action

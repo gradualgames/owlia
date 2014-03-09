@@ -19,10 +19,7 @@
 
 play_cut_scene:
 
-  lda #<controller_read
-  sta controller_routine
-  lda #>controller_read
-  sta controller_routine+1
+  set_controller_routine controller_read
 
   jsr load_slide
 

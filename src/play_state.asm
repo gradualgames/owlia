@@ -1251,10 +1251,7 @@ next_entity:
   ;way, we will move the hero into the position specified by the new
   ;location.
   jsr controller_clear
-  lda #<controller_nop
-  sta controller_routine
-  lda #>controller_nop
-  sta controller_routine+1
+  set_controller_routine controller_nop
 
   .scope
   lda #20
@@ -1311,10 +1308,7 @@ done:
   ;restore control to the player
   lda #$ff
   jsr controller_fill_buffer_with_accumulator
-  lda #<controller_read
-  sta controller_routine
-  lda #>controller_read
-  sta controller_routine+1
+  set_controller_routine controller_read
 
   ;now that we know the location, make sure the state control
   ;param is nop again
@@ -1725,16 +1719,10 @@ play_state_action_start_conversation:
   jsr draw_textbox
 
   ;save current controller routine
-  lda controller_routine
-  pha
-  lda controller_routine+1
-  pha
+  save_controller_routine
 
   ;install normal controller routine
-  lda #<controller_read_ignore_start
-  sta controller_routine
-  lda #>controller_read_ignore_start
-  sta controller_routine+1
+  set_controller_routine controller_read_ignore_start
 
   ;when an NPC starts a conversation, the NPC specifies the index of a
   ;conversation to load, load it here.
@@ -1746,10 +1734,7 @@ play_state_action_start_conversation:
   jsr run_conversation
 
   ;restore old controller routine
-  pla
-  sta controller_routine+1
-  pla
-  sta controller_routine
+  restore_controller_routine
 
   jsr erase_textbox
 

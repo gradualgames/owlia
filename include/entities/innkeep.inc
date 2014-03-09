@@ -177,10 +177,7 @@ innkeep_state_stay_or_not:
 do_not_stay:
 
   ;restore control to player
-  lda #<controller_read
-  sta controller_routine
-  lda #>controller_read
-  sta controller_routine+1
+  set_controller_routine controller_read
 
   ;transition back to prompt state
   lda #INNKEEP_STATE_PROMPT_FOR_STAY
@@ -211,10 +208,7 @@ stay:
   ;take over the controller, the innkeep entity will move the hero to the
   ;bed using the passed in parameters for how far to move
   jsr controller_clear
-  lda #<controller_nop
-  sta controller_routine
-  lda #>controller_nop
-  sta controller_routine+1
+  set_controller_routine controller_nop
 
   ;transition to state which moves hero to bed
   lda #INNKEEP_STATE_ALIGN_HERO_WITH_DESTINATION_X
@@ -225,10 +219,7 @@ stay:
 not_enough_gp:
 
   ;restore control to player
-  lda #<controller_read
-  sta controller_routine
-  lda #>controller_read
-  sta controller_routine+1
+  set_controller_routine controller_read
 
   ;transition back to prompt state
   lda #INNKEEP_STATE_PROMPT_FOR_STAY
@@ -421,10 +412,7 @@ faded_in:
   ;further input will be detected (fill buffer with all pressed values)
   lda #$ff
   jsr controller_fill_buffer_with_accumulator
-  lda #<controller_read
-  sta controller_routine
-  lda #>controller_read
-  sta controller_routine+1
+  set_controller_routine controller_read
 
   ;transition back to prompt state
   lda #INNKEEP_STATE_PROMPT_FOR_STAY
