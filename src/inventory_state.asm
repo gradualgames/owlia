@@ -216,6 +216,10 @@ next_tech:
 
   safely_set_vblank_routine ppu_inventory_vblank
 
+  jsr controller_clear
+  lda #$ff
+  sta buffer_controller+buttons::_start
+
 inventory_state_main:
 
   wait_vblank_done
