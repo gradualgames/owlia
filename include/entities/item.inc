@@ -305,28 +305,65 @@ not_enough_gp:
 
 item_state_drop_random_item_init:
 
+  ;just eor a bunch of game state together to
+  ;get a pseudo random number for the item type.
+  ;I played around with the prng I had been using
+  ;since Nomolos, but I am actually getting much
+  ;better results from the following very simple
+  ;code.
   .scope
-  ldy #5
-: lda item_type,x
-  beq doEor
-  asl
-  beq noEor ;if the input was $80, skip the EOR
-  bcc noEor
-doEor:
-  eor stream_read_address_lo
-noEor:
+  lda stream_read_address_lo
+  eor hero_x
+  eor hero_y
+  sta b0
+
+  clc
+  lda b0
+  sbc #<5
+  lda #0
+  sbc #>5
+  bmi drop_lantern
+
+  clc
+  lda b0
+  sbc #<20
+  lda #0
+  sbc #>20
+  bmi drop_bomb
+
+  clc
+  lda b0
+  sbc #<50
+  lda #0
+  sbc #>50
+  bmi drop_heart
+
+  clc
+  lda b0
+  sbc #<80
+  lda #0
+  sbc #>80
+  bmi drop_gp
+
+  jmp do_not_drop_item
+
+drop_gp:
+  lda #ITEM_TYPE_GP
   sta item_type,x
-  dey
-  bne :-
+  jmp done
+drop_heart:
+  lda #ITEM_TYPE_HEALTH
+  sta item_type,x
+  jmp done
+drop_bomb:
+  lda #ITEM_TYPE_BOMB
+  sta item_type,x
+  jmp done
+drop_lantern:
+  lda #ITEM_TYPE_LANTERN
+  sta item_type,x
+done:
   .endscope
-
-  lda item_type,x
-  cmp #100
-  bpl do_not_drop_item
-
-  lda item_type,x
-  and #$03
-  sta item_type,x
 
   ldy item_type,x
   lda item_random_pickup_quantities,y

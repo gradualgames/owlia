@@ -44,10 +44,10 @@ NDXDEBUG_H = 1
 .endmacro
 
 ; Macros for formatting the ndxDebugOut output.
-.define ndxHex8( addr ) 1, 0, <(addr), >(addr)
-.define ndxDec8( addr ) 1, 1, <(addr), >(addr)
-.define ndxHex16( addr ) 1, 2, <(addr), >(addr)
-.define ndxDec16( addr ) 1, 3, <(addr), >(addr)
+.define ndxHex8( addr ) {1, 0, <(addr), >(addr)}
+.define ndxDec8( addr ) {1, 1, <(addr), >(addr)}
+.define ndxHex16( addr ) {1, 2, <(addr), >(addr)}
+.define ndxDec16( addr ) {1, 3, <(addr), >(addr)}
 
 ; Execute a string as Lua code.
 .macro ndxLuaExecStr str, output_nop
