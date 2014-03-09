@@ -1390,6 +1390,18 @@ skip_spawn_familiar_test:
 
 skip_attack_test:
 
+  lda buffer_controller+buttons::_start
+  and #%00000011
+  cmp #%00000001
+  bne skip_inventory_test
+
+  lda #$ff
+  sta buffer_controller+buttons::_start
+  lda #ACTION_SHOW_INVENTORY_SCREEN
+  sta state_control_params+play_state_control::action
+
+skip_inventory_test:
+
   rts
 
 ;****************************************************************

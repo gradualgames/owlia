@@ -519,6 +519,7 @@ done:
   play_state_action_goto_location_group1, \
   play_state_action_scrollto_location_group1, \
   play_state_action_start_conversation, \
+  play_state_action_transition_to_inventory_state, \
   play_state_action_nop, \
   play_state_action_game_over, \
   play_state_action_cut_scene
@@ -836,13 +837,6 @@ play_state:
   jmp (w0)
 play_state_action_nop:
 
-  ;test controller for system logic that entities never
-  ;need to care about such as the inventory state.
-  lda buffer_controller+buttons::_start
-  and #%00000011
-  cmp #%00000001
-  beq transition_to_inventory_state
-
   jmp play_state
 
 ;****************************************************************
@@ -851,7 +845,7 @@ play_state_action_nop:
 ;inventory state is in a separate source file to help remove
 ;clutter from the play state.
 ;****************************************************************
-transition_to_inventory_state:
+play_state_action_transition_to_inventory_state:
 
   clear_vblank_done
   wait_vblank_done

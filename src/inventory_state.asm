@@ -216,8 +216,6 @@ next_tech:
 
   safely_set_vblank_routine ppu_inventory_vblank
 
-  jsr controller_clear
-
 inventory_state_main:
 
   wait_vblank_done
