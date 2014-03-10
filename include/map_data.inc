@@ -4,6 +4,20 @@ MAP_DATA_INC = 1
 MAP_DATA_BANK1 = 11
 MAP_DATA_BANK2 = 12
 
+.global blank_palette
+.global blank_map
+.global blank_big_metatile_table_bottom_right
+.global blank_big_metatile_table_bottom_left
+.global blank_big_metatile_table_top_right
+.global blank_big_metatile_table_top_left
+.global blank_metatile_table_properties
+.global blank_metatile_table_params
+.global blank_metatile_table_attributes
+.global blank_metatile_table_bottom_right_tiles
+.global blank_metatile_table_bottom_left_tiles
+.global blank_metatile_table_top_right_tiles
+.global blank_metatile_table_top_left_tiles
+
 .global village_palette
 .global village_map
 .global village_big_metatile_table_bottom_right

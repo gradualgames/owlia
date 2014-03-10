@@ -12,12 +12,15 @@
 .include "zp.inc"
 .include "textbox.inc"
 .include "map.inc"
+.include "map_data.inc"
 .include "title_state.inc"
 .include "sprite_chr_data.inc"
 
 .segment "CODE"
 
 play_cut_scene:
+
+  jsr load_blank_map
 
   set_controller_routine controller_read
 
@@ -50,6 +53,75 @@ exit_cut_scene_state:
 
   switch_bank_ldy #TITLE_STATE_BANK
   jmp title_state_init
+
+.proc load_blank_map
+
+  lda #MAP_DATA_BANK1
+  sta map_bank
+
+  ldy #<blank_metatile_table_properties
+  sta metatile_table_properties_address
+  lda #>blank_metatile_table_properties
+  sta metatile_table_properties_address+1
+
+  lda #<blank_metatile_table_params
+  sta metatile_table_params_address
+  lda #>blank_metatile_table_params
+  sta metatile_table_params_address+1
+
+  lda #<blank_metatile_table_attributes
+  sta metatile_table_attributes_address
+  lda #>blank_metatile_table_attributes
+  sta metatile_table_attributes_address+1
+
+  lda #<blank_metatile_table_top_left_tiles
+  sta metatile_table_top_left_tiles_address
+  lda #>blank_metatile_table_top_left_tiles
+  sta metatile_table_top_left_tiles_address+1
+
+  lda #<blank_metatile_table_top_right_tiles
+  sta metatile_table_top_right_tiles_address
+  lda #>blank_metatile_table_top_right_tiles
+  sta metatile_table_top_right_tiles_address+1
+
+  lda #<blank_metatile_table_bottom_left_tiles
+  sta metatile_table_bottom_left_tiles_address
+  lda #>blank_metatile_table_bottom_left_tiles
+  sta metatile_table_bottom_left_tiles_address+1
+
+  lda #<blank_metatile_table_bottom_right_tiles
+  sta metatile_table_bottom_right_tiles_address
+  lda #>blank_metatile_table_bottom_right_tiles
+  sta metatile_table_bottom_right_tiles_address+1
+
+  lda #<blank_big_metatile_table_top_left
+  sta big_metatile_table_top_left_address
+  lda #>blank_big_metatile_table_top_left
+  sta big_metatile_table_top_left_address+1
+
+  lda #<blank_big_metatile_table_top_right
+  sta big_metatile_table_top_right_address
+  lda #>blank_big_metatile_table_top_right
+  sta big_metatile_table_top_right_address+1
+
+  lda #<blank_big_metatile_table_bottom_left
+  sta big_metatile_table_bottom_left_address
+  lda #>blank_big_metatile_table_bottom_left
+  sta big_metatile_table_bottom_left_address+1
+
+  lda #<blank_big_metatile_table_bottom_right
+  sta big_metatile_table_bottom_right_address
+  lda #>blank_big_metatile_table_bottom_right
+  sta big_metatile_table_bottom_right_address+1
+
+  lda #<blank_map
+  sta map_address
+  lda #>blank_map
+  sta map_address+1
+
+  rts
+
+.endproc
 
 .proc load_slide
 

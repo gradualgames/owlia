@@ -6,6 +6,22 @@
 
 .segment "ROM11"
 
+.scope blank_data
+.include "blank.inc"
+.endscope
+blank_metatile_table_properties = blank_data::metatile_table_properties
+blank_metatile_table_params = blank_data::metatile_table_params
+blank_metatile_table_attributes = blank_data::metatile_table_attributes
+blank_metatile_table_top_left_tiles = blank_data::metatile_table_top_left_tiles
+blank_metatile_table_top_right_tiles = blank_data::metatile_table_top_right_tiles
+blank_metatile_table_bottom_left_tiles = blank_data::metatile_table_bottom_left_tiles
+blank_metatile_table_bottom_right_tiles = blank_data::metatile_table_bottom_right_tiles
+blank_big_metatile_table_top_left = blank_data::big_metatile_table_top_left
+blank_big_metatile_table_top_right = blank_data::big_metatile_table_top_right
+blank_big_metatile_table_bottom_left = blank_data::big_metatile_table_bottom_left
+blank_big_metatile_table_bottom_right = blank_data::big_metatile_table_bottom_right
+blank_map = blank_data::map
+
 .scope village_data
 .include "village.inc"
 .endscope

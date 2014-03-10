@@ -230,7 +230,7 @@ read_next_row:
 
   lda #1
   sta row_ready
-  ldx #2
+  ldx #3
   ;Read a character.
 read_next_character:
 
@@ -741,7 +741,7 @@ next_middle_row:
 
   far_call map_bank, map_decode_row
 
-  ldx #0
+  ldx #2
   ;draw top left corner
   clc
   lda textbox_and_font_chr_offset
@@ -749,14 +749,14 @@ next_middle_row:
   sta nametable_row_buffer,x
 
   ;draw top tile
-  ldx #1
+  ldx #3
   clc
   lda textbox_and_font_chr_offset
   adc #TOP_TILE_OFFSET
 draw_next_top_tile:
   sta nametable_row_buffer,x
   inx
-  cpx #31
+  cpx #29
   bne draw_next_top_tile
 
   ;draw top right corner
@@ -767,11 +767,11 @@ draw_next_top_tile:
 
   ;fill the intermediate attribute row buffer with correct value
   lda textbox_attribute
-  ldx #16
+  ldx #14
 next_intermediate_attribute:
   sta intermediate_attribute_row_buffer,x
   dex
-  bpl next_intermediate_attribute
+  bne next_intermediate_attribute
   far_call map_bank, map_process_intermediate_attribute_row_buffer
 
   rts
@@ -788,7 +788,7 @@ next_intermediate_attribute:
 
   far_call map_bank, map_decode_row
 
-  ldx #0
+  ldx #2
   ;draw left side
   clc
   lda textbox_and_font_chr_offset
@@ -796,14 +796,14 @@ next_intermediate_attribute:
   sta nametable_row_buffer,x
 
   ;draw middle tile
-  ldx #1
+  ldx #3
   clc
   lda textbox_and_font_chr_offset
   adc #MIDDLE_TILE_OFFSET
 draw_next_top_tile:
   sta nametable_row_buffer,x
   inx
-  cpx #31
+  cpx #29
   bne draw_next_top_tile
 
   ;draw right side
@@ -814,11 +814,11 @@ draw_next_top_tile:
 
   ;fill the intermediate attribute row buffer with correct value
   lda textbox_attribute
-  ldx #16
+  ldx #14
 next_intermediate_attribute:
   sta intermediate_attribute_row_buffer,x
   dex
-  bpl next_intermediate_attribute
+  bne next_intermediate_attribute
 
   far_call map_bank, map_process_intermediate_attribute_row_buffer
 
@@ -836,7 +836,7 @@ next_intermediate_attribute:
 
   far_call map_bank, map_decode_row
 
-  ldx #0
+  ldx #2
   ;draw bottom left tile
   clc
   lda textbox_and_font_chr_offset
@@ -844,14 +844,14 @@ next_intermediate_attribute:
   sta nametable_row_buffer,x
 
   ;draw bottom tile
-  ldx #1
+  ldx #3
   clc
   lda textbox_and_font_chr_offset
   adc #BOTTOM_TILE_OFFSET
 draw_next_top_tile:
   sta nametable_row_buffer,x
   inx
-  cpx #31
+  cpx #29
   bne draw_next_top_tile
 
   ;draw bottom right tile
@@ -862,11 +862,11 @@ draw_next_top_tile:
 
   ;fill the intermediate attribute row buffer with correct value
   lda textbox_attribute
-  ldx #16
+  ldx #14
 next_intermediate_attribute:
   sta intermediate_attribute_row_buffer,x
   dex
-  bpl next_intermediate_attribute
+  bne next_intermediate_attribute
   far_call map_bank, map_process_intermediate_attribute_row_buffer
 
   rts
