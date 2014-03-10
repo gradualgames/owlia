@@ -208,13 +208,12 @@ inn_entity_instances:
   .byte entity_index_innkeep, 28, 19, 0, 10, conversation_index_prompt_for_stay_at_inn, <(22*16), >(22*16), <(14*16), >(14*16), 15, 45, -2, 2, 10
 
 store_entity_instances:
-  .byte 6  ;count
+  .byte 5  ;count
   .byte entity_index_npc, 15, 12, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 5, 16 * 3, NPC_MODE_WALK, NPC_DIRECTION_DOWN
   .byte entity_index_npc, 12, 20, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, NPC_DIRECTION_RIGHT
   .byte entity_index_item, 14, 18, sprite_chr_group_index_bomb, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_BOMB, 10, 5
   .byte entity_index_item, 16, 18, sprite_chr_group_index_lantern, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_LANTERN, 10, 5
   .byte entity_index_item, 18, 18, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_HEALTH, 10, 1
-  .byte entity_index_item, 16, 18, sprite_chr_group_index_coins, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_GP, 0, 100
 
 meadow1_entity_instances:
   .byte 8  ;count
