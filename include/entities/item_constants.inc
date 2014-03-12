@@ -20,10 +20,14 @@ ITEM_HEIGHT = $07
 
 ITEM_PARAMS = 4
 
+ITEM_FADE_OUT_LENGTH = 400
+
 item_initial_state = entity_local0
 item_type = entity_local1
 item_price = entity_local2
 item_quantity = entity_local3
+item_fade_out_counter_lo = entity_local4
+item_fade_out_counter_hi = entity_local5
 
 .enum
 ITEM_STATE_INIT
@@ -32,6 +36,8 @@ ITEM_STATE_PROMPT_FOR_PURCHASE
 ITEM_STATE_ADD_ITEM_OR_NOT
 ITEM_STATE_PICKUP_INIT
 ITEM_STATE_PICKUP
+ITEM_STATE_PICKUP_AND_FADE_OUT_INIT
+ITEM_STATE_PICKUP_AND_FADE_OUT
 ITEM_STATE_DROP_RANDOM_ITEM_INIT
 .endenum
 

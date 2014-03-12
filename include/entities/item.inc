@@ -64,6 +64,8 @@ item_random_pickup_quantities:
   item_state_add_item_or_not, \
   item_state_pickup_init, \
   item_state_pickup, \
+  item_state_pickup_and_fade_out_init, \
+  item_state_pickup_and_fade_out, \
   item_state_drop_random_item_init
 
 item_lo:
@@ -97,18 +99,7 @@ item_state_init:
 
 item_state_pickup_init:
 
-  jsr entity_set_drawable
-
-  ldy item_type,x
-  lda item_animation_addresses_lo,y
-  sta entity_animation_address_lo,x
-  lda item_animation_addresses_hi,y
-  sta entity_animation_address_hi,x
-
-  lda item_sprite_chr_group_index,y
-  tay
-  lda sprite_chr_group_offsets,y
-  sta entity_sprite_group_offset,x
+  jsr item_common_pickup_init
 
   lda #ITEM_STATE_PICKUP
   sta entity_state,x
@@ -117,65 +108,7 @@ item_state_pickup_init:
 
 item_state_pickup:
 
-  .scope
-  jsr entity_test_hero_rect
-  bne not_touching_hero
-
-  jsr increment_var
-
-  ;play a sound
-  txa
-  pha
-
-  lda #<sfx_get_item
-  sta sound_param_word_0
-  lda #>sfx_get_item
-  sta sound_param_word_0+1
-
-  lda #0
-  sta sound_param_byte_0
-
-  ldx #soundeffect_one
-  jsr stream_initialize
-
-  pla
-  tax
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-  rts
-
-not_touching_hero:
-  .endscope
-
-  ;test whether item is intersecting familiar and set
-  ;fetched entity index if the familiar is trying to fetch
-  ;something.
-  .scope
-  lda entity_action_rect2_action
-  cmp #ACTION_FETCH
-  bne familiar_not_fetching
-
-  jsr entity_test_entity_action_rect2
-  bne familiar_not_intersecting
-
-  ;store offsets for this entity when it is being fetched by familiar
-  lda #$04
-  sta familiar_carried_entity_x_offset
-  lda #$10
-  sta familiar_carried_entity_y_offset
-
-  ;store the item's entity index as the entity that is to be fetched.
-  stx familiar_carried_entity_index
-
-  ;tell the familiar to return to the hero with the fetched item.
-  far_call #FAMILIAR_BANK, familiar_fetch_return_to_hero
-
-familiar_not_intersecting:
-familiar_not_fetching:
-  .endscope
+  jsr item_test_hero_and_familiar
 
   rts
 
@@ -303,6 +236,68 @@ not_enough_gp:
 
   rts
 
+item_state_pickup_and_fade_out_init:
+
+  jsr item_common_pickup_init
+
+  lda #<ITEM_FADE_OUT_LENGTH
+  sta item_fade_out_counter_lo,x
+  lda #>ITEM_FADE_OUT_LENGTH
+  sta item_fade_out_counter_hi,x
+
+  lda #ITEM_STATE_PICKUP_AND_FADE_OUT
+  sta entity_state,x
+
+  rts
+
+item_state_pickup_and_fade_out:
+
+  .scope
+  sec
+  lda item_fade_out_counter_lo,x
+  sbc #$01
+  sta item_fade_out_counter_lo,x
+  lda item_fade_out_counter_hi,x
+  sbc #$00
+  sta item_fade_out_counter_hi,x
+
+  lda item_fade_out_counter_lo,x
+  ora item_fade_out_counter_hi,x
+  bne not_faded_out
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+
+not_faded_out:
+
+  lda item_fade_out_counter_hi,x
+  bne not_flashing_yet
+  lda item_fade_out_counter_lo,x
+  and #%10000000
+  bne not_flashing_yet
+
+  .scope
+  lda item_fade_out_counter_lo,x
+  and #%00000100
+  beq do_not_draw
+draw:
+  jsr entity_set_drawable
+  jmp done
+do_not_draw:
+  jsr entity_clear_drawable
+done:
+  .endscope
+
+not_flashing_yet:
+  .endscope
+
+  jsr item_test_hero_and_familiar
+
+  rts
+
 item_state_drop_random_item_init:
 
   ;just eor a bunch of game state together to
@@ -369,7 +364,7 @@ done:
   lda item_random_pickup_quantities,y
   sta item_quantity,x
 
-  lda #ITEM_STATE_PICKUP_INIT
+  lda #ITEM_STATE_PICKUP_AND_FADE_OUT_INIT
   sta entity_state,x
 
   rts
@@ -506,6 +501,91 @@ exceeded_max:
 
   rts
   .endscope
+
+.endproc
+
+.proc item_common_pickup_init
+
+  jsr entity_set_drawable
+
+  ldy item_type,x
+  lda item_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda item_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+
+  lda item_sprite_chr_group_index,y
+  tay
+  lda sprite_chr_group_offsets,y
+  sta entity_sprite_group_offset,x
+
+  rts
+
+.endproc
+
+.proc item_test_hero_and_familiar
+
+  .scope
+  jsr entity_test_hero_rect
+  bne not_touching_hero
+
+  jsr increment_var
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_get_item
+  sta sound_param_word_0
+  lda #>sfx_get_item
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  jsr stream_initialize
+
+  pla
+  tax
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+
+not_touching_hero:
+  .endscope
+
+  ;test whether item is intersecting familiar and set
+  ;fetched entity index if the familiar is trying to fetch
+  ;something.
+  .scope
+  lda entity_action_rect2_action
+  cmp #ACTION_FETCH
+  bne familiar_not_fetching
+
+  jsr entity_test_entity_action_rect2
+  bne familiar_not_intersecting
+
+  ;store offsets for this entity when it is being fetched by familiar
+  lda #$04
+  sta familiar_carried_entity_x_offset
+  lda #$10
+  sta familiar_carried_entity_y_offset
+
+  ;store the item's entity index as the entity that is to be fetched.
+  stx familiar_carried_entity_index
+
+  ;tell the familiar to return to the hero with the fetched item.
+  far_call #FAMILIAR_BANK, familiar_fetch_return_to_hero
+
+familiar_not_intersecting:
+familiar_not_fetching:
+  .endscope
+
+  rts
 
 .endproc
 
