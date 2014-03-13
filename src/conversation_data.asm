@@ -151,7 +151,7 @@ purchase_health:
   .byte NL,4, "HIT B FOR NO",CC,EC
 
 not_enough_gp:
-  .byte    1, "YOU DO NOT HAVE ENOUGH GP.",WT,EC
+  .byte    1, "YOU DON'T HAVE ENOUGH GP.",WT,EC
 
 intro_cut_scene_owls_text:
   .byte    1, "ONCE UPON A TIME,",TM,20," ON A"
