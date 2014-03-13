@@ -1727,6 +1727,8 @@ play_state_action_start_conversation:
   sta w0+1
   jsr run_conversation
 
+  jsr controller_clear
+
   ;restore old controller routine
   restore_controller_routine
 
