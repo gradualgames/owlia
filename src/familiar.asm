@@ -1302,6 +1302,10 @@ transition_to_pause_with_monolith_state:
   ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
 
+  ;familiar is no longer carrying the key!
+  lda #$ff
+  sta familiar_carried_entity_index
+
   lda #FAMILIAR_STATE_HOME_IN_TO_HERO
   sta familiar_state
 
@@ -1586,6 +1590,10 @@ do_not_drop_bomb_yet:
   sta entity_state,x
 no_lantern:
   .endscope
+
+  ;the familiar is no longer carrying the lantern!
+  lda #$ff
+  sta familiar_carried_entity_index
 
   lda #FAMILIAR_STATE_HOME_IN_TO_HERO
   sta familiar_state
