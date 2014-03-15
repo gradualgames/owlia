@@ -358,16 +358,16 @@ dungeon_area_nametable_patches:
   .word dungeon_area_nametable_monolith_east_bg_patch
 
 dungeon_area_nametable_monolith_patch:
-  .byte $02,$06,$03,$04,$09,$0a,$13,$14,$20,$21,$20,$31,$43,$44
+  .byte $02,$06,$05,$06,$0d,$0e,$17,$18,$23,$24,$23,$31,$3e,$3f
 dungeon_area_nametable_keyed_monolith_patch:
-  .byte $02,$06,$83,$84,$87,$88,$13,$14,$20,$21,$20,$31,$43,$44
+  .byte $02,$06,$78,$79,$7a,$7b,$17,$18,$23,$24,$23,$31,$3e,$3f
 dungeon_area_nametable_monolith_north_bg_patch:
 dungeon_area_nametable_monolith_south_bg_patch:
-  .byte $02,$04,$7f,$7e,$82,$73,$7f,$7e,$82,$73
+  .byte $02,$06,$75,$74,$77,$68,$75,$74,$77,$68,$75,$74,$77,$68
 dungeon_area_nametable_monolith_west_bg_patch:
-  .byte $02,$04,$51,$52,$5c,$5d,$51,$52,$95,$96
+  .byte $02,$06,$4a,$4b,$7c,$56,$4a,$4b,$88,$89,$75,$74,$77,$68
 dungeon_area_nametable_monolith_east_bg_patch:
-  .byte $02,$04,$85,$86,$8c,$8d,$85,$86,$99,$9a
+  .byte $02,$06,$4c,$4d,$57,$80,$4c,$4d,$8c,$8d,$75,$74,$77,$68
 
 dungeon1_boss_area:
   .byte MUSIC_BANK
