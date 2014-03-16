@@ -794,6 +794,9 @@ volume_stop:
   inc sound_disable_update
 
   ;load square 1 stream
+  ldx #0
+  jsr stream_stop
+
   ldy #song_header::square1_stream_address
   lda (song_address),y
   sta sound_param_word_0
@@ -814,6 +817,9 @@ volume_stop:
 no_square_1:
 
   ;load square 2 stream
+  ldx #1
+  jsr stream_stop
+
   ldy #song_header::square2_stream_address
   lda (song_address),y
   sta sound_param_word_0
@@ -834,6 +840,9 @@ no_square_1:
 no_square_2:
 
   ;load triangle stream
+  ldx #2
+  jsr stream_stop
+
   ldy #song_header::triangle_stream_address
   lda (song_address),y
   sta sound_param_word_0
@@ -854,6 +863,9 @@ no_square_2:
 no_triangle:
 
   ;load noise stream
+  ldx #3
+  jsr stream_stop
+
   ldy #song_header::noise_stream_address
   lda (song_address),y
   sta sound_param_word_0
