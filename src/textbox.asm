@@ -271,6 +271,9 @@ interpret_font_character:
   ;play a sound
   txa
   pha
+  ;save y, far_call destroys it.
+  tya
+  pha
 
   lda #<sfx_text
   sta sound_param_word_0
@@ -281,8 +284,11 @@ interpret_font_character:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
+  ;restore y, far_call destroys it.
+  pla
+  tay
   pla
   tax
 
@@ -407,6 +413,9 @@ time:
   ;play a sound
   txa
   pha
+  ;save y, far_call destroys it
+  tya
+  pha
 
   lda #<sfx_get_item
   sta sound_param_word_0
@@ -417,8 +426,11 @@ time:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
+  ;restore y, far_call destroys it
+  pla
+  tay
   pla
   tax
 

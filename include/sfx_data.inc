@@ -1,6 +1,8 @@
 .ifndef SFX_DATA_INC
 SFX_DATA_INC = 1
 
+SFX_BANK = 4
+
 .global sfx_volume_envelopes
 .global sfx_pitch_envelopes
 .global sfx_duty_envelopes

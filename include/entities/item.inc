@@ -211,7 +211,7 @@ item_state_add_item_or_not:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax
@@ -544,7 +544,7 @@ exceeded_max:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax

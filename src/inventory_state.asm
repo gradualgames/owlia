@@ -41,7 +41,7 @@ inventory_state_init:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax
@@ -255,7 +255,7 @@ inventory_state_exit:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax
@@ -776,7 +776,7 @@ item_was_null:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax
@@ -799,7 +799,7 @@ item_was_null:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax
@@ -822,7 +822,7 @@ item_was_null:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax
@@ -845,7 +845,7 @@ item_was_null:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax

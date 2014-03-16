@@ -2,7 +2,7 @@
 .include "sfx_data.inc"
 .include "soundengine.inc"
 
-.segment "CODE"
+.segment "ROM04"
 
 sfx_volume_envelope_silence:
   .byte 0, ENV_STOP

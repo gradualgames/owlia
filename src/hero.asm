@@ -145,7 +145,7 @@ no_keyed_monolith_found:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax
@@ -419,7 +419,7 @@ no_bombs_left:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax
@@ -456,7 +456,7 @@ no_lanterns_left:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax
@@ -529,7 +529,7 @@ skip_lookup_opposite_direction:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax
@@ -599,7 +599,7 @@ hero_invincible:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax
@@ -1365,7 +1365,7 @@ do_not_animate_hero:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax

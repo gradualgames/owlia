@@ -33,6 +33,9 @@ next_byte:
 ;expects next_bank and far_call_address to be filled with the correct bank
 ;and address for the routine to call. This can be used to call code which
 ;resides in one swappable PRG bank from another swappable PRG bank.
+;NOTE: We do not protect the y register within this routine so that the
+;processor status register is what is expected from the routine that was
+;called. It is the responsibility of the caller to preserve y if needed.
 .proc far_call_impl
 
   save_calling_bank

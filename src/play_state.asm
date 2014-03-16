@@ -21,6 +21,7 @@
 .include "sprites_and_animations_data.inc"
 .include "sprite_chr_data.inc"
 .include "music_data.inc"
+.include "sfx_data.inc"
 .include "bg_chr_data.inc"
 .include "mapper.inc"
 .include "areas.inc"
@@ -1139,7 +1140,7 @@ play_state_action_goto_location_group1:
   ldy #location::on_enter_sfx_stream
   lda (location_address),y
   tax
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   ;fade out from current palette
   switch_bank_ldy #LOCATIONS_BANK

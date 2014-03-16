@@ -227,7 +227,7 @@ done:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax
@@ -307,7 +307,7 @@ silmaran_state_perch:
   sta sound_param_byte_0
 
   ldx #soundeffect_one
-  jsr stream_initialize
+  far_call #SFX_BANK, stream_initialize
 
   pla
   tax

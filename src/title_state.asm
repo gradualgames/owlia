@@ -148,7 +148,7 @@ title_state_init:
   sta sound_param_word_0
   lda #>sfx_set1
   sta sound_param_word_0+1
-  jsr sfx_initialize
+  far_call #SFX_BANK, sfx_initialize
 
   ;load title theme if not already playing
   lda song_address
