@@ -31,5 +31,7 @@
 .include "octoboss_sprites_and_animations.inc"
 .include "tyto_sprites_and_animations.inc"
 .include "silmaran_sprites_and_animations.inc"
+.include "greathornedowl_sprites_and_animations.inc"
+.include "cage_sprites_and_animations.inc"
 .include "owleyes_sprites_and_animations.inc"
 .include "cagedowl_sprites_and_animations.inc"

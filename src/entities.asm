@@ -53,6 +53,8 @@
   splash_update, \
   intro_update, \
   silmaran_update, \
+  greathornedowl_update, \
+  cage_update, \
   monolith_update
 
 entity_defs_update_address_lo:
@@ -80,6 +82,8 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_splash
   .byte entity_update_bank_intro
   .byte entity_update_bank_silmaran
+  .byte entity_update_bank_greathornedowl
+  .byte entity_update_bank_cage
   .byte entity_update_bank_monolith
 
 entity_defs_sprites_and_animations_bank:
@@ -102,6 +106,8 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_splash
   .byte entity_sprites_and_animations_bank_intro
   .byte entity_sprites_and_animations_bank_silmaran
+  .byte entity_sprites_and_animations_bank_greathornedowl
+  .byte entity_sprites_and_animations_bank_cage
   .byte 0 ;entity_sprites_and_animations_bank_monolith
 
 .segment "ROM05"
@@ -124,4 +130,6 @@ entity_defs_sprites_and_animations_bank:
 .include "splash.inc"
 .include "intro.inc"
 .include "silmaran.inc"
+.include "greathornedowl.inc"
+.include "cage.inc"
 .include "monolith.inc"

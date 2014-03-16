@@ -171,7 +171,7 @@ dungeon1_boss_entity_set:
   .byte sprite_chr_group_index_splash
 
 dungeon1_boss_owl_dungeon_entity_set:
-  .byte 7   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -179,6 +179,8 @@ dungeon1_boss_owl_dungeon_entity_set:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_key
+  .byte sprite_chr_group_index_greathornedowl
+  .byte sprite_chr_group_index_cage
 
 ;****************************************************************
 ;Entity instance sets
@@ -529,7 +531,9 @@ dungeon1_boss_entity_instances:
                                           0, 5
 
 dungeon1_boss_owl_dungeon_entity_instances:
-  .byte 0
+  .byte 2
+  .byte entity_index_cage, 23, 3, 0, 0
+  .byte entity_index_greathornedowl, 23, 4, 0, 0
 
 ;****************************************************************
 ;Palettes.
@@ -558,6 +562,10 @@ dungeon_palette:
 dungeon1_boss_palette:
   .byte $0e,$0b,$19,$2a,$0e,$1b,$0b,$08,$0e,$0b,$08,$18,$0e,$08,$01,$12
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
+
+dungeon1_boss_owl_dungeon_palette:
+  .byte $0e,$0b,$19,$2a,$0e,$1b,$0b,$08,$0e,$0b,$08,$18,$0e,$08,$01,$12
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$08,$20,$0e,$00,$28,$10
 
 ;****************************************************************
 ;Location definitions.
@@ -757,6 +765,6 @@ dungeon1_boss_area_owl_dungeon:
 define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                   LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
                   LOCATION_BRIGHTNESS_LEVEL_4,\
-                        area_index_dungeon1_boss, dungeon1_boss_owl_dungeon_entity_set, dungeon1_boss_owl_dungeon_entity_instances, dungeon1_boss_palette,\
+                        area_index_dungeon1_boss, dungeon1_boss_owl_dungeon_entity_set, dungeon1_boss_owl_dungeon_entity_instances, dungeon1_boss_owl_dungeon_palette,\
                         16, 0, 18, 10,\
                         0, 0, 0, HERO_DIRECTION_RIGHT
