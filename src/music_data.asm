@@ -12,6 +12,10 @@ dungeon_theme:
 .scope
 .include "dungeon_theme.inc"
 .endscope
+octoboss_theme:
+.scope
+.include "octoboss_theme.inc"
+.endscope
 town_theme:
 .scope
 .include "town_theme.inc"

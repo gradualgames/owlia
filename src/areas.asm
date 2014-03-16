@@ -374,7 +374,7 @@ dungeon1_boss_area:
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word dungeon1_boss_area_bg_chr_groups
-  .word dungeon_theme
+  .word octoboss_theme
   .byte $22 ;textbox_attribute
   .word dungeon1_boss_map
   .word dungeon1_boss_metatile_table_properties
