@@ -76,7 +76,8 @@
     dungeon_2_3_s, \
     dungeon_2_3_e, \
     dungeon_3_3_w, \
-    dungeon1_boss_area_entrance
+    dungeon1_boss_area_entrance, \
+    dungeon1_boss_area_owl_dungeon
 
 locations_lo:
   .lobytes locations
@@ -168,6 +169,16 @@ dungeon1_boss_entity_set:
   .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_octoboss
   .byte sprite_chr_group_index_splash
+
+dungeon1_boss_owl_dungeon_entity_set:
+  .byte 7   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_key
 
 ;****************************************************************
 ;Entity instance sets
@@ -506,11 +517,19 @@ dungeon_3_3_entity_instances:
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
                                           MONOLITH_DIRECTION_WEST, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon_2_3_e, \
-                                          0, 4
+                                          0, 5
 
 dungeon1_boss_entity_instances:
-  .byte 1
+  .byte 2
   .byte entity_index_octoboss_head, 4, 4, 0, 0
+  .byte entity_index_monolith, 14, 11, 0, MONOLITH_PARAMS, \
+                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
+                                          MONOLITH_DIRECTION_EAST, \
+                                          ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon1_boss_area_owl_dungeon, \
+                                          0, 5
+
+dungeon1_boss_owl_dungeon_entity_instances:
+  .byte 0
 
 ;****************************************************************
 ;Palettes.
@@ -537,7 +556,7 @@ dungeon_palette:
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
 
 dungeon1_boss_palette:
-  .byte $0e,$0b,$19,$2a,$0e,$0a,$0b,$08,$0e,$0b,$08,$18,$0e,$08,$01,$12
+  .byte $0e,$0b,$19,$2a,$0e,$1b,$0b,$08,$0e,$0b,$08,$18,$0e,$08,$01,$12
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
 
 ;****************************************************************
@@ -733,3 +752,11 @@ define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                         area_index_dungeon1_boss, dungeon1_boss_entity_set, dungeon1_boss_entity_instances, dungeon1_boss_palette,\
                         0, 0, 7, 12,\
                         0, 0, 0, HERO_DIRECTION_UP
+
+dungeon1_boss_area_owl_dungeon:
+define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
+                  LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
+                  LOCATION_BRIGHTNESS_LEVEL_4,\
+                        area_index_dungeon1_boss, dungeon1_boss_owl_dungeon_entity_set, dungeon1_boss_owl_dungeon_entity_instances, dungeon1_boss_palette,\
+                        16, 0, 18, 10,\
+                        0, 0, 0, HERO_DIRECTION_RIGHT

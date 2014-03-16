@@ -424,14 +424,24 @@ octoboss_head_thanks_for_playing_demo:
   ;stop all sound
   jsr sound_stop
 
-  ;transition to thanks for playing demo cut scene
-  lda #ACTION_PLAY_CUT_SCENE
-  sta state_control_params+play_state_control::action
+  .scope
+  ;search for monolith entity in boss's arena and make it fall
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne not_monolith
 
-  lda #<thanks_for_playing_demo_slide1
-  sta state_control_params+play_state_control::param
-  lda #>thanks_for_playing_demo_slide1
-  sta state_control_params+play_state_control::param+1
+  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  sta entity_state,y
+  jmp done
+
+not_monolith:
+
+  dey
+  bpl next_entity
+done:
+  .endscope
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR

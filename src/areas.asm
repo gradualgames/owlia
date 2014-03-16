@@ -388,7 +388,7 @@ dungeon1_boss_area:
   .word dungeon1_boss_big_metatile_table_top_right
   .word dungeon1_boss_big_metatile_table_bottom_left
   .word dungeon1_boss_big_metatile_table_bottom_right
-  .word 0 ;nametable_patches_address .word
+  .word dungeon_area_nametable_patches
   .word 0 ;attribute_patches_address
 
 dungeon1_boss_area_bg_chr_groups:
