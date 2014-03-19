@@ -30,9 +30,9 @@ greathornedowl_state_init:
 
   jsr entity_set_drawable
 
-  lda #<GreatHornedOwlCage
+  lda #<GreatHornedOwlInsideCage
   sta entity_animation_address_lo,x
-  lda #>GreatHornedOwlCage
+  lda #>GreatHornedOwlInsideCage
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
@@ -55,6 +55,14 @@ greathornedowl_state_init:
   lda entity_x_hi,x
   adc #>8
   sta entity_x_hi,x
+
+  sec
+  lda entity_y_lo,x
+  sbc #<8
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  sbc #>8
+  sta entity_y_hi,x
 
   lda #$00
   sta entity_sprite_flags,x

@@ -1,3 +1,4 @@
+.feature force_range
 .include "sprites_and_animations_data.inc"
 
 ;The following sets of sprites and animations are
