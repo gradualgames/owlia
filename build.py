@@ -110,4 +110,4 @@ if len(sys.argv) >= 2:
         additional_args = []
         for i in range(1, len(sys.argv)):
             additional_args.append(sys.argv[i])
-            make_build(additional_args)
+        make_build(additional_args)
