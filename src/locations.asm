@@ -11,6 +11,7 @@
 .include "anglerfish_constants.inc"
 .include "monolith_constants.inc"
 .include "traproom_constants.inc"
+.include "rescueowl_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -533,7 +534,7 @@ dungeon1_boss_entity_instances:
 dungeon1_boss_owl_dungeon_entity_instances:
   .byte 2
   .byte entity_index_cage, 23, 3, 0, 0
-  .byte entity_index_greathornedowl, 23, 4, 0, 0
+  .byte entity_index_rescueowl, 23, 4, 0, RESCUEOWL_PARAMS, RESCUEOWL_TYPE_GREATHORNEDOWL
 
 ;****************************************************************
 ;Palettes.
