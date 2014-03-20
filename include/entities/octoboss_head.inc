@@ -71,6 +71,18 @@ octoboss_head_update:
 
 octoboss_head_state_init:
 
+  ;make sure that the boss has only been encountered once
+  lda inventory_earned_techs
+  cmp #tech_carry_bomb
+  bmi do_not_skip_octoboss
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+  rts
+
+do_not_skip_octoboss:
+
   jsr entity_set_drawable
 
   jsr entity_set_is_enemy
