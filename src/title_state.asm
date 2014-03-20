@@ -250,7 +250,8 @@ title_state_start_game:
   ;ldx #location_index_dungeon_2_3_w
   ;ldx #location_index_dungeon_3_0_w
   ;ldx #location_index_dungeon1_boss_entrance
-  ldx #location_index_village_house1_entrance
+  ldx #location_index_dungeon1_boss_area_owl_dungeon
+  ;ldx #location_index_village_house1_entrance
   ;ldx #location_index_meadow3_dungeon_entrance
 
   switch_bank_ldy #LOCATIONS_BANK

@@ -532,7 +532,11 @@ dungeon1_boss_entity_instances:
                                           0, 5
 
 dungeon1_boss_owl_dungeon_entity_instances:
-  .byte 2
+  .byte 6
+  .byte entity_index_instance_placeholder, 0, 0, 0, 0
+  .byte entity_index_instance_placeholder, 0, 0, 0, 0
+  .byte entity_index_instance_placeholder, 0, 0, 0, 0
+  .byte entity_index_instance_placeholder, 0, 0, 0, 0
   .byte entity_index_cage, 23, 3, 0, 0
   .byte entity_index_rescueowl, 23, 4, 0, RESCUEOWL_PARAMS, RESCUEOWL_TYPE_GREATHORNEDOWL
 

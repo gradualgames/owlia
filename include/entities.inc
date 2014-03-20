@@ -9,6 +9,7 @@ ENTITIES_INC = 1
 .global entity_defs_sprites_and_animations_bank
 
 .enum
+entity_index_instance_placeholder
 entity_index_explosion
 entity_index_bomb
 entity_index_octopus
@@ -33,6 +34,7 @@ entity_index_cage
 entity_index_monolith
 .endenum
 
+entity_update_bank_instance_placeholder = 5
 entity_update_bank_explosion = 5
 entity_update_bank_bomb = 5
 entity_update_bank_octopus = 5
@@ -56,6 +58,7 @@ entity_update_bank_rescueowl = 5
 entity_update_bank_cage = 5
 entity_update_bank_monolith = 5
 
+;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 6
 entity_sprites_and_animations_bank_bomb = 6
 entity_sprites_and_animations_bank_octopus = 6
