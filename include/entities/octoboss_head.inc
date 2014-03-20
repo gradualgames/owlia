@@ -76,8 +76,6 @@ octoboss_head_state_init:
   cmp #tech_carry_bomb
   bmi do_not_skip_octoboss
 
-  jsr sound_stop
-
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
