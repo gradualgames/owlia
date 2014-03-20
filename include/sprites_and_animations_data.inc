@@ -113,6 +113,7 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 
 .global GreatHornedOwlInsideCage
 .global GreatHornedOwlOutsideCage
+.global GreatHornedOwlFly
 
 .global Cage
 

@@ -28,7 +28,8 @@
     house_intro_scene_call_tyto2, \
     silmaran_call_adlanniel, \
     silmaran_encounter_scene, \
-    thanks_for_playing_demo
+    thanks_for_playing_demo, \
+    rescue_greathornedowl
 
 conversations_lo:
   .lobytes conversations
@@ -263,3 +264,8 @@ thanks_for_playing_demo:
   .byte NL,2, "CURRENT BUILD OF OWLIA!",TM,30
   .byte NL,3, "YOU ROCK!",TM,30," CONGRATS ON"
   .byte NL,4, "SOLVING THE PUZZLE.",WT,EC
+
+rescue_greathornedowl:
+  .byte    1, "DUDE. THANKS. LIKE,"
+  .byte NL,2, "THAT OCTOGUY WAS SRSLY"
+  .byte NL,3, "HARSHING MY STYLE, MAN.",WT,EC

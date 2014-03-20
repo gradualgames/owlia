@@ -3,6 +3,8 @@ GREATHORNEDOWL_SPRITES_AND_ANIMATIONS_INC = 1
 
 GreatHornedOwlFly0:
   .byte $1e
+  .byte ($20-24),$17,$03,$10,$18
+  .byte ($20-24),$18,$03,$18,$10
   .byte $00,$00,$02,$00,$28
   .byte $00,$01,$02,$08,$20
   .byte $00,$02,$02,$10,$18
@@ -29,12 +31,12 @@ GreatHornedOwlFly0:
   .byte $18,$12,$00,$28,$00
   .byte $20,$12,$00,$00,$28
   .byte $20,$12,$00,$08,$20
-  .byte $20,$17,$03,$10,$18
-  .byte $20,$18,$03,$18,$10
   .byte $20,$12,$00,$20,$08
   .byte $20,$12,$00,$28,$00
 GreatHornedOwlFly1:
   .byte $1e
+  .byte ($20-22),$17,$03,$10,$18
+  .byte ($20-22),$18,$03,$18,$10
   .byte $00,$12,$00,$00,$28
   .byte $00,$19,$00,$08,$20
   .byte $00,$1a,$02,$10,$18
@@ -61,12 +63,12 @@ GreatHornedOwlFly1:
   .byte $18,$12,$00,$28,$00
   .byte $20,$12,$00,$00,$28
   .byte $20,$12,$00,$08,$20
-  .byte $20,$17,$03,$10,$18
-  .byte $20,$18,$03,$18,$10
   .byte $20,$12,$00,$20,$08
   .byte $20,$12,$00,$28,$00
 GreatHornedOwlFly2:
   .byte $1e
+  .byte ($20-20),$17,$03,$10,$18
+  .byte ($20-20),$18,$03,$18,$10
   .byte $00,$12,$00,$00,$28
   .byte $00,$2d,$00,$08,$20
   .byte $00,$2e,$02,$10,$18
@@ -93,8 +95,6 @@ GreatHornedOwlFly2:
   .byte $18,$41,$02,$28,$00
   .byte $20,$12,$00,$00,$28
   .byte $20,$12,$00,$08,$20
-  .byte $20,$17,$03,$10,$18
-  .byte $20,$18,$03,$18,$10
   .byte $20,$12,$00,$20,$08
   .byte $20,$12,$00,$28,$00
 GreatHornedOwlInsideCage0:
@@ -130,5 +130,16 @@ GreatHornedOwlOutsideCage0:
 GreatHornedOwlInsideCage:
   .byte $0a,$02
   .word GreatHornedOwlInsideCage0
+
+GreatHornedOwlOutsideCage:
+  .byte $0a,$02
+  .word GreatHornedOwlOutsideCage0
+
+GreatHornedOwlFly:
+  .byte $05,$08
+  .word GreatHornedOwlFly2
+  .word GreatHornedOwlFly1
+  .word GreatHornedOwlFly0
+  .word GreatHornedOwlFly1
 
 .endif

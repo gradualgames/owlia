@@ -2,6 +2,8 @@
 .ifndef SILMARAN_INC
 SILMARAN_INC = 1
 
+SILMARAN_EARNED_TECH = tech_unlock
+
 SILMARAN_SUMMON_RECT_X = (1 * 16)
 SILMARAN_SUMMON_RECT_Y = (24 * 16)
 SILMARAN_SUMMON_RECT_WIDTH = (16 - 1)
@@ -57,18 +59,20 @@ silmaran_update:
 
 silmaran_state_init:
 
+  lda #tech_carry_bomb
+  sta inventory_earned_techs
+
   ;make sure that Silmaran has only been encountered once
   lda inventory_earned_techs
-  cmp #tech_fetch
-  beq do_not_skip_silmaran_sequence
+  cmp #SILMARAN_EARNED_TECH
+  bmi do_not_skip_silmaran
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
-
   rts
 
-do_not_skip_silmaran_sequence:
+do_not_skip_silmaran:
 
   jsr entity_clear_drawable
 
@@ -339,7 +343,7 @@ silmaran_state_ascend:
   bne not_gone_yet
 
   ;earn the unlock technique
-  lda #tech_unlock
+  lda #SILMARAN_EARNED_TECH
   sta inventory_earned_techs
 
   ;restore control to the player

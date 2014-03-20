@@ -28,6 +28,7 @@
 .include "ppu.inc"
 .include "mapper.inc"
 .include "slide_data.inc"
+.include "locations.inc"
 
 .segment "CODE"
 

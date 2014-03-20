@@ -33,6 +33,7 @@ conversation_index_house_intro_scene_call_tyto2
 conversation_index_silmaran_call_adlanniel
 conversation_index_silmaran_encounter_scene
 conversation_index_thanks_for_playing_demo
+conversation_index_rescue_greathornedowl
 .endenum
 
 .endif

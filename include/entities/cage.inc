@@ -2,6 +2,8 @@
 .ifndef CAGE_INC
 CAGE_INC = 1
 
+.include "rescueowl_constants.inc"
+
 CAGE_WIDTH = $1f
 CAGE_HEIGHT = $27
 
@@ -17,6 +19,7 @@ CAGE_STATE_RELEASE_RESCUE_OWL
 
 cage_attacked_counter = entity_local0
 cage_health = entity_local1
+cage_rescue_owl_entity_index = entity_local2
 
 .define cage_states \
   cage_state_init, \
@@ -64,6 +67,22 @@ cage_state_init:
 
   lda #CAGE_HEALTH
   sta cage_health,x
+
+  ;find the rescue owl entity index
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+
+  lda entity_type,y
+  cmp #entity_index_rescueowl
+  beq done
+
+  dey
+  bpl next_entity
+done:
+  tya
+  sta cage_rescue_owl_entity_index,x
+  .endscope
 
   lda #CAGE_STATE_MAIN
   sta entity_state,x
@@ -149,6 +168,11 @@ next_explosion:
   rts
 
 cage_state_release_rescue_owl:
+
+  ;tell the rescued owl to enter its released state
+  ldy cage_rescue_owl_entity_index,x
+  lda #RESCUEOWL_STATE_RELEASED_INIT
+  sta entity_state,y
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
