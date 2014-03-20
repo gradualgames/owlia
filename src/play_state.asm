@@ -698,6 +698,30 @@ play_state_load_location:
   jsr map_decode_full_screen
 
   ;****************************************************************
+  ;Load song for the current area if different from the already
+  ;playing song
+  ;****************************************************************
+  switch_bank_ldy #AREAS_BANK
+  ldy #area::song_address
+  sec
+  lda (area_address),y
+  sbc song_address
+  iny
+  lda (area_address),y
+  sbc song_address+1
+  beq same_song
+
+  ldy #area::song_address
+  lda (area_address),y
+  sta song_address
+  iny
+  lda (area_address),y
+  sta song_address+1
+  switch_bank_ldy music_bank
+  jsr song_initialize
+same_song:
+
+  ;****************************************************************
   ;Initialize hard coded hero and familiar entities as well as
   ;all non-hard coded entities resident in this area
   ;****************************************************************
@@ -748,30 +772,6 @@ play_state_load_location:
   ;to get all entities onscreen before fading in
   ;****************************************************************
   jsr frame_update_no_controller_input
-
-  ;****************************************************************
-  ;Load song for the current area if different from the already
-  ;playing song
-  ;****************************************************************
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::song_address
-  sec
-  lda (area_address),y
-  sbc song_address
-  iny
-  lda (area_address),y
-  sbc song_address+1
-  beq same_song
-
-  ldy #area::song_address
-  lda (area_address),y
-  sta song_address
-  iny
-  lda (area_address),y
-  sta song_address+1
-  switch_bank_ldy music_bank
-  jsr song_initialize
-same_song:
 
   ;****************************************************************
   ;Now that all graphics are loaded safely, we can turn graphics

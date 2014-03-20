@@ -76,12 +76,20 @@ octoboss_head_state_init:
   cmp #tech_carry_bomb
   bmi do_not_skip_octoboss
 
+  jsr sound_stop
+
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
   rts
 
 do_not_skip_octoboss:
+
+  lda #<octoboss_theme
+  sta song_address
+  lda #>octoboss_theme
+  sta song_address+1
+  far_call #MUSIC_BANK, song_initialize
 
   jsr entity_set_drawable
 
