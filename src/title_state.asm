@@ -236,23 +236,10 @@ title_state_start_game:
   lda #0
   sta hero_flags
 
-  ;ldx #location_index_meadow2_east_entrance
-  ;ldx #location_index_meadow1_top_entrance
-  ;ldx #location_index_village_bottom_entrance
-  ;ldx #location_index_house1_intro
-  ;ldx #location_index_dungeon_0_3_s
-  ;ldx #location_index_dungeon_2_1_w
-  ;ldx #location_index_dungeon_2_3_w
-  ;ldx #location_index_dungeon_0_0_s
-  ;ldx #location_index_dungeon_0_2_s
-  ;ldx #location_index_dungeon_0_1_s
-  ;ldx #location_index_dungeon_1_1_w
-  ;ldx #location_index_dungeon_2_3_w
-  ;ldx #location_index_dungeon_3_0_w
-  ;ldx #location_index_dungeon1_boss_entrance
-  ldx #location_index_dungeon1_boss_area_owl_dungeon
-  ;ldx #location_index_village_house1_entrance
-  ;ldx #location_index_meadow3_dungeon_entrance
+  ;This file should just contain ldx #location_index_starting_location
+  ;and is intended to be SVN ignored so we can change it at will and
+  ;not worry about modifying the title state source file.
+  .include "start_location.inc"
 
   switch_bank_ldy #LOCATIONS_BANK
   lda locations_lo,x
