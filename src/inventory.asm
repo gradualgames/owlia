@@ -9,8 +9,27 @@
   sta inventory_lanterns
   sta inventory_bombs
   sta inventory_healths
-  sta inventory_owl_healths
   sta inventory_keys
+
+  .ifdef LANTERNS
+  lda #LANTERNS
+  sta inventory_lanterns
+  .endif
+
+  .ifdef BOMBS
+  lda #BOMBS
+  sta inventory_bombs
+  .endif
+
+  .ifdef HEALTHS
+  lda #HEALTHS
+  sta inventory_healths
+  .endif
+
+  .ifdef KEYS
+  lda #KEYS
+  sta inventory_keys
+  .endif
 
   .ifndef EARNED_TECH
   lda #tech_fetch

@@ -137,7 +137,6 @@ inventory_keys:           .res 1
 inventory_lanterns:       .res 1
 inventory_bombs:          .res 1
 inventory_healths:        .res 1
-inventory_owl_healths:    .res 1
 inventory_earned_techs:   .res 1
 inventory_selected_tech:  .res 1
 inventory_tech1:          .res 1

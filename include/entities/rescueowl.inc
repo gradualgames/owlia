@@ -45,6 +45,7 @@ rescueowl_dungeon_exit_locations:
 
 .define rescueowl_states \
   rescueowl_state_init, \
+  rescueowl_state_lower_all_monoliths_and_die, \
   rescueowl_state_inside_cage, \
   rescueowl_state_released_init, \
   rescueowl_state_start_conversation, \
@@ -70,7 +71,7 @@ rescueowl_state_init:
   cmp rescueowl_earned_techs,y
   bmi do_not_skip_rescueowl
 
-  ;kill any found cage entities
+  ;kill any found cage entities immediately
   .scope
   ldy #(MAX_ENTITIES-1)
 next_entity:
@@ -87,9 +88,12 @@ done:
   sta entity_flags,y
   .endscope
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  lda #RESCUEOWL_STATE_LOWER_ALL_MONOLITHS_AND_DIE_LENGTH
+  sta rescueowl_state_counter,x
+
+  lda #RESCUEOWL_STATE_LOWER_ALL_MONOLITHS_AND_DIE
+  sta entity_state,x
+
   rts
 
 do_not_skip_rescueowl:
@@ -141,6 +145,38 @@ do_not_skip_rescueowl:
 
   lda #RESCUEOWL_STATE_INSIDE_CAGE
   sta entity_state,x
+
+  rts
+
+rescueowl_state_lower_all_monoliths_and_die:
+
+  .scope
+  dec rescueowl_state_counter,x
+  bne do_not_die_yet
+
+  ;lower all monoliths
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_flags,y
+  and #(ENTITY_FLAGS_ALIVE_TEST)
+  beq not_monolith
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne not_monolith
+  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  sta entity_state,y
+not_monolith:
+  dey
+  bpl next_entity
+  .endscope
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+do_not_die_yet:
+  .endscope
 
   rts
 

@@ -184,8 +184,8 @@ traproom_state_lower_monoliths_aligned:
   dec traproom_state_counter,x
   bne do_not_lower_monoliths_yet
 
-  ldy #(MAX_ENTITIES-1)
   .scope
+  ldy #(MAX_ENTITIES-1)
 next_entity:
   lda entity_flags,y
   and #(ENTITY_FLAGS_ALIVE_TEST)

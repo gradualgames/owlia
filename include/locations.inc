@@ -191,6 +191,7 @@ location_index_dungeon_2_3_s
 location_index_dungeon_2_3_e
 location_index_dungeon_3_3_w
 location_index_dungeon1_boss_entrance
+location_index_dungeon1_boss_area_east_exit
 location_index_dungeon1_boss_area_owl_dungeon
 .endenum
 

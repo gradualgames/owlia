@@ -18,6 +18,8 @@ OCTOBOSS_HEAD_STATE_RISE_LENGTH = 48
 
 OCTOBOSS_HEAD_STATE_PAUSE_LENGTH = 70
 
+OCTOBOSS_HEAD_STATE_LOWER_ALL_MONOLITHS_AND_DIE_LENGTH = 50
+
 OCTOBOSS_HEAD_ATTACKED_LENGTH = 20
 
 OCTOBOSS_HEAD_INITIAL_HEALTH = 10
@@ -46,6 +48,7 @@ octoboss_head_health = entity_local10
 
 .enum
 OCTOBOSS_HEAD_STATE_INIT
+OCTOBOSS_HEAD_STATE_LOWER_ALL_MONOLITHS_AND_DIE
 OCTOBOSS_HEAD_STATE_RISE
 OCTOBOSS_HEAD_STATE_FLOAT
 OCTOBOSS_HEAD_STATE_PAUSE
@@ -54,6 +57,7 @@ OCTOBOSS_HEAD_STATE_THANKS_FOR_PLAYING_DEMO
 
 .define octoboss_head_states \
   octoboss_head_state_init, \
+  octoboss_head_state_lower_all_monoliths_and_die, \
   octoboss_head_state_rise, \
   octoboss_head_state_float, \
   octoboss_head_state_pause, \
@@ -76,9 +80,12 @@ octoboss_head_state_init:
   cmp #tech_carry_bomb
   bmi do_not_skip_octoboss
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  lda #OCTOBOSS_HEAD_STATE_LOWER_ALL_MONOLITHS_AND_DIE_LENGTH
+  sta octoboss_head_state_counter,x
+
+  lda #OCTOBOSS_HEAD_STATE_LOWER_ALL_MONOLITHS_AND_DIE
+  sta entity_state,x
+
   rts
 
 do_not_skip_octoboss:
@@ -197,6 +204,59 @@ do_not_skip_octoboss:
 
   lda #OCTOBOSS_HEAD_STATE_RISE
   sta entity_state,x
+
+  rts
+
+octoboss_head_state_lower_all_monoliths_and_die:
+
+  dec octoboss_head_state_counter,x
+  bne do_not_lower_monoliths_and_die_yet
+
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_flags,y
+  and #(ENTITY_FLAGS_ALIVE_TEST)
+  beq not_monolith
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne not_monolith
+
+  lda monolith_direction,y
+  cmp #MONOLITH_DIRECTION_EAST
+  beq e_w_monolith
+  cmp #MONOLITH_DIRECTION_WEST
+  beq e_w_monolith
+  cmp #MONOLITH_DIRECTION_NORTH
+  beq n_s_monolith
+  cmp #MONOLITH_DIRECTION_SOUTH
+  beq n_s_monolith
+n_s_monolith:
+
+  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  sta entity_state,y
+
+  dey
+  bpl next_entity
+
+e_w_monolith:
+
+  lda #MONOLITH_STATE_FALL_USING_ROWS_INIT
+  sta entity_state,y
+
+  dey
+  bpl next_entity
+
+not_monolith:
+  dey
+  bpl next_entity
+  .endscope
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+do_not_lower_monoliths_and_die_yet:
 
   rts
 

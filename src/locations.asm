@@ -78,6 +78,7 @@
     dungeon_2_3_e, \
     dungeon_3_3_w, \
     dungeon1_boss_area_entrance, \
+    dungeon1_boss_area_east_exit, \
     dungeon1_boss_area_owl_dungeon
 
 locations_lo:
@@ -523,22 +524,32 @@ dungeon_3_3_entity_instances:
                                           0, 5
 
 dungeon1_boss_entity_instances:
-  .byte 2
+  .byte 3
   .byte entity_index_octoboss_head, 4, 4, 0, 0
   .byte entity_index_monolith, 14, 11, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon1_boss_area_owl_dungeon, \
                                           0, 5
+  .byte entity_index_monolith, 8, 14, 0,  MONOLITH_PARAMS, \
+                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
+                                          MONOLITH_DIRECTION_SOUTH, \
+                                          ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon_3_0_n, \
+                                          0, 2
 
 dungeon1_boss_owl_dungeon_entity_instances:
-  .byte 6
+  .byte 7
   .byte entity_index_instance_placeholder, 0, 0, 0, 0
   .byte entity_index_instance_placeholder, 0, 0, 0, 0
   .byte entity_index_instance_placeholder, 0, 0, 0, 0
   .byte entity_index_instance_placeholder, 0, 0, 0, 0
   .byte entity_index_cage, 23, 3, 0, 0
   .byte entity_index_rescueowl, 23, 4, 0, RESCUEOWL_PARAMS, RESCUEOWL_TYPE_GREATHORNEDOWL
+  .byte entity_index_monolith, 17, 11, 0, MONOLITH_PARAMS, \
+                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET | MONOLITH_FLAGS_SHAKE_SCREEN_SET, \
+                                          MONOLITH_DIRECTION_WEST, \
+                                          ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon1_boss_area_east_exit, \
+                                          0, 4
 
 ;****************************************************************
 ;Palettes.
@@ -763,8 +774,16 @@ define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                   LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
                   LOCATION_BRIGHTNESS_LEVEL_4,\
                         area_index_dungeon1_boss, dungeon1_boss_entity_set, dungeon1_boss_entity_instances, dungeon1_boss_palette,\
-                        0, 0, 7, 12,\
+                        0, 0, 8, 10,\
                         0, 0, 0, HERO_DIRECTION_UP
+
+dungeon1_boss_area_east_exit:
+define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
+                  LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
+                  LOCATION_BRIGHTNESS_LEVEL_4,\
+                        area_index_dungeon1_boss, dungeon1_boss_entity_set, dungeon1_boss_entity_instances, dungeon1_boss_palette,\
+                        0, 0, 13, 10,\
+                        0, 0, 0, HERO_DIRECTION_LEFT
 
 dungeon1_boss_area_owl_dungeon:
 define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
