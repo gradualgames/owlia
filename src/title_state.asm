@@ -236,6 +236,10 @@ title_state_start_game:
   lda #0
   sta hero_flags
 
+  ;this value can be overridden by whatever is in start_location.inc.
+  ;If start_location.inc is all commented out, the game will still work.
+  ldx #location_index_house1_intro
+
   ;This file should just contain ldx #location_index_starting_location
   ;and is intended to be SVN ignored so we can change it at will and
   ;not worry about modifying the title state source file.
