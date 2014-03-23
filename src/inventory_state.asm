@@ -57,7 +57,11 @@ inventory_state_init:
   sta far_copy_dest
   lda palette_address+1
   sta far_copy_dest+1
-  ldx #2
+  lda #0
+  sta far_copy_source_index
+  sta far_copy_dest_index
+  lda #2
+  sta far_copy_count
   jsr far_copy
   far_call #LOCATIONS_BANK, ppu_fade_out_palette
 

@@ -8,21 +8,24 @@ bank_table:
   .byte $00, $01, $02, $03, $04, $05, $06, $07, $08, $09, $0a, $0b, $0c, $0d, $0e, $0f
 
 ;expects next_bank to point to the bank containing the data we want to copy
-;expects far_call_source to be the address from which to copy data
-;expects far_call_dest to be the address in RAM to which to copy data
-;expects x to contain the number of bytes to copy
-;indirectly indexes far_call_source with y and directly indexes far_call_dest with y
+;expects far_copy_source to be the address from which to copy data
+;expects far_copy_dest to be the address in RAM to which to copy data
+;expects far_copy_count to contain number of bytes to copy
+;expects far_copy_source_index to contain the source index
+;expects far_copy_dest_index to contain the dest index
 .proc far_copy
 
   save_calling_bank
   switch_bank_ldy next_bank
 
-  ldy #0
 next_byte:
+  ldy far_copy_source_index
   lda (far_copy_source),y
+  ldy far_copy_dest_index
   sta far_copy_dest,y
-  iny
-  dex
+  inc far_copy_source_index
+  inc far_copy_dest_index
+  dec far_copy_count
   bne next_byte
 
   restore_calling_bank
