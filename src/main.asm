@@ -11,12 +11,17 @@
 .include "play_state.inc"
 .include "title_state.inc"
 .include "sprite.inc"
+.include "entity.inc"
 .include "soundengine.inc"
 .include "areas.inc"
 .include "locations.inc"
 .include "sfx_data.inc"
 .include "mapper.inc"
 .include "controller.inc"
+.include "familiar.inc"
+.include "familiar_constants.inc"
+.include "hero.inc"
+.include "hero_constants.inc"
 
 .segment "HEADER"
 .byte "NES",$1a   ;iNES header
@@ -83,13 +88,28 @@ reset:
   ;load all black palette
   jsr ppu_load_black_palette
 
-  ;initialize modules
-  jsr sprite_module_init
+  ;initialize RAM
+  lda #1
+  sta hide_graphics_top
 
+  ;null out all bank numbers
+  lda #0
+  sta current_bank
+  sta next_bank
+  sta music_bank
+  sta map_bank
+  sta conversations_bank
+
+  jsr ppu_module_init
+  jsr controller_clear
   jsr sound_initialize
+  jsr sprite_module_init
+  jsr map_module_init
+  jsr entity_module_init
+  far_call #HERO_BANK, hero_module_init
+  far_call #FAMILIAR_BANK, familiar_module_init
 
-  jsr clear_dynamic_single_screen_collision_field
-
+  ;jump to title state init
   switch_bank_ldy #TITLE_STATE_BANK
   jmp title_state_init
 

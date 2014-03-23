@@ -21,6 +21,18 @@
 
 .segment "CODE"
 
+.proc entity_module_init
+
+  lda #$00
+  ldx #(entity_action_rect_ram_end - entity_action_rect_ram_start - 1)
+: sta entity_action_rect_ram_start,x
+  dex
+  bpl :-
+
+  rts
+
+.endproc
+
 ;this routine compares this entity's rect to the
 ;two action rects and the hero rect and reacts
 ;accordingly. It forwards parameters onwards to
@@ -1458,6 +1470,7 @@ done_drawing_sorted:
 
 ;resets the current entity's animation
 ;assumes x is pointing to the current entity instance
+;uses y
 .proc entity_reset_animation
 animation_rom_address = w2
 

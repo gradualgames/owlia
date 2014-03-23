@@ -28,6 +28,21 @@
 
 .segment "ROM03"
 
+.proc familiar_module_init
+
+  lda #$00
+  ldx #(familiar_ram_end - familiar_ram_start - 1)
+: sta familiar_ram_start,x
+  dex
+  bpl :-
+
+  lda #$ff
+  sta familiar_carried_entity_index
+
+  rts
+
+.endproc
+
 ;this is just a placeholder until all techs are implemented
 ;so unimplemented ones can be selected from the inventory
 ;screen and not cause a crash.
@@ -372,6 +387,10 @@ cannot_spawn_lantern:
 
 .proc familiar_calculate_screen_coordinates
 
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_ALIVE_TEST
+  beq familiar_not_alive
+
   sec
   lda familiar_x
   sbc camera_x
@@ -397,6 +416,7 @@ cannot_spawn_lantern:
   lda familiar_screen_y+1
   adc #$00
   sta familiar_screen_y+1
+familiar_not_alive:
 
   rts
 

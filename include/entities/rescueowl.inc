@@ -287,8 +287,6 @@ rescueowl_state_fly_away:
 
   dec rescueowl_state_counter,x
   lda rescueowl_state_counter,x
-  sta b0
-  ndxDebugOut ndxDec8(b0)
   bne :+
   lda #RESCUEOWL_STATE_LEAVE_DUNGEON
   sta entity_state,x

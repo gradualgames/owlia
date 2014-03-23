@@ -9,6 +9,22 @@
 
 .segment "CODE"
 
+.proc map_module_init
+
+  ;clear attribute tables
+  lda #0
+  ldx #63
+: sta attribute_table1,x
+  sta attribute_table2,x
+  dex
+  bpl :-
+
+  jsr clear_dynamic_single_screen_collision_field
+
+  rts
+
+.endproc
+
 ;Clears out the 32 byte structure containing the single screen
 ;collision field.
 .proc clear_dynamic_single_screen_collision_field

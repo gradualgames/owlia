@@ -2,6 +2,9 @@
 .include "soundengine.inc"
 
 .segment "ZEROPAGE"
+
+sound_disable_update: .res 1
+sound_zp_start:
 sound_local_byte_0: .res 1
 sound_local_byte_1: .res 1
 sound_local_byte_2: .res 1
@@ -24,16 +27,17 @@ base_address_duty_envelopes:   .res 2
 
 stream_byte: .res 1
 
-sound_disable_update: .res 1
 apu_data_ready: .res 1
 apu_square_1_old: .res 1
 apu_square_2_old: .res 1
 
 ;original song address
 song_address: .res 2
+sound_zp_end:
 
 .segment "BSS"
 
+sound_ram_start:
 song_base_address_volume_envelopes: .res 2
 song_base_address_pitch_envelopes: .res 2
 song_base_address_duty_envelopes: .res 2
@@ -67,6 +71,7 @@ stream_tempo:              .res MAX_STREAMS
 
 ;five total channels, 4 bytes per channel, so 40 bytes.
 apu_register_sets: .res 40
+sound_ram_end:
 
 .segment "CODE"
 
@@ -74,6 +79,20 @@ apu_register_sets: .res 40
 
   lda #1
   sta sound_disable_update
+
+  ;clear sound engine zp and ram
+  lda #0
+  ldx #(sound_zp_end - sound_zp_start - 1)
+: sta sound_zp_start,x
+  dex
+  bne :-
+  sta sound_zp_start,x
+
+  ldx #(sound_ram_end - sound_ram_start - 1)
+: sta sound_ram_start,x
+  dex
+  bne :-
+  sta sound_ram_start,x
 
   ;enable square 1, square 2, triangle and noise
   lda #%00001111
@@ -86,11 +105,6 @@ apu_register_sets: .res 40
   jsr sound_stop
 
   dec sound_disable_update
-
-  ;null out song address
-  lda #0
-  sta song_address
-  sta song_address+1
 
   rts
 
@@ -1208,6 +1222,9 @@ process_opcode:
 
   lda #%00000000
   sta apu_register_sets+14
+
+  lda #%00000000
+  sta apu_register_sets+15
 
   rts
 .endproc

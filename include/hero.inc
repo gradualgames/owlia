@@ -1,6 +1,7 @@
 .ifndef HERO_INC
 HERO_INC = 1
 
+.global hero_module_init
 .global hero_face_in_current_direction
 .global hero_turn_clockwise
 .global hero_update

@@ -1,6 +1,7 @@
 .ifndef PPU_INC
 PPU_INC = 1
 
+.global ppu_module_init
 .global ppu_vblank_nop
 .global ppu_load_palette
 .global ppu_load_palette_bg

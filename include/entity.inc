@@ -1,6 +1,7 @@
 .ifndef ENTITY_INC
 ENTITY_INC = 1
 
+.global entity_module_init
 .global entity_init_all
 .global entity_combat
 .global entity_attacked

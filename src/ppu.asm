@@ -1,4 +1,5 @@
 .feature force_range
+.include "ndxdebug.h"
 .include "zp.inc"
 .include "ram.inc"
 .include "ppu.inc"
@@ -6,6 +7,17 @@
 .include "mapper.inc"
 
 .segment "CODE"
+
+;this routine initializes the ppu module to state expected at startup.
+;this routine does not wait for the ppu chip itself to initialize.
+.proc ppu_module_init
+
+  lda #0
+  sta b3
+
+  rts
+
+.endproc
 
 ;nmi routine which does nothing except continue music driver
 .proc ppu_vblank_nop
@@ -259,8 +271,8 @@ fading_loop:
 
   ;pause for FADING_SPEED frames
   ldx #FADING_SPEED
-: wait_vblank_done
-  clear_vblank_done
+: clear_vblank_done
+  wait_vblank_done
   dex
   bne :-
 
@@ -295,6 +307,7 @@ done_fading:
   ;do one more wait to make sure the vblank clears the done
   ;flag, so that when we restore the old vblank routine, we
   ;don't upload unprepared garbage data!
+  clear_vblank_done
   wait_vblank_done
 
   ;restore previous nmi routine

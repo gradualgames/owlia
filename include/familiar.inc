@@ -1,6 +1,7 @@
 .ifndef FAMILIAR_INC
 FAMILIAR_INC = 1
 
+.global familiar_module_init
 .global familiar_spawn_rush
 .global familiar_spawn_fetch
 .global familiar_spawn_unlock

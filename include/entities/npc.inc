@@ -125,6 +125,9 @@ npc_state_init:
 
   jsr entity_reset_animation
 
+  lda #0
+  sta npc_pseudo_random_number,x
+
   ;initialize random turn counters. Each time they count
   ;down the npc will turn (or pause), and then a new value will
   ;be selected via a pseudo random number generator.

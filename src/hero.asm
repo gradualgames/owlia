@@ -26,6 +26,18 @@
 
 .segment "ROM02"
 
+.proc hero_module_init
+
+  lda #$00
+  ldx #(hero_ram_end - hero_ram_start - 1)
+: sta hero_ram_start,x
+  dex
+  bpl :-
+
+  rts
+
+.endproc
+
 .proc hero_face_in_current_direction
 
   lda hero_direction

@@ -2,6 +2,9 @@
 .ifndef EXPLOSION_INC
 EXPLOSION_INC = 1
 
+EXPLOSION_WIDTH = $f
+EXPLOSION_HEIGHT = $f
+
 .enum
 EXPLOSION_STATE_INIT
 EXPLOSION_STATE_MAIN
@@ -38,6 +41,11 @@ explosion_update:
 explosion_state_init:
 
   jsr entity_set_drawable
+
+  lda #EXPLOSION_WIDTH
+  sta entity_width,x
+  lda #EXPLOSION_HEIGHT
+  sta entity_height,x
 
   lda #<Explosion
   sta entity_animation_address_lo,x

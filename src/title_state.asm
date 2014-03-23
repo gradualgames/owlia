@@ -1,3 +1,4 @@
+.include "ndxdebug.h"
 .include "map.inc"
 .include "play_state.inc"
 .include "controller.inc"

@@ -69,6 +69,22 @@ MAX_SHADOW_SPOTS = 12
 .global entity_local18
 .global entity_local19
 
+.global entity_action_rect_ram_start
+.global entity_action_rect1_action
+.global entity_action_rect1_direction
+.global entity_action_rect1_x
+.global entity_action_rect1_y
+.global entity_action_rect1_width
+.global entity_action_rect1_height
+
+.global entity_action_rect2_action
+.global entity_action_rect2_direction
+.global entity_action_rect2_x
+.global entity_action_rect2_y
+.global entity_action_rect2_width
+.global entity_action_rect2_height
+.global entity_action_rect_ram_end
+
 .global shadow_spot_count
 .global shadow_spot_x_lo
 .global shadow_spot_x_hi
@@ -89,6 +105,7 @@ MAX_SHADOW_SPOTS = 12
 .global inventory_tech1
 .global inventory_tech2
 
+.global hero_ram_start
 .global hero_flags
 .global hero_health
 .global hero_state
@@ -109,7 +126,9 @@ MAX_SHADOW_SPOTS = 12
 .global hero_invincibility_counter
 .global hero_knockback_counter
 .global hero_status_flash_counter
+.global hero_ram_end
 
+.global familiar_ram_start
 .global familiar_flags
 .global familiar_state
 .global familiar_x_fine
@@ -129,6 +148,7 @@ MAX_SHADOW_SPOTS = 12
 .global familiar_direction
 .global familiar_direction_change
 .global familiar_state_counter
+.global familiar_ram_end
 
 .global familiar_carried_entity_x_offset
 .global familiar_carried_entity_y_offset
@@ -146,20 +166,6 @@ MAX_SHADOW_SPOTS = 12
 .global familiar_param_shield_circle_lut_index
 
 .global familiar_param_homing_entity_index
-
-.global entity_action_rect1_action
-.global entity_action_rect1_direction
-.global entity_action_rect1_x
-.global entity_action_rect1_y
-.global entity_action_rect1_width
-.global entity_action_rect1_height
-
-.global entity_action_rect2_action
-.global entity_action_rect2_direction
-.global entity_action_rect2_x
-.global entity_action_rect2_y
-.global entity_action_rect2_width
-.global entity_action_rect2_height
 
 .global ppu_2000
 .global ppu_2001

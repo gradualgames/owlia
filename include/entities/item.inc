@@ -82,8 +82,6 @@ item_state_init:
 
   jsr entity_clear_drawable
 
-  jsr entity_reset_animation
-
   lda #ITEM_WIDTH
   sta entity_width,x
   lda #ITEM_HEIGHT
@@ -122,6 +120,9 @@ item_state_prompt_for_purchase_init:
   lda item_animation_addresses_hi,y
   sta entity_animation_address_hi,x
 
+  jsr entity_reset_animation
+
+  ldy item_type,x
   lda item_sprite_chr_group_index,y
   tay
   lda sprite_chr_group_offsets,y
@@ -514,6 +515,9 @@ exceeded_max:
   lda item_animation_addresses_hi,y
   sta entity_animation_address_hi,x
 
+  jsr entity_reset_animation
+
+  ldy item_type,x
   lda item_sprite_chr_group_index,y
   tay
   lda sprite_chr_group_offsets,y

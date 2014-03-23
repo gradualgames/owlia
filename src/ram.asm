@@ -115,6 +115,27 @@ entity_local18:              .res MAX_ENTITIES
 entity_local19:              .res MAX_ENTITIES
 
 ;****************************************************************
+;These variables describe entity action rects. There are only two
+;of these rects, to reduce how many rectangle comparisons are
+;performed at run-time.
+;****************************************************************
+entity_action_rect_ram_start:
+entity_action_rect1_action:     .res 1
+entity_action_rect1_direction:  .res 1
+entity_action_rect1_x:          .res 2
+entity_action_rect1_y:          .res 2
+entity_action_rect1_width:      .res 1
+entity_action_rect1_height:     .res 1
+
+entity_action_rect2_action:     .res 1
+entity_action_rect2_direction:  .res 1
+entity_action_rect2_x:          .res 2
+entity_action_rect2_y:          .res 2
+entity_action_rect2_width:      .res 1
+entity_action_rect2_height:     .res 1
+entity_action_rect_ram_end:
+
+;****************************************************************
 ;Specialized arrays for placement of shadow spots. These are
 ;hard coded as to have the least possible overhead in displaying
 ;them.
@@ -145,6 +166,7 @@ inventory_tech2:          .res 1
 ;****************************************************************
 ;These variables describe the hard coded hero entity state.
 ;****************************************************************
+hero_ram_start:
 hero_flags:                       .res 1
 hero_health:                      .res 1
 hero_state:                       .res 1
@@ -165,10 +187,12 @@ hero_state_counter:               .res 1
 hero_invincibility_counter:       .res 1
 hero_knockback_counter:           .res 1
 hero_status_flash_counter:        .res 1
+hero_ram_end:
 
 ;****************************************************************
 ;These variables describe the hard coded familiar entity state.
 ;****************************************************************
+familiar_ram_start:
 familiar_flags:                   .res 1
 familiar_state:                   .res 1
 familiar_x_fine:                  .res 1
@@ -217,6 +241,7 @@ familiar_param_b3:  .res 1
 familiar_param_w2:
 familiar_param_b4:  .res 1
 familiar_param_b5:  .res 1
+familiar_ram_end:
 
 ;The following symbols use the above symbols as a union between
 ;various familiar techniques.
@@ -237,25 +262,6 @@ familiar_param_shield_circle_lut_index = familiar_param_b0
 
 ;homing
 familiar_param_homing_entity_index = familiar_param_b0
-
-;****************************************************************
-;These variables describe entity action rects. There are only two
-;of these rects, to reduce how many rectangle comparisons are
-;performed at run-time.
-;****************************************************************
-entity_action_rect1_action:     .res 1
-entity_action_rect1_direction:  .res 1
-entity_action_rect1_x:          .res 2
-entity_action_rect1_y:          .res 2
-entity_action_rect1_width:      .res 1
-entity_action_rect1_height:     .res 1
-
-entity_action_rect2_action:     .res 1
-entity_action_rect2_direction:  .res 1
-entity_action_rect2_x:          .res 2
-entity_action_rect2_y:          .res 2
-entity_action_rect2_width:      .res 1
-entity_action_rect2_height:     .res 1
 
 ;****************************************************************
 ;These variables keep track of the state of various PPU registers

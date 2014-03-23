@@ -228,6 +228,10 @@ pufferfish_state_init:
   lda pufferfish_shadow_spot_y_hi,x
   sta w1+1
 
+  lda #$00
+  sta pufferfish_shadow_spot_x_fine,x
+  sta pufferfish_shadow_spot_y_fine,x
+
   jsr sprite_add_shadow_spot
 
   lda #PUFFERFISH_INITIAL_DIRECTION
@@ -248,6 +252,9 @@ pufferfish_state_init:
 
   lda #100
   sta pufferfish_random_turnleft_counter,x
+
+  lda #0
+  sta pufferfish_pseudo_random_number,x
 
   ;initialize animation offset
   lda #PUFFERFISH_PUFFED_ANIMATION_OFFSET
