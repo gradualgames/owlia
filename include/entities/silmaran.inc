@@ -59,9 +59,6 @@ silmaran_update:
 
 silmaran_state_init:
 
-  lda #tech_carry_bomb
-  sta inventory_earned_techs
-
   ;make sure that Silmaran has only been encountered once
   lda inventory_earned_techs
   cmp #SILMARAN_EARNED_TECH
