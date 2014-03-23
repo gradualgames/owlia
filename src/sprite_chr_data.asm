@@ -424,7 +424,7 @@ Inventory_chr:
 
 Lantern_chr:
   .word $0010
-  .byte $3c,$7e,$ff,$ff,$ff,$ff,$7e,$00,$00,$00,$24,$5a,$5a,$24,$00,$00
+  .byte $18,$24,$7e,$eb,$6a,$3c,$24,$7e,$10,$20,$00,$3c,$3c,$00,$18,$00
 
 Coins_chr:
   .word $0010
