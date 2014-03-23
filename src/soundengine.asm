@@ -1282,5 +1282,13 @@ noise:
   lda apu_register_sets+15
   sta $400F
 
+  ;clear out all volume values from this frame in case a sound effect is killed suddenly
+  lda #%00110000
+  sta apu_register_sets
+  sta apu_register_sets+4
+  sta apu_register_sets+12
+  lda #%10000000
+  sta apu_register_sets+8
+
   rts
 .endproc
