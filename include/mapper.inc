@@ -3,7 +3,7 @@ MAPPER_INC = 1
 
 .global bank_table
 .global far_call_impl
-.global far_copy
+.global far_copy_impl
 
 .macro switch_bank_y
   sty current_bank
@@ -40,6 +40,28 @@ MAPPER_INC = 1
   pla
   sta current_bank
   switch_bank_ldy current_bank
+.endmacro
+
+.macro far_copy bank, source, destination, source_index, destination_index, count
+
+  lda bank
+  sta next_bank
+  lda source
+  sta far_copy_source
+  lda source+1
+  sta far_copy_source+1
+  lda #<destination
+  sta far_copy_dest
+  lda #>destination
+  sta far_copy_dest+1
+  lda source_index
+  sta far_copy_source_index
+  lda destination_index
+  sta far_copy_dest_index
+  lda count
+  sta far_copy_count
+  jsr far_copy_impl
+
 .endmacro
 
 .macro far_call bank, address

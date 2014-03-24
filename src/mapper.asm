@@ -1,3 +1,4 @@
+.include "ndxdebug.h"
 .include "mapper.inc"
 .include "ram.inc"
 .include "zp.inc"
@@ -13,7 +14,7 @@ bank_table:
 ;expects far_copy_count to contain number of bytes to copy
 ;expects far_copy_source_index to contain the source index
 ;expects far_copy_dest_index to contain the dest index
-.proc far_copy
+.proc far_copy_impl
 
   save_calling_bank
   switch_bank_ldy next_bank
@@ -22,7 +23,7 @@ next_byte:
   ldy far_copy_source_index
   lda (far_copy_source),y
   ldy far_copy_dest_index
-  sta far_copy_dest,y
+  sta (far_copy_dest),y
   inc far_copy_source_index
   inc far_copy_dest_index
   dec far_copy_count

@@ -1,3 +1,4 @@
+.include "ndxdebug.h"
 .include "controller.inc"
 .include "play_state.inc"
 .include "inventory.inc"
@@ -24,7 +25,7 @@ play_cut_scene:
 
   set_controller_routine controller_read
 
-  jsr load_slide
+  far_call #CUT_SCENE_STATE_BANK, load_slide
 
   lda textbox_result
   cmp #TEXTBOX_EXIT
@@ -40,6 +41,7 @@ play_cut_scene:
   sta state_control_params+cut_scene_state_control::slide_address+1
 
   ;check to see if this is the end of the cut scene and exit if so (marked with a $ff)
+  switch_bank_ldy #SLIDE_DATA_BANK
   lda state_control_params+cut_scene_state_control::slide_address
   sta w0
   lda state_control_params+cut_scene_state_control::slide_address+1
@@ -123,6 +125,132 @@ exit_cut_scene_state:
 
 .endproc
 
+.segment "ROM01"
+
+.proc load_slide_sprite_chr_groups
+slide_address = w10
+sprite_chr_groups_address = w11
+sprite_chr_groups_count = b10
+sprite_chr_groups_index = b11  ;? Is this ever initialized?
+
+  lda #$10
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  upload_ppu_2006
+
+  ;get address of sprite chr groups for this slide
+  far_copy #SLIDE_DATA_BANK, slide_address, sprite_chr_groups_address, #slide::sprite_chr_groups_address, #0, #2
+
+  ;check if this address is zero and bail if so
+  lda sprite_chr_groups_address
+  bne nonzero_address
+  lda sprite_chr_groups_address+1
+  bne nonzero_address
+  rts
+nonzero_address:
+
+  ;get count
+  lda #0
+  sta sprite_chr_groups_index
+  far_copy #SLIDE_DATA_BANK, sprite_chr_groups_address, sprite_chr_groups_count, sprite_chr_groups_index, #0, #1
+  inc sprite_chr_groups_index
+
+next_set:
+
+  ;get index of next group
+  far_copy #SLIDE_DATA_BANK, sprite_chr_groups_address, b0, sprite_chr_groups_index, #0, #1
+  ldx b0
+
+  ;get address of group
+  lda sprite_chr_group_addresses_lo,x
+  sta w0
+  lda sprite_chr_group_addresses_hi,x
+  sta w0+1
+
+  far_call {sprite_chr_group_bank,x}, ppu_load_chr_amount
+
+  inc sprite_chr_groups_index
+
+  dec sprite_chr_groups_count
+  bne next_set
+
+  rts
+
+.endproc
+
+.proc load_slide_sprite_overlays
+slide_address = w10
+sprite_overlays_address = w11
+sprite_overlays_count = b9
+sprite_overlays_index = b10
+sprite_overlay_bank = b11
+
+  ;get address of sprite chr groups for this slide
+  far_copy #SLIDE_DATA_BANK, slide_address, sprite_overlays_address, #slide::sprite_overlays_address, #0, #2
+
+  ;check if this address is zero and bail if so
+  lda sprite_overlays_address
+  bne nonzero_address
+  lda sprite_overlays_address+1
+  bne nonzero_address
+  rts
+nonzero_address:
+
+  ;get count
+  lda #0
+  sta sprite_overlays_index
+  far_copy #SLIDE_DATA_BANK, sprite_overlays_address, sprite_overlays_count, sprite_overlays_index, #0, #1
+  inc sprite_overlays_index
+
+next_overlay:
+
+  jsr load_sprite_overlay
+
+  dec sprite_overlays_count
+  bne next_overlay
+
+  rts
+
+load_sprite_overlay:
+
+  ;load bank of overlay
+  far_copy #SLIDE_DATA_BANK, sprite_overlays_address, sprite_overlay_bank, sprite_overlays_index, #0, #1
+  inc sprite_overlays_index
+
+  ;load address of overlay
+  far_copy #SLIDE_DATA_BANK, sprite_overlays_address, w0, sprite_overlays_index, #0, #2
+  inc sprite_overlays_index
+  inc sprite_overlays_index
+  
+  ;load x coordinate of overlay
+  far_copy #SLIDE_DATA_BANK, sprite_overlays_address, w3, sprite_overlays_index, #0, #1
+
+  lda #0
+  sta w3+1
+  inc sprite_overlays_index
+
+  ;load y coordinate of overlay
+  far_copy #SLIDE_DATA_BANK, sprite_overlays_address, w4, sprite_overlays_index, #0, #1
+  lda #0
+  sta w4+1
+  inc sprite_overlays_index
+
+  sty sprite_overlays_index
+
+  lda #0
+  sta b2
+
+  ;assume chr group is at 0 for now
+  lda #0
+  sta chr_group_offset
+
+  far_call sprite_overlay_bank, sprite_draw_metasprite
+
+  rts
+
+.endproc
+
 .proc load_slide
 
   ;set blank nmi routine
@@ -145,20 +273,9 @@ exit_cut_scene_state:
   lda state_control_params+cut_scene_state_control::slide_address+1
   sta w10+1
 
-  switch_bank_ldy #SLIDE_DATA_BANK
-  ldy #slide::bg_chr_address
-  lda (w10),y
-  sta w0
-  iny
-  lda (w10),y
-  sta w0+1
-
-  ldy #slide::bg_chr_bank
-  lda (w10),y
-  tay
-  switch_bank_y
-
-  jsr ppu_load_chr_amount
+  far_copy #SLIDE_DATA_BANK, w10, w0, #slide::bg_chr_address, #0, #2
+  far_copy #SLIDE_DATA_BANK, w10, b0, #slide::bg_chr_bank, #0, #1
+  far_call b0, ppu_load_chr_amount
 
   ;grab tile accumulator to know where the textbox and font group begins
   lda b3
@@ -172,8 +289,7 @@ exit_cut_scene_state:
   sta w0
   lda #>textbox_chr
   sta w0+1
-  switch_bank_ldy #TEXTBOX_BG_CHR_BANK
-  jsr ppu_load_chr_amount
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
   ;load sprite chr data for slide
   jsr load_slide_sprite_chr_groups
@@ -190,20 +306,11 @@ exit_cut_scene_state:
   sta ppu_2006+1
   upload_ppu_2006
 
-  switch_bank_ldy #SLIDE_DATA_BANK
-  ldy #slide::nametable_address
-  lda (w10),y
-  sta w0
-  iny
-  lda (w10),y
-  sta w0+1
+  far_copy #SLIDE_DATA_BANK, w10, w0, #slide::nametable_address, #0, #2
 
-  ldy #slide::nametable_bank
-  lda (w10),y
-  tay
-  switch_bank_y
+  far_copy #SLIDE_DATA_BANK, w10, b0, #slide::nametable_bank, #0, #1
 
-  jsr ppu_load_nametable
+  far_call b0, ppu_load_nametable
 
   ;reset scroll
   lda #$20
@@ -220,17 +327,11 @@ exit_cut_scene_state:
   jsr ppu_safely_enable_graphics
 
   ;fade in palette
-  switch_bank_ldy #SLIDE_DATA_BANK
-  ldy #slide::palette_address
-  lda (w10),y
-  sta palette_address
-  iny
-  lda (w10),y
-  sta palette_address+1
+  far_copy #SLIDE_DATA_BANK, w10, palette_address, #slide::palette_address, #0, #2
   lda #MAX_BRIGHTNESS_LEVEL
   sta b4
   sta b5
-  jsr ppu_fade_in_palette
+  far_call #SLIDE_DATA_BANK, ppu_fade_in_palette
 
   ;set camera to top left for slides
   lda #0
@@ -258,173 +359,19 @@ exit_cut_scene_state:
   lda #TEXTBOX_CUT_SCENE_ROW
   sta textbox_row
 
-  switch_bank_ldy #TEXTBOX_BANK
-  jsr draw_textbox
+  far_call #TEXTBOX_BANK, draw_textbox
 
-  switch_bank_ldy #SLIDE_DATA_BANK
-  ldy #slide::conversation_index
-  lda (w10),y
-  tax
+  far_copy #SLIDE_DATA_BANK, w10, b0, #slide::conversation_index, #0, #2
+  ldx b0
   lda conversations_lo,x
   sta w0
   lda conversations_hi,x
   sta w0+1
-  jsr run_conversation
+  far_call #TEXTBOX_BANK, run_conversation
 
   ;fade out from current slide palette
-  switch_bank_ldy #SLIDE_DATA_BANK
-  ldy #slide::palette_address
-  lda (w10),y
-  sta palette_address
-  iny
-  lda (w10),y
-  sta palette_address+1
-  jsr ppu_fade_out_palette
-
-  rts
-
-.endproc
-
-.proc load_slide_sprite_chr_groups
-slide_address = w10
-sprite_chr_groups_address = w11
-sprite_chr_groups_count = b10
-sprite_chr_groups_index = b11
-
-  lda #$10
-  sta ppu_2006
-  lda #$00
-  sta ppu_2006+1
-  upload_ppu_2006
-
-  ;get address of sprite chr groups for this slide
-  switch_bank_ldy #SLIDE_DATA_BANK
-  ldy #slide::sprite_chr_groups_address
-  lda (slide_address),y
-  sta sprite_chr_groups_address
-  iny
-  lda (slide_address),y
-  sta sprite_chr_groups_address+1
-
-  ;check if this address is zero and bail if so
-  lda sprite_chr_groups_address
-  bne nonzero_address
-  lda sprite_chr_groups_address+1
-  bne nonzero_address
-  rts
-nonzero_address:
-
-  ;get count
-  ldy #0
-  sty sprite_chr_groups_index
-  lda (sprite_chr_groups_address),y
-  sta sprite_chr_groups_count
-  inc sprite_chr_groups_index
-
-next_set:
-
-  switch_bank_ldy #SLIDE_DATA_BANK
-  ;get index of next group
-  ldy sprite_chr_groups_index
-  lda (sprite_chr_groups_address),y
-  tax
-
-  ;get address of group
-  lda sprite_chr_group_addresses_lo,x
-  sta w0
-  lda sprite_chr_group_addresses_hi,x
-  sta w0+1
-
-  ldy sprite_chr_group_bank,x
-  switch_bank_y
-
-  jsr ppu_load_chr_amount
-
-  inc sprite_chr_groups_index
-
-  dec sprite_chr_groups_count
-  bne next_set
-
-  rts
-
-.endproc
-
-.proc load_slide_sprite_overlays
-slide_address = w10
-sprite_overlays_address = w11
-sprite_overlays_count = b9
-sprite_overlays_index = b10
-sprite_overlay_bank = b11
-
-  ;get address of sprite chr groups for this slide
-  switch_bank_ldy #SLIDE_DATA_BANK
-  ldy #slide::sprite_overlays_address
-  lda (slide_address),y
-  sta sprite_overlays_address
-  iny
-  lda (slide_address),y
-  sta sprite_overlays_address+1
-
-  ;check if this address is zero and bail if so
-  lda sprite_overlays_address
-  bne nonzero_address
-  lda sprite_overlays_address+1
-  bne nonzero_address
-  rts
-nonzero_address:
-
-  ;get count
-  ldy #0
-  sty sprite_overlays_index
-  lda (sprite_overlays_address),y
-  sta sprite_overlays_count
-  inc sprite_overlays_index
-
-next_overlay:
-
-  switch_bank_ldy #SLIDE_DATA_BANK
-  ;load bank of overlay
-  ldy sprite_overlays_index
-  lda (sprite_overlays_address),y
-  sta sprite_overlay_bank
-  iny
-
-  ;load address of overlay
-  lda (sprite_overlays_address),y
-  sta w0
-  iny
-  lda (sprite_overlays_address),y
-  sta w0+1
-  iny
-
-  ;load x coordinate of overlay
-  lda (sprite_overlays_address),y
-  sta w3
-  lda #0
-  sta w3+1
-  iny
-
-  ;load y coordinate of overlay
-  lda (sprite_overlays_address),y
-  sta w4
-  lda #0
-  sta w4+1
-  iny
-
-  sty sprite_overlays_index
-
-  lda #0
-  sta b2
-
-  ;assume chr group is at 0 for now
-  lda #0
-  sta chr_group_offset
-
-  switch_bank_ldx sprite_overlay_bank
-  jsr sprite_draw_metasprite
-
-  dec sprite_overlays_count
-  bne next_overlay
+  far_copy #SLIDE_DATA_BANK, w10, palette_address, #slide::palette_address, #0, #2
+  far_call #SLIDE_DATA_BANK, ppu_fade_out_palette
 
   rts
 

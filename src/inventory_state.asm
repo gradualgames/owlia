@@ -47,22 +47,7 @@ inventory_state_init:
   tax
 
   ;fade out from current palette
-  lda #LOCATIONS_BANK
-  sta next_bank
-  lda location_address
-  sta far_copy_source
-  lda location_address+1
-  sta far_copy_source+1
-  lda palette_address
-  sta far_copy_dest
-  lda palette_address+1
-  sta far_copy_dest+1
-  lda #0
-  sta far_copy_source_index
-  sta far_copy_dest_index
-  lda #2
-  sta far_copy_count
-  jsr far_copy
+  far_copy #LOCATIONS_BANK, location_address, palette_address, #location::palette_address, #0, #2
   far_call #LOCATIONS_BANK, ppu_fade_out_palette
 
   ;set blank nmi routine
