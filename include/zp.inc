@@ -51,7 +51,7 @@ ZP_INC = 1
 
 .globalzp area_address
 .globalzp location_address
-.globalzp entity_set_address
+.globalzp sprite_chr_groups_address
 .globalzp palette_address
 
 .globalzp processor_status

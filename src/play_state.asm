@@ -105,9 +105,9 @@ scroll_direction_opposite:
   upload_ppu_2006
 
   switch_bank_ldy #LOCATIONS_BANK
-  lda entity_set_address
+  lda sprite_chr_groups_address
   sta w4
-  lda entity_set_address+1
+  lda sprite_chr_groups_address+1
   sta w4+1
   jsr load_sprite_chr_groups
 
@@ -568,12 +568,12 @@ play_state_load_location:
   sta conversations_bank
 
   switch_bank_ldy #LOCATIONS_BANK
-  ldy #location::entity_set_address
+  ldy #location::sprite_chr_groups_address
   lda (location_address),y
-  sta entity_set_address
+  sta sprite_chr_groups_address
   iny
   lda (location_address),y
-  sta entity_set_address+1
+  sta sprite_chr_groups_address+1
 
   ;load other variables we need
   ldy #area::textbox_attribute

@@ -52,7 +52,7 @@ big_metatile_table_bottom_right_address: .res 2
 
 area_address: .res 2
 location_address: .res 2
-entity_set_address: .res 2
+sprite_chr_groups_address: .res 2
 palette_address: .res 2
 
 processor_status: .res 1

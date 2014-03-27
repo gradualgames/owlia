@@ -28,7 +28,7 @@ LOCATION_BRIGHTNESS_LEVEL_4 = %00010000
 .struct location
   flags .byte
   area_index .byte
-  entity_set_address .word
+  sprite_chr_groups_address .word
   entity_instances_address .word
   palette_address .word
   nametable_start_hibyte .byte
