@@ -24,6 +24,7 @@ TECH2_OFFSET = -2
 .struct inventory_state_control
   nametable_hi .byte
   current_menu_position_address .word
+  cursor_chr_offset .byte
   digits_chr_offset .byte
   techs_chr_offset .byte
   string_address .word

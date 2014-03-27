@@ -33,6 +33,47 @@
 
 .endproc
 
+;This routine looks up the desired sprite_chr_group_index within the
+;current sprite_chr_groups for the current location. When it is found,
+;the index of the found entry is used as the index into sprite_chr_group_offsets
+;in ram to find the correct sprite chr offset for this entity. It starts looking
+;at the end of the sprite_chr_groups table because the first few entries are
+;almost always the hard coded hero and familiar sprite chr groups. Generally, this
+;routine would only ever be called within the init routine of any given entity.
+;expects b0 to contain desired sprite_chr_group_index.
+;expects x to point at the entity for which we are looking up a chr group offset.
+.proc entity_lookup_sprite_chr_offset
+
+  save_calling_bank
+
+  ;Get count in current sprite_chr_groups for current location.
+  ;Point y to the last entry in the table.
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #0
+  lda (sprite_chr_groups_address),y
+  tay
+next_entry:
+
+  lda b0
+  cmp (sprite_chr_groups_address),y
+  beq found_group
+
+  dey
+  bpl next_entry
+found_group:
+
+  ;sprite_chr_group_offsets is off by one relative to the
+  ;entries in a current location's sprite_chr_groups table because
+  ;there is a "count" byte at the beginning of the table.
+  lda sprite_chr_group_offsets-1,y
+  sta entity_sprite_group_offset,x
+
+  restore_calling_bank
+
+  rts
+
+.endproc
+
 ;this routine compares this entity's rect to the
 ;two action rects and the hero rect and reacts
 ;accordingly. It forwards parameters onwards to

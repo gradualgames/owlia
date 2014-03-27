@@ -61,9 +61,9 @@ octopus_state_init:
   lda #23
   sta entity_height,x
 
-  ldy #sprite_chr_group_index_octopus
-  lda sprite_chr_group_offsets,y
-  sta entity_sprite_group_offset,x
+  lda #sprite_chr_group_index_octopus
+  sta b0
+  jsr entity_lookup_sprite_chr_offset
 
   ;save initial location
   lda entity_x_lo,x

@@ -1244,8 +1244,7 @@ hero_state_init:
   lda sprite_flags_direction,y
   sta hero_sprite_flags
 
-  lda #sprite_chr_group_index_hero
-  tay
+  ldy #HERO_SPRITE_CHR_GROUPS_INDEX
   lda sprite_chr_group_offsets,y
   sta hero_sprite_group_offset
 

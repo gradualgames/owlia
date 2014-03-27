@@ -186,9 +186,9 @@ pufferfish_state_init:
   lda #PUFFERFISH_HEIGHT
   sta entity_height,x
 
-  ldy #sprite_chr_group_index_pufferfish
-  lda sprite_chr_group_offsets,y
-  sta entity_sprite_group_offset,x
+  lda #sprite_chr_group_index_pufferfish
+  sta b0
+  jsr entity_lookup_sprite_chr_offset
 
   lda #$00
   sta entity_sprite_flags,x

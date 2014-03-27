@@ -31,7 +31,7 @@ textbox_result: .res 1
 ;example the play state can switch to a sub-state for displaying
 ;a conversation based on some information in here.
 ;****************************************************************
-state_control_params: .res 9
+state_control_params: .res 16
 
 ;****************************************************************
 ;This is used by the sprite module to add to the tile offsets
@@ -49,7 +49,7 @@ textbox_and_font_chr_offset: .res 1
 shadow_spot_chr_offset: .res 1
 tech1_chr_offset: .res 1
 tech2_chr_offset: .res 1
-sprite_chr_group_offsets: .res 64
+sprite_chr_group_offsets: .res 16
 
 ;****************************************************************
 ;A buffer used for any sort of string data that must be decoded

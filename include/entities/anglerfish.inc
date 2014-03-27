@@ -102,9 +102,9 @@ anglerfish_state_init:
 
   ;some entities are parameterized for graphics set, ones
   ;that are always hard coded should set their chr offset here
-  ldy #sprite_chr_group_index_anglerfish
-  lda sprite_chr_group_offsets,y
-  sta entity_sprite_group_offset,x
+  lda #sprite_chr_group_index_anglerfish
+  sta b0
+  jsr entity_lookup_sprite_chr_offset
 
   lda #$00
   sta entity_sprite_flags,x

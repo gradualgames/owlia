@@ -115,10 +115,9 @@ inventory_state_init:
   lda sprite_chr_group_addresses_hi,x
   sta w0+1
 
-  ;store the current chr offset in sprite_chr_groups_chr_offsets array for the inventory sprites
-  ldy #sprite_chr_group_index_inventory
+  ;store the current chr offset for cursor sprites
   lda b3
-  sta sprite_chr_group_offsets,y
+  sta state_control_params+inventory_state_control::cursor_chr_offset
 
   far_call {sprite_chr_group_bank,y}, ppu_load_chr_amount
 
@@ -534,8 +533,7 @@ done:
 .proc draw_cursor
 menu_position_address = w10
 
-  ldy #sprite_chr_group_index_inventory
-  lda sprite_chr_group_offsets,y
+  lda state_control_params+inventory_state_control::cursor_chr_offset
   sta chr_group_offset
 
   lda state_control_params+inventory_state_control::current_menu_position_address

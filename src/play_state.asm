@@ -219,6 +219,7 @@ next_bg_chr_group:
 sprite_chr_groups_address = w4
 chr_amount = w2
 chr_offset = b3
+sprite_chr_group_index = b4
 sprite_chr_groups_index = b0
 
   ;start tile accumulator (modified by ppu_load_chr_amount)
@@ -232,29 +233,34 @@ sprite_chr_groups_index = b0
   ;put it in x for counting
   tax
 
-  ;point at the first entry in the entity types array
+  ;point at the first entry in the sprite chr groups array
   iny
   sty sprite_chr_groups_index
 
 next_entity_type:
 
-  ;get next entity type index
+  ;get next sprite chr group index
   switch_bank_ldy #LOCATIONS_BANK
   ldy sprite_chr_groups_index
   lda (sprite_chr_groups_address),y
+  sta sprite_chr_group_index
 
-  ;get the address of this entity's chr data
-  tay
+  ;get the address of this sprite chr group
+  ldy sprite_chr_group_index
   lda sprite_chr_group_addresses_lo,y
   sta w0
   lda sprite_chr_group_addresses_hi,y
   sta w0+1
 
   ;store the current chr offset in sprite_chr_groups_chr_offsets array
+  ;using the index within the current location's sprite_chr_groups. But
+  ;subtract 1 to get the correct index for sprite_chr_group_offsets in ram.
+  ldy sprite_chr_groups_index
   lda chr_offset
-  sta sprite_chr_group_offsets,y
+  sta sprite_chr_group_offsets-1,y
 
   ;switch to the bank that this chunk of chr data resides in
+  ldy sprite_chr_group_index
   lda sprite_chr_group_bank,y
   tay
   switch_bank_y
@@ -345,9 +351,9 @@ next_entity_instance:
   iny
   lda (entities_address),y
   sty entities_index
-  tay
-  lda sprite_chr_group_offsets,y
-  sta entity_sprite_group_offset,x
+
+  sta b0
+  jsr entity_lookup_sprite_chr_offset
 
   jsr get_entity_params
 

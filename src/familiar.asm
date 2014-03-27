@@ -705,8 +705,7 @@ familiar_not_alive:
   jsr sprite_reset_animation
 
   ;load sprite group offset for the familiar
-  lda #sprite_chr_group_index_familiar
-  tay
+  ldy #FAMILIAR_SPRITE_CHR_GROUPS_INDEX
   lda sprite_chr_group_offsets,y
   sta familiar_sprite_group_offset
 

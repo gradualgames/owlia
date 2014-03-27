@@ -117,9 +117,8 @@ do_not_skip_rescueowl:
 
   ldy rescueowl_type,x
   lda rescueowl_spr_chr_group_indices,y
-  tay
-  lda sprite_chr_group_offsets,y
-  sta entity_sprite_group_offset,x
+  sta b0
+  jsr entity_lookup_sprite_chr_offset
 
   clc
   lda entity_x_lo,x

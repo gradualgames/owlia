@@ -124,9 +124,8 @@ item_state_prompt_for_purchase_init:
 
   ldy item_type,x
   lda item_sprite_chr_group_index,y
-  tay
-  lda sprite_chr_group_offsets,y
-  sta entity_sprite_group_offset,x
+  sta b0
+  jsr entity_lookup_sprite_chr_offset
 
   lda #ITEM_STATE_PROMPT_FOR_PURCHASE
   sta entity_state,x
@@ -519,9 +518,8 @@ exceeded_max:
 
   ldy item_type,x
   lda item_sprite_chr_group_index,y
-  tay
-  lda sprite_chr_group_offsets,y
-  sta entity_sprite_group_offset,x
+  sta b0
+  jsr entity_lookup_sprite_chr_offset
 
   rts
 
