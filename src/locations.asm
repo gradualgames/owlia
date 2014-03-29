@@ -522,7 +522,7 @@ dungeon_3_3_entity_instances:
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, \
                                           MONOLITH_DIRECTION_WEST, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon_2_3_e, \
-                                          0, 5
+                                          0, 4
 
 dungeon1_boss_entity_instances:
   .byte 3
