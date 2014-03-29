@@ -91,10 +91,6 @@ anglerfish_update:
 
 anglerfish_state_init:
 
-  jsr entity_set_drawable
-
-  jsr entity_reset_animation
-
   lda #ANGLERFISH_WIDTH
   sta entity_width,x
   lda #ANGLERFISH_HEIGHT
@@ -120,6 +116,10 @@ anglerfish_state_init:
   sta anglerfish_attacked_counter,x
 
   jsr anglerfish_get_animation_params
+
+  jsr entity_set_drawable
+
+  jsr entity_reset_animation
 
   ;spawn a spotlight entity
   txa
