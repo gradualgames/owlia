@@ -77,6 +77,11 @@ key_state_pickup:
   pla
   tax
 
+  ;mark the puzzle flag associated with this key
+  lda inventory_puzzle_flags
+  ora key_puzzle_flags_mask,x
+  sta inventory_puzzle_flags
+
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x

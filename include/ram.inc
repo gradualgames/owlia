@@ -104,6 +104,7 @@ MAX_SHADOW_SPOTS = 12
 .global inventory_selected_tech
 .global inventory_tech1
 .global inventory_tech2
+.global inventory_puzzle_flags
 
 .global hero_ram_start
 .global hero_flags

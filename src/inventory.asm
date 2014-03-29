@@ -53,6 +53,9 @@
   lda #>20
   sta inventory_gp+1
 
+  lda #0
+  sta inventory_puzzle_flags
+
   rts
 
 .endproc

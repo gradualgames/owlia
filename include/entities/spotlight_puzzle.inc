@@ -2,19 +2,8 @@
 .ifndef SPOTLIGHT_PUZZLE_INC
 SPOTLIGHT_PUZZLE_INC = 1
 
+.include "spotlight_puzzle_constants.inc"
 .include "anglerfish_constants.inc"
-
-SPOTLIGHT_DISTANCE = 10
-
-spotlight_index0 = entity_local0
-spotlight_index1 = entity_local1
-anglerfish_index0 = entity_local2
-anglerfish_index1 = entity_local3
-
-.enum
-SPOTLIGHT_PUZZLE_STATE_INIT
-SPOTLIGHT_PUZZLE_STATE_MAIN
-.endenum
 
 .define spotlight_puzzle_states \
   spotlight_puzzle_state_init, \
@@ -31,6 +20,47 @@ spotlight_puzzle_update:
   entity_state_switchboard spotlight_puzzle_lo, spotlight_puzzle_hi
 
 spotlight_puzzle_state_init:
+
+  lda inventory_puzzle_flags
+  and spotlight_puzzle_flags_mask,x
+  bne skip_spotlight_puzzle
+  lda inventory_earned_techs
+  cmp #tech_carry_bomb
+  bpl skip_spotlight_puzzle
+  jmp do_not_skip_spotlight_puzzle
+skip_spotlight_puzzle:
+
+  .scope
+  ;search for all anglerfish and spotlight entities and kill them
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+
+  lda entity_type,y
+  cmp #entity_index_anglerfish
+  beq kill_entity
+  cmp #entity_index_spotlight
+  beq kill_entity
+  jmp do_not_kill_entity
+kill_entity:
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+do_not_kill_entity:
+
+  dey
+  bpl next_entity
+  .endscope
+
+  ;clear shadow spots, the anglerfish entities may have placed some
+  jsr sprite_clear_shadow_spots
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+
+do_not_skip_spotlight_puzzle:
 
   jsr entity_clear_drawable
 
@@ -238,6 +268,10 @@ close_enough:
   lda #ANGLERFISH_STATE_DIE
   sta entity_state,y
 
+  ;remember the "this" index in y because we're going to get a value
+  ;out of the spotlight puzzle and place it in the key's state.
+  txa
+  tay
   ;spawn a key entity where the spotlights meet
   txa
   pha
@@ -246,6 +280,11 @@ close_enough:
   sta b0
 
   jsr entity_spawn
+
+  ;forward the puzzle done mask to the key so the key
+  ;can mark the puzzle as done when picked up
+  lda spotlight_puzzle_flags_mask,y
+  sta key_puzzle_flags_mask,x
 
   lda #KEY_STATE_PICKUP
   sta key_initial_state,x

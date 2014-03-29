@@ -162,6 +162,7 @@ inventory_earned_techs:   .res 1
 inventory_selected_tech:  .res 1
 inventory_tech1:          .res 1
 inventory_tech2:          .res 1
+inventory_puzzle_flags:   .res 1
 
 ;****************************************************************
 ;These variables describe the hard coded hero entity state.
