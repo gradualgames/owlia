@@ -714,6 +714,10 @@ familiar_not_alive:
   sta familiar_x_fine
   sta familiar_y_fine
 
+  ;clear carried entity index
+  lda #$ff
+  sta familiar_carried_entity_index
+
   rts
 
 .endproc
@@ -857,9 +861,6 @@ state_counter_not_zero:
   lda #FAMILIAR_STATE_FETCH
   sta familiar_state
 
-  ;clear fetched entity index
-  lda #$ff
-  sta familiar_carried_entity_index
 not_ready_yet:
 
   rts
@@ -1476,6 +1477,10 @@ bomb_has_been_dropped:
   sta bomb_target_y_velocity_lo,x
   lda familiar_y_velocity+1
   sta bomb_target_y_velocity_hi,x
+
+  ;the familiar is no longer carrying the bomb!
+  lda #$ff
+  sta familiar_carried_entity_index
 no_bomb:
   .endscope
 state_counter_not_at_drop_bomb_frame:
