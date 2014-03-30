@@ -57,6 +57,18 @@ item_random_pickup_quantities:
   .byte 1
   .byte 1
 
+.define item_increment_var_addresses \
+  increment_var, \
+  increment_health, \
+  increment_var, \
+  increment_var
+
+item_increment_var_addresses_lo:
+  .lobytes item_increment_var_addresses
+
+item_increment_var_addresses_hi:
+  .hibytes item_increment_var_addresses
+
 .define item_states \
   item_state_init, \
   item_state_prompt_for_purchase_init, \
@@ -375,6 +387,24 @@ do_not_drop_item:
   sta entity_flags,x
   rts
 
+.proc increment_health
+
+  lda #HERO_MAX_HEALTH
+  cmp hero_health
+  beq do_not_inc_health
+
+  inc hero_health
+
+  rts
+
+do_not_inc_health:
+
+  jsr increment_var
+
+  rts
+
+.endproc
+
 ;increments the target variable by the passed-in increment value,
 ;which is interpreted as a signed 8 bit number, sign extended for
 ;16 bit target values here.
@@ -525,13 +555,25 @@ exceeded_max:
 
 .endproc
 
+.proc indirect_jsr_w0
+
+  jmp (w0)
+  rts
+
+.endproc
+
 .proc item_test_hero_and_familiar
 
   .scope
   jsr entity_test_hero_rect
   bne not_touching_hero
 
-  jsr increment_var
+  ldy item_type,x
+  lda item_increment_var_addresses_lo,y
+  sta w0
+  lda item_increment_var_addresses_hi,y
+  sta w0+1
+  jsr indirect_jsr_w0
 
   ;play a sound
   txa
