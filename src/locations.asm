@@ -146,8 +146,6 @@ dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_pufferfish
   .byte sprite_chr_group_index_crab
-  .byte sprite_chr_group_index_anglerfish
-  .byte sprite_chr_group_index_spotlight
 
 dungeon_anglerfish_puzzle_sprite_chr_groups:
   .byte 9   ;sprite_chr_groups .byte

@@ -55,6 +55,10 @@
 ;sets the familiar to be alive and initializes the rush attack.
 .proc familiar_spawn_rush
 
+  ;clear carried entity index
+  lda #$ff
+  sta familiar_carried_entity_index
+
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
   sta familiar_flags
@@ -78,6 +82,10 @@
 ;sets the familiar to be alive and initializes the fetch technique.
 .proc familiar_spawn_fetch
 
+  ;clear carried entity index
+  lda #$ff
+  sta familiar_carried_entity_index
+
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
   sta familiar_flags
@@ -100,6 +108,10 @@
 
 ;sets the familiar to be alive and initializes the unlock technique.
 .proc familiar_spawn_unlock
+
+  ;clear carried entity index
+  lda #$ff
+  sta familiar_carried_entity_index
 
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
@@ -161,6 +173,10 @@ cannot_spawn_key:
 ;sets the familiar to be alive and initializes the carry bomb technique.
 .proc familiar_spawn_carry_bomb
 
+  ;clear carried entity index
+  lda #$ff
+  sta familiar_carried_entity_index
+
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
   sta familiar_flags
@@ -212,6 +228,10 @@ cannot_spawn_bomb:
 ;sets the familiar to be alive and initializes the carry lantern technique.
 .proc familiar_spawn_carry_lantern
 
+  ;clear carried entity index
+  lda #$ff
+  sta familiar_carried_entity_index
+
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
   sta familiar_flags
@@ -256,6 +276,10 @@ cannot_spawn_lantern:
 ;sets the familiar to be alive and initializes the carry hero technique.
 .proc familiar_spawn_carry_hero
 
+  ;clear carried entity index
+  lda #$ff
+  sta familiar_carried_entity_index
+
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
   sta familiar_flags
@@ -294,6 +318,10 @@ cannot_spawn_lantern:
 ;sets the familiar to be alive and initializes the shield technique.
 .proc familiar_spawn_shield
 
+  ;clear carried entity index
+  lda #$ff
+  sta familiar_carried_entity_index
+
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
   sta familiar_flags
@@ -316,6 +344,10 @@ cannot_spawn_lantern:
 
 ;sets the familiar to be alive and initializes the homing technique.
 .proc familiar_spawn_homing
+
+  ;clear carried entity index
+  lda #$ff
+  sta familiar_carried_entity_index
 
   lda familiar_flags
   ora #FAMILIAR_FLAGS_ALIVE_SET
@@ -713,10 +745,6 @@ familiar_not_alive:
   lda #0
   sta familiar_x_fine
   sta familiar_y_fine
-
-  ;clear carried entity index
-  lda #$ff
-  sta familiar_carried_entity_index
 
   rts
 
