@@ -160,6 +160,10 @@ crab_state_init:
   sta crab_health,x
 
   lda #0
+  sta crab_pseudo_random_number,x
+  sta crab_random_pause_counter,x
+
+  lda #0
   sta crab_attacked_counter,x
   sta crab_knockback_counter,x
 

@@ -29,6 +29,10 @@ traproom_state_init:
 
   jsr entity_set_not_pausable
 
+  lda #$0f
+  sta entity_width,x
+  sta entity_height,x
+
   lda #0
   sta traproom_state_counter,x
 
@@ -104,6 +108,9 @@ traproom_state_raise_monoliths_aligned:
   ldy #(MAX_ENTITIES-1)
   .scope
 next_entity:
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq not_monolith
   lda entity_type,y
   cmp #entity_index_monolith
   bne not_monolith
