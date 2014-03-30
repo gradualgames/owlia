@@ -59,6 +59,9 @@ scroll_direction_opposite:
   lda #0
   sta state_control_params+play_state_control::param
 
+  lda #0
+  sta state_control_params+play_state_control::palette_cycling_disabled
+
   ;clear out song address so first song will get loaded
   lda #0
   sta song_address
@@ -800,6 +803,9 @@ same_song:
   lsr
   sta b4
 
+  lda #0
+  sta state_control_params+play_state_control::palette_cycling_disabled
+
   ;always fade in to max for sprites
   lda #MAX_BRIGHTNESS_LEVEL
   sta b5
@@ -1073,6 +1079,9 @@ done:
   lsr
   lsr
   sta b4
+
+  lda #0
+  sta state_control_params+play_state_control::palette_cycling_disabled
 
   ;always fade in to max for sprites
   lda #MAX_BRIGHTNESS_LEVEL
@@ -1573,6 +1582,8 @@ scroll_east_impl:
 
   jsr draw_sprites
 
+  jsr advance_palette_cycle
+
   pla
   sta scroll_counter
 
@@ -1604,6 +1615,8 @@ scroll_west_impl:
   jsr sprite_clear_all
 
   jsr draw_sprites
+
+  jsr advance_palette_cycle
 
   pla
   sta scroll_counter
@@ -1637,6 +1650,8 @@ scroll_north_impl:
 
   jsr draw_sprites
 
+  jsr advance_palette_cycle
+
   pla
   sta scroll_counter
 
@@ -1668,6 +1683,8 @@ scroll_south_impl:
   jsr sprite_clear_all
 
   jsr draw_sprites
+
+  jsr advance_palette_cycle
 
   pla
   sta scroll_counter
@@ -1974,6 +1991,8 @@ done:
 
   jsr sprite_clear_all_remaining
 
+  jsr advance_palette_cycle
+
   .ifdef CPU_USAGE
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
@@ -1996,6 +2015,8 @@ done:
 
   jsr draw_sprites
 
+  jsr advance_palette_cycle
+
   rts
 
 .endproc
@@ -2009,6 +2030,48 @@ done:
   jsr sprite_draw_shadow_spots
 
   jsr hero_draw_status
+
+  rts
+
+.endproc
+
+.proc advance_palette_cycle
+
+  lda state_control_params+play_state_control::palette_cycling_disabled
+  bne done
+  switch_bank_ldy #LOCATIONS_BANK
+  clc
+  lda palette_address
+  adc #<32
+  sta w0
+  lda palette_address+1
+  adc #>32
+  sta w0+1
+  ldy #0
+  lda (w0),y
+  cmp #$ff
+  beq restart_palette_cycle
+advance_to_next_palette:
+  lda w0
+  sta palette_address
+  lda w0+1
+  sta palette_address+1
+  lda #MAX_BRIGHTNESS_LEVEL
+  sta b3
+  jsr ppu_load_dynamic_palette_brightness_bg
+  jmp done
+restart_palette_cycle:
+  ;get address of beginning of palette cycle
+  iny
+  lda (w0),y
+  sta palette_address
+  iny
+  lda (w0),y
+  sta palette_address+1
+  lda #MAX_BRIGHTNESS_LEVEL
+  sta b3
+  jsr ppu_load_dynamic_palette_brightness_bg
+done:
 
   rts
 
