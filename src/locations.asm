@@ -566,7 +566,7 @@ house_palette:
   .word house_palette
 
 meadow1_palette:
-  .byte $0e,$0a,$08,$19,$0e,$08,$19,$18,$0e,$0a,$19,$15,$0e,$0a,$19,$28
+  .byte $0e,$0a,$08,$19,$0e,$0a,$19,$15,$0e,$0a,$19,$28,$0e,$08,$19,$18
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$28,$20,$0e,$00,$00,$00
   .byte $ff
   .word meadow1_palette
