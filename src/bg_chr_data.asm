@@ -734,7 +734,7 @@ meadow_dungeon1_entrance:
   .byte $70,$e0,$10,$b0,$50,$a0,$00,$00,$47,$e7,$07,$97,$07,$07,$47,$af
 
 dungeon1_main_chr:
-  .word $0B10
+  .word $b10
   .byte $54,$bf,$7c,$f3,$e7,$cf,$ff,$bd,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
   .byte $2f,$8b,$e3,$b9,$e4,$f6,$ff,$ef,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
   .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -974,7 +974,7 @@ inventory_chr:
 .segment "ROM09"
 
 dungeon1_pool_chr:
-  .word $0240
+  .word $240
   .byte $ff,$58,$a0,$c0,$81,$02,$85,$08,$00,$00,$00,$00,$03,$02,$05,$0f
   .byte $0a,$35,$07,$c0,$7f,$ff,$1f,$1c,$00,$35,$7f,$ff,$7f,$ff,$ff,$ff
   .byte $84,$68,$06,$3c,$ff,$ff,$ff,$0f,$00,$6b,$ff,$ff,$ff,$ff,$ff,$ff
