@@ -560,7 +560,7 @@ village_palette:
   .word village_palette
 
 house_palette:
-  .byte $0d,$08,$18,$37,$0d,$07,$17,$27,$0d,$02,$12,$22,$0d,$04,$14,$37
+  .byte $0e,$04,$14,$37,$0e,$07,$17,$27,$0e,$02,$12,$22,$0e,$08,$18,$37
   .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0d,$0d,$1a,$36,$0d,$0d,$15,$36
   .byte $ff
   .word house_palette
