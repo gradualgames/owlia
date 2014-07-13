@@ -566,17 +566,22 @@ house_palette:
   .word house_palette
 
 meadow1_palette:
-  .byte $0e,$0a,$08,$19,$0e,$08,$19,$18,$0e,$0a,$19,$15,$0e,$0a,$19,$28
+  .byte $0e,$0a,$08,$19,$0e,$0a,$19,$15,$0e,$0a,$19,$28,$0e,$08,$19,$18
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$28,$20,$0e,$00,$00,$00
   .byte $ff
   .word meadow1_palette
 
 meadow2_palette:
-meadow3_palette:
-  .byte $0e,$0a,$08,$19,$0e,$08,$19,$18,$0e,$08,$19,$28,$00,$00,$00,$00
+  .byte $0e,$0a,$08,$19,$0e,$0a,$19,$15,$0e,$0a,$19,$28,$0e,$08,$19,$18
   .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0e,$0e,$13,$23,$0d,$0d,$18,$36
   .byte $ff
   .word meadow2_palette
+
+meadow3_palette:
+  .byte $0e,$0a,$08,$19,$0e,$08,$19,$18,$0e,$08,$19,$28,$0e,$0e,$0e,$0e
+  .byte $0d,$0d,$06,$36,$0d,$0d,$18,$20,$0e,$0e,$13,$23,$0d,$0d,$18,$36
+  .byte $ff
+  .word meadow3_palette
 
 dungeon_palette:
   .byte $0e,$0b,$19,$2a,$0e,$1b,$0b,$08,$0e,$0b,$08,$18,$0e,$08,$07,$28
