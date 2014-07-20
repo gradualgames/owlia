@@ -1,7 +1,7 @@
 .ifndef HERO_SPRITES_AND_ANIMATIONS_INC
 HERO_SPRITES_AND_ANIMATIONS_INC = 1
 
-WalkDown0:
+adlanniel_walk_down0:
   .byte $08
   .byte $00,$01,$00,$00,$08
   .byte $00,$02,$00,$08,$00
@@ -11,7 +11,7 @@ WalkDown0:
   .byte $10,$13,$00,$08,$00
   .byte $18,$1a,$00,$00,$08
   .byte $18,$1b,$00,$08,$00
-WalkDown1:
+adlanniel_walk_down1:
   .byte $08
   .byte $00,$03,$00,$00,$08
   .byte $00,$04,$00,$08,$00
@@ -21,7 +21,7 @@ WalkDown1:
   .byte $10,$15,$00,$08,$00
   .byte $18,$1c,$00,$00,$08
   .byte $18,$1d,$00,$08,$00
-WalkUp0:
+adlanniel_walk_up0:
   .byte $08
   .byte $00,$05,$00,$00,$08
   .byte $00,$06,$00,$08,$00
@@ -31,7 +31,7 @@ WalkUp0:
   .byte $10,$17,$00,$08,$00
   .byte $18,$1e,$00,$00,$08
   .byte $18,$1f,$00,$08,$00
-WalkUp1:
+adlanniel_walk_up1:
   .byte $08
   .byte $00,$07,$00,$00,$08
   .byte $00,$08,$00,$08,$00
@@ -41,10 +41,10 @@ WalkUp1:
   .byte $10,$19,$00,$08,$00
   .byte $18,$20,$00,$00,$08
   .byte $18,$21,$00,$08,$00
-Heart0:
+heart0:
   .byte $01
   .byte $00,$09,$00,$00,$00
-WalkSide1:
+adlanniel_walk_side1:
   .byte $08
   .byte $00,$22,$00,$00,$08
   .byte $00,$23,$00,$08,$00
@@ -54,7 +54,7 @@ WalkSide1:
   .byte $10,$2c,$00,$08,$00
   .byte $18,$33,$00,$00,$08
   .byte $18,$34,$00,$08,$00
-WalkSide0:
+adlanniel_walk_side0:
   .byte $08
   .byte $00,$24,$00,$00,$08
   .byte $00,$25,$00,$08,$00
@@ -64,7 +64,7 @@ WalkSide0:
   .byte $10,$2e,$00,$08,$00
   .byte $18,$35,$00,$00,$08
   .byte $18,$36,$00,$08,$00
-WalkSide2:
+adlanniel_walk_side2:
   .byte $08
   .byte $00,$22,$00,$00,$08
   .byte $00,$23,$00,$08,$00
@@ -74,7 +74,7 @@ WalkSide2:
   .byte $10,$30,$00,$08,$00
   .byte $18,$37,$00,$00,$08
   .byte $18,$38,$00,$08,$00
-FightSide0:
+adlanniel_fight_side0:
   .byte $0c
   .byte $00,$3d,$00,$00,$08
   .byte $00,$3e,$00,$08,$00
@@ -88,7 +88,7 @@ FightSide0:
   .byte $18,$66,$00,$00,$08
   .byte $18,$67,$00,$08,$00
   .byte $18,$68,$00,$10,$f8
-FightSide1:
+adlanniel_fight_side1:
   .byte $10
   .byte $04,$3d,$00,$00,$08
   .byte $04,$3e,$00,$08,$00
@@ -106,7 +106,7 @@ FightSide1:
   .byte $1c,$64,$00,$08,$00
   .byte $1c,$65,$00,$10,$f8
   .byte $1c,$00,$00,$18,$f0
-FightDown0:
+adlanniel_fight_down0:
   .byte $08
   .byte $00,$40,$00,$00,$08
   .byte $00,$41,$00,$08,$00
@@ -116,7 +116,7 @@ FightDown0:
   .byte $10,$5e,$00,$08,$00
   .byte $18,$6b,$00,$00,$08
   .byte $18,$6c,$00,$08,$00
-FightDown1:
+adlanniel_fight_down1:
   .byte $0a
   .byte $04,$40,$00,$00,$08
   .byte $04,$41,$00,$08,$00
@@ -128,7 +128,7 @@ FightDown1:
   .byte $1c,$6a,$00,$08,$00
   .byte $24,$6f,$00,$00,$08
   .byte $24,$00,$00,$08,$00
-FightUp0:
+adlanniel_fight_up0:
   .byte $0a
   .byte $f8,$31,$00,$00,$08
   .byte $f8,$32,$00,$08,$00
@@ -140,7 +140,7 @@ FightUp0:
   .byte $10,$54,$00,$08,$00
   .byte $18,$61,$00,$00,$08
   .byte $18,$62,$00,$08,$00
-FightUp1:
+adlanniel_fight_up1:
   .byte $0c
   .byte $f4,$31,$00,$00,$08
   .byte $f4,$32,$00,$08,$00
@@ -154,7 +154,7 @@ FightUp1:
   .byte $14,$60,$00,$08,$00
   .byte $1c,$6d,$00,$00,$08
   .byte $1c,$6e,$00,$08,$00
-ThrowSide0:
+adlanniel_throw_side0:
   .byte $0c
   .byte $03,$3d,$00,$00,$08
   .byte $03,$3e,$00,$08,$00
@@ -168,7 +168,7 @@ ThrowSide0:
   .byte $1b,$63,$00,$00,$08
   .byte $1b,$64,$00,$08,$00
   .byte $1b,$65,$00,$10,$f8
-ThrowDown0:
+adlanniel_throw_down0:
   .byte $08
   .byte $04,$40,$00,$00,$08
   .byte $04,$41,$00,$08,$00
@@ -178,7 +178,7 @@ ThrowDown0:
   .byte $14,$74,$00,$08,$00
   .byte $1c,$75,$00,$00,$08
   .byte $1c,$6a,$00,$08,$00
-ThrowUp0:
+adlanniel_throw_up0:
   .byte $08
   .byte $05,$42,$00,$00,$08
   .byte $05,$43,$00,$08,$00
@@ -189,50 +189,50 @@ ThrowUp0:
   .byte $1d,$6d,$00,$00,$08
   .byte $1d,$6e,$00,$08,$00
 
-WalkDown:
+adlanniel_walk_down:
   .byte $0a, $08
-  .word WalkDown1
-  .word WalkDown0
-  .word WalkDown1
-  .word WalkDown0
-WalkUp:
+  .word adlanniel_walk_down1
+  .word adlanniel_walk_down0
+  .word adlanniel_walk_down1
+  .word adlanniel_walk_down0
+adlanniel_walk_up:
   .byte $0a, $08
-  .word WalkUp0
-  .word WalkUp1
-  .word WalkUp0
-  .word WalkUp1
-WalkSide:
+  .word adlanniel_walk_up0
+  .word adlanniel_walk_up1
+  .word adlanniel_walk_up0
+  .word adlanniel_walk_up1
+adlanniel_walk_side:
   .byte $0a, $08
-  .word WalkSide0
-  .word WalkSide1
-  .word WalkSide0
-  .word WalkSide2
-FightSide:
+  .word adlanniel_walk_side0
+  .word adlanniel_walk_side1
+  .word adlanniel_walk_side0
+  .word adlanniel_walk_side2
+adlanniel_fight_side:
   .byte $0a, $04
-  .word FightSide0
-  .word FightSide1
-FightDown:
+  .word adlanniel_fight_side0
+  .word adlanniel_fight_side1
+adlanniel_fight_down:
   .byte $0a, $04
-  .word FightDown0
-  .word FightDown1
-FightUp:
+  .word adlanniel_fight_down0
+  .word adlanniel_fight_down1
+adlanniel_fight_up:
   .byte $0a, $04
-  .word FightUp0
-  .word FightUp1
-ThrowSide:
+  .word adlanniel_fight_up0
+  .word adlanniel_fight_up1
+adlanniel_throw_side:
   .byte $0a, $04
-  .word WalkSide0
-  .word ThrowSide0
-ThrowDown:
+  .word adlanniel_walk_side0
+  .word adlanniel_throw_side0
+adlanniel_throw_down:
   .byte $0a, $04
-  .word WalkDown1
-  .word ThrowDown0
-ThrowUp:
+  .word adlanniel_walk_down1
+  .word adlanniel_throw_down0
+adlanniel_throw_up:
   .byte $0a, $04
-  .word WalkUp1
-  .word ThrowUp0
-Heart:
+  .word adlanniel_walk_up1
+  .word adlanniel_throw_up0
+heart:
   .byte $0a, $02
-  .word Heart0
+  .word heart0
 
 .endif

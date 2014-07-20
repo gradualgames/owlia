@@ -3,18 +3,18 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 
 SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 
-.global WalkUp
-.global WalkDown
-.global WalkSide
-.global FightSide
-.global FightDown
-.global FightUp
-.global ThrowSide
-.global ThrowUp
-.global ThrowDown
+.global adlanniel_walk_up
+.global adlanniel_walk_down
+.global adlanniel_walk_side
+.global adlanniel_fight_side
+.global adlanniel_fight_down
+.global adlanniel_fight_up
+.global adlanniel_throw_side
+.global adlanniel_throw_up
+.global adlanniel_throw_down
 
-.global Heart0
-.global Heart
+.global heart0
+.global heart
 
 .global Tech0
 

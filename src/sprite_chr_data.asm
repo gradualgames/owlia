@@ -4,7 +4,7 @@
 .segment "CODE"
 
 .define sprite_chr_group_addresses \
-  Hero_chr, \
+  hero_chr, \
   RushTech_chr, \
   FetchTech_chr, \
   UnlockTech_chr, \
@@ -80,7 +80,7 @@ sprite_chr_group_bank:
 
 .segment "ROM07"
 
-Hero_chr:
+hero_chr:
   .word $760
   .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
   .byte $00,$00,$0f,$14,$2f,$1f,$35,$7f,$00,$00,$00,$0f,$18,$20,$0a,$00

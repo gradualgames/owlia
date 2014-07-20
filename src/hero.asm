@@ -909,9 +909,9 @@ do_not_draw:
   beq no_hearts
   sta b6
 
-  lda #<Heart0
+  lda #<heart0
   sta w0
-  lda #>Heart0
+  lda #>heart0
   sta w0+1
 
   lda #(CAMERA_SCREEN_ORIGIN_X+HERO_STATUS_X)
@@ -1099,10 +1099,10 @@ hero_direction_to_direction_handlers_index:
   .byte 1, 2, 4, 8
 
 .define main_animation_addresses\
-  WalkSide,\
-  WalkSide,\
-  WalkDown,\
-  WalkUp
+  adlanniel_walk_side,\
+  adlanniel_walk_side,\
+  adlanniel_walk_down,\
+  adlanniel_walk_up
 
 main_animation_addresses_lo:
   .lobytes main_animation_addresses
@@ -1111,10 +1111,10 @@ main_animation_addresses_hi:
   .hibytes main_animation_addresses
 
 .define attack_animation_addresses\
-  FightSide,\
-  FightSide,\
-  FightDown,\
-  FightUp
+  adlanniel_fight_side,\
+  adlanniel_fight_side,\
+  adlanniel_fight_down,\
+  adlanniel_fight_up
 
 attack_animation_addresses_lo:
   .lobytes attack_animation_addresses
@@ -1123,10 +1123,10 @@ attack_animation_addresses_hi:
   .hibytes attack_animation_addresses
 
 .define throw_animation_addresses\
-  ThrowSide,\
-  ThrowSide,\
-  ThrowDown,\
-  ThrowUp
+  adlanniel_throw_side,\
+  adlanniel_throw_side,\
+  adlanniel_throw_down,\
+  adlanniel_throw_up
 
 throw_animation_addresses_lo:
   .lobytes throw_animation_addresses

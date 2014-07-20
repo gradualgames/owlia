@@ -10,7 +10,7 @@ item_sprite_chr_group_index:
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
 
-.define item_animation_addresses Coins, Heart, Bomb, Lantern
+.define item_animation_addresses Coins, heart, Bomb, Lantern
 
 item_animation_addresses_lo:
   .lobytes item_animation_addresses
