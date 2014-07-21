@@ -125,9 +125,9 @@ crab_state_init:
 
   jsr entity_set_is_enemy
 
-  lda #<CrabWalk
+  lda #<crab_walk
   sta entity_animation_address_lo,x
-  lda #>CrabWalk
+  lda #>crab_walk
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation

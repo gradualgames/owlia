@@ -26,9 +26,9 @@ spotlight_update:
 
 spotlight_state_init:
 
-  lda #<SpotLight
+  lda #<spotlight
   sta entity_animation_address_lo,x
-  lda #>SpotLight
+  lda #>spotlight
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation

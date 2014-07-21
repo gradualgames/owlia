@@ -106,14 +106,14 @@ pufferfish_opposite_direction:
   .byte PUFFERFISH_DIRECTION_DOWN
 
 .define pufferfish_animation_addresses \
-  PufferFishUnpuffedSide, \
-  PufferFishUnpuffedSide, \
-  PufferFishUnpuffedDown, \
-  PufferFishUnpuffedUp, \
-  PufferFishPuffedSide, \
-  PufferFishPuffedSide, \
-  PufferFishPuffedDown, \
-  PufferFishPuffedUp
+  pufferfish_unpuffed_side, \
+  pufferfish_unpuffed_side, \
+  pufferfish_unpuffed_down, \
+  pufferfish_unpuffed_up, \
+  pufferfish_puffed_side, \
+  pufferfish_puffed_side, \
+  pufferfish_puffed_down, \
+  pufferfish_puffed_up
 
 pufferfish_animation_addresses_lo:
   .lobytes pufferfish_animation_addresses
@@ -174,9 +174,9 @@ pufferfish_state_init:
 
   jsr entity_set_is_enemy
 
-  lda #<PufferFishPuffedSide
+  lda #<pufferfish_puffed_side
   sta entity_animation_address_lo,x
-  lda #>PufferFishPuffedSide
+  lda #>pufferfish_puffed_side
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation

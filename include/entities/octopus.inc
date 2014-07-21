@@ -119,9 +119,9 @@ octopus_state_init:
 
   jsr sprite_add_shadow_spot
 
-  lda #<OctopusFly
+  lda #<octopus_fly
   sta entity_animation_address_lo,x
-  lda #>OctopusFly
+  lda #>octopus_fly
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation

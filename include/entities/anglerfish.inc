@@ -27,10 +27,10 @@ anglerfish_turnleft_direction:
   .byte ANGLERFISH_DIRECTION_LEFT
 
 .define anglerfish_animation_addresses \
-  AnglerFishSide, \
-  AnglerFishSide, \
-  AnglerFishDown, \
-  AnglerFishUp
+  anglerfish_side, \
+  anglerfish_side, \
+  anglerfish_down, \
+  anglerfish_up
 
 anglerfish_animation_addresses_lo:
   .lobytes anglerfish_animation_addresses

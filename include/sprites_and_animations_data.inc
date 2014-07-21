@@ -22,7 +22,7 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 .global FamiliarFlyDown
 .global FamiliarFlyUp
 
-.global OctopusFly
+.global octopus_fly
 
 .global Explosion
 
@@ -55,33 +55,33 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 .global OwliaTitle0
 .global OwliaTitle1
 
-.global PufferFishPuffedDown
-.global PufferFishUnpuffedDown
-.global PufferFishUnpuffedUp
-.global PufferFishPuffedUp
-.global PufferFishPuffedSide
-.global PufferFishUnpuffedSide
+.global pufferfish_puffed_down
+.global pufferfish_unpuffed_down
+.global pufferfish_unpuffed_up
+.global pufferfish_puffed_up
+.global pufferfish_puffed_side
+.global pufferfish_unpuffed_side
 
-.global CrabWalk0
-.global CrabWalk1
-.global CrabWalk2
+.global crab_walk0
+.global crab_walk1
+.global crab_walk2
 
-.global CrabWalk
+.global crab_walk
 
-.global AnglerFishUp0
-.global AnglerFishUp1
-.global AnglerFishDown0
-.global AnglerFishDown1
-.global AnglerFishSide0
-.global AnglerFishSide2
+.global anglerfish_up0
+.global anglerfish_up1
+.global anglerfish_down0
+.global anglerfish_down1
+.global anglerfish_side0
+.global anglerfish_side2
 
-.global AnglerFishUp
-.global AnglerFishDown
-.global AnglerFishSide
+.global anglerfish_up
+.global anglerfish_down
+.global anglerfish_side
 
-.global SpotLight0
+.global spotlight0
 
-.global SpotLight
+.global spotlight
 
 .global OctobossHead
 .global OctobossLegsDangle
