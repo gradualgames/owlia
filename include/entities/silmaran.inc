@@ -75,9 +75,9 @@ do_not_skip_silmaran:
 
   jsr entity_set_not_pausable
 
-  lda #<SilmaranDescend
+  lda #<silmaran_descend
   sta entity_animation_address_lo,x
-  lda #>SilmaranDescend
+  lda #>silmaran_descend
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
@@ -268,9 +268,9 @@ silmaran_state_descend:
   adc #>SILMARAN_PERCH_X_OFFSET
   sta entity_x_hi,x
 
-  lda #<SilmaranPerch
+  lda #<silmaran_perch
   sta entity_animation_address_lo,x
-  lda #>SilmaranPerch
+  lda #>silmaran_perch
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
@@ -321,9 +321,9 @@ silmaran_state_perch:
   sbc #>SILMARAN_PERCH_X_OFFSET
   sta entity_x_hi,x
 
-  lda #<SilmaranDescend
+  lda #<silmaran_descend
   sta entity_animation_address_lo,x
-  lda #>SilmaranDescend
+  lda #>silmaran_descend
   sta entity_animation_address_hi,x
 
   lda #SILMARAN_STATE_ASCEND

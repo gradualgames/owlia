@@ -94,13 +94,13 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 
 .global TytoWake
 
-.global SilmaranDescend0
-.global SilmaranDescend1
-.global SilmaranDescend2
-.global SilmaranPerch0
+.global silmaran_descend0
+.global silmaran_descend1
+.global silmaran_descend2
+.global silmaran_perch0
 
-.global SilmaranDescend
-.global SilmaranPerch
+.global silmaran_descend
+.global silmaran_perch
 
 .global GreatHornedOwlFly0
 .global GreatHornedOwlFly1
