@@ -71,10 +71,10 @@ npc_turnleft_direction:
   NpcManWalkSide,\
   NpcManWalkDown,\
   NpcManWalkUp, \
-  NpcWomanWalkSide,\
-  NpcWomanWalkSide,\
-  NpcWomanWalkDown,\
-  NpcWomanWalkUp
+  npcwoman_walk_side,\
+  npcwoman_walk_side,\
+  npcwoman_walk_down,\
+  npcwoman_walk_up
 
 npc_animation_addresses_lo:
   .lobytes npc_animation_addresses

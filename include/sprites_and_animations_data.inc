@@ -30,9 +30,9 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 .global NpcManWalkDown
 .global NpcManWalkUp
 
-.global NpcWomanWalkDown
-.global NpcWomanWalkUp
-.global NpcWomanWalkSide
+.global npcwoman_walk_down
+.global npcwoman_walk_up
+.global npcwoman_walk_side
 
 .global Key
 .global KeyInserted
