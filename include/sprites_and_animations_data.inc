@@ -18,9 +18,9 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 
 .global tech0
 
-.global FamiliarFlySide
-.global FamiliarFlyDown
-.global FamiliarFlyUp
+.global familiar_fly_side
+.global familiar_fly_down
+.global familiar_fly_up
 
 .global octopus_fly
 
@@ -88,11 +88,11 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 
 .global Splash
 
-.global TytoWake0
-.global TytoWake1
-.global TytoWake2
+.global tyto_wake0
+.global tyto_wake1
+.global tyto_wake2
 
-.global TytoWake
+.global tyto_wake
 
 .global silmaran_descend0
 .global silmaran_descend1

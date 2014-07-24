@@ -569,10 +569,10 @@ indirect_jsr_w0:
 
 .segment "ROM03"
 .define familiar_animation_addresses\
-  FamiliarFlySide,\
-  FamiliarFlySide,\
-  FamiliarFlyDown,\
-  FamiliarFlyUp
+  familiar_fly_side,\
+  familiar_fly_side,\
+  familiar_fly_down,\
+  familiar_fly_up
 
 familiar_animation_addresses_lo:
   .lobytes familiar_animation_addresses

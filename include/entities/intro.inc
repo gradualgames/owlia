@@ -62,9 +62,9 @@ intro_state_init:
 
   jsr entity_set_drawable
 
-  lda #<TytoWake
+  lda #<tyto_wake
   sta entity_animation_address_lo,x
-  lda #>TytoWake
+  lda #>tyto_wake
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
