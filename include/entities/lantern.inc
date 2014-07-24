@@ -26,9 +26,9 @@ lantern_state_init:
 
   jsr entity_clear_drawable
 
-  lda #<Lantern
+  lda #<lantern
   sta entity_animation_address_lo,x
-  lda #>Lantern
+  lda #>lantern
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation

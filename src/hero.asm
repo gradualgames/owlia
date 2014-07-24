@@ -953,9 +953,9 @@ tech2:
 
 done:
 
-  lda #<Tech0
+  lda #<tech0
   sta w0
-  lda #>Tech0
+  lda #>tech0
   sta w0+1
 
   clc

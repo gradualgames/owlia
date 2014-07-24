@@ -25,9 +25,9 @@ key_state_init:
 
   jsr entity_set_drawable
 
-  lda #<Key
+  lda #<key
   sta entity_animation_address_lo,x
-  lda #>Key
+  lda #>key
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
@@ -139,9 +139,9 @@ key_state_passive_init:
 
 key_state_passive_inserted_init:
 
-  lda #<KeyInserted
+  lda #<key_inserted
   sta entity_animation_address_lo,x
-  lda #>KeyInserted
+  lda #>key_inserted
   sta entity_animation_address_hi,x
 
   ;store offsets for this entity

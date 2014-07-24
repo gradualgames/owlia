@@ -5,26 +5,26 @@
 
 .define sprite_chr_group_addresses \
   hero_chr, \
-  RushTech_chr, \
-  FetchTech_chr, \
-  UnlockTech_chr, \
-  BombTech_chr, \
-  LanternTech_chr, \
-  CarryTech_chr, \
-  ShieldTech_chr, \
-  HomingTech_chr, \
+  rushtech_chr, \
+  fetchtech_chr, \
+  unlocktech_chr, \
+  bombtech_chr, \
+  lanterntech_chr, \
+  carrytech_chr, \
+  shieldtech_chr, \
+  homingtech_chr, \
   Familiar_chr, \
   Tyto_chr, \
   explosion_chr, \
-  ShadowSpot_chr, \
-  Bomb_chr, \
+  shadowspot_chr, \
+  bomb_chr, \
   octopus_chr, \
   NpcMan_chr, \
   npcwoman_chr, \
-  Key_chr, \
+  key_chr, \
   Inventory_chr, \
-  Lantern_chr, \
-  Coins_chr, \
+  lantern_chr, \
+  coins_chr, \
   OwliaTitle_chr, \
   pufferfish_chr, \
   crab_chr, \
@@ -201,29 +201,29 @@ hero_chr:
   .byte $ff,$ff,$7f,$3f,$ff,$ff,$ff,$ff,$14,$38,$9e,$da,$1e,$9f,$0f,$20
   .byte $7c,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
-RushTech_chr:
-  .word $0010
+rushtech_chr:
+  .word $10
   .byte $00,$3c,$fe,$ff,$ff,$ff,$ff,$1e,$00,$00,$3c,$be,$e6,$b6,$1a,$00
-FetchTech_chr:
-  .word $0010
+fetchtech_chr:
+  .word $10
   .byte $18,$18,$18,$7e,$ef,$c7,$6e,$00,$10,$10,$10,$6c,$82,$82,$44,$00
-UnlockTech_chr:
-  .word $0010
+unlocktech_chr:
+  .word $10
   .byte $1e,$3f,$3f,$1e,$0c,$1c,$0c,$3c,$1c,$2a,$2a,$1c,$08,$18,$08,$38
-BombTech_chr:
-  .word $0010
+bombtech_chr:
+  .word $10
   .byte $08,$3c,$7e,$7e,$7e,$7e,$3c,$00,$00,$38,$74,$7c,$7c,$7c,$38,$00
-LanternTech_chr:
-  .word $0010
-  .byte $3c,$7e,$7e,$ff,$7e,$3c,$3c,$7e,$38,$44,$7c,$fe,$7c,$38,$38,$7c
-CarryTech_chr:
-  .word $0010
+carrytech_chr:
+  .word $10
   .byte $58,$fc,$fe,$ff,$ff,$7f,$3f,$0e,$00,$48,$24,$52,$6c,$32,$0e,$00
-ShieldTech_chr:
-  .word $0010
+lanterntech_chr:
+  .word $10
+  .byte $3c,$7e,$7e,$ff,$7e,$3c,$3c,$7e,$38,$44,$7c,$fe,$7c,$38,$38,$7c
+shieldtech_chr:
+  .word $10
   .byte $00,$7e,$ff,$ff,$ff,$ff,$7e,$3c,$00,$00,$7e,$7e,$7e,$7e,$3c,$18
-HomingTech_chr:
-  .word $0010
+homingtech_chr:
+  .word $10
   .byte $00,$3c,$00,$db,$ff,$db,$00,$3c,$00,$38,$00,$92,$ba,$92,$00,$38
 
 Familiar_chr:
@@ -293,12 +293,12 @@ explosion_chr:
   .byte $00,$00,$18,$3c,$3c,$18,$00,$00,$00,$00,$18,$3c,$3c,$18,$00,$00
   .byte $00,$00,$24,$00,$00,$24,$00,$00,$00,$00,$24,$00,$00,$24,$00,$00
 
-ShadowSpot_chr:
-  .word $0010
+shadowspot_chr:
+  .word $10
   .byte $00,$00,$7e,$ff,$ff,$7e,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
-Bomb_chr:
-  .word $0010
+bomb_chr:
+  .word $10
   .byte $08,$3c,$7e,$7e,$7e,$7e,$3c,$00,$08,$04,$08,$00,$00,$00,$00,$00
 
 NpcMan_chr:
@@ -402,8 +402,8 @@ npcwoman_chr:
   .byte $84,$84,$88,$c8,$67,$1f,$03,$01,$7b,$7b,$77,$37,$18,$00,$00,$00
   .byte $3e,$1e,$42,$8c,$f8,$f0,$f8,$f8,$cc,$e0,$bc,$70,$00,$20,$40,$00
 
-Key_chr:
-  .word $0040
+key_chr:
+  .word $40
   .byte $3e,$69,$e2,$ea,$c8,$61,$32,$14,$00,$36,$5d,$55,$77,$3e,$1c,$08
   .byte $00,$00,$80,$80,$80,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
   .byte $14,$34,$64,$34,$14,$74,$c4,$78,$08,$08,$38,$08,$08,$08,$78,$00
@@ -422,12 +422,12 @@ Inventory_chr:
   .byte $80,$00,$00,$00,$00,$00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00
   .byte $00,$3c,$7e,$7e,$7e,$7e,$3c,$00,$00,$3c,$7e,$7e,$7e,$7e,$3c,$00
 
-Lantern_chr:
-  .word $0010
+lantern_chr:
+  .word $10
   .byte $18,$24,$7e,$eb,$6a,$3c,$24,$7e,$10,$20,$00,$3c,$3c,$00,$18,$00
 
-Coins_chr:
-  .word $0010
+coins_chr:
+  .word $10
   .byte $60,$f0,$f6,$6f,$ff,$f6,$60,$00,$00,$60,$60,$06,$66,$60,$00,$00
 
 OwliaTitle_chr:

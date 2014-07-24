@@ -602,9 +602,9 @@ row_offset = b0
   lda #0
   sta b2
 
-  lda #<Tech0
+  lda #<tech0
   sta w0
-  lda #>Tech0
+  lda #>tech0
   sta w0+1
 
   far_call #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK, sprite_draw_metasprite
@@ -637,9 +637,9 @@ row_offset = b0
   lda #0
   sta b2
 
-  lda #<Tech0
+  lda #<tech0
   sta w0
-  lda #>Tech0
+  lda #>tech0
   sta w0+1
 
   far_call #INVENTORY_STATE_SPRITES_AND_ANIMATIONS_BANK, sprite_draw_metasprite

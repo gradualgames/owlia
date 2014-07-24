@@ -26,9 +26,9 @@ bomb_state_init_carried:
 
   jsr entity_set_not_pausable
 
-  lda #<Bomb
+  lda #<bomb
   sta entity_animation_address_lo,x
-  lda #>Bomb
+  lda #>bomb
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
@@ -69,9 +69,9 @@ bomb_state_init_fall:
 
   jsr entity_set_not_pausable
 
-  lda #<Bomb
+  lda #<bomb
   sta entity_animation_address_lo,x
-  lda #>Bomb
+  lda #>bomb
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation

@@ -16,7 +16,7 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 .global heart0
 .global heart
 
-.global Tech0
+.global tech0
 
 .global FamiliarFlySide
 .global FamiliarFlyDown
@@ -34,23 +34,20 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 .global npcwoman_walk_up
 .global npcwoman_walk_side
 
-.global Key
-.global KeyInserted
+.global key
+.global key_inserted
 
 .global Cursor0
 .global Radio0
 
-.global Bomb0
-.global Bomb
+.global bomb0
+.global bomb
 
-.global Lantern0
-.global Lantern
+.global lantern0
+.global lantern
 
-.global Rope0
-.global Rope
-
-.global Coins0
-.global Coins
+.global coins0
+.global coins
 
 .global OwliaTitle0
 .global OwliaTitle1
