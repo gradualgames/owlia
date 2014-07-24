@@ -67,10 +67,10 @@ npc_turnleft_direction:
   .byte NPC_DIRECTION_LEFT
 
 .define npc_animation_addresses\
-  NpcManWalkSide,\
-  NpcManWalkSide,\
-  NpcManWalkDown,\
-  NpcManWalkUp, \
+  npcman_walk_side,\
+  npcman_walk_side,\
+  npcman_walk_down,\
+  npcman_walk_up, \
   npcwoman_walk_side,\
   npcwoman_walk_side,\
   npcwoman_walk_down,\

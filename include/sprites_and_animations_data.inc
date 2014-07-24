@@ -26,9 +26,9 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 
 .global Explosion
 
-.global NpcManWalkSide
-.global NpcManWalkDown
-.global NpcManWalkUp
+.global npcman_walk_side
+.global npcman_walk_down
+.global npcman_walk_up
 
 .global npcwoman_walk_down
 .global npcwoman_walk_up
