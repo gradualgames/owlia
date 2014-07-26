@@ -64,9 +64,9 @@ octoboss_legs_state_dangle_init:
 
   jsr entity_set_drawable
 
-  lda #<OctobossLegsDangle
+  lda #<octoboss_legs_dangle
   sta entity_animation_address_lo,x
-  lda #>OctobossLegsDangle
+  lda #>octoboss_legs_dangle
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
@@ -84,9 +84,9 @@ octoboss_legs_state_dangle:
 
 octoboss_legs_state_punch_init:
 
-  lda #<OctobossLegsPunch
+  lda #<octoboss_legs_punch
   sta entity_animation_address_lo,x
-  lda #>OctobossLegsPunch
+  lda #>octoboss_legs_punch
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation

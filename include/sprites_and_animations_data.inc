@@ -80,13 +80,13 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 
 .global spotlight
 
-.global OctobossHead
-.global OctobossLegsDangle
-.global OctobossRise
-.global OctobossHeadLook
-.global OctobossLegsPunch
+.global octoboss_head
+.global octoboss_legs_dangle
+.global octoboss_rise
+.global octoboss_head_look
+.global octoboss_legs_punch
 
-.global Splash
+.global splash
 
 .global tyto_wake0
 .global tyto_wake1

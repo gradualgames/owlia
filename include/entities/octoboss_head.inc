@@ -100,9 +100,9 @@ do_not_skip_octoboss:
 
   jsr entity_set_is_enemy
 
-  lda #<OctobossRise
+  lda #<octoboss_rise
   sta entity_animation_address_lo,x
-  lda #>OctobossRise
+  lda #>octoboss_rise
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
@@ -290,9 +290,9 @@ octoboss_head_state_rise:
 
   jsr octoboss_head_position_shadow_spot
 
-  lda #<OctobossHeadLook
+  lda #<octoboss_head_look
   sta entity_animation_address_lo,x
-  lda #>OctobossHeadLook
+  lda #>octoboss_head_look
   sta entity_animation_address_hi,x
 
   lda #OCTOBOSS_HEAD_STATE_FLOAT_LENGTH
@@ -441,9 +441,9 @@ done:
   dec octoboss_head_state_counter,x
   bne do_not_pause_yet
 
-  lda #<OctobossHead
+  lda #<octoboss_head
   sta entity_animation_address_lo,x
-  lda #>OctobossHead
+  lda #>octoboss_head
   sta entity_animation_address_hi,x
 
   ldy octoboss_head_legs_entity_index,x
@@ -475,9 +475,9 @@ octoboss_head_state_pause:
   dec octoboss_head_state_counter,x
   bne do_not_unpause_yet
 
-  lda #<OctobossHeadLook
+  lda #<octoboss_head_look
   sta entity_animation_address_lo,x
-  lda #>OctobossHeadLook
+  lda #>octoboss_head_look
   sta entity_animation_address_hi,x
 
   lda #OCTOBOSS_HEAD_STATE_FLOAT_LENGTH

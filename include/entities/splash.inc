@@ -27,9 +27,9 @@ splash_state_init:
 
   jsr entity_clear_drawable
 
-  lda #<Splash
+  lda #<splash
   sta entity_animation_address_lo,x
-  lda #>Splash
+  lda #>splash
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
