@@ -24,8 +24,8 @@
 .segment "ROM01"
 
 title_screen_palette:
-  .byte $0e,$04,$14,$24,$0e,$0e,$18,$20,$0e,$17,$28,$38,$0e,$00,$00,$00
-  .byte $0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$00,$00,$00,$0e,$00,$00,$00
+  .byte $0e,$0e,$18,$20,$0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$0e,$0e,$0e
+  .byte $0e,$17,$28,$38,$0e,$04,$14,$24,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
 
 title_state_init:
 
@@ -78,45 +78,12 @@ title_state_init:
   lda #$00
   sta chr_group_offset
 
-  lda #<OwliaTitle0
+  lda #<owliatitle_spr_overlay
   sta w0
-  lda #>OwliaTitle0
+  lda #>owliatitle_spr_overlay
   sta w0+1
 
-  lda #(16*8)
-  sta w3
-  lda #0
-  sta w3+1
-
-  lda #(6*8-1)
-  sta w4
-  lda #0
-  sta w4+1
-
-  lda #0
-  sta b2
-
-  far_call #TITLE_STATE_SPRITES_AND_ANIMATIONS_BANK, sprite_draw_metasprite
-
-  lda #<OwliaTitle1
-  sta w0
-  lda #>OwliaTitle1
-  sta w0+1
-
-  lda #(10*8)
-  sta w3
-  lda #0
-  sta w3+1
-
-  lda #(16*8-1)
-  sta w4
-  lda #0
-  sta w4+1
-
-  lda #0
-  sta b2
-
-  far_call #TITLE_STATE_SPRITES_AND_ANIMATIONS_BANK, sprite_draw_metasprite
+  far_call #TITLE_STATE_SPRITES_AND_ANIMATIONS_BANK, sprite_draw_overlay
 
   jsr sprite_update_all
 

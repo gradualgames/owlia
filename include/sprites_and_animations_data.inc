@@ -49,8 +49,7 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 .global coins0
 .global coins
 
-.global OwliaTitle0
-.global OwliaTitle1
+.global owliatitle_spr_overlay
 
 .global pufferfish_puffed_down
 .global pufferfish_unpuffed_down
