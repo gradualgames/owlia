@@ -107,8 +107,7 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 
 .global cage
 
-.global OwlEyes0
-.global OwlEyes1
+.global intro_cut_scene_great_owls_spr_overlay
 
 .global CagedOwlEyes0
 .global CagedOwlCage0

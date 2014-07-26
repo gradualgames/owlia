@@ -176,9 +176,9 @@ title_state_show_cut_scene:
   sta palette_address+1
   jsr ppu_fade_out_palette
 
-  lda #<intro_cut_scene_slide1
+  lda #<intro_cut_scene_great_owls
   sta state_control_params+cut_scene_state_control::slide_address
-  lda #>intro_cut_scene_slide1
+  lda #>intro_cut_scene_great_owls
   sta state_control_params+cut_scene_state_control::slide_address+1
   jmp play_cut_scene
 

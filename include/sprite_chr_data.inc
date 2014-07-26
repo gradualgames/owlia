@@ -37,7 +37,7 @@ sprite_chr_group_index_splash
 sprite_chr_group_index_silmaran
 sprite_chr_group_index_greathornedowl
 sprite_chr_group_index_cage
-sprite_chr_group_index_owleyes
+sprite_chr_group_index_intro_cut_scene_great_owls
 sprite_chr_group_index_cagedowl
 .endenum
 

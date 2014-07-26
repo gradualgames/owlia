@@ -186,7 +186,7 @@ sprite_overlays_count = b9
 sprite_overlays_index = b10
 sprite_overlay_bank = b11
 
-  ;get address of sprite chr groups for this slide
+  ;get address of sprite overlays for this slide
   far_copy #SLIDE_DATA_BANK, slide_address, sprite_overlays_address, #slide::sprite_overlays_address, #0, #2
 
   ;check if this address is zero and bail if so
@@ -223,18 +223,18 @@ load_sprite_overlay:
   inc sprite_overlays_index
   inc sprite_overlays_index
 
-  ;load x coordinate of overlay
-  far_copy #SLIDE_DATA_BANK, sprite_overlays_address, w3, sprite_overlays_index, #0, #1
+  ; ;load x coordinate of overlay
+  ; far_copy #SLIDE_DATA_BANK, sprite_overlays_address, w3, sprite_overlays_index, #0, #1
 
-  lda #0
-  sta w3+1
+  ; lda #0
+  ; sta w3+1
   inc sprite_overlays_index
 
   ;load y coordinate of overlay
-  far_copy #SLIDE_DATA_BANK, sprite_overlays_address, w4, sprite_overlays_index, #0, #1
+  ; far_copy #SLIDE_DATA_BANK, sprite_overlays_address, w4, sprite_overlays_index, #0, #1
 
-  lda #0
-  sta w4+1
+  ; lda #0
+  ; sta w4+1
   inc sprite_overlays_index
 
   lda #0
@@ -244,7 +244,7 @@ load_sprite_overlay:
   lda #0
   sta chr_group_offset
 
-  far_call sprite_overlay_bank, sprite_draw_metasprite
+  far_call sprite_overlay_bank, sprite_draw_overlay
 
   rts
 

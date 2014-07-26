@@ -15,7 +15,7 @@ LAST_SLIDE = 255
   sprite_overlays_address .word
 .endstruct
 
-.global intro_cut_scene_slide1
+.global intro_cut_scene_great_owls
 .global intro_cut_scene_slide2
 .global intro_cut_scene_slide3
 .global intro_cut_scene_slide4
