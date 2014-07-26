@@ -1,7 +1,7 @@
 .ifndef CAGE_SPRITES_AND_ANIMATIONS_INC
 CAGE_SPRITES_AND_ANIMATIONS_INC = 1
 
-Cage0:
+cage0:
   .byte $14
   .byte $00,$00,$03,$00,$18
   .byte $00,$01,$03,$08,$10
@@ -24,8 +24,8 @@ Cage0:
   .byte $20,$0e,$03,$10,$08
   .byte $20,$0f,$03,$18,$00
 
-Cage:
-  .byte $0a,$02
-  .word Cage0
+cage:
+  .byte $0a, $02
+  .word cage0
 
 .endif

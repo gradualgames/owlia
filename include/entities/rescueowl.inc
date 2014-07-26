@@ -5,7 +5,7 @@ RESCUEOWL_INC = 1
 .include "rescueowl_constants.inc"
 
 .define rescueowl_inside_cage_animations \
-  GreatHornedOwlInsideCage
+  greathornedowl_inside_cage
 
 rescueowl_inside_cage_animations_lo:
   .lobytes rescueowl_inside_cage_animations
@@ -14,7 +14,7 @@ rescueowl_inside_cage_animations_hi:
   .hibytes rescueowl_inside_cage_animations
 
 .define rescueowl_outside_cage_animations \
-  GreatHornedOwlOutsideCage
+  greathornedowl_outside_cage
 
 rescueowl_outside_cage_animations_lo:
   .lobytes rescueowl_outside_cage_animations
@@ -23,7 +23,7 @@ rescueowl_outside_cage_animations_hi:
   .hibytes rescueowl_outside_cage_animations
 
 .define rescueowl_fly_away_animations \
-  GreatHornedOwlFly
+  greathornedowl_fly
 
 rescueowl_fly_away_animations_lo:
   .lobytes rescueowl_fly_away_animations

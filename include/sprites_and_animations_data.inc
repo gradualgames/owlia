@@ -102,17 +102,11 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 .global silmaran_descend
 .global silmaran_perch
 
-.global GreatHornedOwlFly0
-.global GreatHornedOwlFly1
-.global GreatHornedOwlFly2
-.global GreatHornedOwlInsideCage0
-.global GreatHornedOwlOutsideCage0
+.global greathornedowl_inside_cage
+.global greathornedowl_outside_cage
+.global greathornedowl_fly
 
-.global GreatHornedOwlInsideCage
-.global GreatHornedOwlOutsideCage
-.global GreatHornedOwlFly
-
-.global Cage
+.global cage
 
 .global OwlEyes0
 .global OwlEyes1
