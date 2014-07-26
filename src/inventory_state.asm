@@ -23,8 +23,8 @@
 .segment "ROM01"
 
 inventory_screen_palette:
-  .byte $0e,$05,$28,$38,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-  .byte $0e,$05,$28,$38,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+  .byte $0e,$05,$28,$38,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$05,$28,$38,$0e,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
 
 inventory_state_init:
 
@@ -1000,7 +1000,7 @@ health_menu_position:
   next_right 0
   next_left  0
   next_down  rush_tech2_menu_position
-  .word Radio0
+  .word radio0
   .byte (USE_ITEM_ROW * 8)
   .byte (11 * 8)
 
@@ -1012,7 +1012,7 @@ rush_tech1_menu_position:
   next_right rush_tech2_menu_position
   next_left  0
   next_down  fetch_tech1_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_rush) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -1024,7 +1024,7 @@ fetch_tech1_menu_position:
   next_right fetch_tech2_menu_position
   next_left  0
   next_down  unlock_tech1_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_fetch) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -1036,7 +1036,7 @@ unlock_tech1_menu_position:
   next_right unlock_tech2_menu_position
   next_left  0
   next_down  carry_bomb_tech1_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_unlock) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -1048,7 +1048,7 @@ carry_bomb_tech1_menu_position:
   next_right carry_bomb_tech2_menu_position
   next_left  0
   next_down  carry_lantern_tech1_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_carry_bomb) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -1060,7 +1060,7 @@ carry_lantern_tech1_menu_position:
   next_right carry_lantern_tech2_menu_position
   next_left  0
   next_down  carry_adlanniel_tech1_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_carry_lantern) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -1072,7 +1072,7 @@ carry_adlanniel_tech1_menu_position:
   next_right carry_adlanniel_tech2_menu_position
   next_left  0
   next_down  shield_tech1_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_carry_adlanniel) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -1084,7 +1084,7 @@ shield_tech1_menu_position:
   next_right shield_tech2_menu_position
   next_left  0
   next_down  homing_tech1_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_shield) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -1096,7 +1096,7 @@ homing_tech1_menu_position:
   next_right homing_tech2_menu_position
   next_left  0
   next_down  0
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_homing) * 8)
   .byte ((TECH_MENU_COLUMN + TECH1_OFFSET) * 8)
 
@@ -1108,7 +1108,7 @@ rush_tech2_menu_position:
   next_right 0
   next_left  rush_tech1_menu_position
   next_down  fetch_tech2_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_rush) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
@@ -1120,7 +1120,7 @@ fetch_tech2_menu_position:
   next_right 0
   next_left  fetch_tech1_menu_position
   next_down  unlock_tech2_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_fetch) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
@@ -1132,7 +1132,7 @@ unlock_tech2_menu_position:
   next_right 0
   next_left  unlock_tech1_menu_position
   next_down  carry_bomb_tech2_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_unlock) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
@@ -1144,7 +1144,7 @@ carry_bomb_tech2_menu_position:
   next_right 0
   next_left  carry_bomb_tech1_menu_position
   next_down  carry_lantern_tech2_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_carry_bomb) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
@@ -1156,7 +1156,7 @@ carry_lantern_tech2_menu_position:
   next_right 0
   next_left  carry_lantern_tech1_menu_position
   next_down  carry_adlanniel_tech2_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_carry_lantern) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
@@ -1168,7 +1168,7 @@ carry_adlanniel_tech2_menu_position:
   next_right 0
   next_left  carry_adlanniel_tech1_menu_position
   next_down  shield_tech2_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_carry_adlanniel) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
@@ -1180,7 +1180,7 @@ shield_tech2_menu_position:
   next_right 0
   next_left  shield_tech1_menu_position
   next_down  homing_tech2_menu_position
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_shield) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 
@@ -1192,7 +1192,7 @@ homing_tech2_menu_position:
   next_right 0
   next_left  homing_tech1_menu_position
   next_down  0
-  .word Cursor0
+  .word cursor0
   .byte ((TECH_MENU_ROW+tech_homing) * 8)
   .byte ((TECH_MENU_COLUMN + TECH2_OFFSET) * 8)
 

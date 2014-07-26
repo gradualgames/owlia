@@ -37,8 +37,8 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 .global key
 .global key_inserted
 
-.global Cursor0
-.global Radio0
+.global cursor0
+.global radio0
 
 .global bomb0
 .global bomb
