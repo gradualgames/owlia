@@ -52,7 +52,7 @@ OCTOBOSS_HEAD_STATE_LOWER_ALL_MONOLITHS_AND_DIE
 OCTOBOSS_HEAD_STATE_RISE
 OCTOBOSS_HEAD_STATE_FLOAT
 OCTOBOSS_HEAD_STATE_PAUSE
-OCTOBOSS_HEAD_STATE_THANKS_FOR_PLAYING_DEMO
+OCTOBOSS_HEAD_STATE_VICTORY
 .endenum
 
 .define octoboss_head_states \
@@ -61,7 +61,7 @@ OCTOBOSS_HEAD_STATE_THANKS_FOR_PLAYING_DEMO
   octoboss_head_state_rise, \
   octoboss_head_state_float, \
   octoboss_head_state_pause, \
-  octoboss_head_thanks_for_playing_demo
+  octoboss_head_state_victory
 
 octoboss_head_lo:
   .lobytes octoboss_head_states
@@ -494,7 +494,7 @@ do_not_unpause_yet:
 
   rts
 
-octoboss_head_thanks_for_playing_demo:
+octoboss_head_state_victory:
 
   dec octoboss_head_state_counter,x
   bne do_not_die_yet
@@ -593,7 +593,7 @@ action_rect2_not_deadly:
   lda #100
   sta octoboss_head_state_counter,x
 
-  lda #OCTOBOSS_HEAD_STATE_THANKS_FOR_PLAYING_DEMO
+  lda #OCTOBOSS_HEAD_STATE_VICTORY
   sta entity_state,x
 
   ldy octoboss_head_legs_entity_index,x

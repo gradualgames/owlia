@@ -19,6 +19,5 @@ LAST_SLIDE = 255
 .global intro_cut_scene_slide2
 .global intro_cut_scene_slide3
 .global intro_cut_scene_slide4
-.global thanks_for_playing_demo_slide1
 
 .endif

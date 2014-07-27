@@ -28,7 +28,6 @@
     house_intro_scene_call_tyto2, \
     silmaran_call_adlanniel, \
     silmaran_encounter_scene, \
-    thanks_for_playing_demo, \
     rescue_greathornedowl
 
 conversations_lo:
@@ -258,12 +257,6 @@ silmaran_encounter_scene:
   .byte NL,1, "DOORS.",TM,30," GOOD LUCK,",TM,20
   .byte NL,2, "ADLANNIEL,",TM,20," AND FLY TRUE,",TM,20
   .byte NL,3, "NOBLE TYTO.",WT,EC
-
-thanks_for_playing_demo:
-  .byte    1, "THANKS FOR TESTING THE"
-  .byte NL,2, "CURRENT BUILD OF OWLIA!",TM,30
-  .byte NL,3, "YOU ROCK!",TM,30," CONGRATS ON"
-  .byte NL,4, "SOLVING THE PUZZLE.",WT,EC
 
 rescue_greathornedowl:
   .byte    1, "DUDE. THANKS. LIKE,"
