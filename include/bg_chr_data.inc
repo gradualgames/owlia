@@ -23,6 +23,6 @@ BG_CHR_DATA_BANK2 = 9
 .global intro_cut_scene_mermon_bg_chr
 .global intro_cut_scene_mermon_mad_bg_chr
 .global intro_cut_scene_mermon_leer_bg_chr
-.global intro_cut_scene_silmaran
+.global intro_cut_scene_silmaran_bg_chr
 
 .endif
