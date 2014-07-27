@@ -222,23 +222,8 @@ load_sprite_overlay:
   far_copy #SLIDE_DATA_BANK, sprite_overlays_address, w0, sprite_overlays_index, #0, #2
   inc sprite_overlays_index
   inc sprite_overlays_index
-
-  ; ;load x coordinate of overlay
-  ; far_copy #SLIDE_DATA_BANK, sprite_overlays_address, w3, sprite_overlays_index, #0, #1
-
-  ; lda #0
-  ; sta w3+1
   inc sprite_overlays_index
-
-  ;load y coordinate of overlay
-  ; far_copy #SLIDE_DATA_BANK, sprite_overlays_address, w4, sprite_overlays_index, #0, #1
-
-  ; lda #0
-  ; sta w4+1
   inc sprite_overlays_index
-
-  lda #0
-  sta b2
 
   ;assume chr group is at 0 for now
   lda #0

@@ -35,4 +35,4 @@
 .include "greathornedowl_sprites_and_animations.inc"
 .include "cage_sprites_and_animations.inc"
 .include "intro_cut_scene_great_owls_sprites_and_animations.inc"
-.include "cagedowl_sprites_and_animations.inc"
+.include "intro_cut_scene_mermon_leer_sprites_and_animations.inc"

@@ -553,7 +553,7 @@ count = b0
   adc #0
   sta w0+1
 
-  ldx #0
+  ldx next_sprite_address
 
 next_entry:
 
@@ -578,6 +578,8 @@ next_entry:
   lda (w0),y
   sta sprite,x
   inx
+
+  stx next_sprite_address
 
   clc
   lda w0

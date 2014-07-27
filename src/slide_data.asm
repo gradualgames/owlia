@@ -21,8 +21,8 @@ intro_cut_scene_mermon_mad_palette:
   .byte $0e,$12,$22,$3c,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
 intro_cut_scene_mermon_leer_palette:
-  .byte $0e,$12,$22,$3c,$0e,$08,$38,$20,$00,$00,$00,$00,$00,$00,$00,$00
-  .byte $0e,$2d,$10,$20,$0e,$0e,$0e,$28,$00,$00,$00,$00,$00,$00,$00,$00
+  .byte $0e,$08,$38,$20,$0e,$11,$22,$3c,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$00,$10,$20,$0e,$0e,$0e,$28,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
 
 intro_cut_scene_silmaran_palette:
   .byte $0e,$28,$10,$20,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -66,7 +66,7 @@ intro_cut_scene_slide3:
 
 intro_cut_scene_slide4:
   .byte 13                                                   ; bg_chr_bank .byte
-  .word intro_cut_scene_mermon_leer                          ; bg_chr_address .word
+  .word intro_cut_scene_mermon_leer_bg_chr                   ; bg_chr_address .word
   .byte 13                                                   ; nametable_bank .byte
   .word intro_cut_scene_mermon_leer_nametable                ; nametable_address .word
   .word intro_cut_scene_mermon_leer_palette                  ; palette_address .word
@@ -112,13 +112,13 @@ intro_cut_scene_great_owls_sprite_overlays:
 
 intro_cut_scene_slide4_sprite_chr_sets:
   .byte 1
-  .byte sprite_chr_group_index_cagedowl
+  .byte sprite_chr_group_index_intro_cut_scene_mermon_leer
 
 intro_cut_scene_slide4_sprite_overlays:
   .byte 2
   .byte 6
-  .word CagedOwlEyes0
-  .byte 144, 87
+  .word intro_cut_scene_mermon_leer_spr_overlay0
+  .byte 0, 0
   .byte 6
-  .word CagedOwlCage0
-  .byte 131, 54
+  .word intro_cut_scene_mermon_leer_spr_overlay1
+  .byte 0, 0

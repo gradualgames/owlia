@@ -1960,8 +1960,8 @@ intro_cut_scene_mermon_mad:
 
 .segment "ROM13"
 
-intro_cut_scene_mermon_leer:
-  .word $0650
+intro_cut_scene_mermon_leer_bg_chr:
+  .word $650
   .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
   .byte $00,$00,$00,$00,$00,$00,$01,$07,$00,$00,$00,$00,$00,$00,$00,$00
   .byte $00,$00,$00,$00,$00,$7f,$ff,$ff,$00,$00,$00,$00,$00,$00,$00,$00

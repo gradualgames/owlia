@@ -38,7 +38,7 @@ sprite_chr_group_index_silmaran
 sprite_chr_group_index_greathornedowl
 sprite_chr_group_index_cage
 sprite_chr_group_index_intro_cut_scene_great_owls
-sprite_chr_group_index_cagedowl
+sprite_chr_group_index_intro_cut_scene_mermon_leer
 .endenum
 
 sprite_chr_group_bank_hero = 7
@@ -72,7 +72,7 @@ sprite_chr_group_bank_splash = 7
 sprite_chr_group_bank_silmaran = 7
 sprite_chr_group_bank_greathornedowl = 7
 sprite_chr_group_bank_cage = 7
-sprite_chr_group_bank_owleyes = 7
-sprite_chr_group_bank_cagedowl = 7
+sprite_chr_group_bank_intro_cut_scene_great_owls = 7
+sprite_chr_group_bank_intro_cut_scene_mermon_leer = 7
 
 .endif
