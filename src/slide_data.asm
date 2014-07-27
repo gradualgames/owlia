@@ -17,8 +17,8 @@ intro_cut_scene_slide2_palette:
 
 intro_cut_scene_mermon_palette:
 intro_cut_scene_mermon_mad_palette:
-  .byte $0e,$12,$22,$3c,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-  .byte $0e,$12,$22,$3c,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+  .byte $0e,$12,$22,$3c,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$12,$22,$3c,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
 
 intro_cut_scene_mermon_leer_palette:
   .byte $0e,$08,$38,$20,$0e,$11,$22,$3c,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
@@ -44,9 +44,9 @@ intro_cut_scene_great_owls:
   .word intro_cut_scene_great_owls_sprite_chr_sets     ; sprite_chr_sets_address .word
   .word intro_cut_scene_great_owls_sprite_overlays     ; sprite_overlays_address .word
 
-intro_cut_scene_slide2:
+intro_cut_scene_mermon:
   .byte 9                                              ; bg_chr_bank .byte
-  .word intro_cut_scene_mermon                         ; bg_chr_address .word
+  .word intro_cut_scene_mermon_bg_chr                  ; bg_chr_address .word
   .byte 13                                             ; nametable_bank .byte
   .word intro_cut_scene_mermon_nametable               ; nametable_address .word
   .word intro_cut_scene_mermon_palette                 ; palette_address .word
