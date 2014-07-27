@@ -19,7 +19,6 @@ BG_CHR_DATA_BANK2 = 9
 .global title_chr
 .global game_over_chr
 .global intro_cut_scene_great_owls_bg_chr
-.global thanks_for_playing_demo_bg_chr
 .global intro_cut_scene_mermon_bg_chr
 .global intro_cut_scene_mermon_mad_bg_chr
 .global intro_cut_scene_mermon_leer_bg_chr
