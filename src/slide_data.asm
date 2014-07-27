@@ -56,7 +56,7 @@ intro_cut_scene_mermon:
 
 intro_cut_scene_slide3:
   .byte 9                                                    ; bg_chr_bank .byte
-  .word intro_cut_scene_mermon_mad                           ; bg_chr_address .word
+  .word intro_cut_scene_mermon_mad_bg_chr                    ; bg_chr_address .word
   .byte 13                                                   ; nametable_bank .byte
   .word intro_cut_scene_mermon_mad_nametable                 ; nametable_address .word
   .word intro_cut_scene_mermon_mad_palette                   ; palette_address .word
