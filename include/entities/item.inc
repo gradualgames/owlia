@@ -555,13 +555,6 @@ exceeded_max:
 
 .endproc
 
-.proc indirect_jsr_w0
-
-  jmp (w0)
-  rts
-
-.endproc
-
 .proc item_test_hero_and_familiar
 
   .scope

@@ -955,10 +955,6 @@ not_touching_hero:
 not_exiting:
 
   rts
-
-indirect_jsr_w0:
-  jmp (w0)
-
 .endproc
 
 .proc monolith_test_north_exit

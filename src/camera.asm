@@ -4,6 +4,7 @@
 .include "ram.inc"
 .include "map.inc"
 .include "hero_constants.inc"
+.include "util.inc"
 
 .segment "CODE"
 
@@ -33,9 +34,6 @@ camera_y_old = w11
   jsr indirect_jsr_w0
 
   rts
-
-indirect_jsr_w0:
-  jmp (w0)
 
 follow_nop_handler:
 

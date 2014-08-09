@@ -23,6 +23,7 @@
 .include "textbox.inc"
 .include "inventory.inc"
 .include "mapper.inc"
+.include "util.inc"
 
 .segment "ROM02"
 
@@ -1625,9 +1626,6 @@ hero_not_invincible:
   rts
 
 .endproc
-
-indirect_jsr_w0:
-  jmp (w0)
 
 ;****************************************************************
 ;This is the callback listed in the direction handlers lut for

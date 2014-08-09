@@ -52,7 +52,8 @@ files =["zp.asm",
         "sprite_chr_data.asm",
         "sprites_and_animations_data.asm",
         "textbox.asm",
-        "title_state.asm"]
+        "title_state.asm",
+        "util.asm"]
 
 def clean_build():
     if os.path.exists(nes_file):

@@ -25,6 +25,7 @@
 .include "entities.inc"
 .include "map.inc"
 .include "mapper.inc"
+.include "util.inc"
 
 .segment "ROM03"
 
@@ -561,9 +562,6 @@ do_not_draw_carried_entity:
 familiar_not_alive:
 
   rts
-
-indirect_jsr_w0:
-  jmp (w0)
 
 .endproc
 
@@ -2085,10 +2083,6 @@ do_not_modify_goal:
 
   rts
 
-.endproc
-
-.proc indirect_jsr_w0
-  jmp (w0)
 .endproc
 
 ;****************************************************************

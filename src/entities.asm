@@ -29,6 +29,7 @@
 .include "mapper.inc"
 .include "slide_data.inc"
 .include "locations.inc"
+.include "util.inc"
 
 .segment "CODE"
 

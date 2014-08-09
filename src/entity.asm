@@ -18,6 +18,7 @@
 .include "locations.inc"
 .include "soundengine.inc"
 .include "sfx_data.inc"
+.include "util.inc"
 
 .segment "CODE"
 
@@ -1000,16 +1001,12 @@ found_dead_entity:
   lda entity_defs_update_address_bank,y
   tay
   switch_bank_y
-  jsr indirect_jsr_entity_update
+  jsr indirect_jsr_w0
 :
   dex
   bpl :--
 
   rts
-
-.proc indirect_jsr_entity_update
-  jmp (w0)
-.endproc
 
 .endproc
 
