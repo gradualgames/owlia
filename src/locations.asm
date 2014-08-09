@@ -384,7 +384,7 @@ dungeon_2_1_entity_instances:
 
 dungeon_3_1_entity_instances:
   .byte 3
-  .byte entity_index_pufferfish, 56, 23, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_pufferfish, 56, 21, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_monolith, 49, 23, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, \
                                           MONOLITH_DIRECTION_WEST, \
@@ -416,7 +416,7 @@ dungeon_0_2_entity_instances:
 
 dungeon_1_2_entity_instances:
   .byte 3
-  .byte entity_index_pufferfish, 23, 37, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_pufferfish, 23, 35, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_monolith, 30, 38, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, \
                                           MONOLITH_DIRECTION_EAST, \
@@ -464,7 +464,7 @@ dungeon_3_2_entity_instances:
 
 dungeon_0_3_entity_instances:
   .byte 6
-  .byte entity_index_pufferfish, 4, 52, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_pufferfish, 4, 51, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_crab, 12, 52, sprite_chr_group_index_crab, 0
   .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, \

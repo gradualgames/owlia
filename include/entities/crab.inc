@@ -105,6 +105,18 @@ crab_collision_offset_y_lo:
 crab_collision_offset_y_hi:
   .hibytes crab_collision_offset_y
 
+.define crab_collision_handlers \
+  crab_test_collision_right, \
+  crab_test_collision_left, \
+  crab_test_collision_down, \
+  crab_test_collision_up
+
+crab_test_collision_handlers_lo:
+  .lobytes crab_collision_handlers
+
+crab_test_collision_handlers_hi:
+  .hibytes crab_collision_handlers
+
 .define crab_states \
   crab_state_init, \
   crab_state_main
@@ -315,23 +327,12 @@ sign_extend_negative:
 done:
   .endscope
 
-  ;test for collision offset from crab
   ldy crab_direction,x
-  clc
-  lda entity_x_lo,x
-  adc crab_collision_offset_x_lo,y
+  lda crab_test_collision_handlers_lo,y
   sta w0
-  lda entity_x_hi,x
-  adc crab_collision_offset_x_hi,y
+  lda crab_test_collision_handlers_hi,y
   sta w0+1
-  clc
-  lda entity_y_lo,x
-  adc crab_collision_offset_y_lo,y
-  sta w1
-  lda entity_y_hi,x
-  adc crab_collision_offset_y_hi,y
-  sta w1+1
-  jsr map_test_collision
+  jsr indirect_jsr_w0
 
   lda b0
   and #FLAG_SOLID
@@ -352,5 +353,114 @@ do_not_turn_crab:
   jsr entity_update_animation
 
   rts
+
+.proc crab_test_collision_left
+
+  jsr crab_get_collision_point
+
+  sec
+  lda w1
+  sbc #<8
+  sta w1
+  lda w1+1
+  sbc #>8
+  sta w1+1
+
+  jsr map_test_collision
+
+  lda b0
+  and #FLAG_SOLID
+  bne found_collision
+
+  jsr crab_get_collision_point
+
+  clc
+  lda w1
+  adc #<8
+  sta w1
+  lda w1+1
+  adc #>8
+  sta w1+1
+
+  jsr map_test_collision
+
+found_collision:
+
+  rts
+
+.endproc
+
+crab_test_collision_right = crab_test_collision_left
+
+.proc crab_test_collision_down
+
+  ;test center point
+  jsr crab_get_collision_point
+
+  jsr map_test_collision
+
+  lda b0
+  and #FLAG_SOLID
+  bne found_collision
+
+  ;test point to one side
+  jsr crab_get_collision_point
+
+  sec
+  lda w0
+  sbc #<12
+  sta w0
+  lda w0+1
+  sbc #>12
+  sta w0+1
+
+  jsr map_test_collision
+
+  lda b0
+  and #FLAG_SOLID
+  bne found_collision
+
+  ;test point to the other side
+  jsr crab_get_collision_point
+
+  clc
+  lda w0
+  adc #<12
+  sta w0
+  lda w0+1
+  adc #>12
+  sta w0+1
+
+  jsr map_test_collision
+
+found_collision:
+
+  rts
+
+.endproc
+
+crab_test_collision_up = crab_test_collision_down
+
+.proc crab_get_collision_point
+
+  ldy crab_direction,x
+  clc
+  lda entity_x_lo,x
+  adc crab_collision_offset_x_lo,y
+  sta w0
+  lda entity_x_hi,x
+  adc crab_collision_offset_x_hi,y
+  sta w0+1
+  clc
+  lda entity_y_lo,x
+  adc crab_collision_offset_y_lo,y
+  sta w1
+  lda entity_y_hi,x
+  adc crab_collision_offset_y_hi,y
+  sta w1+1
+
+  rts
+
+.endproc
 
 .endif
