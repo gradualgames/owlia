@@ -48,9 +48,9 @@
   lda #tech1
   sta inventory_selected_tech
 
-  lda #<20
+  lda #<100
   sta inventory_gp
-  lda #>20
+  lda #>100
   sta inventory_gp+1
 
   lda #0

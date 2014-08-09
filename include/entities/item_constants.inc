@@ -18,9 +18,9 @@ ITEM_16_BIT_VAR
 ITEM_WIDTH = $07
 ITEM_HEIGHT = $07
 
-ITEM_PARAMS = 4
-
 ITEM_FADE_OUT_LENGTH = 400
+
+ITEM_PARAMS = 4
 
 item_initial_state = entity_local0
 item_type = entity_local1

@@ -472,10 +472,7 @@ sixteen_bit_var:
   lda (w0),y
   sta w1+1
 
-  ;add the specified increment sign extended for 16 bit
-  lda item_quantity,x
-  bmi sign_extend_negative
-sign_extend_positive:
+  ;add the specified increment assuming positive unsigned 8 bit quantity
   clc
   lda w1
   adc item_quantity,x
@@ -483,17 +480,6 @@ sign_extend_positive:
   lda w1+1
   adc #$00
   sta w1+1
-  jmp done
-sign_extend_negative:
-  clc
-  lda w1
-  adc item_quantity,x
-  sta w1
-  iny
-  lda w1+1
-  adc #$ff
-  sta w1+1
-done:
 
   ;now find out if we've exceeded the max
   .scope
