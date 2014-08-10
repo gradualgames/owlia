@@ -5,7 +5,7 @@ INVENTORY_MAX_BOMBS = 7
 INVENTORY_MAX_LANTERNS = 7
 INVENTORY_MAX_HEALTHS = 7
 
-INVENTORY_MAX_GP = 32767
+INVENTORY_MAX_GP = 999999
 
 ;for selecting which item the owl currently can carry
 .enum

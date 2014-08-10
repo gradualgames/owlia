@@ -34,13 +34,21 @@ item_inventory_addresses_hi:
   INVENTORY_MAX_LANTERNS
 
 item_inventory_max_count_lo:
-  .lobytes item_inventory_max_count
+  .byte <INVENTORY_MAX_GP
+  .byte <INVENTORY_MAX_HEALTHS
+  .byte <INVENTORY_MAX_BOMBS
+  .byte <INVENTORY_MAX_LANTERNS
 
+;only GP uses hi byte
 item_inventory_max_count_hi:
-  .hibytes item_inventory_max_count
+  .byte >INVENTORY_MAX_GP
+
+;only GP uses hi hi byte
+item_inventory_max_count_hi_hi:
+  .byte ^INVENTORY_MAX_GP
 
 item_inventory_var_type:
-  .byte ITEM_16_BIT_VAR
+  .byte ITEM_24_BIT_VAR
   .byte ITEM_8_BIT_VAR
   .byte ITEM_8_BIT_VAR
   .byte ITEM_8_BIT_VAR
@@ -51,11 +59,17 @@ item_purchase_conversation_indices:
   .byte conversation_index_purchase_bomb
   .byte conversation_index_purchase_lantern
 
-item_random_pickup_quantities:
+item_random_pickup_quantities_lo:
   .byte 100
   .byte 1
   .byte 1
   .byte 1
+
+item_random_pickup_quantities_hi:
+  .byte 0
+  .byte 0
+  .byte 0
+  .byte 0
 
 .define item_increment_var_addresses \
   increment_var, \
@@ -194,8 +208,11 @@ item_state_add_item_or_not:
   ;Test to see if player has enough gp
   sec
   lda inventory_gp
-  sbc item_price,x
+  sbc item_price_lo,x
   lda inventory_gp+1
+  sbc item_price_hi,x
+  ;only 16 bit positive prices are allowed---use 0 for hi hi byte
+  lda inventory_gp+2
   sbc #$00
   bmi not_enough_gp
 
@@ -204,11 +221,14 @@ item_state_add_item_or_not:
 
   sec
   lda inventory_gp
-  sbc item_price,x
+  sbc item_price_lo,x
   sta inventory_gp
-  lda inventory_gp
+  lda inventory_gp+1
+  sbc item_price_hi,x
+  sta inventory_gp+1
+  lda inventory_gp+2
   sbc #$00
-  sta inventory_gp
+  sta inventory_gp+2
 
   ;play a sound
   txa
@@ -373,8 +393,10 @@ done:
   .endscope
 
   ldy item_type,x
-  lda item_random_pickup_quantities,y
-  sta item_quantity,x
+  lda item_random_pickup_quantities_lo,y
+  sta item_quantity_lo,x
+  lda item_random_pickup_quantities_hi,y
+  sta item_quantity_hi,x
 
   lda #ITEM_STATE_PICKUP_AND_FADE_OUT_INIT
   sta entity_state,x
@@ -420,8 +442,8 @@ do_not_inc_health:
   lda item_inventory_var_type,y
   cmp #ITEM_8_BIT_VAR
   beq eight_bit_var
-  cmp #ITEM_16_BIT_VAR
-  beq sixteen_bit_var
+  cmp #ITEM_24_BIT_VAR
+  beq twenty_four_bit_var
 eight_bit_var:
 
   ;load the current target value
@@ -429,10 +451,10 @@ eight_bit_var:
   lda (w0),y
   sta b0
 
-  ;add the specified 8 bit increment
+  ;add the specified 8 bit increment, ignoring hi byte of quantity
   clc
   lda b0
-  adc item_quantity,x
+  adc item_quantity_lo,x
   sta b0
 
   ;now find out if we've exceeded the max
@@ -462,42 +484,54 @@ exceeded_max:
   rts
   .endscope
 
-sixteen_bit_var:
+twenty_four_bit_var:
 
   ;load the current target value
   ldy #0
   lda (w0),y
-  sta w1
+  sta b0
   iny
   lda (w0),y
-  sta w1+1
+  sta b1
+  iny
+  lda (w0),y
+  sta b2
 
-  ;add the specified increment assuming positive unsigned 8 bit quantity
+  ;add 16 bit quantity
   clc
-  lda w1
-  adc item_quantity,x
-  sta w1
-  lda w1+1
+  lda b0
+  adc item_quantity_lo,x
+  sta b0
+  lda b1
+  adc item_quantity_hi,x
+  sta b1
+  ;only 16 bit unsigned quantities are allowed, assume 0 hi hi byte
+  lda b2
   adc #$00
-  sta w1+1
+  sta b2
 
   ;now find out if we've exceeded the max
   .scope
   sec
   ldy item_type,x
   lda item_inventory_max_count_lo,y
-  sbc w1
+  sbc b0
   lda item_inventory_max_count_hi,y
-  sbc w1+1
+  sbc b1
+  lda item_inventory_max_count_hi_hi,y
+  sbc b2
   bmi exceeded_max
 did_not_exceed_max:
 
   ;store result in target variable
   ldy #0
-  lda w1
+  lda b0
   sta (w0),y
   iny
-  lda w1+1
+  lda b1
+  sta (w0),y
+  iny
+  lda b2
   sta (w0),y
 
   rts
@@ -513,6 +547,11 @@ exceeded_max:
   ldy item_type,x
   lda item_inventory_max_count_hi,y
   ldy #1
+  sta (w0),y
+
+  ldy item_type,x
+  lda item_inventory_max_count_hi_hi,y
+  ldy #2
   sta (w0),y
 
   rts

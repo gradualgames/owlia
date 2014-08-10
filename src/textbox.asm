@@ -14,27 +14,32 @@
 .segment "CODE"
 
 power_table_lo:
-  .byte <10000, <1000, <100, <10, <1
+  .byte <100000, <10000, <1000, <100, <10, <1
 
 power_table_hi:
-  .byte >10000, >1000, >100, >10, >1
+  .byte >100000, >10000, >1000, >100, >10, >1
 
-;This routine creates a decimal string from a 16 bit input number.
-;w0 is expected to be the input number to translate into a decimal string.
+power_table_hi_hi:
+  .byte ^100000, ^10000, ^1000, ^100, ^10, ^1
+
+;This routine creates a decimal string from a 24 bit input number.
+;b0, b1, b2 is expected to be the input number to translate into a decimal string (least to most significant byte)
 ;w1 is expected to be the address of the output string buffer in RAM.
-;b0 is used to count how many times each power fit into the input number
-;b1 is used to count remaining digits
+;b3 is used to count how many times each power fit into the input number
+;b4 is used to count remaining digits
 .proc create_decimal_string
-input_number = w0
+input_number_lo = b0
+input_number_hi = b1
+input_number_hi_hi = b2
 output_buffer = w1
-digit_counter = b0
-remaining_digits = b1
+digit_counter = b3
+remaining_digits = b4
 
   ;start at highest power (first time inx is executed, we will be at index 0)
   ldx #$ff
 
   ;start at highest possible remaining digits + 1
-  lda #6
+  lda #7
   sta remaining_digits
 
   ;start at first digit of output string
@@ -42,8 +47,9 @@ remaining_digits = b1
 
   ;check to see if input number is already zero, this is a special case. Just output 0
   ;and an end of string character in this case.
-  lda input_number
-  ora input_number+1
+  lda input_number_lo
+  ora input_number_hi
+  ora input_number_hi_hi
   beq already_zero
 
   ;search for the first power in the power table that is less than or equal to the input number
@@ -51,10 +57,12 @@ next_power:
   dec remaining_digits
   inx
   sec
-  lda input_number
+  lda input_number_lo
   sbc power_table_lo,x
-  lda input_number+1
+  lda input_number_hi
   sbc power_table_hi,x
+  lda input_number_hi_hi
+  sbc power_table_hi_hi,x
   ;if the negative flag is set here, then the power is greater than the input number, so move on
   ;to next power
   bmi next_power
@@ -71,23 +79,29 @@ next_digit:
 keep_counting:
   inc digit_counter
   sec
-  lda input_number
+  lda input_number_lo
   sbc power_table_lo,x
-  sta input_number
-  lda input_number+1
+  sta input_number_lo
+  lda input_number_hi
   sbc power_table_hi,x
-  sta input_number+1
+  sta input_number_hi
+  lda input_number_hi_hi
+  sbc power_table_hi_hi,x
+  sta input_number_hi_hi
   bpl keep_counting
 
   ;when we get here, we've counted the current digit plus 1 (when we went negative). Add the power
   ;back and decrement the digit count to get the correct count.
   clc
-  lda input_number
+  lda input_number_lo
   adc power_table_lo,x
-  sta input_number
-  lda input_number+1
+  sta input_number_lo
+  lda input_number_hi
   adc power_table_hi,x
-  sta input_number+1
+  sta input_number_hi
+  lda input_number_hi_hi
+  adc power_table_hi_hi,x
+  sta input_number_hi_hi
 
   dec digit_counter
 

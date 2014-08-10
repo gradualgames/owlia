@@ -48,10 +48,12 @@
   lda #tech1
   sta inventory_selected_tech
 
-  lda #<100
+  lda #<0
   sta inventory_gp
-  lda #>100
+  lda #>0
   sta inventory_gp+1
+  lda #^0
+  sta inventory_gp+2
 
   lda #0
   sta inventory_puzzle_flags

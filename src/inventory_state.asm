@@ -309,14 +309,14 @@ no_string_to_print:
   jsr draw_all_menu_items
 
   ;start at the beginning of the menu variables
-  lda #<menu_word_variables
+  lda #<menu_24_bit_variables
   sta w10
-  lda #>menu_word_variables
+  lda #>menu_24_bit_variables
   sta w10+1
 
-  lda #<print_menu_word_variable
+  lda #<print_menu_24_bit_variable
   sta w2
-  lda #>print_menu_word_variable
+  lda #>print_menu_24_bit_variable
   sta w2+1
 
   jsr draw_all_menu_items
@@ -382,7 +382,7 @@ menu_labels_address = w10
 
 .endproc
 
-.proc print_menu_word_variable
+.proc print_menu_24_bit_variable
 menu_labels_address = w10
 
   lda state_control_params+inventory_state_control::digits_chr_offset
@@ -395,16 +395,16 @@ menu_labels_address = w10
   lda (menu_labels_address),y
   sta w0+1
 
-  ;transfer value at w0 into w0 using the stack
+  ;transfer value at w0 into b0, b1, b2
   ldy #0
   lda (w0),y
-  pha
+  sta b0
   iny
   lda (w0),y
-
-  sta w0+1
-  pla
-  sta w0
+  sta b1
+  iny
+  lda (w0),y
+  sta b2
 
   lda #<string_buffer
   sta w1
@@ -451,9 +451,10 @@ menu_labels_address = w10
   ;printing a byte variable.
   ldy #0
   lda (w0),y
-  sta w0
+  sta b0
   lda #0
-  sta w0+1
+  sta b1
+  sta b2
 
   lda #<string_buffer
   sta w1
@@ -927,9 +928,10 @@ menu_position_address = w10
   inc hero_health
 
   lda inventory_healths
-  sta w0
+  sta b0
   lda #0
-  sta w0+1
+  sta b1
+  sta b2
   lda #<string_buffer
   sta w1
   lda #>string_buffer
@@ -1228,7 +1230,7 @@ carry_adlanniel_string: .byte "CARRY ADLANNIEL",ES
 shield_string: .byte "SHIELD",ES
 homing_string: .byte "HOMING",ES
 
-menu_word_variables:
+menu_24_bit_variables:
 gp_variable:
   .word inventory_gp
   .word is_enabled_callback_nop

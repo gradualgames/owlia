@@ -153,7 +153,7 @@ shadow_spot_screen_y_hi: .res MAX_SHADOW_SPOTS
 ;****************************************************************
 ;These variables constitute inventory state for the player.
 ;****************************************************************
-inventory_gp:             .res 2
+inventory_gp:             .res 3
 inventory_keys:           .res 1
 inventory_lanterns:       .res 1
 inventory_bombs:          .res 1
