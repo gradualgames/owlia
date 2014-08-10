@@ -4,10 +4,12 @@ SPOTLIGHT_PUZZLE_INC = 1
 
 .include "spotlight_puzzle_constants.inc"
 .include "anglerfish_constants.inc"
+.include "spotlight_constants.inc"
 
 .define spotlight_puzzle_states \
   spotlight_puzzle_state_init, \
-  spotlight_puzzle_state_main
+  spotlight_puzzle_state_single_anglerfish, \
+  spotlight_puzzle_state_twin_anglerfish
 
 spotlight_puzzle_lo:
   .lobytes spotlight_puzzle_states
@@ -134,12 +136,88 @@ found_second_anglerfish:
 done:
   .endscope
 
-  lda #SPOTLIGHT_PUZZLE_STATE_MAIN
+  lda spotlight_puzzle_initial_state,x
   sta entity_state,x
 
   rts
 
-spotlight_puzzle_state_main:
+spotlight_puzzle_state_single_anglerfish:
+
+  ;first check to see if the one angler fish has a non-zero
+  ;attack counter. This means it is stunned, and is one of
+  ;the conditions of this puzzle that must be satisfied
+  ldy anglerfish_index0,x
+  lda anglerfish_attacked_counter,y
+  beq anglerfish_not_stunned
+
+  jsr check_spotlight_intersect_destination_key_tile
+
+anglerfish_not_stunned:
+
+  rts
+
+.proc check_spotlight_intersect_destination_key_tile
+
+  ;check whether the single spotlight entity is
+  ;intersecting the destination key tile. This
+  ;is used when the spotlight puzzle is configured
+  ;for a single anglerfish and spotlight entity.
+
+  ;transfer spotlight rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  ldy spotlight_index0,x
+  lda entity_x_lo,y
+  sta w2
+  lda entity_x_hi,y
+  sta w2+1
+  lda entity_y_lo,y
+  sta w3
+  lda entity_y_hi,y
+  sta w3+1
+  lda entity_width,y
+  sta b2
+  lda entity_height,y
+  sta b3
+
+  ;compute destination key meta tile rectangle
+  jsr load_key_destination_location
+
+  ;transfer destination key meta tile rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda w0
+  sta w4
+  lda w0+1
+  sta w4+1
+  lda w1
+  sta w5
+  lda w1+1
+  sta w5+1
+  lda #$0f
+  sta b4
+  lda #$0f
+  sta b5
+
+  jsr geotests_rect_in_rect_size
+
+  bne not_intersecting
+
+  ;kill the one anglerfish (this will also kill the spotlight)
+  ldy anglerfish_index0,x
+  lda #ANGLERFISH_STATE_DIE
+  sta entity_state,y
+
+  jsr spawn_key
+
+  ;puzzle is done, no need to do anything else
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+not_intersecting:
+
+  rts
+
+.endproc
+
+spotlight_puzzle_state_twin_anglerfish:
 
   ;first check to see if both angler fish have a non zero attack
   ;counter. This means they are both stunned, and is one of the
@@ -268,39 +346,23 @@ close_enough:
   lda #ANGLERFISH_STATE_DIE
   sta entity_state,y
 
-  ;load the destination location for the key
-  lda spotlight_key_meta_tile_x,x
-  sta w0
-  lda #$00
-  sta w0+1
+  jsr spawn_key
 
-  lda spotlight_key_meta_tile_y,x
-  sta w1
-  lda #$00
-  sta w1+1
+  ;puzzle is done, no need to do anything else
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
 
-  ;transform to map coordinates for entity_spawn
-  lda w0+1
-  asl w0
-  rol
-  asl w0
-  rol
-  asl w0
-  rol
-  asl w0
-  rol
-  sta w0+1
+  rts
+too_far:
 
-  lda w1+1
-  asl w1
-  rol
-  asl w1
-  rol
-  asl w1
-  rol
-  asl w1
-  rol
-  sta w1+1
+  rts
+
+.endproc
+
+.proc spawn_key
+
+  jsr load_key_destination_location
 
   ;remember the "this" index in y because we're going to get a value
   ;out of the spotlight puzzle and place it in the key's state.
@@ -327,13 +389,47 @@ close_enough:
   pla
   tax
 
-  ;puzzle is done, no need to do anything else
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
   rts
-too_far:
+
+.endproc
+
+;transforms key destination location from meta tile coordinates
+;to map coordinates returning in w0 and w1
+.proc load_key_destination_location
+
+  ;load the destination location for the key
+  lda spotlight_puzzle_key_meta_tile_x,x
+  sta w0
+  lda #$00
+  sta w0+1
+
+  lda spotlight_puzzle_key_meta_tile_y,x
+  sta w1
+  lda #$00
+  sta w1+1
+
+  ;transform to map coordinates for entity_spawn
+  lda w0+1
+  asl w0
+  rol
+  asl w0
+  rol
+  asl w0
+  rol
+  asl w0
+  rol
+  sta w0+1
+
+  lda w1+1
+  asl w1
+  rol
+  asl w1
+  rol
+  asl w1
+  rol
+  asl w1
+  rol
+  sta w1+1
 
   rts
 

@@ -2,13 +2,7 @@
 .ifndef SPOTLIGHT_INC
 SPOTLIGHT_INC = 1
 
-SPOTLIGHT_WIDTH = $0f
-SPOTLIGHT_HEIGHT = $0f
-
-.enum
-SPOTLIGHT_STATE_INIT
-SPOTLIGHT_STATE_MAIN
-.endenum
+.include "spotlight_constants.inc"
 
 .define spotlight_states \
   spotlight_state_init, \

@@ -1,3 +1,4 @@
+.linecont +
 .ifndef GEOTESTS_INC
 GEOTESTS_INC = 1
 

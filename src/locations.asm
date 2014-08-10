@@ -300,13 +300,14 @@ dungeon_1_0_entity_instances:
 
 
 dungeon_2_0_entity_instances:
-  .byte 3
-  .byte entity_index_anglerfish, 37, 5, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_OPPOSITE, ANGLERFISH_TURN_LENGTH_LONG, ANGLERFISH_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 0, 0
+  .byte 4
+  .byte entity_index_anglerfish, 36, 5, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_OPPOSITE, ANGLERFISH_TURN_LENGTH_LONG, ANGLERFISH_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 0, 0
+  .byte entity_index_spotlight_puzzle, 0, 0, 0, SPOTLIGHT_PUZZLE_PARAMS, SPOTLIGHT_PUZZLE_STATE_SINGLE_ANGLERFISH, %00000010, 40, 6
   .byte entity_index_monolith, 46, 10, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, \
+                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, \
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon_3_0_w, \
-                                          0, 5
+                                          1, 5
 
   .byte entity_index_monolith, 33, 8, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, \
@@ -515,7 +516,7 @@ dungeon_3_3_entity_instances:
   .byte 4
   .byte entity_index_anglerfish, 52, 47, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_LEFT, ANGLERFISH_TURN_LENGTH, ANGLERFISH_DIRECTION_DOWN, ANGLERFISH_SPOTLIGHT_OFF, 4, 4
   .byte entity_index_anglerfish, 59, 47, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_RIGHT, ANGLERFISH_TURN_LENGTH, ANGLERFISH_DIRECTION_DOWN, ANGLERFISH_SPOTLIGHT_ON, 4, 4
-  .byte entity_index_spotlight_puzzle, 0, 0, 0, SPOTLIGHT_PUZZLE_PARAMS, %00000001, 56, 51
+  .byte entity_index_spotlight_puzzle, 0, 0, 0, SPOTLIGHT_PUZZLE_PARAMS, SPOTLIGHT_PUZZLE_STATE_TWIN_ANGLERFISH, %00000001, 56, 51
   .byte entity_index_monolith, 49, 56, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, \
                                           MONOLITH_DIRECTION_WEST, \
