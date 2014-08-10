@@ -268,10 +268,45 @@ close_enough:
   lda #ANGLERFISH_STATE_DIE
   sta entity_state,y
 
+  ;load the destination location for the key
+  lda spotlight_key_meta_tile_x,x
+  sta w0
+  lda #$00
+  sta w0+1
+
+  lda spotlight_key_meta_tile_y,x
+  sta w1
+  lda #$00
+  sta w1+1
+
+  ;transform to map coordinates for entity_spawn
+  lda w0+1
+  asl w0
+  rol
+  asl w0
+  rol
+  asl w0
+  rol
+  asl w0
+  rol
+  sta w0+1
+
+  lda w1+1
+  asl w1
+  rol
+  asl w1
+  rol
+  asl w1
+  rol
+  asl w1
+  rol
+  sta w1+1
+
   ;remember the "this" index in y because we're going to get a value
   ;out of the spotlight puzzle and place it in the key's state.
   txa
   tay
+
   ;spawn a key entity where the spotlights meet
   txa
   pha

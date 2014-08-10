@@ -14,14 +14,19 @@ ANGLERFISH_DIRECTION_UP
 ANGLERFISH_SPOTLIGHT_ON =  %00000010
 ANGLERFISH_SPOTLIGHT_OFF = %00000000
 
+ANGLERFISH_PARAMS = 5
+
 anglerfish_turn_mode = entity_local0
 anglerfish_direction = entity_local1
 anglerfish_spotlight_on = entity_local2
-anglerfish_x_fine = entity_local3
-anglerfish_y_fine = entity_local4
-anglerfish_turn_counter = entity_local5
-anglerfish_spotlight_entity_index = entity_local6
-anglerfish_attacked_counter = entity_local7
+anglerfish_initial_offset_x = entity_local3
+anglerfish_initial_offset_y = entity_local4
+
+anglerfish_x_fine = entity_local5
+anglerfish_y_fine = entity_local6
+anglerfish_turn_counter = entity_local7
+anglerfish_spotlight_entity_index = entity_local8
+anglerfish_attacked_counter = entity_local9
 
 .enum
 ANGLERFISH_STATE_INIT

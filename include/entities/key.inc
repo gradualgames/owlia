@@ -44,6 +44,14 @@ key_state_init:
   lda #$0f
   sta entity_height,x
 
+  clc
+  lda entity_x_lo,x
+  adc #<4
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc #>4
+  sta entity_x_hi,x
+
   lda key_initial_state,x
   sta entity_state,x
 

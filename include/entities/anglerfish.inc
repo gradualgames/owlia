@@ -115,6 +115,22 @@ anglerfish_state_init:
   lda #0
   sta anglerfish_attacked_counter,x
 
+  clc
+  lda entity_x_lo,x
+  adc anglerfish_initial_offset_x,x
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc #$00
+  sta entity_x_hi,x
+
+  clc
+  lda entity_y_lo,x
+  adc anglerfish_initial_offset_y,x
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  adc #$00
+  sta entity_y_hi,x
+
   jsr anglerfish_get_animation_params
 
   jsr entity_set_drawable
