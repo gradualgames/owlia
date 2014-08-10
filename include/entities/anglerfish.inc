@@ -9,8 +9,6 @@ ANGLERFISH_HEIGHT = $0f
 
 ANGLERFISH_SPEED = 150
 
-ANGLERFISH_TURN_LENGTH = 70
-
 ANGLERFISH_ATTACKED_LENGTH = 120
 
 anglerfish_turn_direction:
@@ -25,6 +23,12 @@ anglerfish_turnleft_direction:
   .byte ANGLERFISH_DIRECTION_DOWN
   .byte ANGLERFISH_DIRECTION_RIGHT
   .byte ANGLERFISH_DIRECTION_LEFT
+
+anglerfish_turnopposite_direction:
+  .byte ANGLERFISH_DIRECTION_LEFT
+  .byte ANGLERFISH_DIRECTION_RIGHT
+  .byte ANGLERFISH_DIRECTION_UP
+  .byte ANGLERFISH_DIRECTION_DOWN
 
 .define anglerfish_animation_addresses \
   anglerfish_side, \
@@ -109,7 +113,7 @@ anglerfish_state_init:
   sta anglerfish_x_fine,x
   sta anglerfish_y_fine,x
 
-  lda #ANGLERFISH_TURN_LENGTH
+  lda anglerfish_turn_length,x
   sta anglerfish_turn_counter,x
 
   lda #0
@@ -292,7 +296,7 @@ anglerfish_state_die:
   lda anglerfish_turn_direction,y
   sta anglerfish_direction,x
 
-  lda #ANGLERFISH_TURN_LENGTH
+  lda anglerfish_turn_length,x
   sta anglerfish_turn_counter,x
 
 do_not_turn_anglerfish:
