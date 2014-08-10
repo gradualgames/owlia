@@ -59,6 +59,27 @@ done:
   lda #0
   sta monolith_state_counter,x
 
+  ;is this a keyed monolith?
+  lda monolith_flags,x
+  and #MONOLITH_TYPE_ISOLATE
+  cmp #MONOLITH_TYPE_KEYED
+  bne not_keyed_monolith
+
+  ;if so, is our "unlock immediately" flag set within the puzzle flags?
+  lda monolith_unlock_immediately_puzzle_flags_mask,x
+  and inventory_puzzle_flags
+  beq not_set_to_immediately_unlock
+
+  ;if so, initialize the falling state machine immediately.
+  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  sta entity_state,x
+
+  rts
+
+  ;otherwise, enter idle state as usual.
+not_set_to_immediately_unlock:
+not_keyed_monolith:
+
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
 

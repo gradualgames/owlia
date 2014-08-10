@@ -1154,6 +1154,11 @@ not_at_keyhole_yet:
   ora #MONOLITH_FLAGS_UNLOCKED_SET
   sta monolith_flags,x
 
+  ;in addition, set the puzzle flags bit using the monolith's "unlock immediately" puzzle flags mask
+  lda inventory_puzzle_flags
+  ora monolith_unlock_immediately_puzzle_flags_mask,x
+  sta inventory_puzzle_flags
+
   ;transition to the fall with monolith state
   lda #FAMILIAR_STATE_UNLOCK_FALL_WITH_MONOLITH
   sta familiar_state

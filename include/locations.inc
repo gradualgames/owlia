@@ -195,4 +195,15 @@ location_index_dungeon1_boss_area_east_exit
 location_index_dungeon1_boss_area_owl_dungeon
 .endenum
 
+;****************************************************************
+;These constants define flags for dungeon puzzles, per dungeon.
+;I couldn't think of a nicer way to do this. So we have flags for
+;having solved individual puzzles, and also flags for whether
+;keyed monoliths have already been unlocked.
+;****************************************************************
+DUNGEON1_PUZZLE_FLAGS_SINGLE_ANGLERFISH_COMPLETE = %00000001
+DUNGEON1_PUZZLE_FLAGS_TWIN_ANGLERFISH_COMPLETE   = %00000010
+DUNGEON1_PUZZLE_FLAGS_DOOR1_UNLOCKED             = %00000100
+DUNGEON1_PUZZLE_FLAGS_DOOR2_UNLOCKED             = %00001000
+
 .endif
