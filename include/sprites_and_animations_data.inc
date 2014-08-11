@@ -37,6 +37,10 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 .global key
 .global key_inserted
 
+.global treasure_chest0
+.global treasure_chest1
+.global treasure_chest
+
 .global cursor0
 .global radio0
 

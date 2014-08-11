@@ -136,7 +136,7 @@ meadow3_sprite_chr_groups:
   .byte sprite_chr_group_index_octopus
 
 dungeon_sprite_chr_groups:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 10   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -144,6 +144,7 @@ dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_key
+  .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_pufferfish
   .byte sprite_chr_group_index_crab
 
@@ -465,6 +466,7 @@ dungeon_3_2_entity_instances:
 
 dungeon_0_3_entity_instances:
   .byte 6
+  .byte entity_index_treasure_chest, 3, 51, sprite_chr_group_index_treasure_chest, 0
   .byte entity_index_pufferfish, 4, 51, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_crab, 12, 52, sprite_chr_group_index_crab, 0

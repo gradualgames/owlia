@@ -22,6 +22,7 @@
   npcman_chr, \
   npcwoman_chr, \
   key_chr, \
+  treasure_chest_chr, \
   inventory_chr, \
   lantern_chr, \
   coins_chr, \
@@ -45,14 +46,14 @@ sprite_chr_group_addresses_hi:
 
 sprite_chr_group_bank:
   .byte sprite_chr_group_bank_hero
-  .byte sprite_group_bank_rushtech
-  .byte sprite_group_bank_fetchtech
-  .byte sprite_group_bank_unlocktech
-  .byte sprite_group_bank_bombtech
-  .byte sprite_group_bank_lanterntech
-  .byte sprite_group_bank_carrytech
-  .byte sprite_group_bank_shieldtech
-  .byte sprite_group_bank_homingtech
+  .byte sprite_chr_group_bank_rushtech
+  .byte sprite_chr_group_bank_fetchtech
+  .byte sprite_chr_group_bank_unlocktech
+  .byte sprite_chr_group_bank_bombtech
+  .byte sprite_chr_group_bank_lanterntech
+  .byte sprite_chr_group_bank_carrytech
+  .byte sprite_chr_group_bank_shieldtech
+  .byte sprite_chr_group_bank_homingtech
   .byte sprite_chr_group_bank_familiar
   .byte sprite_chr_group_bank_tyto
   .byte sprite_chr_group_bank_explosion
@@ -62,6 +63,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_npcman
   .byte sprite_chr_group_bank_npcwoman
   .byte sprite_chr_group_bank_key
+  .byte sprite_chr_group_bank_treasure_chest
   .byte sprite_chr_group_bank_inventory
   .byte sprite_chr_group_bank_lantern
   .byte sprite_chr_group_bank_coins
@@ -408,6 +410,17 @@ key_chr:
   .byte $00,$00,$80,$80,$80,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
   .byte $14,$34,$64,$34,$14,$74,$c4,$78,$08,$08,$38,$08,$08,$08,$78,$00
   .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+
+treasure_chest_chr:
+  .word $80
+  .byte $00,$00,$00,$00,$00,$1f,$76,$9d,$00,$00,$00,$00,$00,$00,$0b,$62
+  .byte $00,$00,$00,$00,$00,$f8,$c6,$71,$00,$00,$00,$00,$00,$00,$b8,$8e
+  .byte $1f,$23,$47,$6f,$5f,$5a,$75,$9a,$00,$1d,$38,$10,$20,$25,$0a,$65
+  .byte $f8,$c4,$e2,$f6,$fa,$ba,$5e,$b1,$00,$b8,$1c,$08,$04,$44,$a0,$4e
+  .byte $fd,$bc,$ff,$bf,$bf,$df,$8e,$7f,$0a,$5b,$0c,$56,$5a,$2e,$71,$00
+  .byte $7b,$79,$ff,$f9,$fb,$f1,$e1,$fe,$a4,$b6,$60,$d6,$b4,$ee,$1e,$00
+  .byte $ff,$bf,$ff,$bf,$bf,$df,$8e,$7f,$08,$58,$0c,$56,$5a,$2e,$71,$00
+  .byte $fb,$f9,$ff,$f9,$fb,$f1,$e1,$fe,$24,$36,$60,$d6,$b4,$ee,$1e,$00
 
 inventory_chr:
   .word $a0

@@ -28,9 +28,9 @@ template_state_init:
 
   jsr entity_set_drawable
 
-  lda #<Template
+  lda #<template
   sta entity_animation_address_lo,x
-  lda #>Template
+  lda #>template
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation

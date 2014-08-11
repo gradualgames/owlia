@@ -24,6 +24,7 @@ sprite_chr_group_index_octopus
 sprite_chr_group_index_npcman
 sprite_chr_group_index_npcwoman
 sprite_chr_group_index_key
+sprite_chr_group_index_treasure_chest
 sprite_chr_group_index_inventory
 sprite_chr_group_index_lantern
 sprite_chr_group_index_coins
@@ -42,14 +43,14 @@ sprite_chr_group_index_intro_cut_scene_mermon_leer
 .endenum
 
 sprite_chr_group_bank_hero = 7
-sprite_group_bank_rushtech = 7
-sprite_group_bank_fetchtech = 7
-sprite_group_bank_unlocktech = 7
-sprite_group_bank_bombtech = 7
-sprite_group_bank_lanterntech = 7
-sprite_group_bank_carrytech = 7
-sprite_group_bank_shieldtech = 7
-sprite_group_bank_homingtech = 7
+sprite_chr_group_bank_rushtech = 7
+sprite_chr_group_bank_fetchtech = 7
+sprite_chr_group_bank_unlocktech = 7
+sprite_chr_group_bank_bombtech = 7
+sprite_chr_group_bank_lanterntech = 7
+sprite_chr_group_bank_carrytech = 7
+sprite_chr_group_bank_shieldtech = 7
+sprite_chr_group_bank_homingtech = 7
 sprite_chr_group_bank_familiar = 7
 sprite_chr_group_bank_tyto = 7
 sprite_chr_group_bank_explosion = 7
@@ -59,6 +60,7 @@ sprite_chr_group_bank_octopus = 7
 sprite_chr_group_bank_npcman = 7
 sprite_chr_group_bank_npcwoman = 7
 sprite_chr_group_bank_key = 7
+sprite_chr_group_bank_treasure_chest = 7
 sprite_chr_group_bank_inventory = 7
 sprite_chr_group_bank_lantern = 7
 sprite_chr_group_bank_coins = 7
