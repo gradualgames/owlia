@@ -75,7 +75,7 @@ treasure_chest_state_idle:
   lda #3
   sta sound_param_byte_0
 
-  ldx #soundeffect_one
+  ldx #soundeffect_two
   far_call #SFX_BANK, stream_initialize
 
   pla
@@ -93,7 +93,7 @@ treasure_chest_state_idle:
   lda #0
   sta sound_param_byte_0
 
-  ldx #soundeffect_two
+  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
 
   pla

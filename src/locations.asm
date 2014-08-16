@@ -466,9 +466,8 @@ dungeon_3_2_entity_instances:
 
 
 dungeon_0_3_entity_instances:
-  .byte 6
+  .byte 5
   .byte entity_index_treasure_chest, 3, 51, sprite_chr_group_index_treasure_chest, TREASURE_CHEST_PARAMS, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
-  .byte entity_index_pufferfish, 4, 51, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_crab, 12, 52, sprite_chr_group_index_crab, 0
   .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, \
