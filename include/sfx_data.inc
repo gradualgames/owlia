@@ -22,5 +22,7 @@ SFX_BANK = 4
 .global sfx_error
 .global sfx_door_slam
 .global sfx_monolith_slam
+.global sfx_chest_open
+.global sfx_chest_melody
 
 .endif

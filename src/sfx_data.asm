@@ -71,11 +71,23 @@ sfx_volume_envelope_15:
 sfx_volume_envelope_16:
   .byte 2,3,3,4,5,6,6,8,9,9,0,15,14,12,9,6,4,3,2,2,1,1,1,0,ENV_STOP
 
+;used for chest open
+sfx_volume_envelope_17:
+  .byte 10,7,4,2,0,ENV_STOP
+
+;used for get item melody
+sfx_volume_envelope_18:
+  .byte 3,4,6,7,9,9,10,11,11,12,12,12,12,13,13,13,13,13,14,14,11,8,3,2,0,ENV_STOP
+
 sfx_pitch_envelope_0:
   .byte 0, ENV_LOOP
 
 sfx_pitch_envelope_1:
   .byte 0, 1, 2, 3, 4, 5, 4, 3, 2, 1, -1, -2, -3, -4, -5, ENV_LOOP
+
+;used for get item melody
+sfx_pitch_envelope_2:
+  .byte 0,0,0,0,0,0,0,0,0,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,ENV_STOP
 
 sfx_duty_envelope_0:
   .byte 0, DUTY_ENV_STOP
@@ -100,10 +112,13 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_14
   .word sfx_volume_envelope_15
   .word sfx_volume_envelope_16
+  .word sfx_volume_envelope_17
+  .word sfx_volume_envelope_18
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_0
   .word sfx_pitch_envelope_1
+  .word sfx_pitch_envelope_2
 
 sfx_duty_envelopes:
   .word sfx_duty_envelope_0
@@ -168,4 +183,13 @@ sfx_door_slam:
 
 sfx_monolith_slam:
   .byte STV,16,STP,0,SDU,0,STL,24,15
+  .byte TRM
+
+sfx_chest_open:
+  .byte STV,17,SDU,0,STL,4,$6,$3
+  .byte TRM
+
+sfx_chest_melody:
+  .byte STV,18,STP,2,SDU,1,STL,4,C2,D2,E2,FS2,GS2,AS2,C3,E3,GS3,STL,32
+  .byte C4
   .byte TRM
