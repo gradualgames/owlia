@@ -9,7 +9,8 @@ SPOTLIGHT_PUZZLE_INC = 1
 .define spotlight_puzzle_states \
   spotlight_puzzle_state_init, \
   spotlight_puzzle_state_single_anglerfish, \
-  spotlight_puzzle_state_twin_anglerfish
+  spotlight_puzzle_state_twin_anglerfish, \
+  spotlight_puzzle_state_play_solved_melody
 
 spotlight_puzzle_lo:
   .lobytes spotlight_puzzle_states
@@ -206,10 +207,10 @@ anglerfish_not_stunned:
 
   jsr spawn_key
 
-  ;puzzle is done, no need to do anything else
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  lda #SPOTLIGHT_PUZZLE_STATE_PLAY_SOLVED_MELODY_DELAY
+  sta spotlight_puzzle_state_counter,x
+  lda #SPOTLIGHT_PUZZLE_STATE_PLAY_SOLVED_MELODY
+  sta entity_state,x
 
 not_intersecting:
 
@@ -233,6 +234,24 @@ spotlight_puzzle_state_twin_anglerfish:
   jsr check_distance_of_spotlights
 
 anglerfish_not_both_stunned:
+
+  rts
+
+spotlight_puzzle_state_play_solved_melody:
+
+  .scope
+  dec spotlight_puzzle_state_counter,x
+  bne not_dead_yet
+
+  jsr spotlight_puzzle_play_solved_melody
+
+  ;puzzle is done, no need to do anything else
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+not_dead_yet:
+  .endscope
 
   rts
 
@@ -348,13 +367,55 @@ close_enough:
 
   jsr spawn_key
 
-  ;puzzle is done, no need to do anything else
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  lda #SPOTLIGHT_PUZZLE_STATE_PLAY_SOLVED_MELODY_DELAY
+  sta spotlight_puzzle_state_counter,x
+  lda #SPOTLIGHT_PUZZLE_STATE_PLAY_SOLVED_MELODY
+  sta entity_state,x
 
   rts
 too_far:
+
+  rts
+
+.endproc
+
+.proc spotlight_puzzle_play_solved_melody
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_solved_puzzle_instrument_one
+  sta sound_param_word_0
+  lda #>sfx_solved_puzzle_instrument_one
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  far_call #SFX_BANK, stream_initialize
+
+  pla
+  tax
+
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_solved_puzzle_instrument_two
+  sta sound_param_word_0
+  lda #>sfx_solved_puzzle_instrument_two
+  sta sound_param_word_0+1
+
+  lda #1
+  sta sound_param_byte_0
+
+  ldx #soundeffect_two
+  far_call #SFX_BANK, stream_initialize
+
+  pla
+  tax
 
   rts
 

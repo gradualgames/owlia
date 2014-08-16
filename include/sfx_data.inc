@@ -24,5 +24,7 @@ SFX_BANK = 4
 .global sfx_monolith_slam
 .global sfx_chest_open
 .global sfx_chest_melody
+.global sfx_solved_puzzle_instrument_one
+.global sfx_solved_puzzle_instrument_two
 
 .endif
