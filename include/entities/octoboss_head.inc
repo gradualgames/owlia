@@ -199,6 +199,24 @@ do_not_skip_octoboss:
   lda #0
   sta octoboss_head_attacked_counter,x
 
+  ;play a sound
+  txa
+  pha
+
+  lda #<sfx_octoboss_rise
+  sta sound_param_word_0
+  lda #>sfx_octoboss_rise
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  ldx #soundeffect_one
+  far_call #SFX_BANK, stream_initialize
+
+  pla
+  tax
+
   lda #OCTOBOSS_HEAD_STATE_RISE_LENGTH
   sta octoboss_head_state_counter,x
 

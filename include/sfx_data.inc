@@ -26,5 +26,7 @@ SFX_BANK = 4
 .global sfx_chest_melody
 .global sfx_solved_puzzle_instrument_one
 .global sfx_solved_puzzle_instrument_two
+.global sfx_octoboss_rise
+.global sfx_octoboss_punch
 
 .endif

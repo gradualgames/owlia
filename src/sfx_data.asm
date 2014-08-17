@@ -83,6 +83,10 @@ sfx_volume_envelope_18:
 sfx_volume_envelope_19:
   .byte 3,4,6,7,9,9,10,11,11,12,12,12,12,13,13,13,13,13,14,14,11,8,3,2,0,ENV_STOP
 
+;used for octoboss rise sound
+sfx_volume_envelope_20:
+  .byte 0,1,1,1,2,2,2,2,3,3,3,3,3,4,4,4,4,5,5,5,6,6,7,7,8,8,8,9,9,10,11,11,12,12,12,12,13,13,13,14,14,14,14,15,15,15,15,15,15,15,15,15,15,15,12,11,10,8,5,3,1,0,0,0,ENV_STOP
+
 sfx_pitch_envelope_0:
   .byte 0, ENV_LOOP
 
@@ -92,6 +96,10 @@ sfx_pitch_envelope_1:
 ;used for get item melody
 sfx_pitch_envelope_2:
   .byte 0,0,0,0,0,0,0,0,0,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,ENV_STOP
+
+;used for octoboss punch
+sfx_pitch_envelope_3:
+  .byte 5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,-5,ENV_STOP
 
 sfx_duty_envelope_0:
   .byte 0, DUTY_ENV_STOP
@@ -119,11 +127,13 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_17
   .word sfx_volume_envelope_18
   .word sfx_volume_envelope_19
+  .word sfx_volume_envelope_20
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_0
   .word sfx_pitch_envelope_1
   .word sfx_pitch_envelope_2
+  .word sfx_pitch_envelope_3
 
 sfx_duty_envelopes:
   .word sfx_duty_envelope_0
@@ -207,4 +217,12 @@ sfx_solved_puzzle_instrument_one:
 sfx_solved_puzzle_instrument_two:
   .byte STV,19,STP,2,SDU,1,STL,6,E3,C4,G3,C4,A3,F4,C4,F4,D4,B4,F4
   .byte B4,STL,32,C5
+  .byte TRM
+
+sfx_octoboss_rise:
+  .byte STV,20,STL,64,$10
+  .byte TRM
+
+sfx_octoboss_punch:
+  .byte STV,1,STP,3,STL,50,C4
   .byte TRM
