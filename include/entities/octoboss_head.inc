@@ -608,7 +608,13 @@ action_rect2_not_deadly:
 
   jsr entity_clear_drawable
 
-  lda #100
+  lda #<defeat_boss
+  sta song_address
+  lda #>defeat_boss
+  sta song_address+1
+  far_call #MUSIC_BANK, song_initialize
+
+  lda #220
   sta octoboss_head_state_counter,x
 
   lda #OCTOBOSS_HEAD_STATE_VICTORY

@@ -32,3 +32,7 @@ silmaran_theme:
 .scope
 .include "silmaran_theme.inc"
 .endscope
+defeat_boss:
+.scope
+.include "defeat_boss.inc"
+.endscope

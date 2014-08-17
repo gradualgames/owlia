@@ -10,5 +10,6 @@ MUSIC_BANK = 4
 .global game_over
 .global title_theme
 .global silmaran_theme
+.global defeat_boss
 
 .endif
