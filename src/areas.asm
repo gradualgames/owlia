@@ -345,9 +345,11 @@ dungeon_area:
   .word 0 ;attribute_patches_address
 
 dungeon_area_bg_chr_groups:
-  .byte 1  ;count
+  .byte 2  ;count
   .byte BG_CHR_DATA_BANK1
   .word dungeon1_main_chr
+  .byte BG_CHR_DATA_BANK2
+  .word dungeon1_stones_chr
 
 dungeon_area_nametable_patches:
   .word dungeon_area_nametable_monolith_patch
@@ -360,14 +362,14 @@ dungeon_area_nametable_patches:
 dungeon_area_nametable_monolith_patch:
   .byte $02,$06,$05,$06,$0d,$0e,$17,$18,$23,$24,$23,$31,$3e,$3f
 dungeon_area_nametable_keyed_monolith_patch:
-  .byte $02,$06,$78,$79,$7e,$7f,$17,$18,$23,$24,$23,$31,$3e,$3f
+  .byte $02,$06,$78,$79,$7a,$7b,$17,$18,$23,$24,$23,$31,$3e,$3f
 dungeon_area_nametable_monolith_north_bg_patch:
 dungeon_area_nametable_monolith_south_bg_patch:
   .byte $02,$06,$75,$74,$77,$68,$75,$74,$77,$68,$75,$74,$77,$68
 dungeon_area_nametable_monolith_west_bg_patch:
-  .byte $02,$06,$4a,$4b,$80,$56,$4a,$4b,$94,$95,$75,$74,$77,$68
+  .byte $02,$06,$4a,$4b,$7c,$56,$4a,$4b,$86,$87,$75,$74,$77,$68
 dungeon_area_nametable_monolith_east_bg_patch:
-  .byte $02,$06,$4c,$4d,$57,$88,$4c,$4d,$9b,$9c,$75,$74,$77,$68
+  .byte $02,$06,$4c,$4d,$57,$80,$4c,$4d,$89,$8a,$75,$74,$77,$68
 
 dungeon1_boss_area:
   .byte MUSIC_BANK

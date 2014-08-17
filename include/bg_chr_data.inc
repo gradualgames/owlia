@@ -15,6 +15,7 @@ BG_CHR_DATA_BANK2 = 9
 .global meadow_dungeon1_entrance
 .global dungeon1_main_chr
 .global dungeon1_pool_chr
+.global dungeon1_stones_chr
 .global inventory_chr
 .global title_chr
 .global game_over_chr
