@@ -14,6 +14,7 @@
 .include "rescueowl_constants.inc"
 .include "spotlight_puzzle_constants.inc"
 .include "treasure_chest_constants.inc"
+.include "treasure_room_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -355,9 +356,8 @@ dungeon_0_1_entity_instances:
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_0_0_s, \
                                           0, 2
 
-
 dungeon_1_1_entity_instances:
-  .byte 4
+  .byte 5
   .byte entity_index_crab, 22, 25, sprite_chr_group_index_crab, 0
   .byte entity_index_crab, 25, 20, sprite_chr_group_index_crab, 0
   .byte entity_index_monolith, 17, 23, 0, MONOLITH_PARAMS, \
@@ -371,7 +371,7 @@ dungeon_1_1_entity_instances:
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_2_1_w, \
                                           0, 5
-
+  .byte entity_index_treasure_room, 22, 25, 0, TREASURE_ROOM_PARAMS, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon_2_1_entity_instances:
   .byte 5
@@ -474,7 +474,7 @@ dungeon_3_2_entity_instances:
 
 dungeon_0_3_entity_instances:
   .byte 6
-  .byte entity_index_treasure_chest, 3, 51, sprite_chr_group_index_treasure_chest, TREASURE_CHEST_PARAMS, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_treasure_chest, 3, 51, 0, TREASURE_CHEST_PARAMS, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_crab, 12, 52, sprite_chr_group_index_crab, 0
   .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, \

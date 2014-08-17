@@ -22,6 +22,7 @@ entity_index_innkeep
 entity_index_pufferfish
 entity_index_crab
 entity_index_traproom
+entity_index_treasure_room
 entity_index_anglerfish
 entity_index_spotlight
 entity_index_spotlight_puzzle
@@ -48,6 +49,7 @@ entity_update_bank_innkeep = 5
 entity_update_bank_pufferfish = 5
 entity_update_bank_crab = 5
 entity_update_bank_traproom = 5
+entity_update_bank_treasure_room = 5
 entity_update_bank_anglerfish = 5
 entity_update_bank_spotlight = 5
 entity_update_bank_spotlight_puzzle = 5
@@ -73,6 +75,7 @@ entity_sprites_and_animations_bank_innkeep = 6
 entity_sprites_and_animations_bank_pufferfish = 6
 entity_sprites_and_animations_bank_crab = 6
 ;entity_sprites_and_animations_bank_traproom ;this entity has no graphics
+;entity_sprites_and_animations_bank_treasure_room ;this entity has no graphics
 entity_sprites_and_animations_bank_anglerfish = 6
 entity_sprites_and_animations_bank_spotlight = 6
 ;entity_sprites_and_animations_bank_spotlight_puzzle ;this entity has no graphics

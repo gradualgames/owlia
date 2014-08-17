@@ -38,9 +38,9 @@ treasure_chest_state_init:
 
   ;some entities are parameterized for graphics set, ones
   ;that are always hard coded should set their chr offset here
-  ;lda #sprite_chr_group_index_treasure_chest
-  ;sta b0
-  ;jsr entity_lookup_sprite_chr_offset
+  lda #sprite_chr_group_index_treasure_chest
+  sta b0
+  jsr entity_lookup_sprite_chr_offset
 
   lda #$00
   sta entity_sprite_flags,x
@@ -76,24 +76,6 @@ treasure_chest_state_idle:
   sta sound_param_byte_0
 
   ldx #soundeffect_two
-  far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
-
-  ;play a sound
-  txa
-  pha
-
-  lda #<sfx_chest_melody
-  sta sound_param_word_0
-  lda #>sfx_chest_melody
-  sta sound_param_word_0+1
-
-  lda #0
-  sta sound_param_byte_0
-
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
 
   pla
@@ -144,6 +126,8 @@ treasure_chest_state_opened:
   rts
 
 .proc treasure_chest_spawn_item
+
+  ndxDebugBreak
 
   lda entity_x_lo,x
   sta w0

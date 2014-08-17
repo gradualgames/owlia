@@ -49,6 +49,7 @@
   pufferfish_update, \
   crab_update, \
   traproom_update, \
+  treasure_room_update, \
   anglerfish_update, \
   spotlight_update, \
   spotlight_puzzle_update, \
@@ -80,6 +81,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_pufferfish
   .byte entity_update_bank_crab
   .byte entity_update_bank_traproom
+  .byte entity_update_bank_treasure_room
   .byte entity_update_bank_anglerfish
   .byte entity_update_bank_spotlight
   .byte entity_update_bank_spotlight_puzzle
@@ -106,6 +108,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_pufferfish
   .byte entity_sprites_and_animations_bank_crab
   .byte 0 ;entity_sprites_and_animations_bank_traproom
+  .byte 0 ;entity_sprites_and_animations_bank_treasure_room
   .byte entity_sprites_and_animations_bank_anglerfish
   .byte entity_sprites_and_animations_bank_spotlight
   .byte 0 ;entity_sprites_and_animations_bank_spotlight_puzzle
@@ -132,6 +135,7 @@ entity_defs_sprites_and_animations_bank:
 .include "pufferfish.inc"
 .include "crab.inc"
 .include "traproom.inc"
+.include "treasure_room.inc"
 .include "anglerfish.inc"
 .include "spotlight.inc"
 .include "spotlight_puzzle.inc"
