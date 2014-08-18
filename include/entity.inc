@@ -81,4 +81,69 @@ ENTITY_DIRECTION_NONE
 
 .endmacro
 
+;convenience macro for spawning an entity.
+;automatically gets the index of the spawned entity
+;into y so the entity can be parameterized from the
+;current "this" entity (x is preserved)
+.macro spawn_entity type, x_coord_lo, x_coord_hi, y_coord_lo, y_coord_hi
+
+  txa
+  pha
+
+  lda type
+  sta b0
+
+  lda x_coord_lo
+  sta w0
+  lda x_coord_hi
+  sta w0+1
+
+  lda y_coord_lo
+  sta w1
+  lda y_coord_hi
+  sta w1+1
+
+  jsr entity_spawn
+
+  txa
+  tay
+
+  pla
+  tax
+
+.endmacro
+
+;convenience macro for spawning an entity from "this" entity
+;at "this" entity's coordinates.
+;automatically gets the index of the spawned entity
+;into y so the entity can be parameterized from the
+;current "this" entity (x is preserved)
+.macro spawn_entity_from_this_entity type
+
+  txa
+  pha
+
+  lda type
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  txa
+  tay
+
+  pla
+  tax
+
+.endmacro
+
 .endif
