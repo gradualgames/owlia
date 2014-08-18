@@ -21,13 +21,14 @@ TREASURE_CHEST_ITEM_TYPE_LANTERN
 TREASURE_CHEST_ITEM_TYPE_BOMB
 .endenum
 
-TREASURE_CHEST_PARAMS = 3
+TREASURE_CHEST_PARAMS = 4
 
-treasure_chest_item_type = entity_local0
-treasure_chest_item_quantity_lo = entity_local1
-treasure_chest_item_quantity_hi = entity_local2
+treasure_chest_puzzle_flags_mask = entity_local0
+treasure_chest_item_type = entity_local1
+treasure_chest_item_quantity_lo = entity_local2
+treasure_chest_item_quantity_hi = entity_local3
 
-treasure_chest_item_index = entity_local3
-treasure_chest_state_counter = entity_local4
+treasure_chest_item_index = entity_local4
+treasure_chest_state_counter = entity_local5
 
 .endif

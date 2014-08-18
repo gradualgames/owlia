@@ -371,7 +371,7 @@ dungeon_1_1_entity_instances:
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_2_1_w, \
                                           0, 5
-  .byte entity_index_treasure_room, 22, 25, 0, TREASURE_ROOM_PARAMS, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_treasure_room, 22, 25, 0, TREASURE_ROOM_PARAMS, DUNGEON1_PUZZLE_FLAGS_TREASURE_ROOM1_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon_2_1_entity_instances:
   .byte 5
@@ -474,7 +474,7 @@ dungeon_3_2_entity_instances:
 
 dungeon_0_3_entity_instances:
   .byte 6
-  .byte entity_index_treasure_chest, 3, 51, 0, TREASURE_CHEST_PARAMS, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_treasure_chest, 3, 51, 0, TREASURE_CHEST_PARAMS, DUNGEON1_PUZZLE_FLAGS_TREASURE_CHEST1_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_crab, 12, 52, sprite_chr_group_index_crab, 0
   .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, \

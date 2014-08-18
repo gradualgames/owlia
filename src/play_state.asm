@@ -1182,6 +1182,10 @@ play_state_action_goto_location_group1:
 ;****************************************************************
 play_state_action_scrollto_location_group1:
 
+  ;clear single screen collision field in case any treasure chests or
+  ;the like left flags in place
+  jsr clear_dynamic_single_screen_collision_field
+
   ;mark all currently living entities to be killed after we scroll
   jsr entity_mark_all_for_kill
 
