@@ -213,9 +213,6 @@ entity_not_dead_yet:
 
 .proc entity_spawn_explosion_and_drop_item
 
-  txa
-  pha
-
   lda #entity_index_explosion
   sta b0
 
@@ -229,12 +226,6 @@ entity_not_dead_yet:
   sta w1+1
 
   jsr entity_spawn
-
-  pla
-  tax
-
-  txa
-  pha
 
   lda #entity_index_item
   sta b0
@@ -275,14 +266,12 @@ entity_not_dead_yet:
   jsr entity_spawn
 
   .scope
+  ldy spawned_entity
   bmi entity_not_spawned
   lda #ITEM_STATE_DROP_RANDOM_ITEM_INIT
-  sta item_initial_state,x
+  sta item_initial_state,y
 entity_not_spawned:
   .endscope
-
-  pla
-  tax
 
   rts
 
@@ -906,14 +895,19 @@ not_alive:
 ;b0 is assumed to be the type of entity to spawn
 ;w0 is assumed to be the 16 bit x coordinate at which to spawn the entity
 ;w1 is assumed to be the 16 bit y coordinate at which to spawn the entity
-;x can be used after calling this routine to modify some initial state of
+;preserves the x register
+;spawned_entity can be used after calling this routine to modify some initial state of
 ;the entity (parameterize it somehow)
 ;NOTE: If no entities could be spawned, this routine will return with the
-;x register being $ff
+;spawned_entity being $ff
 .proc entity_spawn
 type = b0
 spawn_x = w0
 spawn_y = w1
+
+  ;save x
+  txa
+  pha
 
   ;first search for a dead entity
   ldx #(MAX_ENTITIES-1)
@@ -926,7 +920,11 @@ next_entity:
   dex
   bpl next_entity
 
+  stx spawned_entity
   ;didn't find any dead entities, just exit
+  ;restore x
+  pla
+  tax
 
   rts
 
@@ -955,6 +953,12 @@ found_dead_entity:
   ;mark this entity as alive, do not preserve any old flags in the field!
   lda #ENTITY_FLAGS_ALIVE_SET
   sta entity_flags,x
+
+  stx spawned_entity
+
+  ;restore x
+  pla
+  tax
 
   rts
 

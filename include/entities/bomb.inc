@@ -677,9 +677,6 @@ done:
   sta entity_action_rect2_y+1
 
   ;spawn an explosion entity
-  txa
-  pha
-
   lda #entity_index_explosion
   sta b0
 
@@ -699,9 +696,6 @@ done:
   sta w1+1
 
   jsr entity_spawn
-
-  pla
-  tax
 
 do_not_spawn_explosion:
 

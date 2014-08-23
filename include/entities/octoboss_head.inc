@@ -122,9 +122,6 @@ do_not_skip_octoboss:
   sta entity_sprite_flags,x
 
   ;spawn the legs
-  txa
-  pha
-
   lda #entity_index_octoboss_legs
   sta b0
 
@@ -140,18 +137,10 @@ do_not_skip_octoboss:
   jsr entity_spawn
 
   ;remember index of the legs entity
-  stx b0
-
-  pla
-  tax
-
-  lda b0
+  lda spawned_entity
   sta octoboss_head_legs_entity_index,x
 
   ;spawn the splash
-  txa
-  pha
-
   lda #entity_index_splash
   sta b0
 
@@ -167,12 +156,7 @@ do_not_skip_octoboss:
   jsr entity_spawn
 
   ;remember index of the splash entity
-  stx b0
-
-  pla
-  tax
-
-  lda b0
+  lda spawned_entity
   sta octoboss_head_splash_entity_index,x
 
   ;move the splash according to its offset
@@ -624,9 +608,6 @@ action_rect2_not_deadly:
   lda #OCTOBOSS_LEGS_STATE_DIE
   sta entity_state,y
 
-  txa
-  pha
-
   lda #entity_index_explosion
   sta b0
 
@@ -641,8 +622,6 @@ action_rect2_not_deadly:
 
   jsr entity_spawn
 
-  pla
-  tax
 entity_not_dead_yet:
 
 attacked_state_machine_already_running:

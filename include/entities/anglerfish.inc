@@ -142,9 +142,6 @@ anglerfish_state_init:
   jsr entity_reset_animation
 
   ;spawn a spotlight entity
-  txa
-  pha
-
   lda #entity_index_spotlight
   sta b0
 
@@ -159,15 +156,9 @@ anglerfish_state_init:
 
   jsr entity_spawn
 
-  ;remember index of the spotlight entity instance
-  stx b0
-
-  pla
-  tax
-
   ;store index of spotlight entity index so we can keep it in front of the
   ;anglerfish
-  lda b0
+  lda spawned_entity
   sta anglerfish_spotlight_entity_index,x
   tay
 
@@ -235,9 +226,6 @@ do_not_move_anglerfish:
 
 anglerfish_state_die:
 
-  txa
-  pha
-
   lda #entity_index_explosion
   sta b0
 
@@ -251,9 +239,6 @@ anglerfish_state_die:
   sta w1+1
 
   jsr entity_spawn
-
-  pla
-  tax
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR

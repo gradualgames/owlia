@@ -203,9 +203,6 @@ octoboss_legs_state_die:
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
 
-  txa
-  pha
-
   lda #entity_index_explosion
   sta b0
 
@@ -219,9 +216,6 @@ octoboss_legs_state_die:
   sta w1+1
 
   jsr entity_spawn
-
-  pla
-  tax
 
   rts
 

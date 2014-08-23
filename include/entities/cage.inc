@@ -150,13 +150,7 @@ next_explosion:
   adc #$00
   sta w1+1
 
-  txa
-  pha
-
   jsr entity_spawn
-
-  pla
-  tax
 
   iny
   cpy #4

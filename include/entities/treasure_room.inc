@@ -103,9 +103,6 @@ treasure_room_state_spawn_treasure_chest:
   tax
 
   ;spawn a treasure chest with the forwarded parameters
-  txa
-  pha
-
   lda #entity_index_treasure_chest
   sta b0
 
@@ -120,14 +117,8 @@ treasure_room_state_spawn_treasure_chest:
 
   jsr entity_spawn
 
-  ;remember index of the treasure chest instance
-  stx b0
-
-  pla
-  tax
-
   ;parameterize the treasure chest
-  ldy b0
+  ldy spawned_entity
   lda treasure_room_puzzle_flags_mask,x
   sta treasure_chest_puzzle_flags_mask,y
   lda treasure_room_treasure_chest_type,x

@@ -425,15 +425,7 @@ too_far:
 
   jsr load_key_destination_location
 
-  ;remember the "this" index in y because we're going to get a value
-  ;out of the spotlight puzzle and place it in the key's state.
-  txa
-  tay
-
   ;spawn a key entity where the spotlights meet
-  txa
-  pha
-
   lda #entity_index_key
   sta b0
 
@@ -441,14 +433,12 @@ too_far:
 
   ;forward the puzzle done mask to the key so the key
   ;can mark the puzzle as done when picked up
-  lda spotlight_puzzle_flags_mask,y
-  sta key_puzzle_flags_mask,x
+  ldy spawned_entity
+  lda spotlight_puzzle_flags_mask,x
+  sta key_puzzle_flags_mask,y
 
   lda #KEY_STATE_PICKUP
-  sta key_initial_state,x
-
-  pla
-  tax
+  sta key_initial_state,y
 
   rts
 

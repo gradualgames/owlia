@@ -36,6 +36,8 @@ ZP_INC = 1
 .globalzp w19
 .globalzp w20
 
+.globalzp spawned_entity
+
 .globalzp map_address
 .globalzp metatile_table_properties_address
 .globalzp metatile_table_params_address

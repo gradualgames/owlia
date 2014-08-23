@@ -349,6 +349,8 @@ next_entity_instance:
   ;spawn the entity
   jsr entity_spawn
 
+  ldx spawned_entity
+
   ;get chr offset for this entity
   ldy entities_index
   iny

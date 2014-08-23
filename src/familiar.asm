@@ -151,8 +151,8 @@
 
   jsr entity_spawn
 
+  ldx spawned_entity
   bmi cannot_spawn_key
-
   stx familiar_carried_entity_index
 
   lda #KEY_STATE_PASSIVE_INIT
@@ -209,9 +209,9 @@ cannot_spawn_key:
 
   jsr entity_spawn
 
+  lda spawned_entity
   bmi cannot_spawn_bomb
-
-  stx familiar_carried_entity_index
+  sta familiar_carried_entity_index
 
   rts
 cannot_spawn_bomb:
@@ -257,9 +257,9 @@ cannot_spawn_bomb:
 
   jsr entity_spawn
 
+  lda spawned_entity
   bmi cannot_spawn_lantern
-
-  stx familiar_carried_entity_index
+  sta familiar_carried_entity_index
 
   rts
 cannot_spawn_lantern:

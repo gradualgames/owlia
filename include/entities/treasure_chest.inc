@@ -181,25 +181,15 @@ spawn_gp:
   sbc #>8
   sta w1+1
 
-  txa
-  pha
-
   lda #entity_index_item
   sta b0
 
   jsr entity_spawn
 
-  ;get this entity's index into y so we can transfer variables
-  ;from this to that
-  txa
-  tay
-
-  pla
-  tax
-
-  tya
+  lda spawned_entity
   sta treasure_chest_item_index,x
 
+  ldy spawned_entity
   lda #ITEM_STATE_PICKUP_INIT
   sta item_initial_state,y
   lda #ITEM_TYPE_GP
