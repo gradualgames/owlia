@@ -184,9 +184,6 @@ do_not_skip_octoboss:
   sta octoboss_head_attacked_counter,x
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_octoboss_rise
   sta sound_param_word_0
   lda #>sfx_octoboss_rise
@@ -195,11 +192,9 @@ do_not_skip_octoboss:
   lda #3
   sta sound_param_byte_0
 
-  ldx #soundeffect_one
+  lda #soundeffect_one
+  sta sound_param_byte_1
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   lda #OCTOBOSS_HEAD_STATE_RISE_LENGTH
   sta octoboss_head_state_counter,x
@@ -567,9 +562,6 @@ action_rect2_not_deadly:
   bne attacked_state_machine_already_running
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_hit
   sta sound_param_word_0
   lda #>sfx_hit
@@ -578,11 +570,10 @@ action_rect2_not_deadly:
   lda #3
   sta sound_param_byte_0
 
-  ldx #soundeffect_one
-  far_call #SFX_BANK, stream_initialize
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  pla
-  tax
+  far_call #SFX_BANK, stream_initialize
 
   lda #OCTOBOSS_HEAD_ATTACKED_LENGTH
   sta octoboss_head_attacked_counter,x

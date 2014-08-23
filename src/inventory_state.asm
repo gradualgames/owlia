@@ -29,9 +29,6 @@ inventory_screen_palette:
 inventory_state_init:
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_inventory
   sta sound_param_word_0
   lda #>sfx_inventory
@@ -39,12 +36,11 @@ inventory_state_init:
 
   lda #0
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
 
-  pla
-  tax
 
   ;fade out from current palette
   far_copy #LOCATIONS_BANK, location_address, palette_address, #location::palette_address, #0, #2
@@ -231,9 +227,6 @@ inventory_state_main:
 inventory_state_exit:
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_inventory
   sta sound_param_word_0
   lda #>sfx_inventory
@@ -241,12 +234,10 @@ inventory_state_exit:
 
   lda #0
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   ;fade out inventory palette
   lda #<inventory_screen_palette
@@ -752,9 +743,6 @@ item_was_null:
 
 .proc play_dpad_sound
 
-  txa
-  pha
-
   lda #<sfx_move_cursor
   sta sound_param_word_0
   lda #>sfx_move_cursor
@@ -762,21 +750,16 @@ item_was_null:
 
   lda #3
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   rts
 
 .endproc
 
 .proc play_action_sound
-
-  txa
-  pha
 
   lda #<sfx_select
   sta sound_param_word_0
@@ -785,21 +768,16 @@ item_was_null:
 
   lda #3
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   rts
 
 .endproc
 
 .proc play_use_item_sound
-
-  txa
-  pha
 
   lda #<sfx_get_item
   sta sound_param_word_0
@@ -808,21 +786,16 @@ item_was_null:
 
   lda #1
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   rts
 
 .endproc
 
 .proc play_error_sound
-
-  txa
-  pha
 
   lda #<sfx_error
   sta sound_param_word_0
@@ -831,12 +804,10 @@ item_was_null:
 
   lda #1
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   rts
 

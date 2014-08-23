@@ -1173,9 +1173,6 @@ not_at_keyhole_yet:
   bne :+
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_get_item
   sta sound_param_word_0
   lda #>sfx_get_item
@@ -1183,12 +1180,10 @@ not_at_keyhole_yet:
 
   lda #3
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
 :
 
@@ -3079,9 +3074,6 @@ done:
 .proc familiar_play_flap_sound
 
   ;play a flapping sound
-  txa
-  pha
-
   lda #<sfx_flap
   sta sound_param_word_0
   lda #>sfx_flap
@@ -3089,12 +3081,10 @@ done:
 
   lda #3
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   rts
 
@@ -3103,9 +3093,6 @@ done:
 .proc familiar_play_error_sound
 
   ;play an error sound
-  txa
-  pha
-
   lda #<sfx_error
   sta sound_param_word_0
   lda #>sfx_error
@@ -3113,12 +3100,10 @@ done:
 
   lda #0
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   rts
 

@@ -85,9 +85,6 @@ octoboss_legs_state_dangle:
 octoboss_legs_state_punch_init:
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_octoboss_punch
   sta sound_param_word_0
   lda #>sfx_octoboss_punch
@@ -96,11 +93,10 @@ octoboss_legs_state_punch_init:
   lda #2
   sta sound_param_byte_0
 
-  ldx #soundeffect_one
-  far_call #SFX_BANK, stream_initialize
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  pla
-  tax
+  far_call #SFX_BANK, stream_initialize
 
   lda #<octoboss_legs_punch
   sta entity_animation_address_lo,x

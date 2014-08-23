@@ -78,9 +78,6 @@ treasure_chest_state_idle:
   far_call #HERO_BANK, hero_cancel_attack
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_chest_open
   sta sound_param_word_0
   lda #>sfx_chest_open
@@ -89,11 +86,9 @@ treasure_chest_state_idle:
   lda #3
   sta sound_param_byte_0
 
-  ldx #soundeffect_two
+  lda #soundeffect_two
+  sta sound_param_byte_1
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   lda #2
   sta entity_animation_frame,x

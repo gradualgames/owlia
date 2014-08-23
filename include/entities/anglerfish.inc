@@ -355,9 +355,6 @@ done:
   bne attacked_state_machine_already_running
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_hit
   sta sound_param_word_0
   lda #>sfx_hit
@@ -366,11 +363,10 @@ done:
   lda #3
   sta sound_param_byte_0
 
-  ldx #soundeffect_one
-  far_call #SFX_BANK, stream_initialize
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  pla
-  tax
+  far_call #SFX_BANK, stream_initialize
 
   lda #ANGLERFISH_ATTACKED_LENGTH
   sta anglerfish_attacked_counter,x

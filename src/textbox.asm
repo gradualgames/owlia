@@ -283,8 +283,6 @@ interpret_font_character:
   inx
 
   ;play a sound
-  txa
-  pha
   ;save y, far_call destroys it.
   tya
   pha
@@ -297,14 +295,14 @@ interpret_font_character:
   lda #3
   sta sound_param_byte_0
 
-  ldx #soundeffect_one
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
   far_call #SFX_BANK, stream_initialize
 
   ;restore y, far_call destroys it.
   pla
   tay
-  pla
-  tax
 
   ;Sync with vblank so the animation is reasonable.
   clear_vblank_done
@@ -425,8 +423,6 @@ time:
 .proc play_prompt_sound
 
   ;play a sound
-  txa
-  pha
   ;save y, far_call destroys it
   tya
   pha
@@ -439,14 +435,14 @@ time:
   lda #2
   sta sound_param_byte_0
 
-  ldx #soundeffect_one
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
   far_call #SFX_BANK, stream_initialize
 
   ;restore y, far_call destroys it
   pla
   tay
-  pla
-  tax
 
   rts
 

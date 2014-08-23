@@ -68,9 +68,6 @@ key_state_pickup:
   jsr inventory_add_key
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_get_item
   sta sound_param_word_0
   lda #>sfx_get_item
@@ -79,11 +76,9 @@ key_state_pickup:
   lda #0
   sta sound_param_byte_0
 
-  ldx #soundeffect_one
+  lda #soundeffect_one
+  sta sound_param_byte_1
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   ;mark the puzzle flag associated with this key
   lda inventory_puzzle_flags

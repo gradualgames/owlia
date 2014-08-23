@@ -89,9 +89,6 @@ explosion_state_init:
   sta explosion_random_offset_y,x
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_explosion
   sta sound_param_word_0
   lda #>sfx_explosion
@@ -100,11 +97,9 @@ explosion_state_init:
   lda #3
   sta sound_param_byte_0
 
-  ldx #soundeffect_one
+  lda #soundeffect_one
+  sta sound_param_byte_1
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   rts
 

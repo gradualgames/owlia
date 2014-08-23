@@ -1156,7 +1156,8 @@ play_state_action_goto_location_group1:
 
   ldy #location::on_enter_sfx_stream
   lda (location_address),y
-  tax
+  sta sound_param_byte_1
+
   far_call #SFX_BANK, stream_initialize
 
   ;fade out from current palette

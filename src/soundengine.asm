@@ -822,7 +822,9 @@ volume_stop:
   lda #0
   sta sound_param_byte_0
 
-  ldx #0
+  lda #0
+  sta sound_param_byte_1
+
   jsr stream_initialize
 
   ldy #song_header::tempo
@@ -845,7 +847,9 @@ no_square_1:
   lda #1
   sta sound_param_byte_0
 
-  ldx #1
+  lda #1
+  sta sound_param_byte_1
+
   jsr stream_initialize
 
   ldy #song_header::tempo
@@ -868,7 +872,9 @@ no_square_2:
   lda #2
   sta sound_param_byte_0
 
-  ldx #2
+  lda #2
+  sta sound_param_byte_1
+
   jsr stream_initialize
 
   ldy #song_header::tempo
@@ -891,7 +897,9 @@ no_triangle:
   lda #3
   sta sound_param_byte_0
 
-  ldx #3
+  lda #3
+  sta sound_param_byte_1
+
   jsr stream_initialize
 
   ldy #song_header::tempo
@@ -984,13 +992,20 @@ sfx_address = sound_param_word_0
 
 .endproc
 
-;expects x to contain the offset of the stream instance to initialize
 ;expects sound_param_byte_0 to contain the channel on which to play the stream.
+;expects sound_param_byte_1 to contain the offset of the stream instance to initialize
 ;expects sound_param_word_0 to contain the starting read address of the stream to
 ;initialize.
 .proc stream_initialize
 channel = sound_param_byte_0
+stream = sound_param_byte_1
 starting_read_address = sound_param_word_0
+
+  ;save x
+  txa
+  pha
+
+  ldx stream
 
   inc sound_disable_update
 
@@ -1041,6 +1056,10 @@ starting_read_address = sound_param_word_0
 null_starting_read_address:
 
   dec sound_disable_update
+
+  ;restore x
+  pla
+  tax
 
   rts
 .endproc

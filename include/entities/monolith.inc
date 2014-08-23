@@ -815,9 +815,6 @@ do_not_shake_screen:
 .proc monolith_play_slam_sound
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_monolith_slam
   sta sound_param_word_0
   lda #>sfx_monolith_slam
@@ -826,11 +823,10 @@ do_not_shake_screen:
   lda #3
   sta sound_param_byte_0
 
-  ldx #soundeffect_one
-  far_call #SFX_BANK, stream_initialize
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  pla
-  tax
+  far_call #SFX_BANK, stream_initialize
 
   rts
 

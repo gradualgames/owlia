@@ -216,9 +216,6 @@ scroll_up:
 done:
 
   ;play a flapping sound
-  txa
-  pha
-
   lda #<sfx_flap
   sta sound_param_word_0
   lda #>sfx_flap
@@ -227,11 +224,10 @@ done:
   lda #3
   sta sound_param_byte_0
 
-  ldx #soundeffect_one
-  far_call #SFX_BANK, stream_initialize
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  pla
-  tax
+  far_call #SFX_BANK, stream_initialize
 
   jsr entity_set_drawable
 
@@ -296,9 +292,6 @@ silmaran_state_perch:
   sta silmaran_state_counter,x
 
   ;play a flapping sound
-  txa
-  pha
-
   lda #<sfx_flap
   sta sound_param_word_0
   lda #>sfx_flap
@@ -307,11 +300,10 @@ silmaran_state_perch:
   lda #3
   sta sound_param_byte_0
 
-  ldx #soundeffect_one
-  far_call #SFX_BANK, stream_initialize
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  pla
-  tax
+  far_call #SFX_BANK, stream_initialize
 
   sec
   lda entity_x_lo,x

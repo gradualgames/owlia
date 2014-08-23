@@ -146,9 +146,6 @@ no_keys_left:
 no_keyed_monolith_found:
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_error
   sta sound_param_word_0
   lda #>sfx_error
@@ -156,12 +153,10 @@ no_keyed_monolith_found:
 
   lda #0
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   rts
 
@@ -420,9 +415,6 @@ skip_spawn_carry_hero:
 no_bombs_left:
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_error
   sta sound_param_word_0
   lda #>sfx_error
@@ -430,12 +422,10 @@ no_bombs_left:
 
   lda #0
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   rts
 
@@ -457,9 +447,6 @@ no_bombs_left:
 no_lanterns_left:
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_error
   sta sound_param_word_0
   lda #>sfx_error
@@ -467,12 +454,10 @@ no_lanterns_left:
 
   lda #0
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   rts
 
@@ -530,9 +515,6 @@ skip_lookup_opposite_direction:
   sta hero_speed
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_test
   sta sound_param_word_0
   lda #>sfx_test
@@ -540,12 +522,10 @@ skip_lookup_opposite_direction:
 
   lda #3
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   ;decrement hero's health
   dec hero_health
@@ -600,9 +580,6 @@ hero_invincible:
   jsr sprite_reset_animation
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_sword
   sta sound_param_word_0
   lda #>sfx_sword
@@ -610,12 +587,10 @@ hero_invincible:
 
   lda #3
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   rts
 
@@ -1365,9 +1340,6 @@ do_not_animate_hero:
   sta hero_status_flash_counter
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_select
   sta sound_param_word_0
   lda #>sfx_select
@@ -1375,12 +1347,10 @@ do_not_animate_hero:
 
   lda #3
   sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
 
-  ldx #soundeffect_one
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
 skip_switch_selected_tech:
 

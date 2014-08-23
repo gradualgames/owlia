@@ -85,9 +85,6 @@ treasure_room_state_spawn_treasure_chest:
   bne do_not_spawn_treasure_chest
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_chest_melody
   sta sound_param_word_0
   lda #>sfx_chest_melody
@@ -96,11 +93,9 @@ treasure_room_state_spawn_treasure_chest:
   lda #0
   sta sound_param_byte_0
 
-  ldx #soundeffect_one
+  lda #soundeffect_one
+  sta sound_param_byte_1
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   ;spawn a treasure chest with the forwarded parameters
   lda #entity_index_treasure_chest
