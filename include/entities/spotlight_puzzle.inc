@@ -389,9 +389,9 @@ too_far:
 
   lda #0
   sta sound_param_byte_0
-
   lda #soundeffect_one
   sta sound_param_byte_1
+
   far_call #SFX_BANK, stream_initialize
 
   ;play a sound
@@ -405,8 +405,9 @@ too_far:
 
   lda #1
   sta sound_param_byte_0
+  lda #soundeffect_two
+  sta sound_param_byte_1
 
-  ldx #soundeffect_two
   far_call #SFX_BANK, stream_initialize
 
   pla
