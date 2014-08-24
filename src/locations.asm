@@ -198,8 +198,8 @@ village_entity_instances:
   ; .byte entity_index_octopus, 20, 53, sprite_chr_group_index_octopus, 0
   .byte entity_index_npc, 31, 37, sprite_chr_group_index_npcman, 6, conversation_index_owlia_school_of_falconry, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
   .byte entity_index_npc, 8, 20, sprite_chr_group_index_npcman, 6, conversation_index_hi_adlanniel, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
-  .byte entity_index_item, 31, 32, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_HEALTH, 0, 0, 1, 0
-  .byte entity_index_item, 11, 18, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_GP, 0, 0, <1000, >1000
+  .byte entity_index_item, 31, 32, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_HEALTH, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
+  .byte entity_index_item, 11, 18, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_GP, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, <1000, >1000
 
 house1_intro_entity_instances:
   .byte 1
@@ -229,14 +229,14 @@ store_entity_instances:
   .byte 5  ;count
   .byte entity_index_npc, 15, 12, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 5, 16 * 3, NPC_MODE_WALK, NPC_DIRECTION_DOWN
   .byte entity_index_npc, 12, 20, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, NPC_DIRECTION_RIGHT
-  .byte entity_index_item, 14, 18, sprite_chr_group_index_bomb, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_BOMB, 10, 0, 5, 0
-  .byte entity_index_item, 16, 18, sprite_chr_group_index_lantern, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_LANTERN, 10, 0, 5, 0
-  .byte entity_index_item, 18, 18, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_HEALTH, 10, 0, 1, 0
+  .byte entity_index_item, 14, 18, sprite_chr_group_index_bomb, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_BOMB, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 10, 0, 5, 0
+  .byte entity_index_item, 16, 18, sprite_chr_group_index_lantern, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_LANTERN, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 10, 0, 5, 0
+  .byte entity_index_item, 18, 18, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_HEALTH, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 10, 0, 1, 0
 
 meadow1_entity_instances:
   .byte 8  ;count
   .byte entity_index_silmaran, 45, 47, 0, 0
-  .byte entity_index_item, 29, 44, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_HEALTH, 0, 0, 1, 0
+  .byte entity_index_item, 29, 44, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_HEALTH, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
   .byte entity_index_octopus, 4, 24, 0, 0
   .byte entity_index_octopus, 34, 25, 0, 0
   .byte entity_index_octopus, 12, 38, 0, 0

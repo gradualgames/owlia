@@ -20,16 +20,18 @@ ITEM_HEIGHT = $07
 
 ITEM_FADE_OUT_LENGTH = 400
 
-ITEM_PARAMS = 6
+ITEM_PARAMS = 7
 
 item_initial_state = entity_local0
 item_type = entity_local1
-item_price_lo = entity_local2
-item_price_hi = entity_local3
-item_quantity_lo = entity_local4
-item_quantity_hi = entity_local5
-item_fade_out_counter_lo = entity_local6
-item_fade_out_counter_hi = entity_local7
+item_dungeon_flags_mask = entity_local2
+item_price_lo = entity_local3
+item_price_hi = entity_local4
+item_quantity_lo = entity_local5
+item_quantity_hi = entity_local6
+
+item_fade_out_counter_lo = entity_local7
+item_fade_out_counter_hi = entity_local8
 
 .enum
 ITEM_STATE_INIT

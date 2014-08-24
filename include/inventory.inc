@@ -7,6 +7,8 @@ INVENTORY_MAX_HEALTHS = 7
 
 INVENTORY_MAX_GP = 999999
 
+INVENTORY_DUNGEON_FLAGS_MASK_NOP = 0
+
 ;for selecting which item the owl currently can carry
 .enum
 carry_bomb

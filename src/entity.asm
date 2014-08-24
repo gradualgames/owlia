@@ -19,6 +19,7 @@
 .include "soundengine.inc"
 .include "sfx_data.inc"
 .include "util.inc"
+.include "inventory.inc"
 
 .segment "CODE"
 
@@ -270,6 +271,8 @@ entity_not_dead_yet:
   bmi entity_not_spawned
   lda #ITEM_STATE_DROP_RANDOM_ITEM_INIT
   sta item_initial_state,y
+  lda #INVENTORY_DUNGEON_FLAGS_MASK_NOP
+  sta item_dungeon_flags_mask,y
 entity_not_spawned:
   .endscope
 

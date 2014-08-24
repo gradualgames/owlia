@@ -106,6 +106,18 @@ item_update:
 
 item_state_init:
 
+  .scope
+  lda inventory_dungeon_flags
+  and item_dungeon_flags_mask,x
+  beq do_not_skip_item
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+do_not_skip_item:
+  .endscope
+
   jsr entity_clear_drawable
 
   lda #ITEM_WIDTH
@@ -580,6 +592,10 @@ exceeded_max:
   .scope
   jsr entity_test_hero_rect
   bne not_touching_hero
+
+  lda inventory_dungeon_flags
+  ora item_dungeon_flags_mask,x
+  sta inventory_dungeon_flags
 
   ldy item_type,x
   lda item_increment_var_addresses_lo,y

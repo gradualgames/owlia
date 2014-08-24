@@ -122,10 +122,6 @@ treasure_chest_state_opening:
   dec treasure_chest_state_counter,x
   bne do_not_switch_state
 
-  lda inventory_dungeon_flags
-  ora treasure_chest_dungeon_flags_mask,x
-  sta inventory_dungeon_flags
-
   lda #TREASURE_CHEST_STATE_OPENED
   sta entity_state,x
 
@@ -193,6 +189,8 @@ spawn_gp:
   sta item_quantity_lo,y
   lda treasure_chest_item_quantity_hi,x
   sta item_quantity_hi,y
+  lda treasure_chest_dungeon_flags_mask,x
+  sta item_dungeon_flags_mask,y
 
   rts
 
