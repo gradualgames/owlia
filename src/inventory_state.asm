@@ -568,7 +568,7 @@ row_offset = b0
 
   ;draw the tech1 radio button
   clc
-  lda inventory_tech1
+  lda player_tech1
   adc state_control_params+inventory_state_control::techs_chr_offset
   sta chr_group_offset
 
@@ -577,7 +577,7 @@ row_offset = b0
   lda #0
   sta w3+1
 
-  lda inventory_tech1
+  lda player_tech1
   asl
   asl
   asl
@@ -603,7 +603,7 @@ row_offset = b0
 
   ;draw the tech2 radio button
   clc
-  lda inventory_tech2
+  lda player_tech2
   adc state_control_params+inventory_state_control::techs_chr_offset
   sta chr_group_offset
 
@@ -612,7 +612,7 @@ row_offset = b0
   lda #0
   sta w3+1
 
-  lda inventory_tech2
+  lda player_tech2
   asl
   asl
   asl
@@ -850,7 +850,7 @@ menu_item_address = w10
 
   ldy #inventory_state_menu_item::callback_param_value
 
-  lda inventory_earned_techs
+  lda player_earned_techs
   cmp (menu_item_address),y
   bpl :+
   lda #1
@@ -866,7 +866,7 @@ next_menu_position_address = w11
 
   ldy #inventory_state_menu_position::callback_param_value
 
-  lda inventory_earned_techs
+  lda player_earned_techs
   cmp (next_menu_position_address),y
   bpl :+
   lda #1
@@ -889,16 +889,16 @@ menu_position_address = w10
   cmp hero_health
   beq do_not_inc_health
 
-  lda inventory_healths
+  lda player_healths
   beq do_not_inc_health
 
   jsr play_use_item_sound
 
-  dec inventory_healths
+  dec player_healths
 
   inc hero_health
 
-  lda inventory_healths
+  lda player_healths
   sta b0
   lda #0
   sta b1
@@ -939,7 +939,7 @@ menu_position_address = w10
 
   ldy #inventory_state_menu_position::callback_param_value
   lda (menu_position_address),y
-  sta inventory_tech1
+  sta player_tech1
 
   jsr play_action_sound
 
@@ -957,7 +957,7 @@ menu_position_address = w10
 
   ldy #inventory_state_menu_position::callback_param_value
   lda (menu_position_address),y
-  sta inventory_tech2
+  sta player_tech2
 
   jsr play_action_sound
 
@@ -1203,7 +1203,7 @@ homing_string: .byte "HOMING",ES
 
 menu_24_bit_variables:
 gp_variable:
-  .word inventory_gp
+  .word player_gp
   .word is_enabled_callback_nop
   callback_param 0
   .byte 7
@@ -1211,22 +1211,22 @@ gp_variable:
   .word LAST_MENU_ITEM
 
 menu_byte_variables:
-  .word inventory_keys
+  .word player_keys
   .word is_enabled_callback_nop
   callback_param 0
   .byte 8
   .byte 9
-  .word inventory_healths
+  .word player_healths
   .word is_enabled_callback_nop
   callback_param 0
   .byte USE_ITEM_ROW
   .byte 24
-  .word inventory_bombs
+  .word player_bombs
   .word is_enabled_callback_nop
   callback_param 0
   .byte CARRY_LANTERN_ROW
   .byte 24
-  .word inventory_lanterns
+  .word player_lanterns
   .word is_enabled_callback_nop
   callback_param 0
   .byte CARRY_LANTERN_ROW+1

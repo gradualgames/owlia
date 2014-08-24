@@ -27,8 +27,8 @@ treasure_room_state_init:
   jsr entity_set_not_pausable
 
   .scope
-  lda inventory_puzzle_flags
-  and treasure_room_puzzle_flags_mask,x
+  lda player_dungeon_flags
+  and treasure_room_dungeon_flags_mask,x
   beq do_not_skip_treasure_room
 
   lda entity_flags,x
@@ -114,8 +114,8 @@ treasure_room_state_spawn_treasure_chest:
 
   ;parameterize the treasure chest
   ldy spawned_entity
-  lda treasure_room_puzzle_flags_mask,x
-  sta treasure_chest_puzzle_flags_mask,y
+  lda treasure_room_dungeon_flags_mask,x
+  sta treasure_chest_dungeon_flags_mask,y
   lda treasure_room_treasure_chest_type,x
   sta treasure_chest_item_type,y
   lda treasure_room_treasure_chest_quantity_lo,x

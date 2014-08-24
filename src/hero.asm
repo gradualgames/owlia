@@ -83,9 +83,9 @@
 .proc hero_spawn_familiar_spawn_unlock
 
   .ifndef INFINITE_ITEMS
-  lda inventory_keys
+  lda player_keys
   beq no_keys_left
-  dec inventory_keys
+  dec player_keys
   .endif
 
   ;clear out the keyed monolith entity index in case we do not find one
@@ -404,9 +404,9 @@ skip_spawn_carry_hero:
 ;inventory to see if it is even possible to spawn this technique right now.
 .proc hero_spawn_familiar_spawn_carry_bomb
   .ifndef INFINITE_ITEMS
-  lda inventory_bombs
+  lda player_bombs
   beq no_bombs_left
-  dec inventory_bombs
+  dec player_bombs
   .endif
   far_call #FAMILIAR_BANK, familiar_spawn_carry_bomb
 
@@ -435,9 +435,9 @@ no_bombs_left:
 ;inventory to see if it is even possible to spawn this technique right now.
 .proc hero_spawn_familiar_spawn_carry_lantern
   .ifndef INFINITE_ITEMS
-  lda inventory_lanterns
+  lda player_lanterns
   beq no_lanterns_left
-  dec inventory_lanterns
+  dec player_lanterns
   .endif
 
   far_call #FAMILIAR_BANK, familiar_spawn_carry_lantern
@@ -618,14 +618,14 @@ familiar_spawn_tech_hi:
   lda familiar_flags
   and #FAMILIAR_FLAGS_ALIVE_TEST
   bne familiar_still_alive
-  lda inventory_selected_tech
+  lda player_selected_tech
   cmp #tech2
   beq tech2_selected
 tech1_selected:
-  ldx inventory_tech1
+  ldx player_tech1
   jmp done
 tech2_selected:
-  ldx inventory_tech2
+  ldx player_tech2
 done:
 
   cpx #tech_carry_adlanniel
@@ -914,7 +914,7 @@ draw_next_heart:
   bne draw_next_heart
 no_hearts:
 
-  lda inventory_selected_tech
+  lda player_selected_tech
   bne tech2
 tech1:
 
@@ -1331,9 +1331,9 @@ do_not_animate_hero:
 
   ;flip the only bit that is ever set in the selected tech, since
   ;it is only tech1 or tech2 (0 or 1)
-  lda inventory_selected_tech
+  lda player_selected_tech
   eor #%00000001
-  sta inventory_selected_tech
+  sta player_selected_tech
 
   ;start the status flash counter
   lda #HERO_STATUS_FLASH_DISTANCE

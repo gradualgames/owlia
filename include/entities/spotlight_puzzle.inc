@@ -24,10 +24,10 @@ spotlight_puzzle_update:
 
 spotlight_puzzle_state_init:
 
-  lda inventory_puzzle_flags
-  and spotlight_puzzle_flags_mask,x
+  lda player_dungeon_flags
+  and spotlight_dungeon_flags_mask,x
   bne skip_spotlight_puzzle
-  lda inventory_earned_techs
+  lda player_earned_techs
   cmp #tech_carry_bomb
   bpl skip_spotlight_puzzle
   jmp do_not_skip_spotlight_puzzle
@@ -429,8 +429,8 @@ too_far:
   ;forward the puzzle done mask to the key so the key
   ;can mark the puzzle as done when picked up
   ldy spawned_entity
-  lda spotlight_puzzle_flags_mask,x
-  sta key_puzzle_flags_mask,y
+  lda spotlight_dungeon_flags_mask,x
+  sta key_dungeon_flags_mask,y
 
   lda #KEY_STATE_PICKUP
   sta key_initial_state,y

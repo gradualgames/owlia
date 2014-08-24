@@ -62,7 +62,7 @@ MONOLITH_STATE_IDLE
 MONOLITH_PARAMS = 7
 
 monolith_flags = entity_local0
-monolith_unlock_immediately_puzzle_flags_mask = entity_local1
+monolith_unlock_immediately_dungeon_flags_mask = entity_local1
 monolith_direction = entity_local2
 monolith_goto_location_action = entity_local3
 monolith_location_index = entity_local4

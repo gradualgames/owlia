@@ -151,18 +151,18 @@ shadow_spot_screen_y_lo: .res MAX_SHADOW_SPOTS
 shadow_spot_screen_y_hi: .res MAX_SHADOW_SPOTS
 
 ;****************************************************************
-;These variables constitute inventory state for the player.
+;These variables constitute persistent state for the player.
 ;****************************************************************
-inventory_gp:             .res 3
-inventory_keys:           .res 1
-inventory_lanterns:       .res 1
-inventory_bombs:          .res 1
-inventory_healths:        .res 1
-inventory_earned_techs:   .res 1
-inventory_selected_tech:  .res 1
-inventory_tech1:          .res 1
-inventory_tech2:          .res 1
-inventory_puzzle_flags:   .res 1
+player_gp:              .res 3
+player_keys:            .res 1
+player_lanterns:        .res 1
+player_bombs:           .res 1
+player_healths:         .res 1
+player_earned_techs:    .res 1
+player_selected_tech:   .res 1
+player_tech1:           .res 1
+player_tech2:           .res 1
+player_dungeon_flags:   .res 1
 
 ;****************************************************************
 ;These variables describe the hard coded hero entity state.

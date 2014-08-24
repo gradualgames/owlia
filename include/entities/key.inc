@@ -80,10 +80,10 @@ key_state_pickup:
   sta sound_param_byte_1
   far_call #SFX_BANK, stream_initialize
 
-  ;mark the puzzle flag associated with this key
-  lda inventory_puzzle_flags
-  ora key_puzzle_flags_mask,x
-  sta inventory_puzzle_flags
+  ;mark the dungeon flag associated with this key
+  lda player_dungeon_flags
+  ora key_dungeon_flags_mask,x
+  sta player_dungeon_flags
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR

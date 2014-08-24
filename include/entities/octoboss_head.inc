@@ -76,7 +76,7 @@ octoboss_head_update:
 octoboss_head_state_init:
 
   ;make sure that the boss has only been encountered once
-  lda inventory_earned_techs
+  lda player_earned_techs
   cmp #tech_carry_bomb
   bmi do_not_skip_octoboss
 

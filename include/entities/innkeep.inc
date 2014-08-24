@@ -190,20 +190,20 @@ stay:
   .scope
   ;check to see if hero has enough gp
   sec
-  lda inventory_gp
+  lda player_gp
   sbc innkeep_price,x
-  lda inventory_gp+1
+  lda player_gp+1
   sbc #$00
   bmi not_enough_gp
 
   ;decrement price from gp
   sec
-  lda inventory_gp
+  lda player_gp
   sbc innkeep_price,x
-  sta inventory_gp
-  lda inventory_gp+1
+  sta player_gp
+  lda player_gp+1
   sbc #$00
-  sta inventory_gp+1
+  sta player_gp+1
 
   ;take over the controller, the innkeep entity will move the hero to the
   ;bed using the passed in parameters for how far to move

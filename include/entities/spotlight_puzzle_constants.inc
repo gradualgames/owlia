@@ -8,7 +8,7 @@ SPOTLIGHT_PUZZLE_STATE_PLAY_SOLVED_MELODY_DELAY = 20
 SPOTLIGHT_PUZZLE_PARAMS = 4
 
 spotlight_puzzle_initial_state = entity_local0
-spotlight_puzzle_flags_mask = entity_local1
+spotlight_dungeon_flags_mask = entity_local1
 spotlight_puzzle_key_meta_tile_x = entity_local2
 spotlight_puzzle_key_meta_tile_y = entity_local3
 

@@ -13,6 +13,6 @@ KEY_STATE_PASSIVE
 .endenum
 
 key_initial_state = entity_local0
-key_puzzle_flags_mask = entity_local1
+key_dungeon_flags_mask = entity_local1
 
 .endif

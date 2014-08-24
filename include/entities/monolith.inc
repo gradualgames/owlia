@@ -65,9 +65,9 @@ done:
   cmp #MONOLITH_TYPE_KEYED
   bne not_keyed_monolith
 
-  ;if so, is our "unlock immediately" flag set within the puzzle flags?
-  lda monolith_unlock_immediately_puzzle_flags_mask,x
-  and inventory_puzzle_flags
+  ;if so, is our "unlock immediately" flag set within the dungeon flags?
+  lda monolith_unlock_immediately_dungeon_flags_mask,x
+  and player_dungeon_flags
   beq not_set_to_immediately_unlock
 
   ;if so, initialize the falling state machine immediately.

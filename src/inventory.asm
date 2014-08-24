@@ -6,57 +6,57 @@
 .proc inventory_init
 
   lda #0
-  sta inventory_lanterns
-  sta inventory_bombs
-  sta inventory_healths
-  sta inventory_keys
+  sta player_lanterns
+  sta player_bombs
+  sta player_healths
+  sta player_keys
 
   .ifdef LANTERNS
   lda #LANTERNS
-  sta inventory_lanterns
+  sta player_lanterns
   .endif
 
   .ifdef BOMBS
   lda #BOMBS
-  sta inventory_bombs
+  sta player_bombs
   .endif
 
   .ifdef HEALTHS
   lda #HEALTHS
-  sta inventory_healths
+  sta player_healths
   .endif
 
   .ifdef KEYS
   lda #KEYS
-  sta inventory_keys
+  sta player_keys
   .endif
 
   .ifndef EARNED_TECH
   lda #tech_fetch
-  sta inventory_earned_techs
+  sta player_earned_techs
   .else
   lda #EARNED_TECH
-  sta inventory_earned_techs
+  sta player_earned_techs
   .endif
 
   lda #tech_rush
-  sta inventory_tech1
+  sta player_tech1
   lda #tech_fetch
-  sta inventory_tech2
+  sta player_tech2
 
   ;select tech1 as the currently active tech
   lda #tech1
-  sta inventory_selected_tech
+  sta player_selected_tech
 
   lda #<0
-  sta inventory_gp
+  sta player_gp
   lda #>0
-  sta inventory_gp+1
+  sta player_gp+1
   lda #^0
-  sta inventory_gp+2
+  sta player_gp+2
 
   lda #0
-  sta inventory_puzzle_flags
+  sta player_dungeon_flags
 
   rts
 
@@ -67,10 +67,10 @@
 ;if key was added.
 .proc inventory_add_key
 
-  lda inventory_keys
+  lda player_keys
   cmp #7
   beq cannot_add_key
-  inc inventory_keys
+  inc player_keys
   rts
 cannot_add_key:
   rts
@@ -82,10 +82,10 @@ cannot_add_key:
 ;if key was removed.
 .proc inventory_use_key
 
-  lda inventory_keys
+  lda player_keys
   cmp #0
   beq cannot_remove_key
-  dec inventory_keys
+  dec player_keys
   rts
 cannot_remove_key:
   rts
@@ -94,14 +94,14 @@ cannot_remove_key:
 
 .proc inventory_can_use_key
 
-  lda inventory_keys
+  lda player_keys
   rts
 
 .endproc
 
 .proc inventory_can_add_key
 
-  lda inventory_keys
+  lda player_keys
   cmp #7
   rts
 

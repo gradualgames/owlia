@@ -23,7 +23,7 @@ TREASURE_CHEST_ITEM_TYPE_BOMB
 
 TREASURE_CHEST_PARAMS = 4
 
-treasure_chest_puzzle_flags_mask = entity_local0
+treasure_chest_dungeon_flags_mask = entity_local0
 treasure_chest_item_type = entity_local1
 treasure_chest_item_quantity_lo = entity_local2
 treasure_chest_item_quantity_hi = entity_local3

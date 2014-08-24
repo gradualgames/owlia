@@ -19,7 +19,7 @@ item_animation_addresses_hi:
   .hibytes item_animation_addresses
 
 .define item_inventory_addresses \
-  inventory_gp, inventory_healths, inventory_bombs, inventory_lanterns
+  player_gp, player_healths, player_bombs, player_lanterns
 
 item_inventory_addresses_lo:
   .lobytes item_inventory_addresses
@@ -207,12 +207,12 @@ item_state_add_item_or_not:
 
   ;Test to see if player has enough gp
   sec
-  lda inventory_gp
+  lda player_gp
   sbc item_price_lo,x
-  lda inventory_gp+1
+  lda player_gp+1
   sbc item_price_hi,x
   ;only 16 bit positive prices are allowed---use 0 for hi hi byte
-  lda inventory_gp+2
+  lda player_gp+2
   sbc #$00
   bmi not_enough_gp
 
@@ -220,15 +220,15 @@ item_state_add_item_or_not:
   jsr increment_var
 
   sec
-  lda inventory_gp
+  lda player_gp
   sbc item_price_lo,x
-  sta inventory_gp
-  lda inventory_gp+1
+  sta player_gp
+  lda player_gp+1
   sbc item_price_hi,x
-  sta inventory_gp+1
-  lda inventory_gp+2
+  sta player_gp+1
+  lda player_gp+2
   sbc #$00
-  sta inventory_gp+2
+  sta player_gp+2
 
   ;play a sound
   lda #<sfx_get_item

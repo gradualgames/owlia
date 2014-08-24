@@ -66,7 +66,7 @@ rescueowl_update:
 rescueowl_state_init:
 
   ;make sure that rescue owl has only been rescued once
-  lda inventory_earned_techs
+  lda player_earned_techs
   ldy rescueowl_type,x
   cmp rescueowl_earned_techs,y
   bmi do_not_skip_rescueowl
@@ -195,7 +195,7 @@ rescueowl_state_released_init:
 
   ldy rescueowl_type,x
   lda rescueowl_earned_techs,y
-  sta inventory_earned_techs
+  sta player_earned_techs
 
   ;take over the controller.
   jsr controller_clear

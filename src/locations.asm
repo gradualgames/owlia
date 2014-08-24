@@ -307,9 +307,9 @@ dungeon_1_0_entity_instances:
 dungeon_2_0_entity_instances:
   .byte 4
   .byte entity_index_anglerfish, 36, 5, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_OPPOSITE, ANGLERFISH_TURN_LENGTH_LONG, ANGLERFISH_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 0, 0
-  .byte entity_index_spotlight_puzzle, 0, 0, 0, SPOTLIGHT_PUZZLE_PARAMS, SPOTLIGHT_PUZZLE_STATE_SINGLE_ANGLERFISH, DUNGEON1_PUZZLE_FLAGS_SINGLE_ANGLERFISH_COMPLETE, 40, 6
+  .byte entity_index_spotlight_puzzle, 0, 0, 0, SPOTLIGHT_PUZZLE_PARAMS, SPOTLIGHT_PUZZLE_STATE_SINGLE_ANGLERFISH, DUNGEON1_DUNGEON_FLAGS_SINGLE_ANGLERFISH_COMPLETE, 40, 6
   .byte entity_index_monolith, 46, 10, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON1_PUZZLE_FLAGS_DOOR1_UNLOCKED, \
+                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON1_DUNGEON_FLAGS_DOOR1_UNLOCKED, \
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon_3_0_w, \
                                           1, 5
@@ -329,7 +329,7 @@ dungeon_3_0_entity_instances:
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon_2_0_e, \
                                           0, 4
   .byte entity_index_monolith, 55, 4, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON1_PUZZLE_FLAGS_DOOR2_UNLOCKED, \
+                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON1_DUNGEON_FLAGS_DOOR2_UNLOCKED, \
                                           MONOLITH_DIRECTION_NORTH, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon1_boss_entrance, \
                                           1, 2
@@ -371,7 +371,7 @@ dungeon_1_1_entity_instances:
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_2_1_w, \
                                           0, 5
-  .byte entity_index_treasure_room, 22, 25, 0, TREASURE_ROOM_PARAMS, DUNGEON1_PUZZLE_FLAGS_TREASURE_ROOM1_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_treasure_room, 22, 25, 0, TREASURE_ROOM_PARAMS, DUNGEON1_DUNGEON_FLAGS_TREASURE_ROOM1_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon_2_1_entity_instances:
   .byte 5
@@ -474,7 +474,7 @@ dungeon_3_2_entity_instances:
 
 dungeon_0_3_entity_instances:
   .byte 6
-  .byte entity_index_treasure_chest, 3, 51, 0, TREASURE_CHEST_PARAMS, DUNGEON1_PUZZLE_FLAGS_TREASURE_CHEST1_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_treasure_chest, 3, 51, 0, TREASURE_CHEST_PARAMS, DUNGEON1_DUNGEON_FLAGS_TREASURE_CHEST1_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_crab, 12, 52, sprite_chr_group_index_crab, 0
   .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, \
@@ -526,7 +526,7 @@ dungeon_3_3_entity_instances:
   .byte 4
   .byte entity_index_anglerfish, 52, 47, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_LEFT, ANGLERFISH_TURN_LENGTH, ANGLERFISH_DIRECTION_DOWN, ANGLERFISH_SPOTLIGHT_OFF, 4, 4
   .byte entity_index_anglerfish, 59, 47, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_RIGHT, ANGLERFISH_TURN_LENGTH, ANGLERFISH_DIRECTION_DOWN, ANGLERFISH_SPOTLIGHT_ON, 4, 4
-  .byte entity_index_spotlight_puzzle, 0, 0, 0, SPOTLIGHT_PUZZLE_PARAMS, SPOTLIGHT_PUZZLE_STATE_TWIN_ANGLERFISH, DUNGEON1_PUZZLE_FLAGS_TWIN_ANGLERFISH_COMPLETE, 56, 51
+  .byte entity_index_spotlight_puzzle, 0, 0, 0, SPOTLIGHT_PUZZLE_PARAMS, SPOTLIGHT_PUZZLE_STATE_TWIN_ANGLERFISH, DUNGEON1_DUNGEON_FLAGS_TWIN_ANGLERFISH_COMPLETE, 56, 51
   .byte entity_index_monolith, 49, 56, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, 0, \
                                           MONOLITH_DIRECTION_WEST, \

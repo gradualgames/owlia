@@ -23,8 +23,8 @@ treasure_chest_update:
 treasure_chest_state_init:
 
   .scope
-  lda inventory_puzzle_flags
-  and treasure_chest_puzzle_flags_mask,x
+  lda player_dungeon_flags
+  and treasure_chest_dungeon_flags_mask,x
   beq do_not_skip_treasure_chest
 
   lda entity_flags,x
@@ -122,9 +122,9 @@ treasure_chest_state_opening:
   dec treasure_chest_state_counter,x
   bne do_not_switch_state
 
-  lda inventory_puzzle_flags
-  ora treasure_chest_puzzle_flags_mask,x
-  sta inventory_puzzle_flags
+  lda player_dungeon_flags
+  ora treasure_chest_dungeon_flags_mask,x
+  sta player_dungeon_flags
 
   lda #TREASURE_CHEST_STATE_OPENED
   sta entity_state,x

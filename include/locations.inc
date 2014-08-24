@@ -196,16 +196,16 @@ location_index_dungeon1_boss_area_owl_dungeon
 .endenum
 
 ;****************************************************************
-;These constants define flags for dungeon puzzles, per dungeon.
-;I couldn't think of a nicer way to do this. So we have flags for
-;having solved individual puzzles, and also flags for whether
-;keyed monoliths have already been unlocked.
+;These constants define flags for dungeon state, per dungeon.
+;The 8 bits in player_dungeon_flags will be modified/checked
+;using these bits, per dungeon, to keep track of solved puzzles,
+;unlocked doors, or obtained treasure.
 ;****************************************************************
-DUNGEON1_PUZZLE_FLAGS_SINGLE_ANGLERFISH_COMPLETE = %00000001
-DUNGEON1_PUZZLE_FLAGS_TWIN_ANGLERFISH_COMPLETE   = %00000010
-DUNGEON1_PUZZLE_FLAGS_DOOR1_UNLOCKED             = %00000100
-DUNGEON1_PUZZLE_FLAGS_DOOR2_UNLOCKED             = %00001000
-DUNGEON1_PUZZLE_FLAGS_TREASURE_ROOM1_OBTAINED    = %00010000
-DUNGEON1_PUZZLE_FLAGS_TREASURE_CHEST1_OBTAINED   = %00100000
+DUNGEON1_DUNGEON_FLAGS_SINGLE_ANGLERFISH_COMPLETE = %00000001
+DUNGEON1_DUNGEON_FLAGS_TWIN_ANGLERFISH_COMPLETE   = %00000010
+DUNGEON1_DUNGEON_FLAGS_DOOR1_UNLOCKED             = %00000100
+DUNGEON1_DUNGEON_FLAGS_DOOR2_UNLOCKED             = %00001000
+DUNGEON1_DUNGEON_FLAGS_TREASURE_ROOM1_OBTAINED    = %00010000
+DUNGEON1_DUNGEON_FLAGS_TREASURE_CHEST1_OBTAINED   = %00100000
 
 .endif

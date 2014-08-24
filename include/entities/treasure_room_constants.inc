@@ -9,7 +9,7 @@ TREASURE_ROOM_STATE_SPAWN_TREASURE_CHEST
 
 TREASURE_ROOM_PARAMS = 4
 
-treasure_room_puzzle_flags_mask = entity_local0
+treasure_room_dungeon_flags_mask = entity_local0
 treasure_room_treasure_chest_type = entity_local1
 treasure_room_treasure_chest_quantity_lo = entity_local2
 treasure_room_treasure_chest_quantity_hi = entity_local3

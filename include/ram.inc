@@ -95,16 +95,16 @@ MAX_SHADOW_SPOTS = 12
 .global shadow_spot_screen_y_lo
 .global shadow_spot_screen_y_hi
 
-.global inventory_gp
-.global inventory_keys
-.global inventory_lanterns
-.global inventory_bombs
-.global inventory_healths
-.global inventory_earned_techs
-.global inventory_selected_tech
-.global inventory_tech1
-.global inventory_tech2
-.global inventory_puzzle_flags
+.global player_gp
+.global player_keys
+.global player_lanterns
+.global player_bombs
+.global player_healths
+.global player_earned_techs
+.global player_selected_tech
+.global player_tech1
+.global player_tech2
+.global player_dungeon_flags
 
 .global hero_ram_start
 .global hero_flags
