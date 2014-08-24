@@ -26,12 +26,7 @@ spotlight_puzzle_state_init:
 
   lda inventory_dungeon_flags
   and spotlight_dungeon_flags_mask,x
-  bne skip_spotlight_puzzle
-  lda inventory_earned_techs
-  cmp #tech_carry_bomb
-  bpl skip_spotlight_puzzle
-  jmp do_not_skip_spotlight_puzzle
-skip_spotlight_puzzle:
+  beq do_not_skip_spotlight_puzzle
 
   .scope
   ;search for all anglerfish and spotlight entities and kill them
