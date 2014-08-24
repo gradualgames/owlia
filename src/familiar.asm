@@ -1155,9 +1155,9 @@ not_at_keyhole_yet:
   sta monolith_flags,x
 
   ;in addition, set the dungeon flags bit using the monolith's "unlock immediately" dungeon flags mask
-  lda player_dungeon_flags
+  lda inventory_dungeon_flags
   ora monolith_unlock_immediately_dungeon_flags_mask,x
-  sta player_dungeon_flags
+  sta inventory_dungeon_flags
 
   ;transition to the fall with monolith state
   lda #FAMILIAR_STATE_UNLOCK_FALL_WITH_MONOLITH

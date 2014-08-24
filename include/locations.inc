@@ -197,7 +197,7 @@ location_index_dungeon1_boss_area_owl_dungeon
 
 ;****************************************************************
 ;These constants define flags for dungeon state, per dungeon.
-;The 8 bits in player_dungeon_flags will be modified/checked
+;The 8 bits in inventory_dungeon_flags will be modified/checked
 ;using these bits, per dungeon, to keep track of solved puzzles,
 ;unlocked doors, or obtained treasure.
 ;****************************************************************

@@ -60,7 +60,7 @@ silmaran_update:
 silmaran_state_init:
 
   ;make sure that Silmaran has only been encountered once
-  lda player_earned_techs
+  lda inventory_earned_techs
   cmp #SILMARAN_EARNED_TECH
   bmi do_not_skip_silmaran
 
@@ -333,7 +333,7 @@ silmaran_state_ascend:
 
   ;earn the unlock technique
   lda #SILMARAN_EARNED_TECH
-  sta player_earned_techs
+  sta inventory_earned_techs
 
   ;restore control to the player
   lda #$ff

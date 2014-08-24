@@ -81,9 +81,9 @@ key_state_pickup:
   far_call #SFX_BANK, stream_initialize
 
   ;mark the dungeon flag associated with this key
-  lda player_dungeon_flags
+  lda inventory_dungeon_flags
   ora key_dungeon_flags_mask,x
-  sta player_dungeon_flags
+  sta inventory_dungeon_flags
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR

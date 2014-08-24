@@ -67,7 +67,7 @@ done:
 
   ;if so, is our "unlock immediately" flag set within the dungeon flags?
   lda monolith_unlock_immediately_dungeon_flags_mask,x
-  and player_dungeon_flags
+  and inventory_dungeon_flags
   beq not_set_to_immediately_unlock
 
   ;if so, initialize the falling state machine immediately.

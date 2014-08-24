@@ -27,7 +27,7 @@ treasure_room_state_init:
   jsr entity_set_not_pausable
 
   .scope
-  lda player_dungeon_flags
+  lda inventory_dungeon_flags
   and treasure_room_dungeon_flags_mask,x
   beq do_not_skip_treasure_room
 

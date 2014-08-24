@@ -122,7 +122,7 @@ scroll_direction_opposite:
 
   clc
   lda #sprite_chr_group_index_rushtech
-  adc player_tech1
+  adc inventory_tech1
   tax
   lda sprite_chr_group_addresses_lo,x
   sta w0
@@ -137,7 +137,7 @@ scroll_direction_opposite:
 
   clc
   lda #sprite_chr_group_index_rushtech
-  adc player_tech2
+  adc inventory_tech2
   tax
   lda sprite_chr_group_addresses_lo,x
   sta w0
