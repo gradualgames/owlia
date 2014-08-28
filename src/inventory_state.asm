@@ -65,9 +65,9 @@ inventory_state_init:
   lda #$00
   sta b3
 
-  lda #<inventory_chr
+  lda #<inventory_bg_chr
   sta w0
-  lda #>inventory_chr
+  lda #>inventory_bg_chr
   sta w0+1
   far_call #INVENTORY_STATE_BG_CHR_BANK, ppu_load_chr_amount
 

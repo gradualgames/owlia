@@ -16,7 +16,7 @@ BG_CHR_DATA_BANK2 = 9
 .global dungeon1_main_chr
 .global dungeon1_pool_chr
 .global dungeon1_stones_chr
-.global inventory_chr
+.global inventory_bg_chr
 .global title_chr
 .global game_over_chr
 .global intro_cut_scene_great_owls_bg_chr

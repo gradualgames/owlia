@@ -19,6 +19,9 @@ include_paths = ["include",
                  "include/songs",
                  "include/sprites_and_animations"]
 
+bin_include_paths = ["include/bg_chr_data",
+                     "include/spr_chr_data"]
+
 files =["zp.asm",
         "ram.asm",
         "soundengine.asm",
@@ -72,6 +75,9 @@ def make_build(additional_args):
     abs_include_paths = []
     for include_path in include_paths:
         abs_include_paths.append(os.path.normpath(include_path))
+    abs_bin_include_paths = []
+    for bin_include_path in bin_include_paths:
+        abs_bin_include_paths.append(os.path.normpath(bin_include_path))
 
     file_names = [os.path.splitext(file_name)[0]
         for file_name in files]
@@ -81,6 +87,10 @@ def make_build(additional_args):
     for abs_include_path in abs_include_paths:
         ca65_args.append("-I")
         ca65_args.append(abs_include_path)
+
+    for abs_bin_include_path in abs_bin_include_paths:
+        ca65_args.append("--bin-include-dir")
+        ca65_args.append(abs_bin_include_path)
 
     clean_build()
     os.makedirs(bin_path, exist_ok=True)
