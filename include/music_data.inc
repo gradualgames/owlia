@@ -1,7 +1,7 @@
 .ifndef MUSIC_DATA_INC
 MUSIC_DATA_INC = 1
 
-MUSIC_BANK = 4
+MUSIC_BANK = 5
 
 .global hero_theme
 .global dungeon_theme

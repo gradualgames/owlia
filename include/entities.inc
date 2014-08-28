@@ -36,31 +36,31 @@ entity_index_cage
 entity_index_monolith
 .endenum
 
-entity_update_bank_instance_placeholder = 5
-entity_update_bank_explosion = 5
-entity_update_bank_bomb = 5
-entity_update_bank_octopus = 5
-entity_update_bank_npc = 5
-entity_update_bank_key = 5
-entity_update_bank_treasure_chest = 5
-entity_update_bank_lantern = 5
-entity_update_bank_item = 5
-entity_update_bank_innkeep = 5
-entity_update_bank_pufferfish = 5
-entity_update_bank_crab = 5
-entity_update_bank_traproom = 5
-entity_update_bank_treasure_room = 5
-entity_update_bank_anglerfish = 5
-entity_update_bank_spotlight = 5
-entity_update_bank_spotlight_puzzle = 5
-entity_update_bank_octoboss_head = 5
-entity_update_bank_octoboss_legs = 5
-entity_update_bank_splash = 5
-entity_update_bank_intro = 5
-entity_update_bank_silmaran = 5
-entity_update_bank_rescueowl = 5
-entity_update_bank_cage = 5
-entity_update_bank_monolith = 5
+entity_update_bank_instance_placeholder = 4
+entity_update_bank_explosion = 4
+entity_update_bank_bomb = 4
+entity_update_bank_octopus = 4
+entity_update_bank_npc = 4
+entity_update_bank_key = 4
+entity_update_bank_treasure_chest = 4
+entity_update_bank_lantern = 4
+entity_update_bank_item = 4
+entity_update_bank_innkeep = 4
+entity_update_bank_pufferfish = 4
+entity_update_bank_crab = 4
+entity_update_bank_traproom = 4
+entity_update_bank_treasure_room = 4
+entity_update_bank_anglerfish = 4
+entity_update_bank_spotlight = 4
+entity_update_bank_spotlight_puzzle = 4
+entity_update_bank_octoboss_head = 4
+entity_update_bank_octoboss_legs = 4
+entity_update_bank_splash = 4
+entity_update_bank_intro = 4
+entity_update_bank_silmaran = 4
+entity_update_bank_rescueowl = 4
+entity_update_bank_cage = 4
+entity_update_bank_monolith = 4
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 6

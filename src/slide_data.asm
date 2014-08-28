@@ -5,7 +5,7 @@
 .include "nametable_data.inc"
 .include "sprites_and_animations_data.inc"
 
-.segment "ROM10"
+.segment "ROM00"
 
 intro_cut_scene_great_owls_palette:
   .byte $0e,$08,$18,$20,$0e,$18,$38,$20,$0e,$08,$38,$20,$0e,$28,$10,$20
@@ -33,7 +33,7 @@ intro_cut_scene_silmaran_palette:
 intro_cut_scene_great_owls:
   .byte 9                                              ; bg_chr_bank .byte
   .word intro_cut_scene_great_owls_bg_chr              ; bg_chr_address .word
-  .byte 13                                             ; nametable_bank .byte
+  .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
   .word intro_cut_scene_great_owls_nametable           ; nametable_address .word
   .word intro_cut_scene_great_owls_palette             ; palette_address .word
   .byte conversation_index_intro_cut_scene_owls_text   ; conversation_index .byte
@@ -43,7 +43,7 @@ intro_cut_scene_great_owls:
 intro_cut_scene_mermon:
   .byte 9                                              ; bg_chr_bank .byte
   .word intro_cut_scene_mermon_bg_chr                  ; bg_chr_address .word
-  .byte 13                                             ; nametable_bank .byte
+  .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
   .word intro_cut_scene_mermon_nametable               ; nametable_address .word
   .word intro_cut_scene_mermon_palette                 ; palette_address .word
   .byte conversation_index_intro_cut_scene_mermon_text ; conversation_index .byte
@@ -53,7 +53,7 @@ intro_cut_scene_mermon:
 intro_cut_scene_mermon_mad:
   .byte 9                                                    ; bg_chr_bank .byte
   .word intro_cut_scene_mermon_mad_bg_chr                    ; bg_chr_address .word
-  .byte 13                                                   ; nametable_bank .byte
+  .byte NAMETABLE_DATA_BANK1                                 ; nametable_bank .byte
   .word intro_cut_scene_mermon_mad_nametable                 ; nametable_address .word
   .word intro_cut_scene_mermon_mad_palette                   ; palette_address .word
   .byte conversation_index_intro_cut_scene_mermon_mad_text   ; conversation_index .byte
@@ -61,9 +61,9 @@ intro_cut_scene_mermon_mad:
   .word 0                                                    ; sprite_overlays_address .word
 
 intro_cut_scene_mermon_leer:
-  .byte 13                                                   ; bg_chr_bank .byte
+  .byte 10                                                   ; bg_chr_bank .byte
   .word intro_cut_scene_mermon_leer_bg_chr                   ; bg_chr_address .word
-  .byte 13                                                   ; nametable_bank .byte
+  .byte NAMETABLE_DATA_BANK1                                 ; nametable_bank .byte
   .word intro_cut_scene_mermon_leer_nametable                ; nametable_address .word
   .word intro_cut_scene_mermon_leer_palette                  ; palette_address .word
   .byte conversation_index_intro_cut_scene_mermon_leer_text  ; conversation_index .byte
@@ -71,9 +71,9 @@ intro_cut_scene_mermon_leer:
   .word intro_cut_scene_slide4_sprite_overlays               ; sprite_overlays_address .word
 
 intro_cut_scene_silmaran:
-  .byte 13                                                   ; bg_chr_bank .byte
+  .byte 10                                                   ; bg_chr_bank .byte
   .word intro_cut_scene_silmaran_bg_chr                      ; bg_chr_address .word
-  .byte 13                                                   ; nametable_bank .byte
+  .byte NAMETABLE_DATA_BANK1                                 ; nametable_bank .byte
   .word intro_cut_scene_silmaran_nametable                   ; nametable_address .word
   .word intro_cut_scene_silmaran_palette                     ; palette_address .word
   .byte conversation_index_intro_cut_scene_silmaran_text     ; conversation_index .byte

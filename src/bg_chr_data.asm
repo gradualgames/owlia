@@ -58,7 +58,7 @@ intro_cut_scene_mermon_bg_chr:
 intro_cut_scene_mermon_mad_bg_chr:
 .incbin "intro_cut_scene_mermon_mad_bg.chr"
 
-.segment "ROM13"
+.segment "ROM10"
 
 intro_cut_scene_mermon_leer_bg_chr:
 .incbin "intro_cut_scene_mermon_leer_bg.chr"

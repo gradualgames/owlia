@@ -1,7 +1,7 @@
 .ifndef SLIDE_DATA_INC
 SLIDE_DATA_INC = 1
 
-SLIDE_DATA_BANK = 10
+SLIDE_DATA_BANK = 0
 LAST_SLIDE = 255
 
 .struct slide

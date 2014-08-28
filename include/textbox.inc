@@ -7,7 +7,7 @@ TEXTBOX_INC = 1
 ;please note, this bank is intended to be the same as CONVERSATIONS_BANK,
 ;as the run_conversation routine assumes that the conversation data is
 ;loaded in the same bank as the textbox code.
-TEXTBOX_BANK = 10
+TEXTBOX_BANK = 1
 
 TEXTBOX_PLAY_STATE_ROW = (16 * 9)
 TEXTBOX_CUT_SCENE_ROW = (16 * 10)

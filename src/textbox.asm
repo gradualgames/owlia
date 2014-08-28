@@ -162,7 +162,7 @@ end_of_string:
 
 .endproc
 
-.segment "ROM10"
+.segment "ROM01"
 
 ;This routine takes an address of a conversation script as a
 ;parameter in w0 and then reads the script to display text on

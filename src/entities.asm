@@ -121,7 +121,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_cage
   .byte 0 ;entity_sprites_and_animations_bank_monolith
 
-.segment "ROM05"
+.segment "ROM04"
 .include "instance_placeholder.inc"
 .include "explosion.inc"
 .include "bomb.inc"
