@@ -20,8 +20,14 @@ TECH1_OFFSET = -4
 TECH2_OFFSET = -2
 
 .global inventory_state_init
+.global inventory_screen_palette
 
 .struct inventory_state_control
+  ;params---inventory state must be told what palette to fade out from,
+  ;because it can be entered from either the play state or the current password state.
+  fade_out_palette_bank .byte
+  fade_out_palette_address .word
+
   nametable_hi .byte
   current_menu_position_address .word
   cursor_chr_offset .byte

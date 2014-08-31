@@ -865,6 +865,17 @@ play_state_action_transition_to_inventory_state:
   clear_vblank_done
   wait_vblank_done
 
+  ;tell the inventory state what palette to fade out from
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::palette_address
+  lda (location_address),y
+  sta state_control_params+inventory_state_control::fade_out_palette_address
+  iny
+  lda (location_address),y
+  sta state_control_params+inventory_state_control::fade_out_palette_address+1
+  lda #LOCATIONS_BANK
+  sta state_control_params+inventory_state_control::fade_out_palette_bank
+
   switch_bank_ldy #INVENTORY_STATE_BANK
   jmp inventory_state_init
 

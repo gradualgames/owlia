@@ -1,6 +1,7 @@
 .linecont +
 .include "map.inc"
 .include "play_state.inc"
+.include "current_password_state.inc"
 .include "controller.inc"
 .include "bg_chr_data.inc"
 .include "nametable_data.inc"
@@ -41,10 +42,10 @@ inventory_state_init:
 
   far_call #SFX_BANK, stream_initialize
 
-
   ;fade out from current palette
-  far_copy #LOCATIONS_BANK, location_address, palette_address, #location::palette_address, #0, #2
-  far_call #LOCATIONS_BANK, ppu_fade_out_palette
+  ;far_copy #LOCATIONS_BANK, location_address, palette_address, #location::palette_address, #0, #2
+  ;far_call #LOCATIONS_BANK, ppu_fade_out_palette
+  far_call state_control_params+inventory_state_control::fade_out_palette_bank, ppu_fade_out_palette
 
   ;set blank nmi routine
   safely_set_vblank_routine ppu_vblank_nop
@@ -206,6 +207,7 @@ next_tech:
 
 inventory_state_main:
 
+  clear_vblank_done
   wait_vblank_done
 
   jsr controller_read
@@ -220,9 +222,17 @@ inventory_state_main:
   cmp #%00000001
   beq inventory_state_exit
 
-  clear_vblank_done
+  ;test select button
+  lda buffer_controller+buttons::_select
+  and #%00000011
+  cmp #%00000001
+  beq transition_to_current_password_state
 
   jmp inventory_state_main
+
+transition_to_current_password_state:
+
+  jmp current_password_state_init
 
 inventory_state_exit:
 
