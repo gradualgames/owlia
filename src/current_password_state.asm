@@ -114,7 +114,7 @@ current_password_state_init:
   jsr inventory_generate_password_string
 
   ;print the password underneath the current password string
-  print_string string_buffer, state_control_params+current_password_state_control::nametable_hi, #13, #10
+  print_string string_buffer, state_control_params+current_password_state_control::nametable_hi, #14, #10
 
   ;reset scroll
   lda state_control_params+current_password_state_control::nametable_hi
