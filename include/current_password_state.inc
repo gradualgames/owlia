@@ -8,6 +8,7 @@ CURRENT_PASSWORD_STATE_BANK = 1
 
 .struct current_password_state_control
   nametable_hi .byte
+  password_field .byte 6
 .endstruct
 
 .endif

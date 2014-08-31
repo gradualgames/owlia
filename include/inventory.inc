@@ -50,5 +50,7 @@ tech_homing_earned
 .global inventory_use_key
 .global inventory_can_add_key
 .global inventory_can_use_key
+.global inventory_generate_password_bit_field
+.global inventory_generate_password_string
 
 .endif

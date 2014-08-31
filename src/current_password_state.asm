@@ -1,6 +1,7 @@
 .include "mapper.inc"
 .include "ppu.inc"
 .include "current_password_state.inc"
+.include "inventory.inc"
 .include "inventory_state.inc"
 .include "zp.inc"
 .include "ram.inc"
@@ -9,12 +10,28 @@
 .include "locations.inc"
 .include "controller.inc"
 .include "charmap.inc"
+.include "soundengine.inc"
+.include "sfx_data.inc"
+.include "ndxdebug.h"
 
 .segment "ROM01"
 
 current_password_string: .byte "CURRENT PASSWORD",ES
 
 current_password_state_init:
+
+  ;play a sound
+  lda #<sfx_inventory
+  sta sound_param_word_0
+  lda #>sfx_inventory
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SFX_BANK, stream_initialize
 
   ;fade out from current palette (assumed to be inventory state palette, previously
   ;loaded into palette_address)
@@ -81,6 +98,23 @@ current_password_state_init:
   lda textbox_and_font_chr_offset
   sta chr_group_offset
   print_string current_password_string, state_control_params+current_password_state_control::nametable_hi, #12, #8
+
+  ;generate password bit field from inventory state
+  lda #<state_control_params+current_password_state_control::password_field
+  sta w0
+  lda #>state_control_params+current_password_state_control::password_field
+  sta w0+1
+  jsr inventory_generate_password_bit_field
+
+  ;generate password string from password field
+  lda #<string_buffer
+  sta w1
+  lda #>string_buffer
+  sta w1+1
+  jsr inventory_generate_password_string
+
+  ;print the password underneath the current password string
+  print_string string_buffer, state_control_params+current_password_state_control::nametable_hi, #13, #10
 
   ;reset scroll
   lda state_control_params+current_password_state_control::nametable_hi

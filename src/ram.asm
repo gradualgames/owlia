@@ -55,7 +55,7 @@ sprite_chr_group_offsets: .res 16
 ;A buffer used for any sort of string data that must be decoded
 ;or computed such as a decimal representation of a number.
 ;****************************************************************
-string_buffer: .res 8
+string_buffer: .res 16
 
 ;****************************************************************
 ;This is used to indicate to the entity_draw_all routine which
