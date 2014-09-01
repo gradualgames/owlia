@@ -100,6 +100,8 @@ start_game_state_init:
   lda #NEW_GAME
   sta state_control_params+start_game_state_control::menu_position
 
+  jsr start_game_state_draw_cursor
+
   ;reset scroll
   lda #$20
   sta ppu_2006
@@ -169,6 +171,12 @@ skip_change_menu_selection:
 skip_menu_selection_chosen:
   .endscope
 
+  jsr start_game_state_draw_cursor
+
+  jmp start_game_state_main
+
+.proc start_game_state_draw_cursor
+
   jsr sprite_clear_all
 
   lda #<cursor_meta_sprite
@@ -192,7 +200,9 @@ skip_menu_selection_chosen:
 
   jsr sprite_draw_metasprite
 
-  jmp start_game_state_main
+  rts
+
+.endproc
 
 .segment "CODE"
 
