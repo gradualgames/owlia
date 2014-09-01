@@ -57,6 +57,7 @@ files =["zp.asm",
         "sprites_and_animations_data.asm",
         "textbox.asm",
         "title_state.asm",
+        "start_game_state.asm",
         "util.asm"]
 
 def clean_build():

@@ -20,6 +20,7 @@
 .include "inventory.inc"
 .include "cut_scene_state.inc"
 .include "slide_data.inc"
+.include "start_game_state.inc"
 
 .segment "ROM01"
 
@@ -193,29 +194,5 @@ title_state_start_game:
   sta palette_address+1
   jsr ppu_fade_out_palette
 
-  jsr play_state_initialize
-
-  ;initialize inventory since we're starting a new game
-  jsr inventory_init
-
-  ;initialize persistent hero state
-  lda #3
-  sta hero_health
-  lda #0
-  sta hero_flags
-
-  ;this value can be overridden by whatever is in start_location.inc.
-  ;If start_location.inc is all commented out, the game will still work.
-  ldx #location_index_house1_intro
-
-  ;This file should just contain ldx #location_index_starting_location
-  ;and is intended to be SVN ignored so we can change it at will and
-  ;not worry about modifying the title state source file.
-  .include "start_location.inc"
-
-  switch_bank_ldy #LOCATIONS_BANK
-  lda locations_lo,x
-  sta location_address
-  lda locations_hi,x
-  sta location_address+1
-  jmp play_state_load_location
+  switch_bank_ldy #START_GAME_STATE_BANK
+  jmp start_game_state_init

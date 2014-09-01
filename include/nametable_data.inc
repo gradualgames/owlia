@@ -5,6 +5,7 @@ NAMETABLE_DATA_BANK1 = 11
 
 .global inventory_screen
 .global title_screen
+.global start_game_screen
 .global game_over_screen
 .global intro_cut_scene_great_owls_nametable
 .global intro_cut_scene_mermon_nametable
