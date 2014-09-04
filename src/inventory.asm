@@ -222,9 +222,9 @@ rotate_carry_into_password_field:
   ldy #0
 
 next_password_character:
-  ;rotate 4 bits into accumulator
+  ;rotate 5 bits into accumulator
   lda #0
-  ldx #4
+  ldx #5
 : jsr rotate_password_field_into_carry
   rol
   dex
@@ -236,10 +236,27 @@ next_password_character:
   sta (w1),y
 
   iny
-  cpy #12
+  cpy #9
   bne next_password_character
 
+  ;At this point, we have represented 45 bits of the 47 bit password field in the string.
+  ;we now need to rotate the last two bits into the accumulator and use this as the last
+  ;character of the password.
+  ;rotate 2 bits into accumulator
+  lda #0
+  ldx #2
+: jsr rotate_password_field_into_carry
+  rol
+  dex
+  bne :-
+
+  ;store accumulator (+ 'A' to get beginning of actual text font) in string buffer
+  clc
+  adc #'A'
+  sta (w1),y
+
   ;store end of string character to finish off the password string
+  iny
   lda #ES
   sta (w1),y
 
