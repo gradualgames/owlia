@@ -29,24 +29,6 @@ inventory_screen_palette:
 
 inventory_state_init:
 
-  ;play a sound
-  lda #<sfx_inventory
-  sta sound_param_word_0
-  lda #>sfx_inventory
-  sta sound_param_word_0+1
-
-  lda #0
-  sta sound_param_byte_0
-  lda #soundeffect_one
-  sta sound_param_byte_1
-
-  far_call #SFX_BANK, stream_initialize
-
-  ;fade out from current palette
-  ;far_copy #LOCATIONS_BANK, location_address, palette_address, #location::palette_address, #0, #2
-  ;far_call #LOCATIONS_BANK, ppu_fade_out_palette
-  far_call state_control_params+inventory_state_control::fade_out_palette_bank, ppu_fade_out_palette
-
   ;set blank nmi routine
   safely_set_vblank_routine ppu_vblank_nop
 
@@ -231,6 +213,21 @@ inventory_state_main:
   jmp inventory_state_main
 
 transition_to_current_password_state:
+
+  ;play a sound
+  lda #<sfx_inventory
+  sta sound_param_word_0
+  lda #>sfx_inventory
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SFX_BANK, stream_initialize
+
+  jsr ppu_fade_out_palette
 
   jmp current_password_state_init
 

@@ -865,16 +865,23 @@ play_state_action_transition_to_inventory_state:
   clear_vblank_done
   wait_vblank_done
 
-  ;tell the inventory state what palette to fade out from
+  ;play a sound
+  lda #<sfx_inventory
+  sta sound_param_word_0
+  lda #>sfx_inventory
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  switch_bank_ldy #SFX_BANK
+  jsr stream_initialize
+
+  ;fade out from current palette
   switch_bank_ldy #LOCATIONS_BANK
-  ldy #location::palette_address
-  lda (location_address),y
-  sta state_control_params+inventory_state_control::fade_out_palette_address
-  iny
-  lda (location_address),y
-  sta state_control_params+inventory_state_control::fade_out_palette_address+1
-  lda #LOCATIONS_BANK
-  sta state_control_params+inventory_state_control::fade_out_palette_bank
+  jsr ppu_fade_out_palette
 
   switch_bank_ldy #INVENTORY_STATE_BANK
   jmp inventory_state_init

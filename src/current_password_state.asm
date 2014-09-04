@@ -20,23 +20,6 @@ current_password_string: .byte "CURRENT PASSWORD",ES
 
 current_password_state_init:
 
-  ;play a sound
-  lda #<sfx_inventory
-  sta sound_param_word_0
-  lda #>sfx_inventory
-  sta sound_param_word_0+1
-
-  lda #0
-  sta sound_param_byte_0
-  lda #soundeffect_one
-  sta sound_param_byte_1
-
-  far_call #SFX_BANK, stream_initialize
-
-  ;fade out from current palette (assumed to be inventory state palette, previously
-  ;loaded into palette_address)
-  jsr ppu_fade_out_palette
-
   ;set blank nmi routine
   safely_set_vblank_routine ppu_vblank_nop
 
@@ -153,12 +136,20 @@ current_password_state_main:
 
 return_to_inventory_state:
 
-  ;tell the inventory state where to find its own palette
-  lda #INVENTORY_STATE_BANK
-  sta state_control_params+inventory_state_control::fade_out_palette_bank
-  lda #<inventory_screen_palette
-  sta state_control_params+inventory_state_control::fade_out_palette_address
-  lda #>inventory_screen_palette
-  sta state_control_params+inventory_state_control::fade_out_palette_address+1
+  ;play a sound
+  lda #<sfx_inventory
+  sta sound_param_word_0
+  lda #>sfx_inventory
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SFX_BANK, stream_initialize
+
+  ;fade out from current palette
+  jsr ppu_fade_out_palette
 
   jmp inventory_state_init
