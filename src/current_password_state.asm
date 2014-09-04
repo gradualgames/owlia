@@ -9,7 +9,7 @@
 .include "sprite.inc"
 .include "locations.inc"
 .include "controller.inc"
-.include "charmap.inc"
+.include "charmap_password.inc"
 .include "soundengine.inc"
 .include "sfx_data.inc"
 .include "ndxdebug.h"
@@ -45,17 +45,6 @@ current_password_state_init:
   sta w0+1
   far_call #INVENTORY_STATE_BG_CHR_BANK, ppu_load_chr_amount
 
-  ;grab tile accumulator to know where the textbox group begins
-  lda b3
-  sta textbox_chr_offset
-
-  ;load the textbox graphics.
-  lda #<textbox_chr
-  sta w0
-  lda #>textbox_chr
-  sta w0+1
-  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
-
   ;grab tile accumulator to know where font group begins
   lda b3
   sta font_chr_offset
@@ -64,6 +53,13 @@ current_password_state_init:
   lda #<font_chr
   sta w0
   lda #>font_chr
+  sta w0+1
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+
+  ;load the digit graphics.
+  lda #<digits_chr
+  sta w0
+  lda #>digits_chr
   sta w0+1
   far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
