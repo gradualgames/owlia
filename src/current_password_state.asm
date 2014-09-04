@@ -45,14 +45,32 @@ current_password_state_init:
   sta w0+1
   far_call #INVENTORY_STATE_BG_CHR_BANK, ppu_load_chr_amount
 
-  ;grab tile accumulator to know where the textbox and font group begins
+  ;grab tile accumulator to know where the textbox group begins
   lda b3
-  sta textbox_and_font_chr_offset
+  sta textbox_chr_offset
 
   ;load the textbox graphics.
   lda #<textbox_chr
   sta w0
   lda #>textbox_chr
+  sta w0+1
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+
+  ;grab tile accumulator to know where font group begins
+  lda b3
+  sta font_chr_offset
+
+  ;load the font graphics.
+  lda #<font_chr
+  sta w0
+  lda #>font_chr
+  sta w0+1
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+
+  ;load the punctuation graphics.
+  lda #<punctuation_chr
+  sta w0
+  lda #>punctuation_chr
   sta w0+1
   far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
@@ -78,7 +96,7 @@ current_password_state_init:
   far_call #INVENTORY_STATE_BG_NAMETABLE_BANK, ppu_load_nametable
 
   ;print current password string on the screen
-  lda textbox_and_font_chr_offset
+  lda font_chr_offset
   sta chr_group_offset
   print_string current_password_string, state_control_params+current_password_state_control::nametable_hi, #12, #8
 

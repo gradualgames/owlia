@@ -5,6 +5,8 @@ BG_CHR_DATA_BANK1 = 8
 BG_CHR_DATA_BANK2 = 9
 
 .global textbox_chr
+.global font_chr
+.global punctuation_chr
 .global digits_chr
 .global map0_chr
 .global house1_chr

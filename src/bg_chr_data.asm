@@ -5,6 +5,12 @@
 textbox_chr:
 .incbin "textbox.chr"
 
+font_chr:
+.incbin "font.chr"
+
+punctuation_chr:
+.incbin "punctuation.chr"
+
 digits_chr:
 .incbin "digits.chr"
 

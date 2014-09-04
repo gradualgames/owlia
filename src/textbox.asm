@@ -278,7 +278,7 @@ do_not_exit_conversation:
 interpret_font_character:
   ;Draw the character to the nametable row buffer (see sub routine)
   clc
-  adc textbox_and_font_chr_offset
+  adc font_chr_offset
   sta nametable_row_buffer,x
   inx
 
@@ -459,7 +459,7 @@ cursor:
 
   clc
   lda #ARROW_TILE_OFFSET
-  adc textbox_and_font_chr_offset
+  adc textbox_chr_offset
   sta nametable_row_buffer,x
   lda #1
   sta row_ready
@@ -480,7 +480,7 @@ done:
 
   clc
   lda #MIDDLE_TILE_OFFSET
-  adc textbox_and_font_chr_offset
+  adc textbox_chr_offset
   sta nametable_row_buffer,x
   lda #1
   sta row_ready
@@ -766,14 +766,14 @@ next_middle_row:
   ldx #2
   ;draw top left corner
   clc
-  lda textbox_and_font_chr_offset
+  lda textbox_chr_offset
   adc #TOP_LEFT_TILE_OFFSET
   sta nametable_row_buffer,x
 
   ;draw top tile
   ldx #3
   clc
-  lda textbox_and_font_chr_offset
+  lda textbox_chr_offset
   adc #TOP_TILE_OFFSET
 draw_next_top_tile:
   sta nametable_row_buffer,x
@@ -783,7 +783,7 @@ draw_next_top_tile:
 
   ;draw top right corner
   clc
-  lda textbox_and_font_chr_offset
+  lda textbox_chr_offset
   adc #TOP_RIGHT_TILE_OFFSET
   sta nametable_row_buffer,x
 
@@ -813,14 +813,14 @@ next_intermediate_attribute:
   ldx #2
   ;draw left side
   clc
-  lda textbox_and_font_chr_offset
+  lda textbox_chr_offset
   adc #LEFT_TILE_OFFSET
   sta nametable_row_buffer,x
 
   ;draw middle tile
   ldx #3
   clc
-  lda textbox_and_font_chr_offset
+  lda textbox_chr_offset
   adc #MIDDLE_TILE_OFFSET
 draw_next_top_tile:
   sta nametable_row_buffer,x
@@ -830,7 +830,7 @@ draw_next_top_tile:
 
   ;draw right side
   clc
-  lda textbox_and_font_chr_offset
+  lda textbox_chr_offset
   adc #RIGHT_TILE_OFFSET
   sta nametable_row_buffer,x
 
@@ -861,14 +861,14 @@ next_intermediate_attribute:
   ldx #2
   ;draw bottom left tile
   clc
-  lda textbox_and_font_chr_offset
+  lda textbox_chr_offset
   adc #BOTTOM_LEFT_TILE_OFFSET
   sta nametable_row_buffer,x
 
   ;draw bottom tile
   ldx #3
   clc
-  lda textbox_and_font_chr_offset
+  lda textbox_chr_offset
   adc #BOTTOM_TILE_OFFSET
 draw_next_top_tile:
   sta nametable_row_buffer,x
@@ -878,7 +878,7 @@ draw_next_top_tile:
 
   ;draw bottom right tile
   clc
-  lda textbox_and_font_chr_offset
+  lda textbox_chr_offset
   adc #BOTTOM_RIGHT_TILE_OFFSET
   sta nametable_row_buffer,x
 

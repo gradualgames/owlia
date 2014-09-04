@@ -45,7 +45,8 @@ chr_group_offset: .res 1
 ;run time, such as the graphics for the conversation text box and
 ;also groups of chr data for each type of entity.
 ;****************************************************************
-textbox_and_font_chr_offset: .res 1
+textbox_chr_offset: .res 1
+font_chr_offset: .res 1
 shadow_spot_chr_offset: .res 1
 tech1_chr_offset: .res 1
 tech2_chr_offset: .res 1

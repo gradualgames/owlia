@@ -62,7 +62,7 @@ TEXTBOX_HEIGHT = 80
 .endmacro
 
 ;offsets of tiles in the textbox chr graphics
-;these are to be added to textbox_and_font_chr_offset
+;these are to be added to textbox_chr_offset
 ;to get correct tile numbers when drawing the textbox.
 TOP_LEFT_TILE_OFFSET     = 0
 TOP_RIGHT_TILE_OFFSET    = 1

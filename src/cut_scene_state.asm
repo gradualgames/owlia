@@ -261,17 +261,32 @@ load_sprite_overlay:
   far_copy #SLIDE_DATA_BANK, w10, b0, #slide::bg_chr_bank, #0, #1
   far_call b0, ppu_load_chr_amount
 
-  ;grab tile accumulator to know where the textbox and font group begins
+  ;grab tile accumulator to know where the textbox group begins
   lda b3
-  sta textbox_and_font_chr_offset
+  sta textbox_chr_offset
 
-  ;load the textbox graphics. This is hardcoded because it is the same
-  ;for the entire game. The assumption here is that the background
-  ;graphics we use will never occupy so many tiles that we cannot
-  ;display a textbox or font.
+  ;load the textbox graphics.
   lda #<textbox_chr
   sta w0
   lda #>textbox_chr
+  sta w0+1
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+
+  ;grab tile accumulator to know where font group begins
+  lda b3
+  sta font_chr_offset
+
+  ;load the font graphics.
+  lda #<font_chr
+  sta w0
+  lda #>font_chr
+  sta w0+1
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+
+  ;load the punctuation graphics.
+  lda #<punctuation_chr
+  sta w0
+  lda #>punctuation_chr
   sta w0+1
   far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 

@@ -1,6 +1,4 @@
-chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ,.!?'"
+chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ, .!?'"
 
 for c in chars:
-    print(".charmap %i, %i" % (ord(c), 10 + chars.index(c)))
-
-print(".charmap %i, %i" % (ord(' '), 4))
+    print(".charmap %i, %i" % (ord(c), chars.index(c)))

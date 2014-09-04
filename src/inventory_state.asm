@@ -54,14 +54,32 @@ inventory_state_init:
   sta w0+1
   far_call #INVENTORY_STATE_BG_CHR_BANK, ppu_load_chr_amount
 
-  ;grab tile accumulator to know where the textbox and font group begins
+  ;grab tile accumulator to know where the textbox group begins
   lda b3
-  sta textbox_and_font_chr_offset
+  sta textbox_chr_offset
 
   ;load the textbox graphics.
   lda #<textbox_chr
   sta w0
   lda #>textbox_chr
+  sta w0+1
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+
+  ;grab tile accumulator to know where the font group begins
+  lda b3
+  sta font_chr_offset
+
+  ;load the font graphics.
+  lda #<font_chr
+  sta w0
+  lda #>font_chr
+  sta w0+1
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+
+  ;load the punctuation graphics.
+  lda #<punctuation_chr
+  sta w0
+  lda #>punctuation_chr
   sta w0+1
   far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
@@ -355,7 +373,7 @@ no_string_to_print:
 .proc print_menu_label
 menu_labels_address = w10
 
-  lda textbox_and_font_chr_offset
+  lda font_chr_offset
   sta chr_group_offset
 
   ldy #inventory_state_menu_item::item_address
