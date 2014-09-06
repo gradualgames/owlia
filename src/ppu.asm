@@ -211,12 +211,46 @@ loadChrLoop:
 
 .endproc
 
+;fills name table with value in b0
+;fills attribute table with value in b1
+;assumes VRAM points to the nametable that is to be loaded
+;uses w0 to count bytes
+.proc ppu_fill_nametable
+name_table_fill = b0
+attribute_table_fill = b1
+byte_count = w0
+
+;fill name table
+  ldy #30
+next_row:
+  ldx #32
+next_column:
+
+  lda name_table_fill
+  sta $2007
+
+  dex
+  bne next_column
+
+  dey
+  bne next_row
+
+;fill attribute table
+  ldx #64
+next_attribute_byte:
+  lda attribute_table_fill
+  sta $2007
+  dex
+  bne next_attribute_byte
+
+  rts
+.endproc
+
 ;loads a nametable and attribute table located at address in w0
 ;assumes VRAM points to the nametable that is to be loaded
 .proc ppu_load_nametable
   ldy #$00
   ldx #$04
-
 :
   lda (w0),y
   sta $2007

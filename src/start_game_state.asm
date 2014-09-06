@@ -19,6 +19,46 @@ start_game_state_palette:
   .byte $0e,$0e,$18,$20,$0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$18,$20,$0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$0e,$0e,$0e
 
+box_top_string:
+  .byte TOP_LEFT_TILE_OFFSET
+  .byte TOP_TILE_OFFSET
+  .byte TOP_TILE_OFFSET
+  .byte TOP_TILE_OFFSET
+  .byte TOP_TILE_OFFSET
+  .byte TOP_TILE_OFFSET
+  .byte TOP_TILE_OFFSET
+  .byte TOP_TILE_OFFSET
+  .byte TOP_TILE_OFFSET
+  .byte TOP_TILE_OFFSET
+  .byte TOP_RIGHT_TILE_OFFSET
+  .byte ES
+
+box_bottom_string:
+  .byte BOTTOM_LEFT_TILE_OFFSET
+  .byte BOTTOM_TILE_OFFSET
+  .byte BOTTOM_TILE_OFFSET
+  .byte BOTTOM_TILE_OFFSET
+  .byte BOTTOM_TILE_OFFSET
+  .byte BOTTOM_TILE_OFFSET
+  .byte BOTTOM_TILE_OFFSET
+  .byte BOTTOM_TILE_OFFSET
+  .byte BOTTOM_TILE_OFFSET
+  .byte BOTTOM_TILE_OFFSET
+  .byte BOTTOM_RIGHT_TILE_OFFSET
+  .byte ES
+
+box_left_string:
+  .byte LEFT_TILE_OFFSET
+  .byte LEFT_TILE_OFFSET
+  .byte LEFT_TILE_OFFSET
+  .byte ES
+
+box_right_string:
+  .byte RIGHT_TILE_OFFSET
+  .byte RIGHT_TILE_OFFSET
+  .byte RIGHT_TILE_OFFSET
+  .byte ES
+
 new_game_string: .byte "NEW GAME",ES
 continue_string: .byte "CONTINUE",ES
 
@@ -97,19 +137,40 @@ start_game_state_init:
   sta w0+1
   far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
-  ;load start game screen nametable
+  ;draw start game screen nametable
   lda #$20
   sta ppu_2006
   lda #$00
   sta ppu_2006+1
   upload_ppu_2006
 
-  lda #<start_game_screen
-  sta w0
-  lda #>start_game_screen
-  sta w0+1
-  far_call #NAMETABLE_DATA_BANK1, ppu_load_nametable
+  lda font_chr_offset
+  adc #' '
+  sta b0
+  lda #$00
+  sta b1
 
+  jsr ppu_fill_nametable
+
+  ;draw box top and bottom
+  lda textbox_chr_offset
+  sta chr_group_offset
+  print_string box_top_string, #$20, #12, #10
+  print_string box_bottom_string, #$20, #16, #10
+
+  ;draw box sides
+  set_ppu_2000_bit PPU0_ADDRESS_INCREMENT
+  upload_ppu_2000
+
+  lda textbox_chr_offset
+  sta chr_group_offset
+  print_string box_left_string, #$20, #13, #10
+  print_string box_right_string, #$20, #13, #20
+
+  clear_ppu_2000_bit PPU0_ADDRESS_INCREMENT
+  upload_ppu_2000
+
+  ;draw strings inside box
   lda font_chr_offset
   sta chr_group_offset
   print_string new_game_string, #$20, #13, #12
