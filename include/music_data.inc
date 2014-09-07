@@ -11,5 +11,6 @@ MUSIC_BANK = 5
 .global title_theme
 .global silmaran_theme
 .global defeat_boss
+.global enter_password_theme
 
 .endif

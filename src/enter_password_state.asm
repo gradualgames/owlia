@@ -12,6 +12,8 @@
 .include "play_state.inc"
 .include "locations.inc"
 .include "inventory.inc"
+.include "soundengine.inc"
+.include "music_data.inc"
 
 .segment "ROM01"
 
@@ -97,6 +99,12 @@ cursor_position_y:
   .byte 13*8, 15*8
 
 enter_password_state_init:
+
+  lda #<enter_password_theme
+  sta song_address
+  lda #>enter_password_theme
+  sta song_address+1
+  far_call #MUSIC_BANK, song_initialize
 
   ;set blank nmi routine
   safely_set_vblank_routine ppu_vblank_nop
