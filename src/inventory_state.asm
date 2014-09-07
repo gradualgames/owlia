@@ -116,7 +116,7 @@ inventory_state_init:
   lda b3
   sta state_control_params+inventory_state_control::cursor_chr_offset
 
-  far_call {sprite_chr_group_bank,y}, ppu_load_chr_amount
+  far_call {sprite_chr_group_bank,x}, ppu_load_chr_amount
 
   ;load all tech icon chr data
   lda b3
