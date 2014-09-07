@@ -1,8 +1,7 @@
 .feature force_range
-.include "start_game_state.inc"
 .include "enter_password_state.inc"
 .include "textbox.inc"
-.include "charmap.inc"
+.include "charmap_password.inc"
 .include "ppu.inc"
 .include "mapper.inc"
 .include "sprite.inc"
@@ -16,12 +15,14 @@
 
 .segment "ROM01"
 
-start_game_state_palette:
+enter_password_state_palette:
   .byte $0e,$0e,$18,$20,$0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$18,$20,$0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$0e,$0e,$0e
 
 box_top_string:
   .byte TOP_LEFT_TILE_OFFSET
+  .byte TOP_TILE_OFFSET
+  .byte TOP_TILE_OFFSET
   .byte TOP_TILE_OFFSET
   .byte TOP_TILE_OFFSET
   .byte TOP_TILE_OFFSET
@@ -45,10 +46,20 @@ box_bottom_string:
   .byte BOTTOM_TILE_OFFSET
   .byte BOTTOM_TILE_OFFSET
   .byte BOTTOM_TILE_OFFSET
+  .byte BOTTOM_TILE_OFFSET
+  .byte BOTTOM_TILE_OFFSET
   .byte BOTTOM_RIGHT_TILE_OFFSET
   .byte ES
 
 box_left_string:
+  .byte LEFT_TILE_OFFSET
+  .byte LEFT_TILE_OFFSET
+  .byte LEFT_TILE_OFFSET
+  .byte LEFT_TILE_OFFSET
+  .byte LEFT_TILE_OFFSET
+  .byte LEFT_TILE_OFFSET
+  .byte LEFT_TILE_OFFSET
+  .byte LEFT_TILE_OFFSET
   .byte LEFT_TILE_OFFSET
   .byte LEFT_TILE_OFFSET
   .byte LEFT_TILE_OFFSET
@@ -58,10 +69,22 @@ box_right_string:
   .byte RIGHT_TILE_OFFSET
   .byte RIGHT_TILE_OFFSET
   .byte RIGHT_TILE_OFFSET
+  .byte RIGHT_TILE_OFFSET
+  .byte RIGHT_TILE_OFFSET
+  .byte RIGHT_TILE_OFFSET
+  .byte RIGHT_TILE_OFFSET
+  .byte RIGHT_TILE_OFFSET
+  .byte RIGHT_TILE_OFFSET
+  .byte RIGHT_TILE_OFFSET
+  .byte RIGHT_TILE_OFFSET
   .byte ES
 
-new_game_string: .byte "NEW GAME",ES
-continue_string: .byte "CONTINUE",ES
+password_chars_row1: .byte "A B C D E F",ES
+password_chars_row2: .byte "G H I J K L",ES
+password_chars_row3: .byte "M N O P Q R",ES
+password_chars_row4: .byte "S T U V W X",ES
+password_chars_row5: .byte "Y Z 0 1 2 3",ES
+password_chars_row6: .byte "4 5 6 7 8 9",ES
 
 cursor_meta_sprite:
   .byte $01
@@ -73,7 +96,7 @@ cursor_position_x:
 cursor_position_y:
   .byte 13*8, 15*8
 
-start_game_state_init:
+enter_password_state_init:
 
   ;set blank nmi routine
   safely_set_vblank_routine ppu_vblank_nop
@@ -111,6 +134,13 @@ start_game_state_init:
   lda #<font_chr
   sta w0
   lda #>font_chr
+  sta w0+1
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+
+  ;load the digit graphics.
+  lda #<digits_chr
+  sta w0
+  lda #>digits_chr
   sta w0+1
   far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
@@ -153,11 +183,15 @@ start_game_state_init:
 
   jsr ppu_fill_nametable
 
+  .scope
+  ROW = 8
+  COLUMN = 9
+
   ;draw box top and bottom
   lda textbox_chr_offset
   sta chr_group_offset
-  print_string box_top_string, #$20, #12, #10
-  print_string box_bottom_string, #$20, #16, #10
+  print_string box_top_string, #$20, #ROW, #COLUMN
+  print_string box_bottom_string, #$20, #ROW+12, #COLUMN
 
   ;draw box sides
   set_ppu_2000_bit PPU0_ADDRESS_INCREMENT
@@ -165,8 +199,8 @@ start_game_state_init:
 
   lda textbox_chr_offset
   sta chr_group_offset
-  print_string box_left_string, #$20, #13, #10
-  print_string box_right_string, #$20, #13, #20
+  print_string box_left_string, #$20, #ROW+1, #COLUMN
+  print_string box_right_string, #$20, #ROW+1, #COLUMN+12
 
   clear_ppu_2000_bit PPU0_ADDRESS_INCREMENT
   upload_ppu_2000
@@ -174,13 +208,13 @@ start_game_state_init:
   ;draw strings inside box
   lda font_chr_offset
   sta chr_group_offset
-  print_string new_game_string, #$20, #13, #12
-  print_string continue_string, #$20, #15, #12
-
-  lda #NEW_GAME
-  sta state_control_params+start_game_state_control::menu_position
-
-  jsr start_game_state_draw_cursor
+  print_string password_chars_row1, #$20, #ROW+1, #COLUMN+1
+  print_string password_chars_row2, #$20, #ROW+3, #COLUMN+1
+  print_string password_chars_row3, #$20, #ROW+5, #COLUMN+1
+  print_string password_chars_row4, #$20, #ROW+7, #COLUMN+1
+  print_string password_chars_row5, #$20, #ROW+9, #COLUMN+1
+  print_string password_chars_row6, #$20, #ROW+11, #COLUMN+1
+  .endscope
 
   ;reset scroll
   lda #$20
@@ -197,136 +231,24 @@ start_game_state_init:
   jsr ppu_safely_enable_graphics
 
   ;fade in palette
-  lda #<start_game_state_palette
+  lda #<enter_password_state_palette
   sta palette_address
-  lda #>start_game_state_palette
+  lda #>enter_password_state_palette
   sta palette_address+1
   lda #MAX_BRIGHTNESS_LEVEL
   sta b4
   sta b5
   jsr ppu_fade_in_palette
 
-  safely_set_vblank_routine ppu_start_game_state_vblank
+  safely_set_vblank_routine ppu_enter_password_state_vblank
 
-start_game_state_main:
+enter_password_state_main:
 
-  clear_vblank_done
-  wait_vblank_done
-
-  jsr controller_read
-
-  ;test select button
-  .scope
-  lda buffer_controller+buttons::_select
-  and #%00000011
-  cmp #%00000001
-  bne skip_change_menu_selection
-
-  inc state_control_params+start_game_state_control::menu_position
-  lda state_control_params+start_game_state_control::menu_position
-  cmp #2
-  bne skip_reset_menu_selection
-  lda #0
-  sta state_control_params+start_game_state_control::menu_position
-skip_reset_menu_selection:
-skip_change_menu_selection:
-  .endscope
-
-  ;test start button
-  .scope
-  lda buffer_controller+buttons::_start
-  and #%00000011
-  cmp #%00000001
-  bne skip_menu_selection_chosen
-
-  lda state_control_params+start_game_state_control::menu_position
-  cmp #NEW_GAME
-  bne :+
-  jmp start_new_game
-:
-  cmp #CONTINUE
-  bne :+
-  jmp transition_to_enter_password_state
-:
-skip_menu_selection_chosen:
-  .endscope
-
-  jsr start_game_state_draw_cursor
-
-  jmp start_game_state_main
-
-.proc start_game_state_draw_cursor
-
-  jsr sprite_clear_all
-
-  lda textbox_chr_offset
-  sta chr_group_offset
-
-  lda #<cursor_meta_sprite
-  sta w0
-  lda #>cursor_meta_sprite
-  sta w0+1
-
-  ldx state_control_params+start_game_state_control::menu_position
-  lda cursor_position_x,x
-  sta w3
-  lda #>100
-  sta w3+1
-
-  lda cursor_position_y,x
-  sta w4
-  lda #>100
-  sta w4+1
-
-  lda #$00
-  sta b2
-
-  jsr sprite_draw_metasprite
-
-  rts
-
-.endproc
+  jmp enter_password_state_main
 
 .segment "CODE"
 
-start_new_game:
-
-  jsr ppu_fade_out_palette
-
-  jsr play_state_initialize
-
-  ;initialize inventory since we're starting a new game
-  jsr inventory_init
-
-  ;initialize persistent hero state
-  lda #3
-  sta hero_health
-  lda #0
-  sta hero_flags
-
-  ;this value can be overridden by whatever is in start_location.inc.
-  ;if start_location.inc is all commented out, the game will still work.
-  ldx #location_index_house1_intro
-
-  ;this file should just contain ldx #location_index_starting_location
-  ;and is intended to be svn ignored so we can change it at will and
-  ;not worry about modifying the title state source file.
-  .include "start_location.inc"
-
-  switch_bank_ldy #LOCATIONS_BANK
-  lda locations_lo,x
-  sta location_address
-  lda locations_hi,x
-  sta location_address+1
-  jmp play_state_load_location
-
-transition_to_enter_password_state:
-
-  jsr ppu_fade_out_palette
-
-  jmp enter_password_state_init
-
-.proc ppu_start_game_state_vblank
+.proc ppu_enter_password_state_vblank
 
   jsr sprite_update_all
 
