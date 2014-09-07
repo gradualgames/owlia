@@ -18,6 +18,7 @@
 .include "sprite_chr_data.inc"
 .include "sprites_and_animations_data.inc"
 .include "controller.inc"
+.include "ppu.inc"
 
 .segment "ROM01"
 
@@ -96,7 +97,7 @@ password_chars: .byte "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 enter_password_string: .byte "ENTER PASSWORD",ES
 
-clear_password_string: .byte "          ",ES
+clear_string: .byte "          ",ES
 
 cursor_meta_sprite:
   .byte $01
@@ -166,6 +167,16 @@ enter_password_state_init:
   lda #<punctuation_chr
   sta w0
   lda #>punctuation_chr
+  sta w0+1
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+
+  lda b3
+  sta state_control_params+enter_password_state_control::underscore_bg_chr_offset
+
+  ;load the underscore graphic.
+  lda #<underscore_chr
+  sta w0
+  lda #>underscore_chr
   sta w0+1
   far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
@@ -259,6 +270,10 @@ enter_password_state_init:
 
   lda #ES
   sta string_buffer
+
+  ;initialize blinking cursor
+  lda #0
+  sta state_control_params+enter_password_state_control::underscore_blink_counter
 
   jsr print_entered_password
 
@@ -394,6 +409,7 @@ done:
   bne :+
   lda #9
   sta state_control_params+enter_password_state_control::entered_character_index
+  jmp done
 :
 
   ;determine which character the cursor is hovering over
@@ -539,11 +555,9 @@ done:
 
 .endproc
 
-.segment "CODE"
-
 .proc print_entered_password
 
-  print_string clear_password_string, #$20, #ROW+14, #COLUMN
+  print_string clear_string, #$20, #ROW+14, #COLUMN
 
   lda #<string_buffer
   sta w0
@@ -561,11 +575,61 @@ done:
 
 .endproc
 
+.proc print_underscores
+
+  print_string clear_string, #$20, #ROW+15, #COLUMN
+
+  ;now draw a blinking underscore at current character to be entered
+  lda state_control_params+enter_password_state_control::entered_character_index
+  cmp #9
+  beq :+
+  lda state_control_params+enter_password_state_control::underscore_blink_counter
+  bmi :+
+
+  lda #$20
+  sta b0
+  lda #(ROW+15)
+  sta b1
+
+  .scope
+  lda state_control_params+enter_password_state_control::entered_character_index
+  bmi empty_string
+not_empty_string:
+  clc
+  lda #COLUMN
+  adc state_control_params+enter_password_state_control::entered_character_index
+  adc #1
+  sta b2
+  jmp done
+empty_string:
+  lda #COLUMN
+  sta b2
+  jmp done
+done:
+  .endscope
+
+  set_ppu_2006_abs b0, b1, b2
+  upload_ppu_2006
+
+  lda state_control_params+enter_password_state_control::underscore_bg_chr_offset
+  sta $2007
+:
+  clc
+  lda state_control_params+enter_password_state_control::underscore_blink_counter
+  adc #8
+  sta state_control_params+enter_password_state_control::underscore_blink_counter
+
+  rts
+
+.endproc
+
 .proc ppu_enter_password_state_vblank
 
   jsr sprite_update_all
 
   jsr print_entered_password
+
+  jsr print_underscores
 
   upload_ppu_2006
   upload_ppu_2005

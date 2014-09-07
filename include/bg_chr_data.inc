@@ -8,6 +8,7 @@ BG_CHR_DATA_BANK2 = 9
 .global font_chr
 .global punctuation_chr
 .global digits_chr
+.global underscore_chr
 .global map0_chr
 .global house1_chr
 .global meadow1_trees

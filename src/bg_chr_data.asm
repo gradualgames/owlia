@@ -14,6 +14,9 @@ punctuation_chr:
 digits_chr:
 .incbin "digits.chr"
 
+underscore_chr:
+.incbin "underscore.chr"
+
 map0_chr:
 .incbin "village.chr"
 
