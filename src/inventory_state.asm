@@ -122,23 +122,17 @@ inventory_state_init:
   lda b3
   sta state_control_params+inventory_state_control::techs_chr_offset
 
-  ldy #sprite_chr_group_index_rushtech
+  ldx #sprite_chr_group_index_rushtech
 next_tech:
-  lda sprite_chr_group_addresses_lo,y
+  lda sprite_chr_group_addresses_lo,x
   sta w0
-  lda sprite_chr_group_addresses_hi,y
+  lda sprite_chr_group_addresses_hi,x
   sta w0+1
 
-  tya
-  pha
+  far_call {sprite_chr_group_bank,x}, ppu_load_chr_amount
 
-  far_call {sprite_chr_group_bank,y}, ppu_load_chr_amount
-
-  pla
-  tay
-
-  iny
-  cpy #(sprite_chr_group_index_homingtech+1)
+  inx
+  cpx #(sprite_chr_group_index_homingtech+1)
   bne next_tech
 
   ;load nametable data for inventory screen on opposite nametable from
