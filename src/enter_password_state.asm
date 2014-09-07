@@ -92,6 +92,12 @@ password_chars_row4: .byte "S T U V W X",ES
 password_chars_row5: .byte "Y Z 0 1 2 3",ES
 password_chars_row6: .byte "4 5 6 7 8 9",ES
 
+password_chars: .byte "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+enter_password_string: .byte "ENTER PASSWORD",ES
+
+clear_password_string: .byte "          ",ES
+
 cursor_meta_sprite:
   .byte $01
   .byte $00,$09,$00,$00,$00
@@ -240,10 +246,23 @@ enter_password_state_init:
   print_string password_chars_row5, #$20, #ROW+9, #COLUMN+1
   print_string password_chars_row6, #$20, #ROW+11, #COLUMN+1
 
+  print_string enter_password_string, #$20, #ROW-2, #COLUMN
+
   ;setup the cursor
   lda #0
   sta state_control_params+enter_password_state_control::cursor_position_x
   sta state_control_params+enter_password_state_control::cursor_position_y
+
+  ;initialize the entered password string
+  lda #$ff
+  sta state_control_params+enter_password_state_control::entered_character_index
+
+  lda #ES
+  sta string_buffer
+
+  jsr print_entered_password
+
+  jsr draw_cursor
 
   ;reset scroll
   lda #$20
@@ -289,6 +308,7 @@ DPAD_TEST = %10000000
 cursor_x = state_control_params+enter_password_state_control::cursor_position_x
 cursor_y = state_control_params+enter_password_state_control::cursor_position_y
 
+  .scope
   lda buffer_controller+buttons::_up
   and #DPAD_TEST
   beq not_up
@@ -354,8 +374,85 @@ not_left:
 
   jmp done
 not_right:
-
 done:
+  .endscope
+
+  .scope
+  lda buffer_controller+buttons::_a
+  and #%00000011
+  cmp #%00000001
+  bne not_a
+
+  jsr play_action_sound
+
+  ;increment entered_character_index
+  inc state_control_params+enter_password_state_control::entered_character_index
+
+  ;cap it at 9
+  lda state_control_params+enter_password_state_control::entered_character_index
+  cmp #10
+  bne :+
+  lda #9
+  sta state_control_params+enter_password_state_control::entered_character_index
+:
+
+  ;determine which character the cursor is hovering over
+
+  ;multiply by 4
+  lda state_control_params+enter_password_state_control::cursor_position_y
+  asl
+  asl
+  sta b0
+
+  ;multiply by 2
+  lda state_control_params+enter_password_state_control::cursor_position_y
+  asl
+  sta b1
+
+  ;add, now we have row * 6
+  clc
+  lda b0
+  adc b1
+
+  ;add x, now we have the offset of the character within password_chars
+  adc state_control_params+enter_password_state_control::cursor_position_x
+  tax
+  lda password_chars,x
+
+  ;change the character at entered_character_index
+  ldy state_control_params+enter_password_state_control::entered_character_index
+  sta string_buffer,y
+
+  ;place ES at end of string
+  iny
+  lda #ES
+  sta string_buffer,y
+
+  jmp done
+not_a:
+
+  lda buffer_controller+buttons::_b
+  and #%00000011
+  cmp #%00000001
+  bne not_b
+
+  jsr play_action_sound
+
+  ;place ES at entered_character_index
+  ldx state_control_params+enter_password_state_control::entered_character_index
+  lda #ES
+  sta string_buffer,x
+
+  ;decrement entered_character_index, but not if we've reached #$ff (empty string)
+  lda state_control_params+enter_password_state_control::entered_character_index
+  bmi :+
+  dec state_control_params+enter_password_state_control::entered_character_index
+:
+
+  jmp done
+not_b:
+done:
+  .endscope
 
   rts
 
@@ -366,6 +463,24 @@ done:
   lda #<sfx_move_cursor
   sta sound_param_word_0
   lda #>sfx_move_cursor
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SFX_BANK, stream_initialize
+
+  rts
+
+.endproc
+
+.proc play_action_sound
+
+  lda #<sfx_select
+  sta sound_param_word_0
+  lda #>sfx_select
   sta sound_param_word_0+1
 
   lda #3
@@ -426,9 +541,31 @@ done:
 
 .segment "CODE"
 
+.proc print_entered_password
+
+  print_string clear_password_string, #$20, #ROW+14, #COLUMN
+
+  lda #<string_buffer
+  sta w0
+  lda #>string_buffer
+  sta w0+1
+  lda #$20
+  sta b0
+  lda #ROW+14
+  sta b1
+  lda #COLUMN
+  sta b2
+  jsr print_string_impl
+
+  rts
+
+.endproc
+
 .proc ppu_enter_password_state_vblank
 
   jsr sprite_update_all
+
+  jsr print_entered_password
 
   upload_ppu_2006
   upload_ppu_2005

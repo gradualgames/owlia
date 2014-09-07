@@ -10,6 +10,7 @@ ENTER_PASSWORD_STATE_BANK = 1
   cursor_spr_chr_offset .byte
   cursor_position_x .byte
   cursor_position_y .byte
+  entered_character_index .byte
 .endstruct
 
 .endif
