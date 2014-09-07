@@ -17,7 +17,8 @@ include_paths = ["include",
                  "include/maps",
                  "include/entities",
                  "include/songs",
-                 "include/sprites_and_animations"]
+                 "include/sprites_and_animations",
+                 "include/charmaps"]
 
 bin_include_paths = ["include/bg_chr_data",
                      "include/spr_chr_data"]
