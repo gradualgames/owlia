@@ -106,7 +106,7 @@ inventory_state_init:
   lda #$00
   sta b3
 
-  ldx #sprite_chr_group_index_inventory
+  ldx #sprite_chr_group_index_cursor
   lda sprite_chr_group_addresses_lo,x
   sta w0
   lda sprite_chr_group_addresses_hi,x

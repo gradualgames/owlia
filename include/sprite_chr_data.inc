@@ -25,7 +25,7 @@ sprite_chr_group_index_npcman
 sprite_chr_group_index_npcwoman
 sprite_chr_group_index_key
 sprite_chr_group_index_treasure_chest
-sprite_chr_group_index_inventory
+sprite_chr_group_index_cursor
 sprite_chr_group_index_lantern
 sprite_chr_group_index_coins
 sprite_chr_group_index_title
@@ -61,7 +61,7 @@ sprite_chr_group_bank_npcman = 7
 sprite_chr_group_bank_npcwoman = 7
 sprite_chr_group_bank_key = 7
 sprite_chr_group_bank_treasure_chest = 7
-sprite_chr_group_bank_inventory = 7
+sprite_chr_group_bank_cursor = 7
 sprite_chr_group_bank_lantern = 7
 sprite_chr_group_bank_coins = 7
 sprite_chr_group_bank_title = 7

@@ -23,7 +23,7 @@
   npcwoman_chr, \
   key_chr, \
   treasure_chest_chr, \
-  inventory_spr_chr, \
+  cursor_spr_chr, \
   lantern_chr, \
   coins_chr, \
   owliatitle_spr_chr, \
@@ -64,7 +64,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_npcwoman
   .byte sprite_chr_group_bank_key
   .byte sprite_chr_group_bank_treasure_chest
-  .byte sprite_chr_group_bank_inventory
+  .byte sprite_chr_group_bank_cursor
   .byte sprite_chr_group_bank_lantern
   .byte sprite_chr_group_bank_coins
   .byte sprite_chr_group_bank_title
@@ -139,8 +139,8 @@ key_chr:
 treasure_chest_chr:
 .incbin "treasure_chest.chr"
 
-inventory_spr_chr:
-.incbin "inventory_spr.chr"
+cursor_spr_chr:
+.incbin "cursor_spr.chr"
 
 lantern_chr:
 .incbin "lantern.chr"
