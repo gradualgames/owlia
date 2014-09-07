@@ -125,7 +125,7 @@ password_obfuscation_masks:
 ;into which to generate the password.
 ;uses b0 through b5 to work with the password field before
 ;storing it at the 6 byte field pointed to by w0
-.proc inventory_generate_password_bit_field
+.proc inventory_state_to_password_bit_field
 
   lda inventory_keys
   ldx #3
@@ -208,7 +208,7 @@ rotate_carry_into_password_field:
 ;expects w0 to contain the address of the 6 byte bit field
 ;expects w1 to contain the address of the string buffer to which
 ;to write the string.
-.proc inventory_generate_password_string
+.proc password_bit_field_to_password_string
 
   ;copy password field into b0 through b5
   ldy #5

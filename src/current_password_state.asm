@@ -101,14 +101,14 @@ current_password_state_init:
   sta w0
   lda #>state_control_params+current_password_state_control::password_field
   sta w0+1
-  jsr inventory_generate_password_bit_field
+  jsr inventory_state_to_password_bit_field
 
   ;generate password string from password field
   lda #<string_buffer
   sta w1
   lda #>string_buffer
   sta w1+1
-  jsr inventory_generate_password_string
+  jsr password_bit_field_to_password_string
 
   ;print the password underneath the current password string
   print_string string_buffer, state_control_params+current_password_state_control::nametable_hi, #14, #11
