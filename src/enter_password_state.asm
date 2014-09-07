@@ -99,6 +99,8 @@ enter_password_string: .byte "ENTER PASSWORD",ES
 
 clear_string: .byte "          ",ES
 
+press_start_to_confirm_string: .byte "PRESS START TO CONFIRM",ES
+
 cursor_meta_sprite:
   .byte $01
   .byte $00,$09,$00,$00,$00
@@ -226,7 +228,7 @@ enter_password_state_init:
 
   jsr ppu_fill_nametable
 
-  ROW = 8
+  ROW = 7
   COLUMN = 9
 
   ;draw box top and bottom
@@ -258,6 +260,8 @@ enter_password_state_init:
   print_string password_chars_row6, #$20, #ROW+11, #COLUMN+1
 
   print_string enter_password_string, #$20, #ROW-2, #COLUMN
+
+  print_string press_start_to_confirm_string, #$20, #ROW+16, #COLUMN-4
 
   ;setup the cursor
   lda #0
@@ -403,11 +407,11 @@ done:
   ;increment entered_character_index
   inc state_control_params+enter_password_state_control::entered_character_index
 
-  ;cap it at 9
+  ;cap it at PASSWORD_LENGTH
   lda state_control_params+enter_password_state_control::entered_character_index
-  cmp #10
+  cmp #PASSWORD_LENGTH
   bne :+
-  lda #9
+  lda #(PASSWORD_LENGTH-1)
   sta state_control_params+enter_password_state_control::entered_character_index
   jmp done
 :
@@ -581,7 +585,7 @@ done:
 
   ;now draw a blinking underscore at current character to be entered
   lda state_control_params+enter_password_state_control::entered_character_index
-  cmp #9
+  cmp #(PASSWORD_LENGTH-1)
   beq :+
   lda state_control_params+enter_password_state_control::underscore_blink_counter
   bmi :+

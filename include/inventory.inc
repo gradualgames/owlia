@@ -9,6 +9,8 @@ INVENTORY_MAX_GP = 999999
 
 INVENTORY_DUNGEON_FLAGS_MASK_NOP = 0
 
+PASSWORD_LENGTH = 10
+
 ;for selecting which item the owl currently can carry
 .enum
 carry_bomb
