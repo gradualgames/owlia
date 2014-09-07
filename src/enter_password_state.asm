@@ -318,6 +318,58 @@ enter_password_state_main:
 
   jsr update_cursor
 
+  lda buffer_controller+buttons::_start
+  and #%00000011
+  cmp #%00000001
+  bne not_start
+
+  ;validate and decode the entered password.
+  .scope
+  ;password is invalid if not at correct length
+  lda state_control_params+enter_password_state_control::entered_character_index
+  cmp #(PASSWORD_LENGTH-1)
+  bne password_invalid
+
+  ;password is invalid if it contains characters 6 through 9
+  ldx state_control_params+enter_password_state_control::entered_character_index
+: lda string_buffer,x
+  cmp #'6'
+  beq password_invalid
+  cmp #'7'
+  beq password_invalid
+  cmp #'8'
+  beq password_invalid
+  cmp #'9'
+  beq password_invalid
+  dex
+  bpl :-
+password_might_still_be_valid:
+
+  ;TODO: now, we must decode the password into inventory state and then
+  ;test whether the inventory state is valid.
+
+  jmp done
+password_invalid:
+  ;play a sound
+  lda #<sfx_error
+  sta sound_param_word_0
+  lda #>sfx_error
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SFX_BANK, stream_initialize
+done:
+  .endscope
+
+  ;transition to start game state once player state has been
+  ;reconstructed from the password
+
+not_start:
+
   jsr draw_cursor
 
   jmp enter_password_state_main
