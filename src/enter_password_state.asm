@@ -14,12 +14,16 @@
 .include "inventory.inc"
 .include "soundengine.inc"
 .include "music_data.inc"
+.include "sfx_data.inc"
+.include "sprite_chr_data.inc"
+.include "sprites_and_animations_data.inc"
+.include "controller.inc"
 
 .segment "ROM01"
 
 enter_password_state_palette:
   .byte $0e,$0e,$18,$20,$0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$0e,$0e,$0e
-  .byte $0e,$0e,$18,$20,$0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$0e,$0e,$0e
+  .byte $0e,$05,$28,$38,$0e,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
 
 box_top_string:
   .byte TOP_LEFT_TILE_OFFSET
@@ -170,11 +174,25 @@ enter_password_state_init:
   lda #$00
   sta b3
 
+  ;remember where we load the textbox chr in sprite vram
+  sta state_control_params+enter_password_state_control::textbox_spr_chr_offset
+
   lda #<textbox_chr
   sta w0
   lda #>textbox_chr
   sta w0+1
   far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+
+  ;remember where we load the cursor chr in sprite ram
+  lda b3
+  sta state_control_params+enter_password_state_control::cursor_spr_chr_offset
+
+  ldx #sprite_chr_group_index_cursor
+  lda sprite_chr_group_addresses_lo,x
+  sta w0
+  lda sprite_chr_group_addresses_hi,x
+  sta w0+1
+  far_call {sprite_chr_group_bank,x}, ppu_load_chr_amount
 
   ;draw start game screen nametable
   lda #$20
@@ -191,7 +209,6 @@ enter_password_state_init:
 
   jsr ppu_fill_nametable
 
-  .scope
   ROW = 8
   COLUMN = 9
 
@@ -222,7 +239,11 @@ enter_password_state_init:
   print_string password_chars_row4, #$20, #ROW+7, #COLUMN+1
   print_string password_chars_row5, #$20, #ROW+9, #COLUMN+1
   print_string password_chars_row6, #$20, #ROW+11, #COLUMN+1
-  .endscope
+
+  ;setup the cursor
+  lda #0
+  sta state_control_params+enter_password_state_control::cursor_position_x
+  sta state_control_params+enter_password_state_control::cursor_position_y
 
   ;reset scroll
   lda #$20
@@ -252,7 +273,156 @@ enter_password_state_init:
 
 enter_password_state_main:
 
+  clear_vblank_done
+  wait_vblank_done
+
+  jsr controller_read
+
+  jsr update_cursor
+
+  jsr draw_cursor
+
   jmp enter_password_state_main
+
+.proc update_cursor
+DPAD_TEST = %10000000
+cursor_x = state_control_params+enter_password_state_control::cursor_position_x
+cursor_y = state_control_params+enter_password_state_control::cursor_position_y
+
+  lda buffer_controller+buttons::_up
+  and #DPAD_TEST
+  beq not_up
+
+  lda cursor_y
+  beq done
+
+  dec cursor_y
+  lda #0
+  sta buffer_controller+buttons::_up
+
+  jsr play_dpad_sound
+
+  jmp done
+not_up:
+
+  lda buffer_controller+buttons::_down
+  and #DPAD_TEST
+  beq not_down
+
+  lda cursor_y
+  cmp #5
+  beq done
+
+  inc cursor_y
+  lda #0
+  sta buffer_controller+buttons::_down
+
+  jsr play_dpad_sound
+
+  jmp done
+not_down:
+
+  lda buffer_controller+buttons::_left
+  and #DPAD_TEST
+  beq not_left
+
+  lda cursor_x
+  beq done
+
+  dec cursor_x
+  lda #0
+  sta buffer_controller+buttons::_left
+
+  jsr play_dpad_sound
+
+  jmp done
+not_left:
+
+  lda buffer_controller+buttons::_right
+  and #DPAD_TEST
+  beq not_right
+
+  lda cursor_x
+  cmp #5
+  beq done
+
+  inc cursor_x
+  lda #0
+  sta buffer_controller+buttons::_right
+
+  jsr play_dpad_sound
+
+  jmp done
+not_right:
+
+done:
+
+  rts
+
+.endproc
+
+.proc play_dpad_sound
+
+  lda #<sfx_move_cursor
+  sta sound_param_word_0
+  lda #>sfx_move_cursor
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SFX_BANK, stream_initialize
+
+  rts
+
+.endproc
+
+.proc draw_cursor
+
+  jsr sprite_clear_all
+
+  lda state_control_params+enter_password_state_control::cursor_spr_chr_offset
+  sta chr_group_offset
+
+  lda #<cursor0
+  sta w0
+  lda #>cursor0
+  sta w0+1
+
+  clc
+  lda state_control_params+enter_password_state_control::cursor_position_x
+  asl
+  asl
+  asl
+  asl
+  adc #((COLUMN + 1) * 8)
+
+  sta w3
+  lda #0
+  sta w3+1
+
+  clc
+  lda state_control_params+enter_password_state_control::cursor_position_y
+  asl
+  asl
+  asl
+  asl
+  adc #((ROW + 1) * 8 - 1)
+
+  sta w4
+  lda #0
+  sta w4+1
+
+  lda #$00
+  sta b2
+
+  far_call #SPRITES_AND_ANIMATIONS_DATA_BANK1, sprite_draw_metasprite
+
+  rts
+
+.endproc
 
 .segment "CODE"
 

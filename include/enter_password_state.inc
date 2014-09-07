@@ -5,4 +5,11 @@ ENTER_PASSWORD_STATE_BANK = 1
 
 .global enter_password_state_init
 
+.struct enter_password_state_control
+  textbox_spr_chr_offset .byte
+  cursor_spr_chr_offset .byte
+  cursor_position_x .byte
+  cursor_position_y .byte
+.endstruct
+
 .endif
