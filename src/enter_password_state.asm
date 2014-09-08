@@ -12,6 +12,7 @@
 .include "play_state.inc"
 .include "locations.inc"
 .include "inventory.inc"
+.include "password.inc"
 .include "soundengine.inc"
 .include "music_data.inc"
 .include "sfx_data.inc"
@@ -345,8 +346,24 @@ enter_password_state_main:
   bpl :-
 password_might_still_be_valid:
 
-  ;TODO: now, we must decode the password into inventory state and then
+  ;we must decode the password into inventory state and then
   ;test whether the inventory state is valid.
+  lda #<string_buffer
+  sta w0
+  lda #>string_buffer
+  sta w0+1
+
+  lda #<state_control_params+enter_password_state_control::password_field
+  sta w1
+  lda #>state_control_params+enter_password_state_control::password_field
+  sta w1+1
+  far_call #PASSWORD_BANK, password_string_to_password_bit_field
+
+  lda #<state_control_params+enter_password_state_control::password_field
+  sta w0
+  lda #>state_control_params+enter_password_state_control::password_field
+  sta w0+1
+  far_call #PASSWORD_BANK, password_bit_field_to_inventory_state
 
   jmp done
 password_invalid:
