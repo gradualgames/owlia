@@ -189,7 +189,7 @@ rotate_password_field_into_carry:
   ldy #9
   lda (w0),y
   sec
-  sbc font_chr_offset
+  sbc #'A'
 
   ldx #2
 :
@@ -204,7 +204,7 @@ rotate_password_field_into_carry:
 next_character:
   lda (w0),y
   sec
-  sbc font_chr_offset
+  sbc #'A'
 
   ;the accumulator has 5 bits of the password.
   ;rotate the 5 bits into the 6 byte password field.
@@ -294,12 +294,11 @@ rotate_carry_into_password_field:
 rotate_password_field_into_accumulator:
 
   lda #0
+  clc
 : rol
   jsr rotate_password_field_into_carry
   dex
   bne :-
-
-  ndxDebugBreak
 
   rts
 
