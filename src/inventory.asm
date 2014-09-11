@@ -16,6 +16,25 @@
   sta inventory_healths
   sta inventory_keys
 
+  lda #tech_rush
+  sta inventory_tech1
+  lda #tech_fetch
+  sta inventory_tech2
+
+  ;select tech1 as the currently active tech
+  lda #tech1
+  sta inventory_selected_tech
+
+  lda #<0
+  sta inventory_gp
+  lda #>0
+  sta inventory_gp+1
+  lda #^0
+  sta inventory_gp+2
+
+  lda #0
+  sta inventory_dungeon_flags
+
   .ifdef LANTERNS
   lda #LANTERNS
   sta inventory_lanterns
@@ -36,32 +55,19 @@
   sta inventory_keys
   .endif
 
-  .ifndef EARNED_TECH
-  lda #tech_fetch
-  sta inventory_earned_techs
-  .else
+  .ifdef EARNED_TECH
   lda #EARNED_TECH
   sta inventory_earned_techs
   .endif
 
-  lda #tech_rush
-  sta inventory_tech1
-  lda #tech_fetch
-  sta inventory_tech2
-
-  ;select tech1 as the currently active tech
-  lda #tech1
-  sta inventory_selected_tech
-
-  lda #<0
+  .ifdef GP
+  lda #<GP
   sta inventory_gp
-  lda #>0
+  lda #>GP
   sta inventory_gp+1
-  lda #^0
+  lda #^GP
   sta inventory_gp+2
-
-  lda #0
-  sta inventory_dungeon_flags
+  .endif
 
   rts
 

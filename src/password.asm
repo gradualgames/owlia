@@ -281,15 +281,15 @@ rotate_carry_into_password_field:
 
   ldx #8
   jsr rotate_password_field_into_accumulator
+  sta inventory_gp
+
+  ldx #8
+  jsr rotate_password_field_into_accumulator
   sta inventory_gp+1
 
   ldx #8
   jsr rotate_password_field_into_accumulator
   sta inventory_gp+2
-
-  ldx #8
-  jsr rotate_password_field_into_accumulator
-  sta inventory_gp+3
 
   rts
 

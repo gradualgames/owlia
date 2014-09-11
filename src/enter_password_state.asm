@@ -20,6 +20,7 @@
 .include "sprites_and_animations_data.inc"
 .include "controller.inc"
 .include "ppu.inc"
+.include "ndxdebug.h"
 
 .segment "ROM01"
 
@@ -346,24 +347,19 @@ enter_password_state_main:
   bpl :-
 password_might_still_be_valid:
 
-  ;we must decode the password into inventory state and then
-  ;test whether the inventory state is valid.
-  lda #<string_buffer
-  sta w0
-  lda #>string_buffer
-  sta w0+1
+  jsr decode_password
 
-  lda #<state_control_params+enter_password_state_control::password_field
-  sta w1
-  lda #>state_control_params+enter_password_state_control::password_field
-  sta w1+1
-  far_call #PASSWORD_BANK, password_string_to_password_bit_field
+  ndxDebugBreak
 
-  lda #<state_control_params+enter_password_state_control::password_field
-  sta w0
-  lda #>state_control_params+enter_password_state_control::password_field
-  sta w0+1
-  far_call #PASSWORD_BANK, password_bit_field_to_inventory_state
+  ;use GP to test whether inventory is valid.
+  sec
+  lda #<INVENTORY_MAX_GP
+  sbc inventory_gp
+  lda #>INVENTORY_MAX_GP
+  sbc inventory_gp+1
+  lda #^INVENTORY_MAX_GP
+  sbc inventory_gp+2
+  bmi password_invalid
 
   jmp done
 password_invalid:
@@ -390,6 +386,31 @@ not_start:
   jsr draw_cursor
 
   jmp enter_password_state_main
+
+.proc decode_password
+
+  ;we must decode the password into inventory state and then
+  ;test whether the inventory state is valid.
+  lda #<string_buffer
+  sta w0
+  lda #>string_buffer
+  sta w0+1
+
+  lda #<state_control_params+enter_password_state_control::password_field
+  sta w1
+  lda #>state_control_params+enter_password_state_control::password_field
+  sta w1+1
+  far_call #PASSWORD_BANK, password_string_to_password_bit_field
+
+  lda #<state_control_params+enter_password_state_control::password_field
+  sta w0
+  lda #>state_control_params+enter_password_state_control::password_field
+  sta w0+1
+  far_call #PASSWORD_BANK, password_bit_field_to_inventory_state
+
+  rts
+
+.endproc
 
 .proc update_cursor
 DPAD_TEST = %10000000
