@@ -24,6 +24,10 @@ password_obfuscation_masks:
 ;storing it at the 6 byte field pointed to by w0
 .proc inventory_state_to_password_bit_field
 
+  lda inventory_earned_techs
+  ldx #3
+  jsr rotate_value_into_password_field
+
   lda inventory_keys
   ldx #3
   jsr rotate_value_into_password_field
@@ -37,10 +41,6 @@ password_obfuscation_masks:
   jsr rotate_value_into_password_field
 
   lda inventory_healths
-  ldx #3
-  jsr rotate_value_into_password_field
-
-  lda inventory_earned_techs
   ldx #3
   jsr rotate_value_into_password_field
 
@@ -72,7 +72,7 @@ password_obfuscation_masks:
   ; eor password_obfuscation_masks,y
   sta (w0),y
   dey
-  bne :-
+  bpl :-
 
   rts
 
@@ -90,12 +90,12 @@ rotate_value_into_password_field:
 
 rotate_carry_into_password_field:
 
-  ror b5
-  ror b4
-  ror b3
-  ror b2
-  ror b1
   ror b0
+  ror b1
+  ror b2
+  ror b3
+  ror b4
+  ror b5
 
   rts
 
@@ -112,7 +112,7 @@ rotate_carry_into_password_field:
 : lda (w0),y
   sta b0,y
   dey
-  bne :-
+  bpl :-
 
   clc
 
@@ -136,12 +136,12 @@ next_password_character:
   cpy #9
   bne next_password_character
 
-  ;At this point, we have represented 45 bits of the 47 bit password field in the string.
-  ;we now need to rotate the last two bits into the accumulator and use this as the last
+  ;At this point, we have represented 45 bits of the 48 bit password field in the string.
+  ;we now need to rotate the last three bits into the accumulator and use this as the last
   ;character of the password.
-  ;rotate 2 bits into accumulator
+  ;rotate 3 bits into accumulator
   lda #0
-  ldx #2
+  ldx #3
 : jsr rotate_password_field_into_carry
   rol
   dex
@@ -166,6 +166,7 @@ rotate_password_field_into_carry:
   rol b3
   rol b2
   rol b1
+  rol b0
 
   rts
 
@@ -184,14 +185,14 @@ rotate_password_field_into_carry:
   dex
   bpl :-
 
-  ;rotate the first two bits of the password (the 10th character)
+  ;rotate the first three bits of the password (the 10th character)
   ;into the password field
   ldy #9
   lda (w0),y
   sec
   sbc #'A'
 
-  ldx #2
+  ldx #3
 :
   ror
   jsr rotate_carry_into_password_field
@@ -229,11 +230,12 @@ next_character:
 
 rotate_carry_into_password_field:
 
-  ror b5
-  ror b4
-  ror b3
-  ror b2
+  ror b0
   ror b1
+  ror b2
+  ror b3
+  ror b4
+  ror b5
 
   rts
 
@@ -255,6 +257,10 @@ rotate_carry_into_password_field:
 
   ldx #3
   jsr rotate_password_field_into_accumulator
+  sta inventory_earned_techs
+
+  ldx #3
+  jsr rotate_password_field_into_accumulator
   sta inventory_keys
 
   ldx #3
@@ -268,10 +274,6 @@ rotate_carry_into_password_field:
   ldx #3
   jsr rotate_password_field_into_accumulator
   sta inventory_healths
-
-  ldx #3
-  jsr rotate_password_field_into_accumulator
-  sta inventory_earned_techs
 
   ldx #8
   jsr rotate_password_field_into_accumulator
@@ -293,22 +295,35 @@ rotate_carry_into_password_field:
 
 rotate_password_field_into_accumulator:
 
+  txa
+  tay
+
   lda #0
   clc
-: rol
-  jsr rotate_password_field_into_carry
+: jsr rotate_password_field_into_carry
+  ror
   dex
+  bne :-
+
+  ;we picked up these bits in the right order but they are at the most significant side of the
+  ;accumulator. rotate them around into the correct position.
+  clc
+  iny
+next_label3:
+: rol
+  dey
   bne :-
 
   rts
 
 rotate_password_field_into_carry:
 
-  rol b5
-  rol b4
-  rol b3
-  rol b2
-  rol b1
+  ror b0
+  ror b1
+  ror b2
+  ror b3
+  ror b4
+  ror b5
 
   rts
 
