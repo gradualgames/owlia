@@ -68,8 +68,8 @@ password_obfuscation_masks:
   ;copy b0 through b5 into the password field
   ldy #5
 : lda b0,y
-  ; ;obfuscate the password field on the way out
-  ; eor password_obfuscation_masks,y
+  ;obfuscate the password field on the way out
+  eor password_obfuscation_masks,y
   sta (w0),y
   dey
   bpl :-
@@ -249,8 +249,8 @@ rotate_carry_into_password_field:
   ;copy the password bit field into b0 through b5
   ldy #5
 : lda (w0),y
-  ; ;obfuscate the password field on the way out
-  ; eor password_obfuscation_masks,y
+  ;de-obfuscate the password field on the way in
+  eor password_obfuscation_masks,y
   sta b0,y
   dey
   bpl :-
