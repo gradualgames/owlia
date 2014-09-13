@@ -21,6 +21,9 @@
   lda #tech_fetch
   sta inventory_tech2
 
+  lda #tech_fetch
+  sta inventory_earned_techs
+
   ;select tech1 as the currently active tech
   lda #tech1
   sta inventory_selected_tech
