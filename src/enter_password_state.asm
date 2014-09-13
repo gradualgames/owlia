@@ -24,6 +24,27 @@
 
 .segment "ROM01"
 
+overworld_start_locations:
+  .byte $ff
+  .byte location_index_village_house1_entrance
+  .byte location_index_meadow1_top_entrance
+  .byte $ff
+  .byte $ff
+  .byte $ff
+  .byte $ff
+  .byte $ff
+  .byte $ff
+
+dungeon_start_locations:
+  .byte $ff
+  .byte $ff
+  .byte location_index_dungeon_0_3_s
+  .byte $ff
+  .byte $ff
+  .byte $ff
+  .byte $ff
+  .byte $ff
+
 enter_password_state_palette:
   .byte $0e,$0e,$18,$20,$0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$0e,$0e,$0e
   .byte $0e,$05,$28,$38,$0e,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
@@ -320,13 +341,118 @@ enter_password_state_main:
 
   jsr update_cursor
 
+  .scope
   lda buffer_controller+buttons::_start
   and #%00000011
   cmp #%00000001
-  bne not_start
+  beq :+
+  jmp not_start
+:
+
+  ;initialize inventory since we're starting a new game
+  ;We do this here because we're going to overrite much of
+  ;it with the decoded password. But we want all the remaining
+  ;default values defined in this routine before starting a game.
+  jsr inventory_init
+
+  jsr decode_and_validate_password
+  beq :+
+  jmp password_invalid
+:
+
+  ;at this point, we know that the inventory state is valid. Use
+  ;inventory_earned_techs in conjunction with inventory_dungeon_flags
+  ;to pick the starting location from two LUTs.
+  .scope
+  lda inventory_dungeon_flags
+  cmp #INVENTORY_DUNGEON_FLAGS_NOT_YET_ENTERED
+  beq load_overworld_location
+load_dungeon_location:
+
+  ldx inventory_earned_techs
+  lda dungeon_start_locations,x
+  cmp #$ff
+  bne :+
+  jmp password_invalid
+:
+  sta b10
+
+  safely_set_vblank_routine ppu_vblank_nop
+
+  jsr ppu_fade_out_palette
+
+  jsr initialize_play_state_and_hero
+
+  ldx b10
+
+  jmp play_state_load_location_x
+
+  jmp done
+load_overworld_location:
+
+  ldx inventory_earned_techs
+  lda overworld_start_locations,x
+  cmp #$ff
+  beq password_invalid
+
+  sta b10
+
+  safely_set_vblank_routine ppu_vblank_nop
+
+  jsr ppu_fade_out_palette
+
+  jsr initialize_play_state_and_hero
+
+  ldx b10
+
+  jmp play_state_load_location_x
+
+done:
+  .endscope
+
+  jmp done
+password_invalid:
+  ;play a sound
+  lda #<sfx_error
+  sta sound_param_word_0
+  lda #>sfx_error
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SFX_BANK, stream_initialize
+done:
+not_start:
+  .endscope
+
+  jsr draw_cursor
+
+  jmp enter_password_state_main
+
+;this must be called before transitioning to the play state.
+.proc initialize_play_state_and_hero
+
+  jsr play_state_initialize
+
+  ;initialize persistent hero state
+  lda #3
+  sta hero_health
+  lda #0
+  sta hero_flags
+
+  rts
+
+.endproc
+
+;decodes and validates the entered password.
+;Z is clear when password is invalid.
+;Z is set when password is valid.
+.proc decode_and_validate_password
 
   ;validate and decode the entered password.
-  .scope
   ;password is invalid if not at correct length
   lda state_control_params+enter_password_state_control::entered_character_index
   cmp #(PASSWORD_LENGTH-1)
@@ -347,50 +473,6 @@ enter_password_state_main:
   bpl :-
 password_might_still_be_valid:
 
-  jsr decode_password
-
-  ndxDebugBreak
-
-  ;use GP to test whether inventory is valid.
-  sec
-  lda #<INVENTORY_MAX_GP
-  sbc inventory_gp
-  lda #>INVENTORY_MAX_GP
-  sbc inventory_gp+1
-  lda #^INVENTORY_MAX_GP
-  sbc inventory_gp+2
-  bmi password_invalid
-
-  jmp done
-password_invalid:
-  ;play a sound
-  lda #<sfx_error
-  sta sound_param_word_0
-  lda #>sfx_error
-  sta sound_param_word_0+1
-
-  lda #0
-  sta sound_param_byte_0
-  lda #soundeffect_one
-  sta sound_param_byte_1
-
-  far_call #SFX_BANK, stream_initialize
-done:
-  .endscope
-
-  ;transition to start game state once player state has been
-  ;reconstructed from the password
-
-not_start:
-
-  jsr draw_cursor
-
-  jmp enter_password_state_main
-
-.proc decode_password
-
-  ;we must decode the password into inventory state and then
-  ;test whether the inventory state is valid.
   lda #<string_buffer
   sta w0
   lda #>string_buffer
@@ -408,6 +490,26 @@ not_start:
   sta w0+1
   far_call #PASSWORD_BANK, password_bit_field_to_inventory_state
 
+  ;use GP to test whether inventory is valid.
+  sec
+  lda #<INVENTORY_MAX_GP
+  sbc inventory_gp
+  lda #>INVENTORY_MAX_GP
+  sbc inventory_gp+1
+  lda #^INVENTORY_MAX_GP
+  sbc inventory_gp+2
+  bmi password_invalid
+
+password_valid:
+
+  ;set zero flag to indicate password is valid.
+  lda #$00
+  rts
+
+password_invalid:
+
+  ;clear zero flag to indicate password is invalid.
+  lda #$ff
   rts
 
 .endproc

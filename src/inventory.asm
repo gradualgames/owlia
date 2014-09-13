@@ -35,7 +35,11 @@
   lda #^0
   sta inventory_gp+2
 
-  lda #0
+  ;start inventory_dungeon_flags at %11111111 to indicate
+  ;that a dungeon has not yet been entered. When it is
+  ;%00000000, the dungeon has been entered, and when it
+  ;has any bits set, the dungeon is partially completed.
+  lda #INVENTORY_DUNGEON_FLAGS_NOT_YET_ENTERED
   sta inventory_dungeon_flags
 
   .ifdef LANTERNS
