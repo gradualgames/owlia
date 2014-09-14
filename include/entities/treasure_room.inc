@@ -116,6 +116,8 @@ treasure_room_state_spawn_treasure_chest:
   ldy spawned_entity
   lda treasure_room_dungeon_flags_mask,x
   sta treasure_chest_dungeon_flags_mask,y
+  lda #TREASURE_CHEST_MODE_DUNGEON
+  sta treasure_chest_mode,y
   lda treasure_room_treasure_chest_type,x
   sta treasure_chest_item_type,y
   lda treasure_room_treasure_chest_quantity_lo,x

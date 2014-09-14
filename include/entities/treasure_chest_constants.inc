@@ -21,14 +21,20 @@ TREASURE_CHEST_ITEM_TYPE_LANTERN
 TREASURE_CHEST_ITEM_TYPE_BOMB
 .endenum
 
-TREASURE_CHEST_PARAMS = 4
+.enum
+TREASURE_CHEST_MODE_DUNGEON
+TREASURE_CHEST_MODE_OVERWORLD
+.endenum
+
+TREASURE_CHEST_PARAMS = 5
 
 treasure_chest_dungeon_flags_mask = entity_local0
-treasure_chest_item_type = entity_local1
-treasure_chest_item_quantity_lo = entity_local2
-treasure_chest_item_quantity_hi = entity_local3
+treasure_chest_mode = entity_local1
+treasure_chest_item_type = entity_local2
+treasure_chest_item_quantity_lo = entity_local3
+treasure_chest_item_quantity_hi = entity_local4
 
-treasure_chest_item_index = entity_local4
-treasure_chest_state_counter = entity_local5
+treasure_chest_item_index = entity_local5
+treasure_chest_state_counter = entity_local6
 
 .endif

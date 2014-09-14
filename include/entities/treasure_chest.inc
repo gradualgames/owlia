@@ -59,7 +59,11 @@ do_not_skip_treasure_chest:
   lda #$00
   sta entity_sprite_flags,x
 
+  lda treasure_chest_mode,x
+  cmp #TREASURE_CHEST_MODE_OVERWORLD
+  beq :+
   jsr treasure_chest_make_impassable
+:
 
   lda #TREASURE_CHEST_STATE_IDLE
   sta entity_state,x
@@ -209,24 +213,6 @@ spawn_gp:
   sta w1+1
 
   jsr set_dynamic_single_screen_collision_field_bit
-
-  rts
-
-.endproc
-
-.proc treasure_chest_make_passable
-
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-
-  lda entity_y_lo,x
-  sta w1
-  lda entity_y_hi,x
-  sta w1+1
-
-  jsr clear_dynamic_single_screen_collision_field_bit
 
   rts
 

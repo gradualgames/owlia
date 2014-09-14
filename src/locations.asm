@@ -115,25 +115,27 @@ house_sprite_chr_groups:
   .byte sprite_chr_group_index_npcwoman
 
 meadow1_sprite_chr_groups:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_octopus
   .byte sprite_chr_group_index_silmaran
 
 meadow2_sprite_chr_groups:
 meadow3_sprite_chr_groups:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_pufferfish
   .byte sprite_chr_group_index_octopus
 
@@ -234,9 +236,10 @@ store_entity_instances:
   .byte entity_index_item, 18, 18, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_HEALTH, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 10, 0, 1, 0
 
 meadow1_entity_instances:
-  .byte 8  ;count
+  .byte 9  ;count
   .byte entity_index_silmaran, 45, 47, 0, 0
   .byte entity_index_item, 29, 44, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_HEALTH, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
+  .byte entity_index_treasure_chest, 11, 38, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_octopus, 4, 24, 0, 0
   .byte entity_index_octopus, 34, 25, 0, 0
   .byte entity_index_octopus, 12, 38, 0, 0
@@ -247,8 +250,8 @@ meadow1_entity_instances:
 meadow2_entity_instances:
   .byte 11
   .byte entity_index_pufferfish, 39, 9, 0, 0
-  .byte entity_index_pufferfish, 47, 23, 0, 0
-  .byte entity_index_pufferfish, 58, 37, 0, 0
+  .byte entity_index_treasure_chest, 41, 9, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_treasure_chest, 29, 33, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_pufferfish, 28, 42, 0, 0
   .byte entity_index_octopus, 8, 42, 0, 0
   .byte entity_index_pufferfish, 29, 30, 0, 0
@@ -268,7 +271,7 @@ meadow3_entity_instances:
   .byte entity_index_octopus, 7, 40, 0, 0
   .byte entity_index_pufferfish, 19, 27, 0, 0
   .byte entity_index_pufferfish, 35, 9, 0, 0
-  .byte entity_index_pufferfish, 58, 24, 0, 0
+  .byte entity_index_treasure_chest, 21, 27, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_pufferfish, 40, 57, 0, 0
   .byte entity_index_octopus, 7, 56, 0, 0
 
@@ -474,7 +477,7 @@ dungeon_3_2_entity_instances:
 
 dungeon_0_3_entity_instances:
   .byte 6
-  .byte entity_index_treasure_chest, 3, 51, 0, TREASURE_CHEST_PARAMS, DUNGEON1_DUNGEON_FLAGS_TREASURE_CHEST1_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_treasure_chest, 3, 51, 0, TREASURE_CHEST_PARAMS, DUNGEON1_DUNGEON_FLAGS_TREASURE_CHEST1_OBTAINED, TREASURE_CHEST_MODE_DUNGEON, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_crab, 12, 52, sprite_chr_group_index_crab, 0
   .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, \
