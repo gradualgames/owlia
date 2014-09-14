@@ -270,12 +270,12 @@ skip_menu_selection_chosen:
   ldx state_control_params+start_game_state_control::menu_position
   lda cursor_position_x,x
   sta w3
-  lda #>100
+  lda #0
   sta w3+1
 
   lda cursor_position_y,x
   sta w4
-  lda #>100
+  lda #0
   sta w4+1
 
   lda #$00
