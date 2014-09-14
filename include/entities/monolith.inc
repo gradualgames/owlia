@@ -70,7 +70,12 @@ done:
   and inventory_dungeon_flags
   beq not_set_to_immediately_unlock
 
-  ;if so, initialize the falling state machine immediately.
+  ;if so, initialize the falling state machine immediately and set the
+  ;unlocked flag.
+  lda monolith_flags,x
+  ora #MONOLITH_FLAGS_UNLOCKED_SET
+  sta monolith_flags,x
+
   lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
   sta entity_state,x
 
