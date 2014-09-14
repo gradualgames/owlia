@@ -82,12 +82,6 @@
 
 .proc hero_spawn_familiar_spawn_unlock
 
-  .ifndef INFINITE_ITEMS
-  lda inventory_keys
-  beq no_keys_left
-  dec inventory_keys
-  .endif
-
   ;clear out the keyed monolith entity index in case we do not find one
   lda #$ff
   sta familiar_param_keyed_monolith_entity_index
@@ -121,6 +115,12 @@ found_keyed_monolith:
 
   lda familiar_param_keyed_monolith_entity_index
   bmi no_keyed_monolith_found
+
+  .ifndef INFINITE_ITEMS
+  lda inventory_keys
+  beq no_keys_left
+  dec inventory_keys
+  .endif
 
   ;compute the x and y coordinate of the keyhole
   clc
