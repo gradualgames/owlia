@@ -916,6 +916,36 @@ play_state_action_nop:
 ;****************************************************************
 play_state_action_transition_to_inventory_state:
 
+  ;if there are ANY monoliths that are NOT in the idle state,
+  ;we can't allow transitioning to the inventory state because
+  ;of how monolith animations work. Sometimes we upload columns
+  ;one frame at a time, and if the inventory state transition
+  ;occurs between columns we can get a small nametable glitch.
+  ;This is the best fix I could find---the ideal alternative
+  ;would be a new vblank routine capable of uploading entire
+  ;nametable patches. I went down this path once before and it
+  ;was hard to get right, bloated the engine code and furthermore
+  ;would add to the already onerous situation of tweaking the
+  ;scroll glitch hiding bar.
+  ldy #(MAX_ENTITIES-1)
+  .scope
+next_entity:
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq not_monolith
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne not_monolith
+
+  lda entity_state,y
+  cmp #MONOLITH_STATE_IDLE
+  bne play_state
+
+not_monolith:
+  dey
+  bpl next_entity
+  .endscope
+
   clear_vblank_done
   wait_vblank_done
 
