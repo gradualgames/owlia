@@ -69,6 +69,17 @@ string_buffer: .res 16
 sorted_entity_index: .res 1
 
 ;****************************************************************
+;This is used to implement entity flicker for all entities not
+;participating in sprite sorting. We can't use
+;next_sprite_address because we rely on sprite sorting in this
+;engine, but we can at least force any dropped sprites due to
+;sprite overflow to alternate the direction they show up by
+;sweeping entities alternately from least index to max index
+;and vice versa.
+;****************************************************************
+entity_flicker: .res 1
+
+;****************************************************************
 ;These constitute state of all active entities currently in play.
 ;The numerous "local" arrays below all of the common arrays are
 ;usually equated to more descriptive names for each entity type,

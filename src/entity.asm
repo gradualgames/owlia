@@ -1286,24 +1286,51 @@ done:
 
 ;draws all non player entities
 .proc entity_draw_npe
-  ;iterate over all entities
+
+  inc entity_flicker
+  lda entity_flicker
+  and #1
+  bne iterate_forwards
+iterate_backwards:
+  .scope
   ldx #(MAX_ENTITIES-1)
+next_entity:
+  jsr draw_entity
+  dex
+  bpl next_entity
+  .endscope
+
+  rts
+
+iterate_forwards:
+  .scope
+  ldx #0
+next_entity:
+  jsr draw_entity
+  inx
+  cpx #(MAX_ENTITIES)
+  bne next_entity
+  .endscope
+
+  rts
+
+draw_entity:
 
   ;skip the sorted entity and dead entities
-: cpx sorted_entity_index
-  beq :+
+  cpx sorted_entity_index
+  beq skip_entity
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_TEST
-  beq :+
+  beq skip_entity
   ;if we arrive here, we've found a living entity. Clip it against the screen.
 
   jsr entity_test_screen_rect
-  bne :+
+  bne skip_entity
 
   ;test to see if it is drawable.
   lda entity_flags,x
   and #ENTITY_FLAGS_DRAWABLE_TEST
-  beq :+
+  beq skip_entity
   ;the entity is drawable so proceed to calculate screen coords and draw its animation
   lda entity_animation_address_lo,x
   sta w0
@@ -1341,10 +1368,7 @@ done:
   switch_bank_y
 
   jsr sprite_draw_animation_frame
-:
-  dex
-  bpl :--
-
+skip_entity:
   rts
 
 .endproc
