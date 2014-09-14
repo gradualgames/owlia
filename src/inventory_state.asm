@@ -258,6 +258,8 @@ inventory_state_exit:
 
   far_call #SFX_BANK, stream_initialize
 
+  safely_set_vblank_routine ppu_vblank_nop
+
   ;fade out inventory palette
   lda #<inventory_screen_palette
   sta palette_address

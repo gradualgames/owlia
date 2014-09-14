@@ -13,6 +13,7 @@ ENTER_PASSWORD_STATE_BANK = 1
   cursor_position_x .byte
   cursor_position_y .byte
   entered_character_index .byte
+  print_string .byte
   password_field .byte 6
 .endstruct
 

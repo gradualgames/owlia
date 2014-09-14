@@ -302,6 +302,10 @@ enter_password_state_init:
   lda #0
   sta state_control_params+enter_password_state_control::underscore_blink_counter
 
+  ;clear the flag that tells the vblank routine to print strings
+  lda #0
+  sta state_control_params+enter_password_state_control::print_string
+
   jsr print_entered_password
 
   jsr draw_cursor
@@ -429,6 +433,9 @@ not_start:
   .endscope
 
   jsr draw_cursor
+
+  lda #1
+  sta state_control_params+enter_password_state_control::print_string
 
   jmp enter_password_state_main
 
@@ -823,9 +830,13 @@ done:
 
   jsr sprite_update_all
 
+  lda state_control_params+enter_password_state_control::print_string
+  beq :+
   jsr print_entered_password
-
   jsr print_underscores
+  lda #0
+  sta state_control_params+enter_password_state_control::print_string
+:
 
   upload_ppu_2006
   upload_ppu_2005

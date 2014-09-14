@@ -322,6 +322,8 @@ start_new_game:
 
 transition_to_enter_password_state:
 
+  safely_set_vblank_routine ppu_vblank_nop
+
   jsr ppu_fade_out_palette
 
   jmp enter_password_state_init
