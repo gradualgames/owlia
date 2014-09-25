@@ -485,15 +485,15 @@ password_might_still_be_valid:
   lda #>string_buffer
   sta w0+1
 
-  lda #<state_control_params+enter_password_state_control::password_field
+  lda #<(state_control_params+enter_password_state_control::password_field)
   sta w1
-  lda #>state_control_params+enter_password_state_control::password_field
+  lda #>(state_control_params+enter_password_state_control::password_field)
   sta w1+1
   far_call #PASSWORD_BANK, password_string_to_password_bit_field
 
-  lda #<state_control_params+enter_password_state_control::password_field
+  lda #<(state_control_params+enter_password_state_control::password_field)
   sta w0
-  lda #>state_control_params+enter_password_state_control::password_field
+  lda #>(state_control_params+enter_password_state_control::password_field)
   sta w0+1
   far_call #PASSWORD_BANK, password_bit_field_to_inventory_state
 

@@ -98,9 +98,9 @@ current_password_state_init:
   print_string current_password_string, state_control_params+current_password_state_control::nametable_hi, #12, #8
 
   ;generate password bit field from inventory state
-  lda #<state_control_params+current_password_state_control::password_field
+  lda #<(state_control_params+current_password_state_control::password_field)
   sta w0
-  lda #>state_control_params+current_password_state_control::password_field
+  lda #>(state_control_params+current_password_state_control::password_field)
   sta w0+1
   far_call #PASSWORD_BANK, inventory_state_to_password_bit_field
 
