@@ -1,0 +1,7 @@
+include/start_location.inc
+*.lst
+*.o
+*.map
+*.nes
+*.dbg
+*.ndx
