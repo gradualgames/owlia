@@ -226,3 +226,20 @@ dungeon1_boss_big_metatile_table_top_right = dungeon1_boss_data::big_metatile_ta
 dungeon1_boss_big_metatile_table_bottom_left = dungeon1_boss_data::big_metatile_table_bottom_left
 dungeon1_boss_big_metatile_table_bottom_right = dungeon1_boss_data::big_metatile_table_bottom_right
 dungeon1_boss_map = dungeon1_boss_data::map
+
+.scope tundra1_data
+.include "tundra1.inc"
+.endscope
+
+tundra1_metatile_table_properties = tundra1_data::metatile_table_properties
+tundra1_metatile_table_params = tundra1_data::metatile_table_params
+tundra1_metatile_table_attributes = tundra1_data::metatile_table_attributes
+tundra1_metatile_table_top_left_tiles = tundra1_data::metatile_table_top_left_tiles
+tundra1_metatile_table_top_right_tiles = tundra1_data::metatile_table_top_right_tiles
+tundra1_metatile_table_bottom_left_tiles = tundra1_data::metatile_table_bottom_left_tiles
+tundra1_metatile_table_bottom_right_tiles = tundra1_data::metatile_table_bottom_right_tiles
+tundra1_big_metatile_table_top_left = tundra1_data::big_metatile_table_top_left
+tundra1_big_metatile_table_top_right = tundra1_data::big_metatile_table_top_right
+tundra1_big_metatile_table_bottom_left = tundra1_data::big_metatile_table_bottom_left
+tundra1_big_metatile_table_bottom_right = tundra1_data::big_metatile_table_bottom_right
+tundra1_map = tundra1_data::map

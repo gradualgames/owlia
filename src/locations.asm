@@ -82,7 +82,8 @@
     dungeon_3_3_w, \
     dungeon1_boss_area_entrance, \
     dungeon1_boss_area_east_exit, \
-    dungeon1_boss_area_owl_dungeon
+    dungeon1_boss_area_owl_dungeon, \
+    tundra1_entrance
 
 locations_lo:
   .lobytes locations
@@ -187,6 +188,15 @@ dungeon1_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_greathornedowl
   .byte sprite_chr_group_index_cage
+
+tundra1_sprite_chr_groups:
+  .byte 6   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
 
 ;****************************************************************
 ;Entity instance sets
@@ -564,6 +574,9 @@ dungeon1_boss_owl_dungeon_entity_instances:
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon1_boss_area_east_exit, \
                                           0, 4
 
+tundra1_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -620,6 +633,12 @@ dungeon1_boss_owl_dungeon_palette:
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$08,$20,$0e,$00,$28,$10
   .byte $ff
   .word dungeon1_boss_owl_dungeon_palette
+
+tundra1_palette:
+  .byte $20,$0e,$12,$22,$20,$22,$10,$31,$20,$0e,$00,$10,$20,$0e,$21,$31
+  .byte $20,$0e,$06,$37,$20,$0e,$18,$20,$20,$0e,$28,$20,$20,$0e,$0e,$0e
+  .byte $ff
+  .word tundra1_palette
 
 ;****************************************************************
 ;Location definitions.
@@ -830,3 +849,8 @@ define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                         area_index_dungeon1_boss, dungeon1_boss_owl_dungeon_sprite_chr_groups, dungeon1_boss_owl_dungeon_entity_instances, dungeon1_boss_owl_dungeon_palette,\
                         16, 0, 18, 10,\
                         0, 0, 0, HERO_DIRECTION_RIGHT
+
+tundra1_entrance:
+define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
+                         area_index_tundra1, tundra1_sprite_chr_groups, tundra1_entity_instances, tundra1_palette,\
+                         45, 42, 0, 0, 0, HERO_DIRECTION_DOWN

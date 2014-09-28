@@ -69,6 +69,9 @@ intro_cut_scene_mermon_mad_bg_chr:
 
 .segment "ROM10"
 
+tundra_chr:
+.incbin "tundra.chr"
+
 intro_cut_scene_mermon_leer_bg_chr:
 .incbin "intro_cut_scene_mermon_leer_bg.chr"
 

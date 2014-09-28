@@ -186,4 +186,18 @@ MAP_DATA_BANK2 = 13
 .global dungeon1_boss_metatile_table_top_right_tiles
 .global dungeon1_boss_metatile_table_top_left_tiles
 
+.global tundra1_palette
+.global tundra1_map
+.global tundra1_big_metatile_table_bottom_right
+.global tundra1_big_metatile_table_bottom_left
+.global tundra1_big_metatile_table_top_right
+.global tundra1_big_metatile_table_top_left
+.global tundra1_metatile_table_properties
+.global tundra1_metatile_table_params
+.global tundra1_metatile_table_attributes
+.global tundra1_metatile_table_bottom_right_tiles
+.global tundra1_metatile_table_bottom_left_tiles
+.global tundra1_metatile_table_top_right_tiles
+.global tundra1_metatile_table_top_left_tiles
+
 .endif

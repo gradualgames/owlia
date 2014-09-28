@@ -25,7 +25,8 @@
     meadow2_area, \
     meadow3_area, \
     dungeon_area, \
-    dungeon1_boss_area
+    dungeon1_boss_area, \
+    tundra1_area
 
 areas_lo:
   .lobytes areas
@@ -399,3 +400,30 @@ dungeon1_boss_area_bg_chr_groups:
   .word dungeon1_main_chr
   .byte BG_CHR_DATA_BANK2
   .word dungeon1_pool_chr
+
+tundra1_area:
+  .byte MUSIC_BANK
+  .byte MAP_DATA_BANK2
+  .byte CONVERSATIONS_BANK
+  .word tundra1_area_bg_chr_groups
+  .word hero_theme
+  .byte $22 ;textbox_attribute
+  .word tundra1_map
+  .word tundra1_metatile_table_properties
+  .word tundra1_metatile_table_params
+  .word tundra1_metatile_table_attributes
+  .word tundra1_metatile_table_top_left_tiles
+  .word tundra1_metatile_table_top_right_tiles
+  .word tundra1_metatile_table_bottom_left_tiles
+  .word tundra1_metatile_table_bottom_right_tiles
+  .word tundra1_big_metatile_table_top_left
+  .word tundra1_big_metatile_table_top_right
+  .word tundra1_big_metatile_table_bottom_left
+  .word tundra1_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
+
+tundra1_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK3
+  .word tundra_chr

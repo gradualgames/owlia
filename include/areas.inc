@@ -49,6 +49,7 @@ area_index_meadow2
 area_index_meadow3
 area_index_dungeon
 area_index_dungeon1_boss
+area_index_tundra1
 .endenum
 
 .endif
