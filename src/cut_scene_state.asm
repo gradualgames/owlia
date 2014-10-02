@@ -21,7 +21,7 @@
 
 play_cut_scene:
 
-  jsr load_blank_map
+  far_call #CUT_SCENE_STATE_BANK, load_blank_map
 
   set_controller_routine controller_read
 
@@ -55,6 +55,8 @@ exit_cut_scene_state:
 
   switch_bank_ldy #TITLE_STATE_BANK
   jmp title_state_init
+
+.segment "ROM01"
 
 .proc load_blank_map
 
@@ -124,8 +126,6 @@ exit_cut_scene_state:
   rts
 
 .endproc
-
-.segment "ROM01"
 
 .proc load_slide_sprite_chr_groups
 slide_address = w10
