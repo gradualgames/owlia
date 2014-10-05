@@ -246,44 +246,31 @@ store_entity_instances:
   .byte entity_index_item, 18, 18, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PROMPT_FOR_PURCHASE_INIT, ITEM_TYPE_HEALTH, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 10, 0, 1, 0
 
 meadow1_entity_instances:
-  .byte 9  ;count
+  .byte 5  ;count
   .byte entity_index_silmaran, 45, 47, 0, 0
   .byte entity_index_item, 29, 44, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_HEALTH, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
   .byte entity_index_treasure_chest, 11, 38, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
-  .byte entity_index_octopus, 4, 24, 0, 0
-  .byte entity_index_octopus, 34, 25, 0, 0
   .byte entity_index_octopus, 12, 38, 0, 0
-  .byte entity_index_octopus, 52, 29, 0, 0
   .byte entity_index_octopus, 37, 44, 0, 0
-  .byte entity_index_octopus, 30, 15, 0, 0
 
 meadow2_entity_instances:
-  .byte 11
-  .byte entity_index_pufferfish, 39, 9, 0, 0
+  .byte 6
+  .byte entity_index_pufferfish, 47, 33, 0, 0
+  .byte entity_index_octopus, 18, 49, 0, 0
+  .byte entity_index_octopus, 38, 9, 0, 0
+  .byte entity_index_pufferfish, 19, 9, 0, 0
   .byte entity_index_treasure_chest, 41, 9, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_treasure_chest, 29, 33, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
-  .byte entity_index_pufferfish, 28, 42, 0, 0
-  .byte entity_index_octopus, 8, 42, 0, 0
-  .byte entity_index_pufferfish, 29, 30, 0, 0
-  .byte entity_index_octopus, 18, 9, 0, 0
-  .byte entity_index_pufferfish, 31, 19, 0, 0
-  .byte entity_index_pufferfish, 41, 51, 0, 0
-  .byte entity_index_octopus, 18, 49, 0, 0
-  .byte entity_index_pufferfish, 17, 28, 0, 0
 
 meadow3_entity_instances:
-  .byte 11
-  .byte entity_index_pufferfish, 18, 14, 0, 0
-  .byte entity_index_octopus, 51, 14, 0, 0
-  .byte entity_index_pufferfish, 41, 28, 0, 0
-  .byte entity_index_pufferfish, 55, 41, 0, 0
-  .byte entity_index_pufferfish, 23, 56, 0, 0
-  .byte entity_index_octopus, 7, 40, 0, 0
-  .byte entity_index_pufferfish, 19, 27, 0, 0
-  .byte entity_index_pufferfish, 35, 9, 0, 0
+  .byte 7
   .byte entity_index_treasure_chest, 21, 27, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
-  .byte entity_index_pufferfish, 40, 57, 0, 0
-  .byte entity_index_octopus, 7, 56, 0, 0
+  .byte entity_index_treasure_chest, 57, 41, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_octopus, 55, 41, 0, 0
+  .byte entity_index_pufferfish, 19, 27, 0, 0
+  .byte entity_index_pufferfish, 25, 56, 0, 0
+  .byte entity_index_octopus, 18, 14, 0, 0
+  .byte entity_index_octopus, 53, 12, 0, 0
 
 dungeon_0_0_entity_instances:
   .byte 5
