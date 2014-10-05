@@ -55,9 +55,6 @@ dungeon1_stones_chr:
 title_chr:
 .incbin "title.chr"
 
-game_over_chr:
-.incbin "game_over.chr"
-
 intro_cut_scene_great_owls_bg_chr:
 .incbin "intro_cut_scene_great_owls_bg.chr"
 

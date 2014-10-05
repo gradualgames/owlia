@@ -23,7 +23,6 @@ BG_CHR_DATA_BANK3 = 10
 .global tundra_chr
 .global inventory_bg_chr
 .global title_chr
-.global game_over_chr
 .global intro_cut_scene_great_owls_bg_chr
 .global intro_cut_scene_mermon_bg_chr
 .global intro_cut_scene_mermon_mad_bg_chr

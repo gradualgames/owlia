@@ -10,7 +10,7 @@ GAME_OVER_STATE_BG_NAMETABLE_BANK = NAMETABLE_DATA_BANK1
 .global game_over_state_init
 
 .struct game_over_state_control
-  ;TODO: Add state variables for game_over state (position of cursors, etc.)
+  password_field .byte 6
 .endstruct
 
 .endif
