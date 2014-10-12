@@ -622,8 +622,8 @@ dungeon1_boss_owl_dungeon_palette:
   .word dungeon1_boss_owl_dungeon_palette
 
 tundra1_palette:
-  .byte $20,$0e,$12,$22,$20,$22,$10,$31,$20,$0e,$00,$10,$20,$0e,$21,$31
-  .byte $20,$0e,$06,$37,$20,$0e,$18,$20,$20,$0e,$28,$20,$20,$0e,$0e,$0e
+  .byte $0e,$00,$10,$20,$0e,$12,$22,$20,$0e,$21,$31,$20,$0e,$10,$31,$20
+  .byte $0e,$0e,$06,$37,$0e,$0e,$18,$20,$0e,$0e,$28,$20,$0e,$0e,$0e,$0e
   .byte $ff
   .word tundra1_palette
 
