@@ -243,3 +243,20 @@ tundra1_big_metatile_table_top_right = tundra1_data::big_metatile_table_top_righ
 tundra1_big_metatile_table_bottom_left = tundra1_data::big_metatile_table_bottom_left
 tundra1_big_metatile_table_bottom_right = tundra1_data::big_metatile_table_bottom_right
 tundra1_map = tundra1_data::map
+
+.scope tundra2_data
+.include "tundra2.inc"
+.endscope
+
+tundra2_metatile_table_properties = tundra2_data::metatile_table_properties
+tundra2_metatile_table_params = tundra2_data::metatile_table_params
+tundra2_metatile_table_attributes = tundra2_data::metatile_table_attributes
+tundra2_metatile_table_top_left_tiles = tundra2_data::metatile_table_top_left_tiles
+tundra2_metatile_table_top_right_tiles = tundra2_data::metatile_table_top_right_tiles
+tundra2_metatile_table_bottom_left_tiles = tundra2_data::metatile_table_bottom_left_tiles
+tundra2_metatile_table_bottom_right_tiles = tundra2_data::metatile_table_bottom_right_tiles
+tundra2_big_metatile_table_top_left = tundra2_data::big_metatile_table_top_left
+tundra2_big_metatile_table_top_right = tundra2_data::big_metatile_table_top_right
+tundra2_big_metatile_table_bottom_left = tundra2_data::big_metatile_table_bottom_left
+tundra2_big_metatile_table_bottom_right = tundra2_data::big_metatile_table_bottom_right
+tundra2_map = tundra2_data::map
