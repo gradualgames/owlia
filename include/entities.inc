@@ -34,6 +34,7 @@ entity_index_silmaran
 entity_index_rescueowl
 entity_index_cage
 entity_index_monolith
+entity_index_dungeon_entrance_statue
 .endenum
 
 entity_update_bank_instance_placeholder = 4
@@ -61,6 +62,7 @@ entity_update_bank_silmaran = 4
 entity_update_bank_rescueowl = 4
 entity_update_bank_cage = 4
 entity_update_bank_monolith = 4
+entity_update_bank_dungeon_entrance_statue = 4
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 6
@@ -87,5 +89,6 @@ entity_sprites_and_animations_bank_silmaran = 6
 entity_sprites_and_animations_bank_rescueowl = 6
 entity_sprites_and_animations_bank_cage = 6
 ;entity_sprites_and_animations_bank_monolith ;this entity has no graphics
+;entity_sprites_and_animations_bank_dungeon_entrance_statue ;this entity has no graphics
 
 .endif

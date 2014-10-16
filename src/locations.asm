@@ -15,6 +15,7 @@
 .include "spotlight_puzzle_constants.inc"
 .include "treasure_chest_constants.inc"
 .include "treasure_room_constants.inc"
+.include "dungeon_entrance_statue_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -266,7 +267,8 @@ meadow2_entity_instances:
   .byte entity_index_treasure_chest, 29, 33, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 meadow3_entity_instances:
-  .byte 7
+  .byte 8
+  .byte entity_index_dungeon_entrance_statue, 9, 2, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, <6000, >6000
   .byte entity_index_treasure_chest, 21, 27, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_treasure_chest, 57, 41, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_octopus, 55, 41, 0, 0

@@ -28,7 +28,8 @@
     house_intro_scene_call_tyto2, \
     silmaran_call_adlanniel, \
     silmaran_encounter_scene, \
-    rescue_greathornedowl
+    rescue_greathornedowl, \
+    dungeon_statue_deny_entry
 
 conversations_lo:
   .lobytes conversations
@@ -262,3 +263,7 @@ rescue_greathornedowl:
   .byte    1, "DUDE. THANKS. LIKE,"
   .byte NL,2, "THAT OCTOGUY WAS SRSLY"
   .byte NL,3, "HARSHING MY STYLE, MAN.",WT,EC
+
+dungeon_statue_deny_entry:
+  .byte    1, "YOU DO NOT POSSESS ENOUGH"
+  .byte NL,2, "GOLD TO ENTER....",WT,EC
