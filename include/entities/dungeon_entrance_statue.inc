@@ -7,7 +7,8 @@ DUNGEON_ENTRANCE_STATUE_INC = 1
 .define dungeon_entrance_statue_states \
   dungeon_entrance_statue_state_init, \
   dungeon_entrance_statue_state_main, \
-  dungeon_entrance_statue_state_deny_entry
+  dungeon_entrance_statue_state_deny_entry, \
+  dungeon_entrance_statue_state_allow_entry_and_die
 
 dungeon_entrance_statue_lo:
   .lobytes dungeon_entrance_statue_states
@@ -99,6 +100,25 @@ do_not_switch_back_to_main_state:
 
   rts
 
+dungeon_entrance_statue_state_allow_entry_and_die:
+
+  .scope
+  dec dungeon_entrance_statue_state_counter,x
+  bne do_not_die_yet
+
+  ;restore control to the player
+  jsr controller_clear
+  set_controller_routine controller_read
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+do_not_die_yet:
+  .endscope
+
+  rts
+
 .proc check_statue_rect
 
   ;transfer hero rectangle to w2 = left and w3 = top and b2 = width and b3 = height
@@ -115,7 +135,7 @@ do_not_switch_back_to_main_state:
   lda hero_height
   sta b3
 
-  ;transfer summon rect to w4 = left and w5 = top and b4 = width and b5 = height
+  ;transfer statue rect to w4 = left and w5 = top and b4 = width and b5 = height
   lda entity_x_lo,x
   sta w4
   lda entity_x_hi,x
@@ -138,7 +158,7 @@ do_not_switch_back_to_main_state:
   sbc dungeon_entrance_statue_required_gp_lo,x
   lda inventory_gp+1
   sbc dungeon_entrance_statue_required_gp_hi,x
-  bpl do_not_deny_entry
+  bpl transition_to_allow_entry_state
 
   ;take over the controller.
   jsr controller_clear
@@ -156,6 +176,35 @@ do_not_switch_back_to_main_state:
   sta entity_state,x
 
 do_not_deny_entry:
+
+  rts
+
+transition_to_allow_entry_state:
+
+  lda #entity_index_explosion
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  ;take over the controller.
+  jsr controller_clear
+  set_controller_routine controller_nop
+
+  lda #DUNGEON_ENTRANCE_STATUE_STATE_ALLOW_ENTRY_LENGTH
+  sta dungeon_entrance_statue_state_counter,x
+
+  lda #DUNGEON_ENTRANCE_STATUE_STATE_ALLOW_ENTRY_AND_DIE
+  sta entity_state,x
 
   rts
 
