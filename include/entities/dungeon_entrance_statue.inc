@@ -36,12 +36,12 @@ dungeon_entrance_statue_state_init:
 do_not_die:
   .endscope
 
-  jsr entity_clear_drawable
+  jsr entity_set_drawable
 
-  ;lda #<dungeon_entrance_statue
-  ;sta entity_animation_address_lo,x
-  ;lda #>dungeon_entrance_statue
-  ;sta entity_animation_address_hi,x
+  lda #<dungeon_entrance_statue
+  sta entity_animation_address_lo,x
+  lda #>dungeon_entrance_statue
+  sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
 
@@ -52,9 +52,17 @@ do_not_die:
 
   ;some entities are parameterized for graphics set, ones
   ;that are always hard coded should set their chr offset here
-  ;lda #sprite_chr_group_index_dungeon_entrance_statue
-  ;sta b0
-  ;jsr entity_lookup_sprite_chr_offset
+  lda #sprite_chr_group_index_dungeon_entrance_statue
+  sta b0
+  jsr entity_lookup_sprite_chr_offset
+
+  clc
+  lda entity_y_lo,x
+  adc #<8
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  adc #>8
+  sta entity_y_hi,x
 
   lda #$00
   sta entity_sprite_flags,x

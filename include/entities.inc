@@ -89,6 +89,6 @@ entity_sprites_and_animations_bank_silmaran = 6
 entity_sprites_and_animations_bank_rescueowl = 6
 entity_sprites_and_animations_bank_cage = 6
 ;entity_sprites_and_animations_bank_monolith ;this entity has no graphics
-;entity_sprites_and_animations_bank_dungeon_entrance_statue ;this entity has no graphics
+entity_sprites_and_animations_bank_dungeon_entrance_statue = 6
 
 .endif

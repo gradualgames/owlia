@@ -132,7 +132,7 @@ meadow1_sprite_chr_groups:
 
 meadow2_sprite_chr_groups:
 meadow3_sprite_chr_groups:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 10   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -140,6 +140,7 @@ meadow3_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_treasure_chest
+  .byte sprite_chr_group_index_dungeon_entrance_statue
   .byte sprite_chr_group_index_pufferfish
   .byte sprite_chr_group_index_octopus
 

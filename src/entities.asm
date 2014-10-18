@@ -122,7 +122,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_rescueowl
   .byte entity_sprites_and_animations_bank_cage
   .byte 0 ;entity_sprites_and_animations_bank_monolith
-  .byte 0 ;entity_sprites_and_animations_bank_dungeon_entrance_statue
+  .byte entity_sprites_and_animations_bank_dungeon_entrance_statue
 
 .segment "ROM04"
 .include "instance_placeholder.inc"

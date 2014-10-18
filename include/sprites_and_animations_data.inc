@@ -105,6 +105,9 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 .global silmaran_descend
 .global silmaran_perch
 
+.global dungeon_entrance_statue0
+.global dungeon_entrance_statue
+
 .global greathornedowl_inside_cage
 .global greathornedowl_outside_cage
 .global greathornedowl_fly

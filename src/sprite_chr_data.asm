@@ -36,6 +36,7 @@
   silmaran_chr, \
   greathornedowl_chr, \
   cage_chr, \
+  dungeon_entrance_statue_chr, \
   intro_cut_scene_great_owls_spr_chr, \
   intro_cut_scene_mermon_leer_spr_chr
 
@@ -77,6 +78,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_silmaran
   .byte sprite_chr_group_bank_greathornedowl
   .byte sprite_chr_group_bank_cage
+  .byte sprite_chr_group_bank_dungeon_entrance_statue
   .byte sprite_chr_group_bank_intro_cut_scene_great_owls
   .byte sprite_chr_group_bank_intro_cut_scene_mermon_leer
 
@@ -177,6 +179,9 @@ greathornedowl_chr:
 
 cage_chr:
 .incbin "cage.chr"
+
+dungeon_entrance_statue_chr:
+.incbin "dungeon_entrance_statue.chr"
 
 intro_cut_scene_great_owls_spr_chr:
 .incbin "intro_cut_scene_great_owls_spr.chr"
