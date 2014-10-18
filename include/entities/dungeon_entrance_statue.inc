@@ -68,6 +68,10 @@ do_not_die:
   lda #$00
   sta entity_sprite_flags,x
 
+  lda #$00
+  sta dungeon_entrance_statue_state_counter,x
+  sta dungeon_entrance_statue_flash_counter,x
+
   lda #DUNGEON_ENTRANCE_STATUE_STATE_MAIN
   sta entity_state,x
 
@@ -103,8 +107,42 @@ do_not_switch_back_to_main_state:
 dungeon_entrance_statue_state_allow_entry_and_die:
 
   .scope
+  lda dungeon_entrance_statue_state_counter,x
+  and #%00000010
+  bne do_not_flash
+
+  inc dungeon_entrance_statue_flash_counter,x
+
+  lda dungeon_entrance_statue_flash_counter,x
+  and #%00000011
+  sta dungeon_entrance_statue_flash_counter,x
+
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora dungeon_entrance_statue_flash_counter,x
+  sta entity_sprite_flags,x
+
+do_not_flash:
+  .endscope
+
+  .scope
   dec dungeon_entrance_statue_state_counter,x
   bne do_not_die_yet
+
+  lda #entity_index_explosion
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
 
   ;restore control to the player
   jsr controller_clear
@@ -180,21 +218,6 @@ do_not_deny_entry:
   rts
 
 transition_to_allow_entry_state:
-
-  lda #entity_index_explosion
-  sta b0
-
-  lda entity_x_lo,x
-  sta w0
-  lda entity_x_hi,x
-  sta w0+1
-
-  lda entity_y_lo,x
-  sta w1
-  lda entity_y_hi,x
-  sta w1+1
-
-  jsr entity_spawn
 
   ;take over the controller.
   jsr controller_clear
