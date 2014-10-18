@@ -197,7 +197,9 @@ location_index_dungeon1_boss_area_east_exit
 location_index_dungeon1_boss_area_owl_dungeon
 location_index_tundra1_entrance
 location_index_tundra1_north_entrance
+location_index_tundra1_south_entrance
 location_index_tundra2_south_entrance
+location_index_tundra3_north_entrance
 .endenum
 
 ;****************************************************************

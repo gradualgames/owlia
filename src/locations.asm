@@ -86,7 +86,9 @@
     dungeon1_boss_area_owl_dungeon, \
     tundra1_entrance, \
     tundra1_north_entrance, \
-    tundra2_south_entrance
+    tundra1_south_entrance, \
+    tundra2_south_entrance, \
+    tundra3_north_entrance
 
 locations_lo:
   .lobytes locations
@@ -195,6 +197,7 @@ dungeon1_boss_owl_dungeon_sprite_chr_groups:
 
 tundra1_sprite_chr_groups:
 tundra2_sprite_chr_groups:
+tundra3_sprite_chr_groups:
   .byte 6   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -568,7 +571,12 @@ dungeon1_boss_owl_dungeon_entity_instances:
                                           0, 4
 
 tundra1_entity_instances:
+  .byte 0
+
 tundra2_entity_instances:
+  .byte 0
+
+tundra3_entity_instances:
   .byte 0
 
 ;****************************************************************
@@ -854,8 +862,17 @@ define_north_location LOCATION_BRIGHTNESS_LEVEL_4,\
                         area_index_tundra1, tundra1_sprite_chr_groups, tundra1_entity_instances, tundra1_palette,\
                         45, 1, 0, 0, 0, HERO_DIRECTION_DOWN
 
+tundra1_south_entrance:
+define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
+                      area_index_tundra1, tundra1_sprite_chr_groups, tundra1_entity_instances, tundra1_palette,\
+                      24, 62, 0, 0, 0, HERO_DIRECTION_UP
+
 tundra2_south_entrance:
 define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tundra2, tundra2_sprite_chr_groups, tundra2_entity_instances, tundra1_palette,\
                       45, 62, 0, 0, 0, HERO_DIRECTION_UP
 
+tundra3_north_entrance:
+define_north_location LOCATION_BRIGHTNESS_LEVEL_4,\
+                      area_index_tundra3, tundra3_sprite_chr_groups, tundra3_entity_instances, tundra1_palette,\
+                      24, 1, 0, 0, 0, HERO_DIRECTION_DOWN

@@ -214,4 +214,18 @@ MAP_DATA_BANK2 = 13
 .global tundra2_metatile_table_top_right_tiles
 .global tundra2_metatile_table_top_left_tiles
 
+.global tundra3_palette
+.global tundra3_map
+.global tundra3_big_metatile_table_bottom_right
+.global tundra3_big_metatile_table_bottom_left
+.global tundra3_big_metatile_table_top_right
+.global tundra3_big_metatile_table_top_left
+.global tundra3_metatile_table_properties
+.global tundra3_metatile_table_params
+.global tundra3_metatile_table_attributes
+.global tundra3_metatile_table_bottom_right_tiles
+.global tundra3_metatile_table_bottom_left_tiles
+.global tundra3_metatile_table_top_right_tiles
+.global tundra3_metatile_table_top_left_tiles
+
 .endif
