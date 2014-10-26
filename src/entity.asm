@@ -1287,8 +1287,7 @@ done:
 ;draws all non player entities
 .proc entity_draw_npe
 
-  inc entity_flicker
-  lda entity_flicker
+  lda metasprite_flicker
   and #1
   bne iterate_forwards
 iterate_backwards:

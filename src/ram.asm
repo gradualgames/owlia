@@ -9,6 +9,17 @@ sprite: .res 256
 next_sprite_address: .res 1
 
 ;****************************************************************
+;This is used to implement metasprite flicker for all entities
+;or other objects (status, shadow spots...) not participating
+;in sprite sorting. We can't use next_sprite_address because
+;we rely on sprite sorting in this engine, but we can at least
+;force any dropped sprites due to sprite overflow to alternate
+;the direction they show up by sweeping entities alternately
+;from least index to max index and vice versa.
+;****************************************************************
+metasprite_flicker: .res 1
+
+;****************************************************************
 ;Bank numbers for currently loaded game data
 ;****************************************************************
 music_bank: .res 1
@@ -67,17 +78,6 @@ string_buffer: .res 16
 ;hero and the familiar.
 ;****************************************************************
 sorted_entity_index: .res 1
-
-;****************************************************************
-;This is used to implement entity flicker for all entities not
-;participating in sprite sorting. We can't use
-;next_sprite_address because we rely on sprite sorting in this
-;engine, but we can at least force any dropped sprites due to
-;sprite overflow to alternate the direction they show up by
-;sweeping entities alternately from least index to max index
-;and vice versa.
-;****************************************************************
-entity_flicker: .res 1
 
 ;****************************************************************
 ;These constitute state of all active entities currently in play.

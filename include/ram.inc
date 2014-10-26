@@ -7,6 +7,8 @@ MAX_SHADOW_SPOTS = 12
 .global sprite
 .global next_sprite_address
 
+.global metasprite_flicker
+
 .global music_bank
 .global map_bank
 .global conversations_bank
