@@ -260,9 +260,19 @@ silmaran_encounter_scene:
   .byte NL,3, "NOBLE TYTO.",WT,EC
 
 rescue_greathornedowl:
-  .byte    1, "DUDE. THANKS. LIKE,"
-  .byte NL,2, "THAT OCTOGUY WAS SRSLY"
-  .byte NL,3, "HARSHING MY STYLE, MAN.",WT,EC
+  .byte    1, "NOBLE ADLANNIEL.",TM,30," MY POWER"
+  .byte NL,2, "OF FLIGHT IS RESTORED.",TM,30
+  .byte NL,3, "THANK YOU.",TM,30
+  .byte NL,4, "TO AID YOU FURTHER IN",WT,EP
+
+  .byte NL,1, "YOUR QUEST,",TM,20," I NOW GIVE"
+  .byte NL,2, "TYTO THE ABILITY TO TOSS"
+  .byte NL,3, "BOMBS!",WT,EP
+
+  .byte NL,1, "OWLIA IS A VAST LAND.",TM,30
+  .byte NL,2, "YOU MUST NOW TRAVEL TO"
+  .byte NL,3, "THE VAST NORTHERN TUNDRA.",TM,30
+  .byte NL,4, "I WILL TAKE YOU THERE.",WT,EC
 
 dungeon_statue_deny_entry:
   .byte    1, "YOU DO NOT POSSESS ENOUGH"

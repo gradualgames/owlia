@@ -41,7 +41,7 @@ rescueowl_earned_techs:
   .byte tech_carry_bomb
 
 rescueowl_dungeon_exit_locations:
-  .byte location_index_meadow3_dungeon_entrance
+  .byte location_index_tundra1_entrance
 
 .define rescueowl_states \
   rescueowl_state_init, \
@@ -49,6 +49,8 @@ rescueowl_dungeon_exit_locations:
   rescueowl_state_inside_cage, \
   rescueowl_state_released_init, \
   rescueowl_state_start_conversation, \
+  rescueowl_state_fly_to_hero_init, \
+  rescueowl_state_fly_to_hero, \
   rescueowl_state_fly_away_init, \
   rescueowl_state_fly_away, \
   rescueowl_state_leave_dungeon
@@ -135,6 +137,14 @@ do_not_skip_rescueowl:
   lda entity_y_hi,x
   sbc #>8
   sta entity_y_hi,x
+
+  lda #$00
+  sta rescueowl_x_fine,x
+  sta rescueowl_y_fine,x
+  sta rescueowl_velocity_x_lo,x
+  sta rescueowl_velocity_y_hi,x
+  sta rescueowl_velocity_x_lo,x
+  sta rescueowl_velocity_y_hi,x
 
   lda #$00
   sta entity_sprite_flags,x
@@ -228,9 +238,150 @@ rescueowl_state_start_conversation:
   lda rescueowl_conversation_indices,y
   sta state_control_params+play_state_control::param
 
-  lda #RESCUEOWL_STATE_FLY_AWAY_INIT
+  lda #RESCUEOWL_STATE_FLY_TO_HERO_INIT
   sta entity_state,x
 :
+
+  jsr entity_update_animation
+
+  rts
+
+rescueowl_state_fly_to_hero_init:
+
+  ldy rescueowl_type,x
+  lda rescueowl_fly_away_animations_lo,y
+  sta entity_animation_address_lo,x
+  lda rescueowl_fly_away_animations_hi,y
+  sta entity_animation_address_hi,x
+
+  jsr entity_update_animation
+
+  sec
+  lda entity_x_lo,x
+  sbc #<16
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  sbc #>16
+  sta entity_x_hi,x
+
+  lda #RESCUEOWL_STATE_FLY_TO_HERO_LENGTH
+  sta rescueowl_state_counter,x
+
+  lda #RESCUEOWL_STATE_FLY_TO_HERO
+  sta entity_state,x
+
+  rts
+
+rescueowl_state_fly_to_hero:
+
+  .scope
+  dec rescueowl_state_counter,x
+  bne do_not_switch_to_fly_away_state
+
+  lda #RESCUEOWL_STATE_FLY_AWAY_INIT
+  sta entity_state,x
+
+  rts
+
+do_not_switch_to_fly_away_state:
+  .endscope
+
+  ;compute goal coordinates for homing into hero
+  sec
+  lda hero_x
+  sbc #<16
+  sta w0
+  lda hero_x+1
+  sbc #>16
+  sta w0+1
+
+  sec
+  lda hero_y
+  sbc #<16
+  sta w1
+  lda hero_y+1
+  sbc #>16
+  sta w1+1
+
+  .scope
+  ;calculate distance between "goal" and X coordinate
+  sec
+  lda w0
+  sbc entity_x_lo,x
+  sta rescueowl_velocity_x_lo,x
+  lda w0+1
+  sbc entity_x_hi,x
+  sta rescueowl_velocity_x_hi,x
+
+  ;do an 16 bit arithmetic left shift on this value
+  asl rescueowl_velocity_x_lo,x
+  rol rescueowl_velocity_x_hi,x
+  asl rescueowl_velocity_x_lo,x
+  rol rescueowl_velocity_x_hi,x
+  asl rescueowl_velocity_x_lo,x
+  rol rescueowl_velocity_x_hi,x
+  asl rescueowl_velocity_x_lo,x
+  rol rescueowl_velocity_x_hi,x
+  .endscope
+
+  .scope
+  ;calculate distance between "goal" and Y coordinate
+  sec
+  lda w1
+  sbc entity_y_lo,x
+  sta rescueowl_velocity_y_lo,x
+  lda w1+1
+  sbc entity_y_hi,x
+  sta rescueowl_velocity_y_hi,x
+
+  ;do an 16 bit arithmetic left shift on this value
+  asl rescueowl_velocity_y_lo,x
+  rol rescueowl_velocity_y_hi,x
+  asl rescueowl_velocity_y_lo,x
+  rol rescueowl_velocity_y_hi,x
+  asl rescueowl_velocity_y_lo,x
+  rol rescueowl_velocity_y_hi,x
+  asl rescueowl_velocity_y_lo,x
+  rol rescueowl_velocity_y_hi,x
+  .endscope
+
+  .scope
+  lda rescueowl_velocity_x_lo,x
+  sta w10
+  lda rescueowl_velocity_x_hi,x
+  sta w10+1
+  bpl not_negative
+  ;find absolute value
+  lda w10
+  eor #$ff
+  adc #$01
+  sta w10
+  lda w10+1
+  eor #$ff
+  adc #$00
+  sta w10+1
+not_negative:
+  .endscope
+
+  .scope
+  lda rescueowl_velocity_y_lo,x
+  sta w11
+  lda rescueowl_velocity_y_hi,x
+  sta w11+1
+  bpl not_negative
+  ;find absolute value
+  lda w11
+  eor #$ff
+  adc #$01
+  sta w11
+  lda w11+1
+  eor #$ff
+  adc #$00
+  sta w11+1
+not_negative:
+  .endscope
+
+  jsr rescueowl_move
 
   jsr entity_update_animation
 
@@ -253,14 +404,6 @@ rescueowl_state_fly_away_init:
   far_call #SFX_BANK, stream_initialize
 
   jsr entity_reset_animation
-
-  sec
-  lda entity_x_lo,x
-  sbc #<16
-  sta entity_x_lo,x
-  lda entity_x_hi,x
-  sbc #>16
-  sta entity_x_hi,x
 
   ldy rescueowl_type,x
   lda rescueowl_fly_away_animations_lo,y
@@ -295,6 +438,25 @@ rescueowl_state_fly_away:
   sbc #>RESCUEOWL_FLY_AWAY_SPEED
   sta entity_y_hi,x
 
+  clc
+  lda entity_x_lo,x
+  adc #<RESCUEOWL_HERO_OFFSET_X
+  sta hero_x
+  lda entity_x_hi,x
+  adc #>RESCUEOWL_HERO_OFFSET_X
+  sta hero_x+1
+
+  clc
+  lda entity_y_lo,x
+  adc #<RESCUEOWL_HERO_OFFSET_Y
+  sta hero_y
+  lda entity_y_hi,x
+  adc #>RESCUEOWL_HERO_OFFSET_Y
+  sta hero_y+1
+
+  lda #HERO_DIRECTION_DOWN
+  sta hero_direction
+
   jsr entity_update_animation
 
   rts
@@ -313,5 +475,66 @@ rescueowl_state_leave_dungeon:
   sta state_control_params+play_state_control::param
 
   rts
+
+.proc rescueowl_move
+
+  ;add 16 bit velocity to 24 bit coordinate with sign extension
+  .scope
+  clc
+  lda rescueowl_velocity_x_lo,x
+  adc rescueowl_x_fine,x
+  sta rescueowl_x_fine,x
+  lda rescueowl_velocity_x_hi,x
+  bmi sign_extend
+
+  adc entity_x_lo,x
+  sta entity_x_lo,x
+
+  lda entity_x_hi,x
+  adc #0
+  sta entity_x_hi,x
+
+  jmp done
+sign_extend:
+
+  adc entity_x_lo,x
+  sta entity_x_lo,x
+
+  lda entity_x_hi,x
+  adc #$ff
+  sta entity_x_hi,x
+done:
+  .endscope
+
+  .scope
+  clc
+  lda rescueowl_velocity_y_lo,x
+  adc rescueowl_y_fine,x
+  sta rescueowl_y_fine,x
+  lda rescueowl_velocity_y_hi,x
+  bmi sign_extend
+
+  adc entity_y_lo,x
+  sta entity_y_lo,x
+
+  lda entity_y_hi,x
+  adc #0
+  sta entity_y_hi,x
+
+  jmp done
+sign_extend:
+
+  adc entity_y_lo,x
+  sta entity_y_lo,x
+
+  lda entity_y_hi,x
+  adc #$ff
+  sta entity_y_hi,x
+done:
+  .endscope
+
+  rts
+
+.endproc
 
 .endif
