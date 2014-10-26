@@ -91,6 +91,8 @@ done:
 
 cage_state_main:
 
+  jsr entity_set_sorted
+
   jsr cage_advance_attacked_state
 
   .scope
