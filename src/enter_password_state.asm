@@ -28,7 +28,7 @@ overworld_start_locations:
   .byte $ff
   .byte location_index_village_house1_entrance
   .byte location_index_meadow1_top_entrance
-  .byte $ff
+  .byte location_index_tundra1_entrance
   .byte $ff
   .byte $ff
   .byte $ff
