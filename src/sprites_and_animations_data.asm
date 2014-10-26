@@ -35,6 +35,7 @@
 .include "silmaran_sprites_and_animations.inc"
 .include "greathornedowl_sprites_and_animations.inc"
 .include "cage_sprites_and_animations.inc"
+.include "eel_sprites_and_animations.inc"
 .include "dungeon_entrance_statue_sprites_and_animations.inc"
 .include "intro_cut_scene_great_owls_sprites_and_animations.inc"
 .include "intro_cut_scene_mermon_leer_sprites_and_animations.inc"

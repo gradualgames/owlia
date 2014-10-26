@@ -39,6 +39,7 @@ sprite_chr_group_index_silmaran
 sprite_chr_group_index_greathornedowl
 sprite_chr_group_index_cage
 sprite_chr_group_index_dungeon_entrance_statue
+sprite_chr_group_index_eel
 sprite_chr_group_index_intro_cut_scene_great_owls
 sprite_chr_group_index_intro_cut_scene_mermon_leer
 .endenum
@@ -76,6 +77,7 @@ sprite_chr_group_bank_silmaran = 7
 sprite_chr_group_bank_greathornedowl = 7
 sprite_chr_group_bank_cage = 7
 sprite_chr_group_bank_dungeon_entrance_statue = 7
+sprite_chr_group_bank_eel = 7
 sprite_chr_group_bank_intro_cut_scene_great_owls = 7
 sprite_chr_group_bank_intro_cut_scene_mermon_leer = 7
 

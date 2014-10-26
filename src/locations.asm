@@ -16,6 +16,7 @@
 .include "treasure_chest_constants.inc"
 .include "treasure_room_constants.inc"
 .include "dungeon_entrance_statue_constants.inc"
+.include "eel_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -198,13 +199,14 @@ dungeon1_boss_owl_dungeon_sprite_chr_groups:
 tundra1_sprite_chr_groups:
 tundra2_sprite_chr_groups:
 tundra3_sprite_chr_groups:
-  .byte 6   ;sprite_chr_groups .byte
+  .byte 7   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_eel
 
 ;****************************************************************
 ;Entity instance sets
@@ -571,7 +573,9 @@ dungeon1_boss_owl_dungeon_entity_instances:
                                           0, 4
 
 tundra1_entity_instances:
-  .byte 0
+  .byte 2
+  .byte entity_index_eel, 48, 39, 0, EEL_PARAMS, EEL_DIRECTION_LEFT
+  .byte entity_index_eel, 42, 46, 0, EEL_PARAMS, EEL_DIRECTION_RIGHT
 
 tundra2_entity_instances:
   .byte 0
@@ -638,7 +642,7 @@ dungeon1_boss_owl_dungeon_palette:
 
 tundra1_palette:
   .byte $0e,$00,$10,$20,$0e,$12,$22,$20,$0e,$21,$31,$20,$0e,$10,$31,$20
-  .byte $0e,$0e,$06,$37,$0e,$0e,$18,$20,$0e,$0e,$28,$20,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$01,$03,$13,$0e,$0e,$01,$12
   .byte $ff
   .word tundra1_palette
 

@@ -61,7 +61,8 @@
   rescueowl_update, \
   cage_update, \
   monolith_update, \
-  dungeon_entrance_statue_update
+  dungeon_entrance_statue_update, \
+  eel_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -95,6 +96,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_cage
   .byte entity_update_bank_monolith
   .byte entity_update_bank_dungeon_entrance_statue
+  .byte entity_update_bank_eel
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -123,6 +125,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_cage
   .byte 0 ;entity_sprites_and_animations_bank_monolith
   .byte entity_sprites_and_animations_bank_dungeon_entrance_statue
+  .byte entity_sprites_and_animations_bank_eel
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -151,3 +154,4 @@ entity_defs_sprites_and_animations_bank:
 .include "cage.inc"
 .include "monolith.inc"
 .include "dungeon_entrance_statue.inc"
+.include "eel.inc"
