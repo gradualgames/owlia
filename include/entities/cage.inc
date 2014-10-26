@@ -41,6 +41,8 @@ cage_state_init:
 
   jsr entity_set_drawable
 
+  jsr entity_set_sorted
+
   lda #<cage
   sta entity_animation_address_lo,x
   lda #>cage
