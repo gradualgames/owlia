@@ -41,6 +41,18 @@ eel4:
   .byte $07,$06,$02,$fb,$0d
   .byte $07,$06,$02,$03,$05
   .byte $07,$06,$02,$0b,$fd
+eel4_reversed:
+  .byte $0a
+  .byte $07,$06,$02,$0b,$fd
+  .byte $07,$06,$02,$03,$05
+  .byte $07,$06,$02,$fb,$0d
+  .byte $07,$04,$02,$f3,$15
+  .byte $07,$02,$02,$eb,$1d
+  .byte $ff,$05,$02,$0b,$fd
+  .byte $ff,$05,$02,$03,$05
+  .byte $ff,$05,$02,$fb,$0d
+  .byte $ff,$03,$02,$f3,$15
+  .byte $ff,$01,$02,$eb,$1d
 eel5:
   .byte $0c
   .byte $ff,$01,$02,$e3,$25
@@ -55,18 +67,42 @@ eel5:
   .byte $07,$06,$02,$fb,$0d
   .byte $07,$06,$02,$03,$05
   .byte $07,$06,$02,$0b,$fd
+eel5_reversed:
+  .byte $0c
+  .byte $07,$06,$02,$0b,$fd
+  .byte $07,$06,$02,$03,$05
+  .byte $07,$06,$02,$fb,$0d
+  .byte $07,$06,$02,$f3,$15
+  .byte $07,$04,$02,$eb,$1d
+  .byte $07,$02,$02,$e3,$25
+  .byte $ff,$05,$02,$0b,$fd
+  .byte $ff,$05,$02,$03,$05
+  .byte $ff,$05,$02,$fb,$0d
+  .byte $ff,$05,$02,$f3,$15
+  .byte $ff,$03,$02,$eb,$1d
+  .byte $ff,$01,$02,$e3,$25
 
 eel:
-  .byte $06, $14
+  .byte $02, $28
+  .word eel0
   .word eel0
   .word eel1
+  .word eel1
+  .word eel2
   .word eel2
   .word eel3
+  .word eel3
   .word eel4
+  .word eel4_reversed
   .word eel5
+  .word eel5_reversed
   .word eel4
+  .word eel4_reversed
+  .word eel3
   .word eel3
   .word eel2
+  .word eel2
+  .word eel1
   .word eel1
 
 .endif
