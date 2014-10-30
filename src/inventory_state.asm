@@ -108,17 +108,17 @@ inventory_state_init:
 
   ;get lo byte of group
   ldy #sprite_chr_group_index_cursor
-  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_lo
+  far_load #SPRITE_CHR_DATA_BANK, #<sprite_chr_group_addresses_lo, #>sprite_chr_group_addresses_lo
   lda far_load_result
   sta w0
 
   ;get hi byte of group
-  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_hi
+  far_load #SPRITE_CHR_DATA_BANK, #<sprite_chr_group_addresses_hi, #>sprite_chr_group_addresses_hi
   lda far_load_result
   sta w0+1
 
   ;get bank of group
-  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_bank
+  far_load #SPRITE_CHR_DATA_BANK, #<sprite_chr_group_bank, #>sprite_chr_group_bank
   lda far_load_result
   sta b0
 
@@ -137,17 +137,17 @@ inventory_state_init:
 next_tech:
 
   ;get lo byte of group
-  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_lo
+  far_load #SPRITE_CHR_DATA_BANK, #<sprite_chr_group_addresses_lo, #>sprite_chr_group_addresses_lo
   lda far_load_result
   sta w0
 
   ;get hi byte of group
-  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_hi
+  far_load #SPRITE_CHR_DATA_BANK, #<sprite_chr_group_addresses_hi, #>sprite_chr_group_addresses_hi
   lda far_load_result
   sta w0+1
 
   ;get bank of group
-  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_bank
+  far_load #SPRITE_CHR_DATA_BANK, #<sprite_chr_group_bank, #>sprite_chr_group_bank
   lda far_load_result
   sta b0
 

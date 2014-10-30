@@ -56,15 +56,15 @@ title_state_init:
   upload_ppu_2006
 
   ldy #sprite_chr_group_index_title
-  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_lo
+  far_load #SPRITE_CHR_DATA_BANK, #<sprite_chr_group_addresses_lo, #>sprite_chr_group_addresses_lo
   lda far_load_result
   sta w0
 
-  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_hi
+  far_load #SPRITE_CHR_DATA_BANK, #<sprite_chr_group_addresses_hi, #>sprite_chr_group_addresses_hi
   lda far_load_result
   sta w0+1
 
-  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_bank
+  far_load #SPRITE_CHR_DATA_BANK, #<sprite_chr_group_bank, #>sprite_chr_group_bank
   lda far_load_result
   sta b0
 

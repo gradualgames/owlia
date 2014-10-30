@@ -11,6 +11,7 @@ bank_table:
 ;expects next_bank to point to the bank containing the byte we want to load
 ;expects far_load_address to be the address from which we want to load data
 ;expects y to be the index from which to load indirectly from far_load_address
+;will not preserve the x register.
 .proc far_load_impl
 
   save_calling_bank
@@ -21,32 +22,6 @@ bank_table:
 
   restore_calling_bank_x
 
-  rts
-
-.endproc
-
-;expects next_bank to point to the bank containing the data we want to copy
-;expects far_copy_source to be the address from which to copy data
-;expects far_copy_dest to be the address in RAM to which to copy data
-;expects far_copy_count to contain number of bytes to copy
-;expects far_copy_source_index to contain the source index
-;expects far_copy_dest_index to contain the dest index
-.proc far_copy_impl
-
-  save_calling_bank
-  switch_bank_ldy next_bank
-
-next_byte:
-  ldy far_copy_source_index
-  lda (far_copy_source),y
-  ldy far_copy_dest_index
-  sta (far_copy_dest),y
-  inc far_copy_source_index
-  inc far_copy_dest_index
-  dec far_copy_count
-  bne next_byte
-
-  restore_calling_bank_y
   rts
 
 .endproc
