@@ -31,7 +31,7 @@
 .include "locations.inc"
 .include "util.inc"
 
-.segment "CODE"
+.segment "ROM00"
 
 ;update routines for entities. The hero and familiar are left blank because
 ;they only use the entity system for loading CHR graphics.

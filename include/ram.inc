@@ -32,6 +32,8 @@ MAX_SHADOW_SPOTS = 12
 
 .global sorted_entity_index
 
+.global entity_index
+
 .global entity_flicker
 
 .global entity_type

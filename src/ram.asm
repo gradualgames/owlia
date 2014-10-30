@@ -80,6 +80,18 @@ string_buffer: .res 16
 sorted_entity_index: .res 1
 
 ;****************************************************************
+;This is used as the "this" entity index. During an actual entity
+;update call, this value is assumed to be loaded into the x
+;register. Using the x register in such a manner (having such a
+;long persistence) I now believe is bad practice. In the future,
+;I might use a variable like this as the "this" entity variable
+;and load x where needed, instead of forcing x to persist very
+;long. In any case, this was added to help facilitate moving the
+;entities look up table to a swappable bank.
+;****************************************************************
+entity_index: .res 1
+
+;****************************************************************
 ;These constitute state of all active entities currently in play.
 ;The numerous "local" arrays below all of the common arrays are
 ;usually equated to more descriptive names for each entity type,

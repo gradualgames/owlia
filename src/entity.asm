@@ -989,18 +989,22 @@ found_dead_entity:
   sta sorted_entity_index
 
   ;iterate over all entities
-  ldx #(MAX_ENTITIES-1)
+  lda #(MAX_ENTITIES-1)
+  sta entity_index
 
-: lda entity_flags,x
+next_entity:
+  ldx entity_index
+  lda entity_flags,x
   and #(ENTITY_FLAGS_ALIVE_TEST)
-  beq :+
+  beq skip_entity
   lda entity_flags,x
   and #(ENTITY_FLAGS_PAUSED_TEST)
-  bne :+
+  bne skip_entity
   lda entity_flags,x
   ;if we arrive here, we've found a living entity. Call its update routine.
   lda entity_type,x
   tay
+  switch_bank_ldx #ENTITIES_BANK
   lda entity_defs_update_address_lo,y
   sta w0
   lda entity_defs_update_address_hi,y
@@ -1008,10 +1012,11 @@ found_dead_entity:
   lda entity_defs_update_address_bank,y
   tay
   switch_bank_y
+  ldx entity_index
   jsr indirect_jsr_w0
-:
-  dex
-  bpl :--
+skip_entity:
+  dec entity_index
+  bpl next_entity
 
   rts
 
@@ -1361,6 +1366,7 @@ draw_entity:
   sta w2+1
 
   ;switch to the bank containing the sprites and animations for this entity type
+  switch_bank_ldy #ENTITIES_BANK
   ldy entity_type,x
   lda entity_defs_sprites_and_animations_bank,y
   tay
@@ -1406,6 +1412,7 @@ skip_entity:
   sta w2+1
 
   ;switch to the bank containing the sprites and animations for this entity type
+  switch_bank_ldy #ENTITIES_BANK
   ldy entity_type,x
   lda entity_defs_sprites_and_animations_bank,y
   tay
@@ -1546,6 +1553,7 @@ animation_rom_address = w2
   lda current_bank
   pha
 
+  switch_bank_ldy #ENTITIES_BANK
   ldy entity_type,x
   lda entity_defs_sprites_and_animations_bank,y
   tay
@@ -1583,6 +1591,7 @@ animation_rom_address = w2
   lda current_bank
   pha
 
+  switch_bank_ldy #ENTITIES_BANK
   ldy entity_type,x
   lda entity_defs_sprites_and_animations_bank,y
   tay
