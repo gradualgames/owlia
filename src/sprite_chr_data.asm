@@ -1,7 +1,7 @@
 .linecont +
 .include "sprite_chr_data.inc"
 
-.segment "CODE"
+.segment "ROM07"
 
 .define sprite_chr_group_addresses \
   hero_chr, \
@@ -46,6 +46,7 @@ sprite_chr_group_addresses_lo:
 sprite_chr_group_addresses_hi:
   .hibytes sprite_chr_group_addresses
 
+
 sprite_chr_group_bank:
   .byte sprite_chr_group_bank_hero
   .byte sprite_chr_group_bank_rushtech
@@ -83,8 +84,6 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_dungeon_entrance_statue
   .byte sprite_chr_group_bank_intro_cut_scene_great_owls
   .byte sprite_chr_group_bank_intro_cut_scene_mermon_leer
-
-.segment "ROM07"
 
 hero_chr:
 .incbin "hero.chr"

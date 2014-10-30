@@ -140,11 +140,14 @@ scroll_direction_opposite:
   lda #sprite_chr_group_index_rushtech
   adc inventory_tech1
   tax
+
+  switch_bank_ldy #SPRITE_CHR_DATA_BANK
   lda sprite_chr_group_addresses_lo,x
   sta w0
   lda sprite_chr_group_addresses_hi,x
   sta w0+1
   ldy sprite_chr_group_bank,x
+
   switch_bank_y
   jsr ppu_load_chr_amount
 
@@ -155,11 +158,14 @@ scroll_direction_opposite:
   lda #sprite_chr_group_index_rushtech
   adc inventory_tech2
   tax
+
+  switch_bank_ldy #SPRITE_CHR_DATA_BANK
   lda sprite_chr_group_addresses_lo,x
   sta w0
   lda sprite_chr_group_addresses_hi,x
   sta w0+1
   ldy sprite_chr_group_bank,x
+
   switch_bank_y
   jsr ppu_load_chr_amount
 
@@ -169,11 +175,14 @@ scroll_direction_opposite:
   sta shadow_spot_chr_offset
 
   ldx #sprite_chr_group_index_shadowspot
+
+  switch_bank_ldy #SPRITE_CHR_DATA_BANK
   lda sprite_chr_group_addresses_lo,x
   sta w0
   lda sprite_chr_group_addresses_hi,x
   sta w0+1
   ldy sprite_chr_group_bank,x
+
   switch_bank_y
   jsr ppu_load_chr_amount
 
@@ -240,6 +249,7 @@ chr_amount = w2
 chr_offset = b3
 sprite_chr_group_index = b4
 sprite_chr_groups_index = b0
+sprite_chr_groups_count = b1
 
   ;start tile accumulator (modified by ppu_load_chr_amount)
   lda #$00
@@ -249,8 +259,8 @@ sprite_chr_groups_index = b0
   switch_bank_ldy #LOCATIONS_BANK
   ldy #0
   lda (sprite_chr_groups_address),y
-  ;put it in x for counting
-  tax
+  ;put it in b1 for counting
+  sta b1
 
   ;point at the first entry in the sprite chr groups array
   iny
@@ -266,6 +276,7 @@ next_entity_type:
 
   ;get the address of this sprite chr group
   ldy sprite_chr_group_index
+  switch_bank_ldx #SPRITE_CHR_DATA_BANK
   lda sprite_chr_group_addresses_lo,y
   sta w0
   lda sprite_chr_group_addresses_hi,y
@@ -288,7 +299,7 @@ next_entity_type:
 
   inc sprite_chr_groups_index
 
-  dex
+  dec b1
   bne next_entity_type
 
   rts

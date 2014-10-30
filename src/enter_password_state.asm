@@ -229,12 +229,24 @@ enter_password_state_init:
   lda b3
   sta state_control_params+enter_password_state_control::cursor_spr_chr_offset
 
-  ldx #sprite_chr_group_index_cursor
-  lda sprite_chr_group_addresses_lo,x
+  ;get lo byte of group
+  ldy #sprite_chr_group_index_cursor
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_lo
+  lda far_load_result
   sta w0
-  lda sprite_chr_group_addresses_hi,x
+
+  ;get hi byte of group
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_hi
+  lda far_load_result
   sta w0+1
-  far_call {sprite_chr_group_bank,x}, ppu_load_chr_amount
+
+  ;get bank of group
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_bank
+  lda far_load_result
+  sta b0
+
+  ;load the group
+  far_call b0, ppu_load_chr_amount
 
   ;draw start game screen nametable
   lda #$20

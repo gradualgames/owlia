@@ -1,6 +1,8 @@
 .ifndef SPRITE_CHR_INC
 SPRITE_CHR_INC = 1
 
+SPRITE_CHR_DATA_BANK = 7
+
 .global sprite_chr_group_addresses_lo
 .global sprite_chr_group_addresses_hi
 .global sprite_chr_group_bank

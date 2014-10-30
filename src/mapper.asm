@@ -8,6 +8,23 @@
 bank_table:
   .byte $00, $01, $02, $03, $04, $05, $06, $07, $08, $09, $0a, $0b, $0c, $0d, $0e, $0f
 
+;expects next_bank to point to the bank containing the byte we want to load
+;expects far_load_address to be the address from which we want to load data
+;expects y to be the index from which to load indirectly from far_load_address
+.proc far_load_impl
+
+  save_calling_bank
+  switch_bank_ldx next_bank
+
+  lda (far_load_address),y
+  sta far_load_result
+
+  restore_calling_bank_x
+
+  rts
+
+.endproc
+
 ;expects next_bank to point to the bank containing the data we want to copy
 ;expects far_copy_source to be the address from which to copy data
 ;expects far_copy_dest to be the address in RAM to which to copy data
@@ -29,7 +46,7 @@ next_byte:
   dec far_copy_count
   bne next_byte
 
-  restore_calling_bank
+  restore_calling_bank_y
   rts
 
 .endproc
@@ -57,7 +74,7 @@ next_byte:
   pla
   sta processor_status
 
-  restore_calling_bank
+  restore_calling_bank_y
 
   ;restore the processor status saved before restoring the calling bank. Thus
   ;we will return from the far_call with the processor status as expected

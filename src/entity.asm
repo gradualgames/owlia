@@ -70,7 +70,7 @@ found_group:
   lda sprite_chr_group_offsets-1,y
   sta entity_sprite_group_offset,x
 
-  restore_calling_bank
+  restore_calling_bank_y
 
   rts
 

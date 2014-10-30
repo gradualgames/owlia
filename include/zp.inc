@@ -65,6 +65,8 @@ ZP_INC = 1
 .globalzp far_copy_dest_index
 .globalzp far_copy_count
 .globalzp far_call_address
+.globalzp far_load_address
+.globalzp far_load_result
 
 .globalzp controller_routine
 

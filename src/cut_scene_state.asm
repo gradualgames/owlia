@@ -160,15 +160,25 @@ next_set:
 
   ;get index of next group
   far_copy #SLIDE_DATA_BANK, sprite_chr_groups_address, b0, sprite_chr_groups_index, #0, #1
-  ldx b0
 
-  ;get address of group
-  lda sprite_chr_group_addresses_lo,x
+  ;get lo byte of group
+  ldy b0
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_lo
+  lda far_load_result
   sta w0
-  lda sprite_chr_group_addresses_hi,x
+
+  ;get hi byte of group
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_hi
+  lda far_load_result
   sta w0+1
 
-  far_call {sprite_chr_group_bank,x}, ppu_load_chr_amount
+  ;get bank of group
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_bank
+  lda far_load_result
+  sta b0
+
+  ;load the group
+  far_call b0, ppu_load_chr_amount
 
   inc sprite_chr_groups_index
 

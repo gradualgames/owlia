@@ -55,13 +55,20 @@ title_state_init:
   sta ppu_2006+1
   upload_ppu_2006
 
-  ldx #sprite_chr_group_index_title
-  lda sprite_chr_group_addresses_lo,x
+  ldy #sprite_chr_group_index_title
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_lo
+  lda far_load_result
   sta w0
-  lda sprite_chr_group_addresses_hi,x
+
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_hi
+  lda far_load_result
   sta w0+1
 
-  far_call {sprite_chr_group_bank,x}, ppu_load_chr_amount
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_bank
+  lda far_load_result
+  sta b0
+
+  far_call b0, ppu_load_chr_amount
 
   ;load nametable data for title screen
   lda #$20

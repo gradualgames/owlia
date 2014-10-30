@@ -106,33 +106,60 @@ inventory_state_init:
   lda #$00
   sta b3
 
-  ldx #sprite_chr_group_index_cursor
-  lda sprite_chr_group_addresses_lo,x
+  ;get lo byte of group
+  ldy #sprite_chr_group_index_cursor
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_lo
+  lda far_load_result
   sta w0
-  lda sprite_chr_group_addresses_hi,x
+
+  ;get hi byte of group
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_hi
+  lda far_load_result
   sta w0+1
+
+  ;get bank of group
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_bank
+  lda far_load_result
+  sta b0
 
   ;store the current chr offset for cursor sprites
   lda b3
   sta state_control_params+inventory_state_control::cursor_chr_offset
 
-  far_call {sprite_chr_group_bank,x}, ppu_load_chr_amount
+  ;load the group
+  far_call b0, ppu_load_chr_amount
 
   ;load all tech icon chr data
   lda b3
   sta state_control_params+inventory_state_control::techs_chr_offset
 
-  ldx #sprite_chr_group_index_rushtech
+  ldy #sprite_chr_group_index_rushtech
 next_tech:
-  lda sprite_chr_group_addresses_lo,x
+
+  ;get lo byte of group
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_lo
+  lda far_load_result
   sta w0
-  lda sprite_chr_group_addresses_hi,x
+
+  ;get hi byte of group
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_addresses_hi
+  lda far_load_result
   sta w0+1
 
-  far_call {sprite_chr_group_bank,x}, ppu_load_chr_amount
+  ;get bank of group
+  far_load #SPRITE_CHR_DATA_BANK, sprite_chr_group_bank
+  lda far_load_result
+  sta b0
 
-  inx
-  cpx #(sprite_chr_group_index_homingtech+1)
+  ;load the group
+  tya
+  pha
+  far_call b0, ppu_load_chr_amount
+  pla
+  tay
+
+  iny
+  cpy #(sprite_chr_group_index_homingtech+1)
   bne next_tech
 
   ;load nametable data for inventory screen on opposite nametable from
