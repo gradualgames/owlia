@@ -51,6 +51,15 @@ eel_state_init:
   lda eel_initial_state,x
   sta entity_state,x
 
+  ;run the initial state before next frame to ensure eel is on the screen when fading in
+  ;a level
+  tay
+  lda eel_lo,y
+  sta w0
+  lda eel_hi,y
+  sta w0+1
+  jsr indirect_jsr_w0
+
   rts
 
 eel_state_left_init:
