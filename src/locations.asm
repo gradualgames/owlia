@@ -574,8 +574,8 @@ dungeon1_boss_owl_dungeon_entity_instances:
 
 tundra1_entity_instances:
   .byte 2
-  .byte entity_index_eel, 48, 39, 0, EEL_PARAMS, EEL_DIRECTION_LEFT
-  .byte entity_index_eel, 42, 46, 0, EEL_PARAMS, EEL_DIRECTION_RIGHT
+  .byte entity_index_eel, 48, 39, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
+  .byte entity_index_eel, 42, 46, 0, EEL_PARAMS, EEL_STATE_RIGHT_INIT
 
 tundra2_entity_instances:
   .byte 0
