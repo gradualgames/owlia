@@ -664,6 +664,8 @@ done:
   ;grab action rect 2 and make it attack
   lda #ACTION_ATTACK
   sta entity_action_rect2_action
+  lda #ACTION_FROM_BOMB
+  sta entity_action_rect2_from
   lda #ENTITY_DIRECTION_NONE
   sta entity_action_rect2_direction
   lda entity_x_lo,x
@@ -706,6 +708,8 @@ do_not_spawn_explosion:
   ;reset action rect to nop
   lda #ACTION_NOP
   sta entity_action_rect2_action
+  lda #ACTION_FROM_NOBODY
+  sta entity_action_rect2_from
 
   ;die
   lda entity_flags,x

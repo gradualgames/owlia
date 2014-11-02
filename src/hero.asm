@@ -513,6 +513,9 @@ skip_lookup_opposite_direction:
   ; -set hero speed while hurt
   lda #HERO_KNOCKBACK_SPEED
   sta hero_speed
+  ; -make sure to cancel out the action1 rect
+  lda #ACTION_NOP
+  sta entity_action_rect1_action
 
   ;play a sound
   lda #<sfx_test

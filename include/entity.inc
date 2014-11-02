@@ -151,6 +151,81 @@ entity_not_attacked:
 
 .endmacro
 
+;common state machine logic for attacking the hero (including when hero attacks),
+;getting bombed, flashing, counting down the knockback_counter, decrementing health,
+;dying...there's a lot of stuff here =) This is expressed as a macro to give
+;entities the flexibility to use different entity_local arrays for the various
+;state variables.
+.macro entity_electric_bomb_combat attacked_counter_reset, knockback_counter_reset, attacked_counter, knockback_counter, health, direction
+
+  .scope
+  entity_advance_attacked_state attacked_counter
+  entity_advance_knocked_back_state knockback_counter
+
+  jsr entity_test_hero_rect
+  bne entity_not_hitting_hero
+
+  jsr entity_hurt_hero
+
+entity_not_hitting_hero:
+
+  lda attacked_counter,x
+  bne action_rect1_not_deadly
+  lda entity_action_rect1_action
+  cmp #ACTION_ATTACK
+  bne action_rect1_not_deadly
+
+  jsr entity_test_entity_action_rect1
+  bne action_rect1_not_deadly
+
+  .scope
+  lda entity_action_rect1_direction
+  cmp #ENTITY_DIRECTION_NONE
+  beq do_not_set_knockback_direction
+  sta direction,x
+do_not_set_knockback_direction:
+  .endscope
+
+  jsr entity_hurt_hero
+
+action_rect1_not_deadly:
+
+  lda attacked_counter,x
+  bne action_rect2_not_deadly
+  lda entity_action_rect2_action
+  cmp #ACTION_ATTACK
+  bne action_rect2_not_deadly
+  lda entity_action_rect2_from
+  cmp #ACTION_FROM_BOMB
+  bne action_rect2_not_deadly
+
+  jsr entity_test_entity_action_rect2
+  bne action_rect2_not_deadly
+
+  .scope
+  lda entity_action_rect2_direction
+  cmp #ENTITY_DIRECTION_NONE
+  beq do_not_set_knockback_direction
+  sta direction,x
+do_not_set_knockback_direction:
+  .endscope
+
+  jmp rect2_attacked_entity
+
+action_rect2_not_deadly:
+  jmp entity_not_attacked
+
+rect2_attacked_entity:
+  far_call #FAMILIAR_BANK, familiar_hit_enemy
+
+  entity_attacked attacked_counter_reset, attacked_counter, health, direction
+  entity_knocked_back knockback_counter_reset, knockback_counter
+
+entity_not_attacked:
+  .endscope
+
+.endmacro
+
 .macro entity_knocked_back knockback_counter_reset, knockback_counter
 
   lda knockback_counter_reset

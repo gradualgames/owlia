@@ -336,7 +336,7 @@ eel_state_right:
 
 .proc eel_combat
 
-  entity_combat #EEL_ATTACKED_LENGTH, #0, eel_attacked_counter, eel_knockback_counter, eel_health, eel_direction
+  entity_electric_bomb_combat #EEL_ATTACKED_LENGTH, #0, eel_attacked_counter, eel_knockback_counter, eel_health, eel_direction
 
   rts
 

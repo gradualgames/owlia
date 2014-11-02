@@ -152,6 +152,7 @@ entity_action_rect1_width:      .res 1
 entity_action_rect1_height:     .res 1
 
 entity_action_rect2_action:     .res 1
+entity_action_rect2_from:       .res 1
 entity_action_rect2_direction:  .res 1
 entity_action_rect2_x:          .res 2
 entity_action_rect2_y:          .res 2

@@ -691,6 +691,8 @@ familiar_not_alive:
   ;initialize action rect2
   lda #ACTION_NOP
   sta entity_action_rect2_action
+  lda #ACTION_FROM_NOBODY
+  sta entity_action_rect2_from
   lda familiar_x
   sta entity_action_rect2_x
   lda familiar_x+1
@@ -798,6 +800,8 @@ not_ready_yet:
   ;make action rect active
   lda #ACTION_ATTACK
   sta entity_action_rect2_action
+  lda #ACTION_FROM_FAMILIAR
+  sta entity_action_rect2_from
   lda familiar_direction
   sta entity_action_rect2_direction
 
@@ -907,6 +911,8 @@ not_ready_yet:
 
   lda #ACTION_FETCH
   sta entity_action_rect2_action
+  lda #ACTION_FROM_FAMILIAR
+  sta entity_action_rect2_from
 
   lda familiar_x
   sta entity_action_rect2_x
@@ -2435,6 +2441,8 @@ do_not_reset_familiar_param_shield_circle_lut_index:
   ;make action rect active
   lda #ACTION_ATTACK
   sta entity_action_rect2_action
+  lda #ACTION_FROM_FAMILIAR
+  sta entity_action_rect2_from
   lda familiar_direction
   sta entity_action_rect2_direction
 
@@ -2627,6 +2635,8 @@ not_ready_yet:
   ;make action rect active
   lda #ACTION_ATTACK
   sta entity_action_rect2_action
+  lda #ACTION_FROM_FAMILIAR
+  sta entity_action_rect2_from
   lda familiar_direction
   sta entity_action_rect2_direction
 
@@ -2747,6 +2757,8 @@ done:
   sta familiar_flags
   lda #ACTION_NOP
   sta entity_action_rect2_action
+  lda #ACTION_FROM_NOBODY
+  sta entity_action_rect2_from
 
 do_not_kill_familiar:
 

@@ -85,6 +85,7 @@ MAX_SHADOW_SPOTS = 12
 .global entity_action_rect1_height
 
 .global entity_action_rect2_action
+.global entity_action_rect2_from
 .global entity_action_rect2_direction
 .global entity_action_rect2_x
 .global entity_action_rect2_y
