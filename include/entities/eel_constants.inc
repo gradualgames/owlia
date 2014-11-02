@@ -32,7 +32,9 @@ eel_width_index = entity_local2
 eel_initial_x_lo = entity_local3
 eel_initial_x_hi = entity_local4
 eel_lash_out_counter = entity_local5
-eel_health            = entity_local17
-eel_attacked_counter = entity_local19
+eel_knockback_counter = entity_local6
+eel_direction = entity_local7
+eel_health            = entity_local8
+eel_attacked_counter = entity_local9
 
 .endif

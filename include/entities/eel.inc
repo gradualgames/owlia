@@ -165,11 +165,7 @@ eel_state_left_wait:
 hero_not_in_line_of_sight:
   .endscope
 
-  lda #EEL_ATTACKED_LENGTH
-  sta b0
-  lda #0
-  sta b1
-  jsr entity_combat
+  jsr eel_combat
 
   rts
 
@@ -208,11 +204,7 @@ eel_state_left:
   sta entity_x_hi,x
   sta entity_x_hi,x
 
-  lda #EEL_ATTACKED_LENGTH
-  sta b0
-  lda #0
-  sta b1
-  jsr entity_combat
+  jsr eel_combat
 
   jsr entity_update_animation
 
@@ -300,11 +292,7 @@ eel_state_right_wait:
 hero_not_in_line_of_sight:
   .endscope
 
-  lda #EEL_ATTACKED_LENGTH
-  sta b0
-  lda #0
-  sta b1
-  jsr entity_combat
+  jsr eel_combat
 
   rts
 
@@ -333,11 +321,7 @@ eel_state_right:
   lda eel_width,y
   sta entity_width,x
 
-  lda #EEL_ATTACKED_LENGTH
-  sta b0
-  lda #0
-  sta b1
-  jsr entity_combat
+  jsr eel_combat
 
   ;count down the lash-out counter and then transition back to wait state
   dec eel_lash_out_counter,x
@@ -349,5 +333,13 @@ eel_state_right:
   jsr entity_update_animation
 
   rts
+
+.proc eel_combat
+
+  entity_combat #EEL_ATTACKED_LENGTH, #0, eel_attacked_counter, eel_knockback_counter, eel_health, eel_direction
+
+  rts
+
+.endproc
 
 .endif

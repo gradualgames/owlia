@@ -4,10 +4,8 @@ ENTITY_INC = 1
 .global entity_module_init
 .global entity_init_all
 .global entity_lookup_sprite_chr_offset
-.global entity_combat
-.global entity_attacked
-.global entity_advance_attacked_state
 .global entity_hurt_hero
+.global entity_spawn_explosion_and_drop_item
 .global entity_find_enemy
 .global entity_mark_all_for_kill
 .global entity_kill_all_marked_for_kill
@@ -78,6 +76,138 @@ ENTITY_DIRECTION_NONE
   lda jump_table_hi,y
   sta w0+1
   jmp (w0)
+
+.endmacro
+
+;common state machine logic for attacking the hero, getting attacked, flashing,
+;counting down the knockback_counter, decrementing health, dying...there's a lot
+;of stuff here =) This is expressed as a macro to give entities the flexibility
+;to use different entity_local arrays for the various state variables.
+.macro entity_combat attacked_counter_reset, knockback_counter_reset, attacked_counter, knockback_counter, health, direction
+
+  .scope
+  entity_advance_attacked_state knockback_counter, attacked_counter
+
+  jsr entity_test_hero_rect
+  bne entity_not_hitting_hero
+
+  jsr entity_hurt_hero
+
+entity_not_hitting_hero:
+
+  lda attacked_counter,x
+  bne action_rect1_not_deadly
+  lda entity_action_rect1_action
+  cmp #ACTION_ATTACK
+  bne action_rect1_not_deadly
+
+  jsr entity_test_entity_action_rect1
+  bne action_rect1_not_deadly
+
+  .scope
+  lda entity_action_rect1_direction
+  cmp #ENTITY_DIRECTION_NONE
+  beq do_not_set_knockback_direction
+  sta direction,x
+do_not_set_knockback_direction:
+  .endscope
+
+  entity_attacked attacked_counter_reset, knockback_counter_reset, attacked_counter, knockback_counter, health, direction
+
+  rts
+
+action_rect1_not_deadly:
+
+  lda attacked_counter,x
+  bne action_rect2_not_deadly
+  lda entity_action_rect2_action
+  cmp #ACTION_ATTACK
+  bne action_rect2_not_deadly
+
+  jsr entity_test_entity_action_rect2
+  bne action_rect2_not_deadly
+
+  .scope
+  lda entity_action_rect2_direction
+  cmp #ENTITY_DIRECTION_NONE
+  beq do_not_set_knockback_direction
+  sta direction,x
+do_not_set_knockback_direction:
+  .endscope
+
+  entity_attacked attacked_counter_reset, knockback_counter_reset, attacked_counter, knockback_counter, health, direction
+
+  far_call #FAMILIAR_BANK, familiar_hit_enemy
+
+action_rect2_not_deadly:
+  .endscope
+
+.endmacro
+
+.macro entity_attacked attacked_counter_reset, knockback_counter_reset, attacked_counter, knockback_counter, health, direction
+
+  .scope
+  ;play a sound
+  lda #<sfx_hit
+  sta sound_param_word_0
+  lda #>sfx_hit
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SFX_BANK, stream_initialize
+
+  lda attacked_counter_reset
+  sta attacked_counter,x
+
+  lda knockback_counter_reset
+  sta knockback_counter,x
+
+  .ifndef INVINCIBLE_ENEMIES
+  dec health,x
+  bne entity_not_dead_yet
+
+  jsr entity_spawn_explosion_and_drop_item
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+entity_not_dead_yet:
+  .endif
+  .endscope
+
+.endmacro
+
+.macro entity_advance_attacked_state knockback_counter, attacked_counter
+
+  .scope
+  lda knockback_counter,x
+  beq knockback_state_machine_not_running
+
+  dec knockback_counter,x
+
+knockback_state_machine_not_running:
+
+  lda attacked_counter,x
+  beq attacked_state_machine_not_running
+
+  dec attacked_counter,x
+
+  lda attacked_counter,x
+  and #%00000011
+  sta b10
+
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b10
+  sta entity_sprite_flags,x
+
+attacked_state_machine_not_running:
+  .endscope
 
 .endmacro
 

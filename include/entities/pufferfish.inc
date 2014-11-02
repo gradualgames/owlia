@@ -385,11 +385,7 @@ do_not_switch_state:
 
 .proc pufferfish_main
 
-  lda #PUFFERFISH_ATTACKED_LENGTH
-  sta b0
-  lda #PUFFERFISH_KNOCKBACK_LENGTH
-  sta b1
-  jsr entity_combat
+  entity_combat #PUFFERFISH_ATTACKED_LENGTH, #PUFFERFISH_KNOCKBACK_LENGTH, pufferfish_attacked_counter, pufferfish_knockback_counter, pufferfish_health, pufferfish_direction
 
   ;test for collision offset from pufferfish
   ldy pufferfish_direction,x
