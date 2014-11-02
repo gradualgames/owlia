@@ -188,6 +188,7 @@ do_not_set_knockback_direction:
   .endscope
 
   jsr entity_hurt_hero
+  entity_flashed flash_counter_reset, flash_counter
 
 action_rect1_not_deadly:
 
