@@ -117,7 +117,7 @@ anglerfish_state_init:
   sta anglerfish_turn_counter,x
 
   lda #0
-  sta anglerfish_attacked_counter,x
+  sta anglerfish_flash_counter,x
 
   clc
   lda entity_x_lo,x
@@ -207,7 +207,7 @@ action_rect1_not_deadly:
 
 action_rect2_not_deadly:
 
-  lda anglerfish_attacked_counter,x
+  lda anglerfish_flash_counter,x
   bne do_not_move_anglerfish
 
   jsr anglerfish_move
@@ -351,7 +351,7 @@ done:
 
 .proc anglerfish_attacked
 
-  lda anglerfish_attacked_counter,x
+  lda anglerfish_flash_counter,x
   bne attacked_state_machine_already_running
 
   ;play a sound
@@ -369,7 +369,7 @@ done:
   far_call #SFX_BANK, stream_initialize
 
   lda #ANGLERFISH_ATTACKED_LENGTH
-  sta anglerfish_attacked_counter,x
+  sta anglerfish_flash_counter,x
 
 attacked_state_machine_already_running:
 
@@ -379,12 +379,12 @@ attacked_state_machine_already_running:
 
 .proc anglerfish_advance_attacked_state
 
-  lda anglerfish_attacked_counter,x
+  lda anglerfish_flash_counter,x
   beq attacked_state_machine_not_running
 
-  dec anglerfish_attacked_counter,x
+  dec anglerfish_flash_counter,x
 
-  lda anglerfish_attacked_counter,x
+  lda anglerfish_flash_counter,x
   and #%00000011
   sta b0
 

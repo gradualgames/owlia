@@ -54,7 +54,7 @@ pufferfish_puff_counter = entity_local14
 pufferfish_direction = entity_local16
 pufferfish_health = entity_local17
 pufferfish_knockback_counter = entity_local18
-pufferfish_attacked_counter = entity_local19
+pufferfish_flash_counter = entity_local19
 
 .enum
 PUFFERFISH_DIRECTION_RIGHT
@@ -241,7 +241,7 @@ pufferfish_state_init:
   sta pufferfish_health,x
 
   lda #0
-  sta pufferfish_attacked_counter,x
+  sta pufferfish_flash_counter,x
   sta pufferfish_knockback_counter,x
 
   ;initialize random turn counters. Each time they count
@@ -385,7 +385,7 @@ do_not_switch_state:
 
 .proc pufferfish_main
 
-  entity_combat #PUFFERFISH_ATTACKED_LENGTH, #PUFFERFISH_KNOCKBACK_LENGTH, pufferfish_attacked_counter, pufferfish_knockback_counter, pufferfish_health, pufferfish_direction
+  entity_combat #PUFFERFISH_ATTACKED_LENGTH, #PUFFERFISH_KNOCKBACK_LENGTH, pufferfish_flash_counter, pufferfish_knockback_counter, pufferfish_health, pufferfish_direction
 
   ;test for collision offset from pufferfish
   ldy pufferfish_direction,x

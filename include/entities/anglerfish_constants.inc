@@ -31,7 +31,7 @@ anglerfish_x_fine = entity_local6
 anglerfish_y_fine = entity_local7
 anglerfish_turn_counter = entity_local8
 anglerfish_spotlight_entity_index = entity_local9
-anglerfish_attacked_counter = entity_local10
+anglerfish_flash_counter = entity_local10
 
 .enum
 ANGLERFISH_STATE_INIT

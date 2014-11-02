@@ -35,7 +35,7 @@ octopus_initial_y_hi      = entity_local13
 octopus_direction         = entity_local14
 octopus_health            = entity_local15
 octopus_knockback_counter = entity_local16
-octopus_attacked_counter = entity_local17
+octopus_flash_counter = entity_local17
 
 .define octopus_states \
   octopus_state_init, \
@@ -134,7 +134,7 @@ octopus_state_init:
   sta octopus_health,x
 
   lda #0
-  sta octopus_attacked_counter,x
+  sta octopus_flash_counter,x
   sta octopus_knockback_counter,x
 
   lda #OCTOPUS_STATE_MAIN
@@ -144,7 +144,7 @@ octopus_state_init:
 
 octopus_state_main:
 
-  entity_combat #OCTOPUS_ATTACKED_LENGTH, #OCTOPUS_KNOCKBACK_LENGTH, octopus_attacked_counter, octopus_knockback_counter, octopus_health, octopus_direction
+  entity_combat #OCTOPUS_ATTACKED_LENGTH, #OCTOPUS_KNOCKBACK_LENGTH, octopus_flash_counter, octopus_knockback_counter, octopus_health, octopus_direction
 
   ;determine whether hero is within range rect
   .scope

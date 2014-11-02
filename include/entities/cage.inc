@@ -17,7 +17,7 @@ CAGE_STATE_EXPLODE
 CAGE_STATE_RELEASE_RESCUE_OWL
 .endenum
 
-cage_attacked_counter = entity_local0
+cage_flash_counter = entity_local0
 cage_health = entity_local1
 cage_rescue_owl_entity_index = entity_local2
 
@@ -65,7 +65,7 @@ cage_state_init:
   sta entity_sprite_flags,x
 
   lda #$00
-  sta cage_attacked_counter,x
+  sta cage_flash_counter,x
 
   lda #CAGE_HEALTH
   sta cage_health,x
@@ -180,12 +180,12 @@ cage_state_release_rescue_owl:
 
 .proc cage_advance_attacked_state
 
-  lda cage_attacked_counter,x
+  lda cage_flash_counter,x
   beq attacked_state_machine_not_running
 
-  dec cage_attacked_counter,x
+  dec cage_flash_counter,x
 
-  lda cage_attacked_counter,x
+  lda cage_flash_counter,x
   and #%00000011
   sta b0
 
@@ -202,7 +202,7 @@ attacked_state_machine_not_running:
 
 .proc cage_attacked
 
-  lda cage_attacked_counter,x
+  lda cage_flash_counter,x
   bne attacked_state_machine_already_running
 
   ;play a sound
@@ -226,7 +226,7 @@ attacked_state_machine_not_running:
 :
 
   lda #CAGE_ATTACKED_LENGTH
-  sta cage_attacked_counter,x
+  sta cage_flash_counter,x
 
 attacked_state_machine_already_running:
 

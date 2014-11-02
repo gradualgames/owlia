@@ -35,6 +35,6 @@ eel_lash_out_counter = entity_local5
 eel_knockback_counter = entity_local6
 eel_direction = entity_local7
 eel_health            = entity_local8
-eel_attacked_counter = entity_local9
+eel_flash_counter = entity_local9
 
 .endif

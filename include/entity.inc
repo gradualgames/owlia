@@ -83,10 +83,10 @@ ENTITY_DIRECTION_NONE
 ;counting down the knockback_counter, decrementing health, dying...there's a lot
 ;of stuff here =) This is expressed as a macro to give entities the flexibility
 ;to use different entity_local arrays for the various state variables.
-.macro entity_combat attacked_counter_reset, knockback_counter_reset, attacked_counter, knockback_counter, health, direction
+.macro entity_combat flash_counter_reset, knockback_counter_reset, flash_counter, knockback_counter, health, direction
 
   .scope
-  entity_advance_attacked_state attacked_counter
+  entity_advance_flash_state flash_counter
   entity_advance_knocked_back_state knockback_counter
 
   jsr entity_test_hero_rect
@@ -96,7 +96,7 @@ ENTITY_DIRECTION_NONE
 
 entity_not_hitting_hero:
 
-  lda attacked_counter,x
+  lda flash_counter,x
   bne action_rect1_not_deadly
   lda entity_action_rect1_action
   cmp #ACTION_ATTACK
@@ -117,7 +117,7 @@ do_not_set_knockback_direction:
 
 action_rect1_not_deadly:
 
-  lda attacked_counter,x
+  lda flash_counter,x
   bne action_rect2_not_deadly
   lda entity_action_rect2_action
   cmp #ACTION_ATTACK
@@ -143,7 +143,8 @@ rect2_attacked_entity:
   far_call #FAMILIAR_BANK, familiar_hit_enemy
 
 rect1_attacked_entity:
-  entity_attacked attacked_counter_reset, attacked_counter, health, direction
+  entity_attacked health, direction
+  entity_flashed flash_counter_reset, flash_counter
   entity_knocked_back knockback_counter_reset, knockback_counter
 
 entity_not_attacked:
@@ -156,10 +157,10 @@ entity_not_attacked:
 ;dying...there's a lot of stuff here =) This is expressed as a macro to give
 ;entities the flexibility to use different entity_local arrays for the various
 ;state variables.
-.macro entity_electric_bomb_combat attacked_counter_reset, knockback_counter_reset, attacked_counter, knockback_counter, health, direction
+.macro entity_electric_bomb_combat flash_counter_reset, knockback_counter_reset, flash_counter, knockback_counter, health, direction
 
   .scope
-  entity_advance_attacked_state attacked_counter
+  entity_advance_flash_state flash_counter
   entity_advance_knocked_back_state knockback_counter
 
   jsr entity_test_hero_rect
@@ -169,7 +170,7 @@ entity_not_attacked:
 
 entity_not_hitting_hero:
 
-  lda attacked_counter,x
+  lda flash_counter,x
   bne action_rect1_not_deadly
   lda entity_action_rect1_action
   cmp #ACTION_ATTACK
@@ -190,7 +191,7 @@ do_not_set_knockback_direction:
 
 action_rect1_not_deadly:
 
-  lda attacked_counter,x
+  lda flash_counter,x
   bne action_rect2_not_deadly
   lda entity_action_rect2_action
   cmp #ACTION_ATTACK
@@ -218,7 +219,8 @@ action_rect2_not_deadly:
 rect2_attacked_entity:
   far_call #FAMILIAR_BANK, familiar_hit_enemy
 
-  entity_attacked attacked_counter_reset, attacked_counter, health, direction
+  entity_attacked health, direction
+  entity_flashed flash_counter_reset, flash_counter
   entity_knocked_back knockback_counter_reset, knockback_counter
 
 entity_not_attacked:
@@ -233,7 +235,14 @@ entity_not_attacked:
 
 .endmacro
 
-.macro entity_attacked attacked_counter_reset, attacked_counter, health, direction
+.macro entity_flashed flash_counter_reset, flash_counter
+
+  lda flash_counter_reset
+  sta flash_counter,x
+
+.endmacro
+
+.macro entity_attacked health, direction
 
   .scope
   ;play a sound
@@ -248,9 +257,6 @@ entity_not_attacked:
   sta sound_param_byte_1
 
   far_call #SFX_BANK, stream_initialize
-
-  lda attacked_counter_reset
-  sta attacked_counter,x
 
   .ifndef INVINCIBLE_ENEMIES
   dec health,x
@@ -281,15 +287,15 @@ knockback_state_machine_not_running:
 
 .endmacro
 
-.macro entity_advance_attacked_state attacked_counter
+.macro entity_advance_flash_state flash_counter
 
   .scope
-  lda attacked_counter,x
-  beq attacked_state_machine_not_running
+  lda flash_counter,x
+  beq flash_state_machine_not_running
 
-  dec attacked_counter,x
+  dec flash_counter,x
 
-  lda attacked_counter,x
+  lda flash_counter,x
   and #%00000011
   sta b10
 
@@ -298,7 +304,7 @@ knockback_state_machine_not_running:
   ora b10
   sta entity_sprite_flags,x
 
-attacked_state_machine_not_running:
+flash_state_machine_not_running:
   .endscope
 
 .endmacro

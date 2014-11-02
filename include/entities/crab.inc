@@ -36,7 +36,7 @@ crab_y_fine = entity_local5
 crab_direction = entity_local6
 crab_health = entity_local7
 crab_knockback_counter = entity_local8
-crab_attacked_counter = entity_local9
+crab_flash_counter = entity_local9
 
 .enum
 CRAB_STATE_INIT
@@ -176,7 +176,7 @@ crab_state_init:
   sta crab_random_pause_counter,x
 
   lda #0
-  sta crab_attacked_counter,x
+  sta crab_flash_counter,x
   sta crab_knockback_counter,x
 
   lda #CRAB_STATE_MAIN
@@ -186,7 +186,7 @@ crab_state_init:
 
 crab_state_main:
 
-  entity_combat #CRAB_ATTACKED_LENGTH, #CRAB_KNOCKBACK_LENGTH, crab_attacked_counter, crab_knockback_counter, crab_health, crab_direction
+  entity_combat #CRAB_ATTACKED_LENGTH, #CRAB_KNOCKBACK_LENGTH, crab_flash_counter, crab_knockback_counter, crab_health, crab_direction
 
   ;permute the pseudo random number
   .scope

@@ -51,7 +51,7 @@ eel_state_init:
   lda #EEL_INITIAL_HEALTH
   sta eel_health,x
   lda #0
-  sta eel_attacked_counter,x
+  sta eel_flash_counter,x
 
   lda eel_initial_state,x
   sta entity_state,x
@@ -336,7 +336,7 @@ eel_state_right:
 
 .proc eel_combat
 
-  entity_electric_bomb_combat #EEL_ATTACKED_LENGTH, #0, eel_attacked_counter, eel_knockback_counter, eel_health, eel_direction
+  entity_electric_bomb_combat #EEL_ATTACKED_LENGTH, #0, eel_flash_counter, eel_knockback_counter, eel_health, eel_direction
 
   rts
 

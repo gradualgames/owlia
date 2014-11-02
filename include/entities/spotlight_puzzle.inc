@@ -140,10 +140,10 @@ done:
 spotlight_puzzle_state_single_anglerfish:
 
   ;first check to see if the one angler fish has a non-zero
-  ;attack counter. This means it is stunned, and is one of
+  ;flash counter. This means it is stunned, and is one of
   ;the conditions of this puzzle that must be satisfied
   ldy anglerfish_index0,x
-  lda anglerfish_attacked_counter,y
+  lda anglerfish_flash_counter,y
   beq anglerfish_not_stunned
 
   jsr check_spotlight_intersect_destination_key_tile
@@ -219,11 +219,11 @@ spotlight_puzzle_state_twin_anglerfish:
   ;counter. This means they are both stunned, and is one of the
   ;conditions of this puzzle that must be satisfied
   ldy anglerfish_index0,x
-  lda anglerfish_attacked_counter,y
+  lda anglerfish_flash_counter,y
   beq anglerfish_not_both_stunned
 
   ldy anglerfish_index1,x
-  lda anglerfish_attacked_counter,y
+  lda anglerfish_flash_counter,y
   beq anglerfish_not_both_stunned
 
   jsr check_distance_of_spotlights

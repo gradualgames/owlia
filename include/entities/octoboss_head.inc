@@ -43,7 +43,7 @@ octoboss_head_x_velocity_lo = entity_local5
 octoboss_head_x_velocity_hi = entity_local6
 octoboss_head_y_velocity_lo = entity_local7
 octoboss_head_y_velocity_hi = entity_local8
-octoboss_head_attacked_counter = entity_local9
+octoboss_head_flash_counter = entity_local9
 octoboss_head_health = entity_local10
 
 .enum
@@ -181,7 +181,7 @@ do_not_skip_octoboss:
   sta octoboss_head_health,x
 
   lda #0
-  sta octoboss_head_attacked_counter,x
+  sta octoboss_head_flash_counter,x
 
   ;play a sound
   lda #<sfx_octoboss_rise
@@ -558,7 +558,7 @@ action_rect2_not_deadly:
 
 .proc octoboss_head_attacked
 
-  lda octoboss_head_attacked_counter,x
+  lda octoboss_head_flash_counter,x
   bne attacked_state_machine_already_running
 
   ;play a sound
@@ -576,7 +576,7 @@ action_rect2_not_deadly:
   far_call #SFX_BANK, stream_initialize
 
   lda #OCTOBOSS_HEAD_ATTACKED_LENGTH
-  sta octoboss_head_attacked_counter,x
+  sta octoboss_head_flash_counter,x
 
   dec octoboss_head_health,x
   bne entity_not_dead_yet
@@ -623,12 +623,12 @@ attacked_state_machine_already_running:
 
 .proc octoboss_head_advance_attacked_state
 
-  lda octoboss_head_attacked_counter,x
+  lda octoboss_head_flash_counter,x
   beq attacked_state_machine_not_running
 
-  dec octoboss_head_attacked_counter,x
+  dec octoboss_head_flash_counter,x
 
-  lda octoboss_head_attacked_counter,x
+  lda octoboss_head_flash_counter,x
   and #%00000011
   sta b0
 
