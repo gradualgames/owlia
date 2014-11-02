@@ -48,6 +48,11 @@ eel_state_init:
   sta b0
   jsr entity_lookup_sprite_chr_offset
 
+  lda #EEL_INITIAL_HEALTH
+  sta eel_health,x
+  lda #0
+  sta eel_attacked_counter,x
+
   lda eel_initial_state,x
   sta entity_state,x
 
@@ -160,6 +165,12 @@ eel_state_left_wait:
 hero_not_in_line_of_sight:
   .endscope
 
+  lda #EEL_ATTACKED_LENGTH
+  sta b0
+  lda #0
+  sta b1
+  jsr entity_combat
+
   rts
 
 eel_state_left:
@@ -197,14 +208,11 @@ eel_state_left:
   sta entity_x_hi,x
   sta entity_x_hi,x
 
-  .scope
-  jsr entity_test_hero_rect
-  bne :+
-  lda #HERO_DIRECTION_LEFT
+  lda #EEL_ATTACKED_LENGTH
   sta b0
-  far_call #HERO_BANK, hero_hurt
-:
-  .endscope
+  lda #0
+  sta b1
+  jsr entity_combat
 
   jsr entity_update_animation
 
@@ -278,6 +286,12 @@ eel_state_right_wait:
 hero_not_in_line_of_sight:
   .endscope
 
+  lda #EEL_ATTACKED_LENGTH
+  sta b0
+  lda #0
+  sta b1
+  jsr entity_combat
+
   rts
 
 eel_state_right:
@@ -305,14 +319,11 @@ eel_state_right:
   lda eel_width,y
   sta entity_width,x
 
-  .scope
-  jsr entity_test_hero_rect
-  bne :+
-  lda #HERO_DIRECTION_RIGHT
+  lda #EEL_ATTACKED_LENGTH
   sta b0
-  far_call #HERO_BANK, hero_hurt
-:
-  .endscope
+  lda #0
+  sta b1
+  jsr entity_combat
 
   ;count down the lash-out counter and then transition back to wait state
   dec eel_lash_out_counter,x
