@@ -82,10 +82,10 @@ eel_state_left_init:
   ;that the eel lives in) to be consistent with right-configured eels
   clc
   lda entity_x_lo,x
-  adc #<16
+  adc #<(16+3)
   sta entity_x_lo,x
   lda entity_x_hi,x
-  adc #>16
+  adc #>(16+3)
   sta entity_x_hi,x
 
   ;store initial x location, we subtract the cycling widths above from
@@ -232,6 +232,20 @@ eel_state_right_init:
 
   lda #0
   sta eel_width_index,x
+
+  sec
+  lda entity_x_lo,x
+  sbc #<3
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  sbc #>3
+  sta entity_x_hi,x
+
+  ;use width index for current hitbox width
+  ldy eel_width_index,x
+
+  lda eel_width,y
+  sta entity_width,x
 
   lda #EEL_WIDTH_INDEX_DELAY
   sta eel_width_index_counter,x
