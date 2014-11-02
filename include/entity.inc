@@ -112,9 +112,7 @@ entity_not_hitting_hero:
 do_not_set_knockback_direction:
   .endscope
 
-  entity_attacked attacked_counter_reset, knockback_counter_reset, attacked_counter, knockback_counter, health, direction
-
-  rts
+  jmp rect1_attacked_entity
 
 action_rect1_not_deadly:
 
@@ -135,11 +133,18 @@ action_rect1_not_deadly:
 do_not_set_knockback_direction:
   .endscope
 
-  entity_attacked attacked_counter_reset, knockback_counter_reset, attacked_counter, knockback_counter, health, direction
-
-  far_call #FAMILIAR_BANK, familiar_hit_enemy
+  jmp rect2_attacked_entity
 
 action_rect2_not_deadly:
+  jmp entity_not_attacked
+
+rect2_attacked_entity:
+  far_call #FAMILIAR_BANK, familiar_hit_enemy
+
+rect1_attacked_entity:
+  entity_attacked attacked_counter_reset, knockback_counter_reset, attacked_counter, knockback_counter, health, direction
+
+entity_not_attacked:
   .endscope
 
 .endmacro
