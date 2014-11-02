@@ -86,7 +86,8 @@ ENTITY_DIRECTION_NONE
 .macro entity_combat attacked_counter_reset, knockback_counter_reset, attacked_counter, knockback_counter, health, direction
 
   .scope
-  entity_advance_attacked_state knockback_counter, attacked_counter
+  entity_advance_attacked_state attacked_counter
+  entity_advance_knocked_back_state knockback_counter
 
   jsr entity_test_hero_rect
   bne entity_not_hitting_hero
@@ -142,14 +143,22 @@ rect2_attacked_entity:
   far_call #FAMILIAR_BANK, familiar_hit_enemy
 
 rect1_attacked_entity:
-  entity_attacked attacked_counter_reset, knockback_counter_reset, attacked_counter, knockback_counter, health, direction
+  entity_attacked attacked_counter_reset, attacked_counter, health, direction
+  entity_knocked_back knockback_counter_reset, knockback_counter
 
 entity_not_attacked:
   .endscope
 
 .endmacro
 
-.macro entity_attacked attacked_counter_reset, knockback_counter_reset, attacked_counter, knockback_counter, health, direction
+.macro entity_knocked_back knockback_counter_reset, knockback_counter
+
+  lda knockback_counter_reset
+  sta knockback_counter,x
+
+.endmacro
+
+.macro entity_attacked attacked_counter_reset, attacked_counter, health, direction
 
   .scope
   ;play a sound
@@ -168,9 +177,6 @@ entity_not_attacked:
   lda attacked_counter_reset
   sta attacked_counter,x
 
-  lda knockback_counter_reset
-  sta knockback_counter,x
-
   .ifndef INVINCIBLE_ENEMIES
   dec health,x
   bne entity_not_dead_yet
@@ -187,7 +193,7 @@ entity_not_dead_yet:
 
 .endmacro
 
-.macro entity_advance_attacked_state knockback_counter, attacked_counter
+.macro entity_advance_knocked_back_state knockback_counter
 
   .scope
   lda knockback_counter,x
@@ -196,7 +202,13 @@ entity_not_dead_yet:
   dec knockback_counter,x
 
 knockback_state_machine_not_running:
+  .endscope
 
+.endmacro
+
+.macro entity_advance_attacked_state attacked_counter
+
+  .scope
   lda attacked_counter,x
   beq attacked_state_machine_not_running
 
