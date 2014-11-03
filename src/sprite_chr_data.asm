@@ -38,6 +38,7 @@
   cage_chr, \
   dungeon_entrance_statue_chr, \
   eel_chr, \
+  jellyfish_chr, \
   intro_cut_scene_great_owls_spr_chr, \
   intro_cut_scene_mermon_leer_spr_chr
 
@@ -81,6 +82,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_greathornedowl
   .byte sprite_chr_group_bank_cage
   .byte sprite_chr_group_bank_eel
+  .byte sprite_chr_group_bank_jellyfish
   .byte sprite_chr_group_bank_dungeon_entrance_statue
   .byte sprite_chr_group_bank_intro_cut_scene_great_owls
   .byte sprite_chr_group_bank_intro_cut_scene_mermon_leer
@@ -183,6 +185,9 @@ cage_chr:
 
 eel_chr:
 .incbin "eel.chr"
+
+jellyfish_chr:
+.incbin "jellyfish.chr"
 
 dungeon_entrance_statue_chr:
 .incbin "dungeon_entrance_statue.chr"

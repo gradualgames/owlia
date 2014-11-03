@@ -123,6 +123,8 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 6
 
 .global eel
 
+.global jellyfish
+
 .global intro_cut_scene_great_owls_spr_overlay
 
 .global intro_cut_scene_mermon_leer_spr_overlay0
