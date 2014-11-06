@@ -22,17 +22,23 @@ JELLYFISH_KNOCKBACK_LENGTH = 10
 ;floating above this point.
 jellyfish_x_lo = entity_local0
 jellyfish_x_hi = entity_local1
-jellyfish_y_lo = entity_local2
-jellyfish_y_hi = entity_local3
-jellyfish_y_offset_lo = entity_local4
-jellyfish_y_offset_hi = entity_local5
-jellyfish_y_offset_fine = entity_local6
-jellyfish_y_velocity_lo = entity_local7
-jellyfish_y_velocity_hi = entity_local8
-jellyfish_direction = entity_local19
-jellyfish_health = entity_local10
-jellyfish_knockback_counter = entity_local11
-jellyfish_flash_counter = entity_local12
+jellyfish_x_fine = entity_local2
+jellyfish_y_lo = entity_local3
+jellyfish_y_hi = entity_local4
+jellyfish_y_fine = entity_local5
+jellyfish_x_velocity_lo = entity_local6
+jellyfish_x_velocity_hi = entity_local7
+jellyfish_y_velocity_lo = entity_local8
+jellyfish_y_velocity_hi = entity_local9
+jellyfish_y_offset_lo = entity_local10
+jellyfish_y_offset_hi = entity_local11
+jellyfish_y_offset_fine = entity_local12
+jellyfish_y_offset_velocity_lo = entity_local13
+jellyfish_y_offset_velocity_hi = entity_local14
+jellyfish_direction = entity_local15
+jellyfish_health = entity_local16
+jellyfish_knockback_counter = entity_local17
+jellyfish_flash_counter = entity_local18
 
 .enum
 JELLYFISH_STATE_INIT
@@ -82,6 +88,8 @@ jellyfish_state_init:
   sta jellyfish_x_lo,x
   lda entity_x_hi,x
   sta jellyfish_x_hi,x
+  lda #0
+  sta jellyfish_x_fine,x
 
   clc
   lda entity_y_lo,x
@@ -90,6 +98,8 @@ jellyfish_state_init:
   lda entity_y_hi,x
   adc #>JELLYFISH_INITIAL_Y_OFFSET
   sta jellyfish_y_hi,x
+  lda #0
+  sta jellyfish_y_fine,x
 
   lda #<JELLYFISH_INITIAL_Y_OFFSET
   sta jellyfish_y_offset_lo,x
@@ -99,6 +109,12 @@ jellyfish_state_init:
   sta jellyfish_y_offset_fine,x
 
   lda #0
+  sta jellyfish_y_offset_velocity_lo,x
+  sta jellyfish_y_offset_velocity_hi,x
+
+  lda #0
+  sta jellyfish_x_velocity_lo,x
+  sta jellyfish_x_velocity_hi,x
   sta jellyfish_y_velocity_lo,x
   sta jellyfish_y_velocity_hi,x
 
@@ -140,7 +156,7 @@ jellyfish_state_main:
   .scope
   lda #0
   sta b0
-  lda jellyfish_y_velocity_hi,x
+  lda jellyfish_y_offset_velocity_hi,x
   bpl sign_extend_positive
 sign_extend_negative:
   lda #$ff
@@ -149,11 +165,11 @@ sign_extend_positive:
 
   clc
   lda jellyfish_y_offset_fine,x
-  adc jellyfish_y_velocity_lo,x
+  adc jellyfish_y_offset_velocity_lo,x
   sta jellyfish_y_offset_fine,x
 
   lda jellyfish_y_offset_lo,x
-  adc jellyfish_y_velocity_hi,x
+  adc jellyfish_y_offset_velocity_hi,x
   sta jellyfish_y_offset_lo,x
 
   lda jellyfish_y_offset_hi,x
@@ -172,26 +188,92 @@ sign_extend_positive:
 undulate_down:
 
   clc
-  lda jellyfish_y_velocity_lo,x
+  lda jellyfish_y_offset_velocity_lo,x
   adc #<JELLYFISH_UNDULATION_ACCELERATION
-  sta jellyfish_y_velocity_lo,x
-  lda jellyfish_y_velocity_hi,x
+  sta jellyfish_y_offset_velocity_lo,x
+  lda jellyfish_y_offset_velocity_hi,x
   adc #>JELLYFISH_UNDULATION_ACCELERATION
-  sta jellyfish_y_velocity_hi,x
+  sta jellyfish_y_offset_velocity_hi,x
 
   jmp done
 undulate_up:
 
   sec
-  lda jellyfish_y_velocity_lo,x
+  lda jellyfish_y_offset_velocity_lo,x
   sbc #<JELLYFISH_UNDULATION_ACCELERATION
-  sta jellyfish_y_velocity_lo,x
-  lda jellyfish_y_velocity_hi,x
+  sta jellyfish_y_offset_velocity_lo,x
+  lda jellyfish_y_offset_velocity_hi,x
   sbc #>JELLYFISH_UNDULATION_ACCELERATION
-  sta jellyfish_y_velocity_hi,x
+  sta jellyfish_y_offset_velocity_hi,x
 
 done:
   .endscope
+
+  ;add x and y velocity to the coordinates with sign extension
+  .scope
+  lda #0
+  sta b0
+  lda jellyfish_x_velocity_hi,x
+  bpl sign_extend_positive
+sign_extend_negative:
+  lda $ff
+  sta b0
+sign_extend_positive:
+
+  clc
+  lda jellyfish_x_fine,x
+  adc jellyfish_x_velocity_lo,x
+  sta jellyfish_x_fine,x
+
+  lda jellyfish_x_lo,x
+  adc jellyfish_x_velocity_hi,x
+  sta jellyfish_x_lo,x
+
+  lda jellyfish_x_hi,x
+  adc b0
+  sta jellyfish_x_hi,x
+  .endscope
+
+  .scope
+  lda #0
+  sta b0
+  lda jellyfish_y_velocity_hi,x
+  bpl sign_extend_positive
+sign_extend_negative:
+  lda $ff
+  sta b0
+sign_extend_positive:
+
+  clc
+  lda jellyfish_y_fine,x
+  adc jellyfish_y_velocity_lo,x
+  sta jellyfish_y_fine,x
+
+  lda jellyfish_y_lo,x
+  adc jellyfish_y_velocity_hi,x
+  sta jellyfish_y_lo,x
+
+  lda jellyfish_y_hi,x
+  adc b0
+  sta jellyfish_y_hi,x
+  .endscope
+
+  ;determine new x and y velocity based on relative position of hero
+  sec
+  lda hero_x
+  sbc jellyfish_x_lo,x
+  sta jellyfish_x_velocity_lo,x
+  lda hero_x+1
+  sbc jellyfish_x_hi,x
+  sta jellyfish_x_velocity_hi,x
+
+  sec
+  lda hero_y
+  sbc jellyfish_y_lo,x
+  sta jellyfish_y_velocity_lo,x
+  lda hero_y+1
+  sbc jellyfish_y_hi,x
+  sta jellyfish_y_velocity_hi,x
 
   jsr jellyfish_add_shadow_spot
 
