@@ -1,7 +1,7 @@
 .ifndef SPRITE_CHR_INC
 SPRITE_CHR_INC = 1
 
-SPRITE_CHR_DATA_BANK = 7
+SPRITE_CHR_DATA_BANK = 8
 
 .global sprite_chr_group_addresses_lo
 .global sprite_chr_group_addresses_hi
@@ -47,42 +47,42 @@ sprite_chr_group_index_intro_cut_scene_great_owls
 sprite_chr_group_index_intro_cut_scene_mermon_leer
 .endenum
 
-sprite_chr_group_bank_hero = 7
-sprite_chr_group_bank_rushtech = 7
-sprite_chr_group_bank_fetchtech = 7
-sprite_chr_group_bank_unlocktech = 7
-sprite_chr_group_bank_bombtech = 7
-sprite_chr_group_bank_lanterntech = 7
-sprite_chr_group_bank_carrytech = 7
-sprite_chr_group_bank_shieldtech = 7
-sprite_chr_group_bank_homingtech = 7
-sprite_chr_group_bank_familiar = 7
-sprite_chr_group_bank_tyto = 7
-sprite_chr_group_bank_explosion = 7
-sprite_chr_group_bank_shadowspot = 7
-sprite_chr_group_bank_bomb = 7
-sprite_chr_group_bank_octopus = 7
-sprite_chr_group_bank_npcman = 7
-sprite_chr_group_bank_npcwoman = 7
-sprite_chr_group_bank_key = 7
-sprite_chr_group_bank_treasure_chest = 7
-sprite_chr_group_bank_cursor = 7
-sprite_chr_group_bank_lantern = 7
-sprite_chr_group_bank_coins = 7
-sprite_chr_group_bank_title = 7
-sprite_chr_group_bank_pufferfish = 7
-sprite_chr_group_bank_crab = 7
-sprite_chr_group_bank_anglerfish = 7
-sprite_chr_group_bank_spotlight = 7
-sprite_chr_group_bank_octoboss = 7
-sprite_chr_group_bank_splash = 7
-sprite_chr_group_bank_silmaran = 7
-sprite_chr_group_bank_greathornedowl = 7
-sprite_chr_group_bank_cage = 7
-sprite_chr_group_bank_dungeon_entrance_statue = 7
-sprite_chr_group_bank_eel = 7
-sprite_chr_group_bank_jellyfish = 7
-sprite_chr_group_bank_intro_cut_scene_great_owls = 7
-sprite_chr_group_bank_intro_cut_scene_mermon_leer = 7
+sprite_chr_group_bank_hero = 8
+sprite_chr_group_bank_rushtech = 8
+sprite_chr_group_bank_fetchtech = 8
+sprite_chr_group_bank_unlocktech = 8
+sprite_chr_group_bank_bombtech = 8
+sprite_chr_group_bank_lanterntech = 8
+sprite_chr_group_bank_carrytech = 8
+sprite_chr_group_bank_shieldtech = 8
+sprite_chr_group_bank_homingtech = 8
+sprite_chr_group_bank_familiar = 8
+sprite_chr_group_bank_tyto = 8
+sprite_chr_group_bank_explosion = 8
+sprite_chr_group_bank_shadowspot = 8
+sprite_chr_group_bank_bomb = 8
+sprite_chr_group_bank_octopus = 8
+sprite_chr_group_bank_npcman = 8
+sprite_chr_group_bank_npcwoman = 8
+sprite_chr_group_bank_key = 8
+sprite_chr_group_bank_treasure_chest = 8
+sprite_chr_group_bank_cursor = 8
+sprite_chr_group_bank_lantern = 8
+sprite_chr_group_bank_coins = 8
+sprite_chr_group_bank_title = 8
+sprite_chr_group_bank_pufferfish = 8
+sprite_chr_group_bank_crab = 8
+sprite_chr_group_bank_anglerfish = 8
+sprite_chr_group_bank_spotlight = 8
+sprite_chr_group_bank_octoboss = 8
+sprite_chr_group_bank_splash = 8
+sprite_chr_group_bank_silmaran = 8
+sprite_chr_group_bank_greathornedowl = 8
+sprite_chr_group_bank_cage = 8
+sprite_chr_group_bank_dungeon_entrance_statue = 8
+sprite_chr_group_bank_eel = 8
+sprite_chr_group_bank_jellyfish = 8
+sprite_chr_group_bank_intro_cut_scene_great_owls = 8
+sprite_chr_group_bank_intro_cut_scene_mermon_leer = 8
 
 .endif

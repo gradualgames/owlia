@@ -2,7 +2,7 @@
 .include "music_data.inc"
 .include "soundengine.inc"
 
-.segment "ROM05"
+.segment "ROM06"
 
 hero_theme:
 .scope

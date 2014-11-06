@@ -1,7 +1,7 @@
 .ifndef SFX_DATA_INC
 SFX_DATA_INC = 1
 
-SFX_BANK = 5
+SFX_BANK = 6
 
 .global sfx_volume_envelopes
 .global sfx_pitch_envelopes

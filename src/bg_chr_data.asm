@@ -1,6 +1,6 @@
 .include "bg_chr_data.inc"
 
-.segment "ROM08"
+.segment "ROM09"
 
 textbox_chr:
 .incbin "textbox.chr"
@@ -44,7 +44,7 @@ dungeon1_main_chr:
 inventory_bg_chr:
 .incbin "inventory_bg.chr"
 
-.segment "ROM09"
+.segment "ROM10"
 
 dungeon1_pool_chr:
 .incbin "dungeon1_pool.chr"
@@ -64,7 +64,7 @@ intro_cut_scene_mermon_bg_chr:
 intro_cut_scene_mermon_mad_bg_chr:
 .incbin "intro_cut_scene_mermon_mad_bg.chr"
 
-.segment "ROM10"
+.segment "ROM11"
 
 tundra_chr:
 .incbin "tundra.chr"

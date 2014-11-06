@@ -1,9 +1,9 @@
 .ifndef BG_CHR_DATA_INC
 BG_CHR_DATA_INC = 1
 
-BG_CHR_DATA_BANK1 = 8
-BG_CHR_DATA_BANK2 = 9
-BG_CHR_DATA_BANK3 = 10
+BG_CHR_DATA_BANK1 = 9
+BG_CHR_DATA_BANK2 = 10
+BG_CHR_DATA_BANK3 = 11
 
 .global textbox_chr
 .global font_chr

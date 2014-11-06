@@ -1,7 +1,7 @@
 .linecont +
 .include "sprite_chr_data.inc"
 
-.segment "ROM07"
+.segment "ROM08"
 
 .define sprite_chr_group_addresses \
   hero_chr, \

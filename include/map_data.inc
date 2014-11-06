@@ -1,8 +1,8 @@
 .ifndef MAP_DATA_INC
 MAP_DATA_INC = 1
 
-MAP_DATA_BANK1 = 12
-MAP_DATA_BANK2 = 13
+MAP_DATA_BANK1 = 13
+MAP_DATA_BANK2 = 14
 
 .global blank_palette
 .global blank_map

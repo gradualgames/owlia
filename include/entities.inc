@@ -71,32 +71,32 @@ entity_update_bank_eel = 4
 entity_update_bank_jellyfish = 4
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
-entity_sprites_and_animations_bank_explosion = 6
-entity_sprites_and_animations_bank_bomb = 6
-entity_sprites_and_animations_bank_octopus = 6
-entity_sprites_and_animations_bank_npc = 6
-entity_sprites_and_animations_bank_key = 6
-entity_sprites_and_animations_bank_treasure_chest = 6
-entity_sprites_and_animations_bank_lantern = 6
-entity_sprites_and_animations_bank_item = 6
-entity_sprites_and_animations_bank_innkeep = 6
-entity_sprites_and_animations_bank_pufferfish = 6
-entity_sprites_and_animations_bank_crab = 6
+entity_sprites_and_animations_bank_explosion = 7
+entity_sprites_and_animations_bank_bomb = 7
+entity_sprites_and_animations_bank_octopus = 7
+entity_sprites_and_animations_bank_npc = 7
+entity_sprites_and_animations_bank_key = 7
+entity_sprites_and_animations_bank_treasure_chest = 7
+entity_sprites_and_animations_bank_lantern = 7
+entity_sprites_and_animations_bank_item = 7
+entity_sprites_and_animations_bank_innkeep = 7
+entity_sprites_and_animations_bank_pufferfish = 7
+entity_sprites_and_animations_bank_crab = 7
 ;entity_sprites_and_animations_bank_traproom ;this entity has no graphics
 ;entity_sprites_and_animations_bank_treasure_room ;this entity has no graphics
-entity_sprites_and_animations_bank_anglerfish = 6
-entity_sprites_and_animations_bank_spotlight = 6
+entity_sprites_and_animations_bank_anglerfish = 7
+entity_sprites_and_animations_bank_spotlight = 7
 ;entity_sprites_and_animations_bank_spotlight_puzzle ;this entity has no graphics
-entity_sprites_and_animations_bank_octoboss_head = 6
-entity_sprites_and_animations_bank_octoboss_legs = 6
-entity_sprites_and_animations_bank_splash = 6
-entity_sprites_and_animations_bank_intro = 6
-entity_sprites_and_animations_bank_silmaran = 6
-entity_sprites_and_animations_bank_rescueowl = 6
-entity_sprites_and_animations_bank_cage = 6
+entity_sprites_and_animations_bank_octoboss_head = 7
+entity_sprites_and_animations_bank_octoboss_legs = 7
+entity_sprites_and_animations_bank_splash = 7
+entity_sprites_and_animations_bank_intro = 7
+entity_sprites_and_animations_bank_silmaran = 7
+entity_sprites_and_animations_bank_rescueowl = 7
+entity_sprites_and_animations_bank_cage = 7
 ;entity_sprites_and_animations_bank_monolith ;this entity has no graphics
-entity_sprites_and_animations_bank_dungeon_entrance_statue = 6
-entity_sprites_and_animations_bank_eel = 6
-entity_sprites_and_animations_bank_jellyfish = 6
+entity_sprites_and_animations_bank_dungeon_entrance_statue = 7
+entity_sprites_and_animations_bank_eel = 7
+entity_sprites_and_animations_bank_jellyfish = 7
 
 .endif

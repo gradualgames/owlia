@@ -4,7 +4,7 @@
 ;The following sets of sprites and animations are
 ;not associated with the entities module directly.
 ;They are known about by their respective modules.
-.segment "ROM06"
+.segment "ROM07"
 
 .include "hero_sprites_and_animations.inc"
 .include "techs_sprites_and_animations.inc"
