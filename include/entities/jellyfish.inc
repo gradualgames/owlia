@@ -5,11 +5,15 @@ JELLYFISH_INC = 1
 JELLYFISH_WIDTH = $0f
 JELLYFISH_HEIGHT = $0f
 
-JELLYFISH_INITIAL_Y_OFFSET = 30
+JELLYFISH_INITIAL_Y_OFFSET = 40
 
-JELLYFISH_OFFSET_MIDPOINT = 25
+JELLYFISH_OFFSET_MIDPOINT = 35
 
 JELLYFISH_UNDULATION_ACCELERATION = 5
+
+JELLYFISH_ATTACKED_LENGTH = 30
+
+JELLYFISH_KNOCKBACK_LENGTH = 10
 
 ;supply new set of x and y coordinates, because
 ;we compute the coordinates of the jellyfish as
@@ -92,6 +96,8 @@ jellyfish_state_init:
   sta jellyfish_y_velocity_lo,x
   sta jellyfish_y_velocity_hi,x
 
+  jsr jellyfish_add_shadow_spot
+
   lda #JELLYFISH_STATE_MAIN
   sta entity_state,x
 
@@ -171,6 +177,14 @@ undulate_up:
 done:
   .endscope
 
+  jsr jellyfish_add_shadow_spot
+
+  jsr entity_update_animation
+
+  rts
+
+.proc jellyfish_add_shadow_spot
+
   clc
   lda jellyfish_x_lo,x
   adc #4
@@ -186,8 +200,8 @@ done:
 
   jsr sprite_add_shadow_spot
 
-  jsr entity_update_animation
-
   rts
+
+.endproc
 
 .endif
