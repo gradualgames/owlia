@@ -68,7 +68,7 @@ entity_update_bank_cage = 4
 entity_update_bank_monolith = 4
 entity_update_bank_dungeon_entrance_statue = 4
 entity_update_bank_eel = 4
-entity_update_bank_jellyfish = 4
+entity_update_bank_jellyfish = 5
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 7

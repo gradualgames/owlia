@@ -158,4 +158,5 @@ entity_defs_sprites_and_animations_bank:
 .include "monolith.inc"
 .include "dungeon_entrance_statue.inc"
 .include "eel.inc"
+.segment "ROM05"
 .include "jellyfish.inc"

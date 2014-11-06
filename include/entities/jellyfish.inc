@@ -5,6 +5,8 @@ JELLYFISH_INC = 1
 JELLYFISH_WIDTH = $0f
 JELLYFISH_HEIGHT = $0f
 
+JELLYFISH_INITIAL_HEALTH = 3
+
 JELLYFISH_INITIAL_Y_OFFSET = 40
 
 JELLYFISH_OFFSET_MIDPOINT = 35
@@ -27,6 +29,10 @@ jellyfish_y_offset_hi = entity_local5
 jellyfish_y_offset_fine = entity_local6
 jellyfish_y_velocity_lo = entity_local7
 jellyfish_y_velocity_hi = entity_local8
+jellyfish_direction = entity_local19
+jellyfish_health = entity_local10
+jellyfish_knockback_counter = entity_local11
+jellyfish_flash_counter = entity_local12
 
 .enum
 JELLYFISH_STATE_INIT
@@ -98,12 +104,22 @@ jellyfish_state_init:
 
   jsr jellyfish_add_shadow_spot
 
+  lda #0
+  sta jellyfish_flash_counter,x
+  sta jellyfish_knockback_counter,x
+  sta jellyfish_direction,x
+
+  lda #JELLYFISH_INITIAL_HEALTH
+  sta jellyfish_health,x
+
   lda #JELLYFISH_STATE_MAIN
   sta entity_state,x
 
   rts
 
 jellyfish_state_main:
+
+  entity_combat #JELLYFISH_ATTACKED_LENGTH, #JELLYFISH_KNOCKBACK_LENGTH, jellyfish_flash_counter, jellyfish_knockback_counter, jellyfish_health, jellyfish_direction
 
   ;transfer jellyfish coordinates to entity coordinates
   lda jellyfish_x_lo,x
