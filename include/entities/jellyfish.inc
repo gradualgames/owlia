@@ -5,6 +5,25 @@ JELLYFISH_INC = 1
 JELLYFISH_WIDTH = $0f
 JELLYFISH_HEIGHT = $0f
 
+JELLYFISH_INITIAL_Y_OFFSET = 30
+
+JELLYFISH_OFFSET_MIDPOINT = 25
+
+JELLYFISH_UNDULATION_ACCELERATION = 5
+
+;supply new set of x and y coordinates, because
+;we compute the coordinates of the jellyfish as
+;floating above this point.
+jellyfish_x_lo = entity_local0
+jellyfish_x_hi = entity_local1
+jellyfish_y_lo = entity_local2
+jellyfish_y_hi = entity_local3
+jellyfish_y_offset_lo = entity_local4
+jellyfish_y_offset_hi = entity_local5
+jellyfish_y_offset_fine = entity_local6
+jellyfish_y_velocity_lo = entity_local7
+jellyfish_y_velocity_hi = entity_local8
+
 .enum
 JELLYFISH_STATE_INIT
 JELLYFISH_STATE_MAIN
@@ -49,12 +68,123 @@ jellyfish_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
+  lda entity_x_lo,x
+  sta jellyfish_x_lo,x
+  lda entity_x_hi,x
+  sta jellyfish_x_hi,x
+
+  clc
+  lda entity_y_lo,x
+  adc #<JELLYFISH_INITIAL_Y_OFFSET
+  sta jellyfish_y_lo,x
+  lda entity_y_hi,x
+  adc #>JELLYFISH_INITIAL_Y_OFFSET
+  sta jellyfish_y_hi,x
+
+  lda #<JELLYFISH_INITIAL_Y_OFFSET
+  sta jellyfish_y_offset_lo,x
+  lda #>JELLYFISH_INITIAL_Y_OFFSET
+  sta jellyfish_y_offset_hi,x
+  lda #0
+  sta jellyfish_y_offset_fine,x
+
+  lda #0
+  sta jellyfish_y_velocity_lo,x
+  sta jellyfish_y_velocity_hi,x
+
   lda #JELLYFISH_STATE_MAIN
   sta entity_state,x
 
   rts
 
 jellyfish_state_main:
+
+  ;transfer jellyfish coordinates to entity coordinates
+  lda jellyfish_x_lo,x
+  sta entity_x_lo,x
+  lda jellyfish_x_hi,x
+  sta entity_x_hi,x
+
+  ;compute y coordinate from jellyfish y coordinate and y offset
+  sec
+  lda jellyfish_y_lo,x
+  sbc jellyfish_y_offset_lo,x
+  sta entity_y_lo,x
+  lda jellyfish_y_hi,x
+  sbc jellyfish_y_offset_hi,x
+  sta entity_y_hi,x
+
+  ;add velocity to the y offset with sign extension
+  .scope
+  lda #0
+  sta b0
+  lda jellyfish_y_velocity_hi,x
+  bpl sign_extend_positive
+sign_extend_negative:
+  lda #$ff
+  sta b0
+sign_extend_positive:
+
+  clc
+  lda jellyfish_y_offset_fine,x
+  adc jellyfish_y_velocity_lo,x
+  sta jellyfish_y_offset_fine,x
+
+  lda jellyfish_y_offset_lo,x
+  adc jellyfish_y_velocity_hi,x
+  sta jellyfish_y_offset_lo,x
+
+  lda jellyfish_y_offset_hi,x
+  adc b0
+  sta jellyfish_y_offset_hi,x
+  .endscope
+
+  ;accelerate the velocity depending on the offset
+  .scope
+  sec
+  lda #<JELLYFISH_OFFSET_MIDPOINT
+  sbc jellyfish_y_offset_lo,x
+  lda #>JELLYFISH_OFFSET_MIDPOINT
+  sbc jellyfish_y_offset_hi,x
+  bmi undulate_up
+undulate_down:
+
+  clc
+  lda jellyfish_y_velocity_lo,x
+  adc #<JELLYFISH_UNDULATION_ACCELERATION
+  sta jellyfish_y_velocity_lo,x
+  lda jellyfish_y_velocity_hi,x
+  adc #>JELLYFISH_UNDULATION_ACCELERATION
+  sta jellyfish_y_velocity_hi,x
+
+  jmp done
+undulate_up:
+
+  sec
+  lda jellyfish_y_velocity_lo,x
+  sbc #<JELLYFISH_UNDULATION_ACCELERATION
+  sta jellyfish_y_velocity_lo,x
+  lda jellyfish_y_velocity_hi,x
+  sbc #>JELLYFISH_UNDULATION_ACCELERATION
+  sta jellyfish_y_velocity_hi,x
+
+done:
+  .endscope
+
+  clc
+  lda jellyfish_x_lo,x
+  adc #4
+  sta w0
+  lda jellyfish_x_hi,x
+  adc #0
+  sta w0+1
+
+  lda jellyfish_y_lo,x
+  sta w1
+  lda jellyfish_y_hi,x
+  sta w1+1
+
+  jsr sprite_add_shadow_spot
 
   jsr entity_update_animation
 
