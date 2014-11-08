@@ -199,7 +199,7 @@ dungeon1_boss_owl_dungeon_sprite_chr_groups:
 tundra1_sprite_chr_groups:
 tundra2_sprite_chr_groups:
 tundra3_sprite_chr_groups:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 10   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -209,6 +209,7 @@ tundra3_sprite_chr_groups:
   .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_eel
   .byte sprite_chr_group_index_jellyfish
+  .byte sprite_chr_group_index_urchin
 
 ;****************************************************************
 ;Entity instance sets
@@ -575,8 +576,9 @@ dungeon1_boss_owl_dungeon_entity_instances:
                                           0, 4
 
 tundra1_entity_instances:
-  .byte 4
+  .byte 5
   .byte entity_index_jellyfish, 42, 40, 0, 0
+  .byte entity_index_urchin, 40, 40, 0, 0
   .byte entity_index_eel, 7, 18, 0, EEL_PARAMS, EEL_STATE_RIGHT_INIT
   .byte entity_index_eel, 9, 20, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
   .byte entity_index_treasure_chest, 7, 8, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000

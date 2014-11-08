@@ -39,6 +39,7 @@
   dungeon_entrance_statue_chr, \
   eel_chr, \
   jellyfish_chr, \
+  urchin_chr, \
   intro_cut_scene_great_owls_spr_chr, \
   intro_cut_scene_mermon_leer_spr_chr
 
@@ -188,6 +189,9 @@ eel_chr:
 
 jellyfish_chr:
 .incbin "jellyfish.chr"
+
+urchin_chr:
+.incbin "urchin.chr"
 
 dungeon_entrance_statue_chr:
 .incbin "dungeon_entrance_statue.chr"

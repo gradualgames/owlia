@@ -63,7 +63,8 @@
   monolith_update, \
   dungeon_entrance_statue_update, \
   eel_update, \
-  jellyfish_update
+  jellyfish_update, \
+  urchin_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -99,6 +100,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_dungeon_entrance_statue
   .byte entity_update_bank_eel
   .byte entity_update_bank_jellyfish
+  .byte entity_update_bank_urchin
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -129,6 +131,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_dungeon_entrance_statue
   .byte entity_sprites_and_animations_bank_eel
   .byte entity_sprites_and_animations_bank_jellyfish
+  .byte entity_sprites_and_animations_bank_urchin
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -160,3 +163,4 @@ entity_defs_sprites_and_animations_bank:
 .include "eel.inc"
 .segment "ROM05"
 .include "jellyfish.inc"
+.include "urchin.inc"
