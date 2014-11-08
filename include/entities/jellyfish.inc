@@ -15,7 +15,10 @@ JELLYFISH_UNDULATION_ACCELERATION = 5
 
 JELLYFISH_ATTACKED_LENGTH = 30
 
-JELLYFISH_KNOCKBACK_LENGTH = 10
+JELLYFISH_KNOCKBACK_LENGTH = 30
+
+JELLYFISH_FOLLOW_X_OFFSET = 0
+JELLYFISH_FOLLOW_Y_OFFSET = 32
 
 ;supply new set of x and y coordinates, because
 ;we compute the coordinates of the jellyfish as
@@ -39,6 +42,7 @@ jellyfish_direction = entity_local15
 jellyfish_health = entity_local16
 jellyfish_knockback_counter = entity_local17
 jellyfish_flash_counter = entity_local18
+jellyfish_frame_counter = entity_local19
 
 .enum
 JELLYFISH_STATE_INIT
@@ -209,6 +213,89 @@ undulate_up:
 done:
   .endscope
 
+  .scope
+  inc jellyfish_frame_counter,x
+  lda jellyfish_frame_counter,x
+  and #%00001000
+  bne do_not_move_jellyfish
+
+  ;choose whether to recede or advance based on knockback counter
+  .scope
+  lda jellyfish_knockback_counter,x
+  beq advance
+recede:
+
+  jsr jellyfish_recede
+
+  jmp done
+
+advance:
+
+  jsr jellyfish_advance
+
+done:
+  .endscope
+
+do_not_move_jellyfish:
+  .endscope
+
+  ;determine new x and y velocity based on relative position of hero
+  clc
+  lda hero_x
+  adc #<JELLYFISH_FOLLOW_X_OFFSET
+  sta w0
+  lda hero_x+1
+  adc #>JELLYFISH_FOLLOW_X_OFFSET
+  sta w0+1
+
+  clc
+  lda hero_y
+  adc #<JELLYFISH_FOLLOW_Y_OFFSET
+  sta w1
+  lda hero_y+1
+  adc #>JELLYFISH_FOLLOW_Y_OFFSET
+  sta w1+1
+
+  sec
+  lda w0
+  sbc jellyfish_x_lo,x
+  sta jellyfish_x_velocity_lo,x
+  lda w0+1
+  sbc jellyfish_x_hi,x
+  sta jellyfish_x_velocity_hi,x
+
+  sec
+  lda w1
+  sbc jellyfish_y_lo,x
+  sta jellyfish_y_velocity_lo,x
+  lda w1+1
+  sbc jellyfish_y_hi,x
+  sta jellyfish_y_velocity_hi,x
+
+  clc
+  rol jellyfish_x_velocity_lo,x
+  rol jellyfish_x_velocity_hi,x
+  rol jellyfish_x_velocity_lo,x
+  rol jellyfish_x_velocity_hi,x
+  rol jellyfish_x_velocity_lo,x
+  rol jellyfish_x_velocity_hi,x
+
+  clc
+  rol jellyfish_y_velocity_lo,x
+  rol jellyfish_y_velocity_hi,x
+  rol jellyfish_y_velocity_lo,x
+  rol jellyfish_y_velocity_hi,x
+  rol jellyfish_y_velocity_lo,x
+  rol jellyfish_y_velocity_hi,x
+
+  jsr jellyfish_add_shadow_spot
+
+  jsr entity_update_animation
+
+  rts
+
+.proc jellyfish_advance
+
   ;add x and y velocity to the coordinates with sign extension
   .scope
   lda #0
@@ -258,28 +345,64 @@ sign_extend_positive:
   sta jellyfish_y_hi,x
   .endscope
 
-  ;determine new x and y velocity based on relative position of hero
-  sec
-  lda hero_x
-  sbc jellyfish_x_lo,x
-  sta jellyfish_x_velocity_lo,x
-  lda hero_x+1
-  sbc jellyfish_x_hi,x
-  sta jellyfish_x_velocity_hi,x
+  rts
+
+.endproc
+
+.proc jellyfish_recede
+
+  ;sub x and y velocity to the coordinates with sign extension
+  .scope
+  lda #0
+  sta b0
+  lda jellyfish_x_velocity_hi,x
+  bpl sign_extend_positive
+sign_extend_negative:
+  lda $ff
+  sta b0
+sign_extend_positive:
 
   sec
-  lda hero_y
-  sbc jellyfish_y_lo,x
-  sta jellyfish_y_velocity_lo,x
-  lda hero_y+1
-  sbc jellyfish_y_hi,x
-  sta jellyfish_y_velocity_hi,x
+  lda jellyfish_x_fine,x
+  sbc jellyfish_x_velocity_lo,x
+  sta jellyfish_x_fine,x
 
-  jsr jellyfish_add_shadow_spot
+  lda jellyfish_x_lo,x
+  sbc jellyfish_x_velocity_hi,x
+  sta jellyfish_x_lo,x
 
-  jsr entity_update_animation
+  lda jellyfish_x_hi,x
+  sbc b0
+  sta jellyfish_x_hi,x
+  .endscope
+
+  .scope
+  lda #0
+  sta b0
+  lda jellyfish_y_velocity_hi,x
+  bpl sign_extend_positive
+sign_extend_negative:
+  lda $ff
+  sta b0
+sign_extend_positive:
+
+  sec
+  lda jellyfish_y_fine,x
+  sbc jellyfish_y_velocity_lo,x
+  sta jellyfish_y_fine,x
+
+  lda jellyfish_y_lo,x
+  sbc jellyfish_y_velocity_hi,x
+  sta jellyfish_y_lo,x
+
+  lda jellyfish_y_hi,x
+  sbc b0
+  sta jellyfish_y_hi,x
+  .endscope
 
   rts
+
+.endproc
 
 .proc jellyfish_add_shadow_spot
 
