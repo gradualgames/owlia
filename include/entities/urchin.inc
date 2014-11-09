@@ -2,17 +2,12 @@
 .ifndef URCHIN_INC
 URCHIN_INC = 1
 
-URCHIN_WIDTH = $0f
-URCHIN_HEIGHT = $0f
-
-.enum
-URCHIN_STATE_INIT
-URCHIN_STATE_MAIN
-.endenum
+.include "urchin_constants.inc"
 
 .define urchin_states \
   urchin_state_init, \
-  urchin_state_main
+  urchin_state_pause, \
+  urchin_state_slide
 
 urchin_lo:
   .lobytes urchin_states
@@ -49,15 +44,142 @@ urchin_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
-  lda #URCHIN_STATE_MAIN
+  lda #0
+  sta urchin_attacked_counter,x
+  sta urchin_flash_counter,x
+  sta urchin_knockback_counter,x
+  sta urchin_direction,x
+  lda #URCHIN_INITIAL_HEALTH
+  sta urchin_health,x
+
+  lda #$00
+  sta urchin_x_fine,x
+  sta urchin_y_fine,x
+
+  lda urchin_pause_length,x
+  sta urchin_frame_counter,x
+
+  lda #URCHIN_STATE_PAUSE
   sta entity_state,x
 
   rts
 
-urchin_state_main:
+urchin_state_pause:
+
+  .scope
+  dec urchin_frame_counter,x
+  bne do_not_switch_state
+
+  lda urchin_slide_length,x
+  sta urchin_frame_counter,x
+
+  lda #URCHIN_STATE_SLIDE
+  sta entity_state,x
+
+do_not_switch_state:
+  .endscope
+
+  jsr urchin_combat
 
   jsr entity_update_animation
 
   rts
+
+urchin_state_slide:
+
+  .scope
+  dec urchin_frame_counter,x
+  bne do_not_switch_state
+
+  ;negate x and y velocity
+  .scope
+  clc
+  lda urchin_x_velocity_lo,x
+  eor #$ff
+  adc #<1
+  sta urchin_x_velocity_lo,x
+  lda urchin_x_velocity_hi,x
+  eor #$ff
+  adc #>1
+  sta urchin_x_velocity_hi,x
+  .endscope
+
+  .scope
+  clc
+  lda urchin_y_velocity_lo,x
+  eor #$ff
+  adc #<1
+  sta urchin_y_velocity_lo,x
+  lda urchin_y_velocity_hi,x
+  eor #$ff
+  adc #>1
+  sta urchin_y_velocity_hi,x
+  .endscope
+
+  lda urchin_slide_length,x
+  sta urchin_frame_counter,x
+
+  lda #URCHIN_STATE_PAUSE
+  sta entity_state,x
+
+do_not_switch_state:
+  .endscope
+
+  ;add x and y velocity to coordinates with sign extension
+  .scope
+  lda #0
+  sta b0
+  lda urchin_x_velocity_hi,x
+  bpl positive
+  lda #$ff
+  sta b0
+positive:
+
+  clc
+  lda urchin_x_fine,x
+  adc urchin_x_velocity_lo,x
+  sta urchin_x_fine,x
+  lda entity_x_lo,x
+  adc urchin_x_velocity_hi,x
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc b0
+  sta entity_x_hi,x
+  .endscope
+
+  .scope
+  lda #0
+  sta b0
+  lda urchin_y_velocity_hi,x
+  bpl positive
+  lda #$ff
+  sta b0
+positive:
+
+  clc
+  lda urchin_y_fine,x
+  adc urchin_y_velocity_lo,x
+  sta urchin_y_fine,x
+  lda entity_y_lo,x
+  adc urchin_y_velocity_hi,x
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  adc b0
+  sta entity_y_hi,x
+  .endscope
+
+  jsr urchin_combat
+
+  jsr entity_update_animation
+
+  rts
+
+.proc urchin_combat
+
+  entity_electric_bomb_combat #URCHIN_FLASH_LENGTH, #URCHIN_KNOCKBACK_LENGTH, urchin_flash_counter, urchin_knockback_counter, urchin_health, urchin_direction
+
+  rts
+
+.endproc
 
 .endif

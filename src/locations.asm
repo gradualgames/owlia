@@ -17,6 +17,7 @@
 .include "treasure_room_constants.inc"
 .include "dungeon_entrance_statue_constants.inc"
 .include "eel_constants.inc"
+.include "urchin_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -578,7 +579,7 @@ dungeon1_boss_owl_dungeon_entity_instances:
 tundra1_entity_instances:
   .byte 5
   .byte entity_index_jellyfish, 42, 40, 0, 0
-  .byte entity_index_urchin, 40, 40, 0, 0
+  .byte entity_index_urchin, 40, 40, 0, URCHIN_PARAMS, 16*5, 40, <(256*2), >(256*2), 0, 0
   .byte entity_index_eel, 7, 18, 0, EEL_PARAMS, EEL_STATE_RIGHT_INIT
   .byte entity_index_eel, 9, 20, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
   .byte entity_index_treasure_chest, 7, 8, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
