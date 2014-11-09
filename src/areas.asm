@@ -28,7 +28,8 @@
     dungeon1_boss_area, \
     tundra1_area, \
     tundra2_area, \
-    tundra3_area
+    tundra3_area, \
+    dungeon2_area
 
 areas_lo:
   .lobytes areas
@@ -483,3 +484,50 @@ tundra3_area_bg_chr_groups:
   .byte 1  ;count
   .byte BG_CHR_DATA_BANK3
   .word tundra_chr
+
+dungeon2_area:
+  .byte MUSIC_BANK
+  .byte MAP_DATA_BANK2
+  .byte CONVERSATIONS_BANK
+  .word dungeon2_area_bg_chr_groups
+  .word dungeon_theme
+  .byte $22 ;textbox_attribute
+  .word dungeon2_map
+  .word dungeon2_metatile_table_properties
+  .word dungeon2_metatile_table_params
+  .word dungeon2_metatile_table_attributes
+  .word dungeon2_metatile_table_top_left_tiles
+  .word dungeon2_metatile_table_top_right_tiles
+  .word dungeon2_metatile_table_bottom_left_tiles
+  .word dungeon2_metatile_table_bottom_right_tiles
+  .word dungeon2_big_metatile_table_top_left
+  .word dungeon2_big_metatile_table_top_right
+  .word dungeon2_big_metatile_table_bottom_left
+  .word dungeon2_big_metatile_table_bottom_right
+  .word dungeon2_area_nametable_patches
+  .word 0 ;attribute_patches_address
+
+dungeon2_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK3
+  .word dungeon2_main_chr
+
+dungeon2_area_nametable_patches:
+  .word dungeon2_area_nametable_monolith_patch
+  .word dungeon2_area_nametable_keyed_monolith_patch
+  .word dungeon2_area_nametable_monolith_north_bg_patch
+  .word dungeon2_area_nametable_monolith_south_bg_patch
+  .word dungeon2_area_nametable_monolith_west_bg_patch
+  .word dungeon2_area_nametable_monolith_east_bg_patch
+
+dungeon2_area_nametable_monolith_patch:
+  .byte $02,$06,$05,$06,$0d,$0e,$17,$18,$23,$24,$23,$31,$3e,$3f
+dungeon2_area_nametable_keyed_monolith_patch:
+  .byte $02,$06,$78,$79,$7a,$7b,$17,$18,$23,$24,$23,$31,$3e,$3f
+dungeon2_area_nametable_monolith_north_bg_patch:
+dungeon2_area_nametable_monolith_south_bg_patch:
+  .byte $02,$06,$75,$74,$77,$68,$75,$74,$77,$68,$75,$74,$77,$68
+dungeon2_area_nametable_monolith_west_bg_patch:
+  .byte $02,$06,$4a,$4b,$7c,$56,$4a,$4b,$86,$87,$75,$74,$77,$68
+dungeon2_area_nametable_monolith_east_bg_patch:
+  .byte $02,$06,$4c,$4d,$57,$80,$4c,$4d,$89,$8a,$75,$74,$77,$68

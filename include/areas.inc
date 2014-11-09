@@ -52,6 +52,7 @@ area_index_dungeon1_boss
 area_index_tundra1
 area_index_tundra2
 area_index_tundra3
+area_index_dungeon2
 .endenum
 
 .endif

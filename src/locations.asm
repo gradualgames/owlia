@@ -90,7 +90,8 @@
     tundra1_north_entrance, \
     tundra1_south_entrance, \
     tundra2_south_entrance, \
-    tundra3_north_entrance
+    tundra3_north_entrance, \
+    dungeon2_entrance
 
 locations_lo:
   .lobytes locations
@@ -212,6 +213,19 @@ tundra3_sprite_chr_groups:
   .byte sprite_chr_group_index_jellyfish
   .byte sprite_chr_group_index_urchin
   .byte sprite_chr_group_index_dungeon_entrance_statue
+
+dungeon2_sprite_chr_groups:
+  .byte 10   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_treasure_chest
+  .byte sprite_chr_group_index_eel
+  .byte sprite_chr_group_index_jellyfish
+  .byte sprite_chr_group_index_urchin
 
 ;****************************************************************
 ;Entity instance sets
@@ -609,6 +623,9 @@ tundra3_entity_instances:
   .byte entity_index_dungeon_entrance_statue, 43, 25, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <20000, >20000
   .byte entity_index_treasure_chest, 17, 30, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
+dungeon2_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -671,6 +688,12 @@ tundra1_palette:
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$12,$21,$0e,$21,$31,$20
   .byte $ff
   .word tundra1_palette
+
+dungeon2_palette:
+  .byte $0e,$00,$10,$20,$0e,$12,$21,$20,$0e,$0c,$22,$32,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$12,$21,$0e,$21,$31,$20
+  .byte $ff
+  .word dungeon2_palette
 
 ;****************************************************************
 ;Location definitions.
@@ -906,3 +929,8 @@ tundra3_north_entrance:
 define_north_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tundra3, tundra3_sprite_chr_groups, tundra3_entity_instances, tundra1_palette,\
                       24, 1, 0, 0, 0, HERO_DIRECTION_DOWN
+
+dungeon2_entrance:
+define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
+                      area_index_dungeon2, dungeon2_sprite_chr_groups, dungeon2_entity_instances, dungeon2_palette,\
+                      40, 56, 0, 0, 0, HERO_DIRECTION_UP

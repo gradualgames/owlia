@@ -200,6 +200,7 @@ location_index_tundra1_north_entrance
 location_index_tundra1_south_entrance
 location_index_tundra2_south_entrance
 location_index_tundra3_north_entrance
+location_index_dungeon2_entrance
 .endenum
 
 ;****************************************************************

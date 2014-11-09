@@ -277,3 +277,20 @@ tundra3_big_metatile_table_top_right = tundra3_data::big_metatile_table_top_righ
 tundra3_big_metatile_table_bottom_left = tundra3_data::big_metatile_table_bottom_left
 tundra3_big_metatile_table_bottom_right = tundra3_data::big_metatile_table_bottom_right
 tundra3_map = tundra3_data::map
+
+.scope dungeon2_data
+.include "dungeon2.inc"
+.endscope
+
+dungeon2_metatile_table_properties = dungeon2_data::metatile_table_properties
+dungeon2_metatile_table_params = dungeon2_data::metatile_table_params
+dungeon2_metatile_table_attributes = dungeon2_data::metatile_table_attributes
+dungeon2_metatile_table_top_left_tiles = dungeon2_data::metatile_table_top_left_tiles
+dungeon2_metatile_table_top_right_tiles = dungeon2_data::metatile_table_top_right_tiles
+dungeon2_metatile_table_bottom_left_tiles = dungeon2_data::metatile_table_bottom_left_tiles
+dungeon2_metatile_table_bottom_right_tiles = dungeon2_data::metatile_table_bottom_right_tiles
+dungeon2_big_metatile_table_top_left = dungeon2_data::big_metatile_table_top_left
+dungeon2_big_metatile_table_top_right = dungeon2_data::big_metatile_table_top_right
+dungeon2_big_metatile_table_bottom_left = dungeon2_data::big_metatile_table_bottom_left
+dungeon2_big_metatile_table_bottom_right = dungeon2_data::big_metatile_table_bottom_right
+dungeon2_map = dungeon2_data::map
