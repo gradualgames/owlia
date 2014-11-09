@@ -7,6 +7,7 @@ ENTITY_INC = 1
 .global entity_hurt_hero
 .global entity_spawn_explosion
 .global entity_drop_random_item
+.global entity_drop_item
 .global entity_find_enemy
 .global entity_mark_all_for_kill
 .global entity_kill_all_marked_for_kill
@@ -221,7 +222,39 @@ action_rect2_not_deadly:
 rect2_attacked_entity:
   far_call #FAMILIAR_BANK, familiar_hit_enemy
 
-  entity_attacked health, direction
+  .scope
+  ;play a sound
+  lda #<sfx_hit
+  sta sound_param_word_0
+  lda #>sfx_hit
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SFX_BANK, stream_initialize
+
+  .ifndef INVINCIBLE_ENEMIES
+  dec health,x
+  bne entity_not_dead_yet
+
+  jsr entity_spawn_explosion
+  lda #ITEM_TYPE_BOMB
+  sta b3
+  lda #3
+  sta b4
+  jsr entity_drop_item
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+entity_not_dead_yet:
+  .endif
+  .endscope
+
   entity_flashed flash_counter_reset, flash_counter
   entity_knocked_back knockback_counter_reset, knockback_counter
 

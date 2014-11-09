@@ -150,6 +150,69 @@ entity_not_spawned:
 
 .endproc
 
+;drops a specific type of item.
+;expects b3 to contain ITEM_TYPE (see item_constants.inc)
+;expects b4 to contain quantity.
+.proc entity_drop_item
+
+  lda #entity_index_item
+  sta b0
+
+  ;calculate adjustments for initial location of dropped item to be
+  ;roughly the center of the entity
+  lda entity_width,x
+  lsr
+  sta b1
+  lda entity_height,x
+  lsr
+  sta b2
+
+  sec
+  lda b1
+  sbc #4
+  sta b1
+  sec
+  lda b2
+  sbc #4
+  sta b2
+
+  clc
+  lda entity_x_lo,x
+  adc b1
+  sta w0
+  lda entity_x_hi,x
+  adc #0
+  sta w0+1
+  clc
+  lda entity_y_lo,x
+  adc b2
+  sta w1
+  lda entity_y_hi,x
+  adc #0
+  sta w1+1
+
+  jsr entity_spawn
+
+  .scope
+  ldy spawned_entity
+  bmi entity_not_spawned
+  lda b3
+  sta item_type,y
+  lda b4
+  sta item_quantity_lo,y
+  lda #0
+  sta item_quantity_hi,y
+  lda #ITEM_STATE_PICKUP_INIT
+  sta item_initial_state,y
+  lda #INVENTORY_DUNGEON_FLAGS_MASK_NOP
+  sta item_dungeon_flags_mask,y
+entity_not_spawned:
+  .endscope
+
+  rts
+
+.endproc
+
 ;This routine calls hero_hurt after correctly calculating
 ;the proper knockback direction for the hero based on the
 ;relative position of the approximate center points of both
