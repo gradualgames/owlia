@@ -592,7 +592,13 @@ tundra1_entity_instances:
   .byte entity_index_treasure_chest, 9, 55, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 tundra2_entity_instances:
-  .byte 0
+  .byte 6
+  .byte entity_index_jellyfish, 51, 14, 0, 0
+  .byte entity_index_jellyfish, 22, 36, 0, 0
+  .byte entity_index_jellyfish, 17, 55, 0, 0
+  .byte entity_index_treasure_chest, 54, 14, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_treasure_chest, 29, 26, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_treasure_chest, 27, 52, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 tundra3_entity_instances:
   .byte 1
