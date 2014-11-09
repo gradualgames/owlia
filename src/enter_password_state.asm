@@ -39,7 +39,7 @@ dungeon_start_locations:
   .byte $ff
   .byte $ff
   .byte location_index_dungeon_0_3_s
-  .byte $ff
+  .byte location_index_dungeon2_entrance
   .byte $ff
   .byte $ff
   .byte $ff

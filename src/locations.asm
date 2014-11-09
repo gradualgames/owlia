@@ -937,6 +937,6 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          43, 26, 0, 0, 0, HERO_DIRECTION_DOWN
 
 dungeon2_entrance:
-define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
+define_south_location LOCATION_BRIGHTNESS_LEVEL_4 | LOCATION_FLAGS_DUNGEON_ENTRANCE,\
                       area_index_dungeon2, dungeon2_sprite_chr_groups, dungeon2_entity_instances, dungeon2_palette,\
                       40, 56, 0, 0, 0, HERO_DIRECTION_UP
