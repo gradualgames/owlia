@@ -65,7 +65,7 @@ do_not_die:
   adc #>8
   sta entity_y_hi,x
 
-  lda #$00
+  lda dungeon_entrance_statue_attribute,x
   sta entity_sprite_flags,x
 
   lda #$00

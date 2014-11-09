@@ -14,11 +14,13 @@ DUNGEON_ENTRANCE_STATUE_STATE_DENY_ENTRY
 DUNGEON_ENTRANCE_STATUE_STATE_ALLOW_ENTRY_AND_DIE
 .endenum
 
-DUNGEON_ENTRANCE_STATUE_PARAMS = 2
+DUNGEON_ENTRANCE_STATUE_PARAMS = 3
 
-dungeon_entrance_statue_required_gp_lo = entity_local0
-dungeon_entrance_statue_required_gp_hi = entity_local1
-dungeon_entrance_statue_state_counter = entity_local2
-dungeon_entrance_statue_flash_counter = entity_local3
+dungeon_entrance_statue_attribute = entity_local0
+dungeon_entrance_statue_required_gp_lo = entity_local1
+dungeon_entrance_statue_required_gp_hi = entity_local2
+
+dungeon_entrance_statue_state_counter = entity_local3
+dungeon_entrance_statue_flash_counter = entity_local4
 
 .endif
