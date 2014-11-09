@@ -91,6 +91,7 @@
     tundra1_south_entrance, \
     tundra2_south_entrance, \
     tundra3_north_entrance, \
+    tundra3_dungeon2_entrance, \
     dungeon2_entrance
 
 locations_lo:
@@ -929,6 +930,11 @@ tundra3_north_entrance:
 define_north_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tundra3, tundra3_sprite_chr_groups, tundra3_entity_instances, tundra1_palette,\
                       24, 1, 0, 0, 0, HERO_DIRECTION_DOWN
+
+tundra3_dungeon2_entrance:
+define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
+                         area_index_tundra3, tundra3_sprite_chr_groups, tundra3_entity_instances, tundra1_palette,\
+                         43, 26, 0, 0, 0, HERO_DIRECTION_DOWN
 
 dungeon2_entrance:
 define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
