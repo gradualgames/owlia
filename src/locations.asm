@@ -200,7 +200,7 @@ dungeon1_boss_owl_dungeon_sprite_chr_groups:
 tundra1_sprite_chr_groups:
 tundra2_sprite_chr_groups:
 tundra3_sprite_chr_groups:
-  .byte 10   ;sprite_chr_groups .byte
+  .byte 11   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -211,6 +211,7 @@ tundra3_sprite_chr_groups:
   .byte sprite_chr_group_index_eel
   .byte sprite_chr_group_index_jellyfish
   .byte sprite_chr_group_index_urchin
+  .byte sprite_chr_group_index_dungeon_entrance_statue
 
 ;****************************************************************
 ;Entity instance sets
@@ -588,7 +589,8 @@ tundra2_entity_instances:
   .byte 0
 
 tundra3_entity_instances:
-  .byte 0
+  .byte 1
+  .byte entity_index_dungeon_entrance_statue, 43, 25, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, <6000, >6000
 
 ;****************************************************************
 ;Palettes.
