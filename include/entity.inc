@@ -5,7 +5,8 @@ ENTITY_INC = 1
 .global entity_init_all
 .global entity_lookup_sprite_chr_offset
 .global entity_hurt_hero
-.global entity_spawn_explosion_and_drop_item
+.global entity_spawn_explosion
+.global entity_drop_random_item
 .global entity_find_enemy
 .global entity_mark_all_for_kill
 .global entity_kill_all_marked_for_kill
@@ -263,7 +264,8 @@ entity_not_attacked:
   dec health,x
   bne entity_not_dead_yet
 
-  jsr entity_spawn_explosion_and_drop_item
+  jsr entity_spawn_explosion
+  jsr entity_drop_random_item
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR

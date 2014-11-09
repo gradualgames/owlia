@@ -76,7 +76,7 @@ found_group:
 
 .endproc
 
-.proc entity_spawn_explosion_and_drop_item
+.proc entity_spawn_explosion
 
   lda #entity_index_explosion
   sta b0
@@ -91,6 +91,12 @@ found_group:
   sta w1+1
 
   jsr entity_spawn
+
+  rts
+
+.endproc
+
+.proc entity_drop_random_item
 
   lda #entity_index_item
   sta b0
