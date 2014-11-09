@@ -601,8 +601,13 @@ tundra2_entity_instances:
   .byte entity_index_treasure_chest, 27, 52, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 tundra3_entity_instances:
-  .byte 1
-  .byte entity_index_dungeon_entrance_statue, 43, 25, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <6000, >6000
+  .byte 6
+  .byte entity_index_eel, 18, 34, 0, EEL_PARAMS, EEL_STATE_RIGHT_INIT
+  .byte entity_index_eel, 18, 36, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
+  .byte entity_index_jellyfish, 7, 9, 0, 0
+  .byte entity_index_jellyfish, 26, 22, 0, 0
+  .byte entity_index_dungeon_entrance_statue, 43, 25, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <20000, >20000
+  .byte entity_index_treasure_chest, 17, 30, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 ;****************************************************************
 ;Palettes.
