@@ -82,9 +82,10 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_silmaran
   .byte sprite_chr_group_bank_greathornedowl
   .byte sprite_chr_group_bank_cage
+  .byte sprite_chr_group_bank_dungeon_entrance_statue
   .byte sprite_chr_group_bank_eel
   .byte sprite_chr_group_bank_jellyfish
-  .byte sprite_chr_group_bank_dungeon_entrance_statue
+  .byte sprite_chr_group_bank_urchin
   .byte sprite_chr_group_bank_intro_cut_scene_great_owls
   .byte sprite_chr_group_bank_intro_cut_scene_mermon_leer
 
