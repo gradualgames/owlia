@@ -65,6 +65,9 @@ do_not_skip_treasure_chest:
   jsr treasure_chest_make_impassable
 :
 
+  lda #$00
+  sta treasure_chest_state_counter,x
+
   lda #TREASURE_CHEST_STATE_IDLE
   sta entity_state,x
 
@@ -139,8 +142,6 @@ treasure_chest_state_opened:
   rts
 
 .proc treasure_chest_spawn_item
-
-  ndxDebugBreak
 
   lda entity_x_lo,x
   sta w0
