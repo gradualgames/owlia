@@ -126,6 +126,7 @@ jellyfish_state_init:
 
   lda #0
   sta jellyfish_flash_counter,x
+  sta jellyfish_frame_counter,x
   sta jellyfish_knockback_counter,x
   sta jellyfish_direction,x
 
