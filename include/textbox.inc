@@ -61,6 +61,8 @@ TEXTBOX_HEIGHT = 80
 
 .endmacro
 
+.include "charmap.inc"
+
 ;offsets of tiles in the textbox chr graphics
 ;these are to be added to textbox_chr_offset
 ;to get correct tile numbers when drawing the textbox.
@@ -68,14 +70,12 @@ TOP_LEFT_TILE_OFFSET     = 0
 TOP_RIGHT_TILE_OFFSET    = 1
 LEFT_TILE_OFFSET         = 2
 RIGHT_TILE_OFFSET        = 3
-MIDDLE_TILE_OFFSET       = 4
-BOTTOM_LEFT_TILE_OFFSET  = 5
-BOTTOM_RIGHT_TILE_OFFSET = 6
-TOP_TILE_OFFSET          = 7
-BOTTOM_TILE_OFFSET       = 8
-ARROW_TILE_OFFSET        = 9
-
-.include "charmap.inc"
+MIDDLE_TILE_OFFSET       = (' ' + 9)
+BOTTOM_LEFT_TILE_OFFSET  = 4
+BOTTOM_RIGHT_TILE_OFFSET = 5
+TOP_TILE_OFFSET          = 6
+BOTTOM_TILE_OFFSET       = 7
+ARROW_TILE_OFFSET        = 8
 
 ;conversation control characters
 NL  = -1  ;newline. This must ALWAYS be followed by a row number and some text to print!!!

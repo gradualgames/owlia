@@ -65,7 +65,7 @@ continue_string: .byte "CONTINUE",ES
 
 cursor_meta_sprite:
   .byte $01
-  .byte $00,$09,$00,$00,$00
+  .byte $00,$08,$00,$00,$00
 
 cursor_position_x:
   .byte 10*8+4,10*8+4
