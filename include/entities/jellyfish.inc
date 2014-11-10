@@ -304,7 +304,7 @@ do_not_move_jellyfish:
   lda jellyfish_x_velocity_hi,x
   bpl sign_extend_positive
 sign_extend_negative:
-  lda $ff
+  lda #$ff
   sta b0
 sign_extend_positive:
 
@@ -328,7 +328,7 @@ sign_extend_positive:
   lda jellyfish_y_velocity_hi,x
   bpl sign_extend_positive
 sign_extend_negative:
-  lda $ff
+  lda #$ff
   sta b0
 sign_extend_positive:
 
@@ -359,7 +359,7 @@ sign_extend_positive:
   lda jellyfish_x_velocity_hi,x
   bpl sign_extend_positive
 sign_extend_negative:
-  lda $ff
+  lda #$ff
   sta b0
 sign_extend_positive:
 
@@ -383,7 +383,7 @@ sign_extend_positive:
   lda jellyfish_y_velocity_hi,x
   bpl sign_extend_positive
 sign_extend_negative:
-  lda $ff
+  lda #$ff
   sta b0
 sign_extend_positive:
 
