@@ -2105,31 +2105,11 @@ done:
 
   inc metasprite_flicker
 
-  ;draw hero status alternately before and after drawing all other
-  ;entities and objects, to improve appearance when large objects
-  ;fly past the status.
-  .scope
-  lda metasprite_flicker
-  and #1
-  beq :+
   jsr hero_draw_status
-:
-  .endscope
 
   jsr entity_draw_all
 
   jsr sprite_draw_shadow_spots
-
-  ;draw hero status alternately before and after drawing all other
-  ;entities and objects, to improve appearance when large objects
-  ;fly past the status.
-  .scope
-  lda metasprite_flicker
-  and #1
-  bne :+
-  jsr hero_draw_status
-:
-  .endscope
 
   jsr sprite_clear_all_remaining
 
