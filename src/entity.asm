@@ -202,7 +202,7 @@ entity_not_spawned:
   sta item_quantity_lo,y
   lda #0
   sta item_quantity_hi,y
-  lda #ITEM_STATE_PICKUP_INIT
+  lda #ITEM_STATE_PICKUP_AND_FADE_OUT_INIT
   sta item_initial_state,y
   lda #INVENTORY_DUNGEON_FLAGS_MASK_NOP
   sta item_dungeon_flags_mask,y
