@@ -40,6 +40,7 @@
   eel_chr, \
   jellyfish_chr, \
   urchin_chr, \
+  ice_shards_chr, \
   intro_cut_scene_great_owls_spr_chr, \
   intro_cut_scene_mermon_leer_spr_chr
 
@@ -86,6 +87,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_eel
   .byte sprite_chr_group_bank_jellyfish
   .byte sprite_chr_group_bank_urchin
+  .byte sprite_chr_group_bank_ice_shards
   .byte sprite_chr_group_bank_intro_cut_scene_great_owls
   .byte sprite_chr_group_bank_intro_cut_scene_mermon_leer
 
@@ -190,6 +192,9 @@ eel_chr:
 
 jellyfish_chr:
 .incbin "jellyfish.chr"
+
+ice_shards_chr:
+.incbin "ice_shards.chr"
 
 urchin_chr:
 .incbin "urchin.chr"

@@ -38,6 +38,7 @@
 .include "eel_sprites_and_animations.inc"
 .include "jellyfish_sprites_and_animations.inc"
 .include "urchin_sprites_and_animations.inc"
+.include "ice_shards_explosion_sprites_and_animations.inc"
 .include "dungeon_entrance_statue_sprites_and_animations.inc"
 .include "intro_cut_scene_great_owls_sprites_and_animations.inc"
 .include "intro_cut_scene_mermon_leer_sprites_and_animations.inc"
