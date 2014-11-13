@@ -593,7 +593,7 @@ dungeon1_boss_owl_dungeon_entity_instances:
                                           0, 4
 
 tundra1_entity_instances:
-  .byte 10
+  .byte 9
   ;.byte entity_index_urchin, 40, 40, 0, URCHIN_PARAMS, 16*5, 40, <(256*2), >(256*2), 0, 0
   .byte entity_index_jellyfish, 45, 26, 0, 0
   .byte entity_index_jellyfish, 23, 30, 0, 0
@@ -601,10 +601,9 @@ tundra1_entity_instances:
   .byte entity_index_eel, 9, 20, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
   .byte entity_index_eel, 28, 53, 0, EEL_PARAMS, EEL_STATE_RIGHT_INIT
   .byte entity_index_eel, 34, 53, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
-  .byte entity_index_eel, 10, 54, 0, EEL_PARAMS, EEL_STATE_RIGHT_INIT
+  .byte entity_index_jellyfish, 10, 54, 0, 0
   .byte entity_index_treasure_chest, 7, 8, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_treasure_chest, 31, 53, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
-  .byte entity_index_treasure_chest, 9, 55, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 tundra2_entity_instances:
   .byte 6
