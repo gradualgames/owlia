@@ -2,8 +2,12 @@
 .ifndef ICE_SHARDS_EXPLOSION_INC
 ICE_SHARDS_EXPLOSION_INC = 1
 
+ICE_SHARDS_EXPLOSION_STATE_MAIN_LENGTH = 10
+
 ICE_SHARDS_EXPLOSION_WIDTH = $0f
 ICE_SHARDS_EXPLOSION_HEIGHT = $0f
+
+ice_shards_explosion_frame_counter = entity_local0
 
 .enum
 ICE_SHARDS_EXPLOSION_STATE_INIT
@@ -49,12 +53,51 @@ ice_shards_explosion_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
+  ;play a sound
+  lda #<sfx_ice_shatter_square
+  sta sound_param_word_0
+  lda #>sfx_ice_shatter_square
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+  far_call #SFX_BANK, stream_initialize
+
+  lda #<sfx_ice_shatter_noise
+  sta sound_param_word_0
+  lda #>sfx_ice_shatter_noise
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  lda #soundeffect_two
+  sta sound_param_byte_1
+  far_call #SFX_BANK, stream_initialize
+
+  lda #ICE_SHARDS_EXPLOSION_STATE_MAIN_LENGTH
+  sta ice_shards_explosion_frame_counter,x
+
   lda #ICE_SHARDS_EXPLOSION_STATE_MAIN
   sta entity_state,x
 
   rts
 
 ice_shards_explosion_state_main:
+
+  .scope
+  dec ice_shards_explosion_frame_counter,x
+  bne do_not_die_yet
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+do_not_die_yet:
+  .endscope
 
   jsr entity_update_animation
 

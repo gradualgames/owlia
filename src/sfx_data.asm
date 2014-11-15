@@ -87,6 +87,10 @@ sfx_volume_envelope_19:
 sfx_volume_envelope_20:
   .byte 0,1,1,1,2,2,2,2,3,3,3,3,3,4,4,4,4,5,5,5,6,6,7,7,8,8,8,9,9,10,11,11,12,12,12,12,13,13,13,14,14,14,14,15,15,15,15,15,15,15,15,15,15,15,12,11,10,8,5,3,1,0,0,0,ENV_STOP
 
+;used for ice explosion sound
+sfx_volume_envelope_21:
+  .byte 10,9,8,7,6,5,4,4,3,3,3,2,1,1,1,0,ENV_STOP
+
 sfx_pitch_envelope_0:
   .byte 0, ENV_LOOP
 
@@ -128,6 +132,7 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_18
   .word sfx_volume_envelope_19
   .word sfx_volume_envelope_20
+  .word sfx_volume_envelope_21
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_0
@@ -226,3 +231,12 @@ sfx_octoboss_rise:
 sfx_octoboss_punch:
   .byte STV,1,STP,3,STL,50,C4
   .byte TRM
+
+sfx_ice_shatter_square:
+  .byte STV,21,STP,0,SDU,0,STL,2,C7,C7,AS7,F7,STL,120,A7
+  .byte TRM
+
+sfx_ice_shatter_noise:
+  .byte STV,21,STP,0,SDU,0,STL,128,$8
+  .byte TRM
+

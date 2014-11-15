@@ -28,5 +28,7 @@ SFX_BANK = 6
 .global sfx_solved_puzzle_instrument_two
 .global sfx_octoboss_rise
 .global sfx_octoboss_punch
+.global sfx_ice_shatter_square
+.global sfx_ice_shatter_noise
 
 .endif
