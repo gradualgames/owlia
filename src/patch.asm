@@ -7,16 +7,16 @@
 
 .segment "CODE"
 
-;expects w0 to be the map x coordinate at which to decode the row
-;expects w1 to be the map y coordinate at which to decode the row
-;expects b0 to be the index of the nametable patch out of which a row will be decoded
-;expects b1 to be the row of the patch to use
+;expects w8 to be the map x coordinate at which to decode the row
+;expects w9 to be the map y coordinate at which to decode the row
+;expects b12 to be the index of the nametable patch out of which a row will be decoded
+;expects b13 to be the row of the patch to use
 .proc decode_nametable_patch_row
 ;params
-map_x = w0
-map_y = w1
-patch_index = b0
-patch_row = b1
+map_x = w8
+map_y = w9
+patch_index = b12
+patch_row = b13
 
 ;locals
 row_offset = b2
@@ -39,19 +39,15 @@ patch_address = w3
   lda row_ready
   bne skip_row_decode
 
-  ;save patch params, the map decode routines clobber a lot of zp state
+  ;transfer patch params for the map decode routines
   lda map_x
-  pha
+  sta w0
   lda map_x+1
-  pha
+  sta w0+1
   lda map_y
-  pha
+  sta w1
   lda map_y+1
-  pha
-  lda patch_index
-  pha
-  lda patch_row
-  pha
+  sta w1+1
 
   ;temporarily modify map_x to be camera_x. This is so that we decode
   ;a full row that fits the current screen, not bleeding into opposing nametables,
@@ -65,19 +61,6 @@ patch_address = w3
   far_call map_bank, map_decode_row
   far_call map_bank, map_process_intermediate_attribute_row_buffer
 
-  ;restore patch params
-  pla
-  sta patch_row
-  pla
-  sta patch_index
-  pla
-  sta map_y+1
-  pla
-  sta map_y
-  pla
-  sta map_x+1
-  pla
-  sta map_x
 skip_row_decode:
 
   ;calculate row_offset from map_x

@@ -111,24 +111,24 @@ monolith_state_fall_draw_patch_second_row:
 
   ;patch index
   lda monolith_foreground_patch_index,x
-  sta b0
+  sta b12
 
   ;patch row
   lda #1
-  sta b1
+  sta b13
 
   lda entity_x_lo,x
-  sta w0
+  sta w8
   lda entity_x_hi,x
-  sta w0+1
+  sta w8+1
 
   clc
   lda entity_y_lo,x
   adc monolith_patch_offset_y_lo,x
-  sta w1
+  sta w9
   lda entity_y_hi,x
   adc monolith_patch_offset_y_hi,x
-  sta w1+1
+  sta w9+1
 
   jsr decode_nametable_patch_row
 
@@ -141,32 +141,32 @@ monolith_state_fall_draw_patch_first_row:
 
   ;patch index
   lda monolith_foreground_patch_index,x
-  sta b0
+  sta b12
 
   ;patch row
   lda #0
-  sta b1
+  sta b13
 
   lda entity_x_lo,x
-  sta w0
+  sta w8
   lda entity_x_hi,x
-  sta w0+1
+  sta w8+1
 
   clc
   lda entity_y_lo,x
   adc monolith_patch_offset_y_lo,x
-  sta w1
+  sta w9
   lda entity_y_hi,x
   adc monolith_patch_offset_y_hi,x
-  sta w1+1
+  sta w9+1
 
   sec
-  lda w1
+  lda w9
   sbc #8
-  sta w1
-  lda w1+1
+  sta w9
+  lda w9+1
   sbc #0
-  sta w1+1
+  sta w9+1
 
   jsr decode_nametable_patch_row
 
@@ -179,32 +179,32 @@ monolith_state_fall_draw_bg_patch_row:
 
   ;patch index
   lda monolith_background_patch_index,x
-  sta b0
+  sta b12
 
   ;patch row
   lda monolith_patch_step,x
-  sta b1
+  sta b13
 
   lda entity_x_lo,x
-  sta w0
+  sta w8
   lda entity_x_hi,x
-  sta w0+1
+  sta w8+1
 
   clc
   lda entity_y_lo,x
   adc monolith_patch_offset_y_lo,x
-  sta w1
+  sta w9
   lda entity_y_hi,x
   adc monolith_patch_offset_y_hi,x
-  sta w1+1
+  sta w9+1
 
   sec
-  lda w1
+  lda w9
   sbc #16
-  sta w1
-  lda w1+1
+  sta w9
+  lda w9+1
   sbc #0
-  sta w1+1
+  sta w9+1
 
   jsr decode_nametable_patch_row
 
@@ -337,32 +337,32 @@ monolith_state_rise_draw_patch_first_row:
 
   ;patch index
   lda monolith_foreground_patch_index,x
-  sta b0
+  sta b12
 
   ;patch row
   lda #0
-  sta b1
+  sta b13
 
   lda entity_x_lo,x
-  sta w0
+  sta w8
   lda entity_x_hi,x
-  sta w0+1
+  sta w8+1
 
   clc
   lda entity_y_lo,x
   adc monolith_patch_offset_y_lo,x
-  sta w1
+  sta w9
   lda entity_y_hi,x
   adc monolith_patch_offset_y_hi,x
-  sta w1+1
+  sta w9+1
 
   clc
-  lda w1
+  lda w9
   adc #<(-16)
-  sta w1
-  lda w1+1
+  sta w9
+  lda w9+1
   adc #>(-16)
-  sta w1+1
+  sta w9+1
 
   jsr decode_nametable_patch_row
 
@@ -396,32 +396,32 @@ monolith_state_rise_draw_patch_second_row:
 
   ;patch index
   lda monolith_foreground_patch_index,x
-  sta b0
+  sta b12
 
   ;patch row
   lda #1
-  sta b1
+  sta b13
 
   lda entity_x_lo,x
-  sta w0
+  sta w8
   lda entity_x_hi,x
-  sta w0+1
+  sta w8+1
 
   clc
   lda entity_y_lo,x
   adc monolith_patch_offset_y_lo,x
-  sta w1
+  sta w9
   lda entity_y_hi,x
   adc monolith_patch_offset_y_hi,x
-  sta w1+1
+  sta w9+1
 
   clc
-  lda w1
+  lda w9
   adc #<(-8)
-  sta w1
-  lda w1+1
+  sta w9
+  lda w9+1
   adc #>(-8)
-  sta w1+1
+  sta w9+1
 
   jsr decode_nametable_patch_row
 
@@ -434,26 +434,26 @@ monolith_state_rise_draw_patch_third_row:
 
   ;patch index
   lda monolith_foreground_patch_index,x
-  sta b0
+  sta b12
 
   ;patch row
   sec
   lda #5
   sbc monolith_patch_step,x
-  sta b1
+  sta b13
 
   lda entity_x_lo,x
-  sta w0
+  sta w8
   lda entity_x_hi,x
-  sta w0+1
+  sta w8+1
 
   clc
   lda entity_y_lo,x
   adc monolith_patch_offset_y_lo,x
-  sta w1
+  sta w9
   lda entity_y_hi,x
   adc monolith_patch_offset_y_hi,x
-  sta w1+1
+  sta w9+1
 
   jsr decode_nametable_patch_row
 
