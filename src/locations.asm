@@ -692,7 +692,7 @@ tundra1_palette:
   .word tundra1_palette
 
 dungeon2_palette:
-  .byte $0e,$00,$10,$20,$0e,$12,$21,$20,$0e,$0c,$22,$32,$0e,$0e,$0e,$0e
+  .byte $0e,$12,$21,$20,$0e,$0c,$22,$32,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$12,$21,$0e,$21,$31,$20
   .byte $ff
   .word dungeon2_palette
