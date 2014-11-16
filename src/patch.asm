@@ -54,9 +54,9 @@ patch_address = w3
   ;and so that if there are more than one patch entity in the same row, they can
   ;rely on row offsets being relative to the same position.
   lda camera_x
-  sta map_x
+  sta w0
   lda camera_x+1
-  sta map_x+1
+  sta w0+1
 
   far_call map_bank, map_decode_row
   far_call map_bank, map_process_intermediate_attribute_row_buffer
@@ -139,18 +139,18 @@ skip_row_decode:
 
 .endproc
 
-;expects w0 to be the map x coordinate at which to decode the column
-;expects w1 to be the map y coordinate at which to decode the column
-;expects b0 to be the index of the nametable patch out of which a column will be decoded
-;expects b1 to be the column of the patch to use
-;expects b2 to be height of the column to copy
+;expects w8 to be the map x coordinate at which to decode the column
+;expects w9 to be the map y coordinate at which to decode the column
+;expects b12 to be the index of the nametable patch out of which a column will be decoded
+;expects b13 to be the column of the patch to use
+;expects b14 to be height of the column to copy
 .proc decode_nametable_patch_column
 ;params
-map_x = w0
-map_y = w1
-patch_index = b0
-patch_column = b1
-patch_column_height = b2
+map_x = w8
+map_y = w9
+patch_index = b12
+patch_column = b13
+patch_column_height = b14
 
 ;locals
 column_offset = b3
@@ -173,49 +173,28 @@ patch_address = w3
   lda column_ready
   bne skip_column_decode
 
-  ;save patch params, the map decode routines clobber a lot of zp state
+  ;transfer patch params for the map decode routines
   lda map_x
-  pha
+  sta w0
   lda map_x+1
-  pha
+  sta w0+1
   lda map_y
-  pha
+  sta w1
   lda map_y+1
-  pha
-  lda patch_index
-  pha
-  lda patch_column
-  pha
-  lda patch_column_height
-  pha
+  sta w1+1
 
   ;temporarily modify map_y to be camera_y. This is so that we decode
   ;a full column that fits the current screen, and if a second patch
   ;entity in the same column chooses to patch more parts of the column,
   ;it can rely on the offsets being relative to the same position.
   lda camera_y
-  sta map_y
+  sta w1
   lda camera_y+1
-  sta map_y+1
+  sta w1+1
 
   far_call map_bank, map_decode_column
   far_call map_bank, map_process_intermediate_attribute_column_buffer
 
-  ;restore patch params
-  pla
-  sta patch_column_height
-  pla
-  sta patch_column
-  pla
-  sta patch_index
-  pla
-  sta map_y+1
-  pla
-  sta map_y
-  pla
-  sta map_x+1
-  pla
-  sta map_x
 skip_column_decode:
 
   ;transform map_y to metatile coordinates

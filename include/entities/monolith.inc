@@ -590,11 +590,11 @@ do_not_shake_screen:
 
   ;patch index
   lda monolith_foreground_patch_index,x
-  sta b0
+  sta b12
 
   ;patch column
   lda monolith_patch_column,x
-  sta b1
+  sta b13
 
  ;height of the column to decode
   lda monolith_patch_step,x
@@ -604,31 +604,31 @@ do_not_shake_screen:
   jmp :++
 : lda #2
 :
-  sta b2
+  sta b14
 
   clc
   lda entity_x_lo,x
   adc monolith_patch_offset_x_lo,x
-  sta w0
+  sta w8
   lda entity_x_hi,x
   adc monolith_patch_offset_x_hi,x
-  sta w0+1
+  sta w8+1
 
   clc
   lda entity_y_lo,x
   adc monolith_patch_offset_y_lo,x
-  sta w1
+  sta w9
   lda entity_y_hi,x
   adc monolith_patch_offset_y_hi,x
-  sta w1+1
+  sta w9+1
 
   clc
-  lda w1
+  lda w9
   adc #8
-  sta w1
-  lda w1+1
+  sta w9
+  lda w9+1
   adc #0
-  sta w1+1
+  sta w9+1
 
   jsr decode_nametable_patch_column
 
@@ -642,42 +642,42 @@ do_not_shake_screen:
 
   ;patch index
   lda monolith_foreground_patch_index,x
-  sta b0
+  sta b12
 
   ;patch column
   lda monolith_patch_column,x
-  sta b1
+  sta b13
 
   ;height of the column to decode
   lda monolith_patch_step,x
-  sta b2
-  inc b2
-  inc b2
-  inc b2
+  sta b14
+  inc b14
+  inc b14
+  inc b14
 
   clc
   lda entity_x_lo,x
   adc monolith_patch_offset_x_lo,x
-  sta w0
+  sta w8
   lda entity_x_hi,x
   adc monolith_patch_offset_x_hi,x
-  sta w0+1
+  sta w8+1
 
   clc
   lda entity_y_lo,x
   adc monolith_patch_offset_y_lo,x
-  sta w1
+  sta w9
   lda entity_y_hi,x
   adc monolith_patch_offset_y_hi,x
-  sta w1+1
+  sta w9+1
 
   clc
-  lda w1
+  lda w9
   adc #8
-  sta w1
-  lda w1+1
+  sta w9
+  lda w9+1
   adc #0
-  sta w1+1
+  sta w9+1
 
   jsr decode_nametable_patch_column
 
@@ -689,31 +689,31 @@ do_not_shake_screen:
 
   ;patch index
   lda monolith_background_patch_index,x
-  sta b0
+  sta b12
 
   ;patch column
   lda monolith_patch_column,x
-  sta b1
+  sta b13
 
   ;height of the column to decode
   lda #4
-  sta b2
+  sta b14
 
   clc
   lda entity_x_lo,x
   adc monolith_patch_offset_x_lo,x
-  sta w0
+  sta w8
   lda entity_x_hi,x
   adc monolith_patch_offset_x_hi,x
-  sta w0+1
+  sta w8+1
 
   clc
   lda entity_y_lo,x
   adc #<(-32)
-  sta w1
+  sta w9
   lda entity_y_hi,x
   adc #>(-32)
-  sta w1+1
+  sta w9+1
 
   jsr decode_nametable_patch_column
 
