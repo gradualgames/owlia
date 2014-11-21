@@ -2113,6 +2113,9 @@ done:
 
   jsr sprite_clear_all_remaining
 
+  lda #1
+  sta sprites_ready
+
   jsr advance_palette_cycle
 
   .ifdef CPU_USAGE
@@ -2152,6 +2155,9 @@ done:
   jsr sprite_draw_shadow_spots
 
   jsr hero_draw_status
+
+  lda #1
+  sta sprites_ready
 
   rts
 

@@ -2336,8 +2336,6 @@ cycle_pad_lut2:
 
 .proc nametable_and_attribute_update_ppu
 
-  jsr sprite_update_all
-
   .scope
   lda column_ready
   beq column_nop
@@ -2414,6 +2412,21 @@ not_enough_time_for_palette:
 
   upload_ppu_2006
   upload_ppu_2005
+
+  .scope
+  lda sprites_ready
+  beq sprites_not_ready
+  jsr sprite_update_all
+  lda #0
+  sta sprites_ready
+  jmp done
+sprites_not_ready:
+  ;cycle timed code to keep graphics hiding bar stable
+  ldx #110
+: dex
+  bne :-
+done:
+  .endscope
 
   set_vblank_done
 

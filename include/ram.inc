@@ -6,6 +6,7 @@ MAX_SHADOW_SPOTS = 12
 
 .global sprite
 .global next_sprite_address
+.global sprites_ready
 
 .global metasprite_flicker
 
