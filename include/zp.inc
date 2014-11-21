@@ -16,6 +16,7 @@ ZP_INC = 1
 .globalzp b12
 .globalzp b13
 .globalzp b14
+.globalzp b15
 
 .globalzp w0
 .globalzp w1

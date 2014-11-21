@@ -513,21 +513,14 @@ dungeon2_area_bg_chr_groups:
   .word dungeon2_main_chr
 
 dungeon2_area_nametable_patches:
-  .word dungeon2_area_nametable_monolith_patch
-  .word dungeon2_area_nametable_keyed_monolith_patch
-  .word dungeon2_area_nametable_monolith_north_bg_patch
-  .word dungeon2_area_nametable_monolith_south_bg_patch
-  .word dungeon2_area_nametable_monolith_west_bg_patch
-  .word dungeon2_area_nametable_monolith_east_bg_patch
+  .word dungeon2_area_nametable_bombable_wall_corridor_patch
 
-dungeon2_area_nametable_monolith_patch:
-  .byte $02,$06,$05,$06,$0d,$0e,$17,$18,$23,$24,$23,$31,$3e,$3f
-dungeon2_area_nametable_keyed_monolith_patch:
-  .byte $02,$06,$78,$79,$7a,$7b,$17,$18,$23,$24,$23,$31,$3e,$3f
-dungeon2_area_nametable_monolith_north_bg_patch:
-dungeon2_area_nametable_monolith_south_bg_patch:
-  .byte $02,$06,$75,$74,$77,$68,$75,$74,$77,$68,$75,$74,$77,$68
-dungeon2_area_nametable_monolith_west_bg_patch:
-  .byte $02,$06,$4a,$4b,$7c,$56,$4a,$4b,$86,$87,$75,$74,$77,$68
-dungeon2_area_nametable_monolith_east_bg_patch:
-  .byte $02,$06,$4c,$4d,$57,$80,$4c,$4d,$89,$8a,$75,$74,$77,$68
+dungeon2_area_nametable_bombable_wall_corridor_patch:
+  .byte $06,$0e,$02,$03,$5e,$5d,$06,$07,$0a,$0b,$56,$55,$0e,$0f,$02,$03
+  .byte $5e,$5d,$06,$07,$0a,$0b,$56,$55,$0e,$0f,$14,$15,$5e,$5d,$18,$19
+  .byte $23,$24,$56,$55,$27,$28,$5a,$5b,$5e,$5d,$33,$34,$61,$62,$56,$55
+  .byte $3f,$40,$66,$67,$5e,$5d,$46,$45,$61,$62,$56,$55,$3f,$40,$66,$67
+  .byte $5e,$5d,$46,$45,$6a,$6b,$56,$55,$49,$48,$4d,$4e,$5e,$5d,$4d,$4e
+  .byte $56,$55,$56,$55,$56,$55
+
+

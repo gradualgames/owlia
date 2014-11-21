@@ -18,6 +18,7 @@
 .include "dungeon_entrance_statue_constants.inc"
 .include "eel_constants.inc"
 .include "urchin_constants.inc"
+.include "bombable_wall_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -625,8 +626,9 @@ tundra3_entity_instances:
   .byte entity_index_treasure_chest, 17, 30, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon2_entity_instances:
-  .byte 1
+  .byte 2
   .byte entity_index_ice_shards_explosion, 36, 48, 0, 0
+  .byte entity_index_bombable_wall, 39, 49, 0, BOMBABLE_WALL_PARAMS, %00010001
 
 ;****************************************************************
 ;Palettes.
@@ -938,6 +940,6 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          43, 26, 0, 0, 0, HERO_DIRECTION_DOWN
 
 dungeon2_entrance:
-define_south_location LOCATION_BRIGHTNESS_LEVEL_4 | LOCATION_FLAGS_DUNGEON_ENTRANCE,\
+define_south_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4 | LOCATION_FLAGS_DUNGEON_ENTRANCE)},\
                       area_index_dungeon2, dungeon2_sprite_chr_groups, dungeon2_entity_instances, dungeon2_palette,\
                       40, 56, 0, 0, 0, HERO_DIRECTION_UP

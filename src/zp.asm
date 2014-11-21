@@ -17,6 +17,7 @@ b11: .res 1
 b12: .res 1
 b13: .res 1
 b14: .res 1
+b15: .res 1
 
 w0:  .res 2
 w1:  .res 2
