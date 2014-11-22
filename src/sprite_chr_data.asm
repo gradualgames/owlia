@@ -41,6 +41,7 @@
   jellyfish_chr, \
   urchin_chr, \
   ice_shards_chr, \
+  ice_block_chr, \
   intro_cut_scene_great_owls_spr_chr, \
   intro_cut_scene_mermon_leer_spr_chr
 
@@ -193,11 +194,14 @@ eel_chr:
 jellyfish_chr:
 .incbin "jellyfish.chr"
 
+urchin_chr:
+.incbin "urchin.chr"
+
 ice_shards_chr:
 .incbin "ice_shards.chr"
 
-urchin_chr:
-.incbin "urchin.chr"
+ice_block_chr:
+.incbin "ice_block.chr"
 
 dungeon_entrance_statue_chr:
 .incbin "dungeon_entrance_statue.chr"

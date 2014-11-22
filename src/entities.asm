@@ -66,7 +66,8 @@
   jellyfish_update, \
   urchin_update, \
   ice_shards_explosion_update, \
-  bombable_wall_update
+  bombable_wall_update, \
+  ice_block_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -105,6 +106,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_urchin
   .byte entity_update_bank_ice_shards_explosion
   .byte entity_update_bank_bombable_wall
+  .byte entity_update_bank_ice_block
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -138,6 +140,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_urchin
   .byte entity_sprites_and_animations_bank_ice_shards_explosion
   .byte 0 ;entity_sprites_and_animations_bank_bombable_wall
+  .byte entity_sprites_and_animations_bank_ice_block
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -172,3 +175,4 @@ entity_defs_sprites_and_animations_bank:
 .include "urchin.inc"
 .include "ice_shards_explosion.inc"
 .include "bombable_wall.inc"
+.include "ice_block.inc"

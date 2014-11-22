@@ -342,7 +342,7 @@ map_width: .res 1
 map_height: .res 1
 
 ;This field can only be used in single-screen environments, for
-;additional collision information with doors, bombable blocks, etc.
+;additional collision information with doors, bombable ice_blocks, etc.
 dynamic_single_screen_collision_field: .res 32
 
 ;indicates to the map vblank routine that a row or a column has been prepared

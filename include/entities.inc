@@ -42,6 +42,7 @@ entity_index_jellyfish
 entity_index_urchin
 entity_index_ice_shards_explosion
 entity_index_bombable_wall
+entity_index_ice_block
 .endenum
 
 entity_update_bank_instance_placeholder = 4
@@ -75,6 +76,7 @@ entity_update_bank_jellyfish = 5
 entity_update_bank_urchin = 5
 entity_update_bank_ice_shards_explosion = 5
 entity_update_bank_bombable_wall = 5
+entity_update_bank_ice_block = 5
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 7
@@ -107,5 +109,6 @@ entity_sprites_and_animations_bank_jellyfish = 7
 entity_sprites_and_animations_bank_urchin = 7
 entity_sprites_and_animations_bank_ice_shards_explosion = 7
 ;entity_sprites_and_animations_bank_bombable_wall ;this entity has no graphics
+entity_sprites_and_animations_bank_ice_block = 7
 
 .endif

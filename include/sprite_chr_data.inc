@@ -45,6 +45,7 @@ sprite_chr_group_index_eel
 sprite_chr_group_index_jellyfish
 sprite_chr_group_index_urchin
 sprite_chr_group_index_ice_shards
+sprite_chr_group_index_ice_block
 sprite_chr_group_index_intro_cut_scene_great_owls
 sprite_chr_group_index_intro_cut_scene_mermon_leer
 .endenum
@@ -86,6 +87,7 @@ sprite_chr_group_bank_eel = 8
 sprite_chr_group_bank_jellyfish = 8
 sprite_chr_group_bank_urchin = 8
 sprite_chr_group_bank_ice_shards = 8
+sprite_chr_group_bank_ice_block = 8
 sprite_chr_group_bank_intro_cut_scene_great_owls = 8
 sprite_chr_group_bank_intro_cut_scene_mermon_leer = 8
 

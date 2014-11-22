@@ -217,7 +217,7 @@ tundra3_sprite_chr_groups:
   .byte sprite_chr_group_index_dungeon_entrance_statue
 
 dungeon2_sprite_chr_groups:
-  .byte 11   ;sprite_chr_groups .byte
+  .byte 12   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -229,6 +229,7 @@ dungeon2_sprite_chr_groups:
   .byte sprite_chr_group_index_jellyfish
   .byte sprite_chr_group_index_urchin
   .byte sprite_chr_group_index_ice_shards
+  .byte sprite_chr_group_index_ice_block
 
 ;****************************************************************
 ;Entity instance sets
@@ -626,8 +627,9 @@ tundra3_entity_instances:
   .byte entity_index_treasure_chest, 17, 30, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon2_entity_instances:
-  .byte 1
+  .byte 2
   .byte entity_index_bombable_wall, 39, 49, 0, BOMBABLE_WALL_PARAMS, %00010001
+  .byte entity_index_ice_block, 39, 52, 0, 0
 
 ;****************************************************************
 ;Palettes.
