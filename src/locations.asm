@@ -626,8 +626,7 @@ tundra3_entity_instances:
   .byte entity_index_treasure_chest, 17, 30, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon2_entity_instances:
-  .byte 2
-  .byte entity_index_ice_shards_explosion, 36, 48, 0, 0
+  .byte 1
   .byte entity_index_bombable_wall, 39, 49, 0, BOMBABLE_WALL_PARAMS, %00010001
 
 ;****************************************************************

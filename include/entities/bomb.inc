@@ -668,15 +668,27 @@ done:
   sta entity_action_rect2_from
   lda #ENTITY_DIRECTION_NONE
   sta entity_action_rect2_direction
+
+  clc
   lda entity_x_lo,x
+  adc #<BOMB_BLAST_X_OFFSET
   sta entity_action_rect2_x
   lda entity_x_hi,x
+  adc #>BOMB_BLAST_X_OFFSET
   sta entity_action_rect2_x+1
 
+  clc
   lda entity_y_lo,x
+  adc #<BOMB_BLAST_Y_OFFSET
   sta entity_action_rect2_y
   lda entity_y_hi,x
+  adc #>BOMB_BLAST_Y_OFFSET
   sta entity_action_rect2_y+1
+
+  lda #BOMB_BLAST_WIDTH
+  sta entity_action_rect2_width
+  lda #BOMB_BLAST_HEIGHT
+  sta entity_action_rect2_height
 
   ;spawn an explosion entity
   lda #entity_index_explosion

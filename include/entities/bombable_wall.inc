@@ -6,7 +6,8 @@ BOMBABLE_WALL_INC = 1
 
 .define bombable_wall_states \
   bombable_wall_state_init, \
-  bombable_wall_state_main
+  bombable_wall_state_wait_til_bombed, \
+  bombable_wall_state_fall
 
 bombable_wall_lo:
   .lobytes bombable_wall_states
@@ -35,12 +36,59 @@ bombable_wall_state_init:
   lda #BOMBABLE_WALL_INITIAL_PATCH_ROW
   sta bombable_wall_patch_row,x
 
-  lda #BOMBABLE_WALL_STATE_MAIN
+  jsr bombable_wall_make_corridor_impassable
+
+  lda #BOMBABLE_WALL_STATE_WAIT_TIL_BOMBED
   sta entity_state,x
 
   rts
 
-bombable_wall_state_main:
+bombable_wall_state_wait_til_bombed:
+
+  .scope
+  lda entity_action_rect2_action
+  cmp #ACTION_ATTACK
+  bne action_rect2_not_deadly
+  lda entity_action_rect2_from
+  cmp #ACTION_FROM_BOMB
+  bne action_rect2_not_deadly
+  jsr entity_test_entity_action_rect2
+  bne action_rect2_not_deadly
+
+  lda #BOMBABLE_WALL_FALL_DELAY
+  sta bombable_wall_frame_counter,x
+
+  lda #BOMBABLE_WALL_STATE_FALL
+  sta entity_state,x
+
+action_rect2_not_deadly:
+  .endscope
+
+  rts
+
+bombable_wall_state_fall:
+
+  ;shake the screen
+  .scope
+  lda camera_y
+  eor #$04
+  sta camera_y
+  lda camera_scroll_y
+  eor #$04
+  sta camera_scroll_y
+  .endscope
+
+  .scope
+  dec bombable_wall_frame_counter,x
+  beq done_pausing
+
+  rts
+
+done_pausing:
+
+  lda #BOMBABLE_WALL_FALL_DELAY
+  sta bombable_wall_frame_counter,x
+  .endscope
 
   ;patch index
   lda #0
@@ -58,23 +106,53 @@ bombable_wall_state_main:
   lda #16
   sta b15
 
+  ;set up parameters for nametable patching and clearing collision field at the same time
   clc
   lda entity_x_lo,x
+  sta w0
   adc #<BOMBABLE_WALL_PATCH_OFFSET_X
   sta w8
   lda entity_x_hi,x
+  sta w0+1
   adc #>BOMBABLE_WALL_PATCH_OFFSET_X
   sta w8+1
 
   clc
   lda entity_y_lo,x
   adc bombable_wall_patch_offset_y_lo,x
+  sta w1
   sta w9
   lda entity_y_hi,x
   adc bombable_wall_patch_offset_y_hi,x
+  sta w1+1
   sta w9+1
 
+  jsr clear_dynamic_single_screen_collision_field_bit
+
   jsr decode_nametable_patch_row_and_poke_attribute
+
+  .scope
+  lda #entity_index_ice_shards_explosion
+  sta b0
+
+  clc
+  lda entity_x_lo,x
+  adc #<4
+  sta w0
+  lda entity_x_hi,x
+  adc #>4
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc bombable_wall_patch_offset_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  adc bombable_wall_patch_offset_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+  .endscope
 
   dec bombable_wall_patch_row,x
   bmi bombable_wall_die
@@ -95,5 +173,51 @@ bombable_wall_die:
   sta entity_flags,x
 
   rts
+
+.proc bombable_wall_make_corridor_impassable
+
+  ;start at bombable wall's "cursor" coordinates
+  lda entity_x_lo,x
+  sta w3
+  lda entity_x_hi,x
+  sta w3+1
+
+  lda entity_y_lo,x
+  sta w4
+  lda entity_y_hi,x
+  sta w4+1
+
+  lda #6
+  sta b0
+
+make_next_tile_impassable:
+  ;load the current coordinates at which we want to set a solid flag
+  lda w3
+  sta w0
+  lda w3+1
+  sta w0+1
+
+  lda w4
+  sta w1
+  lda w4+1
+  sta w1+1
+
+  jsr set_dynamic_single_screen_collision_field_bit
+
+  ;move the coordinates up a tile
+  sec
+  lda w4
+  sbc #<16
+  sta w4
+  lda w4+1
+  sbc #>16
+  sta w4+1
+
+  dec b0
+  bne make_next_tile_impassable
+
+  rts
+
+.endproc
 
 .endif

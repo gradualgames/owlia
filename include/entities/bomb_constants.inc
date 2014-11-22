@@ -3,7 +3,7 @@ BOMB_CONSTANTS_INC = 1
 
 BOMB_INITIAL_BOUNCE_OFFSET = 8
 BOMB_BOUNCE_Y_ACCELERATION = 50
-BOMB_SLIDING_DECELERATION = 16
+BOMB_SLIDING_DECELERATION = 32
 BOMB_BOUNCES = 5
 BOMB_TIMER = 200
 
@@ -14,6 +14,11 @@ BOMB_WIDTH = 7
 BOMB_HALF_WIDTH = 4
 BOMB_HEIGHT = 7
 BOMB_HALF_HEIGHT = 4
+
+BOMB_BLAST_WIDTH = 15
+BOMB_BLAST_HEIGHT = 15
+BOMB_BLAST_X_OFFSET = -4
+BOMB_BLAST_Y_OFFSET = -4
 
 ;the target is just an invisible moving spot the bomb bounces above.
 ;it slides while the bomb bounces above it, and these two constants
