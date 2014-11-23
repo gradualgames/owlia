@@ -1881,6 +1881,9 @@ play_state_action_start_conversation:
   sta b0
   jsr sprite_hide_all_below
 
+  lda #1
+  sta sprites_ready
+
   clear_vblank_done
   wait_vblank_done
 
