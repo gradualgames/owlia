@@ -1890,8 +1890,7 @@ play_state_action_start_conversation:
   lda #TEXTBOX_PLAY_STATE_ROW
   sta textbox_row
 
-  switch_bank_ldy #TEXTBOX_BANK
-  jsr draw_textbox
+  far_call #TEXTBOX_BANK, draw_textbox
 
   ;save current controller routine
   save_controller_routine
@@ -1901,12 +1900,15 @@ play_state_action_start_conversation:
 
   ;when an NPC starts a conversation, the NPC specifies the index of a
   ;conversation to load, load it here.
+  switch_bank_ldy #CONVERSATIONS_LUT_BANK
   ldx state_control_params+play_state_control::param
+
   lda conversations_lo,x
   sta w0
   lda conversations_hi,x
   sta w0+1
-  jsr run_conversation
+
+  far_call #TEXTBOX_BANK, run_conversation
 
   jsr controller_clear
 

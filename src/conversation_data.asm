@@ -3,7 +3,7 @@
 .include "textbox.inc"
 .include "conversation_data.inc"
 
-.segment "CODE"
+.segment "ROM00"
 
 .define conversations \
     hi_adlanniel, \

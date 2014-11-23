@@ -1,6 +1,8 @@
 .ifndef CONVERSATION_DATA
 CONVERSATION_DATA = 1
 
+CONVERSATIONS_LUT_BANK = 0
+
 ;please note, this bank is intended to be the same as TEXTBOX_BANK,
 ;as the run_conversation routine assumes that the conversation data is
 ;loaded in the same bank as the textbox code.

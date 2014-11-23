@@ -441,12 +441,15 @@ load_sprite_overlay:
 
   ldy #slide::conversation_index
   far_load #SLIDE_DATA_BANK, w10, w10+1
-  ldx far_load_result
+  ldy far_load_result
 
-  lda conversations_lo,x
+  far_load #CONVERSATIONS_LUT_BANK, #<conversations_lo, #>conversations_lo
+  lda far_load_result
   sta w0
-  lda conversations_hi,x
+  far_load #CONVERSATIONS_LUT_BANK, #<conversations_hi, #>conversations_hi
+  lda far_load_result
   sta w0+1
+
   far_call #TEXTBOX_BANK, run_conversation
 
   ;fade out from current slide palette
