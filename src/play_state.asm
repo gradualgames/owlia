@@ -1019,6 +1019,8 @@ spin_hero_loop:
   jsr hero_face_in_current_direction
   jsr sprite_clear_all
   jsr hero_draw
+  lda #1
+  sta sprites_ready
   pla
   tay
 
@@ -1066,6 +1068,10 @@ spin_hero_loop:
   jsr entity_calculate_screen_coordinates_all
 
   jsr entity_draw_npe
+
+  lda #1
+  sta sprites_ready
+
   pla
   tay
 
