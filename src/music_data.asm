@@ -36,7 +36,7 @@ defeat_boss:
 .scope
 .include "defeat_boss.inc"
 .endscope
-enter_password_theme:
+game_menu_theme:
 .scope
-.include "enter_password_theme.inc"
+.include "game_menu_theme.inc"
 .endscope

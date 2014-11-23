@@ -13,6 +13,8 @@
 .include "play_state.inc"
 .include "locations.inc"
 .include "inventory.inc"
+.include "soundengine.inc"
+.include "music_data.inc"
 
 .segment "ROM01"
 
@@ -74,6 +76,26 @@ cursor_position_y:
   .byte 13*8, 15*8
 
 start_game_state_init:
+
+  .scope
+  lda song_address
+  cmp #<game_menu_theme
+  bne load_song
+
+  lda song_address+1
+  cmp #>game_menu_theme
+  bne load_song
+
+  jmp skip_load_song
+
+load_song:
+  lda #<game_menu_theme
+  sta song_address
+  lda #>game_menu_theme
+  sta song_address+1
+  far_call #MUSIC_BANK, song_initialize
+skip_load_song:
+  .endscope
 
   ;set blank nmi routine
   safely_set_vblank_routine ppu_vblank_nop

@@ -15,6 +15,7 @@ ENTER_PASSWORD_STATE_BANK = 1
   entered_character_index .byte
   print_string .byte
   password_field .byte 6
+  exit_enter_password_state .byte
 .endstruct
 
 .endif

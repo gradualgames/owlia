@@ -20,7 +20,7 @@
 .include "sprites_and_animations_data.inc"
 .include "controller.inc"
 .include "ppu.inc"
-.include "ndxdebug.h"
+.include "start_game_state.inc"
 
 .segment "ROM01"
 
@@ -135,12 +135,6 @@ cursor_position_y:
   .byte 13*8, 15*8
 
 enter_password_state_init:
-
-  lda #<enter_password_theme
-  sta song_address
-  lda #>enter_password_theme
-  sta song_address+1
-  far_call #MUSIC_BANK, song_initialize
 
   ;set blank nmi routine
   safely_set_vblank_routine ppu_vblank_nop
@@ -318,6 +312,10 @@ enter_password_state_init:
   lda #0
   sta state_control_params+enter_password_state_control::print_string
 
+  ;clear the exit state flag
+  lda #0
+  sta state_control_params+enter_password_state_control::exit_enter_password_state
+
   jsr print_entered_password
 
   jsr draw_cursor
@@ -356,6 +354,19 @@ enter_password_state_main:
   jsr controller_read
 
   jsr update_cursor
+
+  .scope
+  lda state_control_params+enter_password_state_control::exit_enter_password_state
+  beq do_not_exit_enter_password_state
+
+  safely_set_vblank_routine ppu_vblank_nop
+
+  jsr ppu_fade_out_palette
+
+  jmp start_game_state_init
+
+do_not_exit_enter_password_state:
+  .endscope
 
   .scope
   lda buffer_controller+buttons::_start
@@ -533,6 +544,11 @@ password_invalid:
 
 .endproc
 
+;updates the cursor based on controller state. D-pad selects the
+;character to enter in the current cursor position of the password.
+;"A" selects a character to enter. "B" erases the last character. "B"
+;when no characters have been entered exits the enter password state
+;and returns to the start game state.
 .proc update_cursor
 DPAD_TEST = %10000000
 cursor_x = state_control_params+enter_password_state_control::cursor_position_x
@@ -674,13 +690,18 @@ not_a:
   lda #ES
   sta string_buffer,x
 
-  ;decrement entered_character_index, but not if we've reached #$ff (empty string)
+  ;set exit state flag if B was hit with the entered character index already negative
+  .scope
   lda state_control_params+enter_password_state_control::entered_character_index
-  bmi :+
-  dec state_control_params+enter_password_state_control::entered_character_index
-:
+  bpl do_not_set_exit_flag
 
-  jmp done
+  lda #1
+  sta state_control_params+enter_password_state_control::exit_enter_password_state
+do_not_set_exit_flag:
+  .endscope
+
+  ;decrement entered_character_index.
+  dec state_control_params+enter_password_state_control::entered_character_index
 not_b:
 done:
   .endscope
