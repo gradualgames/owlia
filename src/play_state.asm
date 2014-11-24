@@ -1915,7 +1915,7 @@ play_state_action_start_conversation:
   ;restore old controller routine
   restore_controller_routine
 
-  jsr erase_textbox
+  far_call #TEXTBOX_BANK, erase_textbox
 
   ;the user has finished advancing through the conversation, make
   ;sure the play state control action is a nop as we return to the
