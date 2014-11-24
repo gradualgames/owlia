@@ -22,6 +22,7 @@
 .include "familiar_constants.inc"
 .include "hero.inc"
 .include "hero_constants.inc"
+.include "password.inc"
 
 .segment "HEADER"
 .byte "NES",$1a   ;iNES header
@@ -106,6 +107,7 @@ reset:
   jsr sprite_module_init
   jsr map_module_init
   jsr entity_module_init
+  far_call #PASSWORD_BANK, password_module_init
   far_call #HERO_BANK, hero_module_init
   far_call #FAMILIAR_BANK, familiar_module_init
 

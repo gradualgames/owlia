@@ -9,6 +9,19 @@
 
 .segment "ROM01"
 
+.proc password_module_init
+
+  ;clear out last earned password because we're starting fresh
+  ldx #5
+  lda #0
+: sta last_password,x
+  dex
+  bpl :-
+
+  rts
+
+.endproc
+
 password_obfuscation_masks:
   .byte %10010000
   .byte %10100100

@@ -104,6 +104,13 @@ game_over_state_init:
   sta w0+1
   far_call #PASSWORD_BANK, inventory_state_to_password_bit_field
 
+  ;save this password as the last earned password
+  ldx #5
+: lda state_control_params+game_over_state_control::password_field,x
+  sta last_password,x
+  dex
+  bpl :-
+
   ;generate password string from password field
   lda #<string_buffer
   sta w1

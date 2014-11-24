@@ -177,6 +177,12 @@ shadow_spot_screen_y_lo: .res MAX_SHADOW_SPOTS
 shadow_spot_screen_y_hi: .res MAX_SHADOW_SPOTS
 
 ;****************************************************************
+;This field is used to contain the last password earned or
+;entered by the player, so it can be loaded after a game over.
+;****************************************************************
+last_password:     .res 6
+
+;****************************************************************
 ;These variables constitute persistent state for the player.
 ;****************************************************************
 inventory_gp:              .res 3

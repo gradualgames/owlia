@@ -304,6 +304,9 @@ enter_password_state_init:
   lda #ES
   sta string_buffer
 
+  ;check the last earned password and load it as the current password string if present
+  jsr load_last_earned_password
+
   ;initialize blinking cursor
   lda #0
   sta state_control_params+enter_password_state_control::underscore_blink_counter
@@ -461,6 +464,47 @@ not_start:
   sta state_control_params+enter_password_state_control::print_string
 
   jmp enter_password_state_main
+
+.proc load_last_earned_password
+
+  lda #0
+  sta b0
+  ldx #5
+: lda b0
+  ora last_password,x
+  sta b0
+  dex
+  bpl :-
+  lda b0
+  beq no_last_earned_password
+
+  ;copy last earned password to password bit field
+  ldx #5
+: lda last_password,x
+  sta state_control_params+enter_password_state_control::password_field,x
+  dex
+  bpl :-
+
+  lda #9
+  sta state_control_params+enter_password_state_control::entered_character_index
+
+  ;generate password string from password field
+  lda #<state_control_params+enter_password_state_control::password_field
+  sta w0
+  lda #>state_control_params+enter_password_state_control::password_field
+  sta w0+1
+
+  lda #<string_buffer
+  sta w1
+  lda #>string_buffer
+  sta w1+1
+  far_call #PASSWORD_BANK, password_bit_field_to_password_string
+
+no_last_earned_password:
+
+  rts
+
+.endproc
 
 ;this must be called before transitioning to the play state.
 .proc initialize_play_state_and_hero

@@ -104,6 +104,8 @@ MAX_SHADOW_SPOTS = 12
 .global shadow_spot_screen_y_lo
 .global shadow_spot_screen_y_hi
 
+.global last_password
+
 .global inventory_gp
 .global inventory_keys
 .global inventory_lanterns
