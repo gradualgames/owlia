@@ -698,12 +698,7 @@ dungeon2_2_0_entity_instances:
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_3_0_w,\
                                          0, 5
-  .byte entity_index_monolith, 40, 4, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
-                                         0,\
-                                         MONOLITH_DIRECTION_NORTH,\
-                                         ACTION_NOP, 0,\
-                                         1, 2
+  .byte entity_index_bombable_wall, 36, 4, 0, BOMBABLE_WALL_PARAMS, 6, %00010001, ACTION_NOP, 0
 
 dungeon2_3_0_entity_instances:
   .byte 2

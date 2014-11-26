@@ -7,7 +7,8 @@ BOMBABLE_WALL_INC = 1
 .define bombable_wall_states \
   bombable_wall_state_init, \
   bombable_wall_state_wait_til_bombed, \
-  bombable_wall_state_fall
+  bombable_wall_state_fall, \
+  bombable_wall_state_test_exit
 
 bombable_wall_lo:
   .lobytes bombable_wall_states
@@ -91,7 +92,7 @@ done_pausing:
   .endscope
 
   ;patch index
-  lda #0
+  lda bombable_wall_patch_index,x
   sta b12
 
   ;patch row
@@ -155,7 +156,7 @@ done_pausing:
   .endscope
 
   dec bombable_wall_patch_row,x
-  bmi bombable_wall_die
+  bmi bombable_wall_transition_to_test_exit
 
   sec
   lda bombable_wall_patch_offset_y_lo,x
@@ -167,10 +168,16 @@ done_pausing:
 
   rts
 
-bombable_wall_die:
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+bombable_wall_transition_to_test_exit:
+
+  lda #BOMBABLE_WALL_STATE_TEST_EXIT
+  sta entity_state,x
+
+  rts
+
+bombable_wall_state_test_exit:
+
+  jsr bombable_wall_test_exit
 
   rts
 
@@ -218,6 +225,53 @@ make_next_tile_impassable:
 
   rts
 
+.endproc
+
+.proc bombable_wall_test_exit
+
+  ;transfer hero rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda hero_x
+  sta w4
+  lda hero_x+1
+  sta w4+1
+  lda hero_y
+  sta w5
+  lda hero_y+1
+  sta w5+1
+  lda hero_width
+  sta b4
+  lda hero_height
+  sta b5
+
+  ;transfer north screen edge rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda camera_x
+  sta w2
+  lda camera_x+1
+  sta w2+1
+  lda camera_y
+  sta w3
+  lda camera_y+1
+  sta w3+1
+  lda #255
+  sta b2
+  lda #1
+  sta b3
+
+  jsr geotests_rect_in_rect_size
+  bne not_exiting
+
+  ;tell the play state to go to destination location
+  lda bombable_wall_goto_location_action,x
+  sta state_control_params+play_state_control::action
+  lda bombable_wall_location_index,x
+  sta state_control_params+play_state_control::param
+  ;also tell the play state what direction this monolith's exit is in
+  lda #3
+  sta state_control_params+play_state_control::param+1
+
+not_exiting:
+
+  rts
 .endproc
 
 .endif
