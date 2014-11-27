@@ -87,44 +87,6 @@ do_not_switch_state:
 
 urchin_state_slide:
 
-  .scope
-  dec urchin_frame_counter,x
-  bne do_not_switch_state
-
-  ;negate x and y velocity
-  .scope
-  clc
-  lda urchin_x_velocity_lo,x
-  eor #$ff
-  adc #<1
-  sta urchin_x_velocity_lo,x
-  lda urchin_x_velocity_hi,x
-  eor #$ff
-  adc #>1
-  sta urchin_x_velocity_hi,x
-  .endscope
-
-  .scope
-  clc
-  lda urchin_y_velocity_lo,x
-  eor #$ff
-  adc #<1
-  sta urchin_y_velocity_lo,x
-  lda urchin_y_velocity_hi,x
-  eor #$ff
-  adc #>1
-  sta urchin_y_velocity_hi,x
-  .endscope
-
-  lda urchin_slide_length,x
-  sta urchin_frame_counter,x
-
-  lda #URCHIN_STATE_PAUSE
-  sta entity_state,x
-
-do_not_switch_state:
-  .endscope
-
   ;add x and y velocity to coordinates with sign extension
   .scope
   lda #0
@@ -166,6 +128,44 @@ positive:
   lda entity_y_hi,x
   adc b0
   sta entity_y_hi,x
+  .endscope
+
+  .scope
+  dec urchin_frame_counter,x
+  bne do_not_switch_state
+
+  ;negate x and y velocity
+  .scope
+  clc
+  lda urchin_x_velocity_lo,x
+  eor #$ff
+  adc #<1
+  sta urchin_x_velocity_lo,x
+  lda urchin_x_velocity_hi,x
+  eor #$ff
+  adc #>1
+  sta urchin_x_velocity_hi,x
+  .endscope
+
+  .scope
+  clc
+  lda urchin_y_velocity_lo,x
+  eor #$ff
+  adc #<1
+  sta urchin_y_velocity_lo,x
+  lda urchin_y_velocity_hi,x
+  eor #$ff
+  adc #>1
+  sta urchin_y_velocity_hi,x
+  .endscope
+
+  lda urchin_slide_length,x
+  sta urchin_frame_counter,x
+
+  lda #URCHIN_STATE_PAUSE
+  sta entity_state,x
+
+do_not_switch_state:
   .endscope
 
   jsr urchin_combat

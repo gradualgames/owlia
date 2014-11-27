@@ -717,13 +717,16 @@ dungeon2_3_0_entity_instances:
                                          0, 4
 
 dungeon2_0_1_entity_instances:
-  .byte 1
+  .byte 4
   .byte entity_index_monolith, 10, 19, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_0_0_s,\
                                          0, 2
+  .byte entity_index_urchin, 7, 20, 0, URCHIN_PARAMS, 8*6, 40, 0, 0, <(256*2), >(256*2)
+  .byte entity_index_jellyfish, 2, 26, 0, 0
+  .byte entity_index_eel, 13, 23, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
 
 dungeon2_1_1_entity_instances:
   .byte 3
@@ -884,6 +887,12 @@ dungeon2_2_3_entity_instances:
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_3_3_w,\
                                          0, 5
+  .byte entity_index_monolith, 40, 59, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_SOUTH,\
+                                         ACTION_GOTO_LOCATION_GROUP1, location_index_tundra3_dungeon2_entrance,\
+                                         0, 2
 
 dungeon2_3_3_entity_instances:
   .byte 2
