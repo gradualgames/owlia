@@ -1,0 +1,23 @@
+.ifndef ORDERED_DEFEAT_PUZZLE_CONSTANTS_INC
+ORDERED_DEFEAT_PUZZLE_CONSTANTS_INC = 1
+
+.enum
+ORDERED_DEFEAT_PUZZLE_STATE_INIT
+ORDERED_DEFEAT_PUZZLE_STATE_STEP0
+ORDERED_DEFEAT_PUZZLE_STATE_STEP1
+ORDERED_DEFEAT_PUZZLE_STATE_STEP2
+ORDERED_DEFEAT_PUZZLE_STATE_COMPLETE
+ORDERED_DEFEAT_PUZZLE_STATE_FAIL
+.endenum
+
+ORDERED_DEFEAT_PUZZLE_PARAMS = 3
+
+ordered_defeat_puzzle_entity_type0 = entity_local0
+ordered_defeat_puzzle_entity_type1 = entity_local1
+ordered_defeat_puzzle_entity_type2 = entity_local2
+ordered_defeat_puzzle_entity_instance0 = entity_local3
+ordered_defeat_puzzle_entity_instance1 = entity_local4
+ordered_defeat_puzzle_entity_instance2 = entity_local5
+ordered_defeat_puzzle_step = entity_local6
+
+.endif

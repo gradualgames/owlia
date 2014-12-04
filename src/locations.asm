@@ -19,6 +19,7 @@
 .include "eel_constants.inc"
 .include "urchin_constants.inc"
 .include "bombable_wall_constants.inc"
+.include "ordered_defeat_puzzle_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -717,7 +718,7 @@ dungeon2_3_0_entity_instances:
                                          0, 4
 
 dungeon2_0_1_entity_instances:
-  .byte 4
+  .byte 5
   .byte entity_index_monolith, 10, 19, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -727,6 +728,7 @@ dungeon2_0_1_entity_instances:
   .byte entity_index_urchin, 7, 20, 0, URCHIN_PARAMS, 8*6, 40, 0, 0, <(256*2), >(256*2)
   .byte entity_index_jellyfish, 2, 26, 0, 0
   .byte entity_index_eel, 13, 23, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
+  .byte entity_index_ordered_defeat_puzzle, 0, 0, 0, ORDERED_DEFEAT_PUZZLE_PARAMS, entity_index_jellyfish, entity_index_urchin, entity_index_eel
 
 dungeon2_1_1_entity_instances:
   .byte 3
