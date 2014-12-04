@@ -727,7 +727,7 @@ dungeon2_0_1_entity_instances:
                                          0, 2
   .byte entity_index_urchin, 7, 20, 0, URCHIN_PARAMS, 8*6, 40, 0, 0, <(256*2), >(256*2)
   .byte entity_index_jellyfish, 2, 26, 0, 0
-  .byte entity_index_eel, 13, 23, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
+  .byte entity_index_eel, 13, 22, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
   .byte entity_index_ordered_defeat_puzzle, 3, 25, 0, ORDERED_DEFEAT_PUZZLE_PARAMS, entity_index_jellyfish, entity_index_urchin, entity_index_eel, DUNGEON2_DUNGEON_FLAGS_JELLYFISH_URCHIN_EEL_PUZZLE_COMPLETE
 
 dungeon2_1_1_entity_instances:
