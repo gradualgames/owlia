@@ -3,6 +3,7 @@
 ORDERED_DEFEAT_PUZZLE_INC = 1
 
 .include "ordered_defeat_puzzle_constants.inc"
+.include "treasure_chest_constants.inc"
 
 .define ordered_defeat_puzzle_states \
   ordered_defeat_puzzle_state_init, \
@@ -24,9 +25,20 @@ ordered_defeat_puzzle_update:
 
 ordered_defeat_puzzle_state_init:
 
-  jsr entity_clear_drawable
+  .scope
+  lda inventory_dungeon_flags
+  and ordered_defeat_puzzle_entity_dungeon_flags_mask,x
+  beq do_not_skip
 
-  jsr entity_set_not_pausable
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+do_not_skip:
+  .endscope
+
+  jsr entity_clear_drawable
 
   ;find the entities in the order specified in the ordered puzzle parameters.
   ;we assume all three have been properly configured.
@@ -170,6 +182,36 @@ entity_alive:
   rts
 
 ordered_defeat_puzzle_state_complete:
+
+  .scope
+  ;spawn a treasure chest with a key inside
+  lda #entity_index_treasure_chest
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  ;parameterize the treasure chest
+  ldy spawned_entity
+  lda ordered_defeat_puzzle_entity_dungeon_flags_mask,x
+  sta treasure_chest_dungeon_flags_mask,y
+  lda #TREASURE_CHEST_MODE_DUNGEON
+  sta treasure_chest_mode,y
+  lda #TREASURE_CHEST_ITEM_TYPE_KEY
+  sta treasure_chest_item_type,y
+  lda #<1
+  sta treasure_chest_item_quantity_lo,y
+  lda #>1
+  sta treasure_chest_item_quantity_hi,y
+  .endscope
 
   ;play a sound
   lda #<sfx_solved_puzzle_instrument_one

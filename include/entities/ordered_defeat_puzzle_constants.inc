@@ -10,14 +10,16 @@ ORDERED_DEFEAT_PUZZLE_STATE_COMPLETE
 ORDERED_DEFEAT_PUZZLE_STATE_FAIL
 .endenum
 
-ORDERED_DEFEAT_PUZZLE_PARAMS = 3
+ORDERED_DEFEAT_PUZZLE_PARAMS = 4
 
 ordered_defeat_puzzle_entity_type0 = entity_local0
 ordered_defeat_puzzle_entity_type1 = entity_local1
 ordered_defeat_puzzle_entity_type2 = entity_local2
-ordered_defeat_puzzle_entity_instance0 = entity_local3
-ordered_defeat_puzzle_entity_instance1 = entity_local4
-ordered_defeat_puzzle_entity_instance2 = entity_local5
-ordered_defeat_puzzle_step = entity_local6
+ordered_defeat_puzzle_entity_dungeon_flags_mask = entity_local3
+
+ordered_defeat_puzzle_entity_instance0 = entity_local4
+ordered_defeat_puzzle_entity_instance1 = entity_local5
+ordered_defeat_puzzle_entity_instance2 = entity_local6
+ordered_defeat_puzzle_step = entity_local7
 
 .endif

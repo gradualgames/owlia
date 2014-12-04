@@ -154,8 +154,38 @@ treasure_chest_state_opened:
   sta w1+1
 
   lda treasure_chest_item_type,x
+  cmp #TREASURE_CHEST_ITEM_TYPE_KEY
+  beq spawn_key
+  lda treasure_chest_item_type,x
   cmp #TREASURE_CHEST_ITEM_TYPE_GP
   beq spawn_gp
+
+  rts
+
+spawn_key:
+
+  sec
+  lda w1
+  sbc #<20
+  sta w1
+  lda w1+1
+  sbc #>20
+  sta w1+1
+
+  ;spawn a key entity
+  lda #entity_index_key
+  sta b0
+
+  jsr entity_spawn
+
+  ;forward the puzzle done mask to the key so the key
+  ;can mark the puzzle as done when picked up
+  ldy spawned_entity
+  lda treasure_chest_dungeon_flags_mask,x
+  sta key_dungeon_flags_mask,y
+
+  lda #KEY_STATE_PICKUP
+  sta key_initial_state,y
 
   rts
 
