@@ -76,6 +76,11 @@
   sta inventory_gp+2
   .endif
 
+  .ifdef DUNGEON_FLAGS
+  lda #DUNGEON_FLAGS
+  sta inventory_dungeon_flags
+  .endif
+
   rts
 
 .endproc
