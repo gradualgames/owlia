@@ -30,6 +30,8 @@ eel_state_init:
 
   jsr entity_set_drawable
 
+  jsr entity_set_is_enemy
+
   lda #<eel
   sta entity_animation_address_lo,x
   lda #>eel
