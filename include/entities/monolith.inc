@@ -70,13 +70,18 @@ done:
   and inventory_dungeon_flags
   beq not_set_to_immediately_unlock
 
-  ;if so, initialize the falling state machine immediately and set the
-  ;unlocked flag.
+  ;if so, set the unlocked flag, change the type to unlocked, then transition
+  ;to the idle state so the monolith will respond to the player.
   lda monolith_flags,x
   ora #MONOLITH_FLAGS_UNLOCKED_SET
   sta monolith_flags,x
 
-  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  lda monolith_flags,x
+  and #MONOLITH_TYPE_CLEAR
+  ora #MONOLITH_TYPE_UNLOCKED
+  sta monolith_flags,x
+
+  lda #MONOLITH_STATE_IDLE
   sta entity_state,x
 
   rts

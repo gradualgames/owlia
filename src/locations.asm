@@ -716,7 +716,7 @@ dungeon2_3_0_entity_instances:
                                          DUNGEON2_DUNGEON_FLAGS_DOOR2_UNLOCKED,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_2_0_e,\
-                                         0, 4
+                                         1, 4
 
 dungeon2_0_1_entity_instances:
   .byte 5
