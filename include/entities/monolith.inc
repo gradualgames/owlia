@@ -1006,14 +1006,14 @@ not_exiting:
 
 .proc monolith_test_south_exit
 
-  ;transfer north screen edge rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  ;transfer south screen edge rectangle to w2 = left and w3 = top and b2 = width and b3 = height
   lda camera_x
   sta w2
   lda camera_x+1
   sta w2+1
   clc
   lda camera_y
-  adc #224
+  adc #240
   sta w3
   lda camera_y+1
   adc #0
