@@ -68,7 +68,8 @@
   ice_shards_explosion_update, \
   bombable_wall_update, \
   ice_block_update, \
-  ordered_defeat_puzzle_update
+  ordered_defeat_puzzle_update, \
+  simultaneous_defeat_puzzle_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -109,6 +110,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_bombable_wall
   .byte entity_update_bank_ice_block
   .byte entity_update_bank_ordered_defeat_puzzle
+  .byte entity_update_bank_simultaneous_defeat_puzzle
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -144,6 +146,7 @@ entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_bombable_wall
   .byte entity_sprites_and_animations_bank_ice_block
   .byte 0 ;entity_sprites_and_animations_bank_ordered_defeat_puzzle
+  .byte 0 ;entity_sprites_and_animations_bank_simultaneous_defeat_puzzle
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -180,3 +183,4 @@ entity_defs_sprites_and_animations_bank:
 .include "bombable_wall.inc"
 .include "ice_block.inc"
 .include "ordered_defeat_puzzle.inc"
+.include "simultaneous_defeat_puzzle.inc"

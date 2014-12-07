@@ -1,0 +1,20 @@
+.ifndef SIMULTANEOUS_DEFEAT_PUZZLE_CONSTANTS_INC
+SIMULTANEOUS_DEFEAT_PUZZLE_CONSTANTS_INC = 1
+
+SIMULTANEOUS_DEFEAT_PUZZLE_TIMER_LENGTH = 65
+
+.enum
+SIMULTANEOUS_DEFEAT_PUZZLE_STATE_INIT
+SIMULTANEOUS_DEFEAT_PUZZLE_STATE_WAIT_FOR_FIRST_KILL
+SIMULTANEOUS_DEFEAT_PUZZLE_STATE_WAIT_FOR_BOTH_DEAD
+SIMULTANEOUS_DEFEAT_PUZZLE_STATE_VICTORY
+.endenum
+
+SIMULTANEOUS_DEFEAT_PUZZLE_PARAMS = 1
+
+simultaneous_defeat_puzzle_dungeon_flags_mask = entity_local0
+simultaneous_defeat_puzzle_entity_instance0 = entity_local1
+simultaneous_defeat_puzzle_entity_instance1 = entity_local2
+simultaneous_defeat_puzzle_entity_timer = entity_local3
+
+.endif

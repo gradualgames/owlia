@@ -1,0 +1,243 @@
+.linecont +
+.ifndef SIMULTANEOUS_DEFEAT_PUZZLE_INC
+SIMULTANEOUS_DEFEAT_PUZZLE_INC = 1
+
+.include "simultaneous_defeat_puzzle_constants.inc"
+
+.define simultaneous_defeat_puzzle_states \
+  simultaneous_defeat_puzzle_state_init, \
+  simultaneous_defeat_puzzle_state_wait_for_first_kill, \
+  simultaneous_defeat_puzzle_state_wait_for_both_dead, \
+  simultaneous_defeat_puzzle_state_victory
+
+simultaneous_defeat_puzzle_lo:
+  .lobytes simultaneous_defeat_puzzle_states
+
+simultaneous_defeat_puzzle_hi:
+  .hibytes simultaneous_defeat_puzzle_states
+
+simultaneous_defeat_puzzle_update:
+
+  entity_state_switchboard simultaneous_defeat_puzzle_lo, simultaneous_defeat_puzzle_hi
+
+simultaneous_defeat_puzzle_state_init:
+
+  .scope
+  lda inventory_dungeon_flags
+  and simultaneous_defeat_puzzle_dungeon_flags_mask,x
+  beq do_not_skip
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+do_not_skip:
+  .endscope
+
+  jsr entity_clear_drawable
+
+  ;find two living entity instances that are not this entity. We're going to track
+  ;the lifetimes of these entities from this puzzle and determine if they were
+  ;both defeated within a short time window.
+  .scope
+  ldy #(MAX_ENTITIES-1)
+
+  .scope
+next_entity:
+  ;skip the puzzle entity
+  lda entity_type,y
+  cmp #entity_index_simultaneous_defeat_puzzle
+  beq skip_entity1
+  ;skip monolith entities
+  cmp #entity_index_monolith
+  beq skip_entity1
+
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  bne found_first_entity
+skip_entity1:
+
+  dey
+  bpl next_entity
+  .endscope
+found_first_entity:
+
+  tya
+  sta simultaneous_defeat_puzzle_entity_instance0,x
+
+  ;make sure to advance to next entity
+  dey
+
+  .scope
+next_entity:
+  ;skip the puzzle entity
+  lda entity_type,y
+  cmp #entity_index_simultaneous_defeat_puzzle
+  beq skip_entity2
+  ;skip monolith entities
+  cmp #entity_index_monolith
+  beq skip_entity2
+
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  bne found_second_entity
+skip_entity2:
+
+  dey
+  bpl next_entity
+  .endscope
+found_second_entity:
+
+  tya
+  sta simultaneous_defeat_puzzle_entity_instance1,x
+
+  .endscope
+
+  lda #0
+  sta simultaneous_defeat_puzzle_entity_timer,x
+
+  lda #SIMULTANEOUS_DEFEAT_PUZZLE_STATE_WAIT_FOR_FIRST_KILL
+  sta entity_state,x
+
+  rts
+
+simultaneous_defeat_puzzle_state_wait_for_first_kill:
+
+  ;detect if either entity is dead and start the timer if not already started
+  .scope
+  ldy simultaneous_defeat_puzzle_entity_instance0,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  bne entity_still_alive
+
+  lda #SIMULTANEOUS_DEFEAT_PUZZLE_TIMER_LENGTH
+  sta simultaneous_defeat_puzzle_entity_timer,x
+
+  lda #SIMULTANEOUS_DEFEAT_PUZZLE_STATE_WAIT_FOR_BOTH_DEAD
+  sta entity_state,x
+  rts
+
+entity_still_alive:
+  .endscope
+
+  .scope
+  ldy simultaneous_defeat_puzzle_entity_instance1,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  bne entity_still_alive
+
+  lda #SIMULTANEOUS_DEFEAT_PUZZLE_TIMER_LENGTH
+  sta simultaneous_defeat_puzzle_entity_timer,x
+
+  lda #SIMULTANEOUS_DEFEAT_PUZZLE_STATE_WAIT_FOR_BOTH_DEAD
+  sta entity_state,x
+  rts
+
+entity_still_alive:
+  .endscope
+
+
+  rts
+
+simultaneous_defeat_puzzle_state_wait_for_both_dead:
+
+  dec simultaneous_defeat_puzzle_entity_timer,x
+  beq simultaneous_defeat_puzzle_failed
+
+  ;if timer hasn't run out, check to see if both enemies have been defeated. if so,
+  ;the puzzle is solved
+  .scope
+  ldy simultaneous_defeat_puzzle_entity_instance0,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  bne entity_still_alive
+
+  ldy simultaneous_defeat_puzzle_entity_instance1,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  bne entity_still_alive
+
+  ;if we reach here, both entities have been defeated within the alotted time frame.
+  ;transition to victory state.
+  lda #SIMULTANEOUS_DEFEAT_PUZZLE_STATE_VICTORY
+  sta entity_state,x
+
+entity_still_alive:
+  .endscope
+
+  rts
+
+simultaneous_defeat_puzzle_failed:
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+
+simultaneous_defeat_puzzle_state_victory:
+
+  .scope
+  ;spawn a treasure chest with a key inside
+  lda #entity_index_treasure_chest
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  ;parameterize the treasure chest
+  ldy spawned_entity
+  lda simultaneous_defeat_puzzle_dungeon_flags_mask,x
+  sta treasure_chest_dungeon_flags_mask,y
+  lda #TREASURE_CHEST_MODE_DUNGEON
+  sta treasure_chest_mode,y
+  lda #TREASURE_CHEST_ITEM_TYPE_KEY
+  sta treasure_chest_item_type,y
+  lda #<1
+  sta treasure_chest_item_quantity_lo,y
+  lda #>1
+  sta treasure_chest_item_quantity_hi,y
+  .endscope
+
+  ;play a sound
+  lda #<sfx_solved_puzzle_instrument_one
+  sta sound_param_word_0
+  lda #>sfx_solved_puzzle_instrument_one
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SFX_BANK, stream_initialize
+
+  ;play a sound
+  lda #<sfx_solved_puzzle_instrument_two
+  sta sound_param_word_0
+  lda #>sfx_solved_puzzle_instrument_two
+  sta sound_param_word_0+1
+
+  lda #1
+  sta sound_param_byte_0
+  lda #soundeffect_two
+  sta sound_param_byte_1
+
+  far_call #SFX_BANK, stream_initialize
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+
+.endif

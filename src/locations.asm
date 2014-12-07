@@ -20,6 +20,7 @@
 .include "urchin_constants.inc"
 .include "bombable_wall_constants.inc"
 .include "ordered_defeat_puzzle_constants.inc"
+.include "simultaneous_defeat_puzzle_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -866,13 +867,16 @@ dungeon2_0_3_entity_instances:
                                          0, 5
 
 dungeon2_1_3_entity_instances:
-  .byte 1
+  .byte 4
   .byte entity_index_monolith, 17, 53, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_0_3_e,\
                                          0, 4
+  .byte entity_index_ice_block, 20, 53, 0, 0
+  .byte entity_index_ice_block, 27, 53, 0, 0
+  .byte entity_index_simultaneous_defeat_puzzle, 27, 55, 0, SIMULTANEOUS_DEFEAT_PUZZLE_PARAMS, DUNGEON2_DUNGEON_FLAGS_TWO_ICE_BLOCKS_PUZZLE_COMPLETE
 
 dungeon2_2_3_entity_instances:
   .byte 3
@@ -1274,7 +1278,7 @@ define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAG
 dungeon2_0_3_e:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_3_entity_instances,dungeon2_palette,0, 45, 13, 53, 0, 0, 0, HERO_DIRECTION_RIGHT
 dungeon2_1_3_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_3_entity_instances,dungeon2_palette,16, 45, 18, 53, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_3_entity_instances,dungeon2_palette,16, 45, 18, 52, 0, 0, 0, HERO_DIRECTION_RIGHT
 dungeon2_2_3_n:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_3_entity_instances,dungeon2_palette,32, 45, 42, 49, 0, 0, 0, HERO_DIRECTION_DOWN
 dungeon2_2_3_s:
