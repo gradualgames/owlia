@@ -712,8 +712,8 @@ dungeon2_3_0_entity_instances:
                                          0, 2
 
   .byte entity_index_monolith, 49, 8, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
-                                         0,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
+                                         DUNGEON2_DUNGEON_FLAGS_DOOR2_UNLOCKED,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_2_0_e,\
                                          0, 4
@@ -838,7 +838,7 @@ dungeon2_3_2_entity_instances:
   .byte 2
   .byte entity_index_monolith, 58, 34, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
-                                         0,\
+                                         DUNGEON2_DUNGEON_FLAGS_DOOR1_UNLOCKED,\
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_3_1_s,\
                                          1, 2
