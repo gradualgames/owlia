@@ -1791,35 +1791,7 @@ scroll_north_impl:
 
 scroll_south_impl:
 
-  lda #16
-  sta scroll_counter
-
-: clear_vblank_done
-  wait_vblank_done
-
-  lda scroll_counter
-  pha
-
-  lda #SCROLL_SPEED
-  sta b0
-  jsr increment_camera_y
-
-  jsr sprite_clear_all
-
-  jsr draw_sprites
-
-  jsr advance_palette_cycle
-
-  pla
-  sta scroll_counter
-
-  sec
-  lda scroll_counter
-  sbc #SCROLL_SPEED
-  sta scroll_counter
-  bne :-
-
-  lda #224
+  lda #240
   sta scroll_counter
 
 : clear_vblank_done
