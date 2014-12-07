@@ -390,9 +390,6 @@ too_far:
   far_call #SFX_BANK, stream_initialize
 
   ;play a sound
-  txa
-  pha
-
   lda #<sfx_solved_puzzle_instrument_two
   sta sound_param_word_0
   lda #>sfx_solved_puzzle_instrument_two
@@ -404,9 +401,6 @@ too_far:
   sta sound_param_byte_1
 
   far_call #SFX_BANK, stream_initialize
-
-  pla
-  tax
 
   rts
 
