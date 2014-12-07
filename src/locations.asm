@@ -764,7 +764,7 @@ dungeon2_2_1_entity_instances:
                                          0, 4
   .byte entity_index_jellyfish, 43, 20, 0, 0
   .byte entity_index_jellyfish, 43, 26, 0, 0
-  .byte entity_index_treasure_room, 39, 23, 0, TREASURE_ROOM_PARAMS, DUNGEON2_DUNGEON_FLAGS_TREASURE_ROOM1_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_treasure_room, 43, 23, 0, TREASURE_ROOM_PARAMS, DUNGEON2_DUNGEON_FLAGS_TREASURE_ROOM1_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon2_3_1_entity_instances:
   .byte 2
@@ -775,7 +775,7 @@ dungeon2_3_1_entity_instances:
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_3_0_s,\
                                          0, 2
 
-  .byte entity_index_monolith, 58, 29, 0, MONOLITH_PARAMS,\
+  .byte entity_index_monolith, 53, 29, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_SOUTH,\
@@ -839,7 +839,7 @@ dungeon2_2_2_entity_instances:
 
 dungeon2_3_2_entity_instances:
   .byte 2
-  .byte entity_index_monolith, 58, 34, 0, MONOLITH_PARAMS,\
+  .byte entity_index_monolith, 53, 34, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
                                          DUNGEON2_DUNGEON_FLAGS_DOOR1_UNLOCKED,\
                                          MONOLITH_DIRECTION_NORTH,\
