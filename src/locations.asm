@@ -755,13 +755,16 @@ dungeon2_1_1_entity_instances:
                                          0, 5
 
 dungeon2_2_1_entity_instances:
-  .byte 1
+  .byte 4
   .byte entity_index_monolith, 33, 23, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_1_1_e,\
                                          0, 4
+  .byte entity_index_jellyfish, 43, 20, 0, 0
+  .byte entity_index_jellyfish, 43, 26, 0, 0
+  .byte entity_index_treasure_room, 39, 23, 0, TREASURE_ROOM_PARAMS, DUNGEON2_DUNGEON_FLAGS_TREASURE_ROOM1_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon2_3_1_entity_instances:
   .byte 2
