@@ -703,7 +703,7 @@ dungeon2_2_0_entity_instances:
   .byte entity_index_bombable_wall, 36, 4, 0, BOMBABLE_WALL_PARAMS, 6, %00010001, ACTION_NOP, 0
 
 dungeon2_3_0_entity_instances:
-  .byte 2
+  .byte 4
   .byte entity_index_monolith, 59, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -717,6 +717,8 @@ dungeon2_3_0_entity_instances:
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_2_0_e,\
                                          1, 4
+  .byte entity_index_urchin, 52, 6, 0, URCHIN_PARAMS, 8*8, 40, <(256*2), >(256*2), 0, 0
+  .byte entity_index_urchin, 52, 9, 0, URCHIN_PARAMS, 8*8, 40, <(256*2), >(256*2), 0, 0
 
 dungeon2_0_1_entity_instances:
   .byte 5
@@ -767,7 +769,7 @@ dungeon2_2_1_entity_instances:
   .byte entity_index_treasure_room, 43, 23, 0, TREASURE_ROOM_PARAMS, DUNGEON2_DUNGEON_FLAGS_TREASURE_ROOM1_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon2_3_1_entity_instances:
-  .byte 2
+  .byte 3
   .byte entity_index_monolith, 59, 19, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -781,6 +783,7 @@ dungeon2_3_1_entity_instances:
                                          MONOLITH_DIRECTION_SOUTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_3_2_n,\
                                          0, 2
+  .byte entity_index_urchin, 56, 21, 0, URCHIN_PARAMS, 8*4, 40, 0, 0, <(256*2), >(256*2)
 
 dungeon2_0_2_entity_instances:
   .byte 2
