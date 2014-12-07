@@ -524,21 +524,18 @@ dungeon2_area_nametable_patches:
 dungeon2_area_nametable_monolith_patch:
   .byte $02,$06,$04,$05,$0c,$0d,$16,$17,$25,$26,$31,$32,$3d,$3e
 dungeon2_area_nametable_keyed_monolith_patch:
-  .byte $02,$06,$51,$52,$58,$59,$16,$17,$25,$26,$31,$32,$3d,$3e
+  .byte $02,$06,$55,$56,$62,$63,$16,$17,$25,$26,$31,$32,$3d,$3e
 dungeon2_area_nametable_monolith_north_bg_patch:
 dungeon2_area_nametable_monolith_south_bg_patch:
-  .byte $02,$06,$5e,$5d,$56,$55,$5e,$5d,$56,$55,$5e,$5d,$56,$55
+  .byte $02,$06,$68,$67,$5c,$5b,$68,$67,$5c,$5b,$68,$67,$5c,$5b
 dungeon2_area_nametable_monolith_west_bg_patch:
-  .byte $02,$06,$66,$67,$61,$62,$66,$67,$6a,$6b,$5e,$5d,$56,$55
+  .byte $02,$06,$6e,$6f,$6b,$6c,$6e,$6f,$73,$74,$68,$67,$5c,$5b
 dungeon2_area_nametable_monolith_east_bg_patch:
-  .byte $02,$06,$46,$45,$3f,$40,$46,$45,$49,$48,$5e,$5d,$56,$55
+  .byte $02,$06,$46,$45,$3f,$40,$46,$45,$49,$48,$68,$67,$5c,$5b
 
 dungeon2_area_nametable_bombable_wall_corridor_patch:
-  .byte $06,$0c,$02,$03
-  .byte $5e,$5d,$06,$07,$0a,$0b,$56,$55,$0e,$0f,$14,$15,$5e,$5d,$18,$19
-  .byte $23,$24,$56,$55,$27,$28,$5a,$5b,$5e,$5d,$33,$34,$61,$62,$56,$55
-  .byte $3f,$40,$66,$67,$5e,$5d,$46,$45,$61,$62,$56,$55,$3f,$40,$66,$67
-  .byte $5e,$5d,$46,$45,$6a,$6b,$56,$55,$49,$48,$4d,$4e,$5e,$5d,$4d,$4e
-  .byte $56,$55,$56,$55,$56,$55
-
-
+  .byte $06,$0c,$02,$03,$68,$67,$06,$07,$0a,$0b,$5c,$5b,$0e,$0f,$14,$15
+  .byte $68,$67,$18,$19,$23,$24,$5c,$5b,$27,$28,$6e,$6f,$68,$67,$33,$34
+  .byte $6b,$6c,$5c,$5b,$3f,$40,$6e,$6f,$68,$67,$46,$45,$6b,$6c,$5c,$5b
+  .byte $3f,$40,$6e,$6f,$68,$67,$46,$45,$73,$74,$5c,$5b,$49,$48,$4d,$4e
+  .byte $68,$67,$4d,$4e,$5c,$5b,$5c,$5b,$5c,$5b
