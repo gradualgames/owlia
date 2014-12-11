@@ -2422,7 +2422,7 @@ not_enough_time_for_palette:
   jmp done
 sprites_not_ready:
   ;cycle timed code to keep graphics hiding bar stable
-  ldx #110
+  ldx #108
 : dex
   bne :-
 done:

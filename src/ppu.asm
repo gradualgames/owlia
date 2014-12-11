@@ -29,7 +29,7 @@
 : dex
   bne :-
 
-  ldx #208
+  ldx #156
 : dex
   bne :-
 
