@@ -207,6 +207,10 @@ rescueowl_state_released_init:
   lda rescueowl_earned_techs,y
   sta inventory_earned_techs
 
+  ;make sure all dungeon flags are reset for the next area/dungeon
+  lda #INVENTORY_DUNGEON_FLAGS_NOT_YET_ENTERED
+  sta inventory_dungeon_flags
+
   ;take over the controller.
   jsr controller_clear
   set_controller_routine controller_nop
