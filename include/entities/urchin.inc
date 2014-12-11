@@ -23,6 +23,8 @@ urchin_state_init:
 
   jsr entity_set_drawable
 
+  jsr entity_set_is_enemy
+
   lda #<urchin
   sta entity_animation_address_lo,x
   lda #>urchin
@@ -159,7 +161,7 @@ positive:
   sta urchin_y_velocity_hi,x
   .endscope
 
-  lda urchin_slide_length,x
+  lda urchin_pause_length,x
   sta urchin_frame_counter,x
 
   lda #URCHIN_STATE_PAUSE

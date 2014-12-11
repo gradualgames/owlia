@@ -661,7 +661,7 @@ tundra3_entity_instances:
   .byte entity_index_treasure_chest, 17, 30, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon2_0_0_entity_instances:
-  .byte 2
+  .byte 7
   .byte entity_index_monolith, 10, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -675,9 +675,14 @@ dungeon2_0_0_entity_instances:
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_1_0_w,\
                                          0, 5
+  .byte entity_index_urchin, 3, 11, 0, URCHIN_PARAMS, 8*6, 40, 0, 0, <(-256*2), >(-256*2)
+  .byte entity_index_urchin, 6, 5, 0, URCHIN_PARAMS, 8*6, 40, 0, 0, <(256*2), >(256*2)
+  .byte entity_index_urchin, 9, 11, 0, URCHIN_PARAMS, 8*6, 40, 0, 0, <(-256*2), >(-256*2)
+  .byte entity_index_urchin, 12, 5, 0, URCHIN_PARAMS, 8*6, 40, 0, 0, <(256*2), >(256*2)
+  .byte entity_index_treasure_chest, 2, 5, 0, TREASURE_CHEST_PARAMS, DUNGEON1_DUNGEON_FLAGS_TREASURE_CHEST1_OBTAINED, TREASURE_CHEST_MODE_DUNGEON, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon2_1_0_entity_instances:
-  .byte 2
+  .byte 4
   .byte entity_index_monolith, 26, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -691,6 +696,8 @@ dungeon2_1_0_entity_instances:
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_0_0_e,\
                                          0, 4
+  .byte entity_index_jellyfish, 21, 8, 0, 0
+  .byte entity_index_jellyfish, 27, 8, 0, 0
 
 dungeon2_2_0_entity_instances:
   .byte 6
@@ -738,7 +745,7 @@ dungeon2_0_1_entity_instances:
   .byte entity_index_ordered_defeat_puzzle, 3, 25, 0, ORDERED_DEFEAT_PUZZLE_PARAMS, entity_index_jellyfish, entity_index_urchin, entity_index_eel, DUNGEON2_DUNGEON_FLAGS_JELLYFISH_URCHIN_EEL_PUZZLE_COMPLETE
 
 dungeon2_1_1_entity_instances:
-  .byte 3
+  .byte 4
   .byte entity_index_monolith, 26, 19, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -759,6 +766,7 @@ dungeon2_1_1_entity_instances:
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_2_1_w,\
                                          0, 5
+  .byte entity_index_jellyfish, 19, 23, 0, 0
 
 dungeon2_2_1_entity_instances:
   .byte 4
@@ -806,7 +814,7 @@ dungeon2_0_2_entity_instances:
                                          0, 5
 
 dungeon2_1_2_entity_instances:
-  .byte 3
+  .byte 6
   .byte entity_index_monolith, 23, 34, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -827,6 +835,9 @@ dungeon2_1_2_entity_instances:
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_0_2_e,\
                                          0, 4
+  .byte entity_index_urchin, 21, 37, 0, URCHIN_PARAMS, 8*2, 60, 0, 0, <(256*2), >(256*2)
+  .byte entity_index_urchin, 24, 39, 0, URCHIN_PARAMS, 8*2, 60, 0, 0, <(-256*2), >(-256*2)
+  .byte entity_index_urchin, 27, 37, 0, URCHIN_PARAMS, 8*2, 60, 0, 0, <(256*2), >(256*2)
 
 dungeon2_2_2_entity_instances:
   .byte 4
