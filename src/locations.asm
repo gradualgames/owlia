@@ -798,7 +798,7 @@ dungeon2_3_1_entity_instances:
   .byte entity_index_urchin, 56, 21, 0, URCHIN_PARAMS, 8*4, 40, 0, 0, <(256*2), >(256*2)
 
 dungeon2_0_2_entity_instances:
-  .byte 2
+  .byte 5
   .byte entity_index_monolith, 10, 44, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -812,6 +812,9 @@ dungeon2_0_2_entity_instances:
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_1_2_w,\
                                          0, 5
+  .byte entity_index_eel, 4, 36, 0, EEL_PARAMS, EEL_STATE_RIGHT_INIT
+  .byte entity_index_eel, 12, 36, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
+  .byte entity_index_eel, 7, 41, 0, EEL_PARAMS, EEL_STATE_RIGHT_INIT
 
 dungeon2_1_2_entity_instances:
   .byte 6
