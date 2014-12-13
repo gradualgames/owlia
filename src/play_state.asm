@@ -35,6 +35,7 @@
 .include "textbox.inc"
 .include "conversation_data.inc"
 .include "inventory.inc"
+.include "util.inc"
 
 .segment "CODE"
 
@@ -1391,7 +1392,7 @@ next_entity:
 : lda b10
   pha
 
-  jsr frame_update_no_controller_input
+  jsr frame_update_monolith
 
   pla
   sta b10
@@ -1456,7 +1457,7 @@ done:
   sta buffer_controller+buttons::_right
 
   .scope
-: jsr frame_update_no_controller_input
+: jsr frame_update_walk
 
   switch_bank_ldy #LOCATIONS_BANK
   ldy #location::hero_start_x
@@ -1489,7 +1490,7 @@ done:
   sta buffer_controller+buttons::_left
 
   .scope
-: jsr frame_update_no_controller_input
+: jsr frame_update_walk
 
   switch_bank_ldy #LOCATIONS_BANK
   ldy #location::hero_start_x
@@ -1524,7 +1525,7 @@ done:
   sta buffer_controller+buttons::_up
 
   .scope
-: jsr frame_update_no_controller_input
+: jsr frame_update_walk
 
   switch_bank_ldy #LOCATIONS_BANK
   ldy #location::hero_start_y
@@ -1559,7 +1560,7 @@ done:
   sta buffer_controller+buttons::_down
 
   .scope
-: jsr frame_update_no_controller_input
+: jsr frame_update_walk
 
   switch_bank_ldy #LOCATIONS_BANK
   ldy #location::hero_start_y
@@ -1606,7 +1607,7 @@ done:
 : lda b10
   pha
 
-  jsr frame_update_no_controller_input
+  jsr frame_update_monolith
 
   pla
   sta b10
@@ -1699,11 +1700,7 @@ scroll_east_impl:
 
   jsr decode_map_column_right
 
-  jsr sprite_clear_all
-
-  jsr draw_sprites
-
-  jsr advance_palette_cycle
+  jsr frame_update_scroll_to
 
   pla
   sta scroll_counter
@@ -1733,11 +1730,7 @@ scroll_west_impl:
 
   jsr decode_map_column_left
 
-  jsr sprite_clear_all
-
-  jsr draw_sprites
-
-  jsr advance_palette_cycle
+  jsr frame_update_scroll_to
 
   pla
   sta scroll_counter
@@ -1767,11 +1760,7 @@ scroll_north_impl:
 
   jsr decode_map_row_top
 
-  jsr sprite_clear_all
-
-  jsr draw_sprites
-
-  jsr advance_palette_cycle
+  jsr frame_update_scroll_to
 
   pla
   sta scroll_counter
@@ -1801,11 +1790,7 @@ scroll_south_impl:
 
   jsr decode_map_row_bottom
 
-  jsr sprite_clear_all
-
-  jsr draw_sprites
-
-  jsr advance_palette_cycle
+  jsr frame_update_scroll_to
 
   pla
   sta scroll_counter
@@ -2143,6 +2128,77 @@ done:
   jsr sprite_clear_shadow_spots
 
   jsr entity_update_all
+
+  jsr draw_sprites
+
+  jsr advance_palette_cycle
+
+  rts
+
+.endproc
+
+;This performs most of a frame update for the scroll to
+;action minus vblank wait, since each scroll to (north, south,
+;east, west) must inject camera and map calls prior to drawing
+;the sprites (in order to get correct screen coordinates)
+.proc frame_update_scroll_to
+
+  jsr sprite_clear_all
+
+  jsr draw_sprites
+
+  jsr advance_palette_cycle
+
+  rts
+
+.endproc
+
+.proc frame_update_walk
+
+  clear_vblank_done
+  wait_vblank_done
+
+  ;update the two player entities
+  switch_bank_ldy #HERO_BANK
+  jsr hero_update
+  jsr hero_eject_from_solid_tiles
+  switch_bank_ldy #FAMILIAR_BANK
+  jsr familiar_update
+
+  jsr sprite_clear_all
+
+  jsr draw_sprites
+
+  jsr advance_palette_cycle
+
+  rts
+
+.endproc
+
+.proc frame_update_monolith
+
+  clear_vblank_done
+  wait_vblank_done
+
+  ;update the monolith we are re-raising
+  .scope
+  lda state_control_params+play_state_control::monolith_index
+  sta entity_index
+
+  switch_bank_ldx #ENTITIES_BANK
+  ldy #entity_index_monolith
+  lda entity_defs_update_address_lo,y
+  sta w0
+  lda entity_defs_update_address_hi,y
+  sta w0+1
+  lda entity_defs_update_address_bank,y
+  tay
+  switch_bank_y
+  ldx entity_index
+  jsr indirect_jsr_w0
+  .endscope
+
+  jsr sprite_clear_all
 
   jsr draw_sprites
 
