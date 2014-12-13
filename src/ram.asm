@@ -23,7 +23,6 @@ metasprite_flicker: .res 1
 ;****************************************************************
 ;Bank numbers for currently loaded game data
 ;****************************************************************
-music_bank: .res 1
 map_bank: .res 1
 conversations_bank: .res 1
 

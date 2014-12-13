@@ -134,13 +134,11 @@ title_state_init:
   cmp #>title_theme
   beq already_playing_title_theme
 :
-  lda #SOUND_BANK
-  sta music_bank
   lda #<title_theme
   sta song_address
   lda #>title_theme
   sta song_address+1
-  far_call music_bank, song_initialize
+  far_call #SOUND_BANK, song_initialize
 already_playing_title_theme:
 
   lda #<TITLE_STATE_TIME_TIL_CUT_SCENE

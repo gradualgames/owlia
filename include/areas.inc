@@ -4,7 +4,6 @@ AREAS_INC = 1
 AREAS_BANK = 0
 
 .struct area
-  music_bank .byte
   map_bank .byte
   conversations_bank .byte
   bg_chr_groups .word

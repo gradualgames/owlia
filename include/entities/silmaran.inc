@@ -119,7 +119,7 @@ silmaran_state_wait:
   sta song_address
   lda #>silmaran_theme
   sta song_address+1
-  far_call music_bank, song_initialize
+  far_call #SOUND_BANK, song_initialize
 
   sec
   lda entity_x_lo,x

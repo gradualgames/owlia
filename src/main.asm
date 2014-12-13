@@ -98,7 +98,6 @@ reset:
   lda #0
   sta current_bank
   sta next_bank
-  sta music_bank
   sta map_bank
   sta conversations_bank
 

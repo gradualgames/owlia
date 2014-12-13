@@ -607,11 +607,6 @@ play_state_load_location:
   ;****************************************************************
   ;Setup bank numbers for different types of data
   ;****************************************************************
-  switch_bank_ldy #AREAS_BANK
-  ldy #area::music_bank
-  lda (area_address),y
-  sta music_bank
-
   ldy #area::map_bank
   lda (area_address),y
   sta map_bank
@@ -770,7 +765,7 @@ play_state_load_location:
   iny
   lda (area_address),y
   sta song_address+1
-  switch_bank_ldy music_bank
+  switch_bank_ldy #SOUND_BANK
   jsr song_initialize
 same_song:
 
@@ -1003,7 +998,7 @@ play_state_action_game_over:
   sta song_address
   lda #>game_over
   sta song_address+1
-  switch_bank_ldy music_bank
+  switch_bank_ldy #SOUND_BANK
   jsr song_initialize
 
   ;spin the hero around a few times

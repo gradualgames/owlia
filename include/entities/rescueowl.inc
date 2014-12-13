@@ -201,7 +201,7 @@ rescueowl_state_released_init:
   sta song_address
   lda #>silmaran_theme
   sta song_address+1
-  far_call music_bank, song_initialize
+  far_call #SOUND_BANK, song_initialize
 
   ldy rescueowl_type,x
   lda rescueowl_earned_techs,y

@@ -10,7 +10,6 @@ MAX_SHADOW_SPOTS = 12
 
 .global metasprite_flicker
 
-.global music_bank
 .global map_bank
 .global conversations_bank
 
