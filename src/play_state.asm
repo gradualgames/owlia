@@ -994,12 +994,12 @@ play_state_action_game_over:
   bne :-
 
   ;play game over song
+  switch_bank_ldy #SOUND_BANK
   jsr sound_stop
   lda #<game_over
   sta song_address
   lda #>game_over
   sta song_address+1
-  switch_bank_ldy #SOUND_BANK
   jsr song_initialize
 
   ;spin the hero around a few times

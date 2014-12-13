@@ -740,7 +740,7 @@ familiar_still_alive:
   pha
 
   ldx #soundeffect_one
-  jsr stream_stop
+  far_call #SOUND_BANK, stream_stop
 
   pla
   tax
