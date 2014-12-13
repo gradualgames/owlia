@@ -227,7 +227,7 @@ done:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   jsr entity_set_drawable
 
@@ -303,7 +303,7 @@ silmaran_state_perch:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   sec
   lda entity_x_lo,x

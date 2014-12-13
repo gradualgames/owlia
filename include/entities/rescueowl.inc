@@ -405,7 +405,7 @@ rescueowl_state_fly_away_init:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   jsr entity_reset_animation
 

@@ -64,7 +64,7 @@ ice_shards_explosion_state_init:
 
   lda #soundeffect_one
   sta sound_param_byte_1
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   lda #<sfx_ice_shatter_noise
   sta sound_param_word_0
@@ -76,7 +76,7 @@ ice_shards_explosion_state_init:
 
   lda #soundeffect_two
   sta sound_param_byte_1
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   lda #ICE_SHARDS_EXPLOSION_STATE_MAIN_LENGTH
   sta ice_shards_explosion_frame_counter,x

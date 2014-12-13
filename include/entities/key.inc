@@ -78,7 +78,7 @@ key_state_pickup:
 
   lda #soundeffect_one
   sta sound_param_byte_1
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   ;mark the dungeon flag associated with this key
   lda inventory_dungeon_flags

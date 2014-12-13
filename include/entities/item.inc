@@ -253,7 +253,7 @@ item_state_add_item_or_not:
 
   lda #soundeffect_one
   sta sound_param_byte_1
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
 do_not_add_item:
 
@@ -616,7 +616,7 @@ exceeded_max:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR

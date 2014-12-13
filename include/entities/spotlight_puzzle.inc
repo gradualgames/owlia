@@ -387,7 +387,7 @@ too_far:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   ;play a sound
   lda #<sfx_solved_puzzle_instrument_two
@@ -400,7 +400,7 @@ too_far:
   lda #soundeffect_two
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   rts
 

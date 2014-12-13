@@ -95,7 +95,7 @@ treasure_chest_state_idle:
 
   lda #soundeffect_two
   sta sound_param_byte_1
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   lda #2
   sta entity_animation_frame,x

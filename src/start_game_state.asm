@@ -93,7 +93,7 @@ load_song:
   sta song_address
   lda #>game_menu_theme
   sta song_address+1
-  far_call #MUSIC_BANK, song_initialize
+  far_call #SOUND_BANK, song_initialize
 skip_load_song:
   .endscope
 

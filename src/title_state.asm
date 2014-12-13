@@ -124,7 +124,7 @@ title_state_init:
   sta sound_param_word_0
   lda #>sfx_set1
   sta sound_param_word_0+1
-  far_call #SFX_BANK, sfx_initialize
+  far_call #SOUND_BANK, sfx_initialize
 
   ;load title theme if not already playing
   lda song_address
@@ -134,7 +134,7 @@ title_state_init:
   cmp #>title_theme
   beq already_playing_title_theme
 :
-  lda #MUSIC_BANK
+  lda #SOUND_BANK
   sta music_bank
   lda #<title_theme
   sta song_address

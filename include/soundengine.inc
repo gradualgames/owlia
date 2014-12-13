@@ -1,6 +1,8 @@
 .ifndef SOUNDENGINE_INC
 SOUNDENGINE_INC = 1
 
+SOUND_BANK = 6
+
 .globalzp sound_disable_update
 .globalzp apu_data_ready
 .globalzp apu_square_1_old
@@ -227,7 +229,7 @@ DEFAULT_TEMPO = 255
   lda sound_disable_update
   bne sound_update_disabled
   ;switch to music bank
-  ldy music_bank
+  ldy #SOUND_BANK
   lda bank_table,y
   sta bank_table,y
 

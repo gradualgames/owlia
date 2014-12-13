@@ -234,7 +234,7 @@ rect2_attacked_entity:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   .ifndef INVINCIBLE_ENEMIES
   dec health,x
@@ -291,7 +291,7 @@ entity_not_attacked:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   .ifndef INVINCIBLE_ENEMIES
   dec health,x

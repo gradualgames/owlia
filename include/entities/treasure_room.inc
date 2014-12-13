@@ -95,7 +95,7 @@ treasure_room_state_spawn_treasure_chest:
 
   lda #soundeffect_one
   sta sound_param_byte_1
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   ;spawn a treasure chest with the forwarded parameters
   lda #entity_index_treasure_chest

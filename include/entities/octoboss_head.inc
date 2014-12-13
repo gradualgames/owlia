@@ -94,7 +94,7 @@ do_not_skip_octoboss:
   sta song_address
   lda #>octoboss_theme
   sta song_address+1
-  far_call #MUSIC_BANK, song_initialize
+  far_call #SOUND_BANK, song_initialize
 
   jsr entity_set_drawable
 
@@ -194,7 +194,7 @@ do_not_skip_octoboss:
 
   lda #soundeffect_one
   sta sound_param_byte_1
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   lda #OCTOBOSS_HEAD_STATE_RISE_LENGTH
   sta octoboss_head_state_counter,x
@@ -573,7 +573,7 @@ action_rect2_not_deadly:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   lda #OCTOBOSS_HEAD_ATTACKED_LENGTH
   sta octoboss_head_flash_counter,x
@@ -587,7 +587,7 @@ action_rect2_not_deadly:
   sta song_address
   lda #>defeat_boss
   sta song_address+1
-  far_call #MUSIC_BANK, song_initialize
+  far_call #SOUND_BANK, song_initialize
 
   lda #220
   sta octoboss_head_state_counter,x

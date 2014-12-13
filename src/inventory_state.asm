@@ -264,7 +264,7 @@ transition_to_current_password_state:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   jsr ppu_fade_out_palette
 
@@ -283,7 +283,7 @@ inventory_state_exit:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   safely_set_vblank_routine ppu_vblank_nop
 
@@ -801,7 +801,7 @@ item_was_null:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   rts
 
@@ -819,7 +819,7 @@ item_was_null:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   rts
 
@@ -837,7 +837,7 @@ item_was_null:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   rts
 
@@ -855,7 +855,7 @@ item_was_null:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   rts
 

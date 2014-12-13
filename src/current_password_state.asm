@@ -162,7 +162,7 @@ return_to_inventory_state:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   ;fade out from current palette
   jsr ppu_fade_out_palette

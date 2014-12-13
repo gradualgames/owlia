@@ -13,6 +13,7 @@
 .include "sprite.inc"
 .include "entity.inc"
 .include "soundengine.inc"
+.include "music_data.inc"
 .include "areas.inc"
 .include "locations.inc"
 .include "sfx_data.inc"
@@ -103,7 +104,7 @@ reset:
 
   jsr ppu_module_init
   jsr controller_clear
-  jsr sound_initialize
+  far_call #SOUND_BANK, sound_initialize
   jsr sprite_module_init
   jsr map_module_init
   jsr entity_module_init

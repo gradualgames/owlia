@@ -7,6 +7,7 @@
 .include "sprites_and_animations_data.inc"
 .include "entities.inc"
 .include "conversation_data.inc"
+.include "soundengine.inc"
 
 .segment "ROM00"
 
@@ -41,7 +42,7 @@ areas_hi:
 ;Area definitions.
 ;****************************************************************
 village_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word village_area_bg_chr_groups
@@ -68,7 +69,7 @@ village_area_bg_chr_groups:
   .word map0_chr
 
 house1_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word house1_area_bg_chr_groups
@@ -95,7 +96,7 @@ house1_area_bg_chr_groups:
   .word house1_chr
 
 housebl_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word housebl_area_bg_chr_groups
@@ -122,7 +123,7 @@ housebl_area_bg_chr_groups:
   .word house1_chr
 
 housebr_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word housebr_area_bg_chr_groups
@@ -149,7 +150,7 @@ housebr_area_bg_chr_groups:
   .word house1_chr
 
 housetr_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word housetr_area_bg_chr_groups
@@ -176,7 +177,7 @@ housetr_area_bg_chr_groups:
   .word house1_chr
 
 inn_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word inn_area_bg_chr_groups
@@ -203,7 +204,7 @@ inn_area_bg_chr_groups:
   .word house1_chr
 
 store_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word store_area_bg_chr_groups
@@ -230,7 +231,7 @@ store_area_bg_chr_groups:
   .word house1_chr
 
 meadow1_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word meadow1_area_bg_chr_groups
@@ -263,7 +264,7 @@ meadow1_area_bg_chr_groups:
   .word meadow1_trees_corners
 
 meadow2_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word meadow2_area_bg_chr_groups
@@ -296,7 +297,7 @@ meadow2_area_bg_chr_groups:
   .word meadow1_trees_corners
 
 meadow3_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word meadow3_area_bg_chr_groups
@@ -327,7 +328,7 @@ meadow3_area_bg_chr_groups:
   .word meadow_dungeon1_entrance
 
 dungeon_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word dungeon_area_bg_chr_groups
@@ -376,7 +377,7 @@ dungeon_area_nametable_monolith_east_bg_patch:
   .byte $02,$06,$4c,$4d,$57,$80,$4c,$4d,$89,$8a,$75,$74,$77,$68
 
 dungeon1_boss_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word dungeon1_boss_area_bg_chr_groups
@@ -405,7 +406,7 @@ dungeon1_boss_area_bg_chr_groups:
   .word dungeon1_pool_chr
 
 tundra1_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word tundra1_area_bg_chr_groups
@@ -432,7 +433,7 @@ tundra1_area_bg_chr_groups:
   .word tundra_chr
 
 tundra2_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word tundra2_area_bg_chr_groups
@@ -459,7 +460,7 @@ tundra2_area_bg_chr_groups:
   .word tundra_chr
 
 tundra3_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word tundra3_area_bg_chr_groups
@@ -486,7 +487,7 @@ tundra3_area_bg_chr_groups:
   .word tundra_chr
 
 dungeon2_area:
-  .byte MUSIC_BANK
+  .byte SOUND_BANK
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word dungeon2_area_bg_chr_groups

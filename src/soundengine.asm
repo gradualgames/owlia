@@ -73,7 +73,7 @@ stream_tempo:              .res MAX_STREAMS
 apu_register_sets: .res 40
 sound_ram_end:
 
-.segment "CODE"
+.segment "ROM06"
 
 .proc sound_initialize
 

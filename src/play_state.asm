@@ -971,7 +971,7 @@ not_monolith:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  switch_bank_ldy #SFX_BANK
+  switch_bank_ldy #SOUND_BANK
   jsr stream_initialize
 
   ;fade out from current palette
@@ -1277,7 +1277,7 @@ play_state_action_goto_location_group1:
   lda (location_address),y
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   ;fade out from current palette
   switch_bank_ldy #LOCATIONS_BANK

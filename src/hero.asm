@@ -156,7 +156,7 @@ no_keyed_monolith_found:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   rts
 
@@ -425,7 +425,7 @@ no_bombs_left:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   rts
 
@@ -457,7 +457,7 @@ no_lanterns_left:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   rts
 
@@ -528,7 +528,7 @@ skip_lookup_opposite_direction:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   ;decrement hero's health
   dec hero_health
@@ -593,7 +593,7 @@ hero_invincible:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   rts
 
@@ -1353,7 +1353,7 @@ do_not_animate_hero:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
 skip_switch_selected_tech:
 

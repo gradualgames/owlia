@@ -298,7 +298,7 @@ interpret_font_character:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   ;restore y, far_call destroys it.
   pla
@@ -438,7 +438,7 @@ time:
   lda #soundeffect_one
   sta sound_param_byte_1
 
-  far_call #SFX_BANK, stream_initialize
+  far_call #SOUND_BANK, stream_initialize
 
   ;restore y, far_call destroys it
   pla
