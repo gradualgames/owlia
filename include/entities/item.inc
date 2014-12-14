@@ -632,7 +632,7 @@ not_touching_hero:
   ;something.
   .scope
   lda entity_action_rect2_action
-  cmp #ACTION_FETCH
+  cmp #ENTITY_ACTION_FETCH
   bne familiar_not_fetching
 
   jsr entity_test_entity_action_rect2

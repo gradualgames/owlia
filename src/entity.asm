@@ -1,5 +1,4 @@
 .include "ndxdebug.h"
-.include "actions.inc"
 .include "entity.inc"
 .include "entities.inc"
 .include "hero.inc"

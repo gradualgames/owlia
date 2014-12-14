@@ -20,8 +20,6 @@
 .include "camera.inc"
 .include "textbox.inc"
 .include "entity.inc"
-.include "actions.inc"
-.include "entity.inc"
 .include "entities.inc"
 .include "map.inc"
 .include "mapper.inc"
@@ -689,9 +687,9 @@ familiar_not_alive:
   sta familiar_height
 
   ;initialize action rect2
-  lda #ACTION_NOP
+  lda #ENTITY_ACTION_NOP
   sta entity_action_rect2_action
-  lda #ACTION_FROM_NOBODY
+  lda #ENTITY_ACTION_FROM_NOBODY
   sta entity_action_rect2_from
   lda familiar_x
   sta entity_action_rect2_x
@@ -798,9 +796,9 @@ not_ready_yet:
   jsr familiar_add_shadow_spot
 
   ;make action rect active
-  lda #ACTION_ATTACK
+  lda #ENTITY_ACTION_ATTACK
   sta entity_action_rect2_action
-  lda #ACTION_FROM_FAMILIAR
+  lda #ENTITY_ACTION_FROM_FAMILIAR
   sta entity_action_rect2_from
   lda familiar_direction
   sta entity_action_rect2_direction
@@ -909,9 +907,9 @@ not_ready_yet:
 
   jsr familiar_add_shadow_spot
 
-  lda #ACTION_FETCH
+  lda #ENTITY_ACTION_FETCH
   sta entity_action_rect2_action
-  lda #ACTION_FROM_FAMILIAR
+  lda #ENTITY_ACTION_FROM_FAMILIAR
   sta entity_action_rect2_from
 
   lda familiar_x
@@ -2439,9 +2437,9 @@ do_not_transition_to_shield_state_yet:
 do_not_reset_familiar_param_shield_circle_lut_index:
 
   ;make action rect active
-  lda #ACTION_ATTACK
+  lda #ENTITY_ACTION_ATTACK
   sta entity_action_rect2_action
-  lda #ACTION_FROM_FAMILIAR
+  lda #ENTITY_ACTION_FROM_FAMILIAR
   sta entity_action_rect2_from
   lda familiar_direction
   sta entity_action_rect2_direction
@@ -2633,9 +2631,9 @@ not_ready_yet:
   jsr familiar_add_shadow_spot
 
   ;make action rect active
-  lda #ACTION_ATTACK
+  lda #ENTITY_ACTION_ATTACK
   sta entity_action_rect2_action
-  lda #ACTION_FROM_FAMILIAR
+  lda #ENTITY_ACTION_FROM_FAMILIAR
   sta entity_action_rect2_from
   lda familiar_direction
   sta entity_action_rect2_direction
@@ -2755,9 +2753,9 @@ done:
   lda familiar_flags
   and #FAMILIAR_FLAGS_ALIVE_CLEAR
   sta familiar_flags
-  lda #ACTION_NOP
+  lda #ENTITY_ACTION_NOP
   sta entity_action_rect2_action
-  lda #ACTION_FROM_NOBODY
+  lda #ENTITY_ACTION_FROM_NOBODY
   sta entity_action_rect2_from
 
 do_not_kill_familiar:

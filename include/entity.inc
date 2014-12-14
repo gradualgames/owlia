@@ -57,6 +57,19 @@ ENTITY_FLAGS_MARKED_FOR_KILL_SET   = %00100000
 ENTITY_FLAGS_MARKED_FOR_KILL_TEST  = %00100000
 ENTITY_FLAGS_MARKED_FOR_KILL_CLEAR = %11011111
 
+.enum
+ENTITY_ACTION_NOP
+ENTITY_ACTION_CARRY_TO
+ENTITY_ACTION_ATTACK
+ENTITY_ACTION_FETCH
+.endenum
+
+.enum
+ENTITY_ACTION_FROM_NOBODY
+ENTITY_ACTION_FROM_FAMILIAR
+ENTITY_ACTION_FROM_BOMB
+.endenum
+
 ;This enum mirrors all cardinal direction enums in every entity
 ;including the hero and familiar. We add a fifth value for "NONE"
 ;for cases such as the bomb which are motionless when they set
@@ -101,7 +114,7 @@ entity_not_hitting_hero:
   lda flash_counter,x
   bne action_rect1_not_deadly
   lda entity_action_rect1_action
-  cmp #ACTION_ATTACK
+  cmp #ENTITY_ACTION_ATTACK
   bne action_rect1_not_deadly
 
   jsr entity_test_entity_action_rect1
@@ -122,7 +135,7 @@ action_rect1_not_deadly:
   lda flash_counter,x
   bne action_rect2_not_deadly
   lda entity_action_rect2_action
-  cmp #ACTION_ATTACK
+  cmp #ENTITY_ACTION_ATTACK
   bne action_rect2_not_deadly
 
   jsr entity_test_entity_action_rect2
@@ -175,7 +188,7 @@ entity_not_hitting_hero:
   lda flash_counter,x
   bne action_rect1_not_deadly
   lda entity_action_rect1_action
-  cmp #ACTION_ATTACK
+  cmp #ENTITY_ACTION_ATTACK
   bne action_rect1_not_deadly
 
   jsr entity_test_entity_action_rect1
@@ -197,10 +210,10 @@ action_rect1_not_deadly:
   lda flash_counter,x
   bne action_rect2_not_deadly
   lda entity_action_rect2_action
-  cmp #ACTION_ATTACK
+  cmp #ENTITY_ACTION_ATTACK
   bne action_rect2_not_deadly
   lda entity_action_rect2_from
-  cmp #ACTION_FROM_BOMB
+  cmp #ENTITY_ACTION_FROM_BOMB
   bne action_rect2_not_deadly
 
   jsr entity_test_entity_action_rect2

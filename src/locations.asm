@@ -1,5 +1,4 @@
 .linecont +
-.include "actions.inc"
 .include "areas.inc"
 .include "locations.inc"
 .include "sfx_data.inc"
@@ -26,6 +25,7 @@
 .include "entities.inc"
 .include "ram.inc"
 .include "inventory.inc"
+.include "play_state.inc"
 
 .segment "ROM00"
 

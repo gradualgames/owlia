@@ -18,7 +18,6 @@
 .include "controller.inc"
 .include "map.inc"
 .include "patch.inc"
-.include "actions.inc"
 .include "play_state.inc"
 .include "geotests.inc"
 .include "conversation_data.inc"

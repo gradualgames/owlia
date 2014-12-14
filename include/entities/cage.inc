@@ -99,7 +99,7 @@ cage_state_main:
 
   .scope
   lda entity_action_rect2_action
-  cmp #ACTION_ATTACK
+  cmp #ENTITY_ACTION_ATTACK
   bne action_rect2_not_deadly
 
   jsr entity_test_entity_action_rect2

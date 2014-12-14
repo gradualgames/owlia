@@ -662,9 +662,9 @@ done:
   bne do_not_spawn_explosion
 
   ;grab action rect 2 and make it attack
-  lda #ACTION_ATTACK
+  lda #ENTITY_ACTION_ATTACK
   sta entity_action_rect2_action
-  lda #ACTION_FROM_BOMB
+  lda #ENTITY_ACTION_FROM_BOMB
   sta entity_action_rect2_from
   lda #ENTITY_DIRECTION_NONE
   sta entity_action_rect2_direction
@@ -720,7 +720,7 @@ do_not_spawn_explosion:
   ;reset action rect to nop
   lda #ACTION_NOP
   sta entity_action_rect2_action
-  lda #ACTION_FROM_NOBODY
+  lda #ENTITY_ACTION_FROM_NOBODY
   sta entity_action_rect2_from
 
   ;die

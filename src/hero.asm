@@ -12,7 +12,6 @@
 .include "zp.inc"
 .include "play_state.inc"
 .include "controller.inc"
-.include "actions.inc"
 .include "map.inc"
 .include "sprites_and_animations_data.inc"
 .include "soundengine.inc"
@@ -165,7 +164,7 @@ no_keyed_monolith_found:
 .proc hero_prepare_familiar_carry_hero
 tile_x = w7
 tile_y = w8
-  ;check to see if the metatile the hero is currently standing on contains ACTION_CARRY_TO
+  ;check to see if the metatile the hero is currently standing on contains ENTITY_ACTION_CARRY_TO
   clc
   lda hero_x
   adc #(HERO_HALF_WIDTH)
@@ -190,12 +189,12 @@ tile_y = w8
 
   jsr map_test_collision
 
-  ;find out if this action is indeed ACTION_CARRY_TO
+  ;find out if this action is indeed ENTITY_ACTION_CARRY_TO
   .scope
   ;get action
   lda b0
   and #ISOLATE_ACTION_MASK
-  cmp #ACTION_CARRY_TO
+  cmp #ENTITY_ACTION_CARRY_TO
   bne skip_carry_to
 
   jsr compute_destination_coordinates
@@ -1507,7 +1506,7 @@ hero_state_attack:
   lda hero_state_counter
   cmp #HERO_ACTIVATE_ATTACK_RECT_WHEN_THIS_MANY_FRAMES_REMAINING
   bne :+
-  lda #ACTION_ATTACK
+  lda #ENTITY_ACTION_ATTACK
   sta entity_action_rect1_action
   lda hero_direction
   sta entity_action_rect1_direction

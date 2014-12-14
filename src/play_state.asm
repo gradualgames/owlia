@@ -11,7 +11,6 @@
 .include "ppu.inc"
 .include "zp.inc"
 .include "ram.inc"
-.include "actions.inc"
 .include "map.inc"
 .include "map_data.inc"
 .include "sprite.inc"
@@ -548,19 +547,13 @@ done:
 .endproc
 
 ;a list of action handlers for the play state. This
-;must exactly reflect the actions enum in actions.inc.
-;Note that some actions are never handled by the play
-;state, such as ACTION_CARRY_TO. This action only affects
-;the player and familiar entities. For these actions, the
-;play_state_action_nop handler is specified (but it should
-;never get called anyway)
+;must exactly reflect the actions enum in play_state.inc.
 .define play_state_action_handlers \
   play_state_action_nop, \
   play_state_action_goto_location_group1, \
   play_state_action_scrollto_location_group1, \
   play_state_action_start_conversation, \
   play_state_action_transition_to_inventory_state, \
-  play_state_action_nop, \
   play_state_action_game_over, \
   play_state_action_cut_scene
 

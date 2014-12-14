@@ -529,7 +529,7 @@ do_not_die_yet:
 .proc octoboss_head_combat
 
   lda entity_action_rect1_action
-  cmp #ACTION_ATTACK
+  cmp #ENTITY_ACTION_ATTACK
   bne action_rect1_not_deadly
 
   jsr entity_test_entity_action_rect1
@@ -540,7 +540,7 @@ do_not_die_yet:
 action_rect1_not_deadly:
 
   lda entity_action_rect2_action
-  cmp #ACTION_ATTACK
+  cmp #ENTITY_ACTION_ATTACK
   bne action_rect2_not_deadly
 
   jsr entity_test_entity_action_rect2

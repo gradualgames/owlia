@@ -48,10 +48,10 @@ bombable_wall_state_wait_til_bombed:
 
   .scope
   lda entity_action_rect2_action
-  cmp #ACTION_ATTACK
+  cmp #ENTITY_ACTION_ATTACK
   bne action_rect2_not_deadly
   lda entity_action_rect2_from
-  cmp #ACTION_FROM_BOMB
+  cmp #ENTITY_ACTION_FROM_BOMB
   bne action_rect2_not_deadly
   jsr entity_test_entity_action_rect2
   bne action_rect2_not_deadly

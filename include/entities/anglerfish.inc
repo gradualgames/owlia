@@ -184,7 +184,7 @@ anglerfish_state_main:
   jsr anglerfish_advance_attacked_state
 
   lda entity_action_rect1_action
-  cmp #ACTION_ATTACK
+  cmp #ENTITY_ACTION_ATTACK
   bne action_rect1_not_deadly
 
   jsr entity_test_entity_action_rect1
@@ -195,7 +195,7 @@ anglerfish_state_main:
 action_rect1_not_deadly:
 
   lda entity_action_rect2_action
-  cmp #ACTION_ATTACK
+  cmp #ENTITY_ACTION_ATTACK
   bne action_rect2_not_deadly
 
   jsr entity_test_entity_action_rect2
