@@ -32,22 +32,22 @@ duty0:
 square1:
   .byte STV,0,STP,0,SDU,0,STL,8,DS2,F2,G2,DS2,F2,G2,F2,G2,A2,F2,G2
   .byte A2,G2,A2,B2,G2,D3,G3,STL,255,G2,STL,113,G2
-  .byte GOT
+  .byte TRM
   .word square1
 
 square2:
   .byte STV,0,STP,0,SDU,0,STL,8,G2,A2,AS2,G2,A2,AS2,A2,AS2,C3,A2
   .byte AS2,C3,B2,C3,D3,B2,G2,D3,STL,255,B3,STL,113,B3
-  .byte GOT
+  .byte TRM
   .word square2
 
 triangle:
   .byte STV,1,STL,255,A0,A0,STL,2,A0
-  .byte GOT
+  .byte TRM
   .word triangle
 
 noise:
   .byte STV,1,STL,255,A0,A0,STL,2,A0
-  .byte GOT
+  .byte TRM
   .word noise
 

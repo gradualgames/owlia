@@ -497,7 +497,7 @@ octoboss_head_state_victory:
   bne do_not_die_yet
 
   ;stop all sound
-  jsr sound_stop
+  far_call #SOUND_BANK, sound_stop
 
   .scope
   ;search for monolith entity in boss's arena and make it fall
