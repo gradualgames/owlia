@@ -1173,7 +1173,7 @@ done:
   .endscope
 
   ;execute a single frame to get entities onscreen before palette fade in and music
-  jsr frame_update_no_controller_input
+  jsr frame_update_play_state_reload
 
   jsr ppu_safely_enable_graphics
 
@@ -2196,6 +2196,17 @@ done:
   jsr draw_sprites
 
   jsr advance_palette_cycle
+
+  rts
+
+.endproc
+
+.proc frame_update_play_state_reload
+
+  clear_vblank_done
+  wait_vblank_done
+  jsr sprite_clear_all
+  jsr draw_sprites
 
   rts
 

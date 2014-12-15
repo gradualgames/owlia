@@ -487,6 +487,10 @@ no_lanterns_left:
 .proc hero_hurt
 hero_knockback_direction = b0
 
+  ;this routine is a no-op if the health is already 0.
+  lda hero_health
+  beq hero_already_dead
+
   .ifndef INVINCIBLE
   ; -if hero_invincibility_counter is 0
   lda hero_invincibility_counter
@@ -544,6 +548,9 @@ hero_not_dead:
 
 hero_invincible:
   .endif
+
+  rts
+hero_already_dead:
 
   rts
 
