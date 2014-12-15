@@ -404,8 +404,8 @@ dungeon_3_0_entity_instances:
 
 dungeon_0_1_entity_instances:
   .byte 5
-  .byte entity_index_pufferfish, 4, 22, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_pufferfish, 11, 22, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_pufferfish, 4, 23, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_pufferfish, 11, 23, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_monolith, 4, 29, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, 0, \
                                           MONOLITH_DIRECTION_SOUTH, \
