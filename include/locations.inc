@@ -233,6 +233,7 @@ location_index_dungeon2_2_3_s
 location_index_dungeon2_2_3_e
 location_index_dungeon2_3_3_n
 location_index_dungeon2_3_3_w
+location_index_dungeon2_boss_entrance
 .endenum
 
 ;****************************************************************

@@ -126,7 +126,8 @@
     dungeon2_2_3_s, \
     dungeon2_2_3_e, \
     dungeon2_3_3_n, \
-    dungeon2_3_3_w
+    dungeon2_3_3_w, \
+    dungeon2_boss_area_entrance
 
 locations_lo:
   .lobytes locations
@@ -264,6 +265,17 @@ dungeon2_sprite_chr_groups:
   .byte sprite_chr_group_index_urchin
   .byte sprite_chr_group_index_ice_shards
   .byte sprite_chr_group_index_ice_block
+
+dungeon2_boss_sprite_chr_groups:
+  .byte 8   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_key
+  .byte sprite_chr_group_index_treasure_chest
 
 ;****************************************************************
 ;Entity instance sets
@@ -707,7 +719,7 @@ dungeon2_2_0_entity_instances:
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_3_0_w,\
                                          0, 5
-  .byte entity_index_bombable_wall, 36, 4, 0, BOMBABLE_WALL_PARAMS, 6, %00010001, ACTION_NOP, 0
+  .byte entity_index_bombable_wall, 36, 4, 0, BOMBABLE_WALL_PARAMS, 6, %00100010, ACTION_NOP, 0
   .byte entity_index_urchin, 35, 9, 0, URCHIN_PARAMS, 8*8, 40, <(256*2), >(256*2), 0, 0
   .byte entity_index_ice_block, 35, 5, 0, 0
   .byte entity_index_ice_block, 36, 5, 0, 0
@@ -949,6 +961,19 @@ dungeon2_3_3_entity_instances:
                                          0, 4
   .byte entity_index_jellyfish, 59, 52, 0, 0
 
+dungeon2_boss_entity_instances:
+  .byte 2
+  .byte entity_index_monolith, 7, 14, 0, MONOLITH_PARAMS, \
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, 0, \
+                                         MONOLITH_DIRECTION_SOUTH, \
+                                         ACTION_NOP, 0, \
+                                         0, 1
+  .byte entity_index_monolith, 12, 11, 0, MONOLITH_PARAMS, \
+                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, 0, \
+                                          MONOLITH_DIRECTION_EAST, \
+                                          ACTION_NOP, 0, \
+                                          0, 2
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -1013,7 +1038,8 @@ tundra1_palette:
   .word tundra1_palette
 
 dungeon2_palette:
-  .byte $0e,$12,$21,$20,$0e,$0c,$22,$32,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+dungeon2_boss_palette:
+  .byte $0e,$12,$21,$20,$0e,$21,$31,$20,$0e,$0c,$22,$32,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$12,$21,$0e,$21,$31,$20
   .byte $ff
   .word dungeon2_palette
@@ -1323,3 +1349,10 @@ define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAG
 dungeon2_3_3_w:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_3_entity_instances,dungeon2_palette,48, 45, 50, 53, 0, 0, 0, HERO_DIRECTION_LEFT
 
+dungeon2_boss_area_entrance:
+define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
+                LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
+                LOCATION_BRIGHTNESS_LEVEL_4,\
+                      area_index_dungeon2_boss, dungeon2_boss_sprite_chr_groups, dungeon2_boss_entity_instances, dungeon2_boss_palette,\
+                      0, 0, 7, 10,\
+                      0, 0, 0, HERO_DIRECTION_UP

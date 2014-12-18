@@ -72,6 +72,9 @@ tundra_chr:
 dungeon2_main_chr:
 .incbin "dungeon2_main.chr"
 
+dungeon2_platform_chr:
+.incbin "dungeon2_platform.chr"
+
 intro_cut_scene_mermon_leer_bg_chr:
 .incbin "intro_cut_scene_mermon_leer_bg.chr"
 

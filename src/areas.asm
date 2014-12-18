@@ -30,7 +30,8 @@
     tundra1_area, \
     tundra2_area, \
     tundra3_area, \
-    dungeon2_area
+    dungeon2_area, \
+    dungeon2_boss_area
 
 areas_lo:
   .lobytes areas
@@ -524,3 +525,44 @@ dungeon2_area_nametable_bombable_wall_corridor_patch:
   .byte $6b,$6c,$5c,$5b,$3f,$40,$6e,$6f,$68,$67,$46,$45,$6b,$6c,$5c,$5b
   .byte $3f,$40,$6e,$6f,$68,$67,$46,$45,$77,$78,$5c,$5b,$49,$48,$4d,$4e
   .byte $68,$67,$4d,$4e,$5c,$5b,$5c,$5b,$5c,$5b
+
+dungeon2_boss_area:
+  .byte MAP_DATA_BANK2
+  .byte CONVERSATIONS_BANK
+  .word dungeon2_boss_area_bg_chr_groups
+  .word dungeon_theme
+  .byte $22 ;textbox_attribute
+  .word dungeon2_boss_map
+  .word dungeon2_boss_metatile_table_properties
+  .word dungeon2_boss_metatile_table_params
+  .word dungeon2_boss_metatile_table_attributes
+  .word dungeon2_boss_metatile_table_top_left_tiles
+  .word dungeon2_boss_metatile_table_top_right_tiles
+  .word dungeon2_boss_metatile_table_bottom_left_tiles
+  .word dungeon2_boss_metatile_table_bottom_right_tiles
+  .word dungeon2_boss_big_metatile_table_top_left
+  .word dungeon2_boss_big_metatile_table_top_right
+  .word dungeon2_boss_big_metatile_table_bottom_left
+  .word dungeon2_boss_big_metatile_table_bottom_right
+  .word dungeon2_boss_area_nametable_patches
+  .word 0 ;attribute_patches_address
+
+dungeon2_boss_area_bg_chr_groups:
+  .byte 2  ;count
+  .byte BG_CHR_DATA_BANK3
+  .word dungeon2_main_chr
+  .byte BG_CHR_DATA_BANK3
+  .word dungeon2_platform_chr
+
+dungeon2_boss_area_nametable_patches:
+  .word dungeon2_boss_area_nametable_monolith_patch
+  .word dungeon2_boss_area_nametable_monolith_south_bg_patch
+  .word dungeon2_boss_area_nametable_monolith_bridge_bg_patch
+
+dungeon2_boss_area_nametable_monolith_patch:
+  .byte $02,$06,$04,$05,$0c,$0d,$16,$17,$25,$26,$31,$32,$3d,$3e
+dungeon2_boss_area_nametable_monolith_south_bg_patch:
+  .byte $02,$06,$68,$67,$5c,$5b,$68,$67,$5c,$5b,$68,$67,$5c,$5b
+dungeon2_boss_area_nametable_monolith_bridge_bg_patch:
+  .byte $02,$06,$ca,$cb,$c3,$c4,$ca,$cb,$c3,$c4,$ca,$cb,$c3,$c4
+

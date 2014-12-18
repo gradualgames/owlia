@@ -22,6 +22,7 @@ BG_CHR_DATA_BANK3 = 11
 .global dungeon1_stones_chr
 .global tundra_chr
 .global dungeon2_main_chr
+.global dungeon2_platform_chr
 .global inventory_bg_chr
 .global title_chr
 .global intro_cut_scene_great_owls_bg_chr
