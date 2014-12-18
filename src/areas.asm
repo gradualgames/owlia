@@ -557,12 +557,15 @@ dungeon2_boss_area_bg_chr_groups:
 dungeon2_boss_area_nametable_patches:
   .word dungeon2_boss_area_nametable_monolith_patch
   .word dungeon2_boss_area_nametable_monolith_south_bg_patch
-  .word dungeon2_boss_area_nametable_monolith_bridge_bg_patch
+  .word dungeon2_boss_area_nametable_monolith_east_bg_patch
+  .word dungeon2_boss_area_nametable_monolith_west_bg_patch
 
 dungeon2_boss_area_nametable_monolith_patch:
   .byte $02,$06,$04,$05,$0c,$0d,$16,$17,$25,$26,$31,$32,$3d,$3e
 dungeon2_boss_area_nametable_monolith_south_bg_patch:
   .byte $02,$06,$68,$67,$5c,$5b,$68,$67,$5c,$5b,$68,$67,$5c,$5b
-dungeon2_boss_area_nametable_monolith_bridge_bg_patch:
+dungeon2_boss_area_nametable_monolith_east_bg_patch:
   .byte $02,$06,$ca,$cb,$c3,$c4,$ca,$cb,$c3,$c4,$ca,$cb,$c3,$c4
+dungeon2_boss_area_nametable_monolith_west_bg_patch:
+  .byte $02,$06,$c8,$c9,$c1,$c2,$c8,$c9,$c1,$c2,$c8,$c9,$c1,$c2
 

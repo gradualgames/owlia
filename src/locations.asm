@@ -127,7 +127,9 @@
     dungeon2_2_3_e, \
     dungeon2_3_3_n, \
     dungeon2_3_3_w, \
-    dungeon2_boss_area_entrance
+    dungeon2_boss_area_entrance, \
+    dungeon2_boss_area_east_exit, \
+    dungeon2_boss_area_owl_dungeon
 
 locations_lo:
   .lobytes locations
@@ -267,6 +269,17 @@ dungeon2_sprite_chr_groups:
   .byte sprite_chr_group_index_ice_block
 
 dungeon2_boss_sprite_chr_groups:
+  .byte 8   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_key
+  .byte sprite_chr_group_index_treasure_chest
+
+dungeon2_boss_owl_dungeon_sprite_chr_groups:
   .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -968,11 +981,19 @@ dungeon2_boss_entity_instances:
                                          MONOLITH_DIRECTION_SOUTH, \
                                          ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon2_2_0_n, \
                                          0, 1
-  .byte entity_index_monolith, 12, 11, 0, MONOLITH_PARAMS, \
+  .byte entity_index_monolith, 13, 11, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, 0, \
                                           MONOLITH_DIRECTION_EAST, \
-                                          ACTION_NOP, 0, \
+                                          ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon2_boss_owl_dungeon, \
                                           0, 2
+
+dungeon2_boss_owl_dungeon_entity_instances:
+  .byte 1
+  .byte entity_index_monolith, 18, 11, 0, MONOLITH_PARAMS, \
+                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, 0, \
+                                          MONOLITH_DIRECTION_WEST, \
+                                          ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon2_boss_east_exit, \
+                                          0, 3
 
 ;****************************************************************
 ;Palettes.
@@ -1356,3 +1377,19 @@ define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                       area_index_dungeon2_boss, dungeon2_boss_sprite_chr_groups, dungeon2_boss_entity_instances, dungeon2_boss_palette,\
                       0, 0, 7, 10,\
                       0, 0, 0, HERO_DIRECTION_UP
+
+dungeon2_boss_area_east_exit:
+define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
+                  LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
+                  LOCATION_BRIGHTNESS_LEVEL_4,\
+                        area_index_dungeon2_boss, dungeon2_boss_sprite_chr_groups, dungeon2_boss_entity_instances, dungeon2_boss_palette,\
+                        0, 0, 12, 10,\
+                        0, 0, 0, HERO_DIRECTION_LEFT
+
+dungeon2_boss_area_owl_dungeon:
+define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
+                  LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
+                  LOCATION_BRIGHTNESS_LEVEL_4,\
+                        area_index_dungeon2_boss, dungeon2_boss_owl_dungeon_sprite_chr_groups, dungeon2_boss_owl_dungeon_entity_instances, dungeon2_boss_palette,\
+                        16, 0, 19, 10,\
+                        0, 0, 0, HERO_DIRECTION_RIGHT
