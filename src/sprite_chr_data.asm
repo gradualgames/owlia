@@ -42,6 +42,7 @@
   urchin_chr, \
   ice_shards_chr, \
   ice_block_chr, \
+  swordfish_boss_chr, \
   intro_cut_scene_great_owls_spr_chr, \
   intro_cut_scene_mermon_leer_spr_chr
 
@@ -89,6 +90,8 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_jellyfish
   .byte sprite_chr_group_bank_urchin
   .byte sprite_chr_group_bank_ice_shards
+  .byte sprite_chr_group_bank_ice_block
+  .byte sprite_chr_group_bank_swordfish_boss
   .byte sprite_chr_group_bank_intro_cut_scene_great_owls
   .byte sprite_chr_group_bank_intro_cut_scene_mermon_leer
 
@@ -205,6 +208,9 @@ ice_block_chr:
 
 dungeon_entrance_statue_chr:
 .incbin "dungeon_entrance_statue.chr"
+
+swordfish_boss_chr:
+.incbin "swordfish_boss.chr"
 
 intro_cut_scene_great_owls_spr_chr:
 .incbin "intro_cut_scene_great_owls_spr.chr"

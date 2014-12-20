@@ -133,6 +133,9 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 
 .global ice_block
 
+.global swordfish_boss_swim
+.global swordfish_boss_flounder
+
 .global intro_cut_scene_great_owls_spr_overlay
 
 .global intro_cut_scene_mermon_leer_spr_overlay0

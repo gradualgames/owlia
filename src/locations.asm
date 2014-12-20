@@ -269,7 +269,7 @@ dungeon2_sprite_chr_groups:
   .byte sprite_chr_group_index_ice_block
 
 dungeon2_boss_sprite_chr_groups:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -278,6 +278,7 @@ dungeon2_boss_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_treasure_chest
+  .byte sprite_chr_group_index_swordfish_boss
 
 dungeon2_boss_owl_dungeon_sprite_chr_groups:
   .byte 8   ;sprite_chr_groups .byte
@@ -975,7 +976,8 @@ dungeon2_3_3_entity_instances:
   .byte entity_index_jellyfish, 59, 52, 0, 0
 
 dungeon2_boss_entity_instances:
-  .byte 2
+  .byte 3
+  .byte entity_index_swordfish_boss, 7, 7, 0, 0
   .byte entity_index_monolith, 7, 14, 0, MONOLITH_PARAMS, \
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, 0, \
                                          MONOLITH_DIRECTION_SOUTH, \
@@ -1061,7 +1063,7 @@ tundra1_palette:
 dungeon2_palette:
 dungeon2_boss_palette:
   .byte $0e,$12,$21,$20,$0e,$21,$31,$20,$0e,$0c,$22,$32,$0e,$0e,$0e,$0e
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$12,$21,$0e,$21,$31,$20
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$01,$22,$0e,$0e,$0e,$0e
   .byte $ff
   .word dungeon2_palette
 
