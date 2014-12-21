@@ -7,9 +7,12 @@ SWORDFISH_BOSS_STATE_FIN_SWIM_RIGHT_LENGTH = 80
 SWORDFISH_BOSS_STATE_LOWER_ALL_MONOLITHS_AND_DIE_LENGTH = 50
 
 SWORDFISH_BOSS_SWIM_SPEED = 4
-SWORDFISH_BOSS_FIN_LAPS_TIL_CHARGE = 4
+SWORDFISH_BOSS_FIN_LAPS_TIL_CHARGE = 3
 
 SWORDFISH_BOSS_CHARGE_Y = 100
+
+SWORDFISH_BOSS_SHADOW_SPOT_OFFSET_X = 24
+SWORDFISH_BOSS_SHADOW_SPOT_OFFSET_Y = 32
 
 SWORDFISH_BOSS_WIDTH = $0f
 SWORDFISH_BOSS_HEIGHT = $0f
@@ -219,6 +222,8 @@ swordfish_boss_state_charge_right:
 
   jsr swordfish_swim_right
 
+  jsr swordfish_add_shadow_spot
+
   jsr entity_update_animation
 
   rts
@@ -226,6 +231,8 @@ swordfish_boss_state_charge_right:
 swordfish_boss_state_charge_left:
 
   jsr swordfish_swim_left
+
+  jsr swordfish_add_shadow_spot
 
   jsr entity_update_animation
 
@@ -309,6 +316,30 @@ do_not_lower_monoliths_and_die_yet:
   lda entity_x_hi,x
   sbc #>SWORDFISH_BOSS_SWIM_SPEED
   sta entity_x_hi,x
+
+  rts
+
+.endproc
+
+.proc swordfish_add_shadow_spot
+
+  clc
+  lda entity_x_lo,x
+  adc #<SWORDFISH_BOSS_SHADOW_SPOT_OFFSET_X
+  sta w0
+  lda entity_x_hi,x
+  adc #>SWORDFISH_BOSS_SHADOW_SPOT_OFFSET_X
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc #<SWORDFISH_BOSS_SHADOW_SPOT_OFFSET_Y
+  sta w1
+  lda entity_y_hi,x
+  adc #>SWORDFISH_BOSS_SHADOW_SPOT_OFFSET_Y
+  sta w1+1
+
+  jsr sprite_add_shadow_spot
 
   rts
 
