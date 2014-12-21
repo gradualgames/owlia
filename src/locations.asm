@@ -977,14 +977,14 @@ dungeon2_3_3_entity_instances:
 
 dungeon2_boss_entity_instances:
   .byte 3
-  .byte entity_index_swordfish_boss, 7, 7, 0, 0
+  .byte entity_index_swordfish_boss, 0, 2, 0, 0
   .byte entity_index_monolith, 7, 14, 0, MONOLITH_PARAMS, \
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, 0, \
+                                         MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET, 0, \
                                          MONOLITH_DIRECTION_SOUTH, \
                                          ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon2_2_0_n, \
                                          0, 1
   .byte entity_index_monolith, 13, 11, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, 0, \
+                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET, 0, \
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon2_boss_owl_dungeon, \
                                           0, 2
@@ -1061,11 +1061,16 @@ tundra1_palette:
   .word tundra1_palette
 
 dungeon2_palette:
+  .byte $0e,$12,$21,$20,$0e,$21,$31,$20,$0e,$0c,$22,$32,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$12,$21,$0e,$21,$31,$20
+  .byte $ff
+  .word dungeon2_palette
+
 dungeon2_boss_palette:
   .byte $0e,$12,$21,$20,$0e,$21,$31,$20,$0e,$0c,$22,$32,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$01,$22,$0e,$0e,$0e,$0e
   .byte $ff
-  .word dungeon2_palette
+  .word dungeon2_boss_palette
 
 ;****************************************************************
 ;Location definitions.

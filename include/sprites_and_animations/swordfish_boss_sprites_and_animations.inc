@@ -90,6 +90,15 @@ swordfish_boss_flounder1:
   .byte $10,$45,$02,$18,$10
   .byte $10,$46,$02,$20,$08
   .byte $10,$47,$02,$28,$00
+swordfish_boss_fin0:
+  .byte $01
+  .byte $00,$01,$02,$00,$00
+swordfish_boss_fin1:
+  .byte $01
+  .byte $00,$04,$02,$00,$00
+swordfish_boss_fin2:
+  .byte $01
+  .byte $00,$06,$02,$00,$00
 
 swordfish_boss_swim:
   .byte $0a, $08
@@ -101,5 +110,11 @@ swordfish_boss_flounder:
   .byte $0a, $04
   .word swordfish_boss_flounder0
   .word swordfish_boss_flounder1
+swordfish_boss_fin:
+  .byte $0a, $08
+  .word swordfish_boss_fin0
+  .word swordfish_boss_fin1
+  .word swordfish_boss_fin2
+  .word swordfish_boss_fin1
 
 .endif
