@@ -6,11 +6,13 @@ SWORDFISH_BOSS_SWIM_LEFT_LENGTH = 96
 SWORDFISH_BOSS_SWIM_RIGHT_LENGTH = 96
 SWORDFISH_BOSS_STATE_LOWER_ALL_MONOLITHS_AND_DIE_LENGTH = 50
 
+SWORDFISH_BOSS_RANDOM_NUMBER_SEED = 10
 SWORDFISH_BOSS_SWIM_SPEED = 4
 SWORDFISH_BOSS_FIN_LAPS_TIL_CHARGE = 2
 
-SWORDFISH_BOSS_FIN_SWIM_Y = 50
-SWORDFISH_BOSS_CHARGE_Y = 100
+SWORDFISH_BOSS_RANDOM_NUMBER_OFFSET_MASK = %00111111
+SWORDFISH_BOSS_FIN_SWIM_Y = 30
+SWORDFISH_BOSS_CHARGE_Y = 80
 
 SWORDFISH_BOSS_SHADOW_SPOT_OFFSET_X = 24
 SWORDFISH_BOSS_SHADOW_SPOT_OFFSET_Y = 32
@@ -20,6 +22,7 @@ SWORDFISH_BOSS_HEIGHT = $0f
 
 swordfish_boss_state_counter = entity_local0
 swordfish_boss_fin_lap_counter = entity_local1
+swordfish_boss_pseudo_random_number = entity_local2
 
 .enum
 SWORDFISH_BOSS_STATE_INIT
@@ -95,6 +98,9 @@ do_not_skip_swordfish_boss:
   sta b0
   jsr entity_lookup_sprite_chr_offset
 
+  lda #SWORDFISH_BOSS_RANDOM_NUMBER_SEED
+  sta swordfish_boss_pseudo_random_number,x
+
   lda #<SWORDFISH_BOSS_FIN_SWIM_Y
   sta entity_y_lo,x
   lda #>SWORDFISH_BOSS_FIN_SWIM_Y
@@ -124,6 +130,8 @@ do_not_skip_swordfish_boss:
 
 swordfish_boss_state_fin_swim_right:
 
+  jsr swordfish_boss_permute_prn
+
   .scope
   dec swordfish_boss_state_counter,x
   bne do_not_switch_state
@@ -132,9 +140,16 @@ swordfish_boss_state_fin_swim_right:
   dec swordfish_boss_fin_lap_counter,x
   bne do_not_switch_state
 
+  lda swordfish_boss_pseudo_random_number,x
+  and #SWORDFISH_BOSS_RANDOM_NUMBER_OFFSET_MASK
+  sta b0
+
+  clc
   lda #<SWORDFISH_BOSS_CHARGE_Y
+  adc b0
   sta entity_y_lo,x
   lda #>SWORDFISH_BOSS_CHARGE_Y
+  adc #0
   sta entity_y_hi,x
 
   lda #%00000000
@@ -178,6 +193,8 @@ do_not_switch_state:
 
 swordfish_boss_state_fin_swim_left:
 
+  jsr swordfish_boss_permute_prn
+
   .scope
   dec swordfish_boss_state_counter,x
   bne do_not_switch_state
@@ -186,9 +203,16 @@ swordfish_boss_state_fin_swim_left:
   dec swordfish_boss_fin_lap_counter,x
   bne do_not_switch_state
 
+  lda swordfish_boss_pseudo_random_number,x
+  and #SWORDFISH_BOSS_RANDOM_NUMBER_OFFSET_MASK
+  sta b0
+
+  clc
   lda #<SWORDFISH_BOSS_CHARGE_Y
+  adc b0
   sta entity_y_lo,x
   lda #>SWORDFISH_BOSS_CHARGE_Y
+  adc #0
   sta entity_y_hi,x
 
   lda #%01000000
@@ -232,6 +256,8 @@ do_not_switch_state:
 
 swordfish_boss_state_charge_right:
 
+  jsr swordfish_boss_permute_prn
+
   .scope
   dec swordfish_boss_state_counter,x
   bne do_not_switch_state
@@ -272,6 +298,8 @@ do_not_switch_state:
   rts
 
 swordfish_boss_state_charge_left:
+
+  jsr swordfish_boss_permute_prn
 
   .scope
   dec swordfish_boss_state_counter,x
@@ -366,6 +394,25 @@ do_not_lower_monoliths_and_die_yet:
   .endscope
 
   rts
+
+.proc swordfish_boss_permute_prn
+
+  ;permute the pseudo random number
+: lda swordfish_boss_pseudo_random_number,x
+  beq doEor
+  asl
+  beq noEor ;if the input was $80, skip the EOR
+  bcc noEor
+doEor:
+  eor #$1d
+noEor:
+  sta swordfish_boss_pseudo_random_number,x
+  dey
+  bne :-
+
+  rts
+
+.endproc
 
 .proc swordfish_swim_right
 
