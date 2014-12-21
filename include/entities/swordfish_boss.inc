@@ -2,13 +2,14 @@
 .ifndef SWORDFISH_BOSS_INC
 SWORDFISH_BOSS_INC = 1
 
-SWORDFISH_BOSS_STATE_FIN_SWIM_LEFT_LENGTH = 80
-SWORDFISH_BOSS_STATE_FIN_SWIM_RIGHT_LENGTH = 80
+SWORDFISH_BOSS_SWIM_LEFT_LENGTH = 96
+SWORDFISH_BOSS_SWIM_RIGHT_LENGTH = 96
 SWORDFISH_BOSS_STATE_LOWER_ALL_MONOLITHS_AND_DIE_LENGTH = 50
 
 SWORDFISH_BOSS_SWIM_SPEED = 4
-SWORDFISH_BOSS_FIN_LAPS_TIL_CHARGE = 3
+SWORDFISH_BOSS_FIN_LAPS_TIL_CHARGE = 2
 
+SWORDFISH_BOSS_FIN_SWIM_Y = 50
 SWORDFISH_BOSS_CHARGE_Y = 100
 
 SWORDFISH_BOSS_SHADOW_SPOT_OFFSET_X = 24
@@ -94,12 +95,17 @@ do_not_skip_swordfish_boss:
   sta b0
   jsr entity_lookup_sprite_chr_offset
 
+  lda #<SWORDFISH_BOSS_FIN_SWIM_Y
+  sta entity_y_lo,x
+  lda #>SWORDFISH_BOSS_FIN_SWIM_Y
+  sta entity_y_hi,x
+
   sec
   lda entity_x_lo,x
-  sbc #<32
+  sbc #<64
   sta entity_x_lo,x
   lda entity_x_hi,x
-  sbc #>32
+  sbc #>64
   sta entity_x_hi,x
 
   lda #%01000000
@@ -108,7 +114,7 @@ do_not_skip_swordfish_boss:
   lda #SWORDFISH_BOSS_FIN_LAPS_TIL_CHARGE
   sta swordfish_boss_fin_lap_counter,x
 
-  lda #SWORDFISH_BOSS_STATE_FIN_SWIM_RIGHT_LENGTH
+  lda #SWORDFISH_BOSS_SWIM_RIGHT_LENGTH
   sta swordfish_boss_state_counter,x
 
   lda #SWORDFISH_BOSS_STATE_FIN_SWIM_RIGHT
@@ -139,6 +145,9 @@ swordfish_boss_state_fin_swim_right:
   lda #>swordfish_boss_swim
   sta entity_animation_address_hi,x
 
+  lda #SWORDFISH_BOSS_SWIM_RIGHT_LENGTH
+  sta swordfish_boss_state_counter,x
+
   lda #SWORDFISH_BOSS_STATE_CHARGE_LEFT
   sta entity_state,x
 
@@ -150,7 +159,7 @@ do_not_switch_state:
   lda #%00000000
   sta entity_sprite_flags,x
 
-  lda #SWORDFISH_BOSS_STATE_FIN_SWIM_LEFT_LENGTH
+  lda #SWORDFISH_BOSS_SWIM_LEFT_LENGTH
   sta swordfish_boss_state_counter,x
 
   lda #SWORDFISH_BOSS_STATE_FIN_SWIM_LEFT
@@ -190,6 +199,9 @@ swordfish_boss_state_fin_swim_left:
   lda #>swordfish_boss_swim
   sta entity_animation_address_hi,x
 
+  lda #SWORDFISH_BOSS_SWIM_RIGHT_LENGTH
+  sta swordfish_boss_state_counter,x
+
   lda #SWORDFISH_BOSS_STATE_CHARGE_RIGHT
   sta entity_state,x
 
@@ -201,7 +213,7 @@ do_not_switch_state:
   lda #%01000000
   sta entity_sprite_flags,x
 
-  lda #SWORDFISH_BOSS_STATE_FIN_SWIM_LEFT_LENGTH
+  lda #SWORDFISH_BOSS_SWIM_LEFT_LENGTH
   sta swordfish_boss_state_counter,x
 
   lda #SWORDFISH_BOSS_STATE_FIN_SWIM_RIGHT
@@ -220,6 +232,37 @@ do_not_switch_state:
 
 swordfish_boss_state_charge_right:
 
+  .scope
+  dec swordfish_boss_state_counter,x
+  bne do_not_switch_state
+
+  lda #<swordfish_boss_fin
+  sta entity_animation_address_lo,x
+  lda #>swordfish_boss_fin
+  sta entity_animation_address_hi,x
+
+  lda #%00000000
+  sta entity_sprite_flags,x
+
+  lda #<SWORDFISH_BOSS_FIN_SWIM_Y
+  sta entity_y_lo,x
+  lda #>SWORDFISH_BOSS_FIN_SWIM_Y
+  sta entity_y_hi,x
+
+  lda #SWORDFISH_BOSS_FIN_LAPS_TIL_CHARGE
+  sta swordfish_boss_fin_lap_counter,x
+
+  lda #SWORDFISH_BOSS_SWIM_LEFT_LENGTH
+  sta swordfish_boss_state_counter,x
+
+  lda #SWORDFISH_BOSS_STATE_FIN_SWIM_LEFT
+  sta entity_state,x
+
+  rts
+
+do_not_switch_state:
+  .endscope
+
   jsr swordfish_swim_right
 
   jsr swordfish_add_shadow_spot
@@ -229,6 +272,37 @@ swordfish_boss_state_charge_right:
   rts
 
 swordfish_boss_state_charge_left:
+
+  .scope
+  dec swordfish_boss_state_counter,x
+  bne do_not_switch_state
+
+  lda #<swordfish_boss_fin
+  sta entity_animation_address_lo,x
+  lda #>swordfish_boss_fin
+  sta entity_animation_address_hi,x
+
+  lda #%01000000
+  sta entity_sprite_flags,x
+
+  lda #<SWORDFISH_BOSS_FIN_SWIM_Y
+  sta entity_y_lo,x
+  lda #>SWORDFISH_BOSS_FIN_SWIM_Y
+  sta entity_y_hi,x
+
+  lda #SWORDFISH_BOSS_FIN_LAPS_TIL_CHARGE
+  sta swordfish_boss_fin_lap_counter,x
+
+  lda #SWORDFISH_BOSS_SWIM_RIGHT_LENGTH
+  sta swordfish_boss_state_counter,x
+
+  lda #SWORDFISH_BOSS_STATE_FIN_SWIM_RIGHT
+  sta entity_state,x
+
+  rts
+
+do_not_switch_state:
+  .endscope
 
   jsr swordfish_swim_left
 
