@@ -978,16 +978,16 @@ dungeon2_3_3_entity_instances:
 dungeon2_boss_entity_instances:
   .byte 3
   .byte entity_index_swordfish_boss, 0, 2, 0, 0
-  .byte entity_index_monolith, 7, 14, 0, MONOLITH_PARAMS, \
-                                         MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET, 0, \
-                                         MONOLITH_DIRECTION_SOUTH, \
-                                         ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon2_2_0_n, \
-                                         0, 1
   .byte entity_index_monolith, 13, 11, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET, 0, \
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon2_boss_owl_dungeon, \
                                           0, 2
+  .byte entity_index_monolith, 7, 14, 0, MONOLITH_PARAMS, \
+                                         MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET, 0, \
+                                         MONOLITH_DIRECTION_SOUTH, \
+                                         ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon2_2_0_n, \
+                                         0, 1
 
 dungeon2_boss_owl_dungeon_entity_instances:
   .byte 1

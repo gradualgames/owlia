@@ -10,6 +10,7 @@ SWORDFISH_BOSS_ATTACKED_LENGTH = 20
 SWORDFISH_BOSS_FLASH_LENGTH = 20
 SWORDFISH_BOSS_STATE_LOWER_ALL_MONOLITHS_AND_DIE_LENGTH = 50
 SWORDFISH_BOSS_STATE_FLOUNDER_LENGTH = 100
+SWORDFISH_BOSS_STATE_VICTORY_LENGTH = 220
 
 SWORDFISH_BOSS_RANDOM_NUMBER_SEED = 10
 SWORDFISH_BOSS_SWIM_SPEED = 4
@@ -50,6 +51,7 @@ SWORDFISH_BOSS_STATE_FALL
 SWORDFISH_BOSS_STATE_FLOUNDER
 SWORDFISH_BOSS_STATE_RISE
 SWORDFISH_BOSS_STATE_LOWER_ALL_MONOLITHS_AND_DIE
+SWORDFISH_BOSS_STATE_VICTORY
 .endenum
 
 .define swordfish_boss_states \
@@ -61,7 +63,8 @@ SWORDFISH_BOSS_STATE_LOWER_ALL_MONOLITHS_AND_DIE
   swordfish_boss_state_fall, \
   swordfish_boss_state_flounder, \
   swordfish_boss_state_rise, \
-  swordfish_boss_state_lower_all_monoliths_and_die
+  swordfish_boss_state_lower_all_monoliths_and_die, \
+  swordfish_boss_state_victory
 
 swordfish_boss_lo:
   .lobytes swordfish_boss_states
@@ -292,6 +295,8 @@ swordfish_boss_state_charge_right:
 
   jsr swordfish_boss_permute_prn
 
+  jsr swordfish_boss_advance_flash_state
+
   .scope
   sec
   lda #<SWORDFISH_BOSS_RIGHT_BOUNDARY
@@ -337,6 +342,8 @@ do_not_switch_state:
 swordfish_boss_state_charge_left:
 
   jsr swordfish_boss_permute_prn
+
+  jsr swordfish_boss_advance_flash_state
 
   .scope
   sec
@@ -450,6 +457,8 @@ do_not_switch_state:
 
 swordfish_boss_state_rise:
 
+  jsr swordfish_boss_advance_flash_state
+
   .scope
   dec swordfish_boss_state_counter,x
   bne do_not_switch_state
@@ -538,6 +547,43 @@ not_monolith:
   sta entity_flags,x
 
 do_not_lower_monoliths_and_die_yet:
+  .endscope
+
+  rts
+
+swordfish_boss_state_victory:
+
+  .scope
+  dec swordfish_boss_state_counter,x
+  bne do_not_die_yet
+
+  ;stop all sound
+  far_call #SOUND_BANK, sound_stop
+
+  .scope
+  ;search for monolith entity in boss's arena and make it fall
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne not_monolith
+
+  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  sta entity_state,y
+  jmp done
+
+not_monolith:
+
+  dey
+  bpl next_entity
+done:
+  .endscope
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+do_not_die_yet:
   .endscope
 
   rts
@@ -682,9 +728,19 @@ rect1_attacked_entity:
   jsr entity_spawn_explosion
   jsr entity_drop_random_item
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  lda #<defeat_boss
+  sta song_address
+  lda #>defeat_boss
+  sta song_address+1
+  far_call #SOUND_BANK, song_initialize
+
+  jsr entity_clear_drawable
+
+  lda #SWORDFISH_BOSS_STATE_VICTORY_LENGTH
+  sta swordfish_boss_state_counter,x
+
+  lda #SWORDFISH_BOSS_STATE_VICTORY
+  sta entity_state,x
 
 entity_not_dead_yet:
   .endif
