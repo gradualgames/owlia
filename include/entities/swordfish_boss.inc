@@ -162,6 +162,8 @@ swordfish_boss_state_fin_swim_right:
 
   jsr swordfish_boss_permute_prn
 
+  jsr swordfish_boss_advance_flash_state
+
   .scope
   sec
   lda #<SWORDFISH_BOSS_RIGHT_BOUNDARY
@@ -229,6 +231,8 @@ do_not_switch_state:
 swordfish_boss_state_fin_swim_left:
 
   jsr swordfish_boss_permute_prn
+
+  jsr swordfish_boss_advance_flash_state
 
   .scope
   sec
@@ -389,6 +393,8 @@ do_not_switch_state:
 
 swordfish_boss_state_fall:
 
+  jsr swordfish_boss_advance_flash_state
+
   jsr swordfish_boss_flounder_combat
 
   .scope
@@ -425,6 +431,8 @@ do_not_switch_state:
   rts
 
 swordfish_boss_state_flounder:
+
+  jsr swordfish_boss_advance_flash_state
 
   .scope
   dec swordfish_boss_state_counter,x
@@ -590,8 +598,6 @@ do_not_die_yet:
 
 .proc swordfish_boss_charge_combat
 
-  jsr swordfish_boss_advance_flash_state
-
   jsr entity_test_hero_rect
   bne entity_not_hitting_hero
 
@@ -666,8 +672,6 @@ entity_not_attacked:
 .endproc
 
 .proc swordfish_boss_flounder_combat
-
-  jsr swordfish_boss_advance_flash_state
 
   jsr entity_test_hero_rect
   bne entity_not_hitting_hero
