@@ -992,7 +992,7 @@ dungeon2_boss_entity_instances:
 dungeon2_boss_owl_dungeon_entity_instances:
   .byte 1
   .byte entity_index_monolith, 18, 11, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, 0, \
+                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET, 0, \
                                           MONOLITH_DIRECTION_WEST, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon2_boss_east_exit, \
                                           0, 3
