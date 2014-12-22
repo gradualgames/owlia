@@ -409,7 +409,6 @@ swordfish_boss_state_fall:
 
   lda #SWORDFISH_BOSS_STATE_FLOUNDER
   sta entity_state,x
-  rts
 
 do_not_switch_state:
   .endscope
@@ -452,8 +451,6 @@ swordfish_boss_state_flounder:
   lda #SWORDFISH_BOSS_STATE_RISE
   sta entity_state,x
 
-  rts
-
 do_not_switch_state:
   .endscope
 
@@ -476,13 +473,8 @@ swordfish_boss_state_rise:
   lda #>swordfish_boss_swim
   sta entity_animation_address_hi,x
 
-  lda #0
-  sta swordfish_boss_flash_counter,x
-
   lda swordfish_boss_last_charge_state,x
   sta entity_state,x
-
-  rts
 
 do_not_switch_state:
   .endscope
