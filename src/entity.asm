@@ -1226,6 +1226,10 @@ draw_entity:
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_TEST
   beq skip_entity
+  ;if we arrive here, we've found a living entity. Clip it against the screen.
+
+  jsr entity_test_screen_rect
+  bne skip_entity
 
   ;test to see if it is drawable.
   lda entity_flags,x
