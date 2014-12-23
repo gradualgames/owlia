@@ -249,16 +249,6 @@ clip_sprite_y:
   ;skip flipped x coordinate
   iny
 
-  lda #$ff
-  sta sprite+sprite_struct::ycoord,x
-  sta sprite+sprite_struct::xcoord,x
-
-  ;move to next sprite
-  inx
-  inx
-  inx
-  inx
-
   dec b5
   bne next_metasprite_entry
 
@@ -272,16 +262,6 @@ clip_sprite_y:
   rts
 
 clip_sprite_x:
-
-  lda #$ff
-  sta sprite+sprite_struct::ycoord,x
-  sta sprite+sprite_struct::xcoord,x
-
-  ;move to next sprite
-  inx
-  inx
-  inx
-  inx
 
   dec b5
   bne next_metasprite_entry
@@ -308,7 +288,7 @@ sprite_not_flipped:
   lda (metasprite_address),y
   bmi x_offset_negative
 x_offset_positive:
-  iny  ;skip flipped x coordinate
+  iny ;skip flipped x coordinate
   clc
   adc top_left_x
   sta sprite_x
