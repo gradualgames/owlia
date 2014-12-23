@@ -40,6 +40,7 @@ swordfish_boss_health = entity_local4
 swordfish_boss_direction = entity_local5
 swordfish_boss_shadow_spot_offset_y = entity_local6
 swordfish_boss_last_charge_state = entity_local7
+swordfish_boss_invincible = entity_local8
 
 .enum
 SWORDFISH_BOSS_STATE_INIT
@@ -202,6 +203,9 @@ swordfish_boss_state_fin_swim_right:
   lda #0
   sta swordfish_boss_flash_counter,x
 
+  lda #0
+  sta swordfish_boss_invincible,x
+
   lda #SWORDFISH_BOSS_STATE_CHARGE_LEFT
   sta swordfish_boss_last_charge_state,x
   sta entity_state,x
@@ -268,6 +272,9 @@ swordfish_boss_state_fin_swim_left:
 
   lda #0
   sta swordfish_boss_flash_counter,x
+
+  lda #0
+  sta swordfish_boss_invincible,x
 
   lda #SWORDFISH_BOSS_STATE_CHARGE_RIGHT
   sta swordfish_boss_last_charge_state,x
@@ -473,6 +480,10 @@ swordfish_boss_state_rise:
   lda #>swordfish_boss_swim
   sta entity_animation_address_hi,x
 
+  ;set invincible for the remainder of the next charge state.
+  lda #1
+  sta swordfish_boss_invincible,x
+
   lda swordfish_boss_last_charge_state,x
   sta entity_state,x
 
@@ -596,6 +607,11 @@ do_not_die_yet:
   jsr entity_hurt_hero
 
 entity_not_hitting_hero:
+
+  lda swordfish_boss_invincible,x
+  beq not_invincible
+  rts
+not_invincible:
 
   lda entity_action_rect1_action
   cmp #ENTITY_ACTION_ATTACK
