@@ -2,7 +2,9 @@
 SIBERIANEAGLEOWL_SPRITES_AND_ANIMATIONS_INC = 1
 
 siberianeagleowl_fly0:
-  .byte $16
+  .byte $18
+  .byte 8,$3e,$03,16,$10
+  .byte 8,$3f,$03,24,$08
   .byte $00,$00,$02,$00,$28
   .byte $00,$01,$01,$08,$20
   .byte $00,$02,$02,$10,$18
@@ -26,7 +28,9 @@ siberianeagleowl_fly0:
   .byte $18,$32,$02,$18,$10
   .byte $18,$33,$02,$20,$08
 siberianeagleowl_fly1:
-  .byte $14
+  .byte $16
+  .byte 10,$3e,$03,16,$10
+  .byte 10,$3f,$03,24,$08
   .byte $00,$07,$00,$08,$20
   .byte $00,$08,$02,$10,$18
   .byte $00,$09,$02,$18,$10
@@ -48,7 +52,9 @@ siberianeagleowl_fly1:
   .byte $18,$36,$02,$18,$10
   .byte $18,$37,$02,$20,$08
 siberianeagleowl_fly2:
-  .byte $16
+  .byte $18
+  .byte 12,$3e,$03,16,$10
+  .byte 12,$3f,$03,24,$08
   .byte $00,$0b,$00,$08,$20
   .byte $00,$0a,$00,$10,$18
   .byte $00,$07,$00,$18,$10
@@ -72,7 +78,9 @@ siberianeagleowl_fly2:
   .byte $18,$3c,$02,$20,$08
   .byte $18,$3d,$02,$28,$00
 siberianeagleowl_perch0:
-  .byte $0b
+  .byte $0d
+  .byte $05,$3e,$03,$ff,$10
+  .byte $05,$3f,$03,$07,$08
   .byte $00,$40,$02,$00,$10
   .byte $00,$41,$02,$08,$08
   .byte $08,$42,$02,$00,$10
