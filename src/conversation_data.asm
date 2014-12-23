@@ -29,7 +29,8 @@
     silmaran_call_adlanniel, \
     silmaran_encounter_scene, \
     rescue_greathornedowl, \
-    dungeon_statue_deny_entry
+    dungeon_statue_deny_entry, \
+    rescue_siberianeagleowl
 
 conversations_lo:
   .lobytes conversations
@@ -277,3 +278,19 @@ rescue_greathornedowl:
 dungeon_statue_deny_entry:
   .byte    1, "YOU DO NOT POSSESS ENOUGH"
   .byte NL,2, "GOLD TO ENTER....",WT,EC
+
+rescue_siberianeagleowl:
+  .byte    1, "I HAD A VISION THAT YOU"
+  .byte NL,2, "MIGHT RESCUE ME FROM THIS"
+  .byte NL,3, "ICY PRISON.",TM,30," YOU HAVE MY"
+  .byte NL,4, "THANKS.",TM,30," I HAVE RECEIVED",WT,EP
+
+  .byte NL,1, "WORD THAT ANOTHER OF MY"
+  .byte NL,2, "PEERS IS HELD BY ONE OF"
+  .byte NL,3, "MERMON'S HENCHMEN IN THE"
+  .byte NL,4, "MOUNTAINS EAST OF HERE.",WT,EP
+
+  .byte NL,1, "I WILL CARRY YOU THERE.",TM,30
+  .byte NL,2, "BUT FIRST,",TM,20," PLEASE WAIT A"
+  .byte NL,3, "MOMENT WHILE I WARM UP.",TM,200
+  .byte NL,4, "OK,",TM,20," I AM READY NOW.",WT,EC

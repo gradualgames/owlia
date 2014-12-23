@@ -36,6 +36,7 @@ conversation_index_silmaran_call_adlanniel
 conversation_index_silmaran_encounter_scene
 conversation_index_rescue_greathornedowl
 conversation_index_dungeon_statue_deny_entry
+conversation_index_rescue_siberianeagleowl
 .endenum
 
 .endif

@@ -40,7 +40,7 @@ rescueowl_spr_chr_group_indices:
 
 rescueowl_conversation_indices:
   .byte conversation_index_rescue_greathornedowl
-  .byte conversation_index_rescue_greathornedowl
+  .byte conversation_index_rescue_siberianeagleowl
 
 rescueowl_earned_techs:
   .byte tech_carry_bomb
