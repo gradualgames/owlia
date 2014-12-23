@@ -5,7 +5,8 @@ RESCUEOWL_INC = 1
 .include "rescueowl_constants.inc"
 
 .define rescueowl_inside_cage_animations \
-  greathornedowl_inside_cage
+  greathornedowl_inside_cage, \
+  siberianeagleowl_perch
 
 rescueowl_inside_cage_animations_lo:
   .lobytes rescueowl_inside_cage_animations
@@ -14,7 +15,8 @@ rescueowl_inside_cage_animations_hi:
   .hibytes rescueowl_inside_cage_animations
 
 .define rescueowl_outside_cage_animations \
-  greathornedowl_outside_cage
+  greathornedowl_outside_cage, \
+  siberianeagleowl_perch
 
 rescueowl_outside_cage_animations_lo:
   .lobytes rescueowl_outside_cage_animations
@@ -23,7 +25,8 @@ rescueowl_outside_cage_animations_hi:
   .hibytes rescueowl_outside_cage_animations
 
 .define rescueowl_fly_away_animations \
-  greathornedowl_fly
+  greathornedowl_fly, \
+  siberianeagleowl_fly
 
 rescueowl_fly_away_animations_lo:
   .lobytes rescueowl_fly_away_animations
@@ -33,14 +36,18 @@ rescueowl_fly_away_animations_hi:
 
 rescueowl_spr_chr_group_indices:
   .byte sprite_chr_group_index_greathornedowl
+  .byte sprite_chr_group_index_siberianeagleowl
 
 rescueowl_conversation_indices:
+  .byte conversation_index_rescue_greathornedowl
   .byte conversation_index_rescue_greathornedowl
 
 rescueowl_earned_techs:
   .byte tech_carry_bomb
+  .byte tech_carry_lantern
 
 rescueowl_dungeon_exit_locations:
+  .byte location_index_tundra1_entrance
   .byte location_index_tundra1_entrance
 
 .define rescueowl_states \

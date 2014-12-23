@@ -281,7 +281,7 @@ dungeon2_boss_sprite_chr_groups:
   .byte sprite_chr_group_index_swordfish_boss
 
 dungeon2_boss_owl_dungeon_sprite_chr_groups:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 10   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -290,6 +290,8 @@ dungeon2_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_treasure_chest
+  .byte sprite_chr_group_index_cage
+  .byte sprite_chr_group_index_siberianeagleowl
 
 ;****************************************************************
 ;Entity instance sets
@@ -990,7 +992,9 @@ dungeon2_boss_entity_instances:
                                          0, 1
 
 dungeon2_boss_owl_dungeon_entity_instances:
-  .byte 1
+  .byte 3
+  .byte entity_index_cage, 23, 2, 0, 0
+  .byte entity_index_rescueowl, 23, 3, 0, RESCUEOWL_PARAMS, RESCUEOWL_TYPE_SIBERIANEAGLEOWL
   .byte entity_index_monolith, 18, 11, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET, 0, \
                                           MONOLITH_DIRECTION_WEST, \
@@ -1071,6 +1075,12 @@ dungeon2_boss_palette:
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$01,$22,$0e,$0e,$0e,$0e
   .byte $ff
   .word dungeon2_boss_palette
+
+dungeon2_boss_owl_dungeon_palette:
+  .byte $0e,$12,$21,$20,$0e,$21,$31,$20,$0e,$0c,$22,$32,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$10,$20,$0e,$00,$16,$10
+  .byte $ff
+  .word dungeon2_boss_owl_dungeon_palette
 
 ;****************************************************************
 ;Location definitions.
@@ -1397,6 +1407,6 @@ dungeon2_boss_area_owl_dungeon:
 define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                   LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
                   LOCATION_BRIGHTNESS_LEVEL_4,\
-                        area_index_dungeon2_boss, dungeon2_boss_owl_dungeon_sprite_chr_groups, dungeon2_boss_owl_dungeon_entity_instances, dungeon2_boss_palette,\
+                        area_index_dungeon2_boss, dungeon2_boss_owl_dungeon_sprite_chr_groups, dungeon2_boss_owl_dungeon_entity_instances, dungeon2_boss_owl_dungeon_palette,\
                         16, 0, 19, 10,\
                         0, 0, 0, HERO_DIRECTION_RIGHT
