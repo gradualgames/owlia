@@ -793,7 +793,7 @@ not_ready_yet:
 
   jsr familiar_move
 
-  jsr familiar_add_shadow_spot
+  ;jsr familiar_add_shadow_spot
 
   ;make action rect active
   lda #ENTITY_ACTION_ATTACK
@@ -849,7 +849,7 @@ state_counter_not_zero:
   jsr familiar_prepare_distance_to_hero_velocity
   jsr familiar_kill_if_close_to_hero
   jsr familiar_home_in_to_goal
-  jsr familiar_add_shadow_spot
+  ;jsr familiar_add_shadow_spot
 
   rts
 
@@ -905,7 +905,7 @@ not_ready_yet:
 
   jsr familiar_move
 
-  jsr familiar_add_shadow_spot
+  ;jsr familiar_add_shadow_spot
 
   lda #ENTITY_ACTION_FETCH
   sta entity_action_rect2_action
@@ -960,7 +960,7 @@ state_counter_not_zero:
   jsr familiar_prepare_distance_to_hero_velocity
   jsr familiar_kill_if_close_to_hero
   jsr familiar_home_in_to_goal
-  jsr familiar_add_shadow_spot
+  ;jsr familiar_add_shadow_spot
 
   lda familiar_flags
   and #FAMILIAR_FLAGS_ALIVE_TEST
@@ -1418,7 +1418,7 @@ not_ready_yet:
 
   jsr familiar_move
 
-  jsr familiar_add_shadow_spot
+  ;jsr familiar_add_shadow_spot
 
   ;make the bomb's coordinates match that of the familiar
   .scope
@@ -1544,7 +1544,7 @@ cannot_drop_here:
   jsr familiar_prepare_distance_to_hero_velocity
   jsr familiar_kill_if_close_to_hero
   jsr familiar_home_in_to_goal
-  jsr familiar_add_shadow_spot
+  ;jsr familiar_add_shadow_spot
 
   ;make the bomb's coordinates match that of the familiar
   .scope
@@ -2179,7 +2179,7 @@ familiar_not_at_goal:
   adc #$00
   sta w1+1
 
-  jsr sprite_add_shadow_spot
+  ;jsr sprite_add_shadow_spot
 
   ;make the hero (assumed to be in HERO_STATE_CARRIED)
   ;move underneath the familiar
@@ -2354,7 +2354,7 @@ not_ready_yet:
 
   jsr familiar_move
 
-  jsr familiar_add_shadow_spot
+  ;jsr familiar_add_shadow_spot
 
   ;animate the familiar
   lda familiar_animation_address
@@ -2479,7 +2479,7 @@ do_not_reset_familiar_param_shield_circle_lut_index:
 
 do_not_switch_to_home_in_to_hero:
 
-  jsr familiar_add_shadow_spot
+  ;jsr familiar_add_shadow_spot
 
   ;animate the familiar
   lda familiar_animation_address
@@ -2628,7 +2628,7 @@ not_ready_yet:
 
   jsr familiar_home_in_to_goal
 
-  jsr familiar_add_shadow_spot
+  ;jsr familiar_add_shadow_spot
 
   ;make action rect active
   lda #ENTITY_ACTION_ATTACK
@@ -3075,7 +3075,7 @@ done:
   adc #$00
   sta w1+1
 
-  jsr sprite_add_shadow_spot
+  ;jsr sprite_add_shadow_spot
 
   rts
 

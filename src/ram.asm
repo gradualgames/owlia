@@ -109,6 +109,10 @@ entity_screen_x_lo:          .res MAX_ENTITIES
 entity_screen_x_hi:          .res MAX_ENTITIES
 entity_screen_y_lo:          .res MAX_ENTITIES
 entity_screen_y_hi:          .res MAX_ENTITIES
+entity_shadow_spot_x_lo:     .res MAX_ENTITIES
+entity_shadow_spot_x_hi:     .res MAX_ENTITIES
+entity_shadow_spot_y_lo:     .res MAX_ENTITIES
+entity_shadow_spot_y_hi:     .res MAX_ENTITIES
 entity_width:                .res MAX_ENTITIES
 entity_height:               .res MAX_ENTITIES
 entity_sprite_group_offset:  .res MAX_ENTITIES
@@ -159,21 +163,6 @@ entity_action_rect2_y:          .res 2
 entity_action_rect2_width:      .res 1
 entity_action_rect2_height:     .res 1
 entity_action_rect_ram_end:
-
-;****************************************************************
-;Specialized arrays for placement of shadow spots. These are
-;hard coded as to have the least possible overhead in displaying
-;them.
-;****************************************************************
-shadow_spot_count: .res 1
-shadow_spot_x_lo: .res MAX_SHADOW_SPOTS
-shadow_spot_x_hi: .res MAX_SHADOW_SPOTS
-shadow_spot_y_lo: .res MAX_SHADOW_SPOTS
-shadow_spot_y_hi: .res MAX_SHADOW_SPOTS
-shadow_spot_screen_x_lo: .res MAX_SHADOW_SPOTS
-shadow_spot_screen_x_hi: .res MAX_SHADOW_SPOTS
-shadow_spot_screen_y_lo: .res MAX_SHADOW_SPOTS
-shadow_spot_screen_y_hi: .res MAX_SHADOW_SPOTS
 
 ;****************************************************************
 ;This field is used to contain the last password earned or

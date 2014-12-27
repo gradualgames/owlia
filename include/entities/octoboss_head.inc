@@ -688,7 +688,7 @@ attacked_state_machine_not_running:
   adc #>OCTOBOSS_HEAD_SHADOW_SPOT_Y_OFFSET
   sta w1+1
 
-  jsr sprite_add_shadow_spot
+  ;jsr sprite_add_shadow_spot
 
   rts
 

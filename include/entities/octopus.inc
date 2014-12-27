@@ -118,7 +118,7 @@ octopus_state_init:
   adc #$00
   sta w1+1
 
-  jsr sprite_add_shadow_spot
+  ;jsr sprite_add_shadow_spot
 
   lda #<octopus_fly
   sta entity_animation_address_lo,x
@@ -272,7 +272,7 @@ not_negative:
   adc #$00
   sta w1+1
 
-  jsr sprite_add_shadow_spot
+  ;jsr sprite_add_shadow_spot
 
   jsr entity_update_animation
 

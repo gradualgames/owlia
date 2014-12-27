@@ -1818,7 +1818,7 @@ play_state_action_start_conversation:
 
   jsr entity_draw_all
 
-  jsr sprite_draw_shadow_spots
+  ;jsr sprite_draw_shadow_spots
 
   jsr hero_draw_status
 
@@ -2078,7 +2078,7 @@ done:
 
   jsr sprite_reset_next_sprite_address
 
-  jsr sprite_clear_shadow_spots
+  ;jsr sprite_clear_shadow_spots
 
   jsr entity_update_all
 
@@ -2093,7 +2093,7 @@ done:
 
   jsr entity_draw_all
 
-  jsr sprite_draw_shadow_spots
+  ;jsr sprite_draw_shadow_spots
 
   jsr sprite_clear_all_remaining
 
@@ -2118,7 +2118,7 @@ done:
 
   jsr sprite_clear_all
 
-  jsr sprite_clear_shadow_spots
+  ;jsr sprite_clear_shadow_spots
 
   jsr entity_update_all
 
@@ -2216,7 +2216,7 @@ done:
 
   jsr entity_draw_all
 
-  jsr sprite_draw_shadow_spots
+  ;jsr sprite_draw_shadow_spots
 
   jsr hero_draw_status
 

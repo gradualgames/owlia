@@ -856,7 +856,7 @@ noEor:
   adc #0
   sta w1+1
 
-  jsr sprite_add_shadow_spot
+  ;jsr sprite_add_shadow_spot
 
   rts
 

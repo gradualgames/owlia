@@ -422,7 +422,7 @@ sign_extend_positive:
   lda jellyfish_y_hi,x
   sta w1+1
 
-  jsr sprite_add_shadow_spot
+  ;jsr sprite_add_shadow_spot
 
   rts
 

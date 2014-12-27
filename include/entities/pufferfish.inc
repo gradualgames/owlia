@@ -232,7 +232,7 @@ pufferfish_state_init:
   sta pufferfish_shadow_spot_x_fine,x
   sta pufferfish_shadow_spot_y_fine,x
 
-  jsr sprite_add_shadow_spot
+  ;jsr sprite_add_shadow_spot
 
   lda #PUFFERFISH_INITIAL_DIRECTION
   sta pufferfish_direction,x
@@ -584,7 +584,7 @@ done:
   lda pufferfish_shadow_spot_y_hi,x
   sta w1+1
 
-  jsr sprite_add_shadow_spot
+  ;jsr sprite_add_shadow_spot
 
   jsr entity_update_animation
 

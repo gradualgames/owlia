@@ -47,6 +47,10 @@ MAX_SHADOW_SPOTS = 12
 .global entity_screen_x_hi
 .global entity_screen_y_lo
 .global entity_screen_y_hi
+.global entity_shadow_spot_x_lo
+.global entity_shadow_spot_x_hi
+.global entity_shadow_spot_y_lo
+.global entity_shadow_spot_y_hi
 .global entity_width
 .global entity_height
 .global entity_sprite_group_offset

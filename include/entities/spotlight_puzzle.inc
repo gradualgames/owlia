@@ -50,7 +50,7 @@ do_not_kill_entity:
   .endscope
 
   ;clear shadow spots, the anglerfish entities may have placed some
-  jsr sprite_clear_shadow_spots
+  ;jsr sprite_clear_shadow_spots
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR

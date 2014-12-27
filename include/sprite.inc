@@ -12,9 +12,6 @@ SPRITE_INC = 1
 .global sprite_clear_all
 .global sprite_clear_all_remaining
 .global sprite_hide_all_below
-.global sprite_clear_shadow_spots
-.global sprite_add_shadow_spot
-.global sprite_draw_shadow_spots
 .global sprite_draw_overlay
 
 .struct sprite_struct
