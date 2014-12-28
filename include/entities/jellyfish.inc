@@ -69,6 +69,8 @@ jellyfish_state_init:
 
   jsr entity_set_is_enemy
 
+  jsr entity_set_shadow_spot
+
   lda #<jellyfish
   sta entity_animation_address_lo,x
   lda #>jellyfish
@@ -124,13 +126,13 @@ jellyfish_state_init:
   sta jellyfish_y_velocity_lo,x
   sta jellyfish_y_velocity_hi,x
 
-  jsr jellyfish_add_shadow_spot
-
   lda #0
   sta jellyfish_flash_counter,x
   sta jellyfish_frame_counter,x
   sta jellyfish_knockback_counter,x
   sta jellyfish_direction,x
+
+  jsr jellyfish_set_shadow_spot
 
   lda #JELLYFISH_INITIAL_HEALTH
   sta jellyfish_health,x
@@ -291,8 +293,6 @@ do_not_move_jellyfish:
   rol jellyfish_y_velocity_lo,x
   rol jellyfish_y_velocity_hi,x
 
-  jsr jellyfish_add_shadow_spot
-
   jsr entity_update_animation
 
   rts
@@ -407,22 +407,17 @@ sign_extend_positive:
 
 .endproc
 
-.proc jellyfish_add_shadow_spot
+.proc jellyfish_set_shadow_spot
 
-  clc
-  lda jellyfish_x_lo,x
-  adc #4
-  sta w0
-  lda jellyfish_x_hi,x
-  adc #0
-  sta w0+1
+  lda #4
+  sta entity_shadow_spot_x_lo,x
+  lda #0
+  sta entity_shadow_spot_x_hi,x
 
-  lda jellyfish_y_lo,x
-  sta w1
-  lda jellyfish_y_hi,x
-  sta w1+1
-
-  ;jsr sprite_add_shadow_spot
+  lda #32
+  sta entity_shadow_spot_y_lo,x
+  lda #0
+  sta entity_shadow_spot_y_hi,x
 
   rts
 
