@@ -104,7 +104,7 @@ octopus_state_init:
   sta octopus_velocity_y_lo,x
   sta octopus_velocity_y_hi,x
 
-  jsr octopus_shadow_spot
+  jsr octopus_set_shadow_spot
 
   lda #<octopus_fly
   sta entity_animation_address_lo,x
@@ -246,7 +246,7 @@ not_negative:
 
   rts
 
-.proc octopus_shadow_spot
+.proc octopus_set_shadow_spot
 
   lda #$08
   sta entity_shadow_spot_x_lo,x

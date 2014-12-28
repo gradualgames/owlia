@@ -28,6 +28,7 @@ ENTITY_INC = 1
 .global entity_clear_drawable
 .global entity_set_not_pausable
 .global entity_set_shadow_spot
+.global entity_clear_shadow_spot
 .global entity_test_entity_action_rect1
 .global entity_test_entity_action_rect2
 .global entity_test_hero_rect

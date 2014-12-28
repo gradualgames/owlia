@@ -542,6 +542,17 @@ enemy_found:
 
 .endproc
 
+;clears the shadow spot enabled flag.
+.proc entity_clear_shadow_spot
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_SHADOW_SPOT_CLEAR
+  sta entity_flags,x
+
+  rts
+
+.endproc
+
 ;compares entity's screen rect to the camera screen rect.
 ;must be called after the entity's screen coordinates have been
 ;calculated or the results will be invalid. Assumes x points to

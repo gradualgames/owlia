@@ -26,6 +26,8 @@ bomb_state_init_carried:
 
   jsr entity_set_not_pausable
 
+  jsr entity_clear_shadow_spot
+
   lda #<bomb
   sta entity_animation_address_lo,x
   lda #>bomb
@@ -69,6 +71,8 @@ bomb_state_init_fall:
 
   jsr entity_set_not_pausable
 
+  jsr entity_set_shadow_spot
+
   lda #<bomb
   sta entity_animation_address_lo,x
   lda #>bomb
@@ -89,6 +93,8 @@ bomb_state_init_fall:
 
   lda #$00
   sta entity_sprite_flags,x
+
+  jsr bomb_set_shadow_spot
 
   ;initialize bounce offset
   lda #<(-BOMB_INITIAL_BOUNCE_OFFSET)
@@ -734,20 +740,7 @@ do_not_die:
 
   .endscope
 
-  ;add a shadow spot for this bomb
-  lda bomb_target_x_lo,x
-  sta w0
-  lda bomb_target_x_hi,x
-  sta w0+1
-  clc
-  lda bomb_target_y_lo,x
-  adc #$02
-  sta w1
-  lda bomb_target_y_hi,x
-  adc #$00
-  sta w1+1
-
-  ;jsr sprite_add_shadow_spot
+  jsr bomb_set_shadow_spot
 
   jsr entity_update_animation
 
@@ -853,5 +846,32 @@ done:
   .endscope
 
   rts
+
+.proc bomb_set_shadow_spot
+
+  lda #0
+  sta entity_shadow_spot_x_lo,x
+  lda #0
+  sta entity_shadow_spot_x_hi,x
+
+  sec
+  lda bomb_target_y_lo,x
+  sbc entity_y_lo,x
+  sta entity_shadow_spot_y_lo,x
+  lda bomb_target_y_hi,x
+  sbc entity_y_hi,x
+  sta entity_shadow_spot_y_hi,x
+
+  clc
+  lda entity_shadow_spot_y_lo,x
+  adc #<2
+  sta entity_shadow_spot_y_lo,x
+  lda entity_shadow_spot_y_hi,x
+  adc #>2
+  sta entity_shadow_spot_y_hi,x
+
+  rts
+
+.endproc
 
 .endif

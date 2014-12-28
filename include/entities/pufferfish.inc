@@ -221,7 +221,7 @@ pufferfish_state_init:
   sta pufferfish_shadow_spot_x_fine,x
   sta pufferfish_shadow_spot_y_fine,x
 
-  jsr pufferfish_shadow_spot
+  jsr pufferfish_set_shadow_spot
 
   lda #PUFFERFISH_INITIAL_DIRECTION
   sta pufferfish_direction,x
@@ -560,7 +560,7 @@ done:
 
   jsr pufferfish_compute_coordinates
 
-  jsr pufferfish_shadow_spot
+  jsr pufferfish_set_shadow_spot
 
   jsr entity_update_animation
 
@@ -568,7 +568,7 @@ done:
 
 .endproc
 
-.proc pufferfish_shadow_spot
+.proc pufferfish_set_shadow_spot
 
   lda #4
   sta entity_shadow_spot_x_lo,x
