@@ -16,11 +16,17 @@ PPU_INC = 1
 .global ppu_load_dynamic_palette_brightness_spr
 .global ppu_fade_in_palette
 .global ppu_fade_out_palette
+.global ppu_advance_palette_cycle
+.global ppu_enable_palette_cycling
+.global ppu_disable_palette_cycling
 .global ppu_upload_dynamic_palette_ppu
 
 MIN_BRIGHTNESS_LEVEL = 0
 MAX_BRIGHTNESS_LEVEL = 4
 FADING_SPEED = 5
+
+PALETTE_CYCLE_END_FRAME = $fe
+PALETTE_CYCLE_LOOP = $ff
 
 ;bit positions for PPU control register $2000
 PPU0_EXECUTE_NMI = 7

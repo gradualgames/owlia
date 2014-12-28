@@ -60,8 +60,7 @@ scroll_direction_opposite:
   lda #0
   sta state_control_params+play_state_control::param
 
-  lda #1
-  sta palette_cycling_enabled
+  jsr ppu_disable_palette_cycling
 
   ;clear out song address so first song will get loaded
   lda #0
@@ -859,14 +858,14 @@ not_dungeon_entrance:
   lsr
   sta b4
 
-  lda #1
-  sta palette_cycling_enabled
-
   ;always fade in to max for sprites
   lda #MAX_BRIGHTNESS_LEVEL
   sta b5
 
   ;fade in to current palette
+  lda #LOCATIONS_BANK
+  sta palette_bank
+
   switch_bank_ldy #LOCATIONS_BANK
   ldy #location::palette_address
   lda (location_address),y
@@ -875,6 +874,8 @@ not_dungeon_entrance:
   lda (location_address),y
   sta palette_address+1
   jsr ppu_fade_in_palette
+
+  jsr ppu_enable_palette_cycling
 
   ;initialize vblank routine
   lda #0
@@ -1190,14 +1191,14 @@ done:
   lsr
   sta b4
 
-  lda #1
-  sta palette_cycling_enabled
-
   ;always fade in to max for sprites
   lda #MAX_BRIGHTNESS_LEVEL
   sta b5
 
   ;fade in to current palette
+  lda #LOCATIONS_BANK
+  sta palette_bank
+
   switch_bank_ldy #LOCATIONS_BANK
   ldy #location::palette_address
   lda (location_address),y
@@ -1206,6 +1207,8 @@ done:
   lda (location_address),y
   sta palette_address+1
   jsr ppu_fade_in_palette
+
+  jsr ppu_enable_palette_cycling
 
   ;initialize vblank routine
   lda #0

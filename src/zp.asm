@@ -59,7 +59,9 @@ big_metatile_table_bottom_right_address: .res 2
 area_address: .res 2
 location_address: .res 2
 sprite_chr_groups_address: .res 2
+palette_bank: .res 1
 palette_address: .res 2
+palette_cycling_offset: .res 1
 
 processor_status: .res 1
 current_bank: .res 1

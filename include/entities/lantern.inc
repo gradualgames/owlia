@@ -62,8 +62,7 @@ lantern_state_init:
   lda dynamic_palette_brightness_level_bg
   sta lantern_saved_brightness_level,x
 
-  lda #0
-  sta palette_cycling_enabled
+  jsr ppu_disable_palette_cycling
 
   lda #LANTERN_STATE_MAIN
   sta entity_state,x
@@ -109,8 +108,7 @@ lantern_revert_brightness:
   sta b3
   jsr entity_change_palette_brightness_bg_trampoline
 
-  lda #1
-  sta palette_cycling_enabled
+  jsr ppu_enable_palette_cycling
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR

@@ -26,6 +26,7 @@
 .include "ram.inc"
 .include "inventory.inc"
 .include "play_state.inc"
+.include "ppu.inc"
 
 .segment "ROM00"
 
@@ -1007,80 +1008,66 @@ dungeon2_boss_owl_dungeon_entity_instances:
 village_palette:
   .byte $0e,$19,$12,$22,$0e,$00,$10,$38,$0e,$0a,$19,$0e,$0e,$07,$06,$36
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
-  .byte $ff
-  .word village_palette
+  .byte PALETTE_CYCLE_LOOP
 
 house_palette:
   .byte $0e,$04,$14,$37,$0e,$07,$17,$27,$0e,$02,$12,$22,$0e,$08,$18,$37
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$1a,$36,$0e,$0e,$15,$36
-  .byte $ff
-  .word house_palette
+  .byte PALETTE_CYCLE_LOOP
 
 meadow1_palette:
   .byte $0e,$0a,$08,$19,$0e,$0a,$19,$15,$0e,$0a,$19,$28,$0e,$08,$19,$18
   .byte $0e,$0e,$06,$37,$0e,$0e,$18,$20,$0e,$0e,$28,$20,$0e,$0e,$0e,$0e
-  .byte $ff
-  .word meadow1_palette
+  .byte PALETTE_CYCLE_LOOP
 
 meadow2_palette:
   .byte $0e,$0a,$08,$19,$0e,$0a,$19,$15,$0e,$0a,$19,$28,$0e,$08,$19,$18
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
-  .byte $ff
-  .word meadow2_palette
+  .byte PALETTE_CYCLE_LOOP
 
 meadow3_palette:
   .byte $0e,$0a,$08,$19,$0e,$08,$19,$18,$0e,$08,$19,$28,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
-  .byte $ff
-  .word meadow3_palette
+  .byte PALETTE_CYCLE_LOOP
 
 dungeon_palette:
   .byte $0e,$1b,$0b,$08,$0e,$0b,$19,$2a,$0e,$0b,$08,$18,$0e,$08,$07,$28
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
-  .byte $0e,$1b,$0b,$08,$0e,$0b,$19,$2a,$0e,$0b,$08,$18,$0e,$08,$07,$28
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
-  .byte $0e,$1b,$0b,$08,$0e,$0b,$19,$2a,$0e,$0b,$08,$18,$0e,$08,$07,$18
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
-  .byte $0e,$1b,$0b,$08,$0e,$0b,$19,$2a,$0e,$0b,$08,$18,$0e,$08,$07,$18
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
-  .byte $ff
-  .word dungeon_palette
+  .byte 15,$28,PALETTE_CYCLE_END_FRAME
+  .byte PALETTE_CYCLE_END_FRAME
+  .byte 15,$18,PALETTE_CYCLE_END_FRAME
+  .byte PALETTE_CYCLE_END_FRAME
+  .byte PALETTE_CYCLE_LOOP
 
 dungeon1_boss_palette:
   .byte $0e,$1b,$0b,$08,$0e,$0b,$19,$2a,$0e,$0b,$08,$18,$0e,$08,$01,$12
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
-  .byte $ff
-  .word dungeon1_boss_palette
+  .byte PALETTE_CYCLE_LOOP
 
 dungeon1_boss_owl_dungeon_palette:
   .byte $0e,$1b,$0b,$08,$0e,$0b,$19,$2a,$0e,$0b,$08,$18,$0e,$08,$01,$12
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$08,$20,$0e,$00,$28,$10
-  .byte $ff
-  .word dungeon1_boss_owl_dungeon_palette
+  .byte PALETTE_CYCLE_LOOP
 
 tundra1_palette:
   .byte $0e,$00,$10,$20,$0e,$12,$22,$20,$0e,$21,$31,$20,$0e,$10,$31,$20
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$12,$21,$0e,$21,$31,$20
-  .byte $ff
-  .word tundra1_palette
+  .byte PALETTE_CYCLE_LOOP
 
 dungeon2_palette:
   .byte $0e,$12,$21,$20,$0e,$21,$31,$20,$0e,$0c,$22,$32,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$12,$21,$0e,$21,$31,$20
-  .byte $ff
-  .word dungeon2_palette
+  .byte PALETTE_CYCLE_LOOP
 
 dungeon2_boss_palette:
   .byte $0e,$12,$21,$20,$0e,$21,$31,$20,$0e,$0c,$22,$32,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$01,$22,$0e,$0e,$0e,$0e
-  .byte $ff
-  .word dungeon2_boss_palette
+  .byte PALETTE_CYCLE_LOOP
 
 dungeon2_boss_owl_dungeon_palette:
   .byte $0e,$12,$21,$20,$0e,$21,$31,$20,$0e,$0c,$22,$32,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$10,$20,$0e,$00,$16,$10
-  .byte $ff
-  .word dungeon2_boss_owl_dungeon_palette
+  .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
 ;Location definitions.

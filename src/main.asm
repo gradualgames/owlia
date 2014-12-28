@@ -151,6 +151,8 @@ vblank:
 
 do_not_hide_graphics_top:
 
+  jsr ppu_advance_palette_cycle
+
   safe_soundengine_update
 
   plp

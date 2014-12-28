@@ -15,6 +15,8 @@
   lda #0
   sta b3
 
+  jsr ppu_disable_palette_cycling
+
   rts
 
 .endproc
@@ -275,6 +277,8 @@ desired_brightness_level_spr = b5
 brightness_level_bg = b6
 brightness_level_spr = b7
 
+  jsr ppu_disable_palette_cycling
+
   lda #MIN_BRIGHTNESS_LEVEL
   sta brightness_level_bg
   sta brightness_level_spr
@@ -369,6 +373,8 @@ brightness_level_spr = b5
   lda vblank_routine+1
   pha
 
+  jsr ppu_disable_palette_cycling
+
   ;switch to nmi routine for uploading the dynamic palette
   safely_set_vblank_routine ppu_upload_dynamic_palette_ppu
 
@@ -439,6 +445,87 @@ done_fading:
   sta vblank_routine
 
   rts
+.endproc
+
+;this routine enables palette cycling
+;and starts the palette cycling script offset
+;at the end of the currently loaded palette.
+;note this routine assumes that the palette bank
+;and address have already been correctly set.
+.proc ppu_enable_palette_cycling
+
+  lda #1
+  sta palette_cycling_enabled
+  lda #32
+  sta palette_cycling_offset
+
+  rts
+
+.endproc
+
+.proc ppu_disable_palette_cycling
+
+  lda #0
+  sta palette_cycling_enabled
+
+  rts
+
+.endproc
+
+;advances the current palette animation. this routine
+;only affects the palette buffers for upload on the
+;next frame. it is intended to be called during nmi,
+;but after all ppu uploads have completed and before
+;any music updates occur.
+.proc ppu_advance_palette_cycle
+
+  lda palette_cycling_enabled
+  beq palette_cycling_not_enabled
+
+  ;switch to the current palette bank
+  ldy palette_bank
+  lda bank_table,y
+  sta bank_table,y
+
+  ;read next byte in palette cycle
+next_byte:
+  ldy palette_cycling_offset
+  lda (palette_address),y
+  cmp #PALETTE_CYCLE_END_FRAME
+  beq end_frame
+  cmp #PALETTE_CYCLE_LOOP
+  beq loop
+read_palette_commands:
+  ;if we reach here, we interpret each pair of bytes as palette index
+  ;followed by value.
+  lda (palette_address),y
+  tax
+  iny
+  lda (palette_address),y
+  sta dynamic_palette,x
+  iny
+  sty palette_cycling_offset
+
+  jmp next_byte
+end_frame:
+  ;move to next byte in palette cycling script
+  inc palette_cycling_offset
+  jmp done
+loop:
+  ;start back at beginning of palette cycling metadata
+  lda #32
+  sta palette_cycling_offset
+  jmp done
+done:
+
+  ;switch back to whatever current bank was before nmi
+  ldy current_bank
+  lda bank_table,y
+  sta bank_table,y
+palette_cycling_not_enabled:
+
+  rts
+
 .endproc
 
 ;nmi routine for uploading the dynamic palette
