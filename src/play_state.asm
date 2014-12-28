@@ -2151,6 +2151,8 @@ done:
   switch_bank_ldy #HERO_BANK
   jsr hero_update
   jsr hero_eject_from_solid_tiles
+  switch_bank_ldy #FAMILIAR_BANK
+  jsr familiar_update
 
   jsr sprite_clear_all
 
@@ -2184,6 +2186,9 @@ done:
   ldx entity_index
   jsr indirect_jsr_w0
   .endscope
+
+  switch_bank_ldy #FAMILIAR_BANK
+  jsr familiar_update
 
   jsr sprite_clear_all
 
