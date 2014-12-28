@@ -106,6 +106,8 @@ do_not_skip_swordfish_boss:
 
   jsr entity_set_is_enemy
 
+  jsr entity_clear_shadow_spot
+
   lda #<swordfish_boss_fin
   sta entity_animation_address_lo,x
   lda #>swordfish_boss_fin
@@ -173,9 +175,6 @@ swordfish_boss_state_fin_swim_right:
   sbc entity_x_hi,x
   bpl do_not_switch_state
 
-  ;dec swordfish_boss_state_counter,x
-  ;bne do_not_switch_state
-
   .scope
   dec swordfish_boss_fin_lap_counter,x
   bne do_not_switch_state
@@ -191,6 +190,8 @@ swordfish_boss_state_fin_swim_right:
   lda #>SWORDFISH_BOSS_CHARGE_Y
   adc #0
   sta entity_y_hi,x
+
+  jsr entity_set_shadow_spot
 
   lda #%00000000
   sta entity_sprite_flags,x
@@ -214,6 +215,8 @@ swordfish_boss_state_fin_swim_right:
 
 do_not_switch_state:
   .endscope
+
+  jsr entity_clear_shadow_spot
 
   lda #%00000000
   sta entity_sprite_flags,x
@@ -262,6 +265,8 @@ swordfish_boss_state_fin_swim_left:
   adc #0
   sta entity_y_hi,x
 
+  jsr entity_set_shadow_spot
+
   lda #%01000000
   sta entity_sprite_flags,x
 
@@ -284,6 +289,8 @@ swordfish_boss_state_fin_swim_left:
 
 do_not_switch_state:
   .endscope
+
+  jsr entity_clear_shadow_spot
 
   lda #%01000000
   sta entity_sprite_flags,x
@@ -321,6 +328,8 @@ swordfish_boss_state_charge_right:
   lda #>swordfish_boss_fin
   sta entity_animation_address_hi,x
 
+  jsr entity_clear_shadow_spot
+
   lda #%00000000
   sta entity_sprite_flags,x
 
@@ -342,7 +351,7 @@ do_not_switch_state:
 
   jsr swordfish_boss_swim_right
 
-  jsr swordfish_boss_add_shadow_spot
+  jsr swordfish_boss_set_shadow_spot
 
   jsr swordfish_boss_charge_combat
 
@@ -369,6 +378,8 @@ swordfish_boss_state_charge_left:
   lda #>swordfish_boss_fin
   sta entity_animation_address_hi,x
 
+  jsr entity_clear_shadow_spot
+
   lda #%01000000
   sta entity_sprite_flags,x
 
@@ -390,7 +401,7 @@ do_not_switch_state:
 
   jsr swordfish_boss_swim_left
 
-  jsr swordfish_boss_add_shadow_spot
+  jsr swordfish_boss_set_shadow_spot
 
   jsr swordfish_boss_charge_combat
 
@@ -430,7 +441,7 @@ do_not_switch_state:
 
   dec swordfish_boss_shadow_spot_offset_y,x
 
-  jsr swordfish_boss_add_shadow_spot
+  jsr swordfish_boss_set_shadow_spot
 
   jsr entity_update_animation
 
@@ -475,6 +486,8 @@ swordfish_boss_state_rise:
   dec swordfish_boss_state_counter,x
   bne do_not_switch_state
 
+  jsr entity_set_shadow_spot
+
   lda #<swordfish_boss_swim
   sta entity_animation_address_lo,x
   lda #>swordfish_boss_swim
@@ -501,7 +514,7 @@ do_not_switch_state:
   inc swordfish_boss_shadow_spot_offset_y,x
   inc swordfish_boss_shadow_spot_offset_y,x
 
-  jsr swordfish_boss_add_shadow_spot
+  jsr swordfish_boss_set_shadow_spot
 
   jsr entity_update_animation
 
@@ -838,25 +851,17 @@ noEor:
 
 .endproc
 
-.proc swordfish_boss_add_shadow_spot
+.proc swordfish_boss_set_shadow_spot
 
-  clc
-  lda entity_x_lo,x
-  adc #<SWORDFISH_BOSS_SHADOW_SPOT_OFFSET_X
-  sta w0
-  lda entity_x_hi,x
-  adc #>SWORDFISH_BOSS_SHADOW_SPOT_OFFSET_X
-  sta w0+1
+  lda #<SWORDFISH_BOSS_SHADOW_SPOT_OFFSET_X
+  sta entity_shadow_spot_x_lo,x
+  lda #>SWORDFISH_BOSS_SHADOW_SPOT_OFFSET_X
+  sta entity_shadow_spot_x_hi,x
 
-  clc
-  lda entity_y_lo,x
-  adc swordfish_boss_shadow_spot_offset_y,x
-  sta w1
-  lda entity_y_hi,x
-  adc #0
-  sta w1+1
-
-  ;jsr sprite_add_shadow_spot
+  lda swordfish_boss_shadow_spot_offset_y,x
+  sta entity_shadow_spot_y_lo,x
+  lda #0
+  sta entity_shadow_spot_y_hi,x
 
   rts
 
