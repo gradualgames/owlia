@@ -48,7 +48,10 @@ next_entity:
 
   lda entity_flags,y
   and #ENTITY_FLAGS_ALIVE_TEST
-  beq entity_not_alive
+  beq skip_entity
+  lda entity_flags,y
+  and #ENTITY_FLAGS_MARKED_FOR_KILL_TEST
+  bne skip_entity
 
   .scope
   lda entity_type,y
@@ -76,7 +79,7 @@ not_type1:
   sta ordered_defeat_puzzle_entity_instance2,x
 not_type2:
   .endscope
-entity_not_alive:
+skip_entity:
 
   dey
   bpl next_entity
