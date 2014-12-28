@@ -57,6 +57,8 @@ octopus_state_init:
 
   jsr entity_set_is_enemy
 
+  jsr entity_set_shadow_spot
+
   lda #23
   sta entity_width,x
   lda #23
@@ -102,23 +104,7 @@ octopus_state_init:
   sta octopus_velocity_y_lo,x
   sta octopus_velocity_y_hi,x
 
-  clc
-  lda entity_x_lo,x
-  adc #$08
-  sta w0
-  lda entity_x_hi,x
-  adc #$00
-  sta w0+1
-
-  clc
-  lda entity_y_lo,x
-  adc #$18
-  sta w1
-  lda entity_y_hi,x
-  adc #$00
-  sta w1+1
-
-  ;jsr sprite_add_shadow_spot
+  jsr octopus_shadow_spot
 
   lda #<octopus_fly
   sta entity_animation_address_lo,x
@@ -256,27 +242,25 @@ not_negative:
 
   jsr octopus_move
 
-  clc
-  lda entity_x_lo,x
-  adc #$08
-  sta w0
-  lda entity_x_hi,x
-  adc #$00
-  sta w0+1
-
-  clc
-  lda entity_y_lo,x
-  adc #$18
-  sta w1
-  lda entity_y_hi,x
-  adc #$00
-  sta w1+1
-
-  ;jsr sprite_add_shadow_spot
-
   jsr entity_update_animation
 
   rts
+
+.proc octopus_shadow_spot
+
+  lda #$08
+  sta entity_shadow_spot_x_lo,x
+  lda #$00
+  sta entity_shadow_spot_x_hi,x
+
+  lda #$18
+  sta entity_shadow_spot_y_lo,x
+  lda #$00
+  sta entity_shadow_spot_y_hi,x
+
+  rts
+
+.endproc
 
 .proc octopus_test_range_rect
 

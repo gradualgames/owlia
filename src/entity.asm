@@ -531,6 +531,17 @@ enemy_found:
 
 .endproc
 
+;sets the shadow spot enabled flag.
+.proc entity_set_shadow_spot
+
+  lda entity_flags,x
+  ora #ENTITY_FLAGS_SHADOW_SPOT_SET
+  sta entity_flags,x
+
+  rts
+
+.endproc
+
 ;compares entity's screen rect to the camera screen rect.
 ;must be called after the entity's screen coordinates have been
 ;calculated or the results will be invalid. Assumes x points to
@@ -1315,6 +1326,77 @@ skip_entity:
   switch_bank_y
 
   jsr sprite_draw_animation_frame
+  rts
+
+.endproc
+
+;draws all entity shadow spots for each entity, if enabled. each set of
+;shadow spot coordinates are interpreted as offsets from the entity's
+;screen coordinates, so this routine must be called after screen
+;coordinates have been computed for each entity. It should also be
+;called after entities have been drawn, so that shadow spots have the
+;lowest sprite priority.
+.proc entity_draw_shadow_spots
+
+  ldx #(MAX_ENTITIES-1)
+
+next_entity:
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity
+  lda entity_flags,x
+  and #ENTITY_FLAGS_SHADOW_SPOT_TEST
+  beq skip_entity
+
+  ldy next_sprite_address
+
+  ;calculate screen coordinates based on entity screen coordinates
+  clc
+  lda entity_screen_x_lo,x
+  adc entity_shadow_spot_x_lo,x
+  sta w0
+  lda entity_screen_x_hi,x
+  adc entity_shadow_spot_x_hi,x
+  sta w0+1
+  bne cull_shadow_spot
+
+  clc
+  lda entity_screen_y_lo,x
+  adc entity_shadow_spot_y_lo,x
+  sta w1
+  lda entity_screen_y_hi,x
+  adc entity_shadow_spot_y_hi,x
+  sta w1+1
+  bne cull_shadow_spot
+
+  ;draw the shadow spot
+  lda w1
+  sta sprite+sprite_struct::ycoord,y
+
+  lda shadow_spot_chr_offset
+  sta sprite+sprite_struct::tile,y
+
+  lda #$00
+  sta sprite+sprite_struct::attribute,y
+
+  lda w0
+  sta sprite+sprite_struct::xcoord,y
+
+  iny
+  iny
+  iny
+  iny
+
+  sty next_sprite_address
+
+cull_shadow_spot:
+
+skip_entity:
+
+  dex
+  bpl next_entity
+
   rts
 
 .endproc

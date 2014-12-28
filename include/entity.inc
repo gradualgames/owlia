@@ -18,6 +18,7 @@ ENTITY_INC = 1
 .global entity_calculate_screen_coordinates_all
 .global entity_draw_all
 .global entity_draw_npe
+.global entity_draw_shadow_spots
 .global draw_entity
 .global entity_reset_animation
 .global entity_update_animation
@@ -26,6 +27,7 @@ ENTITY_INC = 1
 .global entity_set_drawable
 .global entity_clear_drawable
 .global entity_set_not_pausable
+.global entity_set_shadow_spot
 .global entity_test_entity_action_rect1
 .global entity_test_entity_action_rect2
 .global entity_test_hero_rect

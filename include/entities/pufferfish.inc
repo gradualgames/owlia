@@ -174,6 +174,8 @@ pufferfish_state_init:
 
   jsr entity_set_is_enemy
 
+  jsr entity_set_shadow_spot
+
   lda #<pufferfish_puffed_side
   sta entity_animation_address_lo,x
   lda #>pufferfish_puffed_side
@@ -215,24 +217,11 @@ pufferfish_state_init:
 
   jsr pufferfish_compute_coordinates
 
-  clc
-  lda pufferfish_shadow_spot_x_lo,x
-  adc #4
-  sta w0
-  lda pufferfish_shadow_spot_x_hi,x
-  adc #0
-  sta w0+1
-
-  lda pufferfish_shadow_spot_y_lo,x
-  sta w1
-  lda pufferfish_shadow_spot_y_hi,x
-  sta w1+1
-
   lda #$00
   sta pufferfish_shadow_spot_x_fine,x
   sta pufferfish_shadow_spot_y_fine,x
 
-  ;jsr sprite_add_shadow_spot
+  jsr pufferfish_shadow_spot
 
   lda #PUFFERFISH_INITIAL_DIRECTION
   sta pufferfish_direction,x
@@ -571,22 +560,28 @@ done:
 
   jsr pufferfish_compute_coordinates
 
-  clc
-  lda pufferfish_shadow_spot_x_lo,x
-  adc #4
-  sta w0
-  lda pufferfish_shadow_spot_x_hi,x
-  adc #0
-  sta w0+1
-
-  lda pufferfish_shadow_spot_y_lo,x
-  sta w1
-  lda pufferfish_shadow_spot_y_hi,x
-  sta w1+1
-
-  ;jsr sprite_add_shadow_spot
+  jsr pufferfish_shadow_spot
 
   jsr entity_update_animation
+
+  rts
+
+.endproc
+
+.proc pufferfish_shadow_spot
+
+  lda #4
+  sta entity_shadow_spot_x_lo,x
+  lda #0
+  sta entity_shadow_spot_x_hi,x
+
+  sec
+  lda pufferfish_shadow_spot_y_lo,x
+  sbc entity_y_lo,x
+  sta entity_shadow_spot_y_lo,x
+  lda pufferfish_shadow_spot_y_hi,x
+  sbc entity_y_hi,x
+  sta entity_shadow_spot_y_hi,x
 
   rts
 
