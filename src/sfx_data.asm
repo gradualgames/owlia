@@ -91,6 +91,10 @@ sfx_volume_envelope_20:
 sfx_volume_envelope_21:
   .byte 10,9,8,7,6,5,4,4,3,3,3,2,1,1,1,0,ENV_STOP
 
+;used for whoosh sound
+sfx_volume_envelope_22:
+  .byte 1,2,2,3,4,4,4,4,5,5,6,6,6,7,8,8,8,8,7,7,7,7,7,7,7,6,6,6,6,6,6,6,5,5,5,5,5,5,4,4,4,4,4,4,4,4,3,3,3,3,2,2,2,2,2,2,2,1,1,1,0,0,0,0,ENV_STOP
+
 sfx_pitch_envelope_0:
   .byte 0, ENV_LOOP
 
@@ -133,6 +137,7 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_19
   .word sfx_volume_envelope_20
   .word sfx_volume_envelope_21
+  .word sfx_volume_envelope_22
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_0
@@ -240,3 +245,6 @@ sfx_ice_shatter_noise:
   .byte STV,21,STP,0,SDU,0,STL,128,$8
   .byte TRM
 
+sfx_whoosh:
+  .byte STV,22,STP,0,STL,64,$4
+  .byte TRM

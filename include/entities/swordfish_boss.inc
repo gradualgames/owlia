@@ -153,6 +153,8 @@ do_not_skip_swordfish_boss:
   lda #%01000000
   sta entity_sprite_flags,x
 
+  jsr swordfish_boss_play_whoosh_sound
+
   lda #SWORDFISH_BOSS_FIN_LAPS_TIL_CHARGE
   sta swordfish_boss_fin_lap_counter,x
 
@@ -207,6 +209,8 @@ swordfish_boss_state_fin_swim_right:
   lda #0
   sta swordfish_boss_invincible,x
 
+  jsr swordfish_boss_play_whoosh_sound
+
   lda #SWORDFISH_BOSS_STATE_CHARGE_LEFT
   sta swordfish_boss_last_charge_state,x
   sta entity_state,x
@@ -220,6 +224,8 @@ do_not_switch_state:
 
   lda #%00000000
   sta entity_sprite_flags,x
+
+  jsr swordfish_boss_play_whoosh_sound
 
   lda #SWORDFISH_BOSS_STATE_FIN_SWIM_LEFT
   sta entity_state,x
@@ -281,6 +287,8 @@ swordfish_boss_state_fin_swim_left:
   lda #0
   sta swordfish_boss_invincible,x
 
+  jsr swordfish_boss_play_whoosh_sound
+
   lda #SWORDFISH_BOSS_STATE_CHARGE_RIGHT
   sta swordfish_boss_last_charge_state,x
   sta entity_state,x
@@ -294,6 +302,8 @@ do_not_switch_state:
 
   lda #%01000000
   sta entity_sprite_flags,x
+
+  jsr swordfish_boss_play_whoosh_sound
 
   lda #SWORDFISH_BOSS_STATE_FIN_SWIM_RIGHT
   sta entity_state,x
@@ -340,6 +350,8 @@ swordfish_boss_state_charge_right:
 
   lda #SWORDFISH_BOSS_FIN_LAPS_TIL_CHARGE
   sta swordfish_boss_fin_lap_counter,x
+
+  jsr swordfish_boss_play_whoosh_sound
 
   lda #SWORDFISH_BOSS_STATE_FIN_SWIM_LEFT
   sta entity_state,x
@@ -390,6 +402,8 @@ swordfish_boss_state_charge_left:
 
   lda #SWORDFISH_BOSS_FIN_LAPS_TIL_CHARGE
   sta swordfish_boss_fin_lap_counter,x
+
+  jsr swordfish_boss_play_whoosh_sound
 
   lda #SWORDFISH_BOSS_STATE_FIN_SWIM_RIGHT
   sta entity_state,x
@@ -496,6 +510,8 @@ swordfish_boss_state_rise:
   ;set invincible for the remainder of the next charge state.
   lda #1
   sta swordfish_boss_invincible,x
+
+  jsr swordfish_boss_play_whoosh_sound
 
   lda swordfish_boss_last_charge_state,x
   sta entity_state,x
@@ -611,6 +627,24 @@ do_not_die_yet:
   .endscope
 
   rts
+
+.proc swordfish_boss_play_whoosh_sound
+
+  lda #<sfx_whoosh
+  sta sound_param_word_0
+  lda #>sfx_whoosh
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  rts
+
+.endproc
 
 .proc swordfish_boss_charge_combat
 

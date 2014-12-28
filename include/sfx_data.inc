@@ -28,5 +28,6 @@ SFX_DATA_INC = 1
 .global sfx_octoboss_punch
 .global sfx_ice_shatter_square
 .global sfx_ice_shatter_noise
+.global sfx_whoosh
 
 .endif
