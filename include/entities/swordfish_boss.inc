@@ -2,6 +2,10 @@
 .ifndef SWORDFISH_BOSS_INC
 SWORDFISH_BOSS_INC = 1
 
+.include "splash_constants.inc"
+
+SWORDFISH_BOSS_SPLASH_RIGHT_OFFSET_X = 8
+SWORDFISH_BOSS_SPLASH_LEFT_OFFSET_X = 8
 SWORDFISH_BOSS_LEFT_BOUNDARY = -64
 SWORDFISH_BOSS_RIGHT_BOUNDARY = 256 + 64
 
@@ -41,6 +45,7 @@ swordfish_boss_direction = entity_local5
 swordfish_boss_shadow_spot_offset_y = entity_local6
 swordfish_boss_last_charge_state = entity_local7
 swordfish_boss_invincible = entity_local8
+swordfish_boss_splash_index = entity_local9
 
 .enum
 SWORDFISH_BOSS_STATE_INIT
@@ -150,6 +155,23 @@ do_not_skip_swordfish_boss:
   sbc #>64
   sta entity_x_hi,x
 
+  lda #entity_index_splash
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+  lda spawned_entity
+  sta swordfish_boss_splash_index,x
+
   lda #%01000000
   sta entity_sprite_flags,x
 
@@ -237,6 +259,19 @@ do_not_switch_state:
 
   jsr swordfish_boss_swim_right
 
+  ldy swordfish_boss_splash_index,x
+  sec
+  lda entity_x_lo,x
+  sbc #<SWORDFISH_BOSS_SPLASH_RIGHT_OFFSET_X
+  sta entity_x_lo,y
+  lda entity_x_hi,x
+  sbc #>SWORDFISH_BOSS_SPLASH_RIGHT_OFFSET_X
+  sta entity_x_hi,y
+  lda entity_y_lo,x
+  sta entity_y_lo,y
+  lda entity_y_hi,x
+  sta entity_y_hi,y
+
   jsr entity_update_animation
 
   rts
@@ -314,6 +349,19 @@ do_not_switch_state:
   .endscope
 
   jsr swordfish_boss_swim_left
+
+  ldy swordfish_boss_splash_index,x
+  sec
+  lda entity_x_lo,x
+  sbc #<SWORDFISH_BOSS_SPLASH_LEFT_OFFSET_X
+  sta entity_x_lo,y
+  lda entity_x_hi,x
+  sbc #>SWORDFISH_BOSS_SPLASH_LEFT_OFFSET_X
+  sta entity_x_hi,y
+  lda entity_y_lo,x
+  sta entity_y_lo,y
+  lda entity_y_hi,x
+  sta entity_y_hi,y
 
   jsr entity_update_animation
 

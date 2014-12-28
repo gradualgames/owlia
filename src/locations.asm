@@ -270,7 +270,7 @@ dungeon2_sprite_chr_groups:
   .byte sprite_chr_group_index_ice_block
 
 dungeon2_boss_sprite_chr_groups:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 10   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -280,6 +280,7 @@ dungeon2_boss_sprite_chr_groups:
   .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_swordfish_boss
+  .byte sprite_chr_group_index_splash
 
 dungeon2_boss_owl_dungeon_sprite_chr_groups:
   .byte 10   ;sprite_chr_groups .byte
