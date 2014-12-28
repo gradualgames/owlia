@@ -154,6 +154,8 @@ MAX_SHADOW_SPOTS = 12
 .global familiar_y_velocity
 .global familiar_screen_x
 .global familiar_screen_y
+.global familiar_shadow_spot_x
+.global familiar_shadow_spot_y
 .global familiar_width
 .global familiar_height
 .global familiar_sprite_group_offset

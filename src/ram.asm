@@ -224,6 +224,8 @@ familiar_x_velocity:              .res 2
 familiar_y_velocity:              .res 2
 familiar_screen_x:                .res 2
 familiar_screen_y:                .res 2
+familiar_shadow_spot_x:           .res 2
+familiar_shadow_spot_y:           .res 2
 familiar_width:                   .res 1
 familiar_height:                  .res 1
 familiar_sprite_group_offset:     .res 1

@@ -1408,6 +1408,8 @@ skip_entity:
   dex
   bpl next_entity
 
+  jsr familiar_draw_shadow_spot
+
   rts
 
 .endproc

@@ -14,6 +14,7 @@ FAMILIAR_INC = 1
 .global align_familiar_if_occluded_by_textbox
 .global familiar_calculate_screen_coordinates
 .global familiar_draw
+.global familiar_draw_shadow_spot
 .global familiar_update
 .global familiar_fetch_return_to_hero
 .global familiar_hit_enemy

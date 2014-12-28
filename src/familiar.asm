@@ -563,6 +563,60 @@ familiar_not_alive:
 
 .endproc
 
+.proc familiar_draw_shadow_spot
+
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_ALIVE_TEST
+  beq familiar_not_alive
+
+  ldy next_sprite_address
+
+  ;calculate screen coordinates based on entity screen coordinates
+  clc
+  lda familiar_screen_x
+  adc familiar_shadow_spot_x
+  sta w0
+  lda familiar_screen_x+1
+  adc familiar_shadow_spot_x+1
+  sta w0+1
+  bne cull_shadow_spot
+
+  clc
+  lda familiar_screen_y
+  adc familiar_shadow_spot_y
+  sta w1
+  lda familiar_screen_y+1
+  adc familiar_shadow_spot_y+1
+  sta w1+1
+  bne cull_shadow_spot
+
+  ;draw the shadow spot
+  lda w1
+  sta sprite+sprite_struct::ycoord,y
+
+  lda shadow_spot_chr_offset
+  sta sprite+sprite_struct::tile,y
+
+  lda #$00
+  sta sprite+sprite_struct::attribute,y
+
+  lda w0
+  sta sprite+sprite_struct::xcoord,y
+
+  iny
+  iny
+  iny
+  iny
+
+  sty next_sprite_address
+
+cull_shadow_spot:
+familiar_not_alive:
+
+  rts
+
+.endproc
+
 .segment "ROM03"
 .define familiar_animation_addresses\
   familiar_fly_side,\
@@ -744,6 +798,16 @@ familiar_not_alive:
   sta familiar_x_fine
   sta familiar_y_fine
 
+  ;initialize shadow spot offsets
+  lda #$04
+  sta familiar_shadow_spot_x
+  lda #$00
+  sta familiar_shadow_spot_x+1
+  lda #$1a
+  sta familiar_shadow_spot_y
+  lda #$00
+  sta familiar_shadow_spot_y+1
+
   rts
 
 .endproc
@@ -792,8 +856,6 @@ not_ready_yet:
 .proc familiar_state_rush
 
   jsr familiar_move
-
-  ;jsr familiar_add_shadow_spot
 
   ;make action rect active
   lda #ENTITY_ACTION_ATTACK
@@ -849,7 +911,6 @@ state_counter_not_zero:
   jsr familiar_prepare_distance_to_hero_velocity
   jsr familiar_kill_if_close_to_hero
   jsr familiar_home_in_to_goal
-  ;jsr familiar_add_shadow_spot
 
   rts
 
@@ -905,8 +966,6 @@ not_ready_yet:
 
   jsr familiar_move
 
-  ;jsr familiar_add_shadow_spot
-
   lda #ENTITY_ACTION_FETCH
   sta entity_action_rect2_action
   lda #ENTITY_ACTION_FROM_FAMILIAR
@@ -960,7 +1019,6 @@ state_counter_not_zero:
   jsr familiar_prepare_distance_to_hero_velocity
   jsr familiar_kill_if_close_to_hero
   jsr familiar_home_in_to_goal
-  ;jsr familiar_add_shadow_spot
 
   lda familiar_flags
   and #FAMILIAR_FLAGS_ALIVE_TEST
@@ -1418,8 +1476,6 @@ not_ready_yet:
 
   jsr familiar_move
 
-  ;jsr familiar_add_shadow_spot
-
   ;make the bomb's coordinates match that of the familiar
   .scope
   ldx familiar_carried_entity_index
@@ -1544,7 +1600,6 @@ cannot_drop_here:
   jsr familiar_prepare_distance_to_hero_velocity
   jsr familiar_kill_if_close_to_hero
   jsr familiar_home_in_to_goal
-  ;jsr familiar_add_shadow_spot
 
   ;make the bomb's coordinates match that of the familiar
   .scope
@@ -2354,8 +2409,6 @@ not_ready_yet:
 
   jsr familiar_move
 
-  ;jsr familiar_add_shadow_spot
-
   ;animate the familiar
   lda familiar_animation_address
   sta w2
@@ -2478,8 +2531,6 @@ do_not_reset_familiar_param_shield_circle_lut_index:
   sta familiar_state
 
 do_not_switch_to_home_in_to_hero:
-
-  ;jsr familiar_add_shadow_spot
 
   ;animate the familiar
   lda familiar_animation_address
@@ -2627,8 +2678,6 @@ not_ready_yet:
   sta familiar_y_velocity+1
 
   jsr familiar_home_in_to_goal
-
-  ;jsr familiar_add_shadow_spot
 
   ;make action rect active
   lda #ENTITY_ACTION_ATTACK
@@ -3055,31 +3104,6 @@ done:
   .endscope
 
   rts
-
-;a common routine for adding a shadow spot for the familiar
-.proc familiar_add_shadow_spot
-
-  ;add a shadow spot
-  clc
-  lda familiar_x
-  adc #$04
-  sta w0
-  lda familiar_x+1
-  adc #$00
-  sta w0+1
-  clc
-  lda familiar_y
-  adc #$1a
-  sta w1
-  lda familiar_y+1
-  adc #$00
-  sta w1+1
-
-  ;jsr sprite_add_shadow_spot
-
-  rts
-
-.endproc
 
 .proc familiar_play_flap_sound
 
