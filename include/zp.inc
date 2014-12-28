@@ -71,6 +71,7 @@ ZP_INC = 1
 
 .globalzp vblank_routine
 .globalzp vblank_done_flag
+.globalzp palette_cycling_enabled
 .globalzp forward_to_default_graphics_hiding_routine
 .globalzp graphics_hiding_routine
 .globalzp hide_graphics_top

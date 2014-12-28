@@ -11,7 +11,6 @@ PLAY_STATE_INC = 1
   action .byte
   param  .word
   monolith_index .byte
-  palette_cycling_disabled .byte
 .endstruct
 
 ;actions 0 thru 15 are reserved for use by the map (or anybody else)
