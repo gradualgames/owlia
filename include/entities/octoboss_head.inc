@@ -285,6 +285,8 @@ octoboss_head_state_rise:
   ;move the legs to beneath the head
   jsr octoboss_head_position_legs
 
+  jsr entity_set_shadow_spot
+
   jsr octoboss_head_position_shadow_spot
 
   lda #<octoboss_head_look
@@ -583,6 +585,8 @@ action_rect2_not_deadly:
 
   jsr entity_clear_drawable
 
+  jsr entity_clear_shadow_spot
+
   lda #<defeat_boss
   sta song_address
   lda #>defeat_boss
@@ -672,23 +676,15 @@ attacked_state_machine_not_running:
 
 .proc octoboss_head_position_shadow_spot
 
-  clc
-  lda octoboss_head_x_lo,x
-  adc #<OCTOBOSS_HEAD_SHADOW_SPOT_X_OFFSET
-  sta w0
-  lda octoboss_head_x_hi,x
-  adc #>OCTOBOSS_HEAD_SHADOW_SPOT_X_OFFSET
-  sta w0+1
+  lda #<OCTOBOSS_HEAD_SHADOW_SPOT_X_OFFSET
+  sta entity_shadow_spot_x_lo,x
+  lda #>OCTOBOSS_HEAD_SHADOW_SPOT_X_OFFSET
+  sta entity_shadow_spot_x_hi,x
 
-  clc
-  lda octoboss_head_y_lo,x
-  adc #<OCTOBOSS_HEAD_SHADOW_SPOT_Y_OFFSET
-  sta w1
-  lda octoboss_head_y_hi,x
-  adc #>OCTOBOSS_HEAD_SHADOW_SPOT_Y_OFFSET
-  sta w1+1
-
-  ;jsr sprite_add_shadow_spot
+  lda #<OCTOBOSS_HEAD_SHADOW_SPOT_Y_OFFSET
+  sta entity_shadow_spot_y_lo,x
+  lda #>OCTOBOSS_HEAD_SHADOW_SPOT_Y_OFFSET
+  sta entity_shadow_spot_y_hi,x
 
   rts
 
