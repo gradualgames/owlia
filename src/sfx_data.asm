@@ -246,5 +246,5 @@ sfx_ice_shatter_noise:
   .byte TRM
 
 sfx_whoosh:
-  .byte STV,22,STP,0,STL,64,$4
+  .byte STV,22,STP,0,STL,64,$9
   .byte TRM
