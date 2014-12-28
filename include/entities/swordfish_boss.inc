@@ -761,6 +761,8 @@ rect1_attacked_entity:
 
   jsr entity_clear_drawable
 
+  jsr entity_clear_shadow_spot
+
   lda #SWORDFISH_BOSS_STATE_VICTORY_LENGTH
   sta swordfish_boss_state_counter,x
 
