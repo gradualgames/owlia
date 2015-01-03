@@ -71,8 +71,6 @@ bomb_state_init_fall:
 
   jsr entity_set_not_pausable
 
-  jsr entity_set_shadow_spot
-
   lda #<bomb
   sta entity_animation_address_lo,x
   lda #>bomb
@@ -93,8 +91,6 @@ bomb_state_init_fall:
 
   lda #$00
   sta entity_sprite_flags,x
-
-  jsr bomb_set_shadow_spot
 
   ;initialize bounce offset
   lda #<(-BOMB_INITIAL_BOUNCE_OFFSET)
@@ -123,17 +119,9 @@ bomb_state_init_fall:
 
   jsr eject_bomb_target
 
-  ; ;initialize target X sliding velocity
-  ; lda #<BOMB_TARGET_X_DEFAULT_VELOCITY
-  ; sta bomb_target_x_velocity_lo,x
-  ; lda #>BOMB_TARGET_X_DEFAULT_VELOCITY
-  ; sta bomb_target_x_velocity_hi,x
+  jsr entity_set_shadow_spot
 
-  ; ;initialize target Y sliding velocity
-  ; lda #<BOMB_TARGET_Y_DEFAULT_VELOCITY
-  ; sta bomb_target_y_velocity_lo,x
-  ; lda #>BOMB_TARGET_Y_DEFAULT_VELOCITY
-  ; sta bomb_target_y_velocity_hi,x
+  jsr bomb_set_shadow_spot
 
   ;this counts how many frames it has been since we reversed directions
   lda #0
