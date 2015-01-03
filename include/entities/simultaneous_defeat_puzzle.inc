@@ -45,6 +45,14 @@ do_not_skip:
 
   .scope
 next_entity:
+  ;skip dead entities
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity1
+  ;skip entities marked for kill
+  lda entity_flags,y
+  and #ENTITY_FLAGS_MARKED_FOR_KILL_TEST
+  bne skip_entity1
   ;skip the puzzle entity
   lda entity_type,y
   cmp #entity_index_simultaneous_defeat_puzzle
@@ -53,9 +61,10 @@ next_entity:
   cmp #entity_index_monolith
   beq skip_entity1
 
-  lda entity_flags,y
-  and #ENTITY_FLAGS_ALIVE_TEST
-  bne found_first_entity
+  tya
+  sta simultaneous_defeat_puzzle_entity_instance0,x
+  jmp found_first_entity
+
 skip_entity1:
 
   dey
@@ -63,14 +72,19 @@ skip_entity1:
   .endscope
 found_first_entity:
 
-  tya
-  sta simultaneous_defeat_puzzle_entity_instance0,x
-
   ;make sure to advance to next entity
   dey
 
   .scope
 next_entity:
+  ;skip dead entities
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity2
+  ;skip entities marked for kill
+  lda entity_flags,y
+  and #ENTITY_FLAGS_MARKED_FOR_KILL_TEST
+  bne skip_entity2
   ;skip the puzzle entity
   lda entity_type,y
   cmp #entity_index_simultaneous_defeat_puzzle
@@ -79,18 +93,16 @@ next_entity:
   cmp #entity_index_monolith
   beq skip_entity2
 
-  lda entity_flags,y
-  and #ENTITY_FLAGS_ALIVE_TEST
-  bne found_second_entity
+  tya
+  sta simultaneous_defeat_puzzle_entity_instance1,x
+  jmp found_second_entity
+
 skip_entity2:
 
   dey
   bpl next_entity
   .endscope
 found_second_entity:
-
-  tya
-  sta simultaneous_defeat_puzzle_entity_instance1,x
 
   .endscope
 
