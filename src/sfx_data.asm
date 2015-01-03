@@ -238,11 +238,11 @@ sfx_octoboss_punch:
   .byte TRM
 
 sfx_ice_shatter_square:
-  .byte STV,21,STP,0,SDU,0,STL,2,C7,C7,AS7,F7,STL,120,A7
+  .byte STV,21,STP,0,SDU,0,STL,2,C7,C7,AS7,F7,STL,16,A7
   .byte TRM
 
 sfx_ice_shatter_noise:
-  .byte STV,21,STP,0,SDU,0,STL,128,$8
+  .byte STV,21,STP,0,SDU,0,STL,16,$8
   .byte TRM
 
 sfx_whoosh:
