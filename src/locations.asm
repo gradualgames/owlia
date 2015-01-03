@@ -910,14 +910,14 @@ dungeon2_3_2_entity_instances:
 dungeon2_0_3_entity_instances:
   .byte 7
   .byte entity_index_monolith, 10, 49, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_0_2_s,\
                                          0, 2
 
   .byte entity_index_monolith, 14, 53, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_1_3_w,\
@@ -926,7 +926,7 @@ dungeon2_0_3_entity_instances:
   .byte entity_index_eel, 4, 55, 0, EEL_PARAMS, EEL_STATE_RIGHT_INIT
   .byte entity_index_eel, 11, 51, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
   .byte entity_index_eel, 11, 55, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
-  .byte entity_index_traproom, (0 * 16), (3 * 15), 0, TRAPROOM_PARAMS, TRAPROOM_STATE_RAISE_MONOLITH_PAIR
+  .byte entity_index_treasure_room, 2, 53, 0, TREASURE_ROOM_PARAMS, DUNGEON2_DUNGEON_FLAGS_TREASURE_ROOM2_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon2_1_3_entity_instances:
   .byte 4
