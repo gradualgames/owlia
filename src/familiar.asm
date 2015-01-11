@@ -389,10 +389,11 @@ cannot_spawn_lantern:
 
 ;informs the familiar that it hit an entity that wants to be fetched
 ;back to the hero.
-.proc familiar_fetch_return_to_hero
+.proc familiar_fetch_item
 
-  lda #FAMILIAR_STATE_FETCH_HOME_IN_TO_HERO
+  lda #FAMILIAR_STATE_FETCH_ALIGHT_ON_ITEM
   sta familiar_state
+
   rts
 
 .endproc
@@ -683,6 +684,8 @@ familiar_direction_change_init:
     familiar_state_home_in_to_hero, \
     familiar_state_fetch_init, \
     familiar_state_fetch, \
+    familiar_state_fetch_alight_on_item, \
+    familiar_state_fetch_pause_on_item, \
     familiar_state_fetch_home_in_to_hero, \
     familiar_state_unlock_init, \
     familiar_state_unlock_fly_to_keyhole, \
@@ -996,6 +999,129 @@ not_ready_yet:
   sta familiar_state
 
 state_counter_not_zero:
+
+  rts
+
+.endproc
+
+;****************************************************************
+;This state is used after the familiar has detected that it is
+;touching the hitbox of a fetchable item and homes the familiar
+;in above the item before finally carrying it back to the player
+;using familiar_state_fetch_home_in_to_hero.
+;****************************************************************
+.proc familiar_state_fetch_alight_on_item
+
+  ldx familiar_carried_entity_index
+  bmi no_carried_entity
+
+  sec
+  lda entity_x_lo,x
+  sbc familiar_carried_entity_x_offset
+  sta w0
+  lda entity_x_hi,x
+  sbc #0
+  sta w0+1
+
+  sec
+  lda entity_y_lo,x
+  sbc familiar_carried_entity_y_offset
+  sta w1
+  lda entity_y_hi,x
+  sbc #0
+  sta w1+1
+
+  sec
+  lda w0
+  sbc familiar_x
+  sta familiar_x_velocity
+  lda w0+1
+  sbc familiar_x+1
+  sta familiar_x_velocity+1
+
+  sec
+  lda w1
+  sbc familiar_y
+  sta familiar_y_velocity
+  lda w1+1
+  sbc familiar_y+1
+  sta familiar_y_velocity+1
+
+  jsr familiar_home_in_to_goal
+
+  lda familiar_x_velocity
+  ora familiar_x_velocity+1
+  ora familiar_y_velocity
+  ora familiar_y_velocity+1
+  bne familiar_not_above_item
+
+  lda #FAMILIAR_DIRECTION_DOWN
+  sta familiar_direction
+
+  lda #FAMILIAR_STATE_PAUSE_ON_ITEM_LENGTH
+  sta familiar_state_counter
+
+  lda #FAMILIAR_STATE_FETCH_PAUSE_ON_ITEM
+  sta familiar_state
+
+familiar_not_above_item:
+
+  rts
+
+no_carried_entity:
+
+  lda #FAMILIAR_STATE_FETCH_HOME_IN_TO_HERO
+  sta familiar_state
+
+  rts
+
+.endproc
+
+;****************************************************************
+;A simple pause state for visual effect as the familiar grabs
+;the item being fetched.
+;****************************************************************
+.proc familiar_state_fetch_pause_on_item
+
+  ldx familiar_carried_entity_index
+  bmi no_carried_entity
+
+  dec familiar_state_counter
+  bne do_not_switch_state
+
+  lda #FAMILIAR_STATE_FETCH_HOME_IN_TO_HERO
+  sta familiar_state
+
+do_not_switch_state:
+
+  ldy familiar_direction
+  lda familiar_animation_addresses_lo,y
+  sta familiar_animation_address
+  sta w2
+  lda familiar_animation_addresses_hi,y
+  sta familiar_animation_address+1
+  sta w2+1
+  lda familiar_sprite_flags_direction,y
+  sta familiar_sprite_flags
+
+  lda familiar_animation_address
+  sta w2
+  lda familiar_animation_address+1
+  sta w2+1
+
+  lda #<familiar_animation_object
+  sta w1
+  lda #>familiar_animation_object
+  sta w1+1
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
+  jsr sprite_update_animation
+
+  rts
+
+no_carried_entity:
+
+  lda #FAMILIAR_STATE_FETCH_HOME_IN_TO_HERO
+  sta familiar_state
 
   rts
 

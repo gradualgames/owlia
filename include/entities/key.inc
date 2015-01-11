@@ -114,7 +114,7 @@ entity_not_hitting_hero:
   stx familiar_carried_entity_index
 
   ;tell the familiar to return to the hero with the fetched item.
-  far_call #FAMILIAR_BANK, familiar_fetch_return_to_hero
+  far_call #FAMILIAR_BANK, familiar_fetch_item
 
 familiar_not_intersecting:
 familiar_not_fetching:

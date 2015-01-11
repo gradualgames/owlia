@@ -16,7 +16,7 @@ FAMILIAR_INC = 1
 .global familiar_draw
 .global familiar_draw_shadow_spot
 .global familiar_update
-.global familiar_fetch_return_to_hero
+.global familiar_fetch_item
 .global familiar_hit_enemy
 .global familiar_common_init
 .global familiar_play_flap_sound
