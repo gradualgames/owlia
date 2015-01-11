@@ -1104,11 +1104,6 @@ do_not_switch_state:
   lda familiar_sprite_flags_direction,y
   sta familiar_sprite_flags
 
-  lda familiar_animation_address
-  sta w2
-  lda familiar_animation_address+1
-  sta w2+1
-
   lda #<familiar_animation_object
   sta w1
   lda #>familiar_animation_object
@@ -1422,11 +1417,6 @@ no_carried_entity:
   lda familiar_sprite_flags_direction,y
   sta familiar_sprite_flags
 
-  lda familiar_animation_address
-  sta w2
-  lda familiar_animation_address+1
-  sta w2+1
-
   lda #<familiar_animation_object
   sta w1
   lda #>familiar_animation_object
@@ -1481,11 +1471,6 @@ no_carried_entity:
   sta w2+1
   lda familiar_sprite_flags_direction,y
   sta familiar_sprite_flags
-
-  lda familiar_animation_address
-  sta w2
-  lda familiar_animation_address+1
-  sta w2+1
 
   lda #<familiar_animation_object
   sta w1
