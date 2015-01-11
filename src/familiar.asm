@@ -58,8 +58,7 @@
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda familiar_flags
-  ora #FAMILIAR_FLAGS_ALIVE_SET
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_RUSH_INIT
@@ -85,8 +84,7 @@
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda familiar_flags
-  ora #FAMILIAR_FLAGS_ALIVE_SET
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_FETCH_INIT
@@ -112,8 +110,7 @@
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda familiar_flags
-  ora #FAMILIAR_FLAGS_ALIVE_SET
+  lda #(FAMILIAR_FLAGS_ALIVE_SET)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_UNLOCK_INIT
@@ -176,8 +173,7 @@ cannot_spawn_key:
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda familiar_flags
-  ora #FAMILIAR_FLAGS_ALIVE_SET
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_CARRY_BOMB_INIT
@@ -231,8 +227,7 @@ cannot_spawn_bomb:
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda familiar_flags
-  ora #FAMILIAR_FLAGS_ALIVE_SET
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_CARRY_LANTERN_INIT
@@ -279,8 +274,7 @@ cannot_spawn_lantern:
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda familiar_flags
-  ora #FAMILIAR_FLAGS_ALIVE_SET
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_CARRY_HERO_INIT
@@ -321,8 +315,7 @@ cannot_spawn_lantern:
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda familiar_flags
-  ora #FAMILIAR_FLAGS_ALIVE_SET
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_SHIELD_INIT
@@ -348,8 +341,7 @@ cannot_spawn_lantern:
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda familiar_flags
-  ora #FAMILIAR_FLAGS_ALIVE_SET
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_HOMING_INIT
@@ -567,7 +559,10 @@ familiar_not_alive:
 
   lda familiar_flags
   and #FAMILIAR_FLAGS_ALIVE_TEST
-  beq familiar_not_alive
+  beq cull_shadow_spot
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_SHADOW_SPOT_TEST
+  beq cull_shadow_spot
 
   ldy next_sprite_address
 
@@ -609,9 +604,7 @@ familiar_not_alive:
   iny
 
   sty next_sprite_address
-
 cull_shadow_spot:
-familiar_not_alive:
 
   rts
 
