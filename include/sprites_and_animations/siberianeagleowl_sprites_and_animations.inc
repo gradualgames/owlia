@@ -77,6 +77,82 @@ siberianeagleowl_fly2:
   .byte $18,$3b,$02,$18,$10
   .byte $18,$3c,$02,$20,$08
   .byte $18,$3d,$02,$28,$00
+siberianeagleowl_fly0_reversed:
+  .byte $18
+  .byte 8,$3e,$03,16,$10
+  .byte 8,$3f,$03,24,$08
+  .byte $00,$05,$02,$28,$00
+  .byte $00,$04,$01,$20,$08
+  .byte $00,$03,$02,$18,$10
+  .byte $00,$02,$02,$10,$18
+  .byte $00,$01,$01,$08,$20
+  .byte $00,$00,$02,$00,$28
+  .byte $08,$11,$02,$28,$00
+  .byte $08,$10,$02,$20,$08
+  .byte $08,$0f,$02,$18,$10
+  .byte $08,$0e,$02,$10,$18
+  .byte $08,$0d,$02,$08,$20
+  .byte $08,$0c,$02,$00,$28
+  .byte $10,$23,$02,$28,$00
+  .byte $10,$22,$02,$20,$08
+  .byte $10,$21,$02,$18,$10
+  .byte $10,$20,$02,$10,$18
+  .byte $10,$1f,$02,$08,$20
+  .byte $10,$1e,$02,$00,$28
+  .byte $18,$33,$02,$20,$08
+  .byte $18,$32,$02,$18,$10
+  .byte $18,$31,$02,$10,$18
+  .byte $18,$30,$00,$08,$20
+siberianeagleowl_fly1_reversed:
+  .byte $16
+  .byte 10,$3e,$03,16,$10
+  .byte 10,$3f,$03,24,$08
+  .byte $00,$0a,$00,$20,$08
+  .byte $00,$09,$02,$18,$10
+  .byte $00,$08,$02,$10,$18
+  .byte $00,$07,$00,$08,$20
+  .byte $08,$17,$02,$28,$00
+  .byte $08,$16,$02,$20,$08
+  .byte $08,$15,$02,$18,$10
+  .byte $08,$14,$02,$10,$18
+  .byte $08,$13,$02,$08,$20
+  .byte $08,$12,$02,$00,$28
+  .byte $10,$29,$02,$28,$00
+  .byte $10,$28,$02,$20,$08
+  .byte $10,$27,$02,$18,$10
+  .byte $10,$26,$02,$10,$18
+  .byte $10,$25,$02,$08,$20
+  .byte $10,$24,$02,$00,$28
+  .byte $18,$37,$02,$20,$08
+  .byte $18,$36,$02,$18,$10
+  .byte $18,$35,$02,$10,$18
+  .byte $18,$34,$00,$08,$20
+siberianeagleowl_fly2_reversed:
+  .byte $18
+  .byte 12,$3e,$03,16,$10
+  .byte 12,$3f,$03,24,$08
+  .byte $00,$0b,$00,$20,$08
+  .byte $00,$07,$00,$18,$10
+  .byte $00,$0a,$00,$10,$18
+  .byte $00,$0b,$00,$08,$20
+  .byte $08,$1d,$02,$28,$00
+  .byte $08,$1c,$02,$20,$08
+  .byte $08,$1b,$02,$18,$10
+  .byte $08,$1a,$02,$10,$18
+  .byte $08,$19,$02,$08,$20
+  .byte $08,$18,$02,$00,$28
+  .byte $10,$2f,$02,$28,$00
+  .byte $10,$2e,$02,$20,$08
+  .byte $10,$2d,$02,$18,$10
+  .byte $10,$2c,$02,$10,$18
+  .byte $10,$2b,$02,$08,$20
+  .byte $10,$2a,$02,$00,$28
+  .byte $18,$3d,$02,$28,$00
+  .byte $18,$3c,$02,$20,$08
+  .byte $18,$3b,$02,$18,$10
+  .byte $18,$3a,$02,$10,$18
+  .byte $18,$39,$02,$08,$20
+  .byte $18,$38,$02,$00,$28
 siberianeagleowl_perch0:
   .byte $0d
   .byte $05,$3e,$03,$ff,$10
@@ -94,11 +170,40 @@ siberianeagleowl_perch0:
   .byte $18,$4a,$02,$10,$00
 
 siberianeagleowl_fly:
-  .byte $0a, $08
+  .byte $01, $40
   .word siberianeagleowl_fly0
+  .word siberianeagleowl_fly0_reversed
+  .word siberianeagleowl_fly0
+  .word siberianeagleowl_fly0_reversed
+  .word siberianeagleowl_fly0
+  .word siberianeagleowl_fly0_reversed
+  .word siberianeagleowl_fly0
+  .word siberianeagleowl_fly0_reversed
   .word siberianeagleowl_fly1
+  .word siberianeagleowl_fly1_reversed
+  .word siberianeagleowl_fly1
+  .word siberianeagleowl_fly1_reversed
+  .word siberianeagleowl_fly1
+  .word siberianeagleowl_fly1_reversed
+  .word siberianeagleowl_fly1
+  .word siberianeagleowl_fly1_reversed
   .word siberianeagleowl_fly2
+  .word siberianeagleowl_fly2_reversed
+  .word siberianeagleowl_fly2
+  .word siberianeagleowl_fly2_reversed
+  .word siberianeagleowl_fly2
+  .word siberianeagleowl_fly2_reversed
+  .word siberianeagleowl_fly2
+  .word siberianeagleowl_fly2_reversed
   .word siberianeagleowl_fly1
+  .word siberianeagleowl_fly1_reversed
+  .word siberianeagleowl_fly1
+  .word siberianeagleowl_fly1_reversed
+  .word siberianeagleowl_fly1
+  .word siberianeagleowl_fly1_reversed
+  .word siberianeagleowl_fly1
+  .word siberianeagleowl_fly1_reversed
+
 siberianeagleowl_perch:
   .byte $0a, $02
   .word siberianeagleowl_perch0
