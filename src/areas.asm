@@ -17,7 +17,7 @@
 .define areas \
     village_area, \
     house1_area, \
-    inn_area, \
+    housel_area, \
     store_area, \
     housebl_area, \
     housebr_area, \
@@ -172,28 +172,28 @@ housetr_area_bg_chr_groups:
   .byte BG_CHR_DATA_BANK1
   .word house1_chr
 
-inn_area:
+housel_area:
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
-  .word inn_area_bg_chr_groups
+  .word housel_area_bg_chr_groups
   .word town_theme
   .byte $00 ;textbox_attribute
-  .word inn_map
-  .word inn_metatile_table_properties
-  .word inn_metatile_table_params
-  .word inn_metatile_table_attributes
-  .word inn_metatile_table_top_left_tiles
-  .word inn_metatile_table_top_right_tiles
-  .word inn_metatile_table_bottom_left_tiles
-  .word inn_metatile_table_bottom_right_tiles
-  .word inn_big_metatile_table_top_left
-  .word inn_big_metatile_table_top_right
-  .word inn_big_metatile_table_bottom_left
-  .word inn_big_metatile_table_bottom_right
+  .word housel_map
+  .word housel_metatile_table_properties
+  .word housel_metatile_table_params
+  .word housel_metatile_table_attributes
+  .word housel_metatile_table_top_left_tiles
+  .word housel_metatile_table_top_right_tiles
+  .word housel_metatile_table_bottom_left_tiles
+  .word housel_metatile_table_bottom_right_tiles
+  .word housel_big_metatile_table_top_left
+  .word housel_big_metatile_table_top_right
+  .word housel_big_metatile_table_bottom_left
+  .word housel_big_metatile_table_bottom_right
   .word 0 ;nametable_patches_address .word
   .word 0 ;attribute_patches_address
 
-inn_area_bg_chr_groups:
+housel_area_bg_chr_groups:
   .byte 1  ;count
   .byte BG_CHR_DATA_BANK1
   .word house1_chr

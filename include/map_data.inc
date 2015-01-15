@@ -88,19 +88,19 @@ MAP_DATA_BANK2 = 14
 .global housetr_metatile_table_top_right_tiles
 .global housetr_metatile_table_top_left_tiles
 
-.global inn_palette
-.global inn_map
-.global inn_big_metatile_table_bottom_right
-.global inn_big_metatile_table_bottom_left
-.global inn_big_metatile_table_top_right
-.global inn_big_metatile_table_top_left
-.global inn_metatile_table_properties
-.global inn_metatile_table_params
-.global inn_metatile_table_attributes
-.global inn_metatile_table_bottom_right_tiles
-.global inn_metatile_table_bottom_left_tiles
-.global inn_metatile_table_top_right_tiles
-.global inn_metatile_table_top_left_tiles
+.global housel_palette
+.global housel_map
+.global housel_big_metatile_table_bottom_right
+.global housel_big_metatile_table_bottom_left
+.global housel_big_metatile_table_top_right
+.global housel_big_metatile_table_top_left
+.global housel_metatile_table_properties
+.global housel_metatile_table_params
+.global housel_metatile_table_attributes
+.global housel_metatile_table_bottom_right_tiles
+.global housel_metatile_table_bottom_left_tiles
+.global housel_metatile_table_top_right_tiles
+.global housel_metatile_table_top_left_tiles
 
 .global store_palette
 .global store_map

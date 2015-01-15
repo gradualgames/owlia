@@ -106,22 +106,22 @@ housetr_big_metatile_table_bottom_left = housetr_data::big_metatile_table_bottom
 housetr_big_metatile_table_bottom_right = housetr_data::big_metatile_table_bottom_right
 housetr_map = housetr_data::map
 
-.scope inn_data
-.include "inn.inc"
+.scope housel_data
+.include "housel.inc"
 .endscope
 
-inn_metatile_table_properties = inn_data::metatile_table_properties
-inn_metatile_table_params = inn_data::metatile_table_params
-inn_metatile_table_attributes = inn_data::metatile_table_attributes
-inn_metatile_table_top_left_tiles = inn_data::metatile_table_top_left_tiles
-inn_metatile_table_top_right_tiles = inn_data::metatile_table_top_right_tiles
-inn_metatile_table_bottom_left_tiles = inn_data::metatile_table_bottom_left_tiles
-inn_metatile_table_bottom_right_tiles = inn_data::metatile_table_bottom_right_tiles
-inn_big_metatile_table_top_left = inn_data::big_metatile_table_top_left
-inn_big_metatile_table_top_right = inn_data::big_metatile_table_top_right
-inn_big_metatile_table_bottom_left = inn_data::big_metatile_table_bottom_left
-inn_big_metatile_table_bottom_right = inn_data::big_metatile_table_bottom_right
-inn_map = inn_data::map
+housel_metatile_table_properties = housel_data::metatile_table_properties
+housel_metatile_table_params = housel_data::metatile_table_params
+housel_metatile_table_attributes = housel_data::metatile_table_attributes
+housel_metatile_table_top_left_tiles = housel_data::metatile_table_top_left_tiles
+housel_metatile_table_top_right_tiles = housel_data::metatile_table_top_right_tiles
+housel_metatile_table_bottom_left_tiles = housel_data::metatile_table_bottom_left_tiles
+housel_metatile_table_bottom_right_tiles = housel_data::metatile_table_bottom_right_tiles
+housel_big_metatile_table_top_left = housel_data::big_metatile_table_top_left
+housel_big_metatile_table_top_right = housel_data::big_metatile_table_top_right
+housel_big_metatile_table_bottom_left = housel_data::big_metatile_table_bottom_left
+housel_big_metatile_table_bottom_right = housel_data::big_metatile_table_bottom_right
+housel_map = housel_data::map
 
 .scope store_data
 .include "store.inc"

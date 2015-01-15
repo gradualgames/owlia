@@ -38,7 +38,7 @@ AREAS_BANK = 0
 .enum
 area_index_village
 area_index_house
-area_index_inn
+area_index_housel
 area_index_store
 area_index_housebl
 area_index_housebr

@@ -35,7 +35,7 @@
 ;****************************************************************
 .define locations \
     village_house1_entrance, \
-    village_inn_entrance, \
+    village_housel_entrance, \
     village_potionstore_entrance, \
     village_housebl_entrance, \
     village_housebr_entrance, \
@@ -43,7 +43,7 @@
     village_bottom_entrance, \
     house1_intro, \
     house1_exit, \
-    inn_exit, \
+    housel_exit, \
     potionstore_exit, \
     housebl_exit, \
     housebr_exit, \
@@ -328,7 +328,7 @@ housetr_entity_instances:
   .byte 1  ;count
   .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_npc_housetr, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
 
-inn_entity_instances:
+housel_entity_instances:
   .byte 2  ;count
   .byte entity_index_npc, 30, 19, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_inn, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, NPC_DIRECTION_LEFT
   .byte entity_index_innkeep, 28, 19, 0, 10, conversation_index_prompt_for_stay_at_inn, <(22*16), >(22*16), <(14*16), >(14*16), 15, 45, -2, 2, 10
@@ -1091,7 +1091,7 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
                          18, 18, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 
-village_inn_entrance:
+village_housel_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
                          19, 35, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
@@ -1132,10 +1132,10 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_house, house_sprite_chr_groups, house1_entity_instances, house_palette,\
                          14, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 
-;inn locations
-inn_exit:
+;housel locations
+housel_exit:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                         area_index_inn, house_sprite_chr_groups, inn_entity_instances, house_palette,\
+                         area_index_housel, house_sprite_chr_groups, housel_entity_instances, house_palette,\
                          25, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 
 ;store locations
