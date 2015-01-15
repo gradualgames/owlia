@@ -12,8 +12,7 @@
     npc_housebr, \
     owlia_school_of_falconry, \
     welcome_to_my_store, \
-    welcome_to_my_inn, \
-    prompt_for_stay_at_inn, \
+    welcome_to_my_house, \
     purchase_bomb, \
     purchase_lantern, \
     purchase_health, \
@@ -125,14 +124,9 @@ welcome_to_my_store:
   .byte NL,3, "LIKE,",TM,20," WALK UP TO IT AND"
   .byte NL,4, "HIT A.",WT,EC
 
-welcome_to_my_inn:
-  .byte    1, "WELCOME TO MY INN!",WT
+welcome_to_my_house:
+  .byte    1, "WELCOME TO MY HOUSE!",WT
   .byte NL,2, "MAKE YOURSELF AT HOME!",WT,EC
-
-prompt_for_stay_at_inn:
-  .byte    1, "ONE NIGHT IS TEN GP."
-  .byte NL,2, "TO STAY, HIT A."
-  .byte NL,3, "IF NOT, HIT B.",CC,EC
 
 purchase_bomb:
   .byte    1, "BOMBS ARE TEN GP."

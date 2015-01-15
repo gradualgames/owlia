@@ -20,7 +20,6 @@ entity_index_key
 entity_index_treasure_chest
 entity_index_lantern
 entity_index_item
-entity_index_innkeep
 entity_index_pufferfish
 entity_index_crab
 entity_index_traproom
@@ -57,7 +56,6 @@ entity_update_bank_key = 4
 entity_update_bank_treasure_chest = 4
 entity_update_bank_lantern = 4
 entity_update_bank_item = 4
-entity_update_bank_innkeep = 4
 entity_update_bank_pufferfish = 4
 entity_update_bank_crab = 4
 entity_update_bank_traproom = 4
@@ -93,7 +91,6 @@ entity_sprites_and_animations_bank_key = 7
 entity_sprites_and_animations_bank_treasure_chest = 7
 entity_sprites_and_animations_bank_lantern = 7
 entity_sprites_and_animations_bank_item = 7
-entity_sprites_and_animations_bank_innkeep = 7
 entity_sprites_and_animations_bank_pufferfish = 7
 entity_sprites_and_animations_bank_crab = 7
 ;entity_sprites_and_animations_bank_traproom ;this entity has no graphics
