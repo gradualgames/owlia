@@ -140,7 +140,7 @@ LOCATION_BRIGHTNESS_LEVEL_4 = %00010000
 ;****************************************************************
 .enum
 location_index_village_house1_entrance
-location_index_village_inn_entrance
+location_index_village_housel_entrance
 location_index_village_potionstore_entrance
 location_index_village_housebl_entrance
 location_index_village_housebr_entrance
@@ -148,7 +148,7 @@ location_index_village_housetr_entrance
 location_index_village_bottom_entrance
 location_index_house1_intro
 location_index_house1_exit
-location_index_inn_exit
+location_index_housel_exit
 location_index_potionstore_exit
 location_index_housebl_exit
 location_index_housebr_exit
