@@ -39,7 +39,7 @@ AREAS_BANK = 0
 area_index_village
 area_index_house
 area_index_housel
-area_index_store
+area_index_houser
 area_index_housebl
 area_index_housebr
 area_index_housetr

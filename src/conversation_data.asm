@@ -11,12 +11,9 @@
     npc_housebl, \
     npc_housebr, \
     owlia_school_of_falconry, \
-    welcome_to_my_store, \
     welcome_to_my_house, \
-    purchase_bomb, \
-    purchase_lantern, \
-    purchase_health, \
-    not_enough_gp, \
+    shh, \
+    welcome_to_my_library, \
     intro_cut_scene_owls_text, \
     intro_cut_scene_mermon_text, \
     intro_cut_scene_mermon_mad_text, \
@@ -118,36 +115,16 @@ owlia_school_of_falconry:
   .byte NL,3, "DEFEND YOURSELF WITH YOUR"
   .byte NL,4, "SWORD BY HITTING A.",WT,EC
 
-welcome_to_my_store:
-  .byte    1, "WELCOME TO MY STORE!",WT
-  .byte NL,2, "IF YOU SEE ANYTHING YOU"
-  .byte NL,3, "LIKE,",TM,20," WALK UP TO IT AND"
-  .byte NL,4, "HIT A.",WT,EC
-
 welcome_to_my_house:
   .byte    1, "WELCOME TO MY HOUSE!",WT
   .byte NL,2, "MAKE YOURSELF AT HOME!",WT,EC
 
-purchase_bomb:
-  .byte    1, "BOMBS ARE TEN GP."
-  .byte NL,2, "BUY?"
-  .byte NL,3, "HIT A FOR YES"
-  .byte NL,4, "HIT B FOR NO",CC,EC
+shh:
+  .byte    1, "SSSSSHHHH!!!!!",WT,EC
 
-purchase_lantern:
-  .byte    1, "LANTERNS ARE TEN GP."
-  .byte NL,2, "BUY?"
-  .byte NL,3, "HIT A FOR YES"
-  .byte NL,4, "HIT B FOR NO",CC,EC
-
-purchase_health:
-  .byte    1, "HEALTH IS TEN GP."
-  .byte NL,2, "BUY?"
-  .byte NL,3, "HIT A FOR YES"
-  .byte NL,4, "HIT B FOR NO",CC,EC
-
-not_enough_gp:
-  .byte    1, "YOU DON'T HAVE ENOUGH GP.",WT,EC
+welcome_to_my_library:
+  .byte    1, "WELCOME TO MY LIBRARY!",WT
+  .byte NL,2, "CHECK OUT SOME BOOKS!!",WT,EC
 
 intro_cut_scene_owls_text:
   .byte    1, "ONCE UPON A TIME,",TM,20," ON A"

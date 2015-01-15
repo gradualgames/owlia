@@ -102,19 +102,19 @@ MAP_DATA_BANK2 = 14
 .global housel_metatile_table_top_right_tiles
 .global housel_metatile_table_top_left_tiles
 
-.global store_palette
-.global store_map
-.global store_big_metatile_table_bottom_right
-.global store_big_metatile_table_bottom_left
-.global store_big_metatile_table_top_right
-.global store_big_metatile_table_top_left
-.global store_metatile_table_properties
-.global store_metatile_table_params
-.global store_metatile_table_attributes
-.global store_metatile_table_bottom_right_tiles
-.global store_metatile_table_bottom_left_tiles
-.global store_metatile_table_top_right_tiles
-.global store_metatile_table_top_left_tiles
+.global houser_palette
+.global houser_map
+.global houser_big_metatile_table_bottom_right
+.global houser_big_metatile_table_bottom_left
+.global houser_big_metatile_table_top_right
+.global houser_big_metatile_table_top_left
+.global houser_metatile_table_properties
+.global houser_metatile_table_params
+.global houser_metatile_table_attributes
+.global houser_metatile_table_bottom_right_tiles
+.global houser_metatile_table_bottom_left_tiles
+.global houser_metatile_table_top_right_tiles
+.global houser_metatile_table_top_left_tiles
 
 .global meadow1_palette
 .global meadow1_map

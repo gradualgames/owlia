@@ -53,12 +53,6 @@ item_inventory_var_type:
   .byte ITEM_8_BIT_VAR
   .byte ITEM_8_BIT_VAR
 
-item_purchase_conversation_indices:
-  .byte 0
-  .byte conversation_index_purchase_health
-  .byte conversation_index_purchase_bomb
-  .byte conversation_index_purchase_lantern
-
 item_random_pickup_quantities_lo:
   .byte 100
   .byte 1
@@ -85,9 +79,6 @@ item_increment_var_addresses_hi:
 
 .define item_states \
   item_state_init, \
-  item_state_prompt_for_purchase_init, \
-  item_state_prompt_for_purchase, \
-  item_state_add_item_or_not, \
   item_state_pickup_init, \
   item_state_pickup, \
   item_state_pickup_and_fade_out_init, \
@@ -145,133 +136,6 @@ item_state_pickup_init:
 item_state_pickup:
 
   jsr item_test_hero_and_familiar
-
-  rts
-
-item_state_prompt_for_purchase_init:
-
-  jsr entity_set_drawable
-
-  ldy item_type,x
-  lda item_animation_addresses_lo,y
-  sta entity_animation_address_lo,x
-  lda item_animation_addresses_hi,y
-  sta entity_animation_address_hi,x
-
-  jsr entity_reset_animation
-
-  ldy item_type,x
-  lda item_sprite_chr_group_index,y
-  sta b0
-  jsr entity_lookup_sprite_chr_offset
-
-  lda #ITEM_STATE_PROMPT_FOR_PURCHASE
-  sta entity_state,x
-
-  rts
-
-item_state_prompt_for_purchase:
-
-  .scope
-  jsr entity_test_hero_rect
-  bne not_touching_hero
-
-  far_call #HERO_BANK, hero_is_attacking
-  bne hero_not_attacking
-
-  ;cancel attack this frame because hero pressed a against a
-  ;purchasable item!
-  far_call #HERO_BANK, hero_cancel_attack
-
-  ;put hero into a passive state so she cannot
-  ;get input from the controller between now and when the not-enough-gp
-  ;box has been cleared.
-  lda #10
-  sta b0
-  far_call #HERO_BANK, hero_wait_frames
-
-  ;enter conversation mode
-  lda #ACTION_START_CONVERSATION
-  sta state_control_params+play_state_control::action
-  ldy item_type,x
-  lda item_purchase_conversation_indices,y
-  sta state_control_params+play_state_control::param
-
-  ;on next frame, transition to add-item-or-not state to respond to
-  ;textbox result
-  lda #ITEM_STATE_ADD_ITEM_OR_NOT
-  sta entity_state,x
-
-not_touching_hero:
-hero_not_attacking:
-  .endscope
-
-  rts
-
-item_state_add_item_or_not:
-
-  lda textbox_result
-  cmp #TEXTBOX_CONFIRM
-  bne do_not_add_item
-
-  ;if we arrive here, the user confirmed the prompt for purchasing this
-  ;item.
-
-  ;Test to see if player has enough gp
-  sec
-  lda inventory_gp
-  sbc item_price_lo,x
-  lda inventory_gp+1
-  sbc item_price_hi,x
-  ;only 16 bit positive prices are allowed---use 0 for hi hi byte
-  lda inventory_gp+2
-  sbc #$00
-  bmi not_enough_gp
-
-  ;Increment the corresponding inventory slot and decrement gp by price
-  jsr increment_var
-
-  sec
-  lda inventory_gp
-  sbc item_price_lo,x
-  sta inventory_gp
-  lda inventory_gp+1
-  sbc item_price_hi,x
-  sta inventory_gp+1
-  lda inventory_gp+2
-  sbc #$00
-  sta inventory_gp+2
-
-  ;play a sound
-  lda #<sfx_get_item
-  sta sound_param_word_0
-  lda #>sfx_get_item
-  sta sound_param_word_0+1
-
-  lda #0
-  sta sound_param_byte_0
-
-  lda #soundeffect_one
-  sta sound_param_byte_1
-  far_call #SOUND_BANK, stream_initialize
-
-do_not_add_item:
-
-  lda #ITEM_STATE_PROMPT_FOR_PURCHASE
-  sta entity_state,x
-
-  rts
-
-not_enough_gp:
-
-  ;enter conversation mode
-  lda #ACTION_START_CONVERSATION
-  sta state_control_params+play_state_control::action
-  lda #conversation_index_not_enough_gp
-  sta state_control_params+play_state_control::param
-
-  lda #ITEM_STATE_PROMPT_FOR_PURCHASE
-  sta entity_state,x
 
   rts
 

@@ -36,7 +36,7 @@
 .define locations \
     village_house1_entrance, \
     village_housel_entrance, \
-    village_potionstore_entrance, \
+    village_houser_entrance, \
     village_housebl_entrance, \
     village_housebr_entrance, \
     village_housetr_entrance, \
@@ -44,7 +44,7 @@
     house1_intro, \
     house1_exit, \
     housel_exit, \
-    potionstore_exit, \
+    houser_exit, \
     housebl_exit, \
     housebr_exit, \
     housetr_exit, \
@@ -332,10 +332,10 @@ housel_entity_instances:
   .byte 1  ;count
   .byte entity_index_npc, 30, 19, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, NPC_DIRECTION_LEFT
 
-store_entity_instances:
+houser_entity_instances:
   .byte 2  ;count
-  .byte entity_index_npc, 15, 12, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 5, 16 * 3, NPC_MODE_WALK, NPC_DIRECTION_DOWN
-  .byte entity_index_npc, 12, 20, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_store, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, NPC_DIRECTION_RIGHT
+  .byte entity_index_npc, 15, 16, sprite_chr_group_index_npcwoman, 6, conversation_index_ssh, 4, 16 * 5, 16 * 1, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte entity_index_npc, 12, 20, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_library, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, NPC_DIRECTION_RIGHT
 
 meadow1_entity_instances:
   .byte 5  ;count
@@ -1092,7 +1092,7 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
                          19, 35, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 
-village_potionstore_entrance:
+village_houser_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
                          43, 35, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
@@ -1134,10 +1134,10 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_housel, house_sprite_chr_groups, housel_entity_instances, house_palette,\
                          25, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 
-;store locations
-potionstore_exit:
+;houser locations
+houser_exit:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                         area_index_store, house_sprite_chr_groups, store_entity_instances, house_palette,\
+                         area_index_houser, house_sprite_chr_groups, houser_entity_instances, house_palette,\
                          16, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
 
 ;housebl locations

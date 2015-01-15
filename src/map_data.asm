@@ -123,22 +123,22 @@ housel_big_metatile_table_bottom_left = housel_data::big_metatile_table_bottom_l
 housel_big_metatile_table_bottom_right = housel_data::big_metatile_table_bottom_right
 housel_map = housel_data::map
 
-.scope store_data
-.include "store.inc"
+.scope houser_data
+.include "houser.inc"
 .endscope
 
-store_metatile_table_properties = store_data::metatile_table_properties
-store_metatile_table_params = store_data::metatile_table_params
-store_metatile_table_attributes = store_data::metatile_table_attributes
-store_metatile_table_top_left_tiles = store_data::metatile_table_top_left_tiles
-store_metatile_table_top_right_tiles = store_data::metatile_table_top_right_tiles
-store_metatile_table_bottom_left_tiles = store_data::metatile_table_bottom_left_tiles
-store_metatile_table_bottom_right_tiles = store_data::metatile_table_bottom_right_tiles
-store_big_metatile_table_top_left = store_data::big_metatile_table_top_left
-store_big_metatile_table_top_right = store_data::big_metatile_table_top_right
-store_big_metatile_table_bottom_left = store_data::big_metatile_table_bottom_left
-store_big_metatile_table_bottom_right = store_data::big_metatile_table_bottom_right
-store_map = store_data::map
+houser_metatile_table_properties = houser_data::metatile_table_properties
+houser_metatile_table_params = houser_data::metatile_table_params
+houser_metatile_table_attributes = houser_data::metatile_table_attributes
+houser_metatile_table_top_left_tiles = houser_data::metatile_table_top_left_tiles
+houser_metatile_table_top_right_tiles = houser_data::metatile_table_top_right_tiles
+houser_metatile_table_bottom_left_tiles = houser_data::metatile_table_bottom_left_tiles
+houser_metatile_table_bottom_right_tiles = houser_data::metatile_table_bottom_right_tiles
+houser_big_metatile_table_top_left = houser_data::big_metatile_table_top_left
+houser_big_metatile_table_top_right = houser_data::big_metatile_table_top_right
+houser_big_metatile_table_bottom_left = houser_data::big_metatile_table_bottom_left
+houser_big_metatile_table_bottom_right = houser_data::big_metatile_table_bottom_right
+houser_map = houser_data::map
 
 .scope meadow1_data
 .include "meadow1.inc"
