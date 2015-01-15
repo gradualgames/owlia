@@ -299,16 +299,15 @@ dungeon2_boss_owl_dungeon_sprite_chr_groups:
 ;Entity instance sets
 ;****************************************************************
 village_entity_instances:
-  .byte 4  ;count
+  .byte 3  ;count
   ;.byte entity_index_octopus, 25, 10, sprite_chr_group_index_octopus, 0
   ; .byte entity_index_octopus, 39, 10, sprite_chr_group_index_octopus, 0
   ; .byte entity_index_octopus, 31, 32, sprite_chr_group_index_octopus, 0
   ; .byte entity_index_octopus, 39, 53, sprite_chr_group_index_octopus, 0
   ; .byte entity_index_octopus, 20, 53, sprite_chr_group_index_octopus, 0
   .byte entity_index_npc, 31, 37, sprite_chr_group_index_npcman, 6, conversation_index_owlia_school_of_falconry, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
-  .byte entity_index_npc, 8, 20, sprite_chr_group_index_npcman, 6, conversation_index_hi_adlanniel, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte entity_index_npc, 15, 20, sprite_chr_group_index_npcman, 6, conversation_index_hi_adlanniel, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
   .byte entity_index_item, 31, 32, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_HEALTH, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
-  .byte entity_index_item, 11, 18, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_GP, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, <1000, >1000
 
 house1_intro_entity_instances:
   .byte 1
@@ -1090,37 +1089,37 @@ dungeon2_boss_owl_dungeon_palette:
 village_house1_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                         11, 14, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+                         18, 18, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 
 village_inn_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                         11, 35, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+                         19, 35, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 
 village_potionstore_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                         51, 35, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+                         43, 35, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 
 village_housebl_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                         11, 55, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+                         19, 48, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 
 village_housebr_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                         51, 55, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+                         43, 48, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 
 village_housetr_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                         51, 14, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+                         43, 18, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
 
 village_bottom_entrance:
 define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                      31, 62, 0, 0, 0, HERO_DIRECTION_UP
+                      31, 54, 0, 0, 0, HERO_DIRECTION_UP
 
 ;house1 locations
 house1_intro:
