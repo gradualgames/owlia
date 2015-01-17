@@ -31,7 +31,8 @@
     tundra2_area, \
     tundra3_area, \
     dungeon2_area, \
-    dungeon2_boss_area
+    dungeon2_boss_area, \
+    mountain1_area
 
 areas_lo:
   .lobytes areas
@@ -569,3 +570,28 @@ dungeon2_boss_area_nametable_monolith_east_bg_patch:
 dungeon2_boss_area_nametable_monolith_west_bg_patch:
   .byte $02,$06,$bb,$bc,$b4,$b5,$bb,$bc,$b4,$b5,$c6,$bc,$cc,$b5
 
+mountain1_area:
+  .byte MAP_DATA_BANK2
+  .byte CONVERSATIONS_BANK
+  .word mountain1_area_bg_chr_groups
+  .word hero_theme
+  .byte $33 ;textbox_attribute
+  .word mountain1_map
+  .word mountain1_metatile_table_properties
+  .word mountain1_metatile_table_params
+  .word mountain1_metatile_table_attributes
+  .word mountain1_metatile_table_top_left_tiles
+  .word mountain1_metatile_table_top_right_tiles
+  .word mountain1_metatile_table_bottom_left_tiles
+  .word mountain1_metatile_table_bottom_right_tiles
+  .word mountain1_big_metatile_table_top_left
+  .word mountain1_big_metatile_table_top_right
+  .word mountain1_big_metatile_table_bottom_left
+  .word mountain1_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
+
+mountain1_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK3
+  .word mountain_chr

@@ -256,4 +256,18 @@ MAP_DATA_BANK2 = 14
 .global dungeon2_boss_metatile_table_top_right_tiles
 .global dungeon2_boss_metatile_table_top_left_tiles
 
+.global mountain1_palette
+.global mountain1_map
+.global mountain1_big_metatile_table_bottom_right
+.global mountain1_big_metatile_table_bottom_left
+.global mountain1_big_metatile_table_top_right
+.global mountain1_big_metatile_table_top_left
+.global mountain1_metatile_table_properties
+.global mountain1_metatile_table_params
+.global mountain1_metatile_table_attributes
+.global mountain1_metatile_table_bottom_right_tiles
+.global mountain1_metatile_table_bottom_left_tiles
+.global mountain1_metatile_table_top_right_tiles
+.global mountain1_metatile_table_top_left_tiles
+
 .endif

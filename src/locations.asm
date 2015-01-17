@@ -130,7 +130,8 @@
     dungeon2_3_3_w, \
     dungeon2_boss_area_entrance, \
     dungeon2_boss_area_east_exit, \
-    dungeon2_boss_area_owl_dungeon
+    dungeon2_boss_area_owl_dungeon, \
+    mountain1_south_entrance
 
 locations_lo:
   .lobytes locations
@@ -294,6 +295,16 @@ dungeon2_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_cage
   .byte sprite_chr_group_index_siberianeagleowl
+
+mountain1_sprite_chr_groups:
+  .byte 7   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_tyto
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
 
 ;****************************************************************
 ;Entity instance sets
@@ -998,6 +1009,9 @@ dungeon2_boss_owl_dungeon_entity_instances:
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon2_boss_east_exit, \
                                           0, 3
 
+mountain1_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -1075,6 +1089,11 @@ dungeon2_boss_owl_dungeon_palette:
   .byte 6,$31,7,$20,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte 6,$20,7,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte 6,$31,7,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte PALETTE_CYCLE_LOOP
+
+mountain1_palette:
+  .byte $0e,$07,$17,$26,$0e,$0e,$0e,$36,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
@@ -1405,3 +1424,8 @@ define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                         area_index_dungeon2_boss, dungeon2_boss_owl_dungeon_sprite_chr_groups, dungeon2_boss_owl_dungeon_entity_instances, dungeon2_boss_owl_dungeon_palette,\
                         16, 0, 19, 10,\
                         0, 0, 0, HERO_DIRECTION_RIGHT
+
+mountain1_south_entrance:
+define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
+                      area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
+                      24, 62, 0, 0, 0, HERO_DIRECTION_UP
