@@ -53,11 +53,16 @@ treasure_room_state_main:
   .scope
 next_entity:
   lda entity_flags,y
-  and #(ENTITY_FLAGS_ALIVE_TEST|ENTITY_FLAGS_IS_ENEMY_TEST)
-  cmp #(ENTITY_FLAGS_ALIVE_TEST|ENTITY_FLAGS_IS_ENEMY_TEST)
-  bne not_enemy
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity
+  lda entity_flags,y
+  and #ENTITY_FLAGS_IS_ENEMY_TEST
+  beq skip_entity
+  lda entity_flags,y
+  and #ENTITY_FLAGS_MARKED_FOR_KILL_TEST
+  bne skip_entity
   inc b0
-not_enemy:
+skip_entity:
   dey
   bpl next_entity
   .endscope
