@@ -1106,7 +1106,7 @@ dungeon2_boss_owl_dungeon_palette:
   .byte PALETTE_CYCLE_LOOP
 
 mountain1_palette:
-  .byte $0e,$07,$17,$26,$0e,$0e,$0e,$36,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$07,$17,$26,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte PALETTE_CYCLE_LOOP
 
@@ -1445,9 +1445,10 @@ define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                         0, 0, 0, HERO_DIRECTION_RIGHT
 
 mountain1_south_entrance:
-define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
-                      24, 62, 0, 0, 0, HERO_DIRECTION_UP
+                      0, 50, 8, 55,\
+                      0, 0, 0, HERO_DIRECTION_UP
 
 cave_top_left:
 define_location   LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
