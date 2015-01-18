@@ -134,8 +134,10 @@
     mountain1_south_entrance, \
     mountain1_top_left_cave_entrance, \
     mountain1_bottom_left_cave_entrance, \
+    mountain1_bottom_right_cave_entrance, \
     cave_top_left, \
-    cave_bottom_left
+    cave_bottom_left, \
+    cave_bottom_right
 
 locations_lo:
   .lobytes locations
@@ -1465,6 +1467,12 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                       0, 41, 10, 51,\
                       0, 0, 0, HERO_DIRECTION_DOWN
 
+mountain1_bottom_right_cave_entrance:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                      area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
+                      48, 44, 56, 50,\
+                      0, 0, 0, HERO_DIRECTION_DOWN
+
 cave_top_left:
 define_location   LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
                   LOCATION_BRIGHTNESS_LEVEL_0,\
@@ -1477,4 +1485,10 @@ define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                   LOCATION_BRIGHTNESS_LEVEL_0,\
                         area_index_cave, cave_sprite_chr_groups, cave_entity_instances, cave_palette,\
                         0, 32, 13, 44,\
+                        0, 0, 0, HERO_DIRECTION_UP
+
+cave_bottom_right:
+define_location   LOCATION_BRIGHTNESS_LEVEL_0,\
+                        area_index_cave, cave_sprite_chr_groups, cave_entity_instances, cave_palette,\
+                        32, 50, 40, 57,\
                         0, 0, 0, HERO_DIRECTION_UP
