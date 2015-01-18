@@ -132,6 +132,7 @@
     dungeon2_boss_area_east_exit, \
     dungeon2_boss_area_owl_dungeon, \
     mountain1_south_entrance, \
+    mountain1_top_left_cave_entrance, \
     cave_top_left
 
 locations_lo:
@@ -1449,6 +1450,12 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
                       0, 50, 8, 55,\
                       0, 0, 0, HERO_DIRECTION_UP
+
+mountain1_top_left_cave_entrance:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                      area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
+                      0, 0, 10, 3,\
+                      0, 0, 0, HERO_DIRECTION_DOWN
 
 cave_top_left:
 define_location   LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
