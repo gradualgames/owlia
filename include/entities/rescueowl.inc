@@ -48,7 +48,7 @@ rescueowl_earned_techs:
 
 rescueowl_dungeon_exit_locations:
   .byte location_index_tundra1_entrance
-  .byte location_index_tundra1_entrance
+  .byte location_index_mountain1_south_entrance
 
 .define rescueowl_states \
   rescueowl_state_init, \
