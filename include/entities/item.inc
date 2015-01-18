@@ -508,11 +508,8 @@ not_touching_hero:
   lda #$10
   sta familiar_carried_entity_y_offset
 
-  ;store the item's entity index as the entity that is to be fetched.
-  stx familiar_carried_entity_index
-
   ;tell the familiar to return to the hero with the fetched item.
-  far_call #FAMILIAR_BANK, familiar_fetch_item
+  far_call #FAMILIAR_BANK, familiar_fetch_current_item
 
 familiar_not_intersecting:
 familiar_not_fetching:

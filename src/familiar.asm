@@ -387,12 +387,21 @@ cannot_spawn_lantern:
 
 .endproc
 
-;informs the familiar that it hit an entity that wants to be fetched
-;back to the hero.
-.proc familiar_fetch_item
+;informs the familiar that it hit an entity that wants
+;to be fetched back to the hero.
+;expects that x points to the current entity being updated.
+;should be far-called from the entity module.
+.proc familiar_fetch_current_item
+
+  lda familiar_carried_entity_index
+  bpl familiar_already_fetching_another_item
 
   lda #FAMILIAR_STATE_FETCH_ALIGHT_ON_ITEM
   sta familiar_state
+
+  stx familiar_carried_entity_index
+
+familiar_already_fetching_another_item:
 
   rts
 
