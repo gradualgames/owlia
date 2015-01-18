@@ -313,7 +313,7 @@ mountain1_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
 
 cave_sprite_chr_groups:
-  .byte 7   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_tyto
@@ -321,6 +321,7 @@ cave_sprite_chr_groups:
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_treasure_chest
 
 ;****************************************************************
 ;Entity instance sets
@@ -1028,8 +1029,17 @@ dungeon2_boss_owl_dungeon_entity_instances:
 mountain1_entity_instances:
   .byte 0
 
-cave_entity_instances:
-  .byte 0
+cave_top_left_entity_instances:
+  .byte 1
+  .byte entity_index_treasure_chest, 26, 6, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+
+cave_bottom_left_entity_instances:
+  .byte 1
+  .byte entity_index_treasure_chest, 16, 36, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+
+cave_bottom_right_entity_instances:
+  .byte 1
+  .byte entity_index_treasure_chest, 35, 36, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 ;****************************************************************
 ;Palettes.
@@ -1472,20 +1482,20 @@ define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
 
 cave_top_left:
 define_location   LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
-                  LOCATION_BRIGHTNESS_LEVEL_0,\
-                        area_index_cave, cave_sprite_chr_groups, cave_entity_instances, cave_palette,\
+                  LOCATION_BRIGHTNESS_LEVEL_4,\
+                        area_index_cave, cave_sprite_chr_groups, cave_top_left_entity_instances, cave_palette,\
                         0, 0, 9, 12,\
                         0, 0, 0, HERO_DIRECTION_UP
 
 cave_bottom_left:
 define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
-                  LOCATION_BRIGHTNESS_LEVEL_0,\
-                        area_index_cave, cave_sprite_chr_groups, cave_entity_instances, cave_palette,\
-                        1, 50, 13, 60,\
+                  LOCATION_BRIGHTNESS_LEVEL_4,\
+                        area_index_cave, cave_sprite_chr_groups, cave_bottom_left_entity_instances, cave_palette,\
+                        3, 48, 15, 56,\
                         0, 0, 0, HERO_DIRECTION_UP
 
 cave_bottom_right:
-define_location   LOCATION_BRIGHTNESS_LEVEL_0,\
-                        area_index_cave, cave_sprite_chr_groups, cave_entity_instances, cave_palette,\
-                        32, 50, 40, 56,\
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                        area_index_cave, cave_sprite_chr_groups, cave_bottom_right_entity_instances, cave_palette,\
+                        32, 48, 40, 56,\
                         0, 0, 0, HERO_DIRECTION_UP
