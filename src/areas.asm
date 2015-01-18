@@ -32,7 +32,8 @@
     tundra3_area, \
     dungeon2_area, \
     dungeon2_boss_area, \
-    mountain1_area
+    mountain1_area, \
+    cave_area
 
 areas_lo:
   .lobytes areas
@@ -258,7 +259,7 @@ meadow1_area_bg_chr_groups:
   .word meadow1_trees_corners
 
 meadow2_area:
-  .byte MAP_DATA_BANK2
+  .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word meadow2_area_bg_chr_groups
   .word hero_theme
@@ -595,3 +596,29 @@ mountain1_area_bg_chr_groups:
   .byte 1  ;count
   .byte BG_CHR_DATA_BANK3
   .word mountain_chr
+
+cave_area:
+  .byte MAP_DATA_BANK2
+  .byte CONVERSATIONS_BANK
+  .word cave_area_bg_chr_groups
+  .word hero_theme
+  .byte $33 ;textbox_attribute
+  .word cave_map
+  .word cave_metatile_table_properties
+  .word cave_metatile_table_params
+  .word cave_metatile_table_attributes
+  .word cave_metatile_table_top_left_tiles
+  .word cave_metatile_table_top_right_tiles
+  .word cave_metatile_table_bottom_left_tiles
+  .word cave_metatile_table_bottom_right_tiles
+  .word cave_big_metatile_table_top_left
+  .word cave_big_metatile_table_top_right
+  .word cave_big_metatile_table_bottom_left
+  .word cave_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
+
+cave_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK3
+  .word cave_chr

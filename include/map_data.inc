@@ -270,4 +270,18 @@ MAP_DATA_BANK2 = 14
 .global mountain1_metatile_table_top_right_tiles
 .global mountain1_metatile_table_top_left_tiles
 
+.global cave_palette
+.global cave_map
+.global cave_big_metatile_table_bottom_right
+.global cave_big_metatile_table_bottom_left
+.global cave_big_metatile_table_top_right
+.global cave_big_metatile_table_top_left
+.global cave_metatile_table_properties
+.global cave_metatile_table_params
+.global cave_metatile_table_attributes
+.global cave_metatile_table_bottom_right_tiles
+.global cave_metatile_table_bottom_left_tiles
+.global cave_metatile_table_top_right_tiles
+.global cave_metatile_table_top_left_tiles
+
 .endif

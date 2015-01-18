@@ -72,6 +72,9 @@ tundra_chr:
 mountain_chr:
 .incbin "mountain.chr"
 
+cave_chr:
+.incbin "cave.chr"
+
 dungeon2_main_chr:
 .incbin "dungeon2_main.chr"
 

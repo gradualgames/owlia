@@ -157,8 +157,6 @@ meadow1_big_metatile_table_bottom_left = meadow1_data::big_metatile_table_bottom
 meadow1_big_metatile_table_bottom_right = meadow1_data::big_metatile_table_bottom_right
 meadow1_map = meadow1_data::map
 
-.segment "ROM14"
-
 .scope meadow2_data
 .include "meadow2.inc"
 .endscope
@@ -175,6 +173,8 @@ meadow2_big_metatile_table_top_right = meadow2_data::big_metatile_table_top_righ
 meadow2_big_metatile_table_bottom_left = meadow2_data::big_metatile_table_bottom_left
 meadow2_big_metatile_table_bottom_right = meadow2_data::big_metatile_table_bottom_right
 meadow2_map = meadow2_data::map
+
+.segment "ROM14"
 
 .scope meadow3_data
 .include "meadow3.inc"
@@ -328,3 +328,20 @@ mountain1_big_metatile_table_top_right = mountain1_data::big_metatile_table_top_
 mountain1_big_metatile_table_bottom_left = mountain1_data::big_metatile_table_bottom_left
 mountain1_big_metatile_table_bottom_right = mountain1_data::big_metatile_table_bottom_right
 mountain1_map = mountain1_data::map
+
+.scope cave_data
+.include "cave.inc"
+.endscope
+
+cave_metatile_table_properties = cave_data::metatile_table_properties
+cave_metatile_table_params = cave_data::metatile_table_params
+cave_metatile_table_attributes = cave_data::metatile_table_attributes
+cave_metatile_table_top_left_tiles = cave_data::metatile_table_top_left_tiles
+cave_metatile_table_top_right_tiles = cave_data::metatile_table_top_right_tiles
+cave_metatile_table_bottom_left_tiles = cave_data::metatile_table_bottom_left_tiles
+cave_metatile_table_bottom_right_tiles = cave_data::metatile_table_bottom_right_tiles
+cave_big_metatile_table_top_left = cave_data::big_metatile_table_top_left
+cave_big_metatile_table_top_right = cave_data::big_metatile_table_top_right
+cave_big_metatile_table_bottom_left = cave_data::big_metatile_table_bottom_left
+cave_big_metatile_table_bottom_right = cave_data::big_metatile_table_bottom_right
+cave_map = cave_data::map

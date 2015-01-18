@@ -131,7 +131,8 @@
     dungeon2_boss_area_entrance, \
     dungeon2_boss_area_east_exit, \
     dungeon2_boss_area_owl_dungeon, \
-    mountain1_south_entrance
+    mountain1_south_entrance, \
+    cave_top_left
 
 locations_lo:
   .lobytes locations
@@ -297,6 +298,16 @@ dungeon2_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_siberianeagleowl
 
 mountain1_sprite_chr_groups:
+  .byte 7   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_tyto
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+
+cave_sprite_chr_groups:
   .byte 7   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -1012,6 +1023,9 @@ dungeon2_boss_owl_dungeon_entity_instances:
 mountain1_entity_instances:
   .byte 0
 
+cave_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -1093,6 +1107,11 @@ dungeon2_boss_owl_dungeon_palette:
 
 mountain1_palette:
   .byte $0e,$07,$17,$26,$0e,$0e,$0e,$36,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte PALETTE_CYCLE_LOOP
+
+cave_palette:
+  .byte $0e,$07,$17,$26,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte PALETTE_CYCLE_LOOP
 
@@ -1429,3 +1448,10 @@ mountain1_south_entrance:
 define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
                       24, 62, 0, 0, 0, HERO_DIRECTION_UP
+
+cave_top_left:
+define_location   LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
+                  LOCATION_BRIGHTNESS_LEVEL_0,\
+                        area_index_cave, cave_sprite_chr_groups, cave_entity_instances, cave_palette,\
+                        0, 0, 9, 12,\
+                        0, 0, 0, HERO_DIRECTION_UP
