@@ -1457,21 +1457,18 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
 
 mountain1_top_left_cave_entrance:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
-                      area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
-                      0, 0, 10, 3,\
-                      0, 0, 0, HERO_DIRECTION_DOWN
+                               area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
+                               2, 0, 10, 3, 0, 0, 0, HERO_DIRECTION_DOWN
 
 mountain1_bottom_left_cave_entrance:
-define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
-                      area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
-                      0, 41, 10, 51,\
-                      0, 0, 0, HERO_DIRECTION_DOWN
+define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                               area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
+                               10, 51, 0, 0, 0, HERO_DIRECTION_DOWN
 
 mountain1_bottom_right_cave_entrance:
-define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
-                      area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
-                      48, 44, 56, 50,\
-                      0, 0, 0, HERO_DIRECTION_DOWN
+define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                               area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
+                               56, 50, 0, 0, 0, HERO_DIRECTION_DOWN
 
 cave_top_left:
 define_location   LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
@@ -1484,11 +1481,11 @@ cave_bottom_left:
 define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                   LOCATION_BRIGHTNESS_LEVEL_0,\
                         area_index_cave, cave_sprite_chr_groups, cave_entity_instances, cave_palette,\
-                        0, 32, 13, 44,\
+                        1, 50, 13, 60,\
                         0, 0, 0, HERO_DIRECTION_UP
 
 cave_bottom_right:
 define_location   LOCATION_BRIGHTNESS_LEVEL_0,\
                         area_index_cave, cave_sprite_chr_groups, cave_entity_instances, cave_palette,\
-                        32, 50, 40, 57,\
+                        32, 50, 40, 56,\
                         0, 0, 0, HERO_DIRECTION_UP
