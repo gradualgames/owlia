@@ -2,5 +2,6 @@
 UTIL_INC = 1
 
 .global indirect_jsr_w0
+.global next_rand
 
 .endif

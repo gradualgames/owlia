@@ -30,13 +30,12 @@ CRAB_INITIAL_HEALTH = 3
 crab_random_turnleft_counter = entity_local0
 crab_random_turnright_counter = entity_local1
 crab_random_pause_counter = entity_local2
-crab_pseudo_random_number = entity_local3
-crab_x_fine = entity_local4
-crab_y_fine = entity_local5
-crab_direction = entity_local6
-crab_health = entity_local7
-crab_knockback_counter = entity_local8
-crab_flash_counter = entity_local9
+crab_x_fine = entity_local3
+crab_y_fine = entity_local4
+crab_direction = entity_local5
+crab_health = entity_local6
+crab_knockback_counter = entity_local7
+crab_flash_counter = entity_local8
 
 .enum
 CRAB_STATE_INIT
@@ -171,8 +170,6 @@ crab_state_init:
   lda #CRAB_INITIAL_HEALTH
   sta crab_health,x
 
-  lda #0
-  sta crab_pseudo_random_number,x
   sta crab_random_pause_counter,x
 
   lda #0
@@ -188,23 +185,6 @@ crab_state_main:
 
   entity_combat #CRAB_ATTACKED_LENGTH, #CRAB_KNOCKBACK_LENGTH, crab_flash_counter, crab_knockback_counter, crab_health, crab_direction
 
-  ;permute the pseudo random number
-  .scope
-: lda crab_pseudo_random_number,x
-  beq doEor
-  asl
-  beq noEor ;if the input was $80, skip the EOR
-  bcc noEor
-doEor:
-  eor stream_read_address_lo
-noEor:
-  sta crab_pseudo_random_number,x
-  dey
-  bne :-
-
-  sta crab_pseudo_random_number,x
-  .endscope
-
   .scope
   dec crab_random_turnleft_counter,x
   bne do_not_turn_crab
@@ -213,7 +193,7 @@ noEor:
   lda crab_turnleft_direction,y
   sta crab_direction,x
 
-  lda crab_pseudo_random_number,x
+  lda rand
   sta crab_random_turnleft_counter,x
 
 do_not_turn_crab:
@@ -229,7 +209,7 @@ do_not_turn_crab:
 
   ;select random number with an offset
   clc
-  lda crab_pseudo_random_number,x
+  lda rand
   adc #128
   sta crab_random_turnleft_counter,x
 
@@ -239,7 +219,7 @@ do_not_turn_crab:
   dec crab_random_pause_counter,x
   bne :+
 
-  lda crab_pseudo_random_number,x
+  lda rand
   adc #196
   sta crab_random_pause_counter,x
 

@@ -41,6 +41,8 @@ w18: .res 2
 w19: .res 2
 w20: .res 2
 
+rand: .res 1
+
 spawned_entity: .res 1
 
 map_address: .res 2

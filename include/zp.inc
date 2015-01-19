@@ -40,6 +40,8 @@ ZP_INC = 1
 .globalzp w19
 .globalzp w20
 
+.globalzp rand
+
 .globalzp spawned_entity
 
 .globalzp map_address

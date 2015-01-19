@@ -81,11 +81,12 @@ explosion_state_init:
   lda entity_y_hi,x
   sta explosion_spawn_y_hi,x
 
-  ;start the pseudo random number with a variable that is
-  ;frequently influenced by the human player
-  lda hero_x
+  lda rand
   sta explosion_random_offset_x,x
-  lda hero_y
+
+  jsr next_rand
+
+  lda rand
   sta explosion_random_offset_y,x
 
   ;play a sound

@@ -48,13 +48,12 @@ bob_velocity_hi = entity_local8
 
 pufferfish_random_turnleft_counter = entity_local10
 pufferfish_random_turnright_counter = entity_local11
-pufferfish_pseudo_random_number = entity_local12
-pufferfish_animation_offset = entity_local13
-pufferfish_puff_counter = entity_local14
-pufferfish_direction = entity_local16
-pufferfish_health = entity_local17
-pufferfish_knockback_counter = entity_local18
-pufferfish_flash_counter = entity_local19
+pufferfish_animation_offset = entity_local12
+pufferfish_puff_counter = entity_local13
+pufferfish_direction = entity_local14
+pufferfish_health = entity_local15
+pufferfish_knockback_counter = entity_local16
+pufferfish_flash_counter = entity_local17
 
 .enum
 PUFFERFISH_DIRECTION_RIGHT
@@ -242,9 +241,6 @@ pufferfish_state_init:
   lda #100
   sta pufferfish_random_turnleft_counter,x
 
-  lda #0
-  sta pufferfish_pseudo_random_number,x
-
   ;initialize animation offset
   lda #PUFFERFISH_PUFFED_ANIMATION_OFFSET
   sta pufferfish_animation_offset,x
@@ -407,23 +403,6 @@ do_not_switch_state:
 
 do_not_turn_pufferfish:
 
-  ;permute the pseudo random number
-  .scope
-: lda pufferfish_pseudo_random_number,x
-  beq doEor
-  asl
-  beq noEor ;if the input was $80, skip the EOR
-  bcc noEor
-doEor:
-  eor stream_read_address_lo
-noEor:
-  sta pufferfish_pseudo_random_number,x
-  dey
-  bne :-
-
-  sta pufferfish_pseudo_random_number,x
-  .endscope
-
   .scope
   dec pufferfish_random_turnleft_counter,x
   bne do_not_turn_pufferfish
@@ -432,7 +411,7 @@ noEor:
   lda pufferfish_turnleft_direction,y
   sta pufferfish_direction,x
 
-  lda pufferfish_pseudo_random_number,x
+  lda rand
   sta pufferfish_random_turnleft_counter,x
 
 do_not_turn_pufferfish:
@@ -448,7 +427,7 @@ do_not_turn_pufferfish:
 
   ;select random number with an offset
   clc
-  lda pufferfish_pseudo_random_number,x
+  lda rand
   adc #128
   sta pufferfish_random_turnleft_counter,x
 

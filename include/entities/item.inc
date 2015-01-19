@@ -203,45 +203,56 @@ not_flashing_yet:
 
 item_state_drop_random_item_init:
 
-  ;just eor a bunch of game state together to
-  ;get a pseudo random number for the item type.
-  ;I played around with the prng I had been using
-  ;since Nomolos, but I am actually getting much
-  ;better results from the following very simple
-  ;code.
   .scope
-  lda stream_read_address_lo
-  eor hero_x
-  eor hero_y
+
+  lda rand
+  and #%01111111
   sta b0
 
-  clc
-  lda b0
-  sbc #<5
-  lda #0
-  sbc #>5
-  bmi drop_lantern
+  .scope
+  lda #1
+  cmp b0
+  bpl skip
+  lda #26
+  cmp b0
+  bmi skip
+  jmp drop_gp
+skip:
+  .endscope
 
-  clc
-  lda b0
-  sbc #<20
-  lda #0
-  sbc #>20
-  bmi drop_bomb
+  .scope
+  lda #26
+  cmp b0
+  bpl skip
+  lda #51
+  cmp b0
+  bmi skip
+  jmp drop_heart
+skip:
+  .endscope
 
-  clc
-  lda b0
-  sbc #<50
-  lda #0
-  sbc #>50
-  bmi drop_heart
 
-  clc
-  lda b0
-  sbc #<80
-  lda #0
-  sbc #>80
-  bmi drop_gp
+  .scope
+  lda #51
+  cmp b0
+  bpl skip
+  lda #76
+  cmp b0
+  bmi skip
+  jmp drop_bomb
+skip:
+  .endscope
+
+  .scope
+  lda #76
+  cmp b0
+  bpl skip
+  lda #101
+  cmp b0
+  bmi skip
+  jmp drop_lantern
+skip:
+  .endscope
 
   jmp do_not_drop_item
 

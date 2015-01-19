@@ -27,14 +27,13 @@ npc_walk_rect_width = entity_local2
 npc_walk_rect_height = entity_local3
 npc_mode = entity_local4
 npc_direction = entity_local5
-npc_pseudo_random_number = entity_local6
-npc_random_turnleft_counter = entity_local7
-npc_random_turnright_counter = entity_local8
-npc_random_pause_counter = entity_local9
-npc_spawn_x_lo = entity_local10
-npc_spawn_x_hi = entity_local11
-npc_spawn_y_lo = entity_local12
-npc_spawn_y_hi = entity_local13
+npc_random_turnleft_counter = entity_local6
+npc_random_turnright_counter = entity_local7
+npc_random_pause_counter = entity_local8
+npc_spawn_x_lo = entity_local9
+npc_spawn_x_hi = entity_local10
+npc_spawn_y_lo = entity_local11
+npc_spawn_y_hi = entity_local12
 
 npc_direction_speed_x_lo:
   .byte NPC_SPEED, -NPC_SPEED, 0, 0
@@ -124,9 +123,6 @@ npc_state_init:
   sta entity_height,x
 
   jsr entity_reset_animation
-
-  lda #0
-  sta npc_pseudo_random_number,x
 
   ;initialize random turn counters. Each time they count
   ;down the npc will turn (or pause), and then a new value will
@@ -219,21 +215,6 @@ do_not_move:
 
 npc_randomly_turn_or_pause:
 
-  ;permute the pseudo random number
-: lda npc_pseudo_random_number,x
-  beq doEor
-  asl
-  beq noEor ;if the input was $80, skip the EOR
-  bcc noEor
-doEor:
-  eor #$1d
-noEor:
-  sta npc_pseudo_random_number,x
-  dey
-  bne :-
-
-  sta npc_pseudo_random_number,x
-
   .scope
   dec npc_random_turnleft_counter,x
   bne do_not_turn_npc
@@ -245,7 +226,7 @@ noEor:
   lda npc_turnleft_direction,y
   sta npc_direction,x
 
-  lda npc_pseudo_random_number,x
+  lda rand
   sta npc_random_turnleft_counter,x
 
 do_not_turn_npc:
@@ -264,7 +245,7 @@ do_not_turn_npc:
 
   ;select random number with an offset
   clc
-  lda npc_pseudo_random_number,x
+  lda rand
   adc #128
   sta npc_random_turnleft_counter,x
 
@@ -280,7 +261,7 @@ do_not_turn_npc:
 
   ;select random number with an offset
   clc
-  lda npc_pseudo_random_number,x
+  lda rand
   adc #128
   sta npc_random_pause_counter,x
 

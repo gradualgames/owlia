@@ -23,6 +23,7 @@
 .include "hero.inc"
 .include "hero_constants.inc"
 .include "password.inc"
+.include "util.inc"
 
 .segment "HEADER"
 .byte "NES",$1a   ;iNES header
@@ -150,6 +151,8 @@ vblank:
   upload_ppu_2001
 
 do_not_hide_graphics_top:
+
+  jsr next_rand
 
   jsr ppu_advance_palette_cycle
 

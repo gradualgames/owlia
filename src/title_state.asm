@@ -192,6 +192,10 @@ title_state_show_cut_scene:
 
 title_state_start_game:
 
+  ;transfer title state counter to random number to seed random number generation
+  lda state_control_params+title_state_control::title_state_counter
+  sta rand
+
   ;fade out title palette
   lda #<title_screen_palette
   sta palette_address
