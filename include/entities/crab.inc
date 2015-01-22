@@ -170,6 +170,7 @@ crab_state_init:
   lda #CRAB_INITIAL_HEALTH
   sta crab_health,x
 
+  lda rand
   sta crab_random_pause_counter,x
 
   lda #0
