@@ -762,9 +762,9 @@ dungeon2_2_0_entity_instances:
                                          0, 5
   .byte entity_index_bombable_wall, 36, 4, 0, BOMBABLE_WALL_PARAMS, 6, %00100010, ACTION_NOP, 0
   .byte entity_index_urchin, 35, 9, 0, URCHIN_PARAMS, 8*8, 40, <(256*2), >(256*2), 0, 0
+  .byte entity_index_ice_block, 37, 5, 0, 0
   .byte entity_index_ice_block, 38, 5, 0, 0
   .byte entity_index_ice_block, 39, 5, 0, 0
-  .byte entity_index_ice_block, 40, 5, 0, 0
 
 dungeon2_3_0_entity_instances:
   .byte 4
