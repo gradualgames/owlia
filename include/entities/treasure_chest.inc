@@ -159,6 +159,9 @@ treasure_chest_state_opened:
   lda treasure_chest_item_type,x
   cmp #TREASURE_CHEST_ITEM_TYPE_GP
   beq spawn_gp
+  lda treasure_chest_item_type,x
+  cmp #TREASURE_CHEST_ITEM_TYPE_BOMB
+  beq spawn_bomb
 
   rts
 
@@ -219,6 +222,46 @@ spawn_gp:
   lda #ITEM_STATE_PICKUP_INIT
   sta item_initial_state,y
   lda #ITEM_TYPE_GP
+  sta item_type,y
+  lda treasure_chest_item_quantity_lo,x
+  sta item_quantity_lo,y
+  lda treasure_chest_item_quantity_hi,x
+  sta item_quantity_hi,y
+  lda treasure_chest_dungeon_flags_mask,x
+  sta item_dungeon_flags_mask,y
+
+  rts
+
+spawn_bomb:
+
+  clc
+  lda w0
+  adc #<4
+  sta w0
+  lda w0+1
+  adc #>4
+  sta w0+1
+
+  sec
+  lda w1
+  sbc #<8
+  sta w1
+  lda w1+1
+  sbc #>8
+  sta w1+1
+
+  lda #entity_index_item
+  sta b0
+
+  jsr entity_spawn
+
+  lda spawned_entity
+  sta treasure_chest_item_index,x
+
+  ldy spawned_entity
+  lda #ITEM_STATE_PICKUP_INIT
+  sta item_initial_state,y
+  lda #ITEM_TYPE_BOMB
   sta item_type,y
   lda treasure_chest_item_quantity_lo,x
   sta item_quantity_lo,y

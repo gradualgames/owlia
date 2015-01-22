@@ -732,7 +732,7 @@ dungeon2_0_0_entity_instances:
   .byte entity_index_urchin, 6, 5, 0, URCHIN_PARAMS, 8*6, 40, 0, 0, <(256*2), >(256*2)
   .byte entity_index_urchin, 9, 11, 0, URCHIN_PARAMS, 8*6, 40, 0, 0, <(-256*2), >(-256*2)
   .byte entity_index_urchin, 12, 5, 0, URCHIN_PARAMS, 8*6, 40, 0, 0, <(256*2), >(256*2)
-  .byte entity_index_treasure_chest, 2, 5, 0, TREASURE_CHEST_PARAMS, DUNGEON1_DUNGEON_FLAGS_TREASURE_CHEST1_OBTAINED, TREASURE_CHEST_MODE_DUNGEON, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_treasure_chest, 2, 5, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_DUNGEON, TREASURE_CHEST_ITEM_TYPE_BOMB, <3, >3
 
 dungeon2_1_0_entity_instances:
   .byte 4
