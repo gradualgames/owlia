@@ -303,16 +303,6 @@ dungeon2_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_siberianeagleowl
 
 mountain1_sprite_chr_groups:
-  .byte 7   ;sprite_chr_groups .byte
-  .byte sprite_chr_group_index_hero
-  .byte sprite_chr_group_index_familiar
-  .byte sprite_chr_group_index_tyto
-  .byte sprite_chr_group_index_explosion
-  .byte sprite_chr_group_index_bomb
-  .byte sprite_chr_group_index_lantern
-  .byte sprite_chr_group_index_coins
-
-cave_sprite_chr_groups:
   .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -321,7 +311,19 @@ cave_sprite_chr_groups:
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_horseshoe_crab
+
+cave_sprite_chr_groups:
+  .byte 9   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_tyto
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_treasure_chest
+  .byte sprite_chr_group_index_horseshoe_crab
 
 ;****************************************************************
 ;Entity instance sets
@@ -1027,7 +1029,8 @@ dungeon2_boss_owl_dungeon_entity_instances:
                                           0, 3
 
 mountain1_entity_instances:
-  .byte 0
+  .byte 1
+  .byte entity_index_horseshoe_crab, 4, 55, 0, 0
 
 cave_top_left_entity_instances:
   .byte 1
@@ -1122,12 +1125,12 @@ dungeon2_boss_owl_dungeon_palette:
 
 mountain1_palette:
   .byte $0e,$07,$17,$26,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$09,$19,$0e,$0e,$05,$15
   .byte PALETTE_CYCLE_LOOP
 
 cave_palette:
   .byte $0e,$07,$17,$26,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$09,$19,$0e,$0e,$05,$15
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************

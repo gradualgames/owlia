@@ -140,6 +140,10 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global siberianeagleowl_fly
 .global siberianeagleowl_perch
 
+.global horseshoe_crab_walk_side
+.global horseshoe_crab_walk_up
+.global horseshoe_crab_walk_down
+
 .global intro_cut_scene_great_owls_spr_overlay
 
 .global intro_cut_scene_mermon_leer_spr_overlay0

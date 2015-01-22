@@ -44,6 +44,7 @@
   ice_block_chr, \
   swordfish_boss_chr, \
   siberianeagleowl_chr, \
+  horseshoe_crab_chr, \
   intro_cut_scene_great_owls_spr_chr, \
   intro_cut_scene_mermon_leer_spr_chr
 
@@ -94,6 +95,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_ice_block
   .byte sprite_chr_group_bank_swordfish_boss
   .byte sprite_chr_group_bank_siberianeagleowl
+  .byte sprite_chr_group_bank_horseshoe_crab
   .byte sprite_chr_group_bank_intro_cut_scene_great_owls
   .byte sprite_chr_group_bank_intro_cut_scene_mermon_leer
 
@@ -216,6 +218,9 @@ swordfish_boss_chr:
 
 siberianeagleowl_chr:
 .incbin "siberianeagleowl.chr"
+
+horseshoe_crab_chr:
+.incbin "horseshoe_crab.chr"
 
 intro_cut_scene_great_owls_spr_chr:
 .incbin "intro_cut_scene_great_owls_spr.chr"

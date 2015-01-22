@@ -48,6 +48,7 @@ sprite_chr_group_index_ice_shards
 sprite_chr_group_index_ice_block
 sprite_chr_group_index_swordfish_boss
 sprite_chr_group_index_siberianeagleowl
+sprite_chr_group_index_horseshoe_crab
 sprite_chr_group_index_intro_cut_scene_great_owls
 sprite_chr_group_index_intro_cut_scene_mermon_leer
 .endenum
@@ -92,6 +93,7 @@ sprite_chr_group_bank_ice_shards = 8
 sprite_chr_group_bank_ice_block = 8
 sprite_chr_group_bank_swordfish_boss = 8
 sprite_chr_group_bank_siberianeagleowl = 8
+sprite_chr_group_bank_horseshoe_crab = 8
 sprite_chr_group_bank_intro_cut_scene_great_owls = 8
 sprite_chr_group_bank_intro_cut_scene_mermon_leer = 8
 
