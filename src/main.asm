@@ -27,8 +27,8 @@
 
 .segment "HEADER"
 .byte "NES",$1a   ;iNES header
-.byte $10         ;# of PRG-ROM ice_blocks. These are 16kb each. $4000 hex.
-.byte $00         ;# of CHR-ROM ice_blocks. These are 8kb each. $2000 hex.
+.byte $20         ;# of PRG-ROM banks. These are 16kb each. $4000 hex.
+.byte $00         ;# of CHR-ROM banks. These are 8kb each. $2000 hex.
 .byte $21         ;Vertical mirroring. SRAM disabled. No trainer. Four-screen mirroring disabled. Mapper #2 (UnROM)
 .byte $00         ;Rest of Mapper #2 bits (all 0)
 
