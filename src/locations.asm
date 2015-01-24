@@ -1493,7 +1493,7 @@ define_location   LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
 
 cave_bottom_left:
 define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
-                  LOCATION_BRIGHTNESS_LEVEL_4,\
+                  LOCATION_BRIGHTNESS_LEVEL_0,\
                         area_index_cave, cave_sprite_chr_groups, cave_bottom_left_entity_instances, cave_palette,\
                         3, 48, 15, 56,\
                         0, 0, 0, HERO_DIRECTION_UP
