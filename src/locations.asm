@@ -1037,8 +1037,9 @@ cave_top_left_entity_instances:
   .byte entity_index_treasure_chest, 26, 6, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 cave_bottom_left_entity_instances:
-  .byte 1
+  .byte 2
   .byte entity_index_treasure_chest, 16, 36, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_horseshoe_crab, 12, 52, 0, 0
 
 cave_bottom_right_entity_instances:
   .byte 1
@@ -1492,7 +1493,7 @@ define_location   LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
 
 cave_bottom_left:
 define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
-                  LOCATION_BRIGHTNESS_LEVEL_0,\
+                  LOCATION_BRIGHTNESS_LEVEL_4,\
                         area_index_cave, cave_sprite_chr_groups, cave_bottom_left_entity_instances, cave_palette,\
                         3, 48, 15, 56,\
                         0, 0, 0, HERO_DIRECTION_UP
