@@ -1253,6 +1253,12 @@ draw_entity:
   lda entity_flags,x
   and #ENTITY_FLAGS_DRAWABLE_TEST
   beq skip_entity
+
+  ;test to see if it is paused.
+  lda entity_flags,x
+  and #ENTITY_FLAGS_PAUSED_TEST
+  bne skip_entity
+
   ;the entity is drawable so proceed to calculate screen coords and draw its animation
   lda entity_animation_address_lo,x
   sta w0
