@@ -50,6 +50,9 @@ sfx_volume_envelope_error:
 sfx_volume_envelope_hit:
   .byte 15,6,10,15,9,2,0,ENV_STOP
 
+sfx_volume_envelope_hero_hit:
+  .byte 14, 12, 11, 9, 7, 6, 4, 2, 1, 0, 0,ENV_STOP
+
 sfx_volume_envelope_monolith:
   .byte 2,3,3,4,5,6,6,8,9,9,0,15,14,12,9,6,4,3,2,2,1,1,1,0,ENV_STOP
 
@@ -115,6 +118,7 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_inventory
   .word sfx_volume_envelope_error
   .word sfx_volume_envelope_hit
+  .word sfx_volume_envelope_hero_hit
   .word sfx_volume_envelope_monolith
   .word sfx_volume_envelope_chest_open
   .word sfx_volume_envelope_chest_melody
@@ -148,6 +152,10 @@ sfx_set1:
 
 sfx_hit:
   .byte STV,sfx_volume_envelope_index_hit,STP,sfx_pitch_envelope_index_flat,SDU,sfx_duty_envelope_index_standard,STL,20,8
+  .byte TRM
+
+sfx_hero_hit:
+  .byte STV,sfx_volume_envelope_index_hero_hit, STP, 0, SDU, 0, STL, 50, 5
   .byte TRM
 
 sfx_sword:

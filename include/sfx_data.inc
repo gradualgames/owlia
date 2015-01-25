@@ -7,6 +7,7 @@ SFX_DATA_INC = 1
 
 .global sfx_set1
 .global sfx_hit
+.global sfx_hero_hit
 .global sfx_sword
 .global sfx_door
 .global sfx_flap
@@ -45,6 +46,7 @@ sfx_volume_envelope_index_select
 sfx_volume_envelope_index_inventory
 sfx_volume_envelope_index_error
 sfx_volume_envelope_index_hit
+sfx_volume_envelope_index_hero_hit
 sfx_volume_envelope_index_monolith
 sfx_volume_envelope_index_chest_open
 sfx_volume_envelope_index_chest_melody

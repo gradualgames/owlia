@@ -542,9 +542,9 @@ skip_lookup_opposite_direction:
   sta entity_action_rect1_action
 
   ;play a sound
-  lda #<sfx_test
+  lda #<sfx_hero_hit
   sta sound_param_word_0
-  lda #>sfx_test
+  lda #>sfx_hero_hit
   sta sound_param_word_0+1
 
   lda #3
