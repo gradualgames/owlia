@@ -17,7 +17,6 @@ SFX_DATA_INC = 1
 .global sfx_select
 .global sfx_inventory
 .global sfx_error
-.global sfx_door_slam
 .global sfx_monolith_slam
 .global sfx_chest_open
 .global sfx_chest_melody

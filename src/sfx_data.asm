@@ -59,10 +59,6 @@ sfx_volume_envelope_13:
 sfx_volume_envelope_14:
   .byte 9,8,7,5,4,3,2,1,1,0,0,0,0,0,0,0,ENV_STOP
 
-;used for door slam
-sfx_volume_envelope_15:
-  .byte 0,1,1,1,1,2,2,3,3,4,5,6,8,10,13,15,ENV_STOP
-
 ;used for monolith slam
 sfx_volume_envelope_16:
   .byte 2,3,3,4,5,6,6,8,9,9,0,15,14,12,9,6,4,3,2,2,1,1,1,0,ENV_STOP
@@ -126,7 +122,7 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_12
   .word sfx_volume_envelope_13
   .word sfx_volume_envelope_14
-  .word sfx_volume_envelope_15
+  .word 0
   .word sfx_volume_envelope_16
   .word sfx_volume_envelope_17
   .word sfx_volume_envelope_18
@@ -192,10 +188,6 @@ sfx_inventory:
 
 sfx_error:
   .byte STV,12,STP,0,SDU,0,STL,4,B1,F1
-  .byte TRM
-
-sfx_door_slam:
-  .byte STV,15,STP,0,SDU,0,STL,12,11,STV,14,STL,6,10,STL,6,15
   .byte TRM
 
 sfx_monolith_slam:
