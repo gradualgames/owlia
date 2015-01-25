@@ -52,4 +52,15 @@ sfx_volume_envelope_index_ice_explosion
 sfx_volume_envelope_index_whoosh
 .endenum
 
+.enum
+sfx_pitch_envelope_index_flat
+sfx_pitch_envelope_index_vibrato
+sfx_pitch_envelope_index_long_slide_down
+.endenum
+
+.enum
+sfx_duty_envelope_index_standard
+sfx_duty_envelope_index_ooo
+.endenum
+
 .endif
