@@ -303,7 +303,7 @@ dungeon2_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_siberianeagleowl
 
 mountain1_sprite_chr_groups:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_tyto
@@ -312,6 +312,7 @@ mountain1_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_horseshoe_crab
+  .byte sprite_chr_group_index_octopus
 
 cave_sprite_chr_groups:
   .byte 9   ;sprite_chr_groups .byte
@@ -1041,8 +1042,17 @@ dungeon2_boss_owl_dungeon_entity_instances:
                                           0, 3
 
 mountain1_entity_instances:
-  .byte 1
+  .byte 10
   .byte entity_index_horseshoe_crab, 4, 55, 0, 0
+  .byte entity_index_horseshoe_crab, 13, 23, 0, 0
+  .byte entity_index_horseshoe_crab, 42, 21, 0, 0
+  .byte entity_index_horseshoe_crab, 39, 6, 0, 0
+  .byte entity_index_octopus, 30, 55, 0, 0
+  .byte entity_index_octopus, 47, 55, 0, 0
+  .byte entity_index_octopus, 45, 37, 0, 0
+  .byte entity_index_octopus, 9, 40, 0, 0
+  .byte entity_index_octopus, 10, 8, 0, 0
+  .byte entity_index_octopus, 57, 18, 0, 0
 
 cave_top_left_entity_instances:
   .byte 1
