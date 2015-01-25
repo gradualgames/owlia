@@ -404,14 +404,35 @@ skip_spawn_carry_hero:
 .proc hero_spawn_familiar_spawn_carry_bomb
   .ifndef INFINITE_ITEMS
   lda inventory_bombs
-  beq no_bombs_left
+  beq cannot_spawn_bomb
   dec inventory_bombs
   .endif
+
+  ;count bombs, only allow spawning if less than 2
+  lda #0
+  sta b0
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq not_bomb
+  lda entity_type,y
+  cmp #entity_index_bomb
+  bne not_bomb
+  inc b0
+not_bomb:
+  dey
+  bpl next_entity
+
+  lda b0
+  cmp #2
+  bpl cannot_spawn_bomb
+
   far_call #FAMILIAR_BANK, familiar_spawn_carry_bomb
 
   rts
 
-no_bombs_left:
+cannot_spawn_bomb:
 
   ;play a sound
   lda #<sfx_error
