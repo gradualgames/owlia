@@ -77,6 +77,18 @@ item_increment_var_addresses_lo:
 item_increment_var_addresses_hi:
   .hibytes item_increment_var_addresses
 
+.define item_play_sound_addresses \
+  item_play_get_coins, \
+  item_play_get_item, \
+  item_play_get_item, \
+  item_play_get_item
+
+item_play_sound_addresses_lo:
+  .lobytes item_play_sound_addresses
+
+item_play_sound_addresses_hi:
+  .hibytes item_play_sound_addresses
+
 .define item_states \
   item_state_init, \
   item_state_pickup_init, \
@@ -441,6 +453,74 @@ exceeded_max:
 
 .endproc
 
+.proc item_play_get_item
+
+  ;play a sound
+  lda #<sfx_get_item
+  sta sound_param_word_0
+  lda #>sfx_get_item
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  rts
+
+.endproc
+
+.proc item_play_get_coins
+
+  ;play a sound
+  lda #<sfx_coins_square1
+  sta sound_param_word_0
+  lda #>sfx_coins_square1
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  ;play a sound
+  lda #<sfx_coins_square2
+  sta sound_param_word_0
+  lda #>sfx_coins_square2
+  sta sound_param_word_0+1
+
+  lda #1
+  sta sound_param_byte_0
+
+  lda #soundeffect_two
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  ; ;play a sound
+  ; lda #<sfx_coins_noise
+  ; sta sound_param_word_0
+  ; lda #>sfx_coins_noise
+  ; sta sound_param_word_0+1
+
+  ; lda #3
+  ; sta sound_param_byte_0
+
+  ; lda #soundeffect_one
+  ; sta sound_param_byte_1
+
+  ; far_call #SOUND_BANK, stream_initialize
+
+  rts
+
+.endproc
+
 .proc item_common_pickup_init
 
   jsr entity_set_drawable
@@ -479,19 +559,12 @@ exceeded_max:
   sta w0+1
   jsr indirect_jsr_w0
 
-  ;play a sound
-  lda #<sfx_get_item
-  sta sound_param_word_0
-  lda #>sfx_get_item
-  sta sound_param_word_0+1
-
-  lda #0
-  sta sound_param_byte_0
-
-  lda #soundeffect_one
-  sta sound_param_byte_1
-
-  far_call #SOUND_BANK, stream_initialize
+  ldy item_type,x
+  lda item_play_sound_addresses_lo,y
+  sta w0
+  lda item_play_sound_addresses_hi,y
+  sta w0+1
+  jsr indirect_jsr_w0
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR

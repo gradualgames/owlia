@@ -71,6 +71,9 @@ sfx_volume_envelope_ice_explosion:
 sfx_volume_envelope_whoosh:
   .byte 1,2,2,3,4,4,4,4,5,5,6,6,6,7,8,8,8,8,7,7,7,7,7,7,7,6,6,6,6,6,6,6,5,5,5,5,5,5,4,4,4,4,4,4,4,4,3,3,3,3,2,2,2,2,2,2,2,1,1,1,0,0,0,0,ENV_STOP
 
+sfx_volume_envelope_coins:
+  .byte 10,9,8,7,6,5,4,4,3,3,3,2,1,1,1,0,ENV_STOP
+
 ;****************************************************************
 ;pitch envelopes
 ;****************************************************************
@@ -119,6 +122,7 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_octoboss_rise
   .word sfx_volume_envelope_ice_explosion
   .word sfx_volume_envelope_whoosh
+  .word sfx_volume_envelope_coins
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_flat
@@ -227,4 +231,12 @@ sfx_ice_shatter_noise:
 
 sfx_whoosh:
   .byte STV,sfx_volume_envelope_index_whoosh,STP,sfx_pitch_envelope_index_flat,STL,64,$9
+  .byte TRM
+
+sfx_coins_square1:
+  .byte STV,sfx_volume_envelope_index_coins,STP,0,SDU,0,STL,4,C7,D7,E7,F7
+  .byte TRM
+
+sfx_coins_square2:
+  .byte STV,sfx_volume_envelope_index_coins,STP,0,SDU,0,STL,4,C7,CS7,D7,DS7
   .byte TRM
