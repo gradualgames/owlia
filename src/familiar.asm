@@ -1784,8 +1784,10 @@ do_not_drop_bomb_yet:
 
   jsr familiar_play_flap_sound
 
-  lda #FAMILIAR_STATE_CARRY_LANTERN_LENGTH
+  lda #<FAMILIAR_STATE_CARRY_LANTERN_LENGTH
   sta familiar_state_counter
+  lda #>FAMILIAR_STATE_CARRY_LANTERN_LENGTH
+  sta familiar_state_counter+1
 
   lda #FAMILIAR_STATE_CARRY_LANTERN
   sta familiar_state
@@ -1802,7 +1804,15 @@ do_not_drop_bomb_yet:
 ;****************************************************************
 .proc familiar_state_carry_lantern
 
-  dec familiar_state_counter
+  sec
+  lda familiar_state_counter
+  sbc #<1
+  sta familiar_state_counter
+  lda familiar_state_counter+1
+  sbc #>1
+  sta familiar_state_counter+1
+  lda familiar_state_counter
+  ora familiar_state_counter+1
   bne do_not_transition_to_return_to_hero_state
 
   .scope

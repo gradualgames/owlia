@@ -234,7 +234,7 @@ familiar_animation_object:        .res 2
 familiar_animation_address:       .res 2
 familiar_direction:               .res 1
 familiar_direction_change:        .res 1
-familiar_state_counter:           .res 1
+familiar_state_counter:           .res 2
 
 ;****************************************************************
 ;These variables describe various parameters that need to be set
