@@ -1055,17 +1055,26 @@ mountain1_entity_instances:
   .byte entity_index_octopus, 57, 18, 0, 0
 
 cave_top_left_entity_instances:
-  .byte 1
+  .byte 3
+  .byte entity_index_horseshoe_crab, 12, 7, 0, 0
+  .byte entity_index_horseshoe_crab, 26, 12, 0, 0
   .byte entity_index_treasure_chest, 26, 6, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 cave_bottom_left_entity_instances:
-  .byte 2
+  .byte 4
   .byte entity_index_treasure_chest, 16, 36, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_horseshoe_crab, 12, 52, 0, 0
+  .byte entity_index_horseshoe_crab, 5, 37, 0, 0
+  .byte entity_index_horseshoe_crab, 4, 47, 0, 0
 
 cave_bottom_right_entity_instances:
-  .byte 1
+  .byte 5
   .byte entity_index_treasure_chest, 35, 36, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_horseshoe_crab, 35, 42, 0, 0
+  .byte entity_index_horseshoe_crab, 43, 36, 0, 0
+  .byte entity_index_horseshoe_crab, 59, 47, 0, 0
+  .byte entity_index_horseshoe_crab, 49, 45, 0, 0
+
 
 ;****************************************************************
 ;Palettes.
