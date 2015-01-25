@@ -576,7 +576,7 @@ mountain1_area:
   .byte CONVERSATIONS_BANK
   .word mountain1_area_bg_chr_groups
   .word hero_theme
-  .byte $33 ;textbox_attribute
+  .byte $00 ;textbox_attribute
   .word mountain1_map
   .word mountain1_metatile_table_properties
   .word mountain1_metatile_table_params
@@ -602,7 +602,7 @@ cave_area:
   .byte CONVERSATIONS_BANK
   .word cave_area_bg_chr_groups
   .word hero_theme
-  .byte $33 ;textbox_attribute
+  .byte $00 ;textbox_attribute
   .word cave_map
   .word cave_metatile_table_properties
   .word cave_metatile_table_params

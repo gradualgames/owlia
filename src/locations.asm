@@ -303,7 +303,7 @@ dungeon2_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_siberianeagleowl
 
 mountain1_sprite_chr_groups:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 10   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_tyto
@@ -313,6 +313,7 @@ mountain1_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_horseshoe_crab
   .byte sprite_chr_group_index_octopus
+  .byte sprite_chr_group_index_dungeon_entrance_statue
 
 cave_sprite_chr_groups:
   .byte 9   ;sprite_chr_groups .byte
@@ -1042,7 +1043,7 @@ dungeon2_boss_owl_dungeon_entity_instances:
                                           0, 3
 
 mountain1_entity_instances:
-  .byte 10
+  .byte 11
   .byte entity_index_horseshoe_crab, 4, 55, 0, 0
   .byte entity_index_horseshoe_crab, 13, 23, 0, 0
   .byte entity_index_horseshoe_crab, 42, 21, 0, 0
@@ -1053,6 +1054,7 @@ mountain1_entity_instances:
   .byte entity_index_octopus, 9, 40, 0, 0
   .byte entity_index_octopus, 10, 8, 0, 0
   .byte entity_index_octopus, 57, 18, 0, 0
+  .byte entity_index_dungeon_entrance_statue, 44, 31, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <30000, >30000
 
 cave_top_left_entity_instances:
   .byte 3
