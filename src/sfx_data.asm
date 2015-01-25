@@ -10,10 +10,6 @@ sfx_volume_envelope_silence:
 sfx_volume_envelope_loud:
   .byte 15, ENV_STOP
 
-;used for hit
-sfx_volume_envelope_2:
-  .byte 14, 12, 11, 9, 7, 6, 4, 2, 1, 0, 0, ENV_STOP
-
 ;used for door slam
 sfx_volume_envelope_3:
   .byte 10,7,5,4,0,ENV_STOP
@@ -117,7 +113,7 @@ sfx_duty_envelope_1:
 sfx_volume_envelopes:
   .word sfx_volume_envelope_silence
   .word sfx_volume_envelope_loud
-  .word sfx_volume_envelope_2
+  .word 0
   .word sfx_volume_envelope_3
   .word sfx_volume_envelope_4
   .word sfx_volume_envelope_5
@@ -153,10 +149,6 @@ sfx_set1:
   .word sfx_volume_envelopes
   .word sfx_pitch_envelopes
   .word sfx_duty_envelopes
-
-sfx_test:
-  .byte STV,2, STP, 0, SDU, 0, STL, 50, 5
-  .byte TRM
 
 sfx_hit:
   .byte STV,13,STP,0,SDU,0,STL,20,8
