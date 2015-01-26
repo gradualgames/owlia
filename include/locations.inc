@@ -243,6 +243,7 @@ location_index_mountain1_bottom_right_cave_entrance
 location_index_cave_top_left
 location_index_cave_bottom_left
 location_index_cave_bottom_right
+location_index_dungeon3_entrance
 .endenum
 
 ;****************************************************************

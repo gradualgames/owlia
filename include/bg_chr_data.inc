@@ -4,6 +4,7 @@ BG_CHR_DATA_INC = 1
 BG_CHR_DATA_BANK1 = 9
 BG_CHR_DATA_BANK2 = 10
 BG_CHR_DATA_BANK3 = 11
+BG_CHR_DATA_BANK4 = 27
 
 .global textbox_chr
 .global font_chr
@@ -25,6 +26,7 @@ BG_CHR_DATA_BANK3 = 11
 .global dungeon2_platform_chr
 .global mountain_chr
 .global cave_chr
+.global dungeon3_main_chr
 .global inventory_bg_chr
 .global title_chr
 .global intro_cut_scene_great_owls_bg_chr

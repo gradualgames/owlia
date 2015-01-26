@@ -137,7 +137,8 @@
     mountain1_bottom_right_cave_entrance, \
     cave_top_left, \
     cave_bottom_left, \
-    cave_bottom_right
+    cave_bottom_right, \
+    dungeon3_entrance
 
 locations_lo:
   .lobytes locations
@@ -327,16 +328,21 @@ cave_sprite_chr_groups:
   .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_horseshoe_crab
 
+dungeon3_sprite_chr_groups:
+  .byte 7   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_tyto
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+
 ;****************************************************************
 ;Entity instance sets
 ;****************************************************************
 village_entity_instances:
   .byte 3  ;count
-  ;.byte entity_index_octopus, 25, 10, sprite_chr_group_index_octopus, 0
-  ; .byte entity_index_octopus, 39, 10, sprite_chr_group_index_octopus, 0
-  ; .byte entity_index_octopus, 31, 32, sprite_chr_group_index_octopus, 0
-  ; .byte entity_index_octopus, 39, 53, sprite_chr_group_index_octopus, 0
-  ; .byte entity_index_octopus, 20, 53, sprite_chr_group_index_octopus, 0
   .byte entity_index_npc, 31, 37, sprite_chr_group_index_npcman, 6, conversation_index_owlia_school_of_falconry, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
   .byte entity_index_npc, 15, 20, sprite_chr_group_index_npcman, 6, conversation_index_hi_adlanniel, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
   .byte entity_index_item, 31, 32, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_HEALTH, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
@@ -1077,6 +1083,8 @@ cave_bottom_right_entity_instances:
   .byte entity_index_horseshoe_crab, 59, 47, 0, 0
   .byte entity_index_horseshoe_crab, 49, 45, 0, 0
 
+dungeon3_entrance_entity_instances:
+  .byte 0
 
 ;****************************************************************
 ;Palettes.
@@ -1164,6 +1172,11 @@ mountain1_palette:
 
 cave_palette:
   .byte $0e,$07,$17,$26,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$09,$19,$0e,$0e,$05,$15
+  .byte PALETTE_CYCLE_LOOP
+
+dungeon3_palette:
+  .byte $0e,$16,$26,$36,$0e,$07,$17,$27,$0e,$0e,$07,$16,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$09,$19,$0e,$0e,$05,$15
   .byte PALETTE_CYCLE_LOOP
 
@@ -1535,4 +1548,10 @@ cave_bottom_right:
 define_location   LOCATION_BRIGHTNESS_LEVEL_0,\
                         area_index_cave, cave_sprite_chr_groups, cave_bottom_right_entity_instances, cave_palette,\
                         32, 48, 40, 56,\
+                        0, 0, 0, HERO_DIRECTION_UP
+
+dungeon3_entrance:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                        area_index_dungeon3, dungeon3_sprite_chr_groups, dungeon3_entrance_entity_instances, dungeon3_palette,\
+                        32, 45, 40, 56,\
                         0, 0, 0, HERO_DIRECTION_UP

@@ -345,3 +345,22 @@ cave_big_metatile_table_top_right = cave_data::big_metatile_table_top_right
 cave_big_metatile_table_bottom_left = cave_data::big_metatile_table_bottom_left
 cave_big_metatile_table_bottom_right = cave_data::big_metatile_table_bottom_right
 cave_map = cave_data::map
+
+.segment "ROM30"
+
+.scope dungeon3_data
+.include "dungeon3.inc"
+.endscope
+
+dungeon3_metatile_table_properties = dungeon3_data::metatile_table_properties
+dungeon3_metatile_table_params = dungeon3_data::metatile_table_params
+dungeon3_metatile_table_attributes = dungeon3_data::metatile_table_attributes
+dungeon3_metatile_table_top_left_tiles = dungeon3_data::metatile_table_top_left_tiles
+dungeon3_metatile_table_top_right_tiles = dungeon3_data::metatile_table_top_right_tiles
+dungeon3_metatile_table_bottom_left_tiles = dungeon3_data::metatile_table_bottom_left_tiles
+dungeon3_metatile_table_bottom_right_tiles = dungeon3_data::metatile_table_bottom_right_tiles
+dungeon3_big_metatile_table_top_left = dungeon3_data::big_metatile_table_top_left
+dungeon3_big_metatile_table_top_right = dungeon3_data::big_metatile_table_top_right
+dungeon3_big_metatile_table_bottom_left = dungeon3_data::big_metatile_table_bottom_left
+dungeon3_big_metatile_table_bottom_right = dungeon3_data::big_metatile_table_bottom_right
+dungeon3_map = dungeon3_data::map

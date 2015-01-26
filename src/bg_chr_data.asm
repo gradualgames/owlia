@@ -86,3 +86,8 @@ intro_cut_scene_mermon_leer_bg_chr:
 
 intro_cut_scene_silmaran_bg_chr:
 .incbin "intro_cut_scene_silmaran_bg.chr"
+
+.segment "ROM27"
+
+dungeon3_main_chr:
+.incbin "dungeon3_main.chr"

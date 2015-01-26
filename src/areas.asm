@@ -33,7 +33,8 @@
     dungeon2_area, \
     dungeon2_boss_area, \
     mountain1_area, \
-    cave_area
+    cave_area, \
+    dungeon3_area
 
 areas_lo:
   .lobytes areas
@@ -622,3 +623,30 @@ cave_area_bg_chr_groups:
   .byte 1  ;count
   .byte BG_CHR_DATA_BANK3
   .word cave_chr
+
+dungeon3_area:
+  .byte MAP_DATA_BANK3
+  .byte CONVERSATIONS_BANK
+  .word dungeon3_area_bg_chr_groups
+  .word dungeon_theme
+  .byte $22 ;textbox_attribute
+  .word dungeon3_map
+  .word dungeon3_metatile_table_properties
+  .word dungeon3_metatile_table_params
+  .word dungeon3_metatile_table_attributes
+  .word dungeon3_metatile_table_top_left_tiles
+  .word dungeon3_metatile_table_top_right_tiles
+  .word dungeon3_metatile_table_bottom_left_tiles
+  .word dungeon3_metatile_table_bottom_right_tiles
+  .word dungeon3_big_metatile_table_top_left
+  .word dungeon3_big_metatile_table_top_right
+  .word dungeon3_big_metatile_table_bottom_left
+  .word dungeon3_big_metatile_table_bottom_right
+  .word 0 ;dungeon3_area_nametable_patches
+  .word 0 ;attribute_patches_address
+
+dungeon3_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK4
+  .word dungeon3_main_chr
+

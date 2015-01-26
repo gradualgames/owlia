@@ -3,6 +3,7 @@ MAP_DATA_INC = 1
 
 MAP_DATA_BANK1 = 13
 MAP_DATA_BANK2 = 14
+MAP_DATA_BANK3 = 30
 
 .global blank_palette
 .global blank_map
@@ -283,5 +284,19 @@ MAP_DATA_BANK2 = 14
 .global cave_metatile_table_bottom_left_tiles
 .global cave_metatile_table_top_right_tiles
 .global cave_metatile_table_top_left_tiles
+
+.global dungeon3_palette
+.global dungeon3_map
+.global dungeon3_big_metatile_table_bottom_right
+.global dungeon3_big_metatile_table_bottom_left
+.global dungeon3_big_metatile_table_top_right
+.global dungeon3_big_metatile_table_top_left
+.global dungeon3_metatile_table_properties
+.global dungeon3_metatile_table_params
+.global dungeon3_metatile_table_attributes
+.global dungeon3_metatile_table_bottom_right_tiles
+.global dungeon3_metatile_table_bottom_left_tiles
+.global dungeon3_metatile_table_top_right_tiles
+.global dungeon3_metatile_table_top_left_tiles
 
 .endif
