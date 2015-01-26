@@ -259,6 +259,20 @@ rescueowl_state_start_conversation:
 
 rescueowl_state_fly_to_hero_init:
 
+  ;play a flapping sound
+  lda #<sfx_flap
+  sta sound_param_word_0
+  lda #>sfx_flap
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
   ldy rescueowl_type,x
   lda rescueowl_fly_away_animations_lo,y
   sta entity_animation_address_lo,x
