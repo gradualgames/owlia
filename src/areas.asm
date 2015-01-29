@@ -642,7 +642,7 @@ dungeon3_area:
   .word dungeon3_big_metatile_table_top_right
   .word dungeon3_big_metatile_table_bottom_left
   .word dungeon3_big_metatile_table_bottom_right
-  .word 0 ;dungeon3_area_nametable_patches
+  .word dungeon3_area_nametable_patches
   .word 0 ;attribute_patches_address
 
 dungeon3_area_bg_chr_groups:
@@ -650,3 +650,22 @@ dungeon3_area_bg_chr_groups:
   .byte BG_CHR_DATA_BANK4
   .word dungeon3_main_chr
 
+dungeon3_area_nametable_patches:
+  .word dungeon3_area_nametable_monolith_patch
+  .word dungeon3_area_nametable_keyed_monolith_patch
+  .word dungeon3_area_nametable_monolith_north_bg_patch
+  .word dungeon3_area_nametable_monolith_south_bg_patch
+  .word dungeon3_area_nametable_monolith_west_bg_patch
+  .word dungeon3_area_nametable_monolith_east_bg_patch
+
+dungeon3_area_nametable_monolith_patch:
+  .byte $02,$06,$05,$06,$0e,$0f,$18,$19,$24,$25,$2c,$2d,$32,$33
+dungeon3_area_nametable_keyed_monolith_patch:
+  .byte $02,$06,$42,$43,$4e,$4f,$18,$19,$24,$25,$2c,$2d,$32,$33
+dungeon3_area_nametable_monolith_north_bg_patch:
+dungeon3_area_nametable_monolith_south_bg_patch:
+  .byte $02,$06,$56,$57,$63,$45,$56,$57,$63,$45,$56,$57,$63,$45
+dungeon3_area_nametable_monolith_west_bg_patch:
+  .byte $02,$06,$68,$69,$6d,$6f,$66,$74,$75,$77,$56,$57,$63,$45
+dungeon3_area_nametable_monolith_east_bg_patch:
+  .byte $02,$06,$6a,$67,$70,$6e,$6a,$73,$78,$76,$56,$57,$63,$45

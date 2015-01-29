@@ -194,9 +194,6 @@ scroll_direction_opposite:
 count = b0
 index = b1
 
-
-  ndxDebugBreak
-
   ;make sure we're in the areas bank
   switch_bank_ldy #AREAS_BANK
   ;load address of bg chr groups
