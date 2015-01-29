@@ -1085,9 +1085,9 @@ mountain1_entity_instances:
   .byte entity_index_horseshoe_crab, 13, 23, 0, 0
   .byte entity_index_horseshoe_crab, 42, 21, 0, 0
   .byte entity_index_horseshoe_crab, 39, 6, 0, 0
+  .byte entity_index_horseshoe_crab, 23, 22, 0, 0
   .byte entity_index_octopus, 30, 55, 0, 0
   .byte entity_index_octopus, 47, 55, 0, 0
-  .byte entity_index_octopus, 45, 37, 0, 0
   .byte entity_index_octopus, 9, 40, 0, 0
   .byte entity_index_octopus, 10, 8, 0, 0
   .byte entity_index_octopus, 57, 18, 0, 0
@@ -1788,7 +1788,7 @@ define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
 mountain1_south_entrance:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
-                      0, 50, 44, 33,\
+                      0, 50, 8, 55,\
                       0, 0, 0, HERO_DIRECTION_UP
 
 mountain1_dungeon3_entrance:
