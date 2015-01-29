@@ -972,6 +972,10 @@ not_touching_hero:
 
   ;tell the play state to go to destination location
   lda monolith_goto_location_action,x
+  ;but avoid pre-empting other monoliths if this one is not configured
+  ;to trigger an exit (may be used for a puzzle)
+  cmp #ACTION_NOP
+  beq not_exiting
   sta state_control_params+play_state_control::action
   lda monolith_location_index,x
   sta state_control_params+play_state_control::param

@@ -1288,12 +1288,40 @@ dungeon3_1_2_entity_instances:
                                          0, 4
 
 dungeon3_2_2_entity_instances:
-  .byte 1
+  .byte 5
   .byte entity_index_monolith, 40, 34, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_2_1_s,\
+                                         0, 2
+
+  .byte entity_index_monolith, 35, 39, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_NOP, 0,\
+                                         0, 2
+
+  .byte entity_index_monolith, 38, 39, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_NOP, 0,\
+                                         0, 2
+
+  .byte entity_index_monolith, 41, 39, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_NOP, 0,\
+                                         0, 2
+
+  .byte entity_index_monolith, 44, 39, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_NOP, 0,\
                                          0, 2
 
 dungeon3_3_2_entity_instances:
