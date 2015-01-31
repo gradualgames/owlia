@@ -1,0 +1,34 @@
+.ifndef MONOLITH_PUZZLE_CONSTANTS_INC
+MONOLITH_PUZZLE_CONSTANTS_INC = 1
+
+MONOLITH_PUZZLE_STATE_PAUSE = 50
+MONOLITH_PUZZLE_TREASURE_CHEST_PAUSE = 150
+MONOLITH_PUZZLE_SOLUTION = %00110110
+
+.enum
+MONOLITH_PUZZLE_STATE_INIT
+MONOLITH_PUZZLE_STATE_MAIN
+MONOLITH_PUZZLE_STATE_ERROR_INIT
+MONOLITH_PUZZLE_STATE_ERROR
+MONOLITH_PUZZLE_STATE_RESET
+MONOLITH_PUZZLE_STATE_SOLVED
+MONOLITH_PUZZLE_STATE_SPAWN_TREASURE_CHEST
+MONOLITH_PUZZLE_STATE_LOWER_ALL_MONOLITHS_AND_DIE
+.endenum
+
+MONOLITH_PUZZLE_PARAMS = 4
+
+monolith_puzzle_dungeon_flags_mask = entity_local0
+monolith_puzzle_treasure_chest_type = entity_local1
+monolith_puzzle_treasure_chest_quantity_lo = entity_local2
+monolith_puzzle_treasure_chest_quantity_hi = entity_local3
+
+monolith_puzzle_monolith0 = entity_local4
+monolith_puzzle_monolith1 = entity_local5
+monolith_puzzle_monolith2 = entity_local6
+monolith_puzzle_monolith3 = entity_local7
+monolith_puzzle_solution_buffer = entity_local8
+monolith_puzzle_solution_flags = entity_local9
+monolith_puzzle_state_counter = entity_local10
+
+.endif

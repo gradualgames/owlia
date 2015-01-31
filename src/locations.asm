@@ -20,6 +20,7 @@
 .include "bombable_wall_constants.inc"
 .include "ordered_defeat_puzzle_constants.inc"
 .include "simultaneous_defeat_puzzle_constants.inc"
+.include "monolith_puzzle_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -360,7 +361,7 @@ cave_sprite_chr_groups:
   .byte sprite_chr_group_index_horseshoe_crab
 
 dungeon3_sprite_chr_groups:
-  .byte 7   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_tyto
@@ -368,6 +369,8 @@ dungeon3_sprite_chr_groups:
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_treasure_chest
+  .byte sprite_chr_group_index_key
 
 ;****************************************************************
 ;Entity instance sets
@@ -1288,7 +1291,7 @@ dungeon3_1_2_entity_instances:
                                          0, 4
 
 dungeon3_2_2_entity_instances:
-  .byte 5
+  .byte 6
   .byte entity_index_monolith, 40, 34, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1323,6 +1326,11 @@ dungeon3_2_2_entity_instances:
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_NOP, 0,\
                                          0, 2
+  .byte entity_index_monolith_puzzle, 45, 39, 0, MONOLITH_PUZZLE_PARAMS,\
+                                               DUNGEON3_DUNGEON_FLAGS_MONOLITH_PUZZLE_COMPLETE,\
+                                               TREASURE_CHEST_ITEM_TYPE_KEY,\
+                                               <1,\
+                                               >1
 
 dungeon3_3_2_entity_instances:
   .byte 2
