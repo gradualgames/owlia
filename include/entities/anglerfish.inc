@@ -121,6 +121,9 @@ anglerfish_state_init:
   lda #0
   sta anglerfish_flash_counter,x
 
+  lda #0
+  sta anglerfish_is_paused,x
+
   clc
   lda entity_x_lo,x
   adc anglerfish_initial_offset_x,x
@@ -209,12 +212,36 @@ action_rect1_not_deadly:
 
 action_rect2_not_deadly:
 
+  .scope
+  lda anglerfish_pause_mode,x
+  cmp #ANGLERFISH_PAUSE_MODE_NORMAL
+  beq pause_mode_normal
+  cmp #ANGLERFISH_PAUSE_MODE_STOP_GO
+  beq pause_mode_stop_go
+pause_mode_normal:
+
+  .scope
   lda anglerfish_flash_counter,x
   bne do_not_move_anglerfish
 
   jsr anglerfish_move
 
 do_not_move_anglerfish:
+  .endscope
+
+  jmp done
+pause_mode_stop_go:
+
+  .scope
+  lda anglerfish_is_paused,x
+  bne do_not_move_anglerfish
+
+  jsr anglerfish_move
+
+do_not_move_anglerfish:
+  .endscope
+done:
+  .endscope
 
   jsr anglerfish_calculate_spotlight_position
 
@@ -353,6 +380,15 @@ done:
 
   lda anglerfish_flash_counter,x
   bne attacked_state_machine_already_running
+
+  ;toggle is paused state if pause mode is stop go
+  lda anglerfish_pause_mode,x
+  cmp #ANGLERFISH_PAUSE_MODE_NORMAL
+  beq skip_toggle_pause
+  lda anglerfish_is_paused,x
+  eor #1
+  sta anglerfish_is_paused,x
+skip_toggle_pause:
 
   ;play a sound
   lda #<sfx_hit
