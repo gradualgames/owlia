@@ -2323,16 +2323,15 @@ done:
   rts
 .endproc
 
-;s = stationary
-;v = vertical
-;h = horizontal
-;d = diagonal
-;        s   v   h  d
+s = 127 ;stationary
+v = 40  ;vertical
+h = 54  ;horizontal
+d = 1   ;diagonal
 cycle_pad_lut1:
-  .byte 97, 10, 23, 1
+  .byte s, v, h, d
 
 cycle_pad_lut2:
-  .byte 97, 10, 23, 2
+  .byte s+1, v+1, h, d
 
 .proc nametable_and_attribute_update_ppu
 
@@ -2370,14 +2369,6 @@ row_nop:
   lda #0
   sta row_ready
 
-  ;if we're moving diagonally, e.g. a row and a column are being
-  ;uploaded, we know there is not enough time to upload the palette
-  ;so bail. Ideally, this will never happen because we have fine tuned
-  ;the engine to avoid "forbidden diagonals" so that this scenario never
-  ;happens. This was done just for robustness.
-  lda cycle_pad_lut_index
-  cmp #3
-  beq not_enough_time_for_palette
   ;save current palette address
   lda palette_address
   pha
@@ -2392,14 +2383,19 @@ row_nop:
   clear_ppu_2000_bit PPU0_ADDRESS_INCREMENT
   upload_ppu_2000
 
-  jsr ppu_load_palette
+  .scope
+  lda cycle_pad_lut_index
+  cmp #3
+  beq not_enough_time_for_palette
+  jsr ppu_load_palette_bg
+not_enough_time_for_palette:
+  .endscope
 
   ;restore previous palette address
   pla
   sta palette_address+1
   pla
   sta palette_address
-not_enough_time_for_palette:
 
   lda camera_nametable_hibyte
   sta ppu_2006
@@ -2413,20 +2409,7 @@ not_enough_time_for_palette:
   upload_ppu_2006
   upload_ppu_2005
 
-  .scope
-  lda sprites_ready
-  beq sprites_not_ready
   jsr sprite_update_all
-  lda #0
-  sta sprites_ready
-  jmp done
-sprites_not_ready:
-  ;cycle timed code to keep graphics hiding bar stable
-  ldx #108
-: dex
-  bne :-
-done:
-  .endscope
 
   set_vblank_done
 

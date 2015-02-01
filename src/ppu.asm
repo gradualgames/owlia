@@ -31,7 +31,7 @@
 : dex
   bne :-
 
-  ldx #156
+  ldx #208
 : dex
   bne :-
 
@@ -111,7 +111,7 @@
   lda #$00
   sta $2006
   ldx #$00
-: lda (w0),y
+: lda (palette_address),y
   sta $2007
   inx
   iny
@@ -562,7 +562,7 @@ palette_cycling_not_enabled:
   set_vblank_done
 
   ;pad CPU cycles for finely tuned graphics hiding
-  ldx #218
+  ldx #219
 : dex
   bne :-
 
