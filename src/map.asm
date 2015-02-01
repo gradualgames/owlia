@@ -2326,7 +2326,7 @@ done:
 s = 127 ;stationary
 v = 40  ;vertical
 h = 54  ;horizontal
-d = 1   ;diagonal
+d = 3   ;diagonal
 cycle_pad_lut1:
   .byte s, v, h, d
 
@@ -2369,6 +2369,10 @@ row_nop:
   lda #0
   sta row_ready
 
+  .scope
+  lda cycle_pad_lut_index
+  cmp #3
+  beq not_enough_time_for_palette
   ;save current palette address
   lda palette_address
   pha
@@ -2383,19 +2387,15 @@ row_nop:
   clear_ppu_2000_bit PPU0_ADDRESS_INCREMENT
   upload_ppu_2000
 
-  .scope
-  lda cycle_pad_lut_index
-  cmp #3
-  beq not_enough_time_for_palette
   jsr ppu_load_palette_bg
-not_enough_time_for_palette:
-  .endscope
 
   ;restore previous palette address
   pla
   sta palette_address+1
   pla
   sta palette_address
+not_enough_time_for_palette:
+  .endscope
 
   lda camera_nametable_hibyte
   sta ppu_2006
