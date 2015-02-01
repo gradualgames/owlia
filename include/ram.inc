@@ -5,6 +5,7 @@ MAX_ENTITIES = 14
 
 .global sprite
 .global next_sprite_address
+.global sprites_ready
 
 .global metasprite_flicker
 

@@ -7,6 +7,7 @@
 ;****************************************************************
 sprite: .res 256
 next_sprite_address: .res 1
+sprites_ready: .res 1
 
 ;****************************************************************
 ;This is used to implement metasprite flicker for all entities
