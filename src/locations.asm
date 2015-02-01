@@ -1371,7 +1371,7 @@ dungeon3_0_3_entity_instances:
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_EAST,\
-                                         ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_1_3_w,\
+                                         ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon3_1_3_w,\
                                          0, 5
 
 dungeon3_1_3_entity_instances:
