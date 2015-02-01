@@ -1868,7 +1868,7 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_0,\
                         0, 0, 0, HERO_DIRECTION_UP
 
 dungeon3_entrance:
-define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
+define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4 | LOCATION_FLAGS_DUNGEON_ENTRANCE)},\
                         area_index_dungeon3, dungeon3_sprite_chr_groups, dungeon3_0_0_entity_instances, dungeon3_palette,\
                         0, 0, 2, 6,\
                         0, 0, 0, HERO_DIRECTION_RIGHT
