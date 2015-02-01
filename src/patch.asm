@@ -7,6 +7,31 @@
 
 .segment "CODE"
 
+.proc patch_frame_start
+
+  lda #0
+  sta patch_row_ready
+  sta patch_column_ready
+
+  rts
+
+.endproc
+
+.proc patch_frame_end
+
+  lda patch_row_ready
+  beq :+
+  sta row_ready
+:
+  lda patch_column_ready
+  beq :+
+  sta column_ready
+:
+
+  rts
+
+.endproc
+
 ;expects w8 to be the map x coordinate at which to decode the row
 ;expects w9 to be the map y coordinate at which to decode the row
 ;expects b12 to be the index of the nametable patch out of which a row will be decoded
@@ -40,7 +65,7 @@ patch_address = w3
   ;skip decoding a map row if a row is already ready. This enables us to
   ;perform patches across an entire row all during a single frame, such as
   ;for monoliths that are across from one another.
-  lda row_ready
+  lda patch_row_ready
   bne skip_row_decode
 
   ;transfer patch params for the map decode routines
@@ -142,7 +167,7 @@ skip_row_decode:
   bne :-
 
   lda #1
-  sta row_ready
+  sta patch_row_ready
 
   ;restore calling bank
   pla
@@ -185,7 +210,7 @@ patch_address = w3
   ;skip decoding a map row if a row is already ready. This enables us to
   ;perform patches across an entire row all during a single frame, such as
   ;for monoliths that are across from one another.
-  lda row_ready
+  lda patch_row_ready
   bne skip_row_decode
 
   ;transfer patch params for the map decode routines
@@ -274,7 +299,7 @@ skip_row_decode:
   bne :-
 
   lda #1
-  sta row_ready
+  sta patch_row_ready
 
   ;restore calling bank
   pla
@@ -319,7 +344,7 @@ patch_address = w3
   ;skip decoding a map column if a column is already ready. This enables us to
   ;perform patches across an entire column all during a single frame, such as
   ;for monoliths that are vertically across from one another.
-  lda column_ready
+  lda patch_column_ready
   bne skip_column_decode
 
   ;transfer patch params for the map decode routines
@@ -436,7 +461,7 @@ skip_column_decode:
   bne :-
 
   lda #1
-  sta column_ready
+  sta patch_column_ready
 
   ;restore calling bank
   pla

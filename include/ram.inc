@@ -211,6 +211,9 @@ MAX_ENTITIES = 14
 .global row_ready
 .global column_ready
 
+.global patch_row_ready
+.global patch_column_ready
+
 .global intermediate_attribute_row_buffer ;16 byte buffer to contain attribute data for
                                           ;each metatile in a row. Each byte is assumed
                                           ;to consist of two identical nybbles. This
