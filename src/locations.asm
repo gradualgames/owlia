@@ -372,6 +372,20 @@ dungeon3_sprite_chr_groups:
   .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_key
 
+dungeon3_0_3_sprite_chr_groups:
+  .byte 11   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_tyto
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_treasure_chest
+  .byte sprite_chr_group_index_key
+  .byte sprite_chr_group_index_anglerfish
+  .byte sprite_chr_group_index_spotlight
+
 ;****************************************************************
 ;Entity instance sets
 ;****************************************************************
@@ -1349,7 +1363,10 @@ dungeon3_3_2_entity_instances:
                                          0, 2
 
 dungeon3_0_3_entity_instances:
-  .byte 1
+  .byte 4
+  .byte entity_index_anglerfish, 2, 48, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_LEFT, ANGLERFISH_TURN_LENGTH, ANGLERFISH_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 0, 3
+  .byte entity_index_anglerfish, 12, 48, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_RIGHT, ANGLERFISH_TURN_LENGTH, ANGLERFISH_DIRECTION_LEFT, ANGLERFISH_SPOTLIGHT_ON, 8, 3
+  .byte entity_index_anglerfish, 4, 54, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_OPPOSITE, ANGLERFISH_TURN_LENGTH_LONG, ANGLERFISH_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 8, 3
   .byte entity_index_monolith, 14, 53, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1377,7 +1394,7 @@ dungeon3_1_3_entity_instances:
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_WEST,\
-                                         ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_0_3_e,\
+                                         ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon3_0_3_e,\
                                          0, 4
 
 dungeon3_2_3_entity_instances:
@@ -1490,6 +1507,11 @@ cave_palette:
 dungeon3_palette:
   .byte $0e,$16,$26,$36,$0e,$07,$17,$27,$0e,$0e,$07,$16,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$09,$19,$0e,$0e,$05,$15
+  .byte PALETTE_CYCLE_LOOP
+
+dungeon3_0_3_palette:
+  .byte $0e,$16,$26,$36,$0e,$07,$17,$27,$0e,$0e,$07,$16,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$09,$19,$0e,$0e,$10,$20
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
@@ -1922,7 +1944,7 @@ define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAG
 dungeon3_3_2_s:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_2_entity_instances,dungeon3_palette,48, 30, 56, 40, 0, 0, 0, HERO_DIRECTION_UP
 dungeon3_0_3_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_0_3_entity_instances,dungeon3_palette,0, 45, 13, 53, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_0)},area_index_dungeon3,dungeon3_0_3_sprite_chr_groups,dungeon3_0_3_entity_instances,dungeon3_0_3_palette,0, 45, 13, 52, 0, 0, 0, HERO_DIRECTION_LEFT
 dungeon3_1_3_n:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_3_entity_instances,dungeon3_palette,16, 45, 24, 49, 0, 0, 0, HERO_DIRECTION_DOWN
 dungeon3_1_3_e:
