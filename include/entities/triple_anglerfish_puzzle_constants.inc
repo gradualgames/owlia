@@ -1,0 +1,41 @@
+.ifndef TRIPLE_ANGLERFISH_PUZZLE_CONSTANTS_INC
+TRIPLE_ANGLERFISH_PUZZLE_CONSTANTS_INC = 1
+
+TRIPLE_ANGLERFISH_PUZZLE_WIDTH = $0f
+TRIPLE_ANGLERFISH_PUZZLE_HEIGHT = $0f
+
+TRIPLE_ANGLERFISH_PUZZLE_PARAMS = 7
+
+triple_anglerfish_puzzle_spot0_x_lo = entity_local0
+triple_anglerfish_puzzle_spot0_y_lo = entity_local1
+triple_anglerfish_puzzle_spot1_x_lo = entity_local2
+triple_anglerfish_puzzle_spot1_y_lo = entity_local3
+triple_anglerfish_puzzle_spot2_x_lo = entity_local4
+triple_anglerfish_puzzle_spot2_y_lo = entity_local5
+triple_anglerfish_puzzle_dungeon_flags_mask = entity_local6
+
+triple_anglerfish_puzzle_spot0_x_hi = entity_local7
+triple_anglerfish_puzzle_spot0_y_hi = entity_local8
+triple_anglerfish_puzzle_spot1_x_hi = entity_local9
+triple_anglerfish_puzzle_spot1_y_hi = entity_local10
+triple_anglerfish_puzzle_spot2_x_hi = entity_local11
+triple_anglerfish_puzzle_spot2_y_hi = entity_local12
+
+triple_anglerfish_puzzle_spotlight0 = entity_local13
+triple_anglerfish_puzzle_spotlight1 = entity_local14
+triple_anglerfish_puzzle_spotlight2 = entity_local15
+
+triple_anglerfish_puzzle_anglerfish0 = entity_local16
+triple_anglerfish_puzzle_anglerfish1 = entity_local17
+triple_anglerfish_puzzle_anglerfish2 = entity_local18
+
+triple_anglerfish_puzzle_state_counter = entity_local19
+
+.enum
+TRIPLE_ANGLERFISH_PUZZLE_STATE_INIT
+TRIPLE_ANGLERFISH_PUZZLE_STATE_MAIN
+TRIPLE_ANGLERFISH_PUZZLE_STATE_KILL_ANGLERFISH
+TRIPLE_ANGLERFISH_PUZZLE_STATE_SPAWN_TREASURE_CHEST
+.endenum
+
+.endif

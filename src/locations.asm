@@ -21,6 +21,7 @@
 .include "ordered_defeat_puzzle_constants.inc"
 .include "simultaneous_defeat_puzzle_constants.inc"
 .include "monolith_puzzle_constants.inc"
+.include "triple_anglerfish_puzzle_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entities.inc"
@@ -1363,10 +1364,11 @@ dungeon3_3_2_entity_instances:
                                          0, 2
 
 dungeon3_0_3_entity_instances:
-  .byte 4
+  .byte 5
   .byte entity_index_anglerfish, 2, 48, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_LEFT, ANGLERFISH_PAUSE_MODE_STOP_GO, ANGLERFISH_TURN_LENGTH, ANGLERFISH_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 0, 3
   .byte entity_index_anglerfish, 12, 48, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_RIGHT, ANGLERFISH_PAUSE_MODE_STOP_GO, ANGLERFISH_TURN_LENGTH, ANGLERFISH_DIRECTION_LEFT, ANGLERFISH_SPOTLIGHT_ON, 8, 3
   .byte entity_index_anglerfish, 4, 54, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_OPPOSITE, ANGLERFISH_PAUSE_MODE_STOP_GO, ANGLERFISH_TURN_LENGTH_LONG, ANGLERFISH_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 8, 3
+  .byte entity_index_triple_anglerfish_puzzle, 2, 51, 0, TRIPLE_ANGLERFISH_PUZZLE_PARAMS, 5, 49, 10, 49, 8, 55, DUNGEON3_DUNGEON_FLAGS_TRIPLE_ANGLERFISH_PUZZLE_COMPLETE
   .byte entity_index_monolith, 14, 53, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
