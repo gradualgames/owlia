@@ -363,7 +363,7 @@ cave_sprite_chr_groups:
   .byte sprite_chr_group_index_horseshoe_crab
 
 dungeon3_sprite_chr_groups:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 12   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_tyto
@@ -373,6 +373,9 @@ dungeon3_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_key
+  .byte sprite_chr_group_index_horseshoe_crab
+  .byte sprite_chr_group_index_crab
+  .byte sprite_chr_group_index_seahorse
 
 dungeon3_0_3_sprite_chr_groups:
   .byte 11   ;sprite_chr_groups .byte
@@ -1134,7 +1137,9 @@ cave_bottom_right_entity_instances:
   .byte entity_index_horseshoe_crab, 49, 45, 0, 0
 
 dungeon3_0_0_entity_instances:
-  .byte 3
+  .byte 5
+  .byte entity_index_horseshoe_crab, 10, 7, 0, 0
+  .byte entity_index_horseshoe_crab, 10, 9, 0, 0
   .byte entity_index_monolith, 1, 7, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1211,7 +1216,9 @@ dungeon3_3_0_entity_instances:
                                          0, 4
 
 dungeon3_0_1_entity_instances:
-  .byte 2
+  .byte 4
+  .byte entity_index_crab, 4, 23, 0, 0
+  .byte entity_index_crab, 11, 23, 0, 0
   .byte entity_index_monolith, 8, 19, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1509,7 +1516,7 @@ cave_palette:
 
 dungeon3_palette:
   .byte $0e,$16,$26,$36,$0e,$07,$17,$27,$0e,$0e,$07,$16,$0e,$0e,$0e,$0e
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$09,$19,$0e,$0e,$05,$15
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$05,$15,$0e,$0e,$07,$17
   .byte PALETTE_CYCLE_LOOP
 
 dungeon3_0_3_palette:
