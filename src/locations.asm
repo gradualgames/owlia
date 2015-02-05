@@ -363,7 +363,7 @@ cave_sprite_chr_groups:
   .byte sprite_chr_group_index_horseshoe_crab
 
 dungeon3_sprite_chr_groups:
-  .byte 12   ;sprite_chr_groups .byte
+  .byte 13   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_tyto
@@ -376,6 +376,7 @@ dungeon3_sprite_chr_groups:
   .byte sprite_chr_group_index_horseshoe_crab
   .byte sprite_chr_group_index_crab
   .byte sprite_chr_group_index_seahorse
+  .byte sprite_chr_group_index_urchin
 
 dungeon3_0_3_sprite_chr_groups:
   .byte 11   ;sprite_chr_groups .byte
@@ -1161,7 +1162,11 @@ dungeon3_0_0_entity_instances:
                                          0, 5
 
 dungeon3_1_0_entity_instances:
-  .byte 3
+  .byte 7
+  .byte entity_index_urchin, 21, 7, 0, URCHIN_PARAMS, 16*1, 40, 0, 0, <(256*2), >(256*2)
+  .byte entity_index_horseshoe_crab, 23, 9, 0, 0
+  .byte entity_index_horseshoe_crab, 25, 7, 0, 0
+  .byte entity_index_urchin, 27, 9, 0, URCHIN_PARAMS, 16*1, 40, 0, 0, <(-256*2), >(-256*2)
   .byte entity_index_monolith, 24, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1234,7 +1239,9 @@ dungeon3_0_1_entity_instances:
                                          0, 2
 
 dungeon3_1_1_entity_instances:
-  .byte 2
+  .byte 4
+  .byte entity_index_crab, 22, 23, 0, 0
+  .byte entity_index_crab, 26, 23, 0, 0
   .byte entity_index_monolith, 24, 19, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1385,7 +1392,9 @@ dungeon3_0_3_entity_instances:
                                          0, 5
 
 dungeon3_1_3_entity_instances:
-  .byte 3
+  .byte 5
+  .byte entity_index_urchin, 23, 50, 0, URCHIN_PARAMS, 16*3, 40, 0, 0, <(256*2), >(256*2)
+  .byte entity_index_urchin, 25, 50, 0, URCHIN_PARAMS, 16*3, 40, 0, 0, <(256*2), >(256*2)
   .byte entity_index_monolith, 24, 49, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
