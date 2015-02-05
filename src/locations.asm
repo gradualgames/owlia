@@ -1189,7 +1189,10 @@ dungeon3_1_0_entity_instances:
                                          0, 4
 
 dungeon3_2_0_entity_instances:
-  .byte 2
+  .byte 6
+  .byte entity_index_urchin, 38, 5, 0, URCHIN_PARAMS, 16*1, 40, 0, 0, <(256*2), >(256*2)
+  .byte entity_index_seahorse, 44, 6, 0, 0
+  .byte entity_index_horseshoe_crab, 40, 9, 0, 0
   .byte entity_index_monolith, 46, 9, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1203,6 +1206,7 @@ dungeon3_2_0_entity_instances:
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_1_0_e,\
                                          0, 4
+  .byte entity_index_ordered_defeat_puzzle, 45, 5, 0, ORDERED_DEFEAT_PUZZLE_PARAMS, entity_index_seahorse, entity_index_horseshoe_crab, entity_index_urchin, DUNGEON3_DUNGEON_FLAGS_SEAHORSE_HORSESHOE_CRAB_URCHIN_PUZZLE_COMPLETE
 
 dungeon3_3_0_entity_instances:
   .byte 2
