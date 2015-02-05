@@ -1504,7 +1504,7 @@ mountain1_palette:
 
 cave_palette:
   .byte $0e,$07,$17,$26,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$09,$19,$0e,$0e,$05,$15
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$05,$15,$0e,$0e,$07,$17
   .byte PALETTE_CYCLE_LOOP
 
 dungeon3_palette:
