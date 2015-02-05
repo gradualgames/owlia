@@ -337,7 +337,7 @@ dungeon2_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_siberianeagleowl
 
 mountain1_sprite_chr_groups:
-  .byte 10   ;sprite_chr_groups .byte
+  .byte 11   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_tyto
@@ -348,6 +348,7 @@ mountain1_sprite_chr_groups:
   .byte sprite_chr_group_index_horseshoe_crab
   .byte sprite_chr_group_index_octopus
   .byte sprite_chr_group_index_dungeon_entrance_statue
+  .byte sprite_chr_group_index_seahorse
 
 cave_sprite_chr_groups:
   .byte 9   ;sprite_chr_groups .byte
@@ -1099,7 +1100,7 @@ dungeon2_boss_owl_dungeon_entity_instances:
 
 mountain1_entity_instances:
   .byte 11
-  .byte entity_index_horseshoe_crab, 4, 55, 0, 0
+  .byte entity_index_seahorse, 4, 55, 0, 0
   .byte entity_index_horseshoe_crab, 13, 23, 0, 0
   .byte entity_index_horseshoe_crab, 42, 21, 0, 0
   .byte entity_index_horseshoe_crab, 39, 6, 0, 0
@@ -1498,7 +1499,7 @@ dungeon2_boss_owl_dungeon_palette:
 
 mountain1_palette:
   .byte $0e,$07,$17,$26,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$09,$19,$0e,$0e,$05,$15
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$05,$15,$0e,$0e,$07,$17
   .byte PALETTE_CYCLE_LOOP
 
 cave_palette:

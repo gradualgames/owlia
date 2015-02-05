@@ -144,6 +144,10 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global horseshoe_crab_walk_up
 .global horseshoe_crab_walk_down
 
+.global seahorse_side
+.global seahorse_up
+.global seahorse_down
+
 .global intro_cut_scene_great_owls_spr_overlay
 
 .global intro_cut_scene_mermon_leer_spr_overlay0

@@ -45,6 +45,7 @@
   swordfish_boss_chr, \
   siberianeagleowl_chr, \
   horseshoe_crab_chr, \
+  seahorse_chr, \
   intro_cut_scene_great_owls_spr_chr, \
   intro_cut_scene_mermon_leer_spr_chr
 
@@ -221,6 +222,9 @@ siberianeagleowl_chr:
 
 horseshoe_crab_chr:
 .incbin "horseshoe_crab.chr"
+
+seahorse_chr:
+.incbin "seahorse.chr"
 
 intro_cut_scene_great_owls_spr_chr:
 .incbin "intro_cut_scene_great_owls_spr.chr"

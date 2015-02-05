@@ -44,6 +44,7 @@
 .include "swordfish_boss_sprites_and_animations.inc"
 .include "siberianeagleowl_sprites_and_animations.inc"
 .include "horseshoe_crab_sprites_and_animations.inc"
+.include "seahorse_sprites_and_animations.inc"
 .include "intro_cut_scene_great_owls_sprites_and_animations.inc"
 .include "intro_cut_scene_mermon_leer_sprites_and_animations.inc"
 

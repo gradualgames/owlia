@@ -48,6 +48,7 @@ entity_index_swordfish_boss
 entity_index_horseshoe_crab
 entity_index_monolith_puzzle
 entity_index_triple_anglerfish_puzzle
+entity_index_seahorse
 .endenum
 
 entity_update_bank_instance_placeholder = 4
@@ -87,6 +88,7 @@ entity_update_bank_swordfish_boss = 5
 entity_update_bank_horseshoe_crab = 5
 entity_update_bank_monolith_puzzle = 5
 entity_update_bank_triple_anglerfish_puzzle = 5
+entity_update_bank_seahorse = 5
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 7
@@ -125,5 +127,6 @@ entity_sprites_and_animations_bank_swordfish_boss = 7
 entity_sprites_and_animations_bank_horseshoe_crab = 7
 ;entity_sprites_and_animations_bank_monolith_puzzle ;this entity has no graphics
 ;entity_sprites_and_animations_bank_triple_anglerfish_puzzle ;this entity has no graphics
+entity_sprites_and_animations_bank_seahorse = 7
 
 .endif
