@@ -180,6 +180,7 @@ crab_state_main:
   lda crab_turnleft_direction,y
   sta crab_direction,x
 
+  jsr next_rand
   lda rand
   sta crab_random_turnleft_counter,x
 
@@ -195,6 +196,7 @@ do_not_turn_crab:
   lda crab_turnright_direction,y
   sta crab_direction,x
 
+  jsr next_rand
   lda rand
   sta crab_random_turnleft_counter,x
 
@@ -206,6 +208,7 @@ do_not_turn_crab:
   dec crab_random_pause_counter,x
   bne do_not_reset_random_pause_counter
 
+  jsr next_rand
   lda rand
   and #%00001111
   sta crab_random_pause_counter,x
