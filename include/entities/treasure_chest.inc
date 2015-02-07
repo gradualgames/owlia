@@ -116,7 +116,12 @@ not_intersecting_hero:
 
 treasure_chest_state_opening:
 
+  ;float the item upwards while still alive (not yet picked up)
+  .scope
   ldy treasure_chest_item_index,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq entity_not_alive
   sec
   lda entity_y_lo,y
   sbc #<1
@@ -124,6 +129,8 @@ treasure_chest_state_opening:
   lda entity_y_hi,y
   sbc #>1
   sta entity_y_hi,y
+entity_not_alive:
+  .endscope
 
   .scope
   dec treasure_chest_state_counter,x
@@ -180,6 +187,9 @@ spawn_key:
   sta b0
 
   jsr entity_spawn
+
+  lda spawned_entity
+  sta treasure_chest_item_index,x
 
   ;forward the puzzle done mask to the key so the key
   ;can mark the puzzle as done when picked up
