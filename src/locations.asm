@@ -872,7 +872,13 @@ dungeon2_0_1_entity_instances:
   .byte entity_index_urchin, 7, 20, 0, URCHIN_PARAMS, 8*6, 40, 0, 0, <(256*2), >(256*2)
   .byte entity_index_jellyfish, 2, 26, 0, 0
   .byte entity_index_eel, 13, 22, 0, EEL_PARAMS, EEL_STATE_LEFT_INIT
-  .byte entity_index_ordered_defeat_puzzle, 3, 25, 0, ORDERED_DEFEAT_PUZZLE_PARAMS, entity_index_jellyfish, entity_index_urchin, entity_index_eel, DUNGEON2_DUNGEON_FLAGS_JELLYFISH_URCHIN_EEL_PUZZLE_COMPLETE
+  .byte entity_index_ordered_defeat_puzzle, 3, 25, 0, ORDERED_DEFEAT_PUZZLE_PARAMS,\
+                                                      entity_index_jellyfish,\
+                                                      entity_index_urchin,\
+                                                      entity_index_eel,\
+                                                      DUNGEON2_DUNGEON_FLAGS_JELLYFISH_URCHIN_EEL_PUZZLE_COMPLETE,\
+                                                      TREASURE_CHEST_ITEM_TYPE_KEY,\
+                                                      <1, >1
 
 dungeon2_1_1_entity_instances:
   .byte 4
@@ -1207,7 +1213,13 @@ dungeon3_2_0_entity_instances:
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_1_0_e,\
                                          0, 4
-  .byte entity_index_ordered_defeat_puzzle, 45, 5, 0, ORDERED_DEFEAT_PUZZLE_PARAMS, entity_index_seahorse, entity_index_horseshoe_crab, entity_index_urchin, DUNGEON3_DUNGEON_FLAGS_SEAHORSE_HORSESHOE_CRAB_URCHIN_PUZZLE_COMPLETE
+  .byte entity_index_ordered_defeat_puzzle, 45, 5, 0, ORDERED_DEFEAT_PUZZLE_PARAMS,\
+                                                      entity_index_seahorse,\
+                                                      entity_index_horseshoe_crab,\
+                                                      entity_index_urchin,\
+                                                      DUNGEON3_DUNGEON_FLAGS_SEAHORSE_HORSESHOE_CRAB_URCHIN_PUZZLE_COMPLETE,\
+                                                      TREASURE_CHEST_ITEM_TYPE_GP,\
+                                                      <1000, >1000
 
 dungeon3_3_0_entity_instances:
   .byte 4

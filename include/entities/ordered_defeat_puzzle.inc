@@ -176,6 +176,9 @@ ordered_defeat_puzzle_state_step2:
   and #ENTITY_FLAGS_ALIVE_TEST
   bne entity_alive
 
+  lda #ORDERED_DEFEAT_PUZZLE_TIME_UNTIL_TREASURE_CHEST_SPAWN
+  sta ordered_defeat_puzzle_state_counter,x
+
   lda #ORDERED_DEFEAT_PUZZLE_STATE_COMPLETE
   sta entity_state,x
 
@@ -187,7 +190,27 @@ entity_alive:
 ordered_defeat_puzzle_state_complete:
 
   .scope
-  ;spawn a treasure chest with a key inside
+  dec ordered_defeat_puzzle_state_counter,x
+  bne do_not_transition_yet
+
+  jsr ordered_defeat_puzzle_spawn_treasure_chest_and_die
+
+do_not_transition_yet:
+  .endscope
+
+  rts
+
+ordered_defeat_puzzle_state_fail:
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+
+.proc ordered_defeat_puzzle_spawn_treasure_chest_and_die
+
+  .scope
   lda #entity_index_treasure_chest
   sta b0
 
@@ -208,11 +231,11 @@ ordered_defeat_puzzle_state_complete:
   sta treasure_chest_dungeon_flags_mask,y
   lda #TREASURE_CHEST_MODE_DUNGEON
   sta treasure_chest_mode,y
-  lda #TREASURE_CHEST_ITEM_TYPE_KEY
+  lda ordered_defeat_puzzle_treasure_chest_type,x
   sta treasure_chest_item_type,y
-  lda #<1
+  lda ordered_defeat_puzzle_treasure_chest_quantity_lo,x
   sta treasure_chest_item_quantity_lo,y
-  lda #>1
+  lda ordered_defeat_puzzle_treasure_chest_quantity_hi,x
   sta treasure_chest_item_quantity_hi,y
   .endscope
 
@@ -248,12 +271,6 @@ ordered_defeat_puzzle_state_complete:
 
   rts
 
-ordered_defeat_puzzle_state_fail:
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-  rts
+.endproc
 
 .endif
