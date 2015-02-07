@@ -1210,7 +1210,9 @@ dungeon3_2_0_entity_instances:
   .byte entity_index_ordered_defeat_puzzle, 45, 5, 0, ORDERED_DEFEAT_PUZZLE_PARAMS, entity_index_seahorse, entity_index_horseshoe_crab, entity_index_urchin, DUNGEON3_DUNGEON_FLAGS_SEAHORSE_HORSESHOE_CRAB_URCHIN_PUZZLE_COMPLETE
 
 dungeon3_3_0_entity_instances:
-  .byte 2
+  .byte 4
+  .byte entity_index_seahorse, 54, 8, 0, 0
+  .byte entity_index_seahorse, 58, 8, 0, 0
   .byte entity_index_monolith, 56, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1262,7 +1264,9 @@ dungeon3_1_1_entity_instances:
                                          0, 5
 
 dungeon3_2_1_entity_instances:
-  .byte 2
+  .byte 4
+  .byte entity_index_horseshoe_crab, 40, 22, 0, 0
+  .byte entity_index_seahorse, 45, 21, 0, 0
   .byte entity_index_monolith, 40, 29, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1278,7 +1282,9 @@ dungeon3_2_1_entity_instances:
                                          0, 4
 
 dungeon3_3_1_entity_instances:
-  .byte 2
+  .byte 4
+  .byte entity_index_crab, 53, 23, 0, 0
+  .byte entity_index_crab, 57, 25, 0, 0
   .byte entity_index_monolith, 56, 19, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1294,7 +1300,10 @@ dungeon3_3_1_entity_instances:
                                          0, 2
 
 dungeon3_0_2_entity_instances:
-  .byte 2
+  .byte 5
+  .byte entity_index_seahorse, 4, 37, 0, 0
+  .byte entity_index_seahorse, 11, 37, 0, 0
+  .byte entity_index_seahorse, 7, 40, 0, 0
   .byte entity_index_monolith, 8, 34, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1310,7 +1319,11 @@ dungeon3_0_2_entity_instances:
                                          0, 5
 
 dungeon3_1_2_entity_instances:
-  .byte 2
+  .byte 6
+  .byte entity_index_horseshoe_crab, 22, 38, 0, 0
+  .byte entity_index_horseshoe_crab, 25, 38, 0, 0
+  .byte entity_index_horseshoe_crab, 23, 37, 0, 0
+  .byte entity_index_horseshoe_crab, 23, 39, 0, 0
   .byte entity_index_monolith, 24, 44, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1368,7 +1381,9 @@ dungeon3_2_2_entity_instances:
                                                >1
 
 dungeon3_3_2_entity_instances:
-  .byte 2
+  .byte 4
+  .byte entity_index_seahorse, 53, 38, 0, 0
+  .byte entity_index_seahorse, 59, 38, 0, 0
   .byte entity_index_monolith, 56, 34, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1422,7 +1437,9 @@ dungeon3_1_3_entity_instances:
                                          0, 4
 
 dungeon3_2_3_entity_instances:
-  .byte 1
+  .byte 3
+  .byte entity_index_seahorse, 44, 51, 0, 0
+  .byte entity_index_seahorse, 35, 55, 0, 0
   .byte entity_index_monolith, 33, 53, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
