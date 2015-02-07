@@ -348,11 +348,11 @@ use_x_difference:
   sbc entity_center_x+1
   bmi hero_to_left
 hero_to_right:
-  lda #HERO_DIRECTION_RIGHT
+  lda #ENTITY_DIRECTION_RIGHT
   sta b0
   jmp done
 hero_to_left:
-  lda #HERO_DIRECTION_LEFT
+  lda #ENTITY_DIRECTION_LEFT
   sta b0
 done:
   .endscope
@@ -368,11 +368,11 @@ use_y_difference:
   sbc entity_center_y+1
   bmi hero_above
 hero_below:
-  lda #HERO_DIRECTION_DOWN
+  lda #ENTITY_DIRECTION_DOWN
   sta b0
   jmp done
 hero_above:
-  lda #HERO_DIRECTION_UP
+  lda #ENTITY_DIRECTION_UP
   sta b0
 done:
   .endscope

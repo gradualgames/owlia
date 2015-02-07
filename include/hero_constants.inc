@@ -54,11 +54,4 @@ HERO_STATUS_Y = $10
 ;how far the tech icon slides when changed
 HERO_STATUS_FLASH_DISTANCE = 16
 
-.enum
-HERO_DIRECTION_RIGHT
-HERO_DIRECTION_LEFT
-HERO_DIRECTION_DOWN
-HERO_DIRECTION_UP
-.endenum
-
 .endif

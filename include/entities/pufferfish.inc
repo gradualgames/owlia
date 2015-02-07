@@ -14,7 +14,7 @@ PUFFERFISH_SPEED = 100
 
 PUFFERFISH_KNOCKBACK_SPEED = 500
 
-PUFFERFISH_INITIAL_DIRECTION = PUFFERFISH_DIRECTION_LEFT
+PUFFERFISH_INITIAL_DIRECTION = ENTITY_DIRECTION_LEFT
 
 PUFFERFISH_INITIAL_HEALTH = 2
 
@@ -55,13 +55,6 @@ pufferfish_health = entity_local15
 pufferfish_knockback_counter = entity_local16
 pufferfish_flash_counter = entity_local17
 
-.enum
-PUFFERFISH_DIRECTION_RIGHT
-PUFFERFISH_DIRECTION_LEFT
-PUFFERFISH_DIRECTION_DOWN
-PUFFERFISH_DIRECTION_UP
-.endenum
-
 .define pufferfish_collision_offset_x \
   PUFFERFISH_HALFWIDTH+6, \
   PUFFERFISH_HALFWIDTH-6, \
@@ -87,22 +80,22 @@ pufferfish_collision_offset_y_hi:
   .hibytes pufferfish_collision_offset_y
 
 pufferfish_turnright_direction:
-  .byte PUFFERFISH_DIRECTION_DOWN
-  .byte PUFFERFISH_DIRECTION_UP
-  .byte PUFFERFISH_DIRECTION_LEFT
-  .byte PUFFERFISH_DIRECTION_RIGHT
+  .byte ENTITY_DIRECTION_DOWN
+  .byte ENTITY_DIRECTION_UP
+  .byte ENTITY_DIRECTION_LEFT
+  .byte ENTITY_DIRECTION_RIGHT
 
 pufferfish_turnleft_direction:
-  .byte PUFFERFISH_DIRECTION_UP
-  .byte PUFFERFISH_DIRECTION_DOWN
-  .byte PUFFERFISH_DIRECTION_RIGHT
-  .byte PUFFERFISH_DIRECTION_LEFT
+  .byte ENTITY_DIRECTION_UP
+  .byte ENTITY_DIRECTION_DOWN
+  .byte ENTITY_DIRECTION_RIGHT
+  .byte ENTITY_DIRECTION_LEFT
 
 pufferfish_opposite_direction:
-  .byte PUFFERFISH_DIRECTION_LEFT
-  .byte PUFFERFISH_DIRECTION_RIGHT
-  .byte PUFFERFISH_DIRECTION_UP
-  .byte PUFFERFISH_DIRECTION_DOWN
+  .byte ENTITY_DIRECTION_LEFT
+  .byte ENTITY_DIRECTION_RIGHT
+  .byte ENTITY_DIRECTION_UP
+  .byte ENTITY_DIRECTION_DOWN
 
 .define pufferfish_animation_addresses \
   pufferfish_unpuffed_side, \

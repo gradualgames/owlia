@@ -479,7 +479,7 @@ rescueowl_state_fly_away:
   adc #>RESCUEOWL_HERO_OFFSET_Y
   sta hero_y+1
 
-  lda #HERO_DIRECTION_DOWN
+  lda #ENTITY_DIRECTION_DOWN
   sta hero_direction
 
   jsr entity_update_animation

@@ -48,22 +48,22 @@ npc_direction_speed_y_hi:
   .byte 0, 0, 0, $ff
 
 npc_opposite_direction:
-  .byte NPC_DIRECTION_LEFT
-  .byte NPC_DIRECTION_RIGHT
-  .byte NPC_DIRECTION_UP
-  .byte NPC_DIRECTION_DOWN
+  .byte ENTITY_DIRECTION_LEFT
+  .byte ENTITY_DIRECTION_RIGHT
+  .byte ENTITY_DIRECTION_UP
+  .byte ENTITY_DIRECTION_DOWN
 
 npc_turnright_direction:
-  .byte NPC_DIRECTION_DOWN
-  .byte NPC_DIRECTION_UP
-  .byte NPC_DIRECTION_LEFT
-  .byte NPC_DIRECTION_RIGHT
+  .byte ENTITY_DIRECTION_DOWN
+  .byte ENTITY_DIRECTION_UP
+  .byte ENTITY_DIRECTION_LEFT
+  .byte ENTITY_DIRECTION_RIGHT
 
 npc_turnleft_direction:
-  .byte NPC_DIRECTION_UP
-  .byte NPC_DIRECTION_DOWN
-  .byte NPC_DIRECTION_RIGHT
-  .byte NPC_DIRECTION_LEFT
+  .byte ENTITY_DIRECTION_UP
+  .byte ENTITY_DIRECTION_DOWN
+  .byte ENTITY_DIRECTION_RIGHT
+  .byte ENTITY_DIRECTION_LEFT
 
 .define npc_animation_addresses\
   npcman_walk_side,\
@@ -485,11 +485,11 @@ use_x_difference:
   sbc npc_center_x+1
   bmi hero_to_left
 hero_to_right:
-  lda #NPC_DIRECTION_RIGHT
+  lda #ENTITY_DIRECTION_RIGHT
   sta npc_direction,x
   jmp done
 hero_to_left:
-  lda #NPC_DIRECTION_LEFT
+  lda #ENTITY_DIRECTION_LEFT
   sta npc_direction,x
 done:
   .endscope
@@ -505,11 +505,11 @@ use_y_difference:
   sbc npc_center_y+1
   bmi hero_above
 hero_below:
-  lda #NPC_DIRECTION_DOWN
+  lda #ENTITY_DIRECTION_DOWN
   sta npc_direction,x
   jmp done
 hero_above:
-  lda #NPC_DIRECTION_UP
+  lda #ENTITY_DIRECTION_UP
   sta npc_direction,x
 done:
   .endscope
@@ -569,7 +569,7 @@ keep_within_walk_rectangle:
   lda npc_spawn_x_hi,x
   sta entity_x_hi,x
 
-  lda #NPC_DIRECTION_RIGHT
+  lda #ENTITY_DIRECTION_RIGHT
   sta npc_direction,x
 
 not_left_of_rect:
@@ -589,7 +589,7 @@ not_left_of_rect:
   adc #0
   sta entity_x_hi,x
 
-  lda #NPC_DIRECTION_LEFT
+  lda #ENTITY_DIRECTION_LEFT
   sta npc_direction,x
 
 not_right_of_rect:
@@ -609,7 +609,7 @@ not_right_of_rect:
   lda npc_spawn_y_hi,x
   sta entity_y_hi,x
 
-  lda #NPC_DIRECTION_DOWN
+  lda #ENTITY_DIRECTION_DOWN
   sta npc_direction,x
 
 not_above_rect:
@@ -629,7 +629,7 @@ not_above_rect:
   adc #0
   sta entity_y_hi,x
 
-  lda #NPC_DIRECTION_UP
+  lda #ENTITY_DIRECTION_UP
   sta npc_direction,x
 
 not_below_rect:

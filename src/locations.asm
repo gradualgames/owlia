@@ -24,6 +24,7 @@
 .include "triple_anglerfish_puzzle_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
+.include "entity.inc"
 .include "entities.inc"
 .include "ram.inc"
 .include "inventory.inc"
@@ -397,8 +398,8 @@ dungeon3_0_3_sprite_chr_groups:
 ;****************************************************************
 village_entity_instances:
   .byte 3  ;count
-  .byte entity_index_npc, 31, 37, sprite_chr_group_index_npcman, 6, conversation_index_owlia_school_of_falconry, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
-  .byte entity_index_npc, 15, 20, sprite_chr_group_index_npcman, 6, conversation_index_hi_adlanniel, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte entity_index_npc, 31, 37, sprite_chr_group_index_npcman, 6, conversation_index_owlia_school_of_falconry, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 15, 20, sprite_chr_group_index_npcman, 6, conversation_index_hi_adlanniel, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
   .byte entity_index_item, 31, 32, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_HEALTH, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
 
 house1_intro_entity_instances:
@@ -410,24 +411,24 @@ house1_entity_instances:
 
 housebl_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_npc_housebl, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_npc_housebl, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
 
 housebr_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_npc_housebr, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_npc_housebr, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
 
 housetr_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_npc_housetr, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, NPC_DIRECTION_DOWN
+  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_npc_housetr, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
 
 housel_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 30, 19, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, NPC_DIRECTION_LEFT
+  .byte entity_index_npc, 30, 19, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_LEFT
 
 houser_entity_instances:
   .byte 2  ;count
-  .byte entity_index_npc, 15, 16, sprite_chr_group_index_npcwoman, 6, conversation_index_ssh, 4, 16 * 5, 16 * 1, NPC_MODE_WALK, NPC_DIRECTION_DOWN
-  .byte entity_index_npc, 12, 20, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_library, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, NPC_DIRECTION_RIGHT
+  .byte entity_index_npc, 15, 16, sprite_chr_group_index_npcwoman, 6, conversation_index_ssh, 4, 16 * 5, 16 * 1, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 12, 20, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_library, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_RIGHT
 
 meadow1_entity_instances:
   .byte 5  ;count
@@ -497,7 +498,7 @@ dungeon_1_0_entity_instances:
 
 dungeon_2_0_entity_instances:
   .byte 4
-  .byte entity_index_anglerfish, 36, 5, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_OPPOSITE, ANGLERFISH_PAUSE_MODE_NORMAL, ANGLERFISH_TURN_LENGTH_LONG, ANGLERFISH_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 0, 0
+  .byte entity_index_anglerfish, 36, 5, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_OPPOSITE, ANGLERFISH_PAUSE_MODE_NORMAL, ANGLERFISH_TURN_LENGTH_LONG, ENTITY_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 0, 0
   .byte entity_index_spotlight_puzzle, 0, 0, 0, SPOTLIGHT_PUZZLE_PARAMS, SPOTLIGHT_PUZZLE_STATE_SINGLE_ANGLERFISH, DUNGEON1_DUNGEON_FLAGS_SINGLE_ANGLERFISH_COMPLETE, 40, 6
   .byte entity_index_monolith, 46, 10, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON1_DUNGEON_FLAGS_DOOR1_UNLOCKED, \
@@ -715,8 +716,8 @@ dungeon_2_3_entity_instances:
 
 dungeon_3_3_entity_instances:
   .byte 4
-  .byte entity_index_anglerfish, 52, 47, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_LEFT, ANGLERFISH_PAUSE_MODE_NORMAL, ANGLERFISH_TURN_LENGTH, ANGLERFISH_DIRECTION_DOWN, ANGLERFISH_SPOTLIGHT_OFF, 4, 4
-  .byte entity_index_anglerfish, 59, 47, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_RIGHT, ANGLERFISH_PAUSE_MODE_NORMAL, ANGLERFISH_TURN_LENGTH, ANGLERFISH_DIRECTION_DOWN, ANGLERFISH_SPOTLIGHT_ON, 4, 4
+  .byte entity_index_anglerfish, 52, 47, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_LEFT, ANGLERFISH_PAUSE_MODE_NORMAL, ANGLERFISH_TURN_LENGTH, ENTITY_DIRECTION_DOWN, ANGLERFISH_SPOTLIGHT_OFF, 4, 4
+  .byte entity_index_anglerfish, 59, 47, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_RIGHT, ANGLERFISH_PAUSE_MODE_NORMAL, ANGLERFISH_TURN_LENGTH, ENTITY_DIRECTION_DOWN, ANGLERFISH_SPOTLIGHT_ON, 4, 4
   .byte entity_index_spotlight_puzzle, 0, 0, 0, SPOTLIGHT_PUZZLE_PARAMS, SPOTLIGHT_PUZZLE_STATE_TWIN_ANGLERFISH, DUNGEON1_DUNGEON_FLAGS_TWIN_ANGLERFISH_COMPLETE, 56, 51
   .byte entity_index_monolith, 49, 56, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, 0, \
@@ -1384,9 +1385,9 @@ dungeon3_3_2_entity_instances:
 
 dungeon3_0_3_entity_instances:
   .byte 5
-  .byte entity_index_anglerfish, 2, 48, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_LEFT, ANGLERFISH_PAUSE_MODE_STOP_GO, ANGLERFISH_TURN_LENGTH, ANGLERFISH_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 0, 3
-  .byte entity_index_anglerfish, 12, 48, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_RIGHT, ANGLERFISH_PAUSE_MODE_STOP_GO, ANGLERFISH_TURN_LENGTH, ANGLERFISH_DIRECTION_LEFT, ANGLERFISH_SPOTLIGHT_ON, 8, 3
-  .byte entity_index_anglerfish, 4, 54, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_OPPOSITE, ANGLERFISH_PAUSE_MODE_STOP_GO, ANGLERFISH_TURN_LENGTH_LONG, ANGLERFISH_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 8, 3
+  .byte entity_index_anglerfish, 2, 48, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_LEFT, ANGLERFISH_PAUSE_MODE_STOP_GO, ANGLERFISH_TURN_LENGTH, ENTITY_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 0, 3
+  .byte entity_index_anglerfish, 12, 48, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_RIGHT, ANGLERFISH_PAUSE_MODE_STOP_GO, ANGLERFISH_TURN_LENGTH, ENTITY_DIRECTION_LEFT, ANGLERFISH_SPOTLIGHT_ON, 8, 3
+  .byte entity_index_anglerfish, 4, 54, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_OPPOSITE, ANGLERFISH_PAUSE_MODE_STOP_GO, ANGLERFISH_TURN_LENGTH_LONG, ENTITY_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 8, 3
   .byte entity_index_triple_anglerfish_puzzle, 2, 51, 0, TRIPLE_ANGLERFISH_PUZZLE_PARAMS, 5, 49, 10, 49, 8, 55, DUNGEON3_DUNGEON_FLAGS_TRIPLE_ANGLERFISH_PUZZLE_COMPLETE
   .byte entity_index_monolith, 14, 53, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
@@ -1545,183 +1546,183 @@ dungeon3_0_3_palette:
 village_house1_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                         18, 18, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+                         18, 18, sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_DOWN
 
 village_housel_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                         19, 35, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+                         19, 35, sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_DOWN
 
 village_houser_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                         43, 35, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+                         43, 35, sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_DOWN
 
 village_housebl_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                         19, 48, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+                         19, 48, sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_DOWN
 
 village_housebr_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                         43, 48, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+                         43, 48, sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_DOWN
 
 village_housetr_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                         43, 18, sfx_door, 3, soundeffect_one, HERO_DIRECTION_DOWN
+                         43, 18, sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_DOWN
 
 village_bottom_entrance:
 define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_village, village_sprite_chr_groups, village_entity_instances, village_palette,\
-                      31, 54, 0, 0, 0, HERO_DIRECTION_UP
+                      31, 54, 0, 0, 0, ENTITY_DIRECTION_UP
 
 ;house1 locations
 house1_intro:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_house, house_sprite_chr_groups, house1_intro_entity_instances, house_palette,\
-                         11, 13, 0, 0, 0, HERO_DIRECTION_UP
+                         11, 13, 0, 0, 0, ENTITY_DIRECTION_UP
 
 house1_exit:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_house, house_sprite_chr_groups, house1_entity_instances, house_palette,\
-                         14, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+                         14, 25, sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 
 ;housel locations
 housel_exit:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_housel, house_sprite_chr_groups, housel_entity_instances, house_palette,\
-                         25, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+                         25, 25, sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 
 ;houser locations
 houser_exit:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_houser, house_sprite_chr_groups, houser_entity_instances, house_palette,\
-                         16, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+                         16, 25, sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 
 ;housebl locations
 housebl_exit:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_housebl, house_sprite_chr_groups, housebl_entity_instances, house_palette,\
-                         14, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+                         14, 25, sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 
 ;housebr locations
 housebr_exit:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_housebr, house_sprite_chr_groups, housebr_entity_instances, house_palette,\
-                         14, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+                         14, 25, sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 
 ;housetr locations
 housetr_exit:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_housetr, house_sprite_chr_groups, housetr_entity_instances, house_palette,\
-                         14, 25, sfx_door, 3, soundeffect_one, HERO_DIRECTION_UP
+                         14, 25, sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 
 ;meadow1 locations
 meadow1_top_entrance:
 define_north_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_meadow1, meadow1_sprite_chr_groups, meadow1_entity_instances, meadow1_palette,\
-                      29, 1, 0, 0, 0, HERO_DIRECTION_DOWN
+                      29, 1, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 meadow1_west_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
                 area_index_meadow1, meadow1_sprite_chr_groups, meadow1_entity_instances, meadow1_palette,\
                 0, 16, 1, 24,\
-                0, 0, 0, HERO_DIRECTION_RIGHT
+                0, 0, 0, ENTITY_DIRECTION_RIGHT
 
 ;meadow2 locations
 meadow2_north_entrance:
 define_north_location LOCATION_BRIGHTNESS_LEVEL_4,\
                         area_index_meadow2, meadow2_sprite_chr_groups, meadow2_entity_instances, meadow2_palette,\
-                        8, 1, 0, 0, 0, HERO_DIRECTION_DOWN
+                        8, 1, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 meadow2_east_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
                 area_index_meadow2, meadow2_sprite_chr_groups, meadow2_entity_instances, meadow2_palette,\
                 48, 15, 62, 22,\
-                0, 0, 0, HERO_DIRECTION_LEFT
+                0, 0, 0, ENTITY_DIRECTION_LEFT
 
 ;meadow3 locations
 meadow3_southwest_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
                 area_index_meadow3, meadow3_sprite_chr_groups, meadow3_entity_instances, meadow3_palette,\
                 0, 50, 8, 61,\
-                0, 0, 0, HERO_DIRECTION_UP
+                0, 0, 0, ENTITY_DIRECTION_UP
 
 meadow3_dungeon_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
                         area_index_meadow3, meadow3_sprite_chr_groups, meadow3_entity_instances, meadow3_palette,\
                         1, 0, 9, 2,\
-                        0, 0, 0, HERO_DIRECTION_DOWN
+                        0, 0, 0, ENTITY_DIRECTION_DOWN
 
 ;dungeon locations
 dungeon_2_3_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_3_entity_instances, dungeon_palette, 32, 45, 42, 54, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_3_entity_instances, dungeon_palette, 32, 45, 42, 54, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon_0_3_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4 | LOCATION_FLAGS_DUNGEON_ENTRANCE)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_3_entity_instances, dungeon_palette, 0, 45, 7, 55, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4 | LOCATION_FLAGS_DUNGEON_ENTRANCE)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_3_entity_instances, dungeon_palette, 0, 45, 7, 55, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon_0_3_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_3_entity_instances, dungeon_palette, 0, 45, 7, 49, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_3_entity_instances, dungeon_palette, 0, 45, 7, 49, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon_0_2_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_2_entity_instances, dungeon_palette, 0, 30, 7, 40, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_2_entity_instances, dungeon_palette, 0, 30, 7, 40, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon_0_2_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_2_entity_instances, dungeon_palette, 0, 30, 4, 34, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_2_entity_instances, dungeon_palette, 0, 30, 4, 34, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon_0_1_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_1_entity_instances, dungeon_palette, 0, 15, 4, 25, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_1_entity_instances, dungeon_palette, 0, 15, 4, 25, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon_0_1_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_1_entity_instances, dungeon_palette, 0, 15, 13, 22, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_1_entity_instances, dungeon_palette, 0, 15, 13, 22, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon_0_1_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_1_entity_instances, dungeon_palette, 0, 15, 11, 19, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_1_entity_instances, dungeon_palette, 0, 15, 11, 19, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon_0_0_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_0_entity_instances, dungeon_palette, 0, 0, 11, 10, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_0_entity_instances, dungeon_palette, 0, 0, 11, 10, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon_0_0_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_0_entity_instances, dungeon_palette, 0, 0, 13, 7, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_0_0_entity_instances, dungeon_palette, 0, 0, 13, 7, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon_1_0_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_0_entity_instances, dungeon_palette, 16, 0, 18, 7, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_0_entity_instances, dungeon_palette, 16, 0, 18, 7, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_1_0_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_0_entity_instances, dungeon_palette, 16, 0, 29, 7, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_0_entity_instances, dungeon_palette, 16, 0, 29, 7, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon_1_1_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_1_entity_instances, dungeon_palette, 16, 15, 18, 22, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_1_entity_instances, dungeon_palette, 16, 15, 18, 22, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_1_1_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_1_entity_instances, dungeon_palette, 16, 15, 29, 22, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_1_entity_instances, dungeon_palette, 16, 15, 29, 22, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon_2_1_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_1_entity_instances, dungeon_palette, 32, 15, 34, 22, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_1_entity_instances, dungeon_palette, 32, 15, 34, 22, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_1_2_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_2_entity_instances, dungeon_palette, 16, 30, 29, 37, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_2_entity_instances, dungeon_palette, 16, 30, 29, 37, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon_1_2_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_2_entity_instances, dungeon_palette, 16, 30, 26, 40, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_2_entity_instances, dungeon_palette, 16, 30, 26, 40, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon_1_3_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_3_entity_instances, dungeon_palette, 16, 45, 26, 49, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_3_entity_instances, dungeon_palette, 16, 45, 26, 49, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon_1_3_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_3_entity_instances, dungeon_palette, 16, 45, 29, 52, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_1_3_entity_instances, dungeon_palette, 16, 45, 29, 52, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon_2_3_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_3_entity_instances, dungeon_palette, 32, 45, 34, 52, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_3_entity_instances, dungeon_palette, 32, 45, 34, 52, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_2_3_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_3_entity_instances, dungeon_palette, 32, 45, 45, 55, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_3_entity_instances, dungeon_palette, 32, 45, 45, 55, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon_3_3_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_sprite_chr_groups, dungeon_3_3_entity_instances, dungeon_palette, 48, 45, 50, 55, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_sprite_chr_groups, dungeon_3_3_entity_instances, dungeon_palette, 48, 45, 50, 55, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_2_2_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_2_entity_instances, dungeon_palette, 32, 30, 34, 37, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_2_entity_instances, dungeon_palette, 32, 30, 34, 37, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_2_2_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_2_entity_instances, dungeon_palette, 32, 30, 45, 37, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_2_entity_instances, dungeon_palette, 32, 30, 45, 37, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon_3_2_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_2_entity_instances, dungeon_palette, 48, 30, 50, 37, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_2_entity_instances, dungeon_palette, 48, 30, 50, 37, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_2_1_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_1_entity_instances, dungeon_palette, 32, 15, 45, 22, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_1_entity_instances, dungeon_palette, 32, 15, 45, 22, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon_3_1_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_1_entity_instances, dungeon_palette, 48, 15, 50, 22, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_1_entity_instances, dungeon_palette, 48, 15, 50, 22, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_2_0_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_sprite_chr_groups, dungeon_2_0_entity_instances, dungeon_palette, 32, 0, 45, 9, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_sprite_chr_groups, dungeon_2_0_entity_instances, dungeon_palette, 32, 0, 45, 9, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon_3_0_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_0_entity_instances, dungeon_palette, 48, 0, 50, 9, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_0_entity_instances, dungeon_palette, 48, 0, 50, 9, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_2_0_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_sprite_chr_groups, dungeon_2_0_entity_instances, dungeon_palette, 32, 0, 34, 7, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_sprite_chr_groups, dungeon_2_0_entity_instances, dungeon_palette, 32, 0, 34, 7, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_3_0_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_0_entity_instances, dungeon_palette, 48, 0, 55, 4, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_0_entity_instances, dungeon_palette, 48, 0, 55, 4, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon_3_1_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_1_entity_instances, dungeon_palette, 48, 15, 56, 25, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_1_entity_instances, dungeon_palette, 48, 15, 56, 25, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon_3_2_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_2_entity_instances, dungeon_palette, 48, 30, 56, 34, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_2_entity_instances, dungeon_palette, 48, 30, 56, 34, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 dungeon1_boss_area_entrance:
 define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
@@ -1729,7 +1730,7 @@ define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                   LOCATION_BRIGHTNESS_LEVEL_4,\
                         area_index_dungeon1_boss, dungeon1_boss_sprite_chr_groups, dungeon1_boss_entity_instances, dungeon1_boss_palette,\
                         0, 0, 8, 10,\
-                        0, 0, 0, HERO_DIRECTION_UP
+                        0, 0, 0, ENTITY_DIRECTION_UP
 
 dungeon1_boss_area_east_exit:
 define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
@@ -1737,7 +1738,7 @@ define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                   LOCATION_BRIGHTNESS_LEVEL_4,\
                         area_index_dungeon1_boss, dungeon1_boss_sprite_chr_groups, dungeon1_boss_entity_instances, dungeon1_boss_palette,\
                         0, 0, 13, 10,\
-                        0, 0, 0, HERO_DIRECTION_LEFT
+                        0, 0, 0, ENTITY_DIRECTION_LEFT
 
 dungeon1_boss_area_owl_dungeon:
 define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
@@ -1745,102 +1746,102 @@ define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                   LOCATION_BRIGHTNESS_LEVEL_4,\
                         area_index_dungeon1_boss, dungeon1_boss_owl_dungeon_sprite_chr_groups, dungeon1_boss_owl_dungeon_entity_instances, dungeon1_boss_owl_dungeon_palette,\
                         16, 0, 18, 10,\
-                        0, 0, 0, HERO_DIRECTION_RIGHT
+                        0, 0, 0, ENTITY_DIRECTION_RIGHT
 
 tundra1_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_tundra1, tundra1_sprite_chr_groups, tundra1_entity_instances, tundra1_palette,\
-                         45, 42, 0, 0, 0, HERO_DIRECTION_DOWN
+                         45, 42, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 tundra1_north_entrance:
 define_north_location LOCATION_BRIGHTNESS_LEVEL_4,\
                         area_index_tundra1, tundra1_sprite_chr_groups, tundra1_entity_instances, tundra1_palette,\
-                        45, 1, 0, 0, 0, HERO_DIRECTION_DOWN
+                        45, 1, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 tundra1_south_entrance:
 define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tundra1, tundra1_sprite_chr_groups, tundra1_entity_instances, tundra1_palette,\
-                      24, 62, 0, 0, 0, HERO_DIRECTION_UP
+                      24, 62, 0, 0, 0, ENTITY_DIRECTION_UP
 
 tundra2_south_entrance:
 define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tundra2, tundra2_sprite_chr_groups, tundra2_entity_instances, tundra1_palette,\
-                      45, 62, 0, 0, 0, HERO_DIRECTION_UP
+                      45, 62, 0, 0, 0, ENTITY_DIRECTION_UP
 
 tundra3_north_entrance:
 define_north_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tundra3, tundra3_sprite_chr_groups, tundra3_entity_instances, tundra1_palette,\
-                      24, 1, 0, 0, 0, HERO_DIRECTION_DOWN
+                      24, 1, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 tundra3_dungeon2_entrance:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                          area_index_tundra3, tundra3_sprite_chr_groups, tundra3_entity_instances, tundra1_palette,\
-                         43, 26, 0, 0, 0, HERO_DIRECTION_DOWN
+                         43, 26, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 dungeon2_0_0_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_0_entity_instances,dungeon2_palette,0, 0, 10, 10, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_0_entity_instances,dungeon2_palette,0, 0, 10, 10, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon2_0_0_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_0_entity_instances,dungeon2_palette,0, 0, 13, 7, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_0_entity_instances,dungeon2_palette,0, 0, 13, 7, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon2_1_0_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_0_entity_instances,dungeon2_palette,16, 0, 26, 10, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_0_entity_instances,dungeon2_palette,16, 0, 26, 10, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon2_1_0_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_0_entity_instances,dungeon2_palette,16, 0, 18, 7, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_0_entity_instances,dungeon2_palette,16, 0, 18, 7, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon2_2_0_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_0_entity_instances,dungeon2_palette,32, 0, 36, 4, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_0_entity_instances,dungeon2_palette,32, 0, 36, 4, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon2_2_0_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_0_entity_instances,dungeon2_palette,32, 0, 45, 7, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_0_entity_instances,dungeon2_palette,32, 0, 45, 7, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon2_3_0_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_0_entity_instances,dungeon2_palette,48, 0, 59, 10, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_0_entity_instances,dungeon2_palette,48, 0, 59, 10, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon2_3_0_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_0_entity_instances,dungeon2_palette,48, 0, 50, 7, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_0_entity_instances,dungeon2_palette,48, 0, 50, 7, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon2_0_1_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_1_entity_instances,dungeon2_palette,0, 15, 10, 19, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_1_entity_instances,dungeon2_palette,0, 15, 10, 19, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon2_1_1_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_1_entity_instances,dungeon2_palette,16, 15, 26, 19, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_1_entity_instances,dungeon2_palette,16, 15, 26, 19, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon2_1_1_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_1_entity_instances,dungeon2_palette,16, 15, 23, 25, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_1_entity_instances,dungeon2_palette,16, 15, 23, 25, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon2_1_1_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_1_entity_instances,dungeon2_palette,16, 15, 29, 22, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_1_entity_instances,dungeon2_palette,16, 15, 29, 22, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon2_2_1_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_1_entity_instances,dungeon2_palette,32, 15, 34, 22, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_1_entity_instances,dungeon2_palette,32, 15, 34, 22, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon2_3_1_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_1_entity_instances,dungeon2_palette,48, 15, 59, 19, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_1_entity_instances,dungeon2_palette,48, 15, 59, 19, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon2_3_1_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_1_entity_instances,dungeon2_palette,48, 15, 58, 25, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_1_entity_instances,dungeon2_palette,48, 15, 58, 25, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon2_0_2_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_2_entity_instances,dungeon2_palette,0, 30, 10, 40, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_2_entity_instances,dungeon2_palette,0, 30, 10, 40, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon2_0_2_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_2_entity_instances,dungeon2_palette,0, 30, 13, 37, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_2_entity_instances,dungeon2_palette,0, 30, 13, 37, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon2_1_2_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_2_entity_instances,dungeon2_palette,16, 30, 23, 34, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_2_entity_instances,dungeon2_palette,16, 30, 23, 34, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon2_1_2_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_2_entity_instances,dungeon2_palette,16, 30, 29, 37, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_2_entity_instances,dungeon2_palette,16, 30, 29, 37, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon2_1_2_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_2_entity_instances,dungeon2_palette,16, 30, 18, 37, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_2_entity_instances,dungeon2_palette,16, 30, 18, 37, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon2_2_2_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_2_entity_instances,dungeon2_palette,32, 30, 42, 40, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_2_entity_instances,dungeon2_palette,32, 30, 42, 40, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon2_2_2_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_2_entity_instances,dungeon2_palette,32, 30, 34, 37, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_2_entity_instances,dungeon2_palette,32, 30, 34, 37, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon2_3_2_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_2_entity_instances,dungeon2_palette,48, 30, 58, 34, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_2_entity_instances,dungeon2_palette,48, 30, 58, 34, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon2_3_2_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_2_entity_instances,dungeon2_palette,48, 30, 53, 40, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_2_entity_instances,dungeon2_palette,48, 30, 53, 40, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon2_0_3_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_3_entity_instances,dungeon2_palette,0, 45, 10, 49, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_3_entity_instances,dungeon2_palette,0, 45, 10, 49, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon2_0_3_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_3_entity_instances,dungeon2_palette,0, 45, 13, 52, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_0_3_entity_instances,dungeon2_palette,0, 45, 13, 52, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon2_1_3_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_3_entity_instances,dungeon2_palette,16, 45, 18, 52, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_1_3_entity_instances,dungeon2_palette,16, 45, 18, 52, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon2_2_3_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_3_entity_instances,dungeon2_palette,32, 45, 42, 49, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_3_entity_instances,dungeon2_palette,32, 45, 42, 49, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon2_2_3_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4 | LOCATION_FLAGS_DUNGEON_ENTRANCE)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_3_entity_instances,dungeon2_palette,32, 45, 40, 55, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4 | LOCATION_FLAGS_DUNGEON_ENTRANCE)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_3_entity_instances,dungeon2_palette,32, 45, 40, 55, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon2_2_3_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_3_entity_instances,dungeon2_palette,32, 45, 45, 52, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_2_3_entity_instances,dungeon2_palette,32, 45, 45, 52, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon2_3_3_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_3_entity_instances,dungeon2_palette,48, 45, 53, 49, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_3_entity_instances,dungeon2_palette,48, 45, 53, 49, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon2_3_3_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_3_entity_instances,dungeon2_palette,48, 45, 50, 52, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon2,dungeon2_sprite_chr_groups,dungeon2_3_3_entity_instances,dungeon2_palette,48, 45, 50, 52, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 
 dungeon2_boss_area_entrance:
 define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
@@ -1848,7 +1849,7 @@ define_location LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                 LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_dungeon2_boss, dungeon2_boss_sprite_chr_groups, dungeon2_boss_entity_instances, dungeon2_boss_palette,\
                       0, 0, 7, 10,\
-                      0, 0, 0, HERO_DIRECTION_UP
+                      0, 0, 0, ENTITY_DIRECTION_UP
 
 dungeon2_boss_area_east_exit:
 define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
@@ -1856,7 +1857,7 @@ define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                   LOCATION_BRIGHTNESS_LEVEL_4,\
                         area_index_dungeon2_boss, dungeon2_boss_sprite_chr_groups, dungeon2_boss_entity_instances, dungeon2_boss_palette,\
                         0, 0, 12, 10,\
-                        0, 0, 0, HERO_DIRECTION_LEFT
+                        0, 0, 0, ENTITY_DIRECTION_LEFT
 
 dungeon2_boss_area_owl_dungeon:
 define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
@@ -1864,117 +1865,117 @@ define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                   LOCATION_BRIGHTNESS_LEVEL_4,\
                         area_index_dungeon2_boss, dungeon2_boss_owl_dungeon_sprite_chr_groups, dungeon2_boss_owl_dungeon_entity_instances, dungeon2_boss_owl_dungeon_palette,\
                         16, 0, 19, 10,\
-                        0, 0, 0, HERO_DIRECTION_RIGHT
+                        0, 0, 0, ENTITY_DIRECTION_RIGHT
 
 mountain1_south_entrance:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
                       0, 50, 8, 55,\
-                      0, 0, 0, HERO_DIRECTION_UP
+                      0, 0, 0, ENTITY_DIRECTION_UP
 
 mountain1_dungeon3_entrance:
 define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                                area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
-                               44, 33, 0, 0, 0, HERO_DIRECTION_DOWN
+                               44, 33, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 mountain1_top_left_cave_entrance:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                                area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
-                               2, 0, 10, 3, 0, 0, 0, HERO_DIRECTION_DOWN
+                               2, 0, 10, 3, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 mountain1_bottom_left_cave_entrance:
 define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                                area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
-                               10, 51, 0, 0, 0, HERO_DIRECTION_DOWN
+                               10, 51, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 mountain1_bottom_right_cave_entrance:
 define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                                area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
-                               56, 50, 0, 0, 0, HERO_DIRECTION_DOWN
+                               56, 50, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 cave_top_left:
 define_location   LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
                   LOCATION_BRIGHTNESS_LEVEL_0,\
                         area_index_cave, cave_sprite_chr_groups, cave_top_left_entity_instances, cave_palette,\
                         0, 0, 9, 12,\
-                        0, 0, 0, HERO_DIRECTION_UP
+                        0, 0, 0, ENTITY_DIRECTION_UP
 
 cave_bottom_left:
 define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
                   LOCATION_BRIGHTNESS_LEVEL_0,\
                         area_index_cave, cave_sprite_chr_groups, cave_bottom_left_entity_instances, cave_palette,\
                         3, 48, 15, 56,\
-                        0, 0, 0, HERO_DIRECTION_UP
+                        0, 0, 0, ENTITY_DIRECTION_UP
 
 cave_bottom_right:
 define_location   LOCATION_BRIGHTNESS_LEVEL_0,\
                         area_index_cave, cave_sprite_chr_groups, cave_bottom_right_entity_instances, cave_palette,\
                         32, 48, 40, 56,\
-                        0, 0, 0, HERO_DIRECTION_UP
+                        0, 0, 0, ENTITY_DIRECTION_UP
 
 dungeon3_entrance:
 define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4 | LOCATION_FLAGS_DUNGEON_ENTRANCE)},\
                         area_index_dungeon3, dungeon3_sprite_chr_groups, dungeon3_0_0_entity_instances, dungeon3_palette,\
                         0, 0, 2, 6,\
-                        0, 0, 0, HERO_DIRECTION_RIGHT
+                        0, 0, 0, ENTITY_DIRECTION_RIGHT
 
 dungeon3_0_0_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_0_0_entity_instances,dungeon3_palette,0, 0, 8, 10, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_0_0_entity_instances,dungeon3_palette,0, 0, 8, 10, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon3_0_0_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_0_0_entity_instances,dungeon3_palette,0, 0, 13, 7, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_0_0_entity_instances,dungeon3_palette,0, 0, 13, 7, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon3_1_0_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_0_entity_instances,dungeon3_palette,16, 0, 24, 10, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_0_entity_instances,dungeon3_palette,16, 0, 24, 10, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon3_1_0_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_0_entity_instances,dungeon3_palette,16, 0, 29, 8, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_0_entity_instances,dungeon3_palette,16, 0, 29, 8, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon3_1_0_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_0_entity_instances,dungeon3_palette,16, 0, 18, 7, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_0_entity_instances,dungeon3_palette,16, 0, 18, 7, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon3_2_0_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_2_0_entity_instances,dungeon3_palette,32, 0, 45, 8, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_2_0_entity_instances,dungeon3_palette,32, 0, 45, 8, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon3_2_0_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_2_0_entity_instances,dungeon3_palette,32, 0, 34, 8, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_2_0_entity_instances,dungeon3_palette,32, 0, 34, 8, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon3_3_0_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_0_entity_instances,dungeon3_palette,48, 0, 56, 10, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_0_entity_instances,dungeon3_palette,48, 0, 56, 10, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon3_3_0_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_0_entity_instances,dungeon3_palette,48, 0, 50, 8, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_0_entity_instances,dungeon3_palette,48, 0, 50, 8, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon3_0_1_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_0_1_entity_instances,dungeon3_palette,0, 15, 8, 19, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_0_1_entity_instances,dungeon3_palette,0, 15, 8, 19, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon3_0_1_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_0_1_entity_instances,dungeon3_palette,0, 15, 8, 25, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_0_1_entity_instances,dungeon3_palette,0, 15, 8, 25, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon3_1_1_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_1_entity_instances,dungeon3_palette,16, 15, 24, 19, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_1_entity_instances,dungeon3_palette,16, 15, 24, 19, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon3_1_1_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_1_entity_instances,dungeon3_palette,16, 15, 29, 23, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_1_entity_instances,dungeon3_palette,16, 15, 29, 23, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon3_2_1_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_2_1_entity_instances,dungeon3_palette,32, 15, 40, 25, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_2_1_entity_instances,dungeon3_palette,32, 15, 40, 25, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon3_2_1_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_2_1_entity_instances,dungeon3_palette,32, 15, 34, 23, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_2_1_entity_instances,dungeon3_palette,32, 15, 34, 23, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon3_3_1_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_1_entity_instances,dungeon3_palette,48, 15, 56, 19, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_1_entity_instances,dungeon3_palette,48, 15, 56, 19, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon3_3_1_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_1_entity_instances,dungeon3_palette,48, 15, 56, 25, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_1_entity_instances,dungeon3_palette,48, 15, 56, 25, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon3_0_2_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_0_2_entity_instances,dungeon3_palette,0, 30, 8, 34, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_0_2_entity_instances,dungeon3_palette,0, 30, 8, 34, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon3_0_2_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_0_2_entity_instances,dungeon3_palette,0, 30, 13, 37, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_0_2_entity_instances,dungeon3_palette,0, 30, 13, 37, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon3_1_2_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_2_entity_instances,dungeon3_palette,16, 30, 24, 40, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_2_entity_instances,dungeon3_palette,16, 30, 24, 40, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon3_1_2_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_2_entity_instances,dungeon3_palette,16, 30, 18, 37, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_2_entity_instances,dungeon3_palette,16, 30, 18, 37, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon3_2_2_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_2_2_entity_instances,dungeon3_palette,32, 30, 40, 34, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_2_2_entity_instances,dungeon3_palette,32, 30, 40, 34, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon3_3_2_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_2_entity_instances,dungeon3_palette,48, 30, 56, 34, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_2_entity_instances,dungeon3_palette,48, 30, 56, 34, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon3_3_2_s:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_2_entity_instances,dungeon3_palette,48, 30, 56, 40, 0, 0, 0, HERO_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_2_entity_instances,dungeon3_palette,48, 30, 56, 40, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon3_0_3_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_0)},area_index_dungeon3,dungeon3_0_3_sprite_chr_groups,dungeon3_0_3_entity_instances,dungeon3_0_3_palette,0, 45, 13, 52, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_0)},area_index_dungeon3,dungeon3_0_3_sprite_chr_groups,dungeon3_0_3_entity_instances,dungeon3_0_3_palette,0, 45, 13, 52, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon3_1_3_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_3_entity_instances,dungeon3_palette,16, 45, 24, 49, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_3_entity_instances,dungeon3_palette,16, 45, 24, 49, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon3_1_3_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_3_entity_instances,dungeon3_palette,16, 45, 29, 52, 0, 0, 0, HERO_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_3_entity_instances,dungeon3_palette,16, 45, 29, 52, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon3_1_3_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_3_entity_instances,dungeon3_palette,16, 45, 18, 52, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_1_3_entity_instances,dungeon3_palette,16, 45, 18, 52, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon3_2_3_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_2_3_entity_instances,dungeon3_palette,32, 45, 34, 51, 0, 0, 0, HERO_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_2_3_entity_instances,dungeon3_palette,32, 45, 34, 51, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon3_3_3_n:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_3_entity_instances,dungeon3_palette,48, 45, 56, 49, 0, 0, 0, HERO_DIRECTION_DOWN
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_3_entity_instances,dungeon3_palette,48, 45, 56, 49, 0, 0, 0, ENTITY_DIRECTION_DOWN

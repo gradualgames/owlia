@@ -302,11 +302,11 @@ infer_from_x_offset:
   lda familiar_param_destination_x+1
   bmi left
 right:
-  lda #HERO_DIRECTION_RIGHT
+  lda #ENTITY_DIRECTION_RIGHT
   sta hero_direction
   jmp done
 left:
-  lda #HERO_DIRECTION_LEFT
+  lda #ENTITY_DIRECTION_LEFT
   sta hero_direction
 done:
   .endscope
@@ -318,11 +318,11 @@ infer_from_y_offset:
   lda familiar_param_destination_y+1
   bmi up
 down:
-  lda #HERO_DIRECTION_DOWN
+  lda #ENTITY_DIRECTION_DOWN
   sta hero_direction
   jmp done
 up:
-  lda #HERO_DIRECTION_UP
+  lda #ENTITY_DIRECTION_UP
   sta hero_direction
 done:
   .endscope
@@ -336,9 +336,9 @@ done:
   ;carrying vertically to align to a metatile boundary.
   .scope
   lda hero_direction
-  cmp #HERO_DIRECTION_UP
+  cmp #ENTITY_DIRECTION_UP
   beq use_vertical_offset
-  cmp #HERO_DIRECTION_DOWN
+  cmp #ENTITY_DIRECTION_DOWN
   beq use_vertical_offset
 use_horizontal_offset:
   clc
@@ -1156,16 +1156,16 @@ hero_hi:
   .hibytes hero_states
 
 hero_opposite_direction:
-  .byte HERO_DIRECTION_LEFT
-  .byte HERO_DIRECTION_RIGHT
-  .byte HERO_DIRECTION_UP
-  .byte HERO_DIRECTION_DOWN
+  .byte ENTITY_DIRECTION_LEFT
+  .byte ENTITY_DIRECTION_RIGHT
+  .byte ENTITY_DIRECTION_UP
+  .byte ENTITY_DIRECTION_DOWN
 
 hero_turn_right_direction:
-  .byte HERO_DIRECTION_DOWN
-  .byte HERO_DIRECTION_UP
-  .byte HERO_DIRECTION_LEFT
-  .byte HERO_DIRECTION_RIGHT
+  .byte ENTITY_DIRECTION_DOWN
+  .byte ENTITY_DIRECTION_UP
+  .byte ENTITY_DIRECTION_LEFT
+  .byte ENTITY_DIRECTION_RIGHT
 
 sprite_flags_direction:
   .byte %00000000, %01000000, %00000000, %00000000
@@ -1692,7 +1692,7 @@ hero_direction_right_handler:
   ;3/4 down right side of rect
   test_action (HERO_WIDTH), 0, (HERO_THREE_QUARTERS_DOWN), 0
 
-  lda #HERO_DIRECTION_RIGHT
+  lda #ENTITY_DIRECTION_RIGHT
   sta hero_direction
 
   lda hero_flags
@@ -1717,7 +1717,7 @@ hero_direction_left_handler:
   ;3/4 down left side of rect
   test_action 0, 0, ((HERO_HEIGHT/4)*3), 0
 
-  lda #HERO_DIRECTION_LEFT
+  lda #ENTITY_DIRECTION_LEFT
   sta hero_direction
 
   lda hero_flags
@@ -1742,7 +1742,7 @@ hero_direction_down_handler:
   ;middle of bottom of rect
   test_action (HERO_HALF_WIDTH), 0, (HERO_HEIGHT), 0
 
-  lda #HERO_DIRECTION_DOWN
+  lda #ENTITY_DIRECTION_DOWN
   sta hero_direction
 
   lda hero_flags
@@ -1760,13 +1760,13 @@ hero_direction_down_and_right_handler:
   ;validate that previous direction was down or right.
   ;if not, the animation is wrong, replace it with default down
   lda hero_direction
-  cmp #HERO_DIRECTION_DOWN
+  cmp #ENTITY_DIRECTION_DOWN
   beq legal_direction
-  cmp #HERO_DIRECTION_RIGHT
+  cmp #ENTITY_DIRECTION_RIGHT
   beq legal_direction
 illegal_direction:
 
-  lda #HERO_DIRECTION_DOWN
+  lda #ENTITY_DIRECTION_DOWN
   sta hero_direction
 
 legal_direction:
@@ -1808,13 +1808,13 @@ hero_direction_down_and_left_handler:
   ;validate that previous direction was down or left.
   ;if not, the animation is wrong, replace it with default down
   lda hero_direction
-  cmp #HERO_DIRECTION_DOWN
+  cmp #ENTITY_DIRECTION_DOWN
   beq legal_direction
-  cmp #HERO_DIRECTION_LEFT
+  cmp #ENTITY_DIRECTION_LEFT
   beq legal_direction
 illegal_direction:
 
-  lda #HERO_DIRECTION_DOWN
+  lda #ENTITY_DIRECTION_DOWN
   sta hero_direction
 
 legal_direction:
@@ -1863,7 +1863,7 @@ hero_direction_up_handler:
   ;middle of top of rect
   test_action (HERO_HALF_WIDTH), 0, (HERO_HALF_HEIGHT-HERO_SPEED*2), 0
 
-  lda #HERO_DIRECTION_UP
+  lda #ENTITY_DIRECTION_UP
   sta hero_direction
 
   lda hero_flags
@@ -1881,13 +1881,13 @@ hero_direction_up_and_right_handler:
   ;validate that previous direction was up or right.
   ;if not, the animation is wrong, replace it with default up
   lda hero_direction
-  cmp #HERO_DIRECTION_UP
+  cmp #ENTITY_DIRECTION_UP
   beq legal_direction
-  cmp #HERO_DIRECTION_RIGHT
+  cmp #ENTITY_DIRECTION_RIGHT
   beq legal_direction
 illegal_direction:
 
-  lda #HERO_DIRECTION_UP
+  lda #ENTITY_DIRECTION_UP
   sta hero_direction
 
 legal_direction:
@@ -1929,13 +1929,13 @@ hero_direction_up_and_left_handler:
   ;if not, the animation is wrong, replace it with default up
   .scope
   lda hero_direction
-  cmp #HERO_DIRECTION_UP
+  cmp #ENTITY_DIRECTION_UP
   beq legal_direction
-  cmp #HERO_DIRECTION_LEFT
+  cmp #ENTITY_DIRECTION_LEFT
   beq legal_direction
 illegal_direction:
 
-  lda #HERO_DIRECTION_UP
+  lda #ENTITY_DIRECTION_UP
   sta hero_direction
 
 legal_direction:
@@ -2088,7 +2088,7 @@ eject_slide_up:
   ;the hero has changed direction due to map ejection;
   ;make sure we keep track of this here so the camera uses
   ;the correct follow handler
-  ldx #HERO_DIRECTION_UP
+  ldx #ENTITY_DIRECTION_UP
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
 
@@ -2113,7 +2113,7 @@ eject_slide_down:
   ;the hero has changed direction due to map ejection;
   ;make sure we keep track of this here so the camera uses
   ;the correct follow handler
-  ldx #HERO_DIRECTION_DOWN
+  ldx #ENTITY_DIRECTION_DOWN
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
 
@@ -2130,7 +2130,7 @@ eject_horizontally:
   ;the hero has changed direction due to map ejection;
   ;make sure we keep track of this here so the camera uses
   ;the correct follow handler
-  ldx #HERO_DIRECTION_LEFT
+  ldx #ENTITY_DIRECTION_LEFT
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
 
@@ -2210,7 +2210,7 @@ eject_slide_up:
   ;the hero has changed direction due to map ejection;
   ;make sure we keep track of this here so the camera uses
   ;the correct follow handler
-  ldx #HERO_DIRECTION_UP
+  ldx #ENTITY_DIRECTION_UP
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
 
@@ -2241,7 +2241,7 @@ eject_slide_down:
   ;the hero has changed direction due to map ejection;
   ;make sure we keep track of this here so the camera uses
   ;the correct follow handler
-  ldx #HERO_DIRECTION_DOWN
+  ldx #ENTITY_DIRECTION_DOWN
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
 
@@ -2264,7 +2264,7 @@ eject_horizontally:
   ;the hero has changed direction due to map ejection;
   ;make sure we keep track of this here so the camera uses
   ;the correct follow handler
-  ldx #HERO_DIRECTION_RIGHT
+  ldx #ENTITY_DIRECTION_RIGHT
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
 
@@ -2338,7 +2338,7 @@ eject_slide_left:
   ;the hero has changed direction due to map ejection;
   ;make sure we keep track of this here so the camera uses
   ;the correct follow handler
-  ldx #HERO_DIRECTION_LEFT
+  ldx #ENTITY_DIRECTION_LEFT
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
 
@@ -2363,7 +2363,7 @@ eject_slide_right:
   ;the hero has changed direction due to map ejection;
   ;make sure we keep track of this here so the camera uses
   ;the correct follow handler
-  ldx #HERO_DIRECTION_RIGHT
+  ldx #ENTITY_DIRECTION_RIGHT
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
 
@@ -2380,7 +2380,7 @@ eject_vertically:
   ;the hero has changed direction due to map ejection;
   ;make sure we keep track of this here so the camera uses
   ;the correct follow handler
-  ldx #HERO_DIRECTION_UP
+  ldx #ENTITY_DIRECTION_UP
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
 
@@ -2459,7 +2459,7 @@ eject_slide_left:
   ;the hero has changed direction due to map ejection;
   ;make sure we keep track of this here so the camera uses
   ;the correct follow handler
-  ldx #HERO_DIRECTION_LEFT
+  ldx #ENTITY_DIRECTION_LEFT
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
 
@@ -2489,7 +2489,7 @@ eject_slide_right:
   ;the hero has changed direction due to map ejection;
   ;make sure we keep track of this here so the camera uses
   ;the correct follow handler
-  ldx #HERO_DIRECTION_RIGHT
+  ldx #ENTITY_DIRECTION_RIGHT
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
 
@@ -2511,7 +2511,7 @@ eject_vertically:
   ;the hero has changed direction due to map ejection;
   ;make sure we keep track of this here so the camera uses
   ;the correct follow handler
-  ldx #HERO_DIRECTION_DOWN
+  ldx #ENTITY_DIRECTION_DOWN
   lda hero_direction_to_direction_handlers_index,x
   sta hero_direction_handler
 

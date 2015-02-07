@@ -11,13 +11,6 @@ HORSESHOE_CRAB_INITIAL_HEALTH = 3
 HORSESHOE_CRAB_KNOCKBACK_LENGTH = 20
 HORSESHOE_CRAB_ATTACKED_LENGTH = 20
 
-.enum
-HORSESHOE_DIRECTION_LEFT
-HORSESHOE_DIRECTION_RIGHT
-HORSESHOE_DIRECTION_UP
-HORSESHOE_DIRECTION_DOWN
-.endenum
-
 horseshoe_crab_state_counter = entity_local0
 horseshoe_crab_flash_counter = entity_local1
 horseshoe_crab_knockback_counter = entity_local2
@@ -236,13 +229,13 @@ do_not_change_state:
 
   lda rand
   and #%00000011
-  cmp #HORSESHOE_DIRECTION_LEFT
+  cmp #ENTITY_DIRECTION_LEFT
   beq try_left
-  cmp #HORSESHOE_DIRECTION_RIGHT
+  cmp #ENTITY_DIRECTION_RIGHT
   beq try_right
-  cmp #HORSESHOE_DIRECTION_UP
+  cmp #ENTITY_DIRECTION_UP
   beq try_up
-  cmp #HORSESHOE_DIRECTION_DOWN
+  cmp #ENTITY_DIRECTION_DOWN
   bne :+
   jmp try_down
 :
@@ -268,7 +261,7 @@ try_left:
   lda #16
   sta horseshoe_crab_state_counter,x
 
-  lda #HORSESHOE_DIRECTION_LEFT
+  lda #ENTITY_DIRECTION_LEFT
   sta horseshoe_crab_direction,x
 
   lda #HORSESHOE_CRAB_STATE_MOVE_LEFT
@@ -297,7 +290,7 @@ try_right:
   lda #16
   sta horseshoe_crab_state_counter,x
 
-  lda #HORSESHOE_DIRECTION_RIGHT
+  lda #ENTITY_DIRECTION_RIGHT
   sta horseshoe_crab_direction,x
 
   lda #HORSESHOE_CRAB_STATE_MOVE_RIGHT
@@ -326,7 +319,7 @@ try_up:
   lda #16
   sta horseshoe_crab_state_counter,x
 
-  lda #HORSESHOE_DIRECTION_UP
+  lda #ENTITY_DIRECTION_UP
   sta horseshoe_crab_direction,x
 
   lda #HORSESHOE_CRAB_STATE_MOVE_UP
@@ -355,7 +348,7 @@ try_down:
   lda #16
   sta horseshoe_crab_state_counter,x
 
-  lda #HORSESHOE_DIRECTION_DOWN
+  lda #ENTITY_DIRECTION_DOWN
   sta horseshoe_crab_direction,x
 
   lda #HORSESHOE_CRAB_STATE_MOVE_DOWN

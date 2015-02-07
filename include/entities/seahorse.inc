@@ -14,7 +14,7 @@ SEAHORSE_SPEED = 100
 
 SEAHORSE_KNOCKBACK_SPEED = 500
 
-SEAHORSE_INITIAL_DIRECTION = SEAHORSE_DIRECTION_LEFT
+SEAHORSE_INITIAL_DIRECTION = ENTITY_DIRECTION_LEFT
 
 SEAHORSE_INITIAL_HEALTH = 2
 
@@ -53,13 +53,6 @@ seahorse_health = entity_local15
 seahorse_knockback_counter = entity_local16
 seahorse_flash_counter = entity_local17
 
-.enum
-SEAHORSE_DIRECTION_RIGHT
-SEAHORSE_DIRECTION_LEFT
-SEAHORSE_DIRECTION_DOWN
-SEAHORSE_DIRECTION_UP
-.endenum
-
 .define seahorse_collision_offset_x \
   SEAHORSE_HALFWIDTH+6, \
   SEAHORSE_HALFWIDTH-6, \
@@ -85,22 +78,22 @@ seahorse_collision_offset_y_hi:
   .hibytes seahorse_collision_offset_y
 
 seahorse_turnright_direction:
-  .byte SEAHORSE_DIRECTION_DOWN
-  .byte SEAHORSE_DIRECTION_UP
-  .byte SEAHORSE_DIRECTION_LEFT
-  .byte SEAHORSE_DIRECTION_RIGHT
+  .byte ENTITY_DIRECTION_DOWN
+  .byte ENTITY_DIRECTION_UP
+  .byte ENTITY_DIRECTION_LEFT
+  .byte ENTITY_DIRECTION_RIGHT
 
 seahorse_turnleft_direction:
-  .byte SEAHORSE_DIRECTION_UP
-  .byte SEAHORSE_DIRECTION_DOWN
-  .byte SEAHORSE_DIRECTION_RIGHT
-  .byte SEAHORSE_DIRECTION_LEFT
+  .byte ENTITY_DIRECTION_UP
+  .byte ENTITY_DIRECTION_DOWN
+  .byte ENTITY_DIRECTION_RIGHT
+  .byte ENTITY_DIRECTION_LEFT
 
 seahorse_opposite_direction:
-  .byte SEAHORSE_DIRECTION_LEFT
-  .byte SEAHORSE_DIRECTION_RIGHT
-  .byte SEAHORSE_DIRECTION_UP
-  .byte SEAHORSE_DIRECTION_DOWN
+  .byte ENTITY_DIRECTION_LEFT
+  .byte ENTITY_DIRECTION_RIGHT
+  .byte ENTITY_DIRECTION_UP
+  .byte ENTITY_DIRECTION_DOWN
 
 .define seahorse_animation_addresses \
   seahorse_side, \

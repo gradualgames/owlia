@@ -112,7 +112,7 @@ silmaran_state_wait:
   jsr controller_clear
   set_controller_routine controller_nop
 
-  lda #HERO_DIRECTION_UP
+  lda #ENTITY_DIRECTION_UP
   sta hero_direction
 
   lda #<silmaran_theme

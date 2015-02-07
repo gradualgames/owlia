@@ -156,7 +156,7 @@ octoboss_legs_state_punch:
 
   bne tentacle_not_hitting_hero
 
-  lda #HERO_DIRECTION_DOWN
+  lda #ENTITY_DIRECTION_DOWN
   sta b0
   far_call #HERO_BANK, hero_hurt
 
