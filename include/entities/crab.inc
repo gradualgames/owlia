@@ -467,6 +467,7 @@ done:
   lda crab_collision_x
   and #%00001111
   sta b0
+  inc b0
 
   sec
   lda crab_new_x
@@ -475,6 +476,9 @@ done:
   lda crab_new_x+1
   sbc #0
   sta crab_new_x+1
+
+  lda #0
+  sta crab_new_x_fine
 
   rts
 
@@ -500,6 +504,9 @@ done:
   adc #0
   sta crab_new_x+1
 
+  lda #0
+  sta crab_new_x_fine
+
   rts
 
 .endproc
@@ -510,6 +517,7 @@ done:
   lda crab_collision_y
   and #%00001111
   sta b0
+  inc b0
 
   sec
   lda crab_new_y
@@ -518,6 +526,9 @@ done:
   lda crab_new_y+1
   sbc #0
   sta crab_new_y+1
+
+  lda #0
+  sta crab_new_y_fine
 
   rts
 
@@ -542,6 +553,9 @@ done:
   lda crab_new_y+1
   adc #0
   sta crab_new_y+1
+
+  lda #0
+  sta crab_new_y_fine
 
   rts
 
