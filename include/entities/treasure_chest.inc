@@ -84,6 +84,15 @@ treasure_chest_state_idle:
 
   far_call #HERO_BANK, hero_cancel_attack
 
+  lda #TREASURE_CHEST_HERO_WAIT_FRAMES
+  sta b0
+  far_call #HERO_BANK, hero_wait_frames
+
+  lda #ENTITY_DIRECTION_UP
+  sta hero_direction
+
+  far_call #HERO_BANK, hero_face_in_current_direction
+
   ;play a sound
   lda #<sfx_chest_open
   sta sound_param_word_0

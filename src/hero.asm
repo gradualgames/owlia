@@ -1342,16 +1342,7 @@ hero_state_main:
   lda hero_flags
   and #HERO_FLAGS_MOVING_TEST
   beq do_not_animate_hero
-  lda #<hero_animation_object
-  sta w1
-  lda #>hero_animation_object
-  sta w1+1
-  lda hero_animation_address
-  sta w2
-  lda hero_animation_address+1
-  sta w2+1
-  ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
-  jsr sprite_update_animation
+  jsr hero_update_animation
 do_not_animate_hero:
 
   lda buffer_controller+buttons::_select
@@ -1478,17 +1469,7 @@ hero_state_throw:
 
   jsr hero_advance_invincibility_state
 
-  lda #<hero_animation_object
-  sta w1
-  lda #>hero_animation_object
-  sta w1+1
-
-  lda hero_animation_address
-  sta w2
-  lda hero_animation_address+1
-  sta w2+1
-  ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
-  jsr sprite_update_animation
+  jsr hero_update_animation
 
   dec hero_state_counter
   bne throw_not_done
@@ -1562,17 +1543,7 @@ hero_state_attack:
   sta entity_action_rect1_width
   sta entity_action_rect1_height
 
-  lda #<hero_animation_object
-  sta w1
-  lda #>hero_animation_object
-  sta w1+1
-
-  lda hero_animation_address
-  sta w2
-  lda hero_animation_address+1
-  sta w2+1
-  ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
-  jsr sprite_update_animation
+  jsr hero_update_animation
 
   dec hero_state_counter
   bne attack_not_done
@@ -1622,6 +1593,23 @@ attack_not_done:
 do_not_flip_drawable_bit:
 hero_not_invincible:
   .endscope
+
+  rts
+
+.endproc
+
+.proc hero_update_animation
+
+  lda #<hero_animation_object
+  sta w1
+  lda #>hero_animation_object
+  sta w1+1
+  lda hero_animation_address
+  sta w2
+  lda hero_animation_address+1
+  sta w2+1
+  ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
+  jsr sprite_update_animation
 
   rts
 
@@ -2197,7 +2185,6 @@ eject_slide_up:
   lda hero_x+1
   adc #$00
   sta hero_x+1
-  sta hero_x+1
 
   sec
   lda hero_y
@@ -2228,7 +2215,6 @@ eject_slide_down:
   lda hero_x+1
   adc #$00
   sta hero_x+1
-  sta hero_x+1
 
   clc
   lda hero_y
@@ -2258,7 +2244,6 @@ eject_horizontally:
   sta hero_x
   lda hero_x+1
   adc #$00
-  sta hero_x+1
   sta hero_x+1
 
   ;the hero has changed direction due to map ejection;
@@ -2663,7 +2648,6 @@ no_collision:
   lda hero_x+1
   adc #$00
   sta hero_x+1
-  sta hero_x+1
 no_collision:
   .endscope
 
@@ -2702,7 +2686,6 @@ y_ejection_larger_so_eject_x:
   sta hero_x
   lda hero_x+1
   adc #$00
-  sta hero_x+1
   sta hero_x+1
 
 no_collision:
@@ -2913,7 +2896,6 @@ no_collision:
   lda hero_x+1
   adc #$00
   sta hero_x+1
-  sta hero_x+1
 no_collision:
   .endscope
 
@@ -2960,7 +2942,6 @@ y_ejection_larger_so_eject_x:
   sta hero_x
   lda hero_x+1
   adc #$00
-  sta hero_x+1
   sta hero_x+1
 
 no_collision:
