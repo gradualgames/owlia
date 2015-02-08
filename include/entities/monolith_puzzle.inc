@@ -281,7 +281,7 @@ skip:
   bne monoliths_not_all_down
 
   lda monolith_puzzle_solution_buffer,x
-  cmp #MONOLITH_PUZZLE_SOLUTION
+  cmp monolith_puzzle_solution,x
   bne error
 solved:
 

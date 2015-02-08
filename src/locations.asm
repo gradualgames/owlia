@@ -1390,6 +1390,7 @@ dungeon3_2_2_entity_instances:
                                          0, 2
   .byte entity_index_monolith_puzzle, 45, 39, 0, MONOLITH_PUZZLE_PARAMS,\
                                                DUNGEON3_DUNGEON_FLAGS_MONOLITH_PUZZLE_COMPLETE,\
+                                               %00110110,\
                                                TREASURE_CHEST_ITEM_TYPE_KEY,\
                                                <1,\
                                                >1
@@ -1502,6 +1503,7 @@ dungeon3_3_3_entity_instances:
                                          0, 2
   .byte entity_index_monolith_puzzle, 55, 55, 0, MONOLITH_PUZZLE_PARAMS,\
                                                DUNGEON3_DUNGEON_FLAGS_MONOLITH_PUZZLE2_COMPLETE,\
+                                               %11100001,\
                                                TREASURE_CHEST_ITEM_TYPE_KEY,\
                                                <1,\
                                                >1
