@@ -1461,7 +1461,7 @@ dungeon3_2_3_entity_instances:
                                          0, 4
 
 dungeon3_3_3_entity_instances:
-  .byte 2
+  .byte 7
   .byte entity_index_monolith, 56, 49, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1474,6 +1474,37 @@ dungeon3_3_3_entity_instances:
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon3_boss_entrance, \
                                           1, 5
+                                          
+  .byte entity_index_monolith, 51, 54, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_NOP, 0,\
+                                         0, 2
+  .byte entity_index_monolith, 52, 54, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_NOP, 0,\
+                                         0, 2
+  .byte entity_index_monolith, 59, 54, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_NOP, 0,\
+                                         0, 2
+
+  .byte entity_index_monolith, 60, 54, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_NOP, 0,\
+                                         0, 2
+  .byte entity_index_monolith_puzzle, 55, 55, 0, MONOLITH_PUZZLE_PARAMS,\
+                                               DUNGEON3_DUNGEON_FLAGS_MONOLITH_PUZZLE2_COMPLETE,\
+                                               TREASURE_CHEST_ITEM_TYPE_KEY,\
+                                               <1,\
+                                               >1
 
 dungeon3_boss_entity_instances:
   .byte 2
