@@ -145,6 +145,7 @@ entity_not_alive:
   dec treasure_chest_state_counter,x
   bne do_not_switch_state
 
+  far_call #FAMILIAR_BANK, familiar_forget_carried_item
   far_call #FAMILIAR_BANK, familiar_spawn_fetch
 
   lda #TREASURE_CHEST_STATE_OPENED

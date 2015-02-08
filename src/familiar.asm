@@ -387,6 +387,52 @@ cannot_spawn_lantern:
 
 .endproc
 
+;forgets any items the familiar is carrying and puts them into the
+;correct state.
+.proc familiar_forget_carried_item
+
+  ;protect x, this routine is used from entities
+  txa
+  pha
+
+  ldx familiar_carried_entity_index
+  bmi no_carried_item
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq no_carried_item
+
+  lda entity_type,x
+  cmp #entity_index_bomb
+  beq bomb
+  cmp #entity_index_lantern
+  beq lantern
+bomb:
+
+  ;drop the bomb
+  lda #BOMB_STATE_INIT_FALL
+  sta entity_state,x
+
+  jmp done
+lantern:
+
+  ;tell lantern to revert brightness
+  lda #LANTERN_STATE_REVERT_BRIGHTNESS
+  sta entity_state,x
+
+done:
+  ;the familiar is no longer carrying the item!
+  lda #$ff
+  sta familiar_carried_entity_index
+no_carried_item:
+
+  ;restore x
+  pla
+  tax
+
+  rts
+
+.endproc
+
 ;informs the familiar that it hit an entity that wants
 ;to be fetched back to the hero.
 ;expects that x points to the current entity being updated.
