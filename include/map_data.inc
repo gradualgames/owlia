@@ -299,4 +299,18 @@ MAP_DATA_BANK3 = 30
 .global dungeon3_metatile_table_top_right_tiles
 .global dungeon3_metatile_table_top_left_tiles
 
+.global dungeon3_boss_palette
+.global dungeon3_boss_map
+.global dungeon3_boss_big_metatile_table_bottom_right
+.global dungeon3_boss_big_metatile_table_bottom_left
+.global dungeon3_boss_big_metatile_table_top_right
+.global dungeon3_boss_big_metatile_table_top_left
+.global dungeon3_boss_metatile_table_properties
+.global dungeon3_boss_metatile_table_params
+.global dungeon3_boss_metatile_table_attributes
+.global dungeon3_boss_metatile_table_bottom_right_tiles
+.global dungeon3_boss_metatile_table_bottom_left_tiles
+.global dungeon3_boss_metatile_table_top_right_tiles
+.global dungeon3_boss_metatile_table_top_left_tiles
+
 .endif

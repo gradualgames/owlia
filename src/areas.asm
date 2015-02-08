@@ -34,7 +34,8 @@
     dungeon2_boss_area, \
     mountain1_area, \
     cave_area, \
-    dungeon3_area
+    dungeon3_area, \
+    dungeon3_boss_area
 
 areas_lo:
   .lobytes areas
@@ -668,4 +669,50 @@ dungeon3_area_nametable_monolith_south_bg_patch:
 dungeon3_area_nametable_monolith_west_bg_patch:
   .byte $02,$06,$67,$68,$6c,$6e,$65,$73,$74,$76,$56,$57,$62,$45
 dungeon3_area_nametable_monolith_east_bg_patch:
+  .byte $02,$06,$69,$66,$6f,$6d,$69,$72,$77,$75,$56,$57,$62,$45
+
+dungeon3_boss_area:
+  .byte MAP_DATA_BANK3
+  .byte CONVERSATIONS_BANK
+  .word dungeon3_boss_area_bg_chr_groups
+  .word dungeon_theme
+  .byte $22 ;textbox_attribute
+  .word dungeon3_boss_map
+  .word dungeon3_boss_metatile_table_properties
+  .word dungeon3_boss_metatile_table_params
+  .word dungeon3_boss_metatile_table_attributes
+  .word dungeon3_boss_metatile_table_top_left_tiles
+  .word dungeon3_boss_metatile_table_top_right_tiles
+  .word dungeon3_boss_metatile_table_bottom_left_tiles
+  .word dungeon3_boss_metatile_table_bottom_right_tiles
+  .word dungeon3_boss_big_metatile_table_top_left
+  .word dungeon3_boss_big_metatile_table_top_right
+  .word dungeon3_boss_big_metatile_table_bottom_left
+  .word dungeon3_boss_big_metatile_table_bottom_right
+  .word dungeon3_boss_area_nametable_patches
+  .word 0 ;attribute_patches_address
+
+dungeon3_boss_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK4
+  .word dungeon3_main_chr
+
+dungeon3_boss_area_nametable_patches:
+  .word dungeon3_boss_area_nametable_monolith_patch
+  .word dungeon3_boss_area_nametable_keyed_monolith_patch
+  .word dungeon3_boss_area_nametable_monolith_north_bg_patch
+  .word dungeon3_boss_area_nametable_monolith_south_bg_patch
+  .word dungeon3_boss_area_nametable_monolith_west_bg_patch
+  .word dungeon3_boss_area_nametable_monolith_east_bg_patch
+
+dungeon3_boss_area_nametable_monolith_patch:
+  .byte $02,$06,$05,$06,$0e,$0f,$18,$19,$24,$25,$2c,$2d,$32,$33
+dungeon3_boss_area_nametable_keyed_monolith_patch:
+  .byte $02,$06,$42,$43,$4e,$4f,$18,$19,$24,$25,$2c,$2d,$32,$33
+dungeon3_boss_area_nametable_monolith_north_bg_patch:
+dungeon3_boss_area_nametable_monolith_south_bg_patch:
+  .byte $02,$06,$56,$57,$62,$45,$56,$57,$62,$45,$56,$57,$62,$45
+dungeon3_boss_area_nametable_monolith_west_bg_patch:
+  .byte $02,$06,$67,$68,$6c,$6e,$65,$73,$74,$76,$56,$57,$62,$45
+dungeon3_boss_area_nametable_monolith_east_bg_patch:
   .byte $02,$06,$69,$66,$6f,$6d,$69,$72,$77,$75,$56,$57,$62,$45

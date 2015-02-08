@@ -275,6 +275,8 @@ location_index_dungeon3_1_3_e
 location_index_dungeon3_1_3_w
 location_index_dungeon3_2_3_w
 location_index_dungeon3_3_3_n
+location_index_dungeon3_3_3_e
+location_index_dungeon3_boss_entrance
 .endenum
 
 ;****************************************************************
@@ -302,6 +304,7 @@ DUNGEON3_DUNGEON_FLAGS_TRIPLE_ANGLERFISH_PUZZLE_COMPLETE              = %0000001
 DUNGEON3_DUNGEON_FLAGS_SEAHORSE_HORSESHOE_CRAB_URCHIN_PUZZLE_COMPLETE = %00000100
 DUNGEON3_DUNGEON_FLAGS_DOOR1_UNLOCKED                                 = %00001000
 DUNGEON3_DUNGEON_FLAGS_DOOR2_UNLOCKED                                 = %00010000
-DUNGEON3_DUNGEON_FLAGS_TREASURE_ROOM1_OBTAINED                        = %00100000
+DUNGEON3_DUNGEON_FLAGS_DOOR3_UNLOCKED                                 = %00100000
+DUNGEON3_DUNGEON_FLAGS_TREASURE_ROOM1_OBTAINED                        = %01000000
 
 .endif

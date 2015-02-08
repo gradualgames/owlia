@@ -172,7 +172,9 @@
     dungeon3_1_3_e, \
     dungeon3_1_3_w, \
     dungeon3_2_3_w, \
-    dungeon3_3_3_n
+    dungeon3_3_3_n, \
+    dungeon3_3_3_e, \
+    dungeon3_boss_area_entrance
 
 locations_lo:
   .lobytes locations
@@ -1407,7 +1409,7 @@ dungeon3_3_2_entity_instances:
                                          DUNGEON3_DUNGEON_FLAGS_DOOR2_UNLOCKED,\
                                          MONOLITH_DIRECTION_SOUTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_3_3_n,\
-                                         0, 2
+                                         1, 2
 
 dungeon3_0_3_entity_instances:
   .byte 5
@@ -1459,13 +1461,33 @@ dungeon3_2_3_entity_instances:
                                          0, 4
 
 dungeon3_3_3_entity_instances:
-  .byte 1
+  .byte 2
   .byte entity_index_monolith, 56, 49, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_3_2_s,\
                                          0, 2
+  .byte entity_index_monolith, 62, 54, 0, MONOLITH_PARAMS, \
+                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
+                                          DUNGEON3_DUNGEON_FLAGS_DOOR3_UNLOCKED, \
+                                          MONOLITH_DIRECTION_EAST, \
+                                          ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon3_boss_entrance, \
+                                          1, 5
+
+dungeon3_boss_entity_instances:
+  .byte 2
+  .byte entity_index_monolith, 1, 11, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_WEST,\
+                                         ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon3_3_3_e,\
+                                         0, 4
+  .byte entity_index_monolith, 14, 11, 0, MONOLITH_PARAMS, \
+                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET, 0, \
+                                          MONOLITH_DIRECTION_EAST, \
+                                          ACTION_NOP, 0, \
+                                          0, 5
 
 ;****************************************************************
 ;Palettes.
@@ -2007,3 +2029,8 @@ dungeon3_2_3_w:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_2_3_entity_instances,dungeon3_palette,32, 45, 34, 51, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon3_3_3_n:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_3_entity_instances,dungeon3_palette,48, 45, 56, 49, 0, 0, 0, ENTITY_DIRECTION_DOWN
+dungeon3_3_3_e:
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3,dungeon3_sprite_chr_groups,dungeon3_3_3_entity_instances,dungeon3_palette,48, 45, 61, 53, 0, 0, 0, ENTITY_DIRECTION_LEFT
+
+dungeon3_boss_area_entrance:
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon3_boss,dungeon3_sprite_chr_groups,dungeon3_boss_entity_instances,dungeon3_palette,0, 0, 2, 10, 0, 0, 0, ENTITY_DIRECTION_RIGHT
