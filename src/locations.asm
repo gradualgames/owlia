@@ -1330,7 +1330,7 @@ dungeon3_0_2_entity_instances:
                                          0, 5
 
 dungeon3_1_2_entity_instances:
-  .byte 6
+  .byte 7
   .byte entity_index_horseshoe_crab, 22, 38, 0, 0
   .byte entity_index_horseshoe_crab, 25, 38, 0, 0
   .byte entity_index_horseshoe_crab, 23, 37, 0, 0
@@ -1348,6 +1348,7 @@ dungeon3_1_2_entity_instances:
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_0_2_e,\
                                          0, 4
+  .byte entity_index_treasure_room, 27, 37, 0, TREASURE_ROOM_PARAMS, DUNGEON3_DUNGEON_FLAGS_TREASURE_ROOM1_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon3_2_2_entity_instances:
   .byte 6

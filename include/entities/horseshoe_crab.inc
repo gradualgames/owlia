@@ -48,6 +48,8 @@ horseshoe_crab_state_init:
 
   jsr entity_set_drawable
 
+  jsr entity_set_is_enemy
+
   lda #<horseshoe_crab_walk_side
   sta entity_animation_address_lo,x
   lda #>horseshoe_crab_walk_side
