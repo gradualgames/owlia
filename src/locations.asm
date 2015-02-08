@@ -1521,7 +1521,9 @@ dungeon3_3_3_entity_instances:
                                                >1
 
 dungeon3_boss_entity_instances:
-  .byte 5
+  .byte 7
+  .byte entity_index_crab_boss_eye, 6, 5, 0, 0
+  .byte entity_index_crab_boss_eye, 8, 5, 0, 0
   .byte entity_index_crab_boss_body, 6, 7, 0, 0
   .byte entity_index_crab_boss_pincer, 6, 10, 0, 0
   .byte entity_index_crab_boss_pincer, 10, 10, 0, 0

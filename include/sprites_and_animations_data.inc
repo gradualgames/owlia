@@ -155,5 +155,6 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 
 .global crab_boss_walk
 .global crab_boss_pincer
+.global crab_boss_eye
 
 .endif
