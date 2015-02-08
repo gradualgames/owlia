@@ -73,7 +73,8 @@
   monolith_puzzle_update, \
   triple_anglerfish_puzzle_update, \
   seahorse_update, \
-  crab_boss_body_update
+  crab_boss_body_update, \
+  crab_boss_pincer_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -120,6 +121,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_triple_anglerfish_puzzle
   .byte entity_update_bank_seahorse
   .byte entity_update_bank_crab_boss_body
+  .byte entity_update_bank_crab_boss_pincer
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -161,6 +163,7 @@ entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_triple_anglerfish_puzzle
   .byte entity_sprites_and_animations_bank_seahorse
   .byte entity_sprites_and_animations_bank_crab_boss_body
+  .byte entity_sprites_and_animations_bank_crab_boss_pincer
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -203,3 +206,4 @@ entity_defs_sprites_and_animations_bank:
 .include "triple_anglerfish_puzzle.inc"
 .include "seahorse.inc"
 .include "crab_boss_body.inc"
+.include "crab_boss_pincer.inc"
