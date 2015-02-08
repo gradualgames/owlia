@@ -1201,12 +1201,11 @@ dungeon3_2_0_entity_instances:
   .byte entity_index_seahorse, 44, 6, 0, 0
   .byte entity_index_horseshoe_crab, 40, 9, 0, 0
   .byte entity_index_monolith, 46, 9, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
-                                         0,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
+                                         DUNGEON3_DUNGEON_FLAGS_DOOR1_UNLOCKED,\
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_3_0_w,\
-                                         0, 5
-
+                                         1, 5
   .byte entity_index_monolith, 33, 9, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1402,10 +1401,9 @@ dungeon3_3_2_entity_instances:
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_3_1_s,\
                                          0, 2
-
   .byte entity_index_monolith, 56, 44, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
-                                         0,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
+                                         DUNGEON3_DUNGEON_FLAGS_DOOR2_UNLOCKED,\
                                          MONOLITH_DIRECTION_SOUTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_3_3_n,\
                                          0, 2
