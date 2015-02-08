@@ -331,6 +331,12 @@ silmaran_state_ascend:
   dec silmaran_state_counter,x
   bne not_gone_yet
 
+  lda #<forest_theme
+  sta song_address
+  lda #>forest_theme
+  sta song_address+1
+  far_call #SOUND_BANK, song_initialize
+
   ;earn the unlock technique
   lda #SILMARAN_EARNED_TECH
   sta inventory_earned_techs

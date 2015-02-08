@@ -8,6 +8,10 @@ hero_theme:
 .scope
 .include "hero_theme.inc"
 .endscope
+forest_theme:
+.scope
+.include "forest_theme.inc"
+.endscope
 dungeon_theme:
 .scope
 .include "dungeon_theme.inc"

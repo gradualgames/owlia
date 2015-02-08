@@ -231,7 +231,7 @@ meadow1_area:
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word meadow1_area_bg_chr_groups
-  .word hero_theme
+  .word forest_theme
   .byte $33 ;textbox_attribute
   .word meadow1_map
   .word meadow1_metatile_table_properties
@@ -263,7 +263,7 @@ meadow2_area:
   .byte MAP_DATA_BANK1
   .byte CONVERSATIONS_BANK
   .word meadow2_area_bg_chr_groups
-  .word hero_theme
+  .word forest_theme
   .byte $00 ;textbox_attribute
   .word meadow2_map
   .word meadow2_metatile_table_properties
@@ -295,7 +295,7 @@ meadow3_area:
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word meadow3_area_bg_chr_groups
-  .word hero_theme
+  .word forest_theme
   .byte $00 ;textbox_attribute
   .word meadow3_map
   .word meadow3_metatile_table_properties
