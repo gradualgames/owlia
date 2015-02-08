@@ -3,6 +3,11 @@ SPRITES_AND_ANIMATIONS_DATA_INC = 1
 
 SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 
+.global intro_cut_scene_great_owls_spr_overlay
+
+.global intro_cut_scene_mermon_leer_spr_overlay0
+.global intro_cut_scene_mermon_leer_spr_overlay1
+
 .global adlanniel_walk_up
 .global adlanniel_walk_down
 .global adlanniel_walk_side
@@ -148,9 +153,6 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global seahorse_up
 .global seahorse_down
 
-.global intro_cut_scene_great_owls_spr_overlay
-
-.global intro_cut_scene_mermon_leer_spr_overlay0
-.global intro_cut_scene_mermon_leer_spr_overlay1
+.global crab_boss_walk
 
 .endif

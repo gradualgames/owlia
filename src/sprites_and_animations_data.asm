@@ -6,6 +6,8 @@
 ;They are known about by their respective modules.
 .segment "ROM07"
 
+.include "intro_cut_scene_great_owls_sprites_and_animations.inc"
+.include "intro_cut_scene_mermon_leer_sprites_and_animations.inc"
 .include "hero_sprites_and_animations.inc"
 .include "techs_sprites_and_animations.inc"
 .include "familiar_sprites_and_animations.inc"
@@ -45,6 +47,4 @@
 .include "siberianeagleowl_sprites_and_animations.inc"
 .include "horseshoe_crab_sprites_and_animations.inc"
 .include "seahorse_sprites_and_animations.inc"
-.include "intro_cut_scene_great_owls_sprites_and_animations.inc"
-.include "intro_cut_scene_mermon_leer_sprites_and_animations.inc"
-
+.include "crab_boss_sprites_and_animations.inc"

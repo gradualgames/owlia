@@ -1,9 +1,11 @@
 .linecont +
 .include "sprite_chr_data.inc"
 
-.segment "ROM08"
+.segment "CODE"
 
 .define sprite_chr_group_addresses \
+  intro_cut_scene_great_owls_spr_chr, \
+  intro_cut_scene_mermon_leer_spr_chr, \
   hero_chr, \
   rushtech_chr, \
   fetchtech_chr, \
@@ -46,16 +48,16 @@
   siberianeagleowl_chr, \
   horseshoe_crab_chr, \
   seahorse_chr, \
-  intro_cut_scene_great_owls_spr_chr, \
-  intro_cut_scene_mermon_leer_spr_chr
+  crab_boss_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
 sprite_chr_group_addresses_hi:
   .hibytes sprite_chr_group_addresses
 
-
 sprite_chr_group_bank:
+  .byte sprite_chr_group_bank_intro_cut_scene_great_owls
+  .byte sprite_chr_group_bank_intro_cut_scene_mermon_leer
   .byte sprite_chr_group_bank_hero
   .byte sprite_chr_group_bank_rushtech
   .byte sprite_chr_group_bank_fetchtech
@@ -97,8 +99,16 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_swordfish_boss
   .byte sprite_chr_group_bank_siberianeagleowl
   .byte sprite_chr_group_bank_horseshoe_crab
-  .byte sprite_chr_group_bank_intro_cut_scene_great_owls
-  .byte sprite_chr_group_bank_intro_cut_scene_mermon_leer
+  .byte sprite_chr_group_bank_seahorse
+  .byte sprite_chr_group_bank_crab_boss
+
+.segment "ROM08"
+
+intro_cut_scene_great_owls_spr_chr:
+.incbin "intro_cut_scene_great_owls_spr.chr"
+
+intro_cut_scene_mermon_leer_spr_chr:
+.incbin "intro_cut_scene_mermon_leer_spr.chr"
 
 hero_chr:
 .incbin "hero.chr"
@@ -226,8 +236,7 @@ horseshoe_crab_chr:
 seahorse_chr:
 .incbin "seahorse.chr"
 
-intro_cut_scene_great_owls_spr_chr:
-.incbin "intro_cut_scene_great_owls_spr.chr"
+.segment "ROM24"
 
-intro_cut_scene_mermon_leer_spr_chr:
-.incbin "intro_cut_scene_mermon_leer_spr.chr"
+crab_boss_chr:
+.incbin "crab_boss.chr"

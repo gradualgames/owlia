@@ -8,6 +8,8 @@ SPRITE_CHR_DATA_BANK = 8
 .global sprite_chr_group_bank
 
 .enum
+sprite_chr_group_index_intro_cut_scene_great_owls
+sprite_chr_group_index_intro_cut_scene_mermon_leer
 sprite_chr_group_index_hero
 sprite_chr_group_index_rushtech
 sprite_chr_group_index_fetchtech
@@ -50,10 +52,11 @@ sprite_chr_group_index_swordfish_boss
 sprite_chr_group_index_siberianeagleowl
 sprite_chr_group_index_horseshoe_crab
 sprite_chr_group_index_seahorse
-sprite_chr_group_index_intro_cut_scene_great_owls
-sprite_chr_group_index_intro_cut_scene_mermon_leer
+sprite_chr_group_index_crab_boss
 .endenum
 
+sprite_chr_group_bank_intro_cut_scene_great_owls = 8
+sprite_chr_group_bank_intro_cut_scene_mermon_leer = 8
 sprite_chr_group_bank_hero = 8
 sprite_chr_group_bank_rushtech = 8
 sprite_chr_group_bank_fetchtech = 8
@@ -96,7 +99,6 @@ sprite_chr_group_bank_swordfish_boss = 8
 sprite_chr_group_bank_siberianeagleowl = 8
 sprite_chr_group_bank_horseshoe_crab = 8
 sprite_chr_group_bank_seahorse = 8
-sprite_chr_group_bank_intro_cut_scene_great_owls = 8
-sprite_chr_group_bank_intro_cut_scene_mermon_leer = 8
+sprite_chr_group_bank_crab_boss = 24
 
 .endif
