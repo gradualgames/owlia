@@ -118,6 +118,8 @@ item_state_init:
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
 
+  rts
+
 do_not_skip_item:
   .endscope
 

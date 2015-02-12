@@ -23,6 +23,20 @@ key_update:
 
 key_state_init:
 
+  .scope
+  lda inventory_dungeon_flags
+  and key_dungeon_flags_mask,x
+  beq do_not_skip
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+
+do_not_skip:
+  .endscope
+
   jsr entity_set_drawable
 
   lda #<key
@@ -66,6 +80,7 @@ key_state_pickup:
   jsr inventory_can_add_key
   beq cannot_add_key
   jsr inventory_add_key
+cannot_add_key:
 
   ;play a sound
   lda #<sfx_get_item
@@ -89,7 +104,6 @@ key_state_pickup:
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
 
-cannot_add_key:
 entity_not_hitting_hero:
   .endscope
 
