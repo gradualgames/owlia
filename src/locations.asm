@@ -1494,13 +1494,13 @@ dungeon3_3_3_entity_instances:
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_NOP, 0,\
                                          0, 2
-  .byte entity_index_monolith, 52, 54, 0, MONOLITH_PARAMS,\
+  .byte entity_index_monolith, 53, 54, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_NOP, 0,\
                                          0, 2
-  .byte entity_index_monolith, 59, 54, 0, MONOLITH_PARAMS,\
+  .byte entity_index_monolith, 58, 54, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_NORTH,\
