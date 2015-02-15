@@ -109,11 +109,10 @@ adlanniel_fight_side0:
   .byte $18,$67,$00,$08,$00
   .byte $18,$68,$00,$10,$f8
 adlanniel_fight_side1:
-  .byte $10
+  .byte $0d
   .byte $04,$3d,$00,$00,$08
   .byte $04,$3e,$00,$08,$00
   .byte $04,$3f,$00,$10,$f8
-  .byte $04,$00,$00,$18,$f0
   .byte $0c,$46,$00,$00,$08
   .byte $0c,$47,$00,$08,$00
   .byte $0c,$48,$00,$10,$f8
@@ -121,11 +120,9 @@ adlanniel_fight_side1:
   .byte $14,$55,$00,$00,$08
   .byte $14,$56,$00,$08,$00
   .byte $14,$57,$00,$10,$f8
-  .byte $14,$00,$00,$18,$f0
   .byte $1c,$63,$00,$00,$08
   .byte $1c,$64,$00,$08,$00
   .byte $1c,$65,$00,$10,$f8
-  .byte $1c,$00,$00,$18,$f0
 adlanniel_fight_down0:
   .byte $08
   .byte $00,$40,$00,$00,$08
@@ -137,7 +134,7 @@ adlanniel_fight_down0:
   .byte $18,$6b,$00,$00,$08
   .byte $18,$6c,$00,$08,$00
 adlanniel_fight_down1:
-  .byte $0a
+  .byte $09
   .byte $04,$40,$00,$00,$08
   .byte $04,$41,$00,$08,$00
   .byte $0c,$4d,$00,$00,$08
@@ -147,7 +144,6 @@ adlanniel_fight_down1:
   .byte $1c,$69,$00,$00,$08
   .byte $1c,$6a,$00,$08,$00
   .byte $24,$6f,$00,$00,$08
-  .byte $24,$00,$00,$08,$00
 adlanniel_fight_up0:
   .byte $0a
   .byte $f8,$31,$00,$00,$08
@@ -175,7 +171,7 @@ adlanniel_fight_up1:
   .byte $1c,$6d,$00,$00,$08
   .byte $1c,$6e,$00,$08,$00
 adlanniel_throw_side0:
-  .byte $0c
+  .byte $0b
   .byte $03,$3d,$00,$00,$08
   .byte $03,$3e,$00,$08,$00
   .byte $03,$3f,$00,$10,$f8
@@ -184,7 +180,6 @@ adlanniel_throw_side0:
   .byte $0b,$71,$00,$10,$f8
   .byte $13,$55,$00,$00,$08
   .byte $13,$56,$00,$08,$00
-  .byte $13,$00,$00,$10,$f8
   .byte $1b,$63,$00,$00,$08
   .byte $1b,$64,$00,$08,$00
   .byte $1b,$65,$00,$10,$f8
