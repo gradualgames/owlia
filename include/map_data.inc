@@ -313,4 +313,18 @@ MAP_DATA_BANK3 = 30
 .global dungeon3_boss_metatile_table_top_right_tiles
 .global dungeon3_boss_metatile_table_top_left_tiles
 
+.global island1_palette
+.global island1_map
+.global island1_big_metatile_table_bottom_right
+.global island1_big_metatile_table_bottom_left
+.global island1_big_metatile_table_top_right
+.global island1_big_metatile_table_top_left
+.global island1_metatile_table_properties
+.global island1_metatile_table_params
+.global island1_metatile_table_attributes
+.global island1_metatile_table_bottom_right_tiles
+.global island1_metatile_table_bottom_left_tiles
+.global island1_metatile_table_top_right_tiles
+.global island1_metatile_table_top_left_tiles
+
 .endif

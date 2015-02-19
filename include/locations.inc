@@ -277,6 +277,7 @@ location_index_dungeon3_2_3_w
 location_index_dungeon3_3_3_n
 location_index_dungeon3_3_3_e
 location_index_dungeon3_boss_entrance
+location_index_island1_entrance
 .endenum
 
 ;****************************************************************

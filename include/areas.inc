@@ -57,6 +57,7 @@ area_index_mountain1
 area_index_cave
 area_index_dungeon3
 area_index_dungeon3_boss
+area_index_island1
 .endenum
 
 .endif

@@ -91,3 +91,12 @@ intro_cut_scene_silmaran_bg_chr:
 
 dungeon3_main_chr:
 .incbin "dungeon3_main.chr"
+
+shore_chr:
+.incbin "shore.chr"
+
+palm_trees_chr:
+.incbin "palm_trees.chr"
+
+sand_chr:
+.incbin "sand.chr"

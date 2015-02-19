@@ -381,3 +381,20 @@ dungeon3_boss_big_metatile_table_top_right = dungeon3_boss_data::big_metatile_ta
 dungeon3_boss_big_metatile_table_bottom_left = dungeon3_boss_data::big_metatile_table_bottom_left
 dungeon3_boss_big_metatile_table_bottom_right = dungeon3_boss_data::big_metatile_table_bottom_right
 dungeon3_boss_map = dungeon3_boss_data::map
+
+.scope island1_data
+.include "island1.inc"
+.endscope
+
+island1_metatile_table_properties = island1_data::metatile_table_properties
+island1_metatile_table_params = island1_data::metatile_table_params
+island1_metatile_table_attributes = island1_data::metatile_table_attributes
+island1_metatile_table_top_left_tiles = island1_data::metatile_table_top_left_tiles
+island1_metatile_table_top_right_tiles = island1_data::metatile_table_top_right_tiles
+island1_metatile_table_bottom_left_tiles = island1_data::metatile_table_bottom_left_tiles
+island1_metatile_table_bottom_right_tiles = island1_data::metatile_table_bottom_right_tiles
+island1_big_metatile_table_top_left = island1_data::big_metatile_table_top_left
+island1_big_metatile_table_top_right = island1_data::big_metatile_table_top_right
+island1_big_metatile_table_bottom_left = island1_data::big_metatile_table_bottom_left
+island1_big_metatile_table_bottom_right = island1_data::big_metatile_table_bottom_right
+island1_map = island1_data::map

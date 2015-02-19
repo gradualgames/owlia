@@ -35,7 +35,8 @@
     mountain1_area, \
     cave_area, \
     dungeon3_area, \
-    dungeon3_boss_area
+    dungeon3_boss_area, \
+    island1_area
 
 areas_lo:
   .lobytes areas
@@ -716,3 +717,34 @@ dungeon3_boss_area_nametable_monolith_west_bg_patch:
   .byte $02,$06,$67,$68,$6c,$6e,$65,$73,$74,$76,$56,$57,$62,$45
 dungeon3_boss_area_nametable_monolith_east_bg_patch:
   .byte $02,$06,$69,$66,$6f,$6d,$69,$72,$77,$75,$56,$57,$62,$45
+
+island1_area:
+  .byte MAP_DATA_BANK3
+  .byte CONVERSATIONS_BANK
+  .word island1_area_bg_chr_groups
+  .word hero_theme
+  .byte $00 ;textbox_attribute
+  .word island1_map
+  .word island1_metatile_table_properties
+  .word island1_metatile_table_params
+  .word island1_metatile_table_attributes
+  .word island1_metatile_table_top_left_tiles
+  .word island1_metatile_table_top_right_tiles
+  .word island1_metatile_table_bottom_left_tiles
+  .word island1_metatile_table_bottom_right_tiles
+  .word island1_big_metatile_table_top_left
+  .word island1_big_metatile_table_top_right
+  .word island1_big_metatile_table_bottom_left
+  .word island1_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
+
+island1_area_bg_chr_groups:
+  .byte 3  ;count
+  .byte BG_CHR_DATA_BANK4
+  .word shore_chr
+  .byte BG_CHR_DATA_BANK4
+  .word palm_trees_chr
+  .byte BG_CHR_DATA_BANK4
+  .word sand_chr
+
