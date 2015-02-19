@@ -150,6 +150,11 @@
   bmi cannot_spawn_key
   stx familiar_carried_entity_index
 
+  ;make sure no stale data causes the key to kill itself based
+  ;on a dungeon flag!
+  lda #0
+  sta key_dungeon_flags_mask,x
+
   lda #KEY_STATE_PASSIVE_INIT
   sta key_initial_state,x
 
