@@ -154,7 +154,9 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global seahorse_down
 
 .global crab_boss_walk
-.global crab_boss_pincer
-.global crab_boss_eye
+.global crab_boss_pincer_closed
+.global crab_boss_pincer_open
+.global crab_boss_eye_closed
+.global crab_boss_eye_open
 
 .endif

@@ -28,9 +28,9 @@ crab_boss_eye_state_init:
 
   jsr entity_set_drawable
 
-  lda #<crab_boss_eye
+  lda #<crab_boss_eye_open
   sta entity_animation_address_lo,x
-  lda #>crab_boss_eye
+  lda #>crab_boss_eye_open
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
