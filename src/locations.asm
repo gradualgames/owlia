@@ -342,10 +342,9 @@ dungeon2_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_siberianeagleowl
 
 mountain1_sprite_chr_groups:
-  .byte 11   ;sprite_chr_groups .byte
+  .byte 10   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
-  .byte sprite_chr_group_index_tyto
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
@@ -356,10 +355,9 @@ mountain1_sprite_chr_groups:
   .byte sprite_chr_group_index_seahorse
 
 cave_sprite_chr_groups:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
-  .byte sprite_chr_group_index_tyto
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
@@ -368,10 +366,9 @@ cave_sprite_chr_groups:
   .byte sprite_chr_group_index_horseshoe_crab
 
 dungeon3_sprite_chr_groups:
-  .byte 13   ;sprite_chr_groups .byte
+  .byte 12   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
-  .byte sprite_chr_group_index_tyto
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
@@ -384,10 +381,9 @@ dungeon3_sprite_chr_groups:
   .byte sprite_chr_group_index_urchin
 
 dungeon3_0_3_sprite_chr_groups:
-  .byte 11   ;sprite_chr_groups .byte
+  .byte 10   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
-  .byte sprite_chr_group_index_tyto
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
@@ -398,10 +394,9 @@ dungeon3_0_3_sprite_chr_groups:
   .byte sprite_chr_group_index_spotlight
 
 dungeon3_boss_sprite_chr_groups:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
-  .byte sprite_chr_group_index_tyto
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
@@ -410,20 +405,18 @@ dungeon3_boss_sprite_chr_groups:
   .byte sprite_chr_group_index_crab_boss
 
 island1_sprite_chr_groups:
-  .byte 7   ;sprite_chr_groups .byte
+  .byte 6   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
-  .byte sprite_chr_group_index_tyto
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
 
 temple1_sprite_chr_groups:
-  .byte 7   ;sprite_chr_groups .byte
+  .byte 6   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
-  .byte sprite_chr_group_index_tyto
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
