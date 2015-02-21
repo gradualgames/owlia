@@ -168,26 +168,24 @@ crab_boss_walk2_reversed:
   .byte $18,$34,$02,$10,$20
   .byte $18,$3a,$02,$00,$30
 
+crab_boss_eye0:
+  .byte $01
+  .byte $00,$01,$01,$00,$00
+crab_boss_eye1:
+  .byte $01
+  .byte $00,$02,$03,$00,$00
 crab_boss_pincer0:
   .byte $04
   .byte $00,$3c,$02,$00,$08
   .byte $00,$3d,$02,$08,$00
   .byte $08,$40,$02,$00,$08
   .byte $08,$41,$02,$08,$00
-crab_boss_eye0:
-  .byte $01
-  .byte $00,$01,$01,$00,$00
-
 crab_boss_pincer1:
-  .byte $05
+  .byte $04
   .byte $00,$3e,$02,$00,$08
   .byte $00,$3f,$02,$08,$00
   .byte $08,$42,$02,$00,$08
   .byte $08,$43,$02,$08,$00
-  .byte $10,$44,$02,$08,$00
-crab_boss_eye1:
-  .byte $01
-  .byte $00,$02,$03,$00,$00
 
 crab_boss_walk:
   .byte $01, $24
