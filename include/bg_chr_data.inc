@@ -30,6 +30,7 @@ BG_CHR_DATA_BANK4 = 27
 .global shore_chr
 .global palm_trees_chr
 .global sand_chr
+.global temple_chr
 .global inventory_bg_chr
 .global title_chr
 .global intro_cut_scene_great_owls_bg_chr

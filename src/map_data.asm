@@ -398,3 +398,20 @@ island1_big_metatile_table_top_right = island1_data::big_metatile_table_top_righ
 island1_big_metatile_table_bottom_left = island1_data::big_metatile_table_bottom_left
 island1_big_metatile_table_bottom_right = island1_data::big_metatile_table_bottom_right
 island1_map = island1_data::map
+
+.scope temple1_data
+.include "temple1.inc"
+.endscope
+
+temple1_metatile_table_properties = temple1_data::metatile_table_properties
+temple1_metatile_table_params = temple1_data::metatile_table_params
+temple1_metatile_table_attributes = temple1_data::metatile_table_attributes
+temple1_metatile_table_top_left_tiles = temple1_data::metatile_table_top_left_tiles
+temple1_metatile_table_top_right_tiles = temple1_data::metatile_table_top_right_tiles
+temple1_metatile_table_bottom_left_tiles = temple1_data::metatile_table_bottom_left_tiles
+temple1_metatile_table_bottom_right_tiles = temple1_data::metatile_table_bottom_right_tiles
+temple1_big_metatile_table_top_left = temple1_data::big_metatile_table_top_left
+temple1_big_metatile_table_top_right = temple1_data::big_metatile_table_top_right
+temple1_big_metatile_table_bottom_left = temple1_data::big_metatile_table_bottom_left
+temple1_big_metatile_table_bottom_right = temple1_data::big_metatile_table_bottom_right
+temple1_map = temple1_data::map

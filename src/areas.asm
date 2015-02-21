@@ -36,7 +36,8 @@
     cave_area, \
     dungeon3_area, \
     dungeon3_boss_area, \
-    island1_area
+    island1_area, \
+    temple1_area
 
 areas_lo:
   .lobytes areas
@@ -742,9 +743,38 @@ island1_area:
 island1_area_bg_chr_groups:
   .byte 3  ;count
   .byte BG_CHR_DATA_BANK4
+  .word palm_trees_chr
+  .byte BG_CHR_DATA_BANK4
+  .word sand_chr
+  .byte BG_CHR_DATA_BANK4
   .word shore_chr
+
+temple1_area:
+  .byte MAP_DATA_BANK3
+  .byte CONVERSATIONS_BANK
+  .word temple1_area_bg_chr_groups
+  .word hero_theme
+  .byte $00 ;textbox_attribute
+  .word temple1_map
+  .word temple1_metatile_table_properties
+  .word temple1_metatile_table_params
+  .word temple1_metatile_table_attributes
+  .word temple1_metatile_table_top_left_tiles
+  .word temple1_metatile_table_top_right_tiles
+  .word temple1_metatile_table_bottom_left_tiles
+  .word temple1_metatile_table_bottom_right_tiles
+  .word temple1_big_metatile_table_top_left
+  .word temple1_big_metatile_table_top_right
+  .word temple1_big_metatile_table_bottom_left
+  .word temple1_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
+
+temple1_area_bg_chr_groups:
+  .byte 3  ;count
   .byte BG_CHR_DATA_BANK4
   .word palm_trees_chr
   .byte BG_CHR_DATA_BANK4
   .word sand_chr
-
+  .byte BG_CHR_DATA_BANK4
+  .word temple_chr

@@ -100,3 +100,6 @@ palm_trees_chr:
 
 sand_chr:
 .incbin "sand.chr"
+
+temple_chr:
+.incbin "temple.chr"
