@@ -46,7 +46,7 @@ crab_boss_body_state_init:
   sta b0
   jsr entity_lookup_sprite_chr_offset
 
-  lda #$00
+  lda #%01000000
   sta entity_sprite_flags,x
 
   lda #CRAB_BOSS_BODY_STATE_MAIN

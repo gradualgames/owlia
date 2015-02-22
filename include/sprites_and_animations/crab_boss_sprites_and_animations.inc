@@ -2,7 +2,7 @@
 CRAB_BOSS_SPRITES_AND_ANIMATIONS_INC = 1
 
 crab_boss_walk0:
-  .byte $1a
+  .byte $19
   .byte $00,$03,$02,$00,$30
   .byte $00,$04,$02,$08,$28
   .byte $00,$05,$02,$10,$20
@@ -24,11 +24,10 @@ crab_boss_walk0:
   .byte $10,$25,$02,$20,$10
   .byte $10,$26,$02,$28,$08
   .byte $10,$27,$02,$30,$00
-  .byte $18,$32,$00,$00,$30
-  .byte $18,$33,$02,$08,$28
-  .byte $18,$34,$02,$10,$20
-  .byte $18,$35,$02,$20,$10
-  .byte $18,$36,$02,$30,$00
+  .byte $18,$32,$02,$00,$30
+  .byte $18,$33,$02,$10,$20
+  .byte $18,$34,$02,$20,$10
+  .byte $18,$35,$02,$30,$00
 crab_boss_walk1:
   .byte $1a
   .byte $00,$0a,$02,$00,$30
@@ -47,18 +46,18 @@ crab_boss_walk1:
   .byte $08,$1c,$02,$30,$00
   .byte $10,$28,$02,$00,$30
   .byte $10,$29,$02,$08,$28
-  .byte $10,$2a,$02,$10,$20
+  .byte $10,$23,$02,$10,$20
   .byte $10,$24,$02,$18,$18
-  .byte $10,$2b,$02,$20,$10
-  .byte $10,$2c,$02,$28,$08
-  .byte $10,$2d,$02,$30,$00
-  .byte $18,$37,$02,$00,$30
-  .byte $18,$34,$02,$10,$20
-  .byte $18,$35,$02,$20,$10
-  .byte $18,$38,$02,$28,$08
-  .byte $18,$39,$00,$30,$00
+  .byte $10,$2a,$02,$20,$10
+  .byte $10,$2b,$02,$28,$08
+  .byte $10,$2c,$02,$30,$00
+  .byte $18,$36,$02,$00,$30
+  .byte $18,$33,$02,$10,$20
+  .byte $18,$34,$02,$20,$10
+  .byte $18,$37,$02,$28,$08
+  .byte $18,$38,$00,$30,$00
 crab_boss_walk2:
-  .byte $19
+  .byte $1a
   .byte $00,$0e,$02,$00,$30
   .byte $00,$0f,$02,$08,$28
   .byte $00,$05,$02,$10,$20
@@ -73,19 +72,20 @@ crab_boss_walk2:
   .byte $08,$16,$02,$20,$10
   .byte $08,$1f,$02,$28,$08
   .byte $08,$20,$02,$30,$00
-  .byte $10,$2e,$02,$00,$30
-  .byte $10,$2f,$02,$08,$28
-  .byte $10,$2a,$02,$10,$20
+  .byte $10,$2d,$02,$00,$30
+  .byte $10,$2e,$02,$08,$28
+  .byte $10,$2f,$02,$10,$20
   .byte $10,$24,$02,$18,$18
   .byte $10,$25,$02,$20,$10
   .byte $10,$30,$02,$28,$08
   .byte $10,$31,$02,$30,$00
-  .byte $18,$3a,$02,$00,$30
-  .byte $18,$34,$02,$10,$20
-  .byte $18,$35,$02,$20,$10
+  .byte $18,$39,$00,$00,$30
+  .byte $18,$3a,$02,$08,$28
+  .byte $18,$33,$02,$10,$20
+  .byte $18,$34,$02,$20,$10
   .byte $18,$3b,$02,$30,$00
 crab_boss_walk0_reversed:
-  .byte $1a
+  .byte $19
   .byte $00,$09,$02,$30,$00
   .byte $00,$08,$02,$28,$08
   .byte $00,$07,$02,$20,$10
@@ -107,11 +107,10 @@ crab_boss_walk0_reversed:
   .byte $10,$23,$02,$10,$20
   .byte $10,$22,$02,$08,$28
   .byte $10,$21,$02,$00,$30
-  .byte $18,$36,$02,$30,$00
-  .byte $18,$35,$02,$20,$10
-  .byte $18,$34,$02,$10,$20
-  .byte $18,$33,$02,$08,$28
-  .byte $18,$32,$00,$00,$30
+  .byte $18,$35,$02,$30,$00
+  .byte $18,$34,$02,$20,$10
+  .byte $18,$33,$02,$10,$20
+  .byte $18,$32,$02,$00,$30
 crab_boss_walk1_reversed:
   .byte $1a
   .byte $00,$0d,$02,$30,$00
@@ -128,20 +127,20 @@ crab_boss_walk1_reversed:
   .byte $08,$14,$02,$10,$20
   .byte $08,$1a,$02,$08,$28
   .byte $08,$19,$02,$00,$30
-  .byte $10,$2d,$02,$30,$00
-  .byte $10,$2c,$02,$28,$08
-  .byte $10,$2b,$02,$20,$10
+  .byte $10,$2c,$02,$30,$00
+  .byte $10,$2b,$02,$28,$08
+  .byte $10,$2a,$02,$20,$10
   .byte $10,$24,$02,$18,$18
-  .byte $10,$2a,$02,$10,$20
+  .byte $10,$23,$02,$10,$20
   .byte $10,$29,$02,$08,$28
   .byte $10,$28,$02,$00,$30
-  .byte $18,$39,$00,$30,$00
-  .byte $18,$38,$02,$28,$08
-  .byte $18,$35,$02,$20,$10
-  .byte $18,$34,$02,$10,$20
-  .byte $18,$37,$02,$00,$30
+  .byte $18,$38,$00,$30,$00
+  .byte $18,$37,$02,$28,$08
+  .byte $18,$34,$02,$20,$10
+  .byte $18,$33,$02,$10,$20
+  .byte $18,$36,$02,$00,$30
 crab_boss_walk2_reversed:
-  .byte $19
+  .byte $1a
   .byte $00,$11,$02,$30,$00
   .byte $00,$10,$02,$28,$08
   .byte $00,$07,$02,$20,$10
@@ -160,14 +159,14 @@ crab_boss_walk2_reversed:
   .byte $10,$30,$02,$28,$08
   .byte $10,$25,$02,$20,$10
   .byte $10,$24,$02,$18,$18
-  .byte $10,$2a,$02,$10,$20
-  .byte $10,$2f,$02,$08,$28
-  .byte $10,$2e,$02,$00,$30
+  .byte $10,$2f,$02,$10,$20
+  .byte $10,$2e,$02,$08,$28
+  .byte $10,$2d,$02,$00,$30
   .byte $18,$3b,$02,$30,$00
-  .byte $18,$35,$02,$20,$10
-  .byte $18,$34,$02,$10,$20
-  .byte $18,$3a,$02,$00,$30
-
+  .byte $18,$34,$02,$20,$10
+  .byte $18,$33,$02,$10,$20
+  .byte $18,$3a,$02,$08,$28
+  .byte $18,$39,$00,$00,$30
 crab_boss_eye0:
   .byte $01
   .byte $00,$01,$01,$00,$00
@@ -189,18 +188,18 @@ crab_boss_pincer1:
 
 crab_boss_walk:
   .byte $01, $24
-  .word crab_boss_walk0
-  .word crab_boss_walk0_reversed
-  .word crab_boss_walk0
-  .word crab_boss_walk0_reversed
-  .word crab_boss_walk0
-  .word crab_boss_walk0_reversed
   .word crab_boss_walk1
   .word crab_boss_walk1_reversed
   .word crab_boss_walk1
   .word crab_boss_walk1_reversed
   .word crab_boss_walk1
   .word crab_boss_walk1_reversed
+  .word crab_boss_walk0
+  .word crab_boss_walk0_reversed
+  .word crab_boss_walk0
+  .word crab_boss_walk0_reversed
+  .word crab_boss_walk0
+  .word crab_boss_walk0_reversed
   .word crab_boss_walk2
   .word crab_boss_walk2_reversed
   .word crab_boss_walk2
