@@ -4,6 +4,9 @@ CRAB_BOSS_BODY_INC = 1
 
 CRAB_BOSS_BODY_WIDTH = $0f
 CRAB_BOSS_BODY_HEIGHT = $0f
+CRAB_BOSS_WALK_SPEED = 1
+CRAB_BOSS_WALK_LEFT_LENGTH = 112
+CRAB_BOSS_WALK_RIGHT_LENGTH = 112
 CRAB_BOSS_EYE0_OFFSET_X = 18
 CRAB_BOSS_EYE0_OFFSET_Y = 2
 CRAB_BOSS_EYE1_OFFSET_X = 30
@@ -17,15 +20,18 @@ crab_boss_eye0 = entity_local0
 crab_boss_eye1 = entity_local1
 crab_boss_pincer0 = entity_local2
 crab_boss_pincer1 = entity_local3
+crab_boss_state_counter = entity_local4
 
 .enum
 CRAB_BOSS_BODY_STATE_INIT
-CRAB_BOSS_BODY_STATE_MAIN
+CRAB_BOSS_BODY_STATE_WALK_LEFT
+CRAB_BOSS_BODY_STATE_WALK_RIGHT
 .endenum
 
 .define crab_boss_body_states \
   crab_boss_body_state_init, \
-  crab_boss_body_state_main
+  crab_boss_body_state_walk_left, \
+  crab_boss_body_state_walk_right
 
 crab_boss_body_lo:
   .lobytes crab_boss_body_states
@@ -58,9 +64,6 @@ crab_boss_body_state_init:
   lda #sprite_chr_group_index_crab_boss
   sta b0
   jsr entity_lookup_sprite_chr_offset
-
-  lda #%01000000
-  sta entity_sprite_flags,x
 
   ;spawn and track crab boss's first eye
   .scope
@@ -109,12 +112,75 @@ crab_boss_body_state_init:
   jsr crab_boss_position_eyes
   jsr crab_boss_position_pincers
 
-  lda #CRAB_BOSS_BODY_STATE_MAIN
+  lda #%01000000
+  sta entity_sprite_flags,x
+
+  lda #CRAB_BOSS_WALK_RIGHT_LENGTH
+  sta crab_boss_state_counter,x
+
+  lda #CRAB_BOSS_BODY_STATE_WALK_RIGHT
   sta entity_state,x
 
   rts
 
-crab_boss_body_state_main:
+crab_boss_body_state_walk_left:
+
+  .scope
+  dec crab_boss_state_counter,x
+  bne do_not_transition_yet
+
+  lda #%01000000
+  sta entity_sprite_flags,x
+
+  lda #CRAB_BOSS_WALK_RIGHT_LENGTH
+  sta crab_boss_state_counter,x
+
+  lda #CRAB_BOSS_BODY_STATE_WALK_RIGHT
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  sec
+  lda entity_x_lo,x
+  sbc #<CRAB_BOSS_WALK_SPEED
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  sbc #>CRAB_BOSS_WALK_SPEED
+  sta entity_x_hi,x
+
+  jsr crab_boss_position_eyes
+  jsr crab_boss_position_pincers
+
+  jsr entity_update_animation
+
+  rts
+
+crab_boss_body_state_walk_right:
+
+  .scope
+  dec crab_boss_state_counter,x
+  bne do_not_transition_yet
+
+  lda #%00000000
+  sta entity_sprite_flags,x
+
+  lda #CRAB_BOSS_WALK_LEFT_LENGTH
+  sta crab_boss_state_counter,x
+
+  lda #CRAB_BOSS_BODY_STATE_WALK_LEFT
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  clc
+  lda entity_x_lo,x
+  adc #<CRAB_BOSS_WALK_SPEED
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc #>CRAB_BOSS_WALK_SPEED
+  sta entity_x_hi,x
 
   jsr crab_boss_position_eyes
   jsr crab_boss_position_pincers
