@@ -4,6 +4,19 @@ CRAB_BOSS_BODY_INC = 1
 
 CRAB_BOSS_BODY_WIDTH = $0f
 CRAB_BOSS_BODY_HEIGHT = $0f
+CRAB_BOSS_EYE0_OFFSET_X = 18
+CRAB_BOSS_EYE0_OFFSET_Y = 2
+CRAB_BOSS_EYE1_OFFSET_X = 30
+CRAB_BOSS_EYE1_OFFSET_Y = 2
+CRAB_BOSS_PINCER0_OFFSET_X = 12
+CRAB_BOSS_PINCER0_OFFSET_Y = 29
+CRAB_BOSS_PINCER1_OFFSET_X = 29
+CRAB_BOSS_PINCER1_OFFSET_Y = 29
+
+crab_boss_eye0 = entity_local0
+crab_boss_eye1 = entity_local1
+crab_boss_pincer0 = entity_local2
+crab_boss_pincer1 = entity_local3
 
 .enum
 CRAB_BOSS_BODY_STATE_INIT
@@ -49,6 +62,53 @@ crab_boss_body_state_init:
   lda #%01000000
   sta entity_sprite_flags,x
 
+  ;spawn and track crab boss's first eye
+  .scope
+  lda #entity_index_crab_boss_eye
+  sta b0
+
+  jsr entity_spawn
+
+  lda spawned_entity
+  sta crab_boss_eye0,x
+  .endscope
+
+  ;spawn and track crab boss's second eye
+  .scope
+  lda #entity_index_crab_boss_eye
+  sta b0
+
+  jsr entity_spawn
+
+  lda spawned_entity
+  sta crab_boss_eye1,x
+  .endscope
+
+  ;spawn and track crab boss's first pincer
+  .scope
+  lda #entity_index_crab_boss_pincer
+  sta b0
+
+  jsr entity_spawn
+
+  lda spawned_entity
+  sta crab_boss_pincer0,x
+  .endscope
+
+  ;spawn and track crab boss's second pincer
+  .scope
+  lda #entity_index_crab_boss_pincer
+  sta b0
+
+  jsr entity_spawn
+
+  lda spawned_entity
+  sta crab_boss_pincer1,x
+  .endscope
+
+  jsr crab_boss_position_eyes
+  jsr crab_boss_position_pincers
+
   lda #CRAB_BOSS_BODY_STATE_MAIN
   sta entity_state,x
 
@@ -56,8 +116,97 @@ crab_boss_body_state_init:
 
 crab_boss_body_state_main:
 
+  jsr crab_boss_position_eyes
+  jsr crab_boss_position_pincers
+
   jsr entity_update_animation
 
   rts
+
+.proc crab_boss_position_eyes
+
+  ldy crab_boss_eye0,x
+  clc
+  lda entity_x_lo,x
+  adc #<CRAB_BOSS_EYE0_OFFSET_X
+  sta entity_x_lo,y
+  lda entity_x_hi,x
+  adc #>CRAB_BOSS_EYE0_OFFSET_X
+  sta entity_x_hi,y
+
+  clc
+  lda entity_y_lo,x
+  adc #<CRAB_BOSS_EYE0_OFFSET_Y
+  sta entity_y_lo,y
+  lda entity_y_hi,x
+  adc #>CRAB_BOSS_EYE0_OFFSET_Y
+  sta entity_y_hi,y
+
+  ldy crab_boss_eye1,x
+  clc
+  lda entity_x_lo,x
+  adc #<CRAB_BOSS_EYE1_OFFSET_X
+  sta entity_x_lo,y
+  lda entity_x_hi,x
+  adc #>CRAB_BOSS_EYE1_OFFSET_X
+  sta entity_x_hi,y
+
+  clc
+  lda entity_y_lo,x
+  adc #<CRAB_BOSS_EYE1_OFFSET_Y
+  sta entity_y_lo,y
+  lda entity_y_hi,x
+  adc #>CRAB_BOSS_EYE1_OFFSET_Y
+  sta entity_y_hi,y
+
+  rts
+
+.endproc
+
+.proc crab_boss_position_pincers
+
+  ldy crab_boss_pincer0,x
+  clc
+  lda entity_x_lo,x
+  adc #<CRAB_BOSS_PINCER0_OFFSET_X
+  sta entity_x_lo,y
+  lda entity_x_hi,x
+  adc #>CRAB_BOSS_PINCER0_OFFSET_X
+  sta entity_x_hi,y
+
+  clc
+  lda entity_y_lo,x
+  adc #<CRAB_BOSS_PINCER0_OFFSET_Y
+  sta entity_y_lo,y
+  lda entity_y_hi,x
+  adc #>CRAB_BOSS_PINCER0_OFFSET_Y
+  sta entity_y_hi,y
+
+  lda #%01000000
+  sta entity_sprite_flags,y
+
+  ldy crab_boss_pincer1,x
+  clc
+  lda entity_x_lo,x
+  adc #<CRAB_BOSS_PINCER1_OFFSET_X
+  sta entity_x_lo,y
+  lda entity_x_hi,x
+  adc #>CRAB_BOSS_PINCER1_OFFSET_X
+  sta entity_x_hi,y
+
+  clc
+  lda entity_y_lo,x
+  adc #<CRAB_BOSS_PINCER1_OFFSET_Y
+  sta entity_y_lo,y
+  lda entity_y_hi,x
+  adc #>CRAB_BOSS_PINCER1_OFFSET_Y
+  sta entity_y_hi,y
+
+  lda #%00000000
+  sta entity_sprite_flags,y
+
+  rts
+
+.endproc
 
 .endif

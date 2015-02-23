@@ -46,9 +46,6 @@ crab_boss_pincer_state_init:
   sta b0
   jsr entity_lookup_sprite_chr_offset
 
-  lda #$00
-  sta entity_sprite_flags,x
-
   lda #CRAB_BOSS_PINCER_STATE_MAIN
   sta entity_state,x
 
