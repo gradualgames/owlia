@@ -3,6 +3,7 @@
 .include "ndxdebug.h"
 .include "hero.inc"
 .include "hero_constants.inc"
+.include "inventory.inc"
 .include "familiar.inc"
 .include "familiar_constants.inc"
 .include "bomb_constants.inc"
@@ -58,7 +59,7 @@
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET | tech_rush)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_RUSH_INIT
@@ -84,7 +85,7 @@
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET | tech_fetch)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_FETCH_INIT
@@ -110,7 +111,7 @@
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda #(FAMILIAR_FLAGS_ALIVE_SET)
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | tech_unlock)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_UNLOCK_INIT
@@ -178,7 +179,7 @@ cannot_spawn_key:
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET | tech_carry_bomb)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_CARRY_BOMB_INIT
@@ -232,7 +233,7 @@ cannot_spawn_bomb:
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET | tech_carry_lantern)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_CARRY_LANTERN_INIT
@@ -279,7 +280,7 @@ cannot_spawn_lantern:
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET | tech_carry_adlanniel)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_CARRY_HERO_INIT
@@ -320,7 +321,7 @@ cannot_spawn_lantern:
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET | tech_shield)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_SHIELD_INIT
@@ -346,7 +347,7 @@ cannot_spawn_lantern:
   lda #$ff
   sta familiar_carried_entity_index
 
-  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
+  lda #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET | tech_homing)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_HOMING_INIT
@@ -3012,6 +3013,13 @@ do_not_kill_familiar:
 .endproc
 
 ;****************************************************************
+;This look up table tells the homing logic how to shift the X and
+;Y velocity to produce different speeds for different techniques.
+;****************************************************************
+familiar_homing_speed:
+  .byte 5, 4, 5, 5, 5, 5, 5, 5
+
+;****************************************************************
 ;This routine performs homing logic on a goal. The X and Y
 ;distance to the goal is expected to be placed into the x and y
 ;velocity for the familiar before calling this routine. Then the
@@ -3034,31 +3042,20 @@ do_not_kill_familiar:
   .scope
   ;it is assumed familiar_x_velocity has been previously computed as
   ;the X distance between the familiar and the goal.
-  asl familiar_x_velocity
-  rol familiar_x_velocity+1
-  asl familiar_x_velocity
-  rol familiar_x_velocity+1
-  asl familiar_x_velocity
-  rol familiar_x_velocity+1
-  asl familiar_x_velocity
-  rol familiar_x_velocity+1
-  asl familiar_x_velocity
-  rol familiar_x_velocity+1
-  .endscope
-
-  .scope
   ;it is assumed familiar_y_velocity has been previously computed as
   ;the Y distance between the familiar and the goal.
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_TECH_ISOLATE
+  tay
+  ldx familiar_homing_speed,y
+:
+  asl familiar_x_velocity
+  rol familiar_x_velocity+1
+
   asl familiar_y_velocity
   rol familiar_y_velocity+1
-  asl familiar_y_velocity
-  rol familiar_y_velocity+1
-  asl familiar_y_velocity
-  rol familiar_y_velocity+1
-  asl familiar_y_velocity
-  rol familiar_y_velocity+1
-  asl familiar_y_velocity
-  rol familiar_y_velocity+1
+  dex
+  bne :-
   .endscope
 
   .scope
