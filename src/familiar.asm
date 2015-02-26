@@ -3017,7 +3017,7 @@ do_not_kill_familiar:
 ;Y velocity to produce different speeds for different techniques.
 ;****************************************************************
 familiar_homing_speed:
-  .byte 5, 4, 5, 5, 5, 5, 5, 5
+  .byte 5, 4, 4, 5, 5, 5, 5, 5
 
 ;****************************************************************
 ;This routine performs homing logic on a goal. The X and Y
