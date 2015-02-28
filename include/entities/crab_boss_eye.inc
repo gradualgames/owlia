@@ -6,9 +6,8 @@ CRAB_BOSS_EYE_INC = 1
 
 .define crab_boss_eye_states \
   crab_boss_eye_state_init, \
-  crab_boss_eye_state_main, \
-  crab_boss_eye_state_wait_til_not_fetched, \
-  crab_boss_eye_state_float_back_to_body
+  crab_boss_eye_state_wait_til_fetched, \
+  crab_boss_eye_state_wait_til_not_fetched
 
 crab_boss_eye_lo:
   .lobytes crab_boss_eye_states
@@ -47,13 +46,6 @@ crab_boss_eye_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
-  lda #CRAB_BOSS_EYE_STATE_MAIN
-  sta entity_state,x
-
-  rts
-
-crab_boss_eye_state_main:
-
   ldy crab_boss_eye_body,x
 
   clc
@@ -71,6 +63,15 @@ crab_boss_eye_state_main:
   lda entity_y_hi,y
   adc #0
   sta entity_y_hi,x
+
+  lda #CRAB_BOSS_EYE_STATE_WAIT_TIL_FETCHED
+  sta entity_state,x
+
+  rts
+
+crab_boss_eye_state_wait_til_fetched:
+
+  jsr crab_boss_eye_float_back_to_body
 
   .scope
   lda familiar_carried_entity_index
@@ -110,11 +111,13 @@ crab_boss_eye_state_wait_til_not_fetched:
   beq still_fetched
 no_longer_fetched:
 
+  jsr crab_boss_eye_float_back_to_body
+
   lda #0
   sta crab_boss_eye_x_fine,x
   sta crab_boss_eye_y_fine,x
 
-  lda #CRAB_BOSS_EYE_STATE_FLOAT_BACK_TO_BODY
+  lda #CRAB_BOSS_EYE_STATE_WAIT_TIL_FETCHED
   sta entity_state,x
 
 still_fetched:
@@ -122,7 +125,7 @@ still_fetched:
 
   rts
 
-crab_boss_eye_state_float_back_to_body:
+.proc crab_boss_eye_float_back_to_body
 
   ;calculate goal of where eye will float to (end of stalk on crab body)
   ldy crab_boss_eye_body,x
@@ -241,5 +244,7 @@ sign_extend_positive:
   .endscope
 
   rts
+
+.endproc
 
 .endif
