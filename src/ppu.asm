@@ -24,6 +24,18 @@
 ;nmi routine which does nothing except continue music driver
 .proc ppu_vblank_nop
 
+  .scope
+  lda hide_graphics_top
+  beq do_not_hide_graphics_top
+
+  ;turn off sprite visibility
+  ;clear_ppu_2001_bit PPU1_SPRITE_VISIBILITY
+  ;turn off background visibility
+  clear_ppu_2001_bit PPU1_BACKGROUND_VISIBILITY
+  upload_ppu_2001
+do_not_hide_graphics_top:
+  .endscope
+
   set_vblank_done
 
   ;pad CPU cycles for finely tuned graphics hiding
@@ -530,6 +542,18 @@ palette_cycling_not_enabled:
 
 ;nmi routine for uploading the dynamic palette
 .proc ppu_upload_dynamic_palette_ppu
+
+  .scope
+  lda hide_graphics_top
+  beq do_not_hide_graphics_top
+
+  ;turn off sprite visibility
+  ;clear_ppu_2001_bit PPU1_SPRITE_VISIBILITY
+  ;turn off background visibility
+  clear_ppu_2001_bit PPU1_BACKGROUND_VISIBILITY
+  upload_ppu_2001
+do_not_hide_graphics_top:
+  .endscope
 
   jsr sprite_update_all
 

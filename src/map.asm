@@ -2336,6 +2336,18 @@ cycle_pad_lut2:
 .proc nametable_and_attribute_update_ppu
 
   .scope
+  lda hide_graphics_top
+  beq do_not_hide_graphics_top
+
+  ;turn off sprite visibility
+  ;clear_ppu_2001_bit PPU1_SPRITE_VISIBILITY
+  ;turn off background visibility
+  clear_ppu_2001_bit PPU1_BACKGROUND_VISIBILITY
+  upload_ppu_2001
+do_not_hide_graphics_top:
+  .endscope
+
+  .scope
   lda column_ready
   beq column_nop
   jsr map_upload_column_ppu
@@ -2409,7 +2421,19 @@ not_enough_time_for_palette:
   upload_ppu_2006
   upload_ppu_2005
 
+  .scope
+  lda sprites_ready
+  beq sprites_not_ready
   jsr sprite_update_all
+  lda #0
+  sta sprites_ready
+  jmp done
+sprites_not_ready:
+  ldx #108
+: dex
+  bne :-
+done:
+  .endscope
 
   set_vblank_done
 
