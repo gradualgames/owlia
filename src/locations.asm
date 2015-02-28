@@ -1656,7 +1656,7 @@ dungeon3_0_3_palette:
 
 dungeon3_boss_palette:
   .byte $0e,$16,$26,$36,$0e,$07,$17,$27,$0e,$0e,$07,$16,$0e,$0e,$0e,$0e
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$07,$17,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$07,$17,$0e,$0e,$07,$20
   .byte PALETTE_CYCLE_LOOP
 
 island_palette:

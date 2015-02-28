@@ -27,9 +27,9 @@ crab_boss_eye_state_init:
 
   jsr entity_set_is_enemy
 
-  lda #<crab_boss_eye_open
+  lda #<crab_boss_eye_blink
   sta entity_animation_address_lo,x
-  lda #>crab_boss_eye_open
+  lda #>crab_boss_eye_blink
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation

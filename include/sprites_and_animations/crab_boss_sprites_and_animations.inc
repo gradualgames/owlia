@@ -212,14 +212,14 @@ crab_boss_walk:
 crab_boss_pincer_closed:
   .byte $0a, $02
   .word crab_boss_pincer0
-crab_boss_eye_open:
-  .byte $0a, $02
-  .word crab_boss_eye0
 crab_boss_pincer_open:
   .byte $0a, $02
   .word crab_boss_pincer1
-crab_boss_eye_closed:
-  .byte $0a, $02
+crab_boss_eye_blink:
+  .byte $0a, $08
+  .word crab_boss_eye0
+  .word crab_boss_eye0
+  .word crab_boss_eye0
   .word crab_boss_eye1
 crab_boss_pincer_punch:
   .byte $03, $0a
