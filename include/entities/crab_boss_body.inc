@@ -3,6 +3,7 @@
 CRAB_BOSS_BODY_INC = 1
 
 .include "crab_boss_eye_constants.inc"
+.include "crab_boss_pincer_constants.inc"
 
 CRAB_BOSS_BODY_WIDTH = $0f
 CRAB_BOSS_BODY_HEIGHT = $0f
@@ -17,6 +18,12 @@ CRAB_BOSS_PINCER0_OFFSET_X = 11
 CRAB_BOSS_PINCER0_OFFSET_Y = 24
 CRAB_BOSS_PINCER1_OFFSET_X = 29
 CRAB_BOSS_PINCER1_OFFSET_Y = 24
+CRAB_BOSS_PINCER0_PUNCH_DELAY = 100
+CRAB_BOSS_PINCER0_PUNCH_LENGTH = 16
+CRAB_BOSS_PINCER0_INITIAL_STATE_COUNTER = 100
+CRAB_BOSS_PINCER1_PUNCH_DELAY = 100
+CRAB_BOSS_PINCER1_PUNCH_LENGTH = 16
+CRAB_BOSS_PINCER1_INITIAL_STATE_COUNTER = 20
 
 crab_boss_eye0 = entity_local0
 crab_boss_eye1 = entity_local1
@@ -120,6 +127,15 @@ crab_boss_body_state_init:
 
   lda spawned_entity
   sta crab_boss_pincer0,x
+
+  ;configure the pincer
+  ldy spawned_entity
+  lda #CRAB_BOSS_PINCER0_PUNCH_DELAY
+  sta crab_boss_pincer_punch_delay,y
+  lda #CRAB_BOSS_PINCER0_PUNCH_LENGTH
+  sta crab_boss_pincer_punch_length,y
+  lda #CRAB_BOSS_PINCER0_INITIAL_STATE_COUNTER
+  sta crab_boss_pincer_state_counter,y
   .endscope
 
   ;spawn and track crab boss's second pincer
@@ -131,6 +147,15 @@ crab_boss_body_state_init:
 
   lda spawned_entity
   sta crab_boss_pincer1,x
+
+  ;configure the pincer
+  ldy spawned_entity
+  lda #CRAB_BOSS_PINCER1_PUNCH_DELAY
+  sta crab_boss_pincer_punch_delay,y
+  lda #CRAB_BOSS_PINCER1_PUNCH_LENGTH
+  sta crab_boss_pincer_punch_length,y
+  lda #CRAB_BOSS_PINCER1_INITIAL_STATE_COUNTER
+  sta crab_boss_pincer_state_counter,y
   .endscope
 
   jsr crab_boss_position_pincers

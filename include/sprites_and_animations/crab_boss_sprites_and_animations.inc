@@ -173,6 +173,21 @@ crab_boss_pincer1:
   .byte $00,$3f,$02,$08,$00
   .byte $08,$42,$02,$00,$08
   .byte $08,$43,$02,$08,$00
+crab_boss_pincer_punch0:
+  .byte $05
+  .byte $00,$33,$02,$04,$04
+  .byte $08-2,$3e,$02,$00,$08
+  .byte $08-2,$3f,$02,$08,$00
+  .byte $10-2,$42,$02,$00,$08
+  .byte $10-2,$43,$02,$08,$00
+crab_boss_pincer_punch1:
+  .byte $06
+  .byte $00,$33,$02,$04,$04
+  .byte $08-2,$33,$02,$04,$04
+  .byte $10-4,$3c,$02,$00,$08
+  .byte $10-4,$3d,$02,$08,$00
+  .byte $18-4,$40,$02,$00,$08
+  .byte $18-4,$41,$02,$08,$00
 
 crab_boss_walk:
   .byte $01, $24
@@ -206,5 +221,12 @@ crab_boss_pincer_open:
 crab_boss_eye_closed:
   .byte $0a, $02
   .word crab_boss_eye1
+crab_boss_pincer_punch:
+  .byte $03, $0a
+  .word crab_boss_pincer1
+  .word crab_boss_pincer_punch0
+  .word crab_boss_pincer_punch1
+  .word crab_boss_pincer_punch0
+  .word crab_boss_pincer1
 
 .endif

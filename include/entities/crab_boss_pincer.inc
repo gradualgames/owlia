@@ -2,17 +2,12 @@
 .ifndef CRAB_BOSS_PINCER_INC
 CRAB_BOSS_PINCER_INC = 1
 
-CRAB_BOSS_PINCER_WIDTH = $0f
-CRAB_BOSS_PINCER_HEIGHT = $0f
-
-.enum
-CRAB_BOSS_PINCER_STATE_INIT
-CRAB_BOSS_PINCER_STATE_MAIN
-.endenum
+.include "crab_boss_pincer_constants.inc"
 
 .define crab_boss_pincer_states \
   crab_boss_pincer_state_init, \
-  crab_boss_pincer_state_main
+  crab_boss_pincer_state_main, \
+  crab_boss_pincer_state_punch
 
 crab_boss_pincer_lo:
   .lobytes crab_boss_pincer_states
@@ -52,6 +47,52 @@ crab_boss_pincer_state_init:
   rts
 
 crab_boss_pincer_state_main:
+
+  .scope
+  dec crab_boss_pincer_state_counter,x
+  bne do_not_transition_yet
+
+  lda #<crab_boss_pincer_punch
+  sta entity_animation_address_lo,x
+  lda #>crab_boss_pincer_punch
+  sta entity_animation_address_hi,x
+
+  jsr entity_reset_animation
+
+  lda crab_boss_pincer_punch_length,x
+  sta crab_boss_pincer_state_counter,x
+
+  lda #CRAB_BOSS_PINCER_STATE_PUNCH
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  jsr entity_update_animation
+
+  rts
+
+crab_boss_pincer_state_punch:
+
+  .scope
+  dec crab_boss_pincer_state_counter,x
+  bne do_not_transition_yet
+
+  lda #<crab_boss_pincer_open
+  sta entity_animation_address_lo,x
+  lda #>crab_boss_pincer_open
+  sta entity_animation_address_hi,x
+
+  jsr entity_reset_animation
+
+  lda crab_boss_pincer_punch_delay,x
+  sta crab_boss_state_counter,x
+
+  lda #CRAB_BOSS_PINCER_STATE_MAIN
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
 
   jsr entity_update_animation
 
