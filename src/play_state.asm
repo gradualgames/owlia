@@ -1010,6 +1010,8 @@ spin_hero_loop:
   jsr hero_face_in_current_direction
   jsr sprite_clear_all
   jsr hero_draw
+  lda #1
+  sta sprites_ready
   pla
   tay
 
@@ -1057,6 +1059,9 @@ spin_hero_loop:
   jsr entity_calculate_screen_coordinates_all
 
   jsr entity_draw_npe
+
+  lda #1
+  sta sprites_ready
 
   pla
   tay
@@ -1825,6 +1830,9 @@ play_state_action_start_conversation:
   sta b0
   jsr sprite_hide_all_below
 
+  lda #1
+  sta sprites_ready
+
   clear_vblank_done
   wait_vblank_done
 
@@ -2095,6 +2103,9 @@ done:
 
   jsr sprite_clear_all_remaining
 
+  lda #1
+  sta sprites_ready
+
   .ifdef CPU_USAGE
   clear_ppu_2001_bit PPU1_DISPLAY_TYPE
   upload_ppu_2001
@@ -2215,6 +2226,9 @@ done:
   jsr entity_draw_shadow_spots
 
   jsr hero_draw_status
+
+  lda #1
+  sta sprites_ready
 
   rts
 
