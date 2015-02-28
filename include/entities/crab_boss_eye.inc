@@ -46,6 +46,14 @@ crab_boss_eye_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
+  lda #0
+  sta crab_boss_eye_flash_counter,x
+  sta crab_boss_eye_knockback_counter,x
+  sta crab_boss_eye_direction,x
+
+  lda #CRAB_BOSS_EYE_INITIAL_HEALTH
+  sta crab_boss_eye_health,x
+
   ldy crab_boss_eye_body,x
 
   clc
@@ -70,6 +78,8 @@ crab_boss_eye_state_init:
   rts
 
 crab_boss_eye_state_wait_til_fetched:
+
+  entity_advance_flash_state crab_boss_eye_flash_counter
 
   jsr crab_boss_eye_float_back_to_body
 
@@ -105,6 +115,8 @@ familiar_already_fetching:
   rts
 
 crab_boss_eye_state_wait_til_not_fetched:
+
+  entity_harmless_combat #CRAB_BOSS_EYE_ATTACKED_LENGTH, #CRAB_BOSS_EYE_KNOCKBACK_LENGTH, crab_boss_eye_flash_counter, crab_boss_eye_knockback_counter, crab_boss_eye_health, crab_boss_eye_direction
 
   .scope
   cpx familiar_carried_entity_index

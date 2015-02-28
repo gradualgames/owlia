@@ -5,6 +5,9 @@ CRAB_BOSS_EYE_WIDTH = $07
 CRAB_BOSS_EYE_HEIGHT = $07
 CRAB_BOSS_EYE_FETCH_X_OFFSET = 4
 CRAB_BOSS_EYE_FETCH_Y_OFFSET = 16
+CRAB_BOSS_EYE_ATTACKED_LENGTH = 30
+CRAB_BOSS_EYE_KNOCKBACK_LENGTH = 30
+CRAB_BOSS_EYE_INITIAL_HEALTH = 5
 
 .enum
 CRAB_BOSS_EYE_STATE_INIT
@@ -21,5 +24,9 @@ crab_boss_eye_x_velocity_lo = entity_local5
 crab_boss_eye_x_velocity_hi = entity_local6
 crab_boss_eye_y_velocity_lo = entity_local7
 crab_boss_eye_y_velocity_hi = entity_local8
+crab_boss_eye_flash_counter = entity_local9
+crab_boss_eye_knockback_counter = entity_local10
+crab_boss_eye_health = entity_local11
+crab_boss_eye_direction = entity_local12
 
 .endif
