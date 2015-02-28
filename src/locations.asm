@@ -1537,17 +1537,17 @@ dungeon3_3_3_entity_instances:
 dungeon3_boss_entity_instances:
   .byte 3
   .byte entity_index_crab_boss_body, 3, 7, 0, 0
+  .byte entity_index_monolith, 14, 11, 0, MONOLITH_PARAMS, \
+                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET, 0, \
+                                          MONOLITH_DIRECTION_EAST, \
+                                          ACTION_NOP, 0, \
+                                          0, 5
   .byte entity_index_monolith, 1, 11, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon3_3_3_e,\
                                          0, 4
-  .byte entity_index_monolith, 14, 11, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET, 0, \
-                                          MONOLITH_DIRECTION_EAST, \
-                                          ACTION_NOP, 0, \
-                                          0, 5
 
 island1_entity_instances:
   .byte 0

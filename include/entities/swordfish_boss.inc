@@ -55,7 +55,6 @@ SWORDFISH_BOSS_STATE_CHARGE_LEFT
 SWORDFISH_BOSS_STATE_FALL
 SWORDFISH_BOSS_STATE_FLOUNDER
 SWORDFISH_BOSS_STATE_RISE
-SWORDFISH_BOSS_STATE_LOWER_ALL_MONOLITHS_AND_DIE
 SWORDFISH_BOSS_STATE_VICTORY
 .endenum
 
@@ -68,7 +67,6 @@ SWORDFISH_BOSS_STATE_VICTORY
   swordfish_boss_state_fall, \
   swordfish_boss_state_flounder, \
   swordfish_boss_state_rise, \
-  swordfish_boss_state_lower_all_monoliths_and_die, \
   swordfish_boss_state_victory
 
 swordfish_boss_lo:
@@ -88,11 +86,9 @@ swordfish_boss_state_init:
   cmp #tech_carry_lantern
   bmi do_not_skip_swordfish_boss
 
-  lda #SWORDFISH_BOSS_STATE_LOWER_ALL_MONOLITHS_AND_DIE_LENGTH
-  sta swordfish_boss_state_counter,x
-
-  lda #SWORDFISH_BOSS_STATE_LOWER_ALL_MONOLITHS_AND_DIE
-  sta entity_state,x
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
 
   rts
 
@@ -569,61 +565,6 @@ do_not_switch_state:
   jsr swordfish_boss_set_shadow_spot
 
   jsr entity_update_animation
-
-  rts
-
-swordfish_boss_state_lower_all_monoliths_and_die:
-
-  .scope
-  dec swordfish_boss_state_counter,x
-  bne do_not_lower_monoliths_and_die_yet
-
-  .scope
-  ldy #(MAX_ENTITIES-1)
-next_entity:
-  lda entity_flags,y
-  and #(ENTITY_FLAGS_ALIVE_TEST)
-  beq not_monolith
-  lda entity_type,y
-  cmp #entity_index_monolith
-  bne not_monolith
-
-  lda monolith_direction,y
-  cmp #MONOLITH_DIRECTION_EAST
-  beq e_w_monolith
-  cmp #MONOLITH_DIRECTION_WEST
-  beq e_w_monolith
-  cmp #MONOLITH_DIRECTION_NORTH
-  beq n_s_monolith
-  cmp #MONOLITH_DIRECTION_SOUTH
-  beq n_s_monolith
-n_s_monolith:
-
-  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
-  sta entity_state,y
-
-  dey
-  bpl next_entity
-
-e_w_monolith:
-
-  lda #MONOLITH_STATE_FALL_USING_ROWS_INIT
-  sta entity_state,y
-
-  dey
-  bpl next_entity
-
-not_monolith:
-  dey
-  bpl next_entity
-  .endscope
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-do_not_lower_monoliths_and_die_yet:
-  .endscope
 
   rts
 
