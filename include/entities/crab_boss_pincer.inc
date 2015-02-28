@@ -98,7 +98,7 @@ crab_boss_pincer_state_punch:
   jsr entity_reset_animation
 
   lda crab_boss_pincer_punch_delay,x
-  sta crab_boss_state_counter,x
+  sta crab_boss_pincer_state_counter,x
 
   lda #CRAB_BOSS_PINCER_STATE_MAIN
   sta entity_state,x
