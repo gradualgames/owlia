@@ -2,6 +2,8 @@
 .ifndef CRAB_BOSS_BODY_INC
 CRAB_BOSS_BODY_INC = 1
 
+.include "crab_boss_eye_constants.inc"
+
 CRAB_BOSS_BODY_WIDTH = $0f
 CRAB_BOSS_BODY_HEIGHT = $0f
 CRAB_BOSS_WALK_SPEED = 1
@@ -74,6 +76,17 @@ crab_boss_body_state_init:
 
   lda spawned_entity
   sta crab_boss_eye0,x
+
+  ;configure the eye
+  ldy spawned_entity
+  lda #CRAB_BOSS_EYE0_OFFSET_X
+  sta crab_boss_eye_x_offset,y
+  lda #CRAB_BOSS_EYE0_OFFSET_Y
+  sta crab_boss_eye_y_offset,y
+
+  ;tell the eye about its parent, which is this body entity
+  txa
+  sta crab_boss_eye_body,y
   .endscope
 
   ;spawn and track crab boss's second eye
@@ -85,6 +98,17 @@ crab_boss_body_state_init:
 
   lda spawned_entity
   sta crab_boss_eye1,x
+
+  ;configure the eye
+  ldy spawned_entity
+  lda #CRAB_BOSS_EYE1_OFFSET_X
+  sta crab_boss_eye_x_offset,y
+  lda #CRAB_BOSS_EYE1_OFFSET_Y
+  sta crab_boss_eye_y_offset,y
+
+  ;tell the eye about its parent, which is this body entity
+  txa
+  sta crab_boss_eye_body,y
   .endscope
 
   ;spawn and track crab boss's first pincer
@@ -109,7 +133,6 @@ crab_boss_body_state_init:
   sta crab_boss_pincer1,x
   .endscope
 
-  jsr crab_boss_position_eyes
   jsr crab_boss_position_pincers
 
   lda #%01000000
@@ -149,7 +172,6 @@ do_not_transition_yet:
   sbc #>CRAB_BOSS_WALK_SPEED
   sta entity_x_hi,x
 
-  jsr crab_boss_position_eyes
   jsr crab_boss_position_pincers
 
   jsr entity_update_animation
@@ -182,52 +204,11 @@ do_not_transition_yet:
   adc #>CRAB_BOSS_WALK_SPEED
   sta entity_x_hi,x
 
-  jsr crab_boss_position_eyes
   jsr crab_boss_position_pincers
 
   jsr entity_update_animation
 
   rts
-
-.proc crab_boss_position_eyes
-
-  ldy crab_boss_eye0,x
-  clc
-  lda entity_x_lo,x
-  adc #<CRAB_BOSS_EYE0_OFFSET_X
-  sta entity_x_lo,y
-  lda entity_x_hi,x
-  adc #>CRAB_BOSS_EYE0_OFFSET_X
-  sta entity_x_hi,y
-
-  clc
-  lda entity_y_lo,x
-  adc #<CRAB_BOSS_EYE0_OFFSET_Y
-  sta entity_y_lo,y
-  lda entity_y_hi,x
-  adc #>CRAB_BOSS_EYE0_OFFSET_Y
-  sta entity_y_hi,y
-
-  ldy crab_boss_eye1,x
-  clc
-  lda entity_x_lo,x
-  adc #<CRAB_BOSS_EYE1_OFFSET_X
-  sta entity_x_lo,y
-  lda entity_x_hi,x
-  adc #>CRAB_BOSS_EYE1_OFFSET_X
-  sta entity_x_hi,y
-
-  clc
-  lda entity_y_lo,x
-  adc #<CRAB_BOSS_EYE1_OFFSET_Y
-  sta entity_y_lo,y
-  lda entity_y_hi,x
-  adc #>CRAB_BOSS_EYE1_OFFSET_Y
-  sta entity_y_hi,y
-
-  rts
-
-.endproc
 
 .proc crab_boss_position_pincers
 
