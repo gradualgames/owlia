@@ -31,6 +31,10 @@ crab_boss_pincer_state_init:
 
   jsr entity_set_drawable
 
+  jsr entity_set_not_pausable
+
+  jsr entity_set_is_enemy
+
   lda #<crab_boss_pincer_open
   sta entity_animation_address_lo,x
   lda #>crab_boss_pincer_open

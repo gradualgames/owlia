@@ -7,9 +7,9 @@ CRAB_BOSS_BODY_INC = 1
 
 CRAB_BOSS_BODY_WIDTH = ((7 * 8) - 1)
 CRAB_BOSS_BODY_HEIGHT = ((4 * 8) - 1)
-CRAB_BOSS_BODY_WALK_SPEED = 1
-CRAB_BOSS_BODY_WALK_LEFT_LENGTH = 112
-CRAB_BOSS_BODY_WALK_RIGHT_LENGTH = 112
+CRAB_BOSS_BODY_WALK_SPEED = 2
+CRAB_BOSS_BODY_WALK_LEFT_LENGTH = 56
+CRAB_BOSS_BODY_WALK_RIGHT_LENGTH = 56
 CRAB_BOSS_BODY_EYE0_OFFSET_X = 18
 CRAB_BOSS_BODY_EYE0_OFFSET_Y = 2
 CRAB_BOSS_BODY_EYE1_OFFSET_X = 30
@@ -25,22 +25,36 @@ CRAB_BOSS_BODY_PINCER1_PUNCH_DELAY = 100
 CRAB_BOSS_BODY_PINCER1_PUNCH_LENGTH = 16
 CRAB_BOSS_BODY_PINCER1_INITIAL_STATE_COUNTER = 20
 
+CRAB_BOSS_BODY_TIME_TIL_RUSH = 100
+CRAB_BOSS_BODY_STATE_INIT_RUSH_LENGTH = 20
+CRAB_BOSS_BODY_STATE_RUSH_LENGTH = 20
+CRAB_BOSS_BODY_STATE_RUSH_BACK_LENGTH = 20
+CRAB_BOSS_BODY_RUSH_SPEED = 4
+
 crab_boss_body_eye0 = entity_local0
 crab_boss_body_eye1 = entity_local1
 crab_boss_body_pincer0 = entity_local2
 crab_boss_body_pincer1 = entity_local3
 crab_boss_body_state_counter = entity_local4
+crab_boss_body_state_rush_counter = entity_local5
+crab_boss_body_previous_state = entity_local6
 
 .enum
 CRAB_BOSS_BODY_STATE_INIT
 CRAB_BOSS_BODY_STATE_WALK_LEFT
 CRAB_BOSS_BODY_STATE_WALK_RIGHT
+CRAB_BOSS_BODY_STATE_INIT_RUSH
+CRAB_BOSS_BODY_STATE_RUSH
+CRAB_BOSS_BODY_STATE_RUSH_BACK
 .endenum
 
 .define crab_boss_body_states \
   crab_boss_body_state_init, \
   crab_boss_body_state_walk_left, \
-  crab_boss_body_state_walk_right
+  crab_boss_body_state_walk_right, \
+  crab_boss_body_state_init_rush, \
+  crab_boss_body_state_rush, \
+  crab_boss_body_state_rush_back
 
 crab_boss_body_lo:
   .lobytes crab_boss_body_states
@@ -55,6 +69,10 @@ crab_boss_body_update:
 crab_boss_body_state_init:
 
   jsr entity_set_drawable
+
+  jsr entity_set_not_pausable
+
+  jsr entity_set_is_enemy
 
   lda #<crab_boss_walk
   sta entity_animation_address_lo,x
@@ -163,6 +181,9 @@ crab_boss_body_state_init:
   lda #%01000000
   sta entity_sprite_flags,x
 
+  lda #CRAB_BOSS_BODY_TIME_TIL_RUSH
+  sta crab_boss_body_state_rush_counter,x
+
   lda #CRAB_BOSS_BODY_WALK_RIGHT_LENGTH
   sta crab_boss_body_state_counter,x
 
@@ -172,6 +193,23 @@ crab_boss_body_state_init:
   rts
 
 crab_boss_body_state_walk_left:
+
+  .scope
+  dec crab_boss_body_state_rush_counter,x
+  bne do_not_transition_yet
+
+  lda #CRAB_BOSS_BODY_STATE_WALK_LEFT
+  sta crab_boss_body_previous_state,x
+
+  lda #CRAB_BOSS_BODY_STATE_INIT_RUSH_LENGTH
+  sta crab_boss_body_state_rush_counter,x
+
+  lda #CRAB_BOSS_BODY_STATE_INIT_RUSH
+  sta entity_state,x
+
+  rts
+do_not_transition_yet:
+  .endscope
 
   jsr crab_boss_combat
 
@@ -207,6 +245,23 @@ do_not_transition_yet:
 
 crab_boss_body_state_walk_right:
 
+  .scope
+  dec crab_boss_body_state_rush_counter,x
+  bne do_not_transition_yet
+
+  lda #CRAB_BOSS_BODY_STATE_WALK_RIGHT
+  sta crab_boss_body_previous_state,x
+
+  lda #CRAB_BOSS_BODY_STATE_INIT_RUSH_LENGTH
+  sta crab_boss_body_state_rush_counter,x
+
+  lda #CRAB_BOSS_BODY_STATE_INIT_RUSH
+  sta entity_state,x
+
+  rts
+do_not_transition_yet:
+  .endscope
+
   jsr crab_boss_combat
 
   .scope
@@ -238,6 +293,86 @@ do_not_transition_yet:
   jsr entity_update_animation
 
   rts
+
+crab_boss_body_state_init_rush:
+
+  .scope
+  dec crab_boss_body_state_rush_counter,x
+  bne do_not_transition_yet
+
+  lda #CRAB_BOSS_BODY_STATE_RUSH_LENGTH
+  sta crab_boss_body_state_rush_counter,x
+
+  lda #CRAB_BOSS_BODY_STATE_RUSH
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  jsr entity_update_animation
+
+  rts
+
+crab_boss_body_state_rush:
+
+  jsr crab_boss_position_pincers
+  jsr crab_boss_combat
+
+  clc
+  lda entity_y_lo,x
+  adc #<CRAB_BOSS_BODY_RUSH_SPEED
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  adc #>CRAB_BOSS_BODY_RUSH_SPEED
+  sta entity_y_hi,x
+
+  .scope
+  dec crab_boss_body_state_rush_counter,x
+  bne do_not_transition_yet
+
+  lda #CRAB_BOSS_BODY_STATE_RUSH_BACK_LENGTH
+  sta crab_boss_body_state_rush_counter,x
+
+  lda #CRAB_BOSS_BODY_STATE_RUSH_BACK
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  jsr entity_update_animation
+
+  rts
+
+crab_boss_body_state_rush_back:
+
+  jsr crab_boss_position_pincers
+  jsr crab_boss_combat
+
+  clc
+  lda entity_y_lo,x
+  adc #<(-CRAB_BOSS_BODY_RUSH_SPEED)
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  adc #>(-CRAB_BOSS_BODY_RUSH_SPEED)
+  sta entity_y_hi,x
+
+  .scope
+  dec crab_boss_body_state_rush_counter,x
+  bne do_not_transition_yet
+
+  lda #CRAB_BOSS_BODY_TIME_TIL_RUSH
+  sta crab_boss_body_state_rush_counter,x
+
+  lda crab_boss_body_previous_state,x
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  jsr entity_update_animation
+
+  rts
+
 
 .proc crab_boss_combat
 
