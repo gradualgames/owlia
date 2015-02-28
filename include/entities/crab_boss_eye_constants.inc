@@ -10,10 +10,17 @@ CRAB_BOSS_EYE_FETCH_Y_OFFSET = 16
 CRAB_BOSS_EYE_STATE_INIT
 CRAB_BOSS_EYE_STATE_MAIN
 CRAB_BOSS_EYE_STATE_WAIT_TIL_NOT_FETCHED
+CRAB_BOSS_EYE_STATE_FLOAT_BACK_TO_BODY
 .endenum
 
 crab_boss_eye_body = entity_local0
 crab_boss_eye_x_offset = entity_local1
 crab_boss_eye_y_offset = entity_local2
+crab_boss_eye_x_fine = entity_local3
+crab_boss_eye_y_fine = entity_local4
+crab_boss_eye_x_velocity_lo = entity_local5
+crab_boss_eye_x_velocity_hi = entity_local6
+crab_boss_eye_y_velocity_lo = entity_local7
+crab_boss_eye_y_velocity_hi = entity_local8
 
 .endif

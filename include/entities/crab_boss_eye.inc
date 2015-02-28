@@ -7,7 +7,8 @@ CRAB_BOSS_EYE_INC = 1
 .define crab_boss_eye_states \
   crab_boss_eye_state_init, \
   crab_boss_eye_state_main, \
-  crab_boss_eye_state_wait_til_not_fetched
+  crab_boss_eye_state_wait_til_not_fetched, \
+  crab_boss_eye_state_float_back_to_body
 
 crab_boss_eye_lo:
   .lobytes crab_boss_eye_states
@@ -103,6 +104,141 @@ familiar_already_fetching:
   rts
 
 crab_boss_eye_state_wait_til_not_fetched:
+
+  .scope
+  cpx familiar_carried_entity_index
+  beq still_fetched
+no_longer_fetched:
+
+  lda #0
+  sta crab_boss_eye_x_fine,x
+  sta crab_boss_eye_y_fine,x
+
+  lda #CRAB_BOSS_EYE_STATE_FLOAT_BACK_TO_BODY
+  sta entity_state,x
+
+still_fetched:
+  .endscope
+
+  rts
+
+crab_boss_eye_state_float_back_to_body:
+
+  ;calculate goal of where eye will float to (end of stalk on crab body)
+  ldy crab_boss_eye_body,x
+
+  clc
+  lda entity_x_lo,y
+  adc crab_boss_eye_x_offset,x
+  sta w0
+  lda entity_x_hi,y
+  adc #0
+  sta w0+1
+
+  clc
+  lda entity_y_lo,y
+  adc crab_boss_eye_y_offset,x
+  sta w1
+  lda entity_y_hi,y
+  adc #0
+  sta w1+1
+
+  ;calculate initial velocity as distance between goal and current location of eye
+  sec
+  lda w0
+  sbc entity_x_lo,x
+  sta crab_boss_eye_x_velocity_lo,x
+  lda w0+1
+  sbc entity_x_hi,x
+  sta crab_boss_eye_x_velocity_hi,x
+
+  sec
+  lda w1
+  sbc entity_y_lo,x
+  sta crab_boss_eye_y_velocity_lo,x
+  lda w1+1
+  sbc entity_y_hi,x
+  sta crab_boss_eye_y_velocity_hi,x
+
+  ;now modify velocity so the eye floats towards the eye stalk slowly
+  lda crab_boss_eye_x_velocity_hi,x
+  asl crab_boss_eye_x_velocity_lo,x
+  rol
+  asl crab_boss_eye_x_velocity_lo,x
+  rol
+  asl crab_boss_eye_x_velocity_lo,x
+  rol
+  asl crab_boss_eye_x_velocity_lo,x
+  rol
+  asl crab_boss_eye_x_velocity_lo,x
+  rol
+  asl crab_boss_eye_x_velocity_lo,x
+  rol
+  sta crab_boss_eye_x_velocity_hi,x
+
+  lda crab_boss_eye_y_velocity_hi,x
+  asl crab_boss_eye_y_velocity_lo,x
+  rol
+  asl crab_boss_eye_y_velocity_lo,x
+  rol
+  asl crab_boss_eye_y_velocity_lo,x
+  rol
+  asl crab_boss_eye_y_velocity_lo,x
+  rol
+  asl crab_boss_eye_y_velocity_lo,x
+  rol
+  asl crab_boss_eye_y_velocity_lo,x
+  rol
+  sta crab_boss_eye_y_velocity_hi,x
+
+  ;add x and y velocity to the coordinates with sign extension
+  .scope
+  lda #0
+  sta b0
+  lda crab_boss_eye_x_velocity_hi,x
+  bpl sign_extend_positive
+sign_extend_negative:
+  lda #$ff
+  sta b0
+sign_extend_positive:
+
+  clc
+  lda crab_boss_eye_x_fine,x
+  adc crab_boss_eye_x_velocity_lo,x
+  sta crab_boss_eye_x_fine,x
+
+  lda entity_x_lo,x
+  adc crab_boss_eye_x_velocity_hi,x
+  sta entity_x_lo,x
+
+  lda entity_x_hi,x
+  adc b0
+  sta entity_x_hi,x
+  .endscope
+
+  .scope
+  lda #0
+  sta b0
+  lda crab_boss_eye_y_velocity_hi,x
+  bpl sign_extend_positive
+sign_extend_negative:
+  lda #$ff
+  sta b0
+sign_extend_positive:
+
+  clc
+  lda crab_boss_eye_y_fine,x
+  adc crab_boss_eye_y_velocity_lo,x
+  sta crab_boss_eye_y_fine,x
+
+  lda entity_y_lo,x
+  adc crab_boss_eye_y_velocity_hi,x
+  sta entity_y_lo,x
+
+  lda entity_y_hi,x
+  adc b0
+  sta entity_y_hi,x
+  .endscope
 
   rts
 
