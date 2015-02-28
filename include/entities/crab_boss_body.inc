@@ -5,8 +5,8 @@ CRAB_BOSS_BODY_INC = 1
 .include "crab_boss_eye_constants.inc"
 .include "crab_boss_pincer_constants.inc"
 
-CRAB_BOSS_BODY_WIDTH = $0f
-CRAB_BOSS_BODY_HEIGHT = $0f
+CRAB_BOSS_BODY_WIDTH = ((7 * 8) - 1)
+CRAB_BOSS_BODY_HEIGHT = ((4 * 8) - 1)
 CRAB_BOSS_WALK_SPEED = 1
 CRAB_BOSS_WALK_LEFT_LENGTH = 112
 CRAB_BOSS_WALK_RIGHT_LENGTH = 112
@@ -173,6 +173,8 @@ crab_boss_body_state_init:
 
 crab_boss_body_state_walk_left:
 
+  jsr crab_boss_combat
+
   .scope
   dec crab_boss_state_counter,x
   bne do_not_transition_yet
@@ -205,6 +207,8 @@ do_not_transition_yet:
 
 crab_boss_body_state_walk_right:
 
+  jsr crab_boss_combat
+
   .scope
   dec crab_boss_state_counter,x
   bne do_not_transition_yet
@@ -234,6 +238,19 @@ do_not_transition_yet:
   jsr entity_update_animation
 
   rts
+
+.proc crab_boss_combat
+
+  jsr entity_test_hero_rect
+  bne entity_not_hitting_hero
+
+  jsr entity_hurt_hero
+
+entity_not_hitting_hero:
+
+  rts
+
+.endproc
 
 .proc crab_boss_position_pincers
 

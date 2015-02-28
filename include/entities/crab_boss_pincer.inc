@@ -9,6 +9,14 @@ CRAB_BOSS_PINCER_INC = 1
   crab_boss_pincer_state_main, \
   crab_boss_pincer_state_punch
 
+;lut using animation frame to index, so every other entry is 0
+crab_boss_pincer_height:
+  .byte $0f, $00
+  .byte $0f + 8, $00
+  .byte $0f + 16, $00
+  .byte $0f + 8, $00
+  .byte $0f, $00
+
 crab_boss_pincer_lo:
   .lobytes crab_boss_pincer_states
 
@@ -48,6 +56,8 @@ crab_boss_pincer_state_init:
 
 crab_boss_pincer_state_main:
 
+  jsr crab_boss_pincer_combat
+
   .scope
   dec crab_boss_pincer_state_counter,x
   bne do_not_transition_yet
@@ -74,6 +84,8 @@ do_not_transition_yet:
 
 crab_boss_pincer_state_punch:
 
+  jsr crab_boss_pincer_combat
+
   .scope
   dec crab_boss_pincer_state_counter,x
   bne do_not_transition_yet
@@ -97,5 +109,22 @@ do_not_transition_yet:
   jsr entity_update_animation
 
   rts
+
+.proc crab_boss_pincer_combat
+
+  ldy entity_animation_frame,x
+  lda crab_boss_pincer_height,y
+  sta entity_height,x
+
+  jsr entity_test_hero_rect
+  bne entity_not_hitting_hero
+
+  jsr entity_hurt_hero
+
+entity_not_hitting_hero:
+
+  rts
+
+.endproc
 
 .endif
