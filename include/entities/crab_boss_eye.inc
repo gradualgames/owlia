@@ -2,6 +2,7 @@
 .ifndef CRAB_BOSS_EYE_INC
 CRAB_BOSS_EYE_INC = 1
 
+.include "crab_boss_body_constants.inc"
 .include "crab_boss_eye_constants.inc"
 
 .define crab_boss_eye_states \
@@ -119,6 +120,18 @@ familiar_already_fetching:
 crab_boss_eye_state_wait_til_not_fetched:
 
   entity_harmless_combat #CRAB_BOSS_EYE_ATTACKED_LENGTH, #CRAB_BOSS_EYE_KNOCKBACK_LENGTH, crab_boss_eye_flash_counter, crab_boss_eye_knockback_counter, crab_boss_eye_health, crab_boss_eye_direction
+
+  .scope
+  lda crab_boss_eye_flash_counter,x
+  cmp #CRAB_BOSS_EYE_ATTACKED_LENGTH
+  bne do_not_tell_body_to_flash
+
+  ldy crab_boss_eye_body,x
+  lda #CRAB_BOSS_BODY_FLASH_LENGTH
+  sta crab_boss_body_flash_counter,y
+
+do_not_tell_body_to_flash:
+  .endscope
 
   .scope
   cpx familiar_carried_entity_index

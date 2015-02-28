@@ -53,12 +53,17 @@ crab_boss_pincer_state_init:
   sta b0
   jsr entity_lookup_sprite_chr_offset
 
+  lda #0
+  sta crab_boss_pincer_flash_counter,x
+
   lda #CRAB_BOSS_PINCER_STATE_MAIN
   sta entity_state,x
 
   rts
 
 crab_boss_pincer_state_main:
+
+  entity_advance_flash_state crab_boss_pincer_flash_counter
 
   jsr crab_boss_pincer_combat
 
