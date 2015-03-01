@@ -2,7 +2,9 @@
 GREATGRAYOWL_SPRITES_AND_ANIMATIONS_INC = 1
 
 greatgrayowl_fly0:
-  .byte $16
+  .byte $18
+  .byte 5,$40,$03,$10,$00
+  .byte 5,$41,$03,$18,$00
   .byte $00,$00,$02,$00,$28
   .byte $00,$01,$01,$08,$20
   .byte $00,$02,$02,$10,$18
@@ -26,7 +28,9 @@ greatgrayowl_fly0:
   .byte $18,$34,$02,$18,$10
   .byte $18,$35,$02,$20,$08
 greatgrayowl_fly1:
-  .byte $14
+  .byte $16
+  .byte 10,$40,$03,$10,$00
+  .byte 10,$41,$03,$18,$00
   .byte $00,$07,$00,$08,$20
   .byte $00,$08,$02,$10,$18
   .byte $00,$09,$02,$18,$10
@@ -48,7 +52,9 @@ greatgrayowl_fly1:
   .byte $18,$38,$02,$18,$10
   .byte $18,$39,$02,$20,$08
 greatgrayowl_fly2:
-  .byte $16
+  .byte $18
+  .byte 11,$40,$03,$10,$00
+  .byte 11,$41,$03,$18,$00
   .byte $00,$0b,$00,$08,$20
   .byte $00,$0c,$02,$10,$18
   .byte $00,$0d,$02,$18,$10
@@ -71,8 +77,86 @@ greatgrayowl_fly2:
   .byte $18,$3d,$02,$18,$10
   .byte $18,$3e,$02,$20,$08
   .byte $18,$3f,$02,$28,$00
+greatgrayowl_fly0_reversed:
+  .byte $18
+  .byte 5,$40,$03,$10,$00
+  .byte 5,$41,$03,$18,$00
+  .byte $00,$05,$02,$28,$00
+  .byte $00,$04,$01,$20,$08
+  .byte $00,$03,$02,$18,$10
+  .byte $00,$02,$02,$10,$18
+  .byte $00,$01,$01,$08,$20
+  .byte $00,$00,$02,$00,$28
+  .byte $08,$13,$02,$28,$00
+  .byte $08,$12,$02,$20,$08
+  .byte $08,$11,$02,$18,$10
+  .byte $08,$10,$02,$10,$18
+  .byte $08,$0f,$02,$08,$20
+  .byte $08,$0e,$02,$00,$28
+  .byte $10,$25,$02,$28,$00
+  .byte $10,$24,$02,$20,$08
+  .byte $10,$23,$02,$18,$10
+  .byte $10,$22,$02,$10,$18
+  .byte $10,$21,$02,$08,$20
+  .byte $10,$20,$02,$00,$28
+  .byte $18,$35,$02,$20,$08
+  .byte $18,$34,$02,$18,$10
+  .byte $18,$33,$02,$10,$18
+  .byte $18,$32,$00,$08,$20
+greatgrayowl_fly1_reversed:
+  .byte $16
+  .byte 10,$40,$03,$10,$00
+  .byte 10,$41,$03,$18,$00
+  .byte $00,$0a,$00,$20,$08
+  .byte $00,$09,$02,$18,$10
+  .byte $00,$08,$02,$10,$18
+  .byte $00,$07,$00,$08,$20
+  .byte $08,$19,$02,$28,$00
+  .byte $08,$18,$02,$20,$08
+  .byte $08,$17,$02,$18,$10
+  .byte $08,$16,$02,$10,$18
+  .byte $08,$15,$02,$08,$20
+  .byte $08,$14,$02,$00,$28
+  .byte $10,$2b,$02,$28,$00
+  .byte $10,$2a,$02,$20,$08
+  .byte $10,$29,$02,$18,$10
+  .byte $10,$28,$02,$10,$18
+  .byte $10,$27,$02,$08,$20
+  .byte $10,$26,$02,$00,$28
+  .byte $18,$39,$02,$20,$08
+  .byte $18,$38,$02,$18,$10
+  .byte $18,$37,$02,$10,$18
+  .byte $18,$36,$00,$08,$20
+greatgrayowl_fly2_reversed:
+  .byte $18
+  .byte 11,$40,$03,$10,$00
+  .byte 11,$41,$03,$18,$00
+  .byte $00,$0b,$00,$20,$08
+  .byte $00,$0d,$02,$18,$10
+  .byte $00,$0c,$02,$10,$18
+  .byte $00,$0b,$00,$08,$20
+  .byte $08,$1f,$02,$28,$00
+  .byte $08,$1e,$02,$20,$08
+  .byte $08,$1d,$02,$18,$10
+  .byte $08,$1c,$02,$10,$18
+  .byte $08,$1b,$02,$08,$20
+  .byte $08,$1a,$02,$00,$28
+  .byte $10,$31,$02,$28,$00
+  .byte $10,$30,$02,$20,$08
+  .byte $10,$2f,$02,$18,$10
+  .byte $10,$2e,$02,$10,$18
+  .byte $10,$2d,$02,$08,$20
+  .byte $10,$2c,$02,$00,$28
+  .byte $18,$3f,$02,$28,$00
+  .byte $18,$3e,$02,$20,$08
+  .byte $18,$3d,$02,$18,$10
+  .byte $18,$3c,$02,$10,$18
+  .byte $18,$3b,$02,$08,$20
+  .byte $18,$3a,$02,$00,$28
 greatgrayowl_perch0:
-  .byte $0b
+  .byte $0d
+  .byte 5,$40,$03,$ff,$00
+  .byte 5,$41,$03,$07,$00
   .byte $00,$42,$02,$00,$10
   .byte $00,$43,$02,$08,$08
   .byte $08,$44,$02,$00,$10
@@ -86,11 +170,39 @@ greatgrayowl_perch0:
   .byte $18,$4c,$02,$10,$00
 
 greatgrayowl_fly:
-  .byte $0a, $08
+  .byte $01, $40
   .word greatgrayowl_fly0
+  .word greatgrayowl_fly0_reversed
+  .word greatgrayowl_fly0
+  .word greatgrayowl_fly0_reversed
+  .word greatgrayowl_fly0
+  .word greatgrayowl_fly0_reversed
+  .word greatgrayowl_fly0
+  .word greatgrayowl_fly0_reversed
   .word greatgrayowl_fly1
+  .word greatgrayowl_fly1_reversed
+  .word greatgrayowl_fly1
+  .word greatgrayowl_fly1_reversed
+  .word greatgrayowl_fly1
+  .word greatgrayowl_fly1_reversed
+  .word greatgrayowl_fly1
+  .word greatgrayowl_fly1_reversed
   .word greatgrayowl_fly2
+  .word greatgrayowl_fly2_reversed
+  .word greatgrayowl_fly2
+  .word greatgrayowl_fly2_reversed
+  .word greatgrayowl_fly2
+  .word greatgrayowl_fly2_reversed
+  .word greatgrayowl_fly2
+  .word greatgrayowl_fly2_reversed
   .word greatgrayowl_fly1
+  .word greatgrayowl_fly1_reversed
+  .word greatgrayowl_fly1
+  .word greatgrayowl_fly1_reversed
+  .word greatgrayowl_fly1
+  .word greatgrayowl_fly1_reversed
+  .word greatgrayowl_fly1
+  .word greatgrayowl_fly1_reversed
 greatgrayowl_outside_cage:
   .byte $0a, $02
   .word greatgrayowl_perch0
