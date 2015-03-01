@@ -9,7 +9,6 @@
 .include "npc_constants.inc"
 .include "anglerfish_constants.inc"
 .include "monolith_constants.inc"
-.include "traproom_constants.inc"
 .include "rescueowl_constants.inc"
 .include "spotlight_puzzle_constants.inc"
 .include "treasure_chest_constants.inc"
@@ -516,11 +515,11 @@ dungeon_0_0_entity_instances:
                                           0, 2
 
   .byte entity_index_monolith, 14, 8, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_UNLOCKED, 0, \
+                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, 0, \
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_1_0_w, \
                                           0, 5
-  .byte entity_index_traproom, (0 * 16), (0 * 15), 0, TRAPROOM_PARAMS, TRAPROOM_STATE_RAISE_MONOLITH_PAIR
+  .byte entity_index_traproom, (0 * 16), (0 * 15), 0, 0
 
 dungeon_1_0_entity_instances:
   .byte 2
@@ -617,11 +616,11 @@ dungeon_2_1_entity_instances:
                                           0, 4
 
   .byte entity_index_monolith, 46, 23, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_UNLOCKED, 0, \
+                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, 0, \
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_3_1_w, \
                                           0, 5
-  .byte entity_index_traproom, (2 * 16), (1 * 15), 0, TRAPROOM_PARAMS, TRAPROOM_STATE_RAISE_MONOLITHS_ALIGNED
+  .byte entity_index_traproom, (2 * 16), (1 * 15), 0, 0
 
 dungeon_3_1_entity_instances:
   .byte 3
@@ -716,11 +715,11 @@ dungeon_0_3_entity_instances:
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_0_2_s, \
                                           0, 2
   .byte entity_index_monolith, 7, 59, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_UNLOCKED, 0, \
+                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, 0, \
                                           MONOLITH_DIRECTION_SOUTH, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_meadow3_dungeon_entrance, \
                                           0, 2
-  .byte entity_index_traproom, 0, (3*15), 0, TRAPROOM_PARAMS, TRAPROOM_STATE_RAISE_MONOLITHS_ALIGNED
+  .byte entity_index_traproom, 0, (3*15), 0, 0
 
 dungeon_1_3_entity_instances:
   .byte 4
@@ -732,11 +731,11 @@ dungeon_1_3_entity_instances:
                                           0, 2
 
   .byte entity_index_monolith, 30, 53, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_UNLOCKED, 0, \
+                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, 0, \
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_2_3_w, \
                                           0, 5
-  .byte entity_index_traproom, (1 * 16), (3 * 15), TRAPROOM_PARAMS, TRAPROOM_STATE_RAISE_MONOLITH_PAIR
+  .byte entity_index_traproom, (1 * 16), (3 * 15), 0
 
 dungeon_2_3_entity_instances:
   .byte 5
@@ -749,11 +748,11 @@ dungeon_2_3_entity_instances:
                                           0, 4
 
   .byte entity_index_monolith, 46, 56, 0, MONOLITH_PARAMS, \
-                                          MONOLITH_TYPE_UNLOCKED, 0, \
+                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, 0, \
                                           MONOLITH_DIRECTION_EAST, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon_3_3_w, \
                                           0, 5
-  .byte entity_index_traproom, (2 * 16), (3 * 15), 0, TRAPROOM_PARAMS, TRAPROOM_STATE_RAISE_MONOLITH_PAIR
+  .byte entity_index_traproom, (2 * 16), (3 * 15), 0, 0
 
 dungeon_3_3_entity_instances:
   .byte 4
