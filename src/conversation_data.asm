@@ -26,7 +26,8 @@
     silmaran_encounter_scene, \
     rescue_greathornedowl, \
     dungeon_statue_deny_entry, \
-    rescue_siberianeagleowl
+    rescue_siberianeagleowl, \
+    rescue_greatgrayowl
 
 conversations_lo:
   .lobytes conversations
@@ -265,3 +266,22 @@ rescue_siberianeagleowl:
   .byte NL,2, "BUT FIRST,",TM,20," PLEASE WAIT A"
   .byte NL,3, "MOMENT WHILE I WARM UP.",TM,200
   .byte NL,4, "OK,",TM,20," I AM READY NOW.",WT,EC
+
+rescue_greatgrayowl:
+  .byte    1, "ADLANNIEL.",TM,30," I HAVE FELT"
+  .byte NL,2, "YOUR PRESENCE DRAW NEAR.",TM,30
+  .byte NL,3, "THANK YOU FOR RESCUING ME.",TM,30
+  .byte NL,4, "SOUTH OF THIS GREAT",WT,EP
+
+  .byte NL,1, "MOUNTAIN,",TM,20," ACROSS A GULF,",TM,20
+  .byte NL,2, "IS A BEAUTIFUL ISLAND.",TM,30
+  .byte NL,3, "AT THE CENTER OF IT IS A"
+  .byte NL,4, "TEMPLE.",TM,30," I FEEL STRONGLY",WT,EP
+
+  .byte NL,1, "THAT ANOTHER OF MY PEERS"
+  .byte NL,2, "IS CAPTIVE THERE.",TM,20," I WILL"
+  .byte NL,3, "BE HONORED TO GRASP YOUR"
+  .byte NL,4, "HEROIC SHOULDERS AND FLY",WT,EP
+
+  .byte NL,1, "YOU THERE.",WT,EC
+

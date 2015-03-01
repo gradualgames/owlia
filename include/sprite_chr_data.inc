@@ -53,6 +53,7 @@ sprite_chr_group_index_siberianeagleowl
 sprite_chr_group_index_horseshoe_crab
 sprite_chr_group_index_seahorse
 sprite_chr_group_index_crab_boss
+sprite_chr_group_index_greatgrayowl
 .endenum
 
 sprite_chr_group_bank_intro_cut_scene_great_owls = 8
@@ -100,5 +101,6 @@ sprite_chr_group_bank_siberianeagleowl = 8
 sprite_chr_group_bank_horseshoe_crab = 8
 sprite_chr_group_bank_seahorse = 8
 sprite_chr_group_bank_crab_boss = 24
+sprite_chr_group_bank_greatgrayowl = 24
 
 .endif

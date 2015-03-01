@@ -48,7 +48,8 @@
   siberianeagleowl_chr, \
   horseshoe_crab_chr, \
   seahorse_chr, \
-  crab_boss_chr
+  crab_boss_chr, \
+  greatgrayowl_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -101,6 +102,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_horseshoe_crab
   .byte sprite_chr_group_bank_seahorse
   .byte sprite_chr_group_bank_crab_boss
+  .byte sprite_chr_group_bank_greatgrayowl
 
 .segment "ROM08"
 
@@ -240,3 +242,6 @@ seahorse_chr:
 
 crab_boss_chr:
 .incbin "crab_boss.chr"
+
+greatgrayowl_chr:
+.incbin "greatgrayowl.chr"
