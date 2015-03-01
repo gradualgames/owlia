@@ -827,7 +827,7 @@ tundra3_entity_instances:
   .byte entity_index_jellyfish, 33, 51, 0, 0
   .byte entity_index_jellyfish, 45, 4, 0, 0
   .byte entity_index_jellyfish, 56, 24, 0, 0
-  .byte entity_index_dungeon_entrance_statue, 43, 25, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <20000, >20000
+  .byte entity_index_dungeon_entrance_statue, 43, 25, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <16000, >16000
   .byte entity_index_treasure_chest, 17, 30, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon2_0_0_entity_instances:
@@ -1161,7 +1161,7 @@ mountain1_entity_instances:
   .byte entity_index_octopus, 9, 40, 0, 0
   .byte entity_index_octopus, 10, 8, 0, 0
   .byte entity_index_octopus, 57, 18, 0, 0
-  .byte entity_index_dungeon_entrance_statue, 44, 31, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <30000, >30000
+  .byte entity_index_dungeon_entrance_statue, 44, 31, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <26000, >26000
 
 cave_top_left_entity_instances:
   .byte 3
