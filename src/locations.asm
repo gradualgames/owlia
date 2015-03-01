@@ -176,7 +176,9 @@
     dungeon3_boss_area_entrance, \
     dungeon3_boss_area_owl_dungeon,\
     island1_entrance, \
+    island1_north_exit, \
     island2_entrance, \
+    island2_north_exit, \
     temple1_entrance
 
 locations_lo:
@@ -2171,11 +2173,23 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   0, 50, 4, 57,\
                   0, 0, 0, ENTITY_DIRECTION_UP
 
+island1_north_exit:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                  area_index_island1, island1_sprite_chr_groups, island1_entity_instances, island_palette,\
+                  8, 0, 16, 0,\
+                  0, 0, 0, ENTITY_DIRECTION_DOWN
+
 island2_entrance:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   area_index_island2, island2_sprite_chr_groups, island2_entity_instances, island_palette,\
                   4, 50, 13, 61,\
                   0, 0, 0, ENTITY_DIRECTION_UP
+
+island2_north_exit:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                  area_index_island2, island2_sprite_chr_groups, island2_entity_instances, island_palette,\
+                  6, 0, 14, 0,\
+                  0, 0, 0, ENTITY_DIRECTION_DOWN
 
 temple1_entrance:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
