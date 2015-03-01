@@ -327,6 +327,20 @@ MAP_DATA_BANK3 = 30
 .global island1_metatile_table_top_right_tiles
 .global island1_metatile_table_top_left_tiles
 
+.global island2_palette
+.global island2_map
+.global island2_big_metatile_table_bottom_right
+.global island2_big_metatile_table_bottom_left
+.global island2_big_metatile_table_top_right
+.global island2_big_metatile_table_top_left
+.global island2_metatile_table_properties
+.global island2_metatile_table_params
+.global island2_metatile_table_attributes
+.global island2_metatile_table_bottom_right_tiles
+.global island2_metatile_table_bottom_left_tiles
+.global island2_metatile_table_top_right_tiles
+.global island2_metatile_table_top_left_tiles
+
 .global temple1_palette
 .global temple1_map
 .global temple1_big_metatile_table_bottom_right

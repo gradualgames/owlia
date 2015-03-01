@@ -176,6 +176,7 @@
     dungeon3_boss_area_entrance, \
     dungeon3_boss_area_owl_dungeon,\
     island1_entrance, \
+    island2_entrance, \
     temple1_entrance
 
 locations_lo:
@@ -416,6 +417,15 @@ dungeon3_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_cage
 
 island1_sprite_chr_groups:
+  .byte 6   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+
+island2_sprite_chr_groups:
   .byte 6   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -1569,6 +1579,9 @@ dungeon3_boss_owl_dungeon_entity_instances:
 island1_entity_instances:
   .byte 0
 
+island2_entity_instances:
+  .byte 0
+
 temple1_entity_instances:
   .byte 0
 
@@ -2156,6 +2169,12 @@ island1_entrance:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   area_index_island1, island1_sprite_chr_groups, island1_entity_instances, island_palette,\
                   0, 50, 4, 57,\
+                  0, 0, 0, ENTITY_DIRECTION_UP
+
+island2_entrance:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                  area_index_island2, island2_sprite_chr_groups, island2_entity_instances, island_palette,\
+                  4, 50, 13, 61,\
                   0, 0, 0, ENTITY_DIRECTION_UP
 
 temple1_entrance:

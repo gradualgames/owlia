@@ -37,6 +37,7 @@
     dungeon3_area, \
     dungeon3_boss_area, \
     island1_area, \
+    island2_area, \
     temple1_area
 
 areas_lo:
@@ -741,6 +742,36 @@ island1_area:
   .word 0 ;attribute_patches_address
 
 island1_area_bg_chr_groups:
+  .byte 3  ;count
+  .byte BG_CHR_DATA_BANK4
+  .word palm_trees_chr
+  .byte BG_CHR_DATA_BANK4
+  .word sand_chr
+  .byte BG_CHR_DATA_BANK4
+  .word shore_chr
+
+island2_area:
+  .byte MAP_DATA_BANK3
+  .byte CONVERSATIONS_BANK
+  .word island2_area_bg_chr_groups
+  .word hero_theme
+  .byte $00 ;textbox_attribute
+  .word island2_map
+  .word island2_metatile_table_properties
+  .word island2_metatile_table_params
+  .word island2_metatile_table_attributes
+  .word island2_metatile_table_top_left_tiles
+  .word island2_metatile_table_top_right_tiles
+  .word island2_metatile_table_bottom_left_tiles
+  .word island2_metatile_table_bottom_right_tiles
+  .word island2_big_metatile_table_top_left
+  .word island2_big_metatile_table_top_right
+  .word island2_big_metatile_table_bottom_left
+  .word island2_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
+
+island2_area_bg_chr_groups:
   .byte 3  ;count
   .byte BG_CHR_DATA_BANK4
   .word palm_trees_chr

@@ -399,6 +399,23 @@ island1_big_metatile_table_bottom_left = island1_data::big_metatile_table_bottom
 island1_big_metatile_table_bottom_right = island1_data::big_metatile_table_bottom_right
 island1_map = island1_data::map
 
+.scope island2_data
+.include "island2.inc"
+.endscope
+
+island2_metatile_table_properties = island2_data::metatile_table_properties
+island2_metatile_table_params = island2_data::metatile_table_params
+island2_metatile_table_attributes = island2_data::metatile_table_attributes
+island2_metatile_table_top_left_tiles = island2_data::metatile_table_top_left_tiles
+island2_metatile_table_top_right_tiles = island2_data::metatile_table_top_right_tiles
+island2_metatile_table_bottom_left_tiles = island2_data::metatile_table_bottom_left_tiles
+island2_metatile_table_bottom_right_tiles = island2_data::metatile_table_bottom_right_tiles
+island2_big_metatile_table_top_left = island2_data::big_metatile_table_top_left
+island2_big_metatile_table_top_right = island2_data::big_metatile_table_top_right
+island2_big_metatile_table_bottom_left = island2_data::big_metatile_table_bottom_left
+island2_big_metatile_table_bottom_right = island2_data::big_metatile_table_bottom_right
+island2_map = island2_data::map
+
 .scope temple1_data
 .include "temple1.inc"
 .endscope
