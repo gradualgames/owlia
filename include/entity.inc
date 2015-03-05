@@ -431,4 +431,77 @@ flash_state_machine_not_running:
 
 .endmacro
 
+;assumes the entity has _lo, _hi appended to variable.
+.macro lda16 variable, value
+  lda #<value
+  sta .ident(.concat(.string(variable), "_lo")),x
+  lda #>value
+  sta .ident(.concat(.string(variable), "_hi")),x
+.endmacro
+
+;assumes the entity has _lo, _hi, and _fine appended to variable.
+.macro lda24 variable, value
+  lda #<value
+  sta .ident(.concat(.string(variable), "_fine")),x
+  lda #>value
+  sta .ident(.concat(.string(variable), "_lo")),x
+  lda #^value
+  sta .ident(.concat(.string(variable), "_hi")),x
+.endmacro
+
+;assumes the entity has _lo, _hi appended to source and destination identifiers
+.macro move16 source, destination
+
+  lda .ident(.concat(.string(source), "_lo")),x
+  sta .ident(.concat(.string(destination), "_lo")),x
+  lda .ident(.concat(.string(source), "_hi")),x
+  sta .ident(.concat(.string(destination), "_hi")),x
+
+.endmacro
+
+;assumes the entity has _lo, _hi appended to variable and that acceleration is
+;a constant
+.macro add_acceleration variable, acceleration
+
+  clc
+  lda .ident(.concat(.string(variable), "_lo")),x
+  adc #<acceleration
+  sta .ident(.concat(.string(variable), "_lo")),x
+  lda .ident(.concat(.string(variable), "_hi")),x
+  adc #>acceleration
+  sta .ident(.concat(.string(variable), "_hi")),x
+
+.endmacro
+
+;assumes the entity has _lo, _hi, and _fine appended to variable identifier
+;assumes the entity has _lo, _hi appended to velocity identifier
+.macro add_velocity variable, velocity
+
+  .scope
+  lda #0
+  sta b0
+
+  lda .ident(.concat(.string(velocity), "_hi")),x
+  bpl sign_extend_positive
+sign_extend_negative:
+  lda #$ff
+  sta b0
+sign_extend_positive:
+
+  sec
+  lda .ident(.concat(.string(variable), "_fine")),x
+  sbc .ident(.concat(.string(velocity), "_lo")),x
+  sta .ident(.concat(.string(variable), "_fine")),x
+
+  lda .ident(.concat(.string(variable), "_lo")),x
+  sbc .ident(.concat(.string(velocity), "_hi")),x
+  sta .ident(.concat(.string(variable), "_lo")),x
+
+  lda .ident(.concat(.string(variable), "_hi")),x
+  sbc b0
+  sta .ident(.concat(.string(variable), "_hi")),x
+  .endscope
+
+.endmacro
+
 .endif
