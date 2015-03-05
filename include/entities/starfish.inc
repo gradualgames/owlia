@@ -2,13 +2,16 @@
 .ifndef STARFISH_INC
 STARFISH_INC = 1
 
-STARFISH_WIDTH = $0f
-STARFISH_HEIGHT = $0f
+STARFISH_INITIAL_HEALTH = 3
+STARFISH_WIDTH = 23
+STARFISH_HEIGHT = 15
 STARFISH_RISE_ACCELERATION = -5
 STARFISH_RISE_LENGTH = 50
 STARFISH_FLOAT_ACCELERATION = 25
 STARFISH_FLOAT_ALTITUDE = 25
 STARFISH_MEANDER_VELOCITY = 70
+STARFISH_ATTACKED_LENGTH = 20
+STARFISH_KNOCKBACK_LENGTH = 20
 
 starfish_x_lo = entity_local0
 starfish_x_hi = entity_local1
@@ -27,6 +30,9 @@ starfish_altitude_velocity_lo = entity_local13
 starfish_altitude_velocity_hi = entity_local14
 starfish_state_counter = entity_local15
 starfish_meander_direction = entity_local16
+starfish_flash_counter = entity_local17
+starfish_knockback_counter = entity_local18
+starfish_health = entity_local19
 
 define_lohi_tables \
   starfish_meander_x_velocity, \
@@ -109,6 +115,11 @@ starfish_state_init:
 
   lda #0
   sta starfish_meander_direction,x
+  sta starfish_flash_counter,x
+  sta starfish_knockback_counter,x
+
+  lda #STARFISH_INITIAL_HEALTH
+  sta starfish_health,x
 
   jsr position_starfish
 
@@ -122,6 +133,8 @@ starfish_state_init:
   rts
 
 starfish_state_rest:
+
+  jsr starfish_combat
 
   .scope
   dec starfish_state_counter,x
@@ -139,6 +152,8 @@ do_not_transition_yet:
   rts
 
 starfish_state_rise:
+
+  jsr starfish_combat
 
   .scope
   dec starfish_state_counter,x
@@ -161,6 +176,8 @@ do_not_transition_yet:
   rts
 
 starfish_state_float:
+
+  jsr starfish_combat
 
   dec starfish_state_counter,x
   lda starfish_state_counter,x
@@ -209,6 +226,13 @@ done:
   jsr entity_update_animation
 
   rts
+
+.proc starfish_combat
+
+  entity_combat #STARFISH_ATTACKED_LENGTH, #STARFISH_KNOCKBACK_LENGTH, starfish_flash_counter, starfish_knockback_counter, starfish_health, starfish_meander_direction
+  rts
+
+.endproc
 
 .proc starfish_move
 
