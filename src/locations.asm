@@ -419,31 +419,37 @@ dungeon3_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_cage
 
 island1_sprite_chr_groups:
-  .byte 6   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_starfish
+  .byte sprite_chr_group_index_tunicate
 
 island2_sprite_chr_groups:
-  .byte 6   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_starfish
+  .byte sprite_chr_group_index_tunicate
 
 temple1_sprite_chr_groups:
-  .byte 6   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_starfish
+  .byte sprite_chr_group_index_tunicate
 
 ;****************************************************************
 ;Entity instance sets
@@ -1579,7 +1585,9 @@ dungeon3_boss_owl_dungeon_entity_instances:
   .byte entity_index_rescueowl, 23, 4, 0, RESCUEOWL_PARAMS, RESCUEOWL_TYPE_GREATGRAYOWL
 
 island1_entity_instances:
-  .byte 0
+  .byte 2
+  .byte entity_index_starfish, 4, 56, 0, 0
+  .byte entity_index_tunicate, 4, 58, 0, 0
 
 island2_entity_instances:
   .byte 0
@@ -1698,7 +1706,7 @@ dungeon3_boss_owl_dungeon_palette:
 
 island_palette:
   .byte $37,$0e,$09,$19,$37,$0e,$09,$18,$37,$09,$18,$20,$37,$21,$31,$20
-  .byte $37,$0e,$06,$36,$37,$0e,$18,$20,$37,$0e,$07,$17,$37,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$0e,$0e
   .byte 14,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte 14,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte 14,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME

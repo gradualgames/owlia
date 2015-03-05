@@ -49,7 +49,9 @@
   horseshoe_crab_chr, \
   seahorse_chr, \
   crab_boss_chr, \
-  greatgrayowl_chr
+  greatgrayowl_chr, \
+  starfish_chr, \
+  tunicate_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -103,6 +105,8 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_seahorse
   .byte sprite_chr_group_bank_crab_boss
   .byte sprite_chr_group_bank_greatgrayowl
+  .byte sprite_chr_group_bank_starfish
+  .byte sprite_chr_group_bank_tunicate
 
 .segment "ROM08"
 
@@ -245,3 +249,9 @@ crab_boss_chr:
 
 greatgrayowl_chr:
 .incbin "greatgrayowl.chr"
+
+starfish_chr:
+.incbin "starfish.chr"
+
+tunicate_chr:
+.incbin "tunicate.chr"

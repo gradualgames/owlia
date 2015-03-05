@@ -162,4 +162,7 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global greatgrayowl_outside_cage
 .global greatgrayowl_fly
 
+.global starfish
+.global tunicate
+
 .endif

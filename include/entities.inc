@@ -52,6 +52,8 @@ entity_index_seahorse
 entity_index_crab_boss_body
 entity_index_crab_boss_pincer
 entity_index_crab_boss_eye
+entity_index_starfish
+entity_index_tunicate
 .endenum
 
 entity_update_bank_instance_placeholder = 4
@@ -95,6 +97,8 @@ entity_update_bank_seahorse = 5
 entity_update_bank_crab_boss_body = 5
 entity_update_bank_crab_boss_pincer = 5
 entity_update_bank_crab_boss_eye = 5
+entity_update_bank_starfish = 5
+entity_update_bank_tunicate = 5
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 7
@@ -137,5 +141,7 @@ entity_sprites_and_animations_bank_seahorse = 7
 entity_sprites_and_animations_bank_crab_boss_body = 7
 entity_sprites_and_animations_bank_crab_boss_pincer = 7
 entity_sprites_and_animations_bank_crab_boss_eye = 7
+entity_sprites_and_animations_bank_starfish = 7
+entity_sprites_and_animations_bank_tunicate = 7
 
 .endif

@@ -49,3 +49,5 @@
 .include "seahorse_sprites_and_animations.inc"
 .include "crab_boss_sprites_and_animations.inc"
 .include "greatgrayowl_sprites_and_animations.inc"
+.include "starfish_sprites_and_animations.inc"
+.include "tunicate_sprites_and_animations.inc"
