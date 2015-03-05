@@ -431,6 +431,15 @@ flash_state_machine_not_running:
 
 .endmacro
 
+.macro define_lohi_tables table_name, values
+
+.ident(.concat(.string(table_name), "_lo")):
+  .lobytes values
+.ident(.concat(.string(table_name), "_hi")):
+  .hibytes values
+
+.endmacro
+
 ;assumes the entity has _lo, _hi appended to variable.
 .macro lda16 variable, value
   lda #<value

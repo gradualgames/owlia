@@ -8,7 +8,7 @@ STARFISH_RISE_ACCELERATION = -5
 STARFISH_RISE_LENGTH = 50
 STARFISH_FLOAT_ACCELERATION = 25
 STARFISH_FLOAT_ALTITUDE = 25
-STARFISH_MEANDER_ACCELERATION = 5
+STARFISH_MEANDER_VELOCITY = 70
 
 starfish_x_lo = entity_local0
 starfish_x_hi = entity_local1
@@ -26,6 +26,21 @@ starfish_altitude_fine = entity_local12
 starfish_altitude_velocity_lo = entity_local13
 starfish_altitude_velocity_hi = entity_local14
 starfish_state_counter = entity_local15
+starfish_meander_direction = entity_local16
+
+define_lohi_tables \
+  starfish_meander_x_velocity, \
+  {STARFISH_MEANDER_VELOCITY, \
+  -STARFISH_MEANDER_VELOCITY, \
+   0, \
+   0}
+
+define_lohi_tables \
+  starfish_meander_y_velocity, \
+  {0, \
+  0, \
+  -STARFISH_MEANDER_VELOCITY, \
+  STARFISH_MEANDER_VELOCITY}
 
 .enum
 STARFISH_STATE_INIT
@@ -34,17 +49,11 @@ STARFISH_STATE_RISE
 STARFISH_STATE_FLOAT
 .endenum
 
-.define starfish_states \
-  starfish_state_init, \
-  starfish_state_rest, \
-  starfish_state_rise, \
-  starfish_state_float
-
-starfish_lo:
-  .lobytes starfish_states
-
-starfish_hi:
-  .hibytes starfish_states
+  define_lohi_tables starfish, \
+    {starfish_state_init, \
+    starfish_state_rest, \
+    starfish_state_rise, \
+    starfish_state_float}
 
 starfish_update:
 
@@ -98,6 +107,9 @@ starfish_state_init:
 
   lda16 starfish_altitude_velocity, 0
 
+  lda #0
+  sta starfish_meander_direction,x
+
   jsr position_starfish
 
   lda rand
@@ -149,6 +161,31 @@ do_not_transition_yet:
   rts
 
 starfish_state_float:
+
+  dec starfish_state_counter,x
+  lda starfish_state_counter,x
+  and #%01100000
+  beq :+
+  lda rand
+  and #%01100000
+  rol
+  rol
+  rol
+  rol
+  and #%00000011
+  sta starfish_meander_direction,x
+:
+
+  ldy starfish_meander_direction,x
+  lda starfish_meander_x_velocity_lo,y
+  sta starfish_x_velocity_lo,x
+  lda starfish_meander_x_velocity_hi,y
+  sta starfish_x_velocity_hi,x
+
+  lda starfish_meander_y_velocity_lo,y
+  sta starfish_y_velocity_lo,x
+  lda starfish_meander_y_velocity_hi,y
+  sta starfish_y_velocity_hi,x
 
   .scope
   sec
