@@ -135,7 +135,7 @@ monolith_state_fall_draw_patch_second_row:
   adc monolith_patch_offset_y_hi,x
   sta w9+1
 
-  jsr decode_nametable_patch_row
+  ;jsr decode_nametable_patch_row
 
   lda #MONOLITH_STATE_FALL_DRAW_PATCH_FIRST_ROW
   sta entity_state,x
@@ -173,7 +173,7 @@ monolith_state_fall_draw_patch_first_row:
   sbc #0
   sta w9+1
 
-  jsr decode_nametable_patch_row
+  ;jsr decode_nametable_patch_row
 
   lda #MONOLITH_STATE_FALL_DRAW_BG_PATCH_ROW
   sta entity_state,x
@@ -211,7 +211,7 @@ monolith_state_fall_draw_bg_patch_row:
   sbc #0
   sta w9+1
 
-  jsr decode_nametable_patch_row
+  ;jsr decode_nametable_patch_row
 
   clc
   lda monolith_patch_offset_y_lo,x
@@ -369,7 +369,7 @@ monolith_state_rise_draw_patch_first_row:
   adc #>(-16)
   sta w9+1
 
-  jsr decode_nametable_patch_row
+  ;jsr decode_nametable_patch_row
 
   sec
   lda monolith_patch_offset_y_lo,x
@@ -428,7 +428,7 @@ monolith_state_rise_draw_patch_second_row:
   adc #>(-8)
   sta w9+1
 
-  jsr decode_nametable_patch_row
+  ;jsr decode_nametable_patch_row
 
   lda #MONOLITH_STATE_RISE_DRAW_PATCH_FIRST_ROW
   sta entity_state,x
@@ -460,7 +460,7 @@ monolith_state_rise_draw_patch_third_row:
   adc monolith_patch_offset_y_hi,x
   sta w9+1
 
-  jsr decode_nametable_patch_row
+  ;jsr decode_nametable_patch_row
 
   lda #MONOLITH_STATE_RISE_DRAW_PATCH_SECOND_ROW
   sta entity_state,x
@@ -635,7 +635,7 @@ do_not_shake_screen:
   adc #0
   sta w9+1
 
-  jsr decode_nametable_patch_column
+  ;jsr decode_nametable_patch_column
 
   rts
 
@@ -684,7 +684,7 @@ do_not_shake_screen:
   adc #0
   sta w9+1
 
-  jsr decode_nametable_patch_column
+  ;jsr decode_nametable_patch_column
 
   rts
 
@@ -720,7 +720,7 @@ do_not_shake_screen:
   adc #>(-32)
   sta w9+1
 
-  jsr decode_nametable_patch_column
+  ;jsr decode_nametable_patch_column
 
   rts
 

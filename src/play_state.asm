@@ -2082,11 +2082,7 @@ done:
 
   jsr sprite_reset_next_sprite_address
 
-  jsr patch_frame_start
-
   jsr entity_update_all
-
-  jsr patch_frame_end
 
   switch_bank_ldy map_bank
   jsr update_camera
@@ -2122,11 +2118,7 @@ done:
 
   jsr sprite_clear_all
 
-  jsr patch_frame_start
-
   jsr entity_update_all
-
-  jsr patch_frame_end
 
   jsr draw_sprites
 
@@ -2173,8 +2165,6 @@ done:
   clear_vblank_done
   wait_vblank_done
 
-  jsr patch_frame_start
-
   ;update the monolith we are re-raising
   .scope
   lda state_control_params+play_state_control::monolith_index
@@ -2192,8 +2182,6 @@ done:
   ldx entity_index
   jsr indirect_jsr_w0
   .endscope
-
-  jsr patch_frame_end
 
   switch_bank_ldy #FAMILIAR_BANK
   jsr familiar_update

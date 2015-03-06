@@ -130,7 +130,7 @@ done_pausing:
 
   jsr clear_dynamic_single_screen_collision_field_bit
 
-  jsr decode_nametable_patch_row_and_poke_attribute
+  ;jsr decode_nametable_patch_row_and_poke_attribute
 
   .scope
   lda #entity_index_ice_shards_explosion

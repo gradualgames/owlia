@@ -346,18 +346,6 @@ dynamic_single_screen_collision_field: .res 32
 row_ready: .res 1
 column_ready: .res 1
 
-;These are used only by the patch module to record whether or not a row or
-;column has previously been decoded this frame. This was done because monoliths
-;re-use the row and column buffers to draw nametable patches. However, this is
-;an expensive operation sometimes causing dropped frames. As such, it was dangerous
-;to use row_ready and column_ready during monolith nametable patching because a row
-;or column might get consumed before all monoliths were finished updating their
-;row or column. By using this extra set of variables which do not get consumed by
-;vblank, we can safely set row_ready and column_ready based on these two values
-;once all entities are done updating on the current frame.
-patch_row_ready: .res 1
-patch_column_ready: .res 1
-
 ;stores a row of attributes decoded from the map but before being bit-twiddled
 ;into the actual attribute tables
 intermediate_attribute_row_buffer: .res 17
