@@ -1,17 +1,15 @@
 .include "ram.inc"
 
-.segment "BSS"
-
+.segment "SPRITE_RAM"
 ;****************************************************************
 ;Sprite RAM
 ;****************************************************************
-.segment "SPRITE_RAM"
 sprite: .res 256
 
+.segment "RAM"
 ;****************************************************************
 ;Variables relating to the state of sprite ram.
 ;****************************************************************
-.segment "RAM"
 next_sprite_address: .res 1
 sprites_ready: .res 1
 
@@ -336,13 +334,14 @@ map_height: .res 1
 ;additional collision information with doors, bombable ice_blocks, etc.
 dynamic_single_screen_collision_field: .res 32
 
+.segment "MAP_RAM"
 ;****************************************************************
 ;This segment contains data pertinent only to ppu upload routines
 ;for normal scrolling maps. This area of RAM is shared with the
 ;patch system, because they are mutually exclusive and never
 ;will step on one another.
 ;****************************************************************
-.segment "MAP_RAM"
+
 ;indicates to the map vblank routine that a row or a column has been prepared
 ;and is ready to be uploaded to the ppu according to the below parameters
 row_ready: .res 1
@@ -368,24 +367,14 @@ nametable_column_buffer: .res 30
 ;data to the ppu
 nametable_column_vram_offset: .res 2
 
-;****************************************************************
-;This segment contains data pertinent only to ppu upload routines
-;for performing nametable patching. This is used only in non-
-;scrolling dungeon areas where we are doing monolith animations.
-;This area of RAM is shared with MAP_RAM.
-;****************************************************************
-.segment "PATCH_RAM"
-patch_column_count: .res 1
-patch_column_offset: .res 1
-patch_column_buffer: .res 128
-
+.segment "STACK"
 ;****************************************************************
 ;The following variables all describe attribute table state and
 ;buffers to be uploaded. These were moved into the stack segment
 ;because they aren't big enough to corrupt the stack and give us
 ;a little extra breathing room.
 ;****************************************************************
-.segment "STACK"
+
 ;stores a row of attributes decoded from the map but before being bit-twiddled
 ;into the actual attribute tables
 intermediate_attribute_row_buffer: .res 17
@@ -415,3 +404,15 @@ attribute_column_offset: .res 1
 ;columns of 8 bytes are copied to the ppu
 attribute_table1: .res 64
 attribute_table2: .res 64
+
+.segment "PATCH_RAM"
+;****************************************************************
+;This segment contains data pertinent only to ppu upload routines
+;for performing nametable patching. This is used only in non-
+;scrolling dungeon areas where we are doing monolith animations.
+;This area of RAM is shared with MAP_RAM.
+;****************************************************************
+patch_column_count: .res 1
+patch_column_offset: .res 1
+patch_column_buffer: .res 128
+
