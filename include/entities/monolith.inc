@@ -88,6 +88,9 @@ monolith_state_fall_init:
   jsr monolith_play_slam_sound
 
   lda #0
+  sta monolith_state_counter,x
+
+  lda #0
   sta monolith_patch_row,x
 
   lda #MONOLITH_STATE_FALL
@@ -97,9 +100,14 @@ monolith_state_fall_init:
 
 monolith_state_fall:
 
+  .scope
+  inc monolith_state_counter,x
+  lda monolith_state_counter,x
+  and #1
+  beq delay_frame
+
   jsr monolith_draw
 
-  .scope
   inc monolith_patch_row,x
   lda monolith_patch_row,x
   cmp #5
@@ -113,6 +121,7 @@ monolith_state_fall:
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
 do_not_transition_yet:
+delay_frame:
   .endscope
 
   rts
@@ -122,6 +131,9 @@ monolith_state_rise_init:
   jsr monolith_play_slam_sound
 
   jsr monolith_make_impassable
+
+  lda #0
+  sta monolith_state_counter,x
 
   lda #4
   sta monolith_patch_row,x
@@ -133,9 +145,14 @@ monolith_state_rise_init:
 
 monolith_state_rise:
 
+  .scope
+  inc monolith_state_counter,x
+  lda monolith_state_counter,x
+  and #1
+  beq delay_frame
+
   jsr monolith_draw
 
-  .scope
   dec monolith_patch_row,x
   bpl do_not_transition_yet
 
@@ -145,6 +162,7 @@ monolith_state_rise:
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
 do_not_transition_yet:
+delay_frame:
   .endscope
 
   rts

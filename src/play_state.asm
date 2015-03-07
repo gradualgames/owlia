@@ -1319,8 +1319,6 @@ play_state_action_goto_location_group1:
 ;****************************************************************
 play_state_action_scrollto_location_group1:
 
-  safely_set_vblank_routine nametable_and_attribute_update_ppu
-
   ;clear single screen collision field in case any treasure chests or
   ;the like left flags in place
   jsr clear_dynamic_single_screen_collision_field
@@ -1352,12 +1350,16 @@ play_state_action_scrollto_location_group1:
   ;Run all frame logic for a single frame except taking user input
   ;to get all entities onscreen
   ;****************************************************************
+  safely_set_vblank_routine nametable_and_attribute_update_ppu
+
   jsr frame_update_no_controller_input
 
   ;now scroll to the new location
   jsr scroll_to_new_location
 
   jsr entity_kill_all_marked_for_kill
+
+  jsr load_vblank_routine
 
   ;now search for monoliths that may be in the hero's way configured
   ;for the opposite direction that had been passed into this action
