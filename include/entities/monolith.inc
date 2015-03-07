@@ -548,6 +548,19 @@ monolith_state_rise_using_columns_pause_one_frame:
 
 monolith_state_idle:
 
+  lda #<(8*20)
+  sta w0
+  lda #>(8*20)
+  sta w0+1
+
+  lda #<(8*12)
+  sta w1
+  lda #>(8*12)
+  sta w1+1
+
+  jsr patch_decode_foreground_revealing_background
+
+
   lda monolith_flags,x
   and #MONOLITH_TYPE_ISOLATE
   cmp #MONOLITH_TYPE_UNLOCKED

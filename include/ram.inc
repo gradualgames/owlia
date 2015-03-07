@@ -205,13 +205,6 @@ MAX_ENTITIES = 14
 .global row_ready
 .global column_ready
 
-.global intermediate_attribute_row_buffer ;16 byte buffer to contain attribute data for
-                                          ;each metatile in a row. Each byte is assumed
-                                          ;to consist of two identical nybbles. This
-                                          ;makes it easier to shift the attribute bits
-                                          ;into position for ORing back into the attribute
-                                          ;table.
-
 .global nametable_row_buffer        ;64 byte row buffer, contains tile data for a screen
                                     ;-wide metatile row
 
@@ -222,6 +215,13 @@ MAX_ENTITIES = 14
 .global name_table2_row_start_x     ;in nametable coordinates within the row buffer
 .global name_table2_row_length      ;in nametable coordinates within the row buffer
 .global name_table2_row_vram_offset ;actual vram offset to begin writing row buffer to
+
+.global nametable_column_buffer      ;60 byte column buffer, contains tile data for a screen
+                                     ;-tall metatile column
+.global nametable_column_vram_offset ;vram offset for where to start copying nametable column to
+
+.global patch_column_count  ;number of columns for patch system to upload on current frame
+.global patch_column_buffer
 
 .global attribute_table1            ;64 byte buffers which are used to invalidate/update
 .global attribute_table2            ;the attribute tables in vram.
@@ -238,12 +238,15 @@ MAX_ENTITIES = 14
 .global attribute_table1_row_vram_offset ;vram address to start writing attributes to from attribute table 1
 .global attribute_table2_row_vram_offset ;vram address to start writing attributes to from attribute table 2
 
+.global intermediate_attribute_row_buffer ;16 byte buffer to contain attribute data for
+                                          ;each metatile in a row. Each byte is assumed
+                                          ;to consist of two identical nybbles. This
+                                          ;makes it easier to shift the attribute bits
+                                          ;into position for ORing back into the attribute
+                                          ;table.
+
 .global intermediate_attribute_column_buffer ;15 byte buffer to contain attribute data for
                                              ;each metatile in a column.
-
-.global nametable_column_buffer      ;60 byte column buffer, contains tile data for a screen
-                                     ;-tall metatile column
-.global nametable_column_vram_offset ;vram offset for where to start copying nametable column to
 
 .global attribute_column_vram_offset ;vram offset for invalidated attribute column
 

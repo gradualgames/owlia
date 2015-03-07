@@ -546,6 +546,41 @@ done:
 
 .endproc
 
+;set the correct vblank routine based on whether the current
+;area is a non-scrolling dungeon cell or not.
+.proc load_vblank_routine
+
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::flags
+  lda (location_address),y
+  and #(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_TEST | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_TEST)
+  cmp #(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_TEST | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_TEST)
+  beq non_scrolling
+scrolling:
+
+  lda #0
+  sta row_ready
+  lda #0
+  sta column_ready
+
+  lda #1
+  sta hide_graphics_top
+
+  safely_set_vblank_routine nametable_and_attribute_update_ppu
+
+  jmp done
+non_scrolling:
+
+  jsr patch_frame_start
+
+  safely_set_vblank_routine patch_nametable_update_ppu
+
+done:
+
+  rts
+
+.endproc
+
 ;a list of action handlers for the play state. This
 ;must exactly reflect the actions enum in play_state.inc.
 .define play_state_action_handlers \
@@ -879,12 +914,7 @@ not_dungeon_entrance:
   jsr ppu_enable_palette_cycling
 
   ;initialize vblank routine
-  lda #0
-  sta row_ready
-  lda #0
-  sta column_ready
-
-  safely_set_vblank_routine nametable_and_attribute_update_ppu
+  jsr load_vblank_routine
 
 ;****************************************************************
 ;This branch location is the main game loop. It handles map
@@ -1212,15 +1242,7 @@ done:
   jsr ppu_enable_palette_cycling
 
   ;initialize vblank routine
-  lda #0
-  sta row_ready
-  lda #0
-  sta column_ready
-
-  lda #1
-  sta hide_graphics_top
-
-  safely_set_vblank_routine nametable_and_attribute_update_ppu
+  jsr load_vblank_routine
 
   ;make sure current action of play state is a no-op
   lda #ACTION_NOP
@@ -1296,6 +1318,8 @@ play_state_action_goto_location_group1:
 ;by the new location.
 ;****************************************************************
 play_state_action_scrollto_location_group1:
+
+  safely_set_vblank_routine nametable_and_attribute_update_ppu
 
   ;clear single screen collision field in case any treasure chests or
   ;the like left flags in place
@@ -1433,6 +1457,8 @@ walk_south:
   jmp done
 done:
   .endscope
+
+  jsr load_vblank_routine
 
   ;restore control to the player
   lda #$ff

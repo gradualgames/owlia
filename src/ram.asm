@@ -375,6 +375,8 @@ nametable_column_vram_offset: .res 2
 ;This area of RAM is shared with MAP_RAM.
 ;****************************************************************
 .segment "PATCH_RAM"
+patch_column_count: .res 1
+patch_column_buffer: .res 128
 
 ;****************************************************************
 ;The following variables all describe attribute table state and
