@@ -548,9 +548,9 @@ monolith_state_rise_using_columns_pause_one_frame:
 
 monolith_state_idle:
 
-  lda #<(8*21)
+  lda #<(8*25)
   sta w0
-  lda #>(8*21)
+  lda #>(8*25)
   sta w0+1
 
   lda #<(8*12)
@@ -560,9 +560,9 @@ monolith_state_idle:
 
   jsr patch_decode_foreground_revealing_background
 
-  lda #<(8*20)
+  lda #<(8*24)
   sta w0
-  lda #>(8*20)
+  lda #>(8*24)
   sta w0+1
 
   lda #<(8*12)

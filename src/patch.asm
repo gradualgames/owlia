@@ -125,6 +125,7 @@ vram_address = map_y
   inx
   sta patch_column_buffer,x
 
+  inx
   stx patch_column_offset
 
   ;we're done decoding current column, add it to the count
@@ -162,9 +163,11 @@ do_not_hide_graphics_top:
   set_ppu_2000_bit PPU0_ADDRESS_INCREMENT
   upload_ppu_2000
 
-  ldx #0
+  ;start at first byte
+  ldx #$ff
 next_column:
   ;read next column address header
+  inx
   lda patch_column_buffer,x
   sta ppu_2006+1
 
