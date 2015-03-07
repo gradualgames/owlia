@@ -16,18 +16,6 @@ mod30lut:
   .byte 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
 .endrepeat
 
-;Resets the patch column counter to zero.
-.proc patch_frame_start
-
-  lda #0
-  sta patch_column_count
-  lda #0
-  sta patch_column_offset
-
-  rts
-
-.endproc
-
 ;This routine decodes a foreground patch in front of
 ;a background patch at a specified height. In other words,
 ;the foreground patch slides overtop of the background

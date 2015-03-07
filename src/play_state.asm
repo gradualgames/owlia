@@ -571,7 +571,10 @@ scrolling:
   jmp done
 non_scrolling:
 
-  jsr patch_frame_start
+  lda #0
+  sta patch_column_count
+  lda #0
+  sta patch_column_offset
 
   safely_set_vblank_routine patch_nametable_update_ppu
 
