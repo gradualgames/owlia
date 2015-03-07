@@ -5,7 +5,13 @@
 ;****************************************************************
 ;Sprite RAM
 ;****************************************************************
+.segment "SPRITE_RAM"
 sprite: .res 256
+
+;****************************************************************
+;Variables relating to the state of sprite ram.
+;****************************************************************
+.segment "RAM"
 next_sprite_address: .res 1
 sprites_ready: .res 1
 
@@ -287,17 +293,6 @@ familiar_param_shield_circle_lut_index = familiar_param_b0
 familiar_param_homing_entity_index = familiar_param_b0
 
 ;****************************************************************
-;These variables keep track of the state of various PPU registers
-;at runtime. Using variables in RAM for this make it easier to
-;twiddle individual bits and then upload the entire byte
-;preserving state of flags we already set.
-;****************************************************************
-ppu_2000: .res 1
-ppu_2001: .res 1
-ppu_2005: .res 2
-ppu_2006: .res 2
-
-;****************************************************************
 ;This is used for palette fading. It is a translation of the
 ;currently loaded area palette based on a fade value from 0 to 4.
 ;****************************************************************
@@ -341,14 +336,17 @@ map_height: .res 1
 ;additional collision information with doors, bombable ice_blocks, etc.
 dynamic_single_screen_collision_field: .res 32
 
+;****************************************************************
+;This segment contains data pertinent only to ppu upload routines
+;for normal scrolling maps. This area of RAM is shared with the
+;patch system, because they are mutually exclusive and never
+;will step on one another.
+;****************************************************************
+.segment "MAP_RAM"
 ;indicates to the map vblank routine that a row or a column has been prepared
 ;and is ready to be uploaded to the ppu according to the below parameters
 row_ready: .res 1
 column_ready: .res 1
-
-;stores a row of attributes decoded from the map but before being bit-twiddled
-;into the actual attribute tables
-intermediate_attribute_row_buffer: .res 17
 
 ;stores a row of tiles that will be uploaded to the nametable
 nametable_row_buffer: .res 34
@@ -363,11 +361,31 @@ name_table2_row_length:  .res 1
 name_table1_row_vram_offset: .res 2
 name_table2_row_vram_offset: .res 2
 
-;copies of the attribute tables in vram. These are intended to hold the current
-;state of the attribute table (one row or column at a time) and individual rows or
-;columns of 8 bytes are copied to the ppu
-attribute_table1: .res 64
-attribute_table2: .res 64
+;stores a column of tiles for being uploaded to the ppu
+nametable_column_buffer: .res 30
+
+;the following variables describe how to upload a column of tiles and attribute
+;data to the ppu
+nametable_column_vram_offset: .res 2
+
+;****************************************************************
+;This segment contains data pertinent only to ppu upload routines
+;for performing nametable patching. This is used only in non-
+;scrolling dungeon areas where we are doing monolith animations.
+;This area of RAM is shared with MAP_RAM.
+;****************************************************************
+.segment "PATCH_RAM"
+
+;****************************************************************
+;The following variables all describe attribute table state and
+;buffers to be uploaded. These were moved into the stack segment
+;because they aren't big enough to corrupt the stack and give us
+;a little extra breathing room.
+;****************************************************************
+.segment "STACK"
+;stores a row of attributes decoded from the map but before being bit-twiddled
+;into the actual attribute tables
+intermediate_attribute_row_buffer: .res 17
 
 ;parameters describing how to copy the attribute row to the ppu
 attribute_table1_row_offset:  .res 1
@@ -385,13 +403,12 @@ attribute_table2_row_vram_offset: .res 2
 ;stores a column of attributes before being bit-twiddled into the attribute tables
 intermediate_attribute_column_buffer: .res 15
 
-;stores a column of tiles for being uploaded to the ppu
-nametable_column_buffer: .res 30
-
-;the following variables describe how to upload a column of tiles and attribute
-;data to the ppu
-nametable_column_vram_offset: .res 2
-
 attribute_column_vram_offset: .res 2
 
 attribute_column_offset: .res 1
+
+;copies of the attribute tables in vram. These are intended to hold the current
+;state of the attribute table (one row or column at a time) and individual rows or
+;columns of 8 bytes are copied to the ppu
+attribute_table1: .res 64
+attribute_table2: .res 64

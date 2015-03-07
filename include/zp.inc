@@ -40,6 +40,12 @@ ZP_INC = 1
 .globalzp w19
 .globalzp w20
 
+.globalzp ppu_2000
+.globalzp ppu_2001
+.globalzp ppu_2002
+.globalzp ppu_2005
+.globalzp ppu_2006
+
 .globalzp rand
 
 .globalzp spawned_entity

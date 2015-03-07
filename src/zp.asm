@@ -41,6 +41,17 @@ w18: .res 2
 w19: .res 2
 w20: .res 2
 
+;****************************************************************
+;These variables keep track of the state of various PPU registers
+;at runtime. Using variables in RAM for this make it easier to
+;twiddle individual bits and then upload the entire byte
+;preserving state of flags we already set.
+;****************************************************************
+ppu_2000: .res 1
+ppu_2001: .res 1
+ppu_2005: .res 2
+ppu_2006: .res 2
+
 rand: .res 1
 
 spawned_entity: .res 1

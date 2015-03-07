@@ -35,7 +35,7 @@ apu_square_2_old: .res 1
 song_address: .res 2
 sound_zp_end:
 
-.segment "BSS"
+.segment "RAM"
 
 sound_ram_start:
 song_base_address_volume_envelopes: .res 2

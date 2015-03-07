@@ -183,12 +183,6 @@ MAX_ENTITIES = 14
 
 .global familiar_param_homing_entity_index
 
-.global ppu_2000
-.global ppu_2001
-.global ppu_2002
-.global ppu_2005
-.global ppu_2006
-
 .global dynamic_palette
 .global dynamic_palette_brightness_level_bg
 .global dynamic_palette_brightness_level_spr
