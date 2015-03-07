@@ -5,31 +5,30 @@ TRAPROOM_INC = 1
 TRAPROOM_STATE_RAISE_MONOLITH_LENGTH = 20
 TRAPROOM_STATE_LOWER_MONOLITH_LENGTH = 20
 
-traproom_next_monolith = entity_local0
-traproom_state_counter = entity_local1
-traproom_trigger_rect_west_x_lo = entity_local2
-traproom_trigger_rect_west_x_hi = entity_local3
-traproom_trigger_rect_north_y_lo = entity_local4
-traproom_trigger_rect_north_y_hi = entity_local5
-traproom_trigger_rect_east_x_lo = entity_local6
-traproom_trigger_rect_east_x_hi = entity_local7
-traproom_trigger_rect_south_y_lo = entity_local8
-traproom_trigger_rect_south_y_hi = entity_local9
+traproom_state_counter = entity_local0
+traproom_trigger_rect_west_x_lo = entity_local1
+traproom_trigger_rect_west_x_hi = entity_local2
+traproom_trigger_rect_north_y_lo = entity_local3
+traproom_trigger_rect_north_y_hi = entity_local4
+traproom_trigger_rect_east_x_lo = entity_local5
+traproom_trigger_rect_east_x_hi = entity_local6
+traproom_trigger_rect_south_y_lo = entity_local7
+traproom_trigger_rect_south_y_hi = entity_local8
 
 .enum
 TRAPROOM_STATE_INIT
 TRAPROOM_STATE_WAIT_FOR_HERO_TO_ENTER_ROOM
 TRAPROOM_STATE_WAIT_FOR_ENEMIES_TO_BE_KILLED
-TRAPROOM_STATE_RAISE_MONOLITH
-TRAPROOM_STATE_LOWER_MONOLITH
+TRAPROOM_STATE_RAISE_MONOLITHS
+TRAPROOM_STATE_LOWER_MONOLITHS
 .endenum
 
 .define traproom_states \
   traproom_state_init, \
   traproom_state_wait_for_hero_to_enter_room, \
   traproom_state_wait_for_enemies_to_be_killed, \
-  traproom_state_raise_monolith,\
-  traproom_state_lower_monolith
+  traproom_state_raise_monoliths,\
+  traproom_state_lower_monoliths
 
 traproom_lo:
   .lobytes traproom_states
@@ -53,9 +52,6 @@ traproom_state_init:
 
   lda #0
   sta traproom_state_counter,x
-
-  lda #MAX_ENTITIES
-  sta traproom_next_monolith,x
 
   jsr traproom_compute_trigger_rect
 
@@ -117,46 +113,43 @@ traproom_state_wait_for_hero_to_enter_room:
   jsr geotests_rect_inside_rect
   bne traproom_not_triggered
 
-  jsr traproom_find_next_monolith
-
   lda #TRAPROOM_STATE_RAISE_MONOLITH_LENGTH
   sta traproom_state_counter,x
 
-  lda #TRAPROOM_STATE_RAISE_MONOLITH
+  lda #TRAPROOM_STATE_RAISE_MONOLITHS
   sta entity_state,x
 
 traproom_not_triggered:
 
   rts
 
-traproom_state_raise_monolith:
+traproom_state_raise_monoliths:
 
   .scope
   dec traproom_state_counter,x
   bne do_not_transition_yet
 
   .scope
-  ldy traproom_next_monolith,x
-  bmi no_more_monoliths_to_raise
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne skip_entity
 
   lda #MONOLITH_STATE_RISE_INIT
   sta entity_state,y
+skip_entity:
 
-  jsr traproom_find_next_monolith
+  dey
+  bpl next_entity
+  .endscope
 
-  lda #TRAPROOM_STATE_RAISE_MONOLITH_LENGTH
-  sta traproom_state_counter,x
-
-  lda #TRAPROOM_STATE_RAISE_MONOLITH
-  sta entity_state,x
-
-  jmp done
-
-no_more_monoliths_to_raise:
   lda #TRAPROOM_STATE_WAIT_FOR_ENEMIES_TO_BE_KILLED
   sta entity_state,x
-done:
-  .endscope
+
 do_not_transition_yet:
   .endscope
 
@@ -187,66 +180,24 @@ not_enemy:
   lda #TRAPROOM_STATE_LOWER_MONOLITH_LENGTH
   sta traproom_state_counter,x
 
-  lda #MAX_ENTITIES
-  sta traproom_next_monolith,x
-
-  jsr traproom_find_next_monolith
-
   ;switch to the corresponding "lower" state of this raise state. Assumed
   ;to be +1 from the raise state.
-  lda #TRAPROOM_STATE_LOWER_MONOLITH
+  lda #TRAPROOM_STATE_LOWER_MONOLITHS
   sta entity_state,x
 
 enemies_still_alive:
 
   rts
 
-traproom_state_lower_monolith:
+traproom_state_lower_monoliths:
 
   .scope
   dec traproom_state_counter,x
   bne do_not_transition_yet
 
   .scope
-  ldy traproom_next_monolith,x
-  bmi no_more_monoliths_to_lower
-
-  lda #MONOLITH_STATE_FALL_INIT
-  sta entity_state,y
-
-  jsr traproom_find_next_monolith
-
-  lda #TRAPROOM_STATE_LOWER_MONOLITH_LENGTH
-  sta traproom_state_counter,x
-
-  lda #TRAPROOM_STATE_LOWER_MONOLITH
-  sta entity_state,x
-
-  jmp done
-
-no_more_monoliths_to_lower:
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-done:
-  .endscope
-do_not_transition_yet:
-  .endscope
-
-  rts
-
-;searches for next monolith to raise or lower
-;will store index of found monolith or $ff if
-;none found.
-.proc traproom_find_next_monolith
-
-  ldy traproom_next_monolith,x
-  dey
-  bmi done
+  ldy #(MAX_ENTITIES-1)
 next_entity:
-
   lda entity_flags,y
   and #ENTITY_FLAGS_ALIVE_TEST
   beq skip_entity
@@ -254,19 +205,22 @@ next_entity:
   cmp #entity_index_monolith
   bne skip_entity
 
-  jmp done
-
+  lda #MONOLITH_STATE_FALL_INIT
+  sta entity_state,y
 skip_entity:
+
   dey
   bpl next_entity
-done:
+  .endscope
 
-  tya
-  sta traproom_next_monolith,x
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+do_not_transition_yet:
+  .endscope
 
   rts
-
-.endproc
 
 .proc traproom_compute_trigger_rect
 
