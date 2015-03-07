@@ -21,6 +21,9 @@ mod30lut:
 
   lda #0
   sta patch_column_count
+  lda #0
+  sta patch_column_offset
+
   rts
 
 .endproc
@@ -84,21 +87,45 @@ vram_address = map_y
   clc
   lda vram_address
   adc #0
-  sta patch_column_buffer
+  sta vram_address
   lda vram_address+1
   adc camera_nametable_hibyte
-  sta patch_column_buffer+1
+  sta vram_address+1
+
+  ;store the address the column should draw at in vram
+  ldx patch_column_offset
+  lda vram_address
+  sta patch_column_buffer,x
+
+  inx
+  lda vram_address+1
+  sta patch_column_buffer,x
 
   ;now store length in the current column
+  inx
   lda #6
-  sta patch_column_buffer+2
+  sta patch_column_buffer,x
+
+  inx
   lda #33
-  sta patch_column_buffer+3
-  sta patch_column_buffer+4
-  sta patch_column_buffer+5
-  sta patch_column_buffer+6
-  sta patch_column_buffer+7
-  sta patch_column_buffer+8
+  sta patch_column_buffer,x
+
+  inx
+  sta patch_column_buffer,x
+
+  inx
+  sta patch_column_buffer,x
+
+  inx
+  sta patch_column_buffer,x
+
+  inx
+  sta patch_column_buffer,x
+
+  inx
+  sta patch_column_buffer,x
+
+  stx patch_column_offset
 
   ;we're done decoding current column, add it to the count
   inc patch_column_count
@@ -135,25 +162,37 @@ do_not_hide_graphics_top:
   set_ppu_2000_bit PPU0_ADDRESS_INCREMENT
   upload_ppu_2000
 
-  lda patch_column_buffer
+  ldx #0
+next_column:
+  ;read next column address header
+  lda patch_column_buffer,x
   sta ppu_2006+1
-  lda patch_column_buffer+1
+
+  inx
+  lda patch_column_buffer,x
   sta ppu_2006
   upload_ppu_2006
 
-  ldy patch_column_buffer+2
-  ldx #3
+  ;read column length
+  inx
+  lda patch_column_buffer,x
+  tay
+  ;read column tiles and upload them to ppu
 next_tile:
 
+  inx
   lda patch_column_buffer,x
   sta $2007
 
-  inx
   dey
   bne next_tile
 
+  dec patch_column_count
+  bne next_column
+
   lda #0
   sta patch_column_count
+  sta patch_column_offset
 no_columns:
   .endscope
 

@@ -221,7 +221,8 @@ MAX_ENTITIES = 14
 .global nametable_column_vram_offset ;vram offset for where to start copying nametable column to
 
 .global patch_column_count  ;number of columns for patch system to upload on current frame
-.global patch_column_buffer
+.global patch_column_offset ;current offset to write next column to in the patch column buffer
+.global patch_column_buffer ;buffer of columns to draw
 
 .global attribute_table1            ;64 byte buffers which are used to invalidate/update
 .global attribute_table2            ;the attribute tables in vram.

@@ -376,6 +376,7 @@ nametable_column_vram_offset: .res 2
 ;****************************************************************
 .segment "PATCH_RAM"
 patch_column_count: .res 1
+patch_column_offset: .res 1
 patch_column_buffer: .res 128
 
 ;****************************************************************
