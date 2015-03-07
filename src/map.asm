@@ -2308,9 +2308,9 @@ done:
   rts
 .endproc
 
-s = 127 ;stationary
-v = 40  ;vertical
-h = 54  ;horizontal
+s = 140 ;stationary
+v = 54  ;vertical
+h = 66  ;horizontal
 d = 3   ;diagonal
 cycle_pad_lut1:
   .byte s, v, h, d

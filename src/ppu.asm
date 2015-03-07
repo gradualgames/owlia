@@ -43,7 +43,7 @@ do_not_hide_graphics_top:
 : dex
   bne :-
 
-  ldx #208
+  ldx #230
 : dex
   bne :-
 
@@ -586,7 +586,7 @@ do_not_hide_graphics_top:
   set_vblank_done
 
   ;pad CPU cycles for finely tuned graphics hiding
-  ldx #219
+  ldx #245
 : dex
   bne :-
 
