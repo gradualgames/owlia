@@ -205,21 +205,6 @@ next_fg_tile:
 
 no_fg_tiles:
 
-  ; ;now store length in the current column
-  ; inx
-  ; lda #6
-  ; sta patch_column_buffer,x
-
-  ; inx
-  ; lda #33
-  ; sta patch_column_buffer,x
-
-  ; inx
-  ; sta patch_column_buffer,x
-
-  ; inx
-  ; sta patch_column_buffer,x
-
   inx
   stx patch_column_offset
 
