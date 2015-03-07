@@ -217,10 +217,10 @@ do_not_shake_screen:
 
   sec
   lda entity_y_lo,x
-  sbc #<8
+  sbc #<MONOLITH_Y_OFFSET
   sta w1
   lda entity_y_hi,x
-  sbc #>8
+  sbc #>MONOLITH_Y_OFFSET
   sta w1+1
 
   far_call #AREAS_BANK, patch_decode_foreground_revealing_background
@@ -251,10 +251,10 @@ do_not_shake_screen:
 
   sec
   lda entity_y_lo,x
-  sbc #<8
+  sbc #<MONOLITH_Y_OFFSET
   sta w1
   lda entity_y_hi,x
-  sbc #>8
+  sbc #>MONOLITH_Y_OFFSET
   sta w1+1
 
   far_call #AREAS_BANK, patch_decode_foreground_revealing_background
