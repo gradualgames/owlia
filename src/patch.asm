@@ -36,16 +36,31 @@ mod30lut:
 ;expects b0 to be the background patch index for the current area
 ;expects b1 to be the foreground patch index for the current area
 ;expects b2 to be the desired column from which to decode
+;expects b3 to be the desired row at which to end bg drawing and start fg drawing
 ;expects w0 to be the map X coordinate at which to draw the column
 ;expects w1 to be the map Y coordinate at which to draw the column
 ;preserves contents of x register
 .proc patch_decode_foreground_revealing_background
+;8 bit params
 background_patch = b0
 foreground_patch = b1
 column = b2
+row = b3
+
+;8 bit vars
+patch_width = b4
+patch_height = b5
+counter = b6
+
+;16 bit params
 map_x = w0
 map_y = w1
+
+;16 bit vars
 vram_address = map_y
+nametable_patches_address = w2
+background_patch_address = w3
+foreground_patch_address = w4
 
   ;save registers
   txa
@@ -101,29 +116,121 @@ vram_address = map_y
   lda vram_address+1
   sta patch_column_buffer,x
 
-  ;now store length in the current column
+  ;get addresses of selected foreground and background patches
+  switch_bank_ldy #AREAS_BANK
+  ldy #area::nametable_patches_address
+  lda (area_address),y
+  sta nametable_patches_address
+  iny
+  lda (area_address),y
+  sta nametable_patches_address+1
+
+  lda background_patch
+  asl
+  tay
+  lda (nametable_patches_address),y
+  sta background_patch_address
+  iny
+  lda (nametable_patches_address),y
+  sta background_patch_address+1
+
+  lda foreground_patch
+  asl
+  tay
+  lda (nametable_patches_address),y
+  sta foreground_patch_address
+  iny
+  lda (nametable_patches_address),y
+  sta foreground_patch_address+1
+
+  ;get the height and width out of the background patch.
+  ldy #0
+  lda (background_patch_address),y
+  sta patch_width
+  iny
+  lda (background_patch_address),y
+  sta patch_height
+
+  ;we'll assume both the bg and fg column height are the same.
+  ;pick the height from the bg column and set it as the length of
+  ;the column we're drawing.
+
+  lda patch_height
   inx
-  lda #6
   sta patch_column_buffer,x
 
-  inx
-  lda #33
-  sta patch_column_buffer,x
+  ;now, we want to figure out which tiles to copy from the background patch
+  ;and which tiles to copy from the foreground patch based on the row.
+
+  lda row
+  beq no_bg_tiles
+
+  lda row
+  sta counter
+
+  clc
+  lda #2
+  adc column
+  tay
+next_bg_tile:
+  lda (background_patch_address),y
 
   inx
   sta patch_column_buffer,x
 
-  inx
-  sta patch_column_buffer,x
+  clc
+  tya
+  adc patch_width
+  tay
+
+  dec counter
+  bne next_bg_tile
+
+no_bg_tiles:
+
+  lda row
+  cmp patch_height
+  beq no_fg_tiles
+
+  sec
+  lda patch_height
+  sbc row
+  sta counter
+
+  clc
+  lda #2
+  adc column
+  tay
+next_fg_tile:
+  lda (foreground_patch_address),y
 
   inx
   sta patch_column_buffer,x
 
-  inx
-  sta patch_column_buffer,x
+  clc
+  tya
+  adc patch_width
+  tay
 
-  inx
-  sta patch_column_buffer,x
+  dec counter
+  bne next_fg_tile
+
+no_fg_tiles:
+
+  ; ;now store length in the current column
+  ; inx
+  ; lda #6
+  ; sta patch_column_buffer,x
+
+  ; inx
+  ; lda #33
+  ; sta patch_column_buffer,x
+
+  ; inx
+  ; sta patch_column_buffer,x
+
+  ; inx
+  ; sta patch_column_buffer,x
 
   inx
   stx patch_column_offset

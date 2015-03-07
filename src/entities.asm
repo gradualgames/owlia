@@ -28,6 +28,7 @@
 .include "mapper.inc"
 .include "slide_data.inc"
 .include "locations.inc"
+.include "areas.inc"
 .include "util.inc"
 
 .segment "ROM00"

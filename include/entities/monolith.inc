@@ -548,17 +548,21 @@ monolith_state_rise_using_columns_pause_one_frame:
 
 monolith_state_idle:
 
-  lda #<(8*25)
-  sta w0
-  lda #>(8*25)
-  sta w0+1
+  ;select bg patch
+  lda #2
+  sta b0
 
-  lda #<(8*12)
-  sta w1
-  lda #>(8*12)
-  sta w1+1
+  ;select fg patch
+  lda #0
+  sta b1
 
-  jsr patch_decode_foreground_revealing_background
+  ;select column
+  lda #0
+  sta b2
+
+  ;select row
+  lda #3
+  sta b3
 
   lda #<(8*24)
   sta w0
@@ -570,7 +574,35 @@ monolith_state_idle:
   lda #>(8*12)
   sta w1+1
 
-  jsr patch_decode_foreground_revealing_background
+  far_call #AREAS_BANK, patch_decode_foreground_revealing_background
+
+  ;select bg patch
+  lda #2
+  sta b0
+
+  ;select fg patch
+  lda #0
+  sta b1
+
+  ;select column
+  lda #1
+  sta b2
+
+  ;select row
+  lda #3
+  sta b3
+
+  lda #<(8*25)
+  sta w0
+  lda #>(8*25)
+  sta w0+1
+
+  lda #<(8*12)
+  sta w1
+  lda #>(8*12)
+  sta w1+1
+
+  far_call #AREAS_BANK, patch_decode_foreground_revealing_background
 
   lda monolith_flags,x
   and #MONOLITH_TYPE_ISOLATE
