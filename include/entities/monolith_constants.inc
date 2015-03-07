@@ -59,7 +59,7 @@ monolith_foreground_patch_index = entity_local5
 monolith_background_patch_index = entity_local6
 
 monolith_state_counter = entity_local7
-monolith_patch_step = entity_local8
+monolith_patch_row = entity_local8
 monolith_patch_column = entity_local9
 
 .endif

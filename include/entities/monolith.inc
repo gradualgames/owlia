@@ -88,7 +88,7 @@ monolith_state_fall_init:
   jsr monolith_play_slam_sound
 
   lda #0
-  sta monolith_patch_step,x
+  sta monolith_patch_row,x
 
   lda #MONOLITH_STATE_FALL
   sta entity_state,x
@@ -97,6 +97,14 @@ monolith_state_fall_init:
 
 monolith_state_fall:
 
+  jsr monolith_draw
+
+  .scope
+  inc monolith_patch_row,x
+  lda monolith_patch_row,x
+  cmp #5
+  bne do_not_transition_yet
+
   jsr monolith_make_passable
 
   lda #MONOLITH_SHAKE_SCREEN_COUNTER
@@ -104,6 +112,8 @@ monolith_state_fall:
 
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
+do_not_transition_yet:
+  .endscope
 
   rts
 
@@ -113,8 +123,8 @@ monolith_state_rise_init:
 
   jsr monolith_make_impassable
 
-  lda #0
-  sta monolith_patch_step,x
+  lda #4
+  sta monolith_patch_row,x
 
   lda #MONOLITH_STATE_RISE
   sta entity_state,x
@@ -123,11 +133,20 @@ monolith_state_rise_init:
 
 monolith_state_rise:
 
+  jsr monolith_draw
+
+  .scope
+  dec monolith_patch_row,x
+  bpl do_not_transition_yet
+
   lda #MONOLITH_SHAKE_SCREEN_COUNTER
   sta monolith_state_counter,x
 
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
+do_not_transition_yet:
+  .endscope
+
   rts
 
 monolith_state_idle:
@@ -172,6 +191,77 @@ do_not_shake_screen:
   .endscope
 
   rts
+
+.proc monolith_draw
+
+  ;select bg patch
+  lda monolith_background_patch_index,x
+  sta b0
+
+  ;select fg patch
+  lda monolith_foreground_patch_index,x
+  sta b1
+
+  ;select column
+  lda #0
+  sta b2
+
+  ;select row
+  lda monolith_patch_row,x
+  sta b3
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  sec
+  lda entity_y_lo,x
+  sbc #<8
+  sta w1
+  lda entity_y_hi,x
+  sbc #>8
+  sta w1+1
+
+  far_call #AREAS_BANK, patch_decode_foreground_revealing_background
+
+  ;select bg patch
+  lda monolith_background_patch_index,x
+  sta b0
+
+  ;select fg patch
+  lda monolith_foreground_patch_index,x
+  sta b1
+
+  ;select column
+  lda #1
+  sta b2
+
+  ;select row
+  lda monolith_patch_row,x
+  sta b3
+
+  clc
+  lda entity_x_lo,x
+  adc #<8
+  sta w0
+  lda entity_x_hi,x
+  adc #>8
+  sta w0+1
+
+  sec
+  lda entity_y_lo,x
+  sbc #<8
+  sta w1
+  lda entity_y_hi,x
+  sbc #>8
+  sta w1+1
+
+  far_call #AREAS_BANK, patch_decode_foreground_revealing_background
+
+  rts
+
+.endproc
 
 .proc monolith_make_passable
 
