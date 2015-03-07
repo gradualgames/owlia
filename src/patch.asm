@@ -234,6 +234,29 @@ no_fg_tiles:
 
 .endproc
 
+;a cycle pad lut for this ppu routine.
+cycle_pad_lut1:
+  .byte 255
+  .byte 255
+  .byte 230
+  .byte 255
+  .byte 175
+  .byte 255
+  .byte 255
+  .byte 255
+  .byte 65
+
+cycle_pad_lut2:
+  .byte 35
+  .byte 40
+  .byte 1
+  .byte 40
+  .byte 1
+  .byte 40
+  .byte 40
+  .byte 40
+  .byte 1
+
 ;This routine uploads a buffer of columns to the
 ;ppu. It only performs nametable updates, and is
 ;used exclusively for monolith animations.
@@ -253,6 +276,7 @@ do_not_hide_graphics_top:
 
   .scope
   lda patch_column_count
+  sta cycle_pad_lut_index
   beq no_columns
 
   set_ppu_2000_bit PPU0_ADDRESS_INCREMENT
@@ -341,6 +365,14 @@ sprites_not_ready:
   bne :-
 done:
   .endscope
+
+  ldy cycle_pad_lut_index
+  ldx cycle_pad_lut1,y
+: dex
+  bne :-
+  ldx cycle_pad_lut2,y
+: dex
+  bne :-
 
   set_vblank_done
 
