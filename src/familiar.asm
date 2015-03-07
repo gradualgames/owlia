@@ -1383,7 +1383,7 @@ not_at_keyhole_yet:
 
   ;cause the keyed monolith to fall
   ldx familiar_param_keyed_monolith_entity_index
-  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  lda #MONOLITH_STATE_FALL_INIT
   sta entity_state,x
 
   ;mark this keyed monolith as unlocked

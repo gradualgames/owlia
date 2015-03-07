@@ -723,7 +723,7 @@ dungeon_3_2_entity_instances:
 
 
 dungeon_0_3_entity_instances:
-  .byte 5
+  .byte 6
   .byte entity_index_treasure_chest, 3, 51, 0, TREASURE_CHEST_PARAMS, DUNGEON1_DUNGEON_FLAGS_TREASURE_CHEST1_OBTAINED, TREASURE_CHEST_MODE_DUNGEON, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_pufferfish, 11, 51, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_crab, 12, 52, sprite_chr_group_index_crab, 0
@@ -732,11 +732,11 @@ dungeon_0_3_entity_instances:
                                           MONOLITH_DIRECTION_NORTH, \
                                           ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon_0_2_s, \
                                           0, 2
-  ; .byte entity_index_monolith, 5, 59, 0, MONOLITH_PARAMS, \
-                                          ; MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, 0, \
-                                          ; MONOLITH_DIRECTION_SOUTH, \
-                                          ; ACTION_GOTO_LOCATION_GROUP1, location_index_meadow3_dungeon_entrance, \
-                                          ; 0, 2
+  .byte entity_index_monolith, 5, 59, 0, MONOLITH_PARAMS, \
+                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, 0, \
+                                          MONOLITH_DIRECTION_SOUTH, \
+                                          ACTION_GOTO_LOCATION_GROUP1, location_index_meadow3_dungeon_entrance, \
+                                          0, 2
   .byte entity_index_traproom, 0, (3*15), 0, 0
 
 dungeon_1_3_entity_instances:

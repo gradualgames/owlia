@@ -139,7 +139,7 @@ traproom_state_raise_monolith:
   ldy traproom_next_monolith,x
   bmi no_more_monoliths_to_raise
 
-  lda #MONOLITH_STATE_RISE_USING_COLUMNS_INIT
+  lda #MONOLITH_STATE_RISE_INIT
   sta entity_state,y
 
   jsr traproom_find_next_monolith
@@ -211,7 +211,7 @@ traproom_state_lower_monolith:
   ldy traproom_next_monolith,x
   bmi no_more_monoliths_to_lower
 
-  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  lda #MONOLITH_STATE_FALL_INIT
   sta entity_state,y
 
   jsr traproom_find_next_monolith

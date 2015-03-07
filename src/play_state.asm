@@ -1397,7 +1397,7 @@ next_entity:
   ;We found a monolith in the hero's way. Tell it to start falling,
   ;and then execute enough frames to allow it to fall all the way
   ;down.
-  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  lda #MONOLITH_STATE_FALL_INIT
   sta entity_state,y
 
   ;take over the controller. Once we animate any monoliths in the hero's
@@ -1620,7 +1620,7 @@ done:
   and #MONOLITH_FLAGS_UP_OR_DOWN_ISOLATE
   beq monolith_not_up
 
-  lda #MONOLITH_STATE_RISE_USING_COLUMNS_INIT
+  lda #MONOLITH_STATE_RISE_INIT
   sta entity_state,y
 
   .scope

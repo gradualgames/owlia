@@ -403,7 +403,7 @@ next_entity:
   cmp #entity_index_monolith
   bne not_monolith
 
-  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  lda #MONOLITH_STATE_FALL_INIT
   sta entity_state,y
   jmp done
 

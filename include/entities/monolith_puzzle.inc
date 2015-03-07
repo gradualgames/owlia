@@ -346,28 +346,28 @@ monolith_puzzle_state_error:
 
   ;re-raise all monoliths in the puzzle
   ldy monolith_puzzle_monolith0,x
-  lda #MONOLITH_STATE_RISE_USING_ROWS_INIT
+  lda #MONOLITH_STATE_RISE_INIT
   sta entity_state,y
   lda monolith_flags,y
   ora #MONOLITH_FLAGS_UP_SET
   sta monolith_flags,y
 
   ldy monolith_puzzle_monolith1,x
-  lda #MONOLITH_STATE_RISE_USING_ROWS_INIT
+  lda #MONOLITH_STATE_RISE_INIT
   sta entity_state,y
   lda monolith_flags,y
   ora #MONOLITH_FLAGS_UP_SET
   sta monolith_flags,y
 
   ldy monolith_puzzle_monolith2,x
-  lda #MONOLITH_STATE_RISE_USING_ROWS_INIT
+  lda #MONOLITH_STATE_RISE_INIT
   sta entity_state,y
   lda monolith_flags,y
   ora #MONOLITH_FLAGS_UP_SET
   sta monolith_flags,y
 
   ldy monolith_puzzle_monolith3,x
-  lda #MONOLITH_STATE_RISE_USING_ROWS_INIT
+  lda #MONOLITH_STATE_RISE_INIT
   sta entity_state,y
   lda monolith_flags,y
   ora #MONOLITH_FLAGS_UP_SET
@@ -512,28 +512,28 @@ monolith_puzzle_state_lower_all_monoliths_and_die:
   bne do_not_transition_yet
 
   ldy monolith_puzzle_monolith0,x
-  lda #MONOLITH_STATE_FALL_USING_ROWS_INIT
+  lda #MONOLITH_STATE_FALL_INIT
   sta entity_state,y
   lda monolith_flags,y
   and #MONOLITH_FLAGS_DOWN_CLEAR
   sta monolith_flags,y
 
   ldy monolith_puzzle_monolith1,x
-  lda #MONOLITH_STATE_FALL_USING_ROWS_INIT
+  lda #MONOLITH_STATE_FALL_INIT
   sta entity_state,y
   lda monolith_flags,y
   and #MONOLITH_FLAGS_DOWN_CLEAR
   sta monolith_flags,y
 
   ldy monolith_puzzle_monolith2,x
-  lda #MONOLITH_STATE_FALL_USING_ROWS_INIT
+  lda #MONOLITH_STATE_FALL_INIT
   sta entity_state,y
   lda monolith_flags,y
   and #MONOLITH_FLAGS_DOWN_CLEAR
   sta monolith_flags,y
 
   ldy monolith_puzzle_monolith3,x
-  lda #MONOLITH_STATE_FALL_USING_ROWS_INIT
+  lda #MONOLITH_STATE_FALL_INIT
   sta entity_state,y
   lda monolith_flags,y
   and #MONOLITH_FLAGS_DOWN_CLEAR

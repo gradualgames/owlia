@@ -6,22 +6,10 @@ MONOLITH_INC = 1
 
 .define monolith_states \
   monolith_state_init, \
-  monolith_state_fall_using_rows_init, \
-  monolith_state_fall_draw_patch_second_row, \
-  monolith_state_fall_draw_patch_first_row, \
-  monolith_state_fall_draw_bg_patch_row, \
-  monolith_state_fall_using_columns_init, \
-  monolith_state_fall_draw_patch_left_column, \
-  monolith_state_fall_draw_patch_right_column, \
-  monolith_state_fall_using_columns_pause_one_frame, \
-  monolith_state_rise_using_rows_init, \
-  monolith_state_rise_draw_patch_first_row, \
-  monolith_state_rise_draw_patch_second_row, \
-  monolith_state_rise_draw_patch_third_row, \
-  monolith_state_rise_using_columns_init, \
-  monolith_state_rise_draw_patch_left_column, \
-  monolith_state_rise_draw_patch_right_column, \
-  monolith_state_rise_using_columns_pause_one_frame, \
+  monolith_state_fall_init, \
+  monolith_state_fall, \
+  monolith_state_rise_init, \
+  monolith_state_rise, \
   monolith_state_idle
 
 monolith_lo:
@@ -95,136 +83,19 @@ not_keyed_monolith:
 
   rts
 
-monolith_state_fall_using_rows_init:
+monolith_state_fall_init:
 
   jsr monolith_play_slam_sound
-
-  lda #<(-16)
-  sta monolith_patch_offset_y_lo,x
-  lda #>(-16)
-  sta monolith_patch_offset_y_hi,x
 
   lda #0
   sta monolith_patch_step,x
 
-  lda #MONOLITH_STATE_FALL_DRAW_PATCH_SECOND_ROW
+  lda #MONOLITH_STATE_FALL
   sta entity_state,x
 
   rts
 
-monolith_state_fall_draw_patch_second_row:
-
-  ;patch index
-  lda monolith_foreground_patch_index,x
-  sta b12
-
-  ;patch row
-  lda #1
-  sta b13
-
-  lda entity_x_lo,x
-  sta w8
-  lda entity_x_hi,x
-  sta w8+1
-
-  clc
-  lda entity_y_lo,x
-  adc monolith_patch_offset_y_lo,x
-  sta w9
-  lda entity_y_hi,x
-  adc monolith_patch_offset_y_hi,x
-  sta w9+1
-
-  ;jsr decode_nametable_patch_row
-
-  lda #MONOLITH_STATE_FALL_DRAW_PATCH_FIRST_ROW
-  sta entity_state,x
-
-  rts
-
-monolith_state_fall_draw_patch_first_row:
-
-  ;patch index
-  lda monolith_foreground_patch_index,x
-  sta b12
-
-  ;patch row
-  lda #0
-  sta b13
-
-  lda entity_x_lo,x
-  sta w8
-  lda entity_x_hi,x
-  sta w8+1
-
-  clc
-  lda entity_y_lo,x
-  adc monolith_patch_offset_y_lo,x
-  sta w9
-  lda entity_y_hi,x
-  adc monolith_patch_offset_y_hi,x
-  sta w9+1
-
-  sec
-  lda w9
-  sbc #8
-  sta w9
-  lda w9+1
-  sbc #0
-  sta w9+1
-
-  ;jsr decode_nametable_patch_row
-
-  lda #MONOLITH_STATE_FALL_DRAW_BG_PATCH_ROW
-  sta entity_state,x
-
-  rts
-
-monolith_state_fall_draw_bg_patch_row:
-
-  ;patch index
-  lda monolith_background_patch_index,x
-  sta b12
-
-  ;patch row
-  lda monolith_patch_step,x
-  sta b13
-
-  lda entity_x_lo,x
-  sta w8
-  lda entity_x_hi,x
-  sta w8+1
-
-  clc
-  lda entity_y_lo,x
-  adc monolith_patch_offset_y_lo,x
-  sta w9
-  lda entity_y_hi,x
-  adc monolith_patch_offset_y_hi,x
-  sta w9+1
-
-  sec
-  lda w9
-  sbc #16
-  sta w9
-  lda w9+1
-  sbc #0
-  sta w9+1
-
-  ;jsr decode_nametable_patch_row
-
-  clc
-  lda monolith_patch_offset_y_lo,x
-  adc #<8
-  sta monolith_patch_offset_y_lo,x
-  lda monolith_patch_offset_y_hi,x
-  adc #>8
-  sta monolith_patch_offset_y_hi,x
-
-  inc monolith_patch_step,x
-  lda monolith_patch_step,x
-  cmp #4
-  bne :+
+monolith_state_fall:
 
   jsr monolith_make_passable
 
@@ -233,376 +104,33 @@ monolith_state_fall_draw_bg_patch_row:
 
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
-  rts
-:
-  lda #MONOLITH_STATE_FALL_DRAW_PATCH_SECOND_ROW
-  sta entity_state,x
-  rts
-
-monolith_state_fall_using_columns_init:
-
-  jsr monolith_play_slam_sound
-
-  lda #<(-32)
-  sta monolith_patch_offset_y_lo,x
-  lda #>(-32)
-  sta monolith_patch_offset_y_hi,x
-
-  lda #0
-  sta monolith_patch_step,x
-
-  lda #MONOLITH_STATE_FALL_USING_COLUMNS_PAUSE_ONE_FRAME
-  sta entity_state,x
 
   rts
 
-monolith_state_fall_draw_patch_left_column:
-
-  lda #0
-  sta monolith_patch_offset_x_lo,x
-  sta monolith_patch_offset_x_hi,x
-
-  lda #0
-  sta monolith_patch_column,x
-
-  jsr monolith_draw_falling_column
-
-  lda #MONOLITH_STATE_FALL_DRAW_PATCH_RIGHT_COLUMN
-  sta entity_state,x
-
-  rts
-
-monolith_state_fall_draw_patch_right_column:
-
-  lda #<(8)
-  sta monolith_patch_offset_x_lo,x
-  lda #>(8)
-  sta monolith_patch_offset_x_hi,x
-
-  lda #1
-  sta monolith_patch_column,x
-
-  jsr monolith_draw_falling_column
-
-  clc
-  lda monolith_patch_offset_y_lo,x
-  adc #<(8)
-  sta monolith_patch_offset_y_lo,x
-  lda monolith_patch_offset_y_hi,x
-  adc #>(8)
-  sta monolith_patch_offset_y_hi,x
-
-  inc monolith_patch_step,x
-  lda monolith_patch_step,x
-  cmp #4
-  bne :+
-
-  jsr monolith_make_passable
-
-  lda #MONOLITH_SHAKE_SCREEN_COUNTER
-  sta monolith_state_counter,x
-
-  lda #MONOLITH_STATE_IDLE
-  sta entity_state,x
-  rts
-:
-
-  lda #MONOLITH_STATE_FALL_USING_COLUMNS_PAUSE_ONE_FRAME
-  sta entity_state,x
-
-  rts
-
-monolith_state_fall_using_columns_pause_one_frame:
-
-  lda #MONOLITH_STATE_FALL_DRAW_PATCH_LEFT_COLUMN
-  sta entity_state,x
-
-  rts
-
-monolith_state_rise_using_rows_init:
+monolith_state_rise_init:
 
   jsr monolith_play_slam_sound
 
   jsr monolith_make_impassable
 
-  lda #<(8)
-  sta monolith_patch_offset_y_lo,x
-  lda #>(8)
-  sta monolith_patch_offset_y_hi,x
-
   lda #0
   sta monolith_patch_step,x
 
-  lda #MONOLITH_STATE_RISE_DRAW_PATCH_THIRD_ROW
+  lda #MONOLITH_STATE_RISE
   sta entity_state,x
 
   rts
 
-monolith_state_rise_draw_patch_first_row:
-
-  ;patch index
-  lda monolith_foreground_patch_index,x
-  sta b12
-
-  ;patch row
-  lda #0
-  sta b13
-
-  lda entity_x_lo,x
-  sta w8
-  lda entity_x_hi,x
-  sta w8+1
-
-  clc
-  lda entity_y_lo,x
-  adc monolith_patch_offset_y_lo,x
-  sta w9
-  lda entity_y_hi,x
-  adc monolith_patch_offset_y_hi,x
-  sta w9+1
-
-  clc
-  lda w9
-  adc #<(-16)
-  sta w9
-  lda w9+1
-  adc #>(-16)
-  sta w9+1
-
-  ;jsr decode_nametable_patch_row
-
-  sec
-  lda monolith_patch_offset_y_lo,x
-  sbc #8
-  sta monolith_patch_offset_y_lo,x
-  lda monolith_patch_offset_y_hi,x
-  sbc #0
-  sta monolith_patch_offset_y_hi,x
-
-  inc monolith_patch_step,x
-  lda monolith_patch_step,x
-  cmp #4
-  bne :+
+monolith_state_rise:
 
   lda #MONOLITH_SHAKE_SCREEN_COUNTER
   sta monolith_state_counter,x
 
   lda #MONOLITH_STATE_IDLE
   sta entity_state,x
-  rts
-:
-
-  lda #MONOLITH_STATE_RISE_DRAW_PATCH_THIRD_ROW
-  sta entity_state,x
-
-  rts
-
-monolith_state_rise_draw_patch_second_row:
-
-  ;patch index
-  lda monolith_foreground_patch_index,x
-  sta b12
-
-  ;patch row
-  lda #1
-  sta b13
-
-  lda entity_x_lo,x
-  sta w8
-  lda entity_x_hi,x
-  sta w8+1
-
-  clc
-  lda entity_y_lo,x
-  adc monolith_patch_offset_y_lo,x
-  sta w9
-  lda entity_y_hi,x
-  adc monolith_patch_offset_y_hi,x
-  sta w9+1
-
-  clc
-  lda w9
-  adc #<(-8)
-  sta w9
-  lda w9+1
-  adc #>(-8)
-  sta w9+1
-
-  ;jsr decode_nametable_patch_row
-
-  lda #MONOLITH_STATE_RISE_DRAW_PATCH_FIRST_ROW
-  sta entity_state,x
-
-  rts
-
-monolith_state_rise_draw_patch_third_row:
-
-  ;patch index
-  lda monolith_foreground_patch_index,x
-  sta b12
-
-  ;patch row
-  sec
-  lda #5
-  sbc monolith_patch_step,x
-  sta b13
-
-  lda entity_x_lo,x
-  sta w8
-  lda entity_x_hi,x
-  sta w8+1
-
-  clc
-  lda entity_y_lo,x
-  adc monolith_patch_offset_y_lo,x
-  sta w9
-  lda entity_y_hi,x
-  adc monolith_patch_offset_y_hi,x
-  sta w9+1
-
-  ;jsr decode_nametable_patch_row
-
-  lda #MONOLITH_STATE_RISE_DRAW_PATCH_SECOND_ROW
-  sta entity_state,x
-
-  rts
-
-monolith_state_rise_using_columns_init:
-
-  jsr monolith_play_slam_sound
-
-  jsr monolith_make_impassable
-
-  lda #<(-16)
-  sta monolith_patch_offset_y_lo,x
-  lda #>(-16)
-  sta monolith_patch_offset_y_hi,x
-
-  lda #0
-  sta monolith_patch_step,x
-
-  lda #MONOLITH_STATE_RISE_USING_COLUMNS_PAUSE_ONE_FRAME
-  sta entity_state,x
-
-  rts
-
-monolith_state_rise_draw_patch_left_column:
-
-  lda #0
-  sta monolith_patch_offset_x_lo,x
-  sta monolith_patch_offset_x_hi,x
-
-  lda #0
-  sta monolith_patch_column,x
-
-  jsr monolith_draw_rising_column
-
-  lda #MONOLITH_STATE_RISE_DRAW_PATCH_RIGHT_COLUMN
-  sta entity_state,x
-
-  rts
-
-monolith_state_rise_draw_patch_right_column:
-
-  lda #8
-  sta monolith_patch_offset_x_lo,x
-  lda #0
-  sta monolith_patch_offset_x_hi,x
-
-  lda #1
-  sta monolith_patch_column,x
-
-  jsr monolith_draw_rising_column
-
-  sec
-  lda monolith_patch_offset_y_lo,x
-  sbc #<8
-  sta monolith_patch_offset_y_lo,x
-  lda monolith_patch_offset_y_hi,x
-  sbc #>8
-  sta monolith_patch_offset_y_hi,x
-
-  inc monolith_patch_step,x
-  lda monolith_patch_step,x
-  cmp #4
-  bne :+
-
-  lda #MONOLITH_SHAKE_SCREEN_COUNTER
-  sta monolith_state_counter,x
-
-  lda #MONOLITH_STATE_IDLE
-  sta entity_state,x
-  rts
-:
-  lda #MONOLITH_STATE_RISE_USING_COLUMNS_PAUSE_ONE_FRAME
-  sta entity_state,x
-
-  rts
-
-monolith_state_rise_using_columns_pause_one_frame:
-
-  lda #MONOLITH_STATE_RISE_DRAW_PATCH_LEFT_COLUMN
-  sta entity_state,x
-
   rts
 
 monolith_state_idle:
-
-  ;select bg patch
-  lda #2
-  sta b0
-
-  ;select fg patch
-  lda #0
-  sta b1
-
-  ;select column
-  lda #0
-  sta b2
-
-  ;select row
-  lda #3
-  sta b3
-
-  lda #<(8*24)
-  sta w0
-  lda #>(8*24)
-  sta w0+1
-
-  lda #<(8*12)
-  sta w1
-  lda #>(8*12)
-  sta w1+1
-
-  far_call #AREAS_BANK, patch_decode_foreground_revealing_background
-
-  ;select bg patch
-  lda #2
-  sta b0
-
-  ;select fg patch
-  lda #0
-  sta b1
-
-  ;select column
-  lda #1
-  sta b2
-
-  ;select row
-  lda #3
-  sta b3
-
-  lda #<(8*25)
-  sta w0
-  lda #>(8*25)
-  sta w0+1
-
-  lda #<(8*12)
-  sta w1
-  lda #>(8*12)
-  sta w1+1
-
-  far_call #AREAS_BANK, patch_decode_foreground_revealing_background
 
   lda monolith_flags,x
   and #MONOLITH_TYPE_ISOLATE
@@ -644,143 +172,6 @@ do_not_shake_screen:
   .endscope
 
   rts
-
-.proc monolith_draw_falling_column
-
-  jsr monolith_draw_background_patch_column
-
-  ;patch index
-  lda monolith_foreground_patch_index,x
-  sta b12
-
-  ;patch column
-  lda monolith_patch_column,x
-  sta b13
-
- ;height of the column to decode
-  lda monolith_patch_step,x
-  cmp #3
-  beq :+
-  lda #3
-  jmp :++
-: lda #2
-:
-  sta b14
-
-  clc
-  lda entity_x_lo,x
-  adc monolith_patch_offset_x_lo,x
-  sta w8
-  lda entity_x_hi,x
-  adc monolith_patch_offset_x_hi,x
-  sta w8+1
-
-  clc
-  lda entity_y_lo,x
-  adc monolith_patch_offset_y_lo,x
-  sta w9
-  lda entity_y_hi,x
-  adc monolith_patch_offset_y_hi,x
-  sta w9+1
-
-  clc
-  lda w9
-  adc #8
-  sta w9
-  lda w9+1
-  adc #0
-  sta w9+1
-
-  ;jsr decode_nametable_patch_column
-
-  rts
-
-.endproc
-
-.proc monolith_draw_rising_column
-
-  jsr monolith_draw_background_patch_column
-
-  ;patch index
-  lda monolith_foreground_patch_index,x
-  sta b12
-
-  ;patch column
-  lda monolith_patch_column,x
-  sta b13
-
-  ;height of the column to decode
-  lda monolith_patch_step,x
-  sta b14
-  inc b14
-  inc b14
-  inc b14
-
-  clc
-  lda entity_x_lo,x
-  adc monolith_patch_offset_x_lo,x
-  sta w8
-  lda entity_x_hi,x
-  adc monolith_patch_offset_x_hi,x
-  sta w8+1
-
-  clc
-  lda entity_y_lo,x
-  adc monolith_patch_offset_y_lo,x
-  sta w9
-  lda entity_y_hi,x
-  adc monolith_patch_offset_y_hi,x
-  sta w9+1
-
-  clc
-  lda w9
-  adc #8
-  sta w9
-  lda w9+1
-  adc #0
-  sta w9+1
-
-  ;jsr decode_nametable_patch_column
-
-  rts
-
-.endproc
-
-.proc monolith_draw_background_patch_column
-
-  ;patch index
-  lda monolith_background_patch_index,x
-  sta b12
-
-  ;patch column
-  lda monolith_patch_column,x
-  sta b13
-
-  ;height of the column to decode
-  lda #4
-  sta b14
-
-  clc
-  lda entity_x_lo,x
-  adc monolith_patch_offset_x_lo,x
-  sta w8
-  lda entity_x_hi,x
-  adc monolith_patch_offset_x_hi,x
-  sta w8+1
-
-  clc
-  lda entity_y_lo,x
-  adc #<(-32)
-  sta w9
-  lda entity_y_hi,x
-  adc #>(-32)
-  sta w9+1
-
-  ;jsr decode_nametable_patch_column
-
-  rts
-
-.endproc
 
 .proc monolith_make_passable
 
@@ -983,7 +374,7 @@ monolith_touch_rect_height:
   cmp monolith_direction,x
   bne do_not_activate_monolith
   ;at this point, we know that the hero is trying to activate the monolith
-  lda #MONOLITH_STATE_FALL_USING_COLUMNS_INIT
+  lda #MONOLITH_STATE_FALL_INIT
   sta entity_state,x
 
   lda monolith_flags,x
