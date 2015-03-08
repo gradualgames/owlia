@@ -775,13 +775,15 @@ enemy_found:
 :
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_TEST
-  beq not_alive
+  beq skip_entity
+  cpx familiar_carried_entity_index
+  beq skip_entity
 
   lda entity_flags,x
   ora #ENTITY_FLAGS_MARKED_FOR_KILL_SET
   sta entity_flags,x
 
-not_alive:
+skip_entity:
 
   dex
   bpl :-
