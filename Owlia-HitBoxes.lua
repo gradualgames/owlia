@@ -22,16 +22,16 @@ w7 = 0x001a
 w8 = 0x001c
 w9 = 0x001e
 
-camera_x = 0x0617
-camera_y = 0x0619
+camera_x = 0x72A
+camera_y = 0x72C
 
-entity_action_rect1_x = 0x05d9
-entity_action_rect1_y = 0x05db
-entity_action_rect1_width = 0x05dd
-entity_action_rect1_height = 0x05de
+entity_action_rect1_x = 0x69C
+entity_action_rect1_y = 0x69E
+entity_action_rect1_width = 0x6A0
+entity_action_rect1_height = 0x6A1
 
-geotests_rect_in_rect = 0xd98e
-geotests_rect_inside_rect = 0xd921
+geotests_rect_in_rect = 0xD1DE
+geotests_rect_inside_rect = 0xD171
 
 -- draw a box and take care of coordinate checking
 local function box(x1,y1,x2,y2,color)

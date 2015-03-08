@@ -114,6 +114,10 @@ traproom_state_wait_for_hero_to_enter_room:
   bne traproom_not_triggered
 
   lda #TRAPROOM_STATE_RAISE_MONOLITH_LENGTH
+  sta b0
+  far_call #HERO_BANK, hero_wait_frames
+
+  lda #TRAPROOM_STATE_RAISE_MONOLITH_LENGTH
   sta traproom_state_counter,x
 
   lda #TRAPROOM_STATE_RAISE_MONOLITHS
@@ -307,12 +311,9 @@ west_monolith:
 north_monolith:
 
   ;get the bottom edge of the monolith as the top edge of the traproom rect
-  clc
   lda entity_y_lo,y
-  adc entity_height,y
   sta traproom_trigger_rect_north_y_lo,x
   lda entity_y_hi,y
-  adc #0
   sta traproom_trigger_rect_north_y_hi,x
 
   dey
