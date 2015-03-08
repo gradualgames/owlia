@@ -76,7 +76,71 @@ do_not_skip_treasure_chest:
 treasure_chest_state_idle:
 
   .scope
-  jsr entity_test_hero_rect
+  ;load entity rectangle
+  sec
+  lda entity_x_lo,x
+  sbc #<TREASURE_CHEST_RECT_PADDING
+  sta w2
+  lda entity_x_hi,x
+  sbc #>TREASURE_CHEST_RECT_PADDING
+  sta w2+1
+
+  lda entity_y_lo,x
+  sta w3
+  lda entity_y_hi,x
+  sta w3+1
+
+  clc
+  lda entity_x_lo,x
+  adc entity_width,x
+  sta w6
+  lda entity_x_hi,x
+  adc #0
+  sta w6+1
+
+  clc
+  lda w6
+  adc #<TREASURE_CHEST_RECT_PADDING
+  sta w6
+  lda w6+1
+  adc #>TREASURE_CHEST_RECT_PADDING
+  sta w6+1
+
+  clc
+  lda entity_y_lo,x
+  adc entity_height,x
+  sta w7
+  lda entity_y_hi,x
+  adc #0
+  sta w7+1
+
+  lda hero_x
+  sta w4
+  lda hero_x+1
+  sta w4+1
+
+  lda hero_y
+  sta w5
+  lda hero_y+1
+  sta w5+1
+
+  clc
+  lda hero_x
+  adc hero_width
+  sta w8
+  lda hero_x+1
+  adc #0
+  sta w8+1
+
+  clc
+  lda hero_y
+  adc hero_height
+  sta w9
+  lda hero_y+1
+  adc #0
+  sta w9+1
+
+  jsr geotests_rect_inside_rect
   bne not_intersecting_hero
 
   far_call #HERO_BANK, hero_is_attacking

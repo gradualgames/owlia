@@ -115,10 +115,6 @@ rectangle_b_right_x = w8
 rectangle_b_bottom_y = w9
 b_inside_a_count = b6
 
-  ;initialize counter for whether B might be inside A
-  lda #0
-  sta b_inside_a_count
-
   ;calculate right and bottom sides of rectangle A and B
   clc
   lda rectangle_a_left_x
@@ -153,6 +149,11 @@ b_inside_a_count = b6
   sta rectangle_b_bottom_y+1
 
 geotests_rect_inside_rect:
+
+  ;initialize counter for whether B might be inside A
+  lda #0
+  sta b_inside_a_count
+
   ;if left side of B is greater than the left side of A then B might be inside A
   sec
   lda rectangle_b_left_x
