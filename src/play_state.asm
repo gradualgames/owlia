@@ -1845,6 +1845,8 @@ scroll_south_impl:
 ;****************************************************************
 play_state_action_start_conversation:
 
+  safely_set_vblank_routine nametable_and_attribute_update_ppu
+
   jsr align_camera_to_metatile_boundary
 
   jsr align_entities_if_occluded_by_textbox
@@ -1896,6 +1898,8 @@ play_state_action_start_conversation:
   restore_controller_routine
 
   far_call #TEXTBOX_BANK, erase_textbox
+
+  jsr load_vblank_routine
 
   ;the user has finished advancing through the conversation, make
   ;sure the play state control action is a nop as we return to the
