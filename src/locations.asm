@@ -895,7 +895,12 @@ dungeon2_2_0_entity_instances:
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon2_3_0_w,\
                                          0, 5
-  .byte entity_index_bombable_wall, 36, 4, 0, BOMBABLE_WALL_PARAMS, 6, %00100010, ACTION_NOP, 0
+  .byte entity_index_monolith, 36, 4, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon2_boss_entrance,\
+                                         0, 2
   .byte entity_index_urchin, 35, 9, 0, URCHIN_PARAMS, 8*8, 40, <(256*2), >(256*2), 0, 0
   .byte entity_index_ice_block, 37, 5, 0, 0
   .byte entity_index_ice_block, 38, 5, 0, 0
