@@ -28,9 +28,7 @@ key_state_init:
   and key_dungeon_flags_mask,x
   beq do_not_skip
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  jsr key_kill
 
   rts
 
@@ -100,9 +98,7 @@ cannot_add_key:
   ora key_dungeon_flags_mask,x
   sta inventory_dungeon_flags
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  jsr key_kill
 
 entity_not_hitting_hero:
   .endscope
@@ -174,5 +170,23 @@ key_state_passive_inserted_init:
 key_state_passive:
 
   rts
+
+.proc key_kill
+
+  cpx familiar_carried_entity_index
+  bne not_carried_entity
+
+  lda #$ff
+  sta familiar_carried_entity_index
+
+not_carried_entity:
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+
+.endproc
 
 .endif

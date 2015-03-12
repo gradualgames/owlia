@@ -114,9 +114,7 @@ item_state_init:
   and item_dungeon_flags_mask,x
   beq do_not_skip_item
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  jsr item_kill
 
   rts
 
@@ -182,9 +180,7 @@ item_state_pickup_and_fade_out:
   ora item_fade_out_counter_hi,x
   bne not_faded_out
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  jsr item_kill
 
   rts
 
@@ -300,9 +296,8 @@ done:
   rts
 do_not_drop_item:
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  jsr item_kill
+
   rts
 
 .proc increment_health
@@ -505,20 +500,6 @@ exceeded_max:
 
   far_call #SOUND_BANK, stream_initialize
 
-  ; ;play a sound
-  ; lda #<sfx_coins_noise
-  ; sta sound_param_word_0
-  ; lda #>sfx_coins_noise
-  ; sta sound_param_word_0+1
-
-  ; lda #3
-  ; sta sound_param_byte_0
-
-  ; lda #soundeffect_one
-  ; sta sound_param_byte_1
-
-  ; far_call #SOUND_BANK, stream_initialize
-
   rts
 
 .endproc
@@ -568,9 +549,7 @@ exceeded_max:
   sta w0+1
   jsr indirect_jsr_w0
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  jsr item_kill
 
   rts
 
@@ -600,6 +579,24 @@ not_touching_hero:
 familiar_not_intersecting:
 familiar_not_fetching:
   .endscope
+
+  rts
+
+.endproc
+
+.proc item_kill
+
+  cpx familiar_carried_entity_index
+  bne not_carried_entity
+
+  lda #$ff
+  sta familiar_carried_entity_index
+
+not_carried_entity:
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
 
   rts
 

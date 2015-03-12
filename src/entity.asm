@@ -799,17 +799,18 @@ skip_entity:
 :
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_TEST
-  beq not_alive
+  beq skip_entity
   lda entity_flags,x
   and #ENTITY_FLAGS_MARKED_FOR_KILL_TEST
-  beq not_marked_for_kill
+  beq skip_entity
+  cpx familiar_carried_entity_index
+  beq skip_entity
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
 
-not_marked_for_kill:
-not_alive:
+skip_entity:
 
   dex
   bpl :-
