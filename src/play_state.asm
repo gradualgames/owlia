@@ -1465,10 +1465,6 @@ done:
 
   jsr load_vblank_routine
 
-  ;run one more frame without controller input in case entities need to know
-  ;hero's state or location right away (e.g. traproom triggers)
-  jsr frame_update_no_controller_input
-
   ;restore control to the player
   lda #$ff
   jsr controller_fill_buffer_with_accumulator
