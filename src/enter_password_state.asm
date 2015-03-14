@@ -574,6 +574,11 @@ password_might_still_be_valid:
   sbc inventory_gp+2
   bmi password_invalid
 
+  ;also make sure GP is a multiple of 100, the smallest possible increment.
+  ;This should weed out a huge number of random password entry attempts.
+  jsr gp_is_multiple_of_100
+  bmi password_invalid
+
 password_valid:
 
   ;set zero flag to indicate password is valid.
@@ -584,6 +589,40 @@ password_invalid:
 
   ;clear zero flag to indicate password is invalid.
   lda #$ff
+  rts
+
+gp_is_multiple_of_100:
+
+  lda inventory_gp
+  sta w0
+  lda inventory_gp+1
+  sta w0+1
+  lda inventory_gp+2
+  sta b0
+
+  ;subtract 100 repeatedly from the gp value. if we go negative,
+  ;the value is not a multiple of 100.
+keep_subtracting:
+  lda w0
+  ora w0+1
+  ora b0
+  beq done
+
+  sec
+  lda w0
+  sbc #<100
+  sta w0
+  lda w0+1
+  sbc #>100
+  sta w0+1
+  lda b0
+  sbc #^100
+  sta b0
+  bmi done
+
+  jmp keep_subtracting
+done:
+
   rts
 
 .endproc
