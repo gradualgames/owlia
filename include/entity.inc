@@ -497,17 +497,17 @@ sign_extend_negative:
   sta b0
 sign_extend_positive:
 
-  sec
+  clc
   lda .ident(.concat(.string(variable), "_fine")),x
-  sbc .ident(.concat(.string(velocity), "_lo")),x
+  adc .ident(.concat(.string(velocity), "_lo")),x
   sta .ident(.concat(.string(variable), "_fine")),x
 
   lda .ident(.concat(.string(variable), "_lo")),x
-  sbc .ident(.concat(.string(velocity), "_hi")),x
+  adc .ident(.concat(.string(velocity), "_hi")),x
   sta .ident(.concat(.string(variable), "_lo")),x
 
   lda .ident(.concat(.string(variable), "_hi")),x
-  sbc b0
+  adc b0
   sta .ident(.concat(.string(variable), "_hi")),x
   .endscope
 

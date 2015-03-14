@@ -5,7 +5,7 @@ STARFISH_INC = 1
 STARFISH_INITIAL_HEALTH = 3
 STARFISH_WIDTH = 23
 STARFISH_HEIGHT = 15
-STARFISH_RISE_ACCELERATION = -5
+STARFISH_RISE_ACCELERATION = 5
 STARFISH_RISE_LENGTH = 50
 STARFISH_FLOAT_ACCELERATION = 25
 STARFISH_FLOAT_ALTITUDE = 25
@@ -210,7 +210,7 @@ starfish_state_float:
   sbc starfish_altitude_lo,x
   lda #>STARFISH_FLOAT_ALTITUDE
   sbc starfish_altitude_hi,x
-  bmi float_up
+  bpl float_up
 float_down:
   add_acceleration starfish_altitude_velocity, (-STARFISH_FLOAT_ACCELERATION)
   jmp done

@@ -11,6 +11,9 @@ CLAM_ITEM_OFFSET_Y = 4
 
 CLAM_ITEM_QUANTITY = 100
 
+CLAM_INITIAL_JUMP_VELOCITY = 500
+CLAM_JUMP_ACCELERATION = -50
+
 CLAM_WIDTH = $0f
 CLAM_HEIGHT = $0f
 
@@ -24,6 +27,21 @@ CLAM_STATE_ANGRY
 
 clam_state_counter = entity_local0
 clam_item_entity_index = entity_local1
+clam_x_lo = entity_local2
+clam_x_hi = entity_local3
+clam_x_fine = entity_local4
+clam_y_lo = entity_local5
+clam_y_hi = entity_local6
+clam_y_fine = entity_local7
+clam_altitude_lo = entity_local8
+clam_altitude_hi = entity_local9
+clam_altitude_fine = entity_local10
+clam_x_velocity_lo = entity_local11
+clam_x_velocity_hi = entity_local12
+clam_y_velocity_lo = entity_local13
+clam_y_velocity_hi = entity_local14
+clam_altitude_velocity_lo = entity_local15
+clam_altitude_velocity_hi = entity_local16
 
 .define clam_states \
   clam_state_init, \
@@ -46,6 +64,8 @@ clam_state_init:
 
   jsr entity_set_drawable
 
+  jsr entity_set_shadow_spot
+
   lda #<clam
   sta entity_animation_address_lo,x
   lda #>clam
@@ -66,6 +86,20 @@ clam_state_init:
 
   lda #$00
   sta entity_sprite_flags,x
+
+  lda24 clam_x, 0
+  move16 entity_x, clam_x
+
+  lda24 clam_y, 0
+  move16 entity_y, clam_y
+
+  lda24 clam_altitude, 0
+
+  lda16 clam_x_velocity, 0
+  lda16 clam_y_velocity, 0
+  lda16 clam_altitude_velocity, 0
+
+  jsr position_clam
 
   lda #CLAM_STATE_OPEN_LENGTH
   sta clam_state_counter,x
@@ -126,6 +160,8 @@ clam_state_open:
 do_not_transition_yet:
   .endscope
 
+  jsr position_clam
+
   jsr entity_update_animation
 
   rts
@@ -159,6 +195,8 @@ not_taken:
   jmp done
 taken:
 
+  lda16 clam_altitude_velocity, CLAM_INITIAL_JUMP_VELOCITY
+
   lda #CLAM_STATE_ANGRY
   sta entity_state,x
 
@@ -167,6 +205,8 @@ done:
 
 do_not_transition_yet:
   .endscope
+
+  jsr position_clam
 
   rts
 
@@ -185,14 +225,70 @@ clam_state_close:
 do_not_transition_yet:
   .endscope
 
+  jsr position_clam
+
   jsr entity_update_animation
 
   rts
 
 clam_state_angry:
 
+  add_acceleration clam_altitude_velocity, CLAM_JUMP_ACCELERATION
+
+  jsr move_clam
+
+  jsr position_clam
+
   jsr entity_update_animation
 
   rts
+
+.proc move_clam
+
+  add_velocity clam_x, clam_x_velocity
+  add_velocity clam_y, clam_y_velocity
+  add_velocity clam_altitude, clam_altitude_velocity
+
+  .scope
+  lda clam_altitude_hi,x
+  bpl do_not_reset_jump
+
+  lda24 clam_altitude, 0
+  lda16 clam_altitude_velocity, CLAM_INITIAL_JUMP_VELOCITY
+
+do_not_reset_jump:
+  .endscope
+
+  rts
+
+.endproc
+
+.proc position_clam
+
+  move16 clam_x, entity_x
+
+  sec
+  lda clam_y_lo,x
+  sbc clam_altitude_lo,x
+  sta entity_y_lo,x
+  lda clam_y_hi,x
+  sbc clam_altitude_hi,x
+  sta entity_y_hi,x
+
+  lda16 entity_shadow_spot_x, 4
+
+  move16 clam_altitude, entity_shadow_spot_y
+
+  clc
+  lda entity_shadow_spot_y_lo,x
+  adc #<8
+  sta entity_shadow_spot_y_lo,x
+  lda entity_shadow_spot_y_hi,x
+  adc #>8
+  sta entity_shadow_spot_y_hi,x
+
+  rts
+
+.endproc
 
 .endif
