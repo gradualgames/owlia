@@ -87,17 +87,17 @@ clam_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
-  lda24 clam_x, 0
-  move16 entity_x, clam_x
+  entity_lda24 clam_x, 0
+  entity_move16 entity_x, clam_x
 
-  lda24 clam_y, 0
-  move16 entity_y, clam_y
+  entity_lda24 clam_y, 0
+  entity_move16 entity_y, clam_y
 
-  lda24 clam_altitude, 0
+  entity_lda24 clam_altitude, 0
 
-  lda16 clam_x_velocity, 0
-  lda16 clam_y_velocity, 0
-  lda16 clam_altitude_velocity, 0
+  entity_lda16 clam_x_velocity, 0
+  entity_lda16 clam_y_velocity, 0
+  entity_lda16 clam_altitude_velocity, 0
 
   jsr position_clam
 
@@ -195,7 +195,9 @@ not_taken:
   jmp done
 taken:
 
-  lda16 clam_altitude_velocity, CLAM_INITIAL_JUMP_VELOCITY
+  jsr clam_change_direction
+
+  entity_lda16 clam_altitude_velocity, CLAM_INITIAL_JUMP_VELOCITY
 
   lda #CLAM_STATE_ANGRY
   sta entity_state,x
@@ -233,7 +235,7 @@ do_not_transition_yet:
 
 clam_state_angry:
 
-  add_acceleration clam_altitude_velocity, CLAM_JUMP_ACCELERATION
+  entity_add_acceleration clam_altitude_velocity, CLAM_JUMP_ACCELERATION
 
   jsr move_clam
 
@@ -243,18 +245,59 @@ clam_state_angry:
 
   rts
 
+.proc clam_change_direction
+
+  .scope
+  lda rand
+  sta clam_x_velocity_lo,x
+  bmi negative
+positive:
+  lda #0
+  sta clam_x_velocity_hi,x
+  jmp done
+negative:
+  lda #$ff
+  sta clam_x_velocity_hi,x
+done:
+  .endscope
+
+  jsr next_rand
+
+  .scope
+  lda rand
+  sta clam_y_velocity_lo,x
+  bmi negative
+positive:
+  lda #0
+  sta clam_y_velocity_hi,x
+  jmp done
+negative:
+  lda #$ff
+  sta clam_y_velocity_hi,x
+done:
+  .endscope
+
+  entity_shift_left16 clam_x_velocity, 1
+  entity_shift_left16 clam_y_velocity, 1
+
+  rts
+
+.endproc
+
 .proc move_clam
 
-  add_velocity clam_x, clam_x_velocity
-  add_velocity clam_y, clam_y_velocity
-  add_velocity clam_altitude, clam_altitude_velocity
+  entity_add_velocity clam_x, clam_x_velocity
+  entity_add_velocity clam_y, clam_y_velocity
+  entity_add_velocity clam_altitude, clam_altitude_velocity
 
   .scope
   lda clam_altitude_hi,x
   bpl do_not_reset_jump
 
-  lda24 clam_altitude, 0
-  lda16 clam_altitude_velocity, CLAM_INITIAL_JUMP_VELOCITY
+  jsr clam_change_direction
+
+  entity_lda24 clam_altitude, 0
+  entity_lda16 clam_altitude_velocity, CLAM_INITIAL_JUMP_VELOCITY
 
 do_not_reset_jump:
   .endscope
@@ -265,7 +308,7 @@ do_not_reset_jump:
 
 .proc position_clam
 
-  move16 clam_x, entity_x
+  entity_move16 clam_x, entity_x
 
   sec
   lda clam_y_lo,x
@@ -275,9 +318,9 @@ do_not_reset_jump:
   sbc clam_altitude_hi,x
   sta entity_y_hi,x
 
-  lda16 entity_shadow_spot_x, 4
+  entity_lda16 entity_shadow_spot_x, 4
 
-  move16 clam_altitude, entity_shadow_spot_y
+  entity_move16 clam_altitude, entity_shadow_spot_y
 
   clc
   lda entity_shadow_spot_y_lo,x

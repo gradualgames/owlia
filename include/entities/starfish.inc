@@ -106,12 +106,12 @@ starfish_state_init:
   lda #0
   sta starfish_y_fine,x
 
-  lda16 starfish_x_velocity, 0
-  lda16 starfish_y_velocity, 0
+  entity_lda16 starfish_x_velocity, 0
+  entity_lda16 starfish_y_velocity, 0
 
-  lda24 starfish_altitude, 0
+  entity_lda24 starfish_altitude, 0
 
-  lda16 starfish_altitude_velocity, 0
+  entity_lda16 starfish_altitude_velocity, 0
 
   lda #0
   sta starfish_meander_direction,x
@@ -165,7 +165,7 @@ starfish_state_rise:
 do_not_transition_yet:
   .endscope
 
-  add_acceleration starfish_altitude_velocity, STARFISH_RISE_ACCELERATION
+  entity_add_acceleration starfish_altitude_velocity, STARFISH_RISE_ACCELERATION
 
   jsr starfish_move
 
@@ -212,10 +212,10 @@ starfish_state_float:
   sbc starfish_altitude_hi,x
   bpl float_up
 float_down:
-  add_acceleration starfish_altitude_velocity, (-STARFISH_FLOAT_ACCELERATION)
+  entity_add_acceleration starfish_altitude_velocity, (-STARFISH_FLOAT_ACCELERATION)
   jmp done
 float_up:
-  add_acceleration starfish_altitude_velocity, STARFISH_FLOAT_ACCELERATION
+  entity_add_acceleration starfish_altitude_velocity, STARFISH_FLOAT_ACCELERATION
 done:
   .endscope
 
@@ -236,9 +236,9 @@ done:
 
 .proc starfish_move
 
-  add_velocity starfish_altitude, starfish_altitude_velocity
-  add_velocity starfish_x, starfish_x_velocity
-  add_velocity starfish_y, starfish_y_velocity
+  entity_add_velocity starfish_altitude, starfish_altitude_velocity
+  entity_add_velocity starfish_x, starfish_x_velocity
+  entity_add_velocity starfish_y, starfish_y_velocity
 
   rts
 
@@ -246,7 +246,7 @@ done:
 
 .proc position_starfish
 
-  move16 starfish_x, entity_x
+  entity_move16 starfish_x, entity_x
 
   sec
   lda starfish_y_lo,x
@@ -256,9 +256,9 @@ done:
   sbc starfish_altitude_hi,x
   sta entity_y_hi,x
 
-  lda16 entity_shadow_spot_x, 8
+  entity_lda16 entity_shadow_spot_x, 8
 
-  move16 starfish_altitude, entity_shadow_spot_y
+  entity_move16 starfish_altitude, entity_shadow_spot_y
 
   rts
 

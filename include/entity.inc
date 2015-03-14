@@ -440,8 +440,20 @@ flash_state_machine_not_running:
 
 .endmacro
 
+;assumes the entity has _lo, and _hi appended to variable.
+.macro entity_shift_left16 variable, amount
+
+  lda .ident(.concat(.string(variable), "_hi")),x
+  .repeat amount
+  asl .ident(.concat(.string(variable), "_lo")),x
+  rol
+  .endrepeat
+  sta .ident(.concat(.string(variable), "_hi")),x
+
+.endmacro
+
 ;assumes the entity has _lo, _hi appended to variable.
-.macro lda16 variable, value
+.macro entity_lda16 variable, value
   lda #<value
   sta .ident(.concat(.string(variable), "_lo")),x
   lda #>value
@@ -449,7 +461,7 @@ flash_state_machine_not_running:
 .endmacro
 
 ;assumes the entity has _lo, _hi, and _fine appended to variable.
-.macro lda24 variable, value
+.macro entity_lda24 variable, value
   lda #<value
   sta .ident(.concat(.string(variable), "_fine")),x
   lda #>value
@@ -459,7 +471,7 @@ flash_state_machine_not_running:
 .endmacro
 
 ;assumes the entity has _lo, _hi appended to source and destination identifiers
-.macro move16 source, destination
+.macro entity_move16 source, destination
 
   lda .ident(.concat(.string(source), "_lo")),x
   sta .ident(.concat(.string(destination), "_lo")),x
@@ -470,7 +482,7 @@ flash_state_machine_not_running:
 
 ;assumes the entity has _lo, _hi appended to variable and that acceleration is
 ;a constant
-.macro add_acceleration variable, acceleration
+.macro entity_add_acceleration variable, acceleration
 
   clc
   lda .ident(.concat(.string(variable), "_lo")),x
@@ -484,7 +496,7 @@ flash_state_machine_not_running:
 
 ;assumes the entity has _lo, _hi, and _fine appended to variable identifier
 ;assumes the entity has _lo, _hi appended to velocity identifier
-.macro add_velocity variable, velocity
+.macro entity_add_velocity variable, velocity
 
   .scope
   lda #0
