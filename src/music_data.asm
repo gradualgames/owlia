@@ -12,6 +12,10 @@ forest_theme:
 .scope
 .include "forest_theme.inc"
 .endscope
+tundra_theme:
+.scope
+.include "tundra_theme.inc"
+.endscope
 dungeon_theme:
 .scope
 .include "dungeon_theme.inc"

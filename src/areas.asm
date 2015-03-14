@@ -405,7 +405,7 @@ tundra1_area:
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word tundra1_area_bg_chr_groups
-  .word hero_theme
+  .word tundra_theme
   .byte $22 ;textbox_attribute
   .word tundra1_map
   .word tundra1_metatile_table_properties
@@ -431,7 +431,7 @@ tundra2_area:
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word tundra2_area_bg_chr_groups
-  .word hero_theme
+  .word tundra_theme
   .byte $22 ;textbox_attribute
   .word tundra2_map
   .word tundra2_metatile_table_properties
@@ -457,7 +457,7 @@ tundra3_area:
   .byte MAP_DATA_BANK2
   .byte CONVERSATIONS_BANK
   .word tundra3_area_bg_chr_groups
-  .word hero_theme
+  .word tundra_theme
   .byte $22 ;textbox_attribute
   .word tundra3_map
   .word tundra3_metatile_table_properties
