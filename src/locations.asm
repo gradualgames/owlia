@@ -419,7 +419,7 @@ dungeon3_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_cage
 
 island1_sprite_chr_groups:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -428,6 +428,7 @@ island1_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_starfish
   .byte sprite_chr_group_index_tunicate
+  .byte sprite_chr_group_index_clam
 
 island2_sprite_chr_groups:
   .byte 8   ;sprite_chr_groups .byte
@@ -1590,9 +1591,10 @@ dungeon3_boss_owl_dungeon_entity_instances:
   .byte entity_index_rescueowl, 23, 4, 0, RESCUEOWL_PARAMS, RESCUEOWL_TYPE_GREATGRAYOWL
 
 island1_entity_instances:
-  .byte 2
+  .byte 3
   .byte entity_index_starfish, 4, 56, 0, 0
   .byte entity_index_tunicate, 4, 58, 0, 0
+  .byte entity_index_clam, 4, 60, 0, 0
 
 island2_entity_instances:
   .byte 0
@@ -1711,7 +1713,7 @@ dungeon3_boss_owl_dungeon_palette:
 
 island_palette:
   .byte $37,$0e,$09,$19,$37,$0e,$09,$18,$37,$09,$18,$20,$37,$21,$31,$20
-  .byte $37,$0e,$06,$36,$37,$0e,$18,$20,$37,$0e,$13,$23,$37,$0e,$0e,$0e
+  .byte $37,$0e,$06,$36,$37,$0e,$18,$20,$37,$0e,$13,$23,$37,$0e,$14,$24
   .byte 14,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte 14,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte 14,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME

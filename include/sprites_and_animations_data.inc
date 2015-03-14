@@ -163,6 +163,9 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global greatgrayowl_fly
 
 .global starfish
+
 .global tunicate
+
+.global clam
 
 .endif

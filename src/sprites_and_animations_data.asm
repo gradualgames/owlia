@@ -51,3 +51,4 @@
 .include "greatgrayowl_sprites_and_animations.inc"
 .include "starfish_sprites_and_animations.inc"
 .include "tunicate_sprites_and_animations.inc"
+.include "clam_sprites_and_animations.inc"

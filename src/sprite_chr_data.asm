@@ -51,7 +51,8 @@
   crab_boss_chr, \
   greatgrayowl_chr, \
   starfish_chr, \
-  tunicate_chr
+  tunicate_chr, \
+  clam_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -107,6 +108,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_greatgrayowl
   .byte sprite_chr_group_bank_starfish
   .byte sprite_chr_group_bank_tunicate
+  .byte sprite_chr_group_bank_clam
 
 .segment "ROM08"
 
@@ -255,3 +257,6 @@ starfish_chr:
 
 tunicate_chr:
 .incbin "tunicate.chr"
+
+clam_chr:
+.incbin "clam.chr"
