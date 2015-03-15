@@ -81,8 +81,6 @@ clam_state_init:
 
   jsr entity_set_drawable
 
-  jsr entity_set_not_pausable
-
   jsr entity_set_shadow_spot
 
   lda #<clam
@@ -210,6 +208,8 @@ clam_state_reveal_treasure:
   .scope
   jsr clam_search_for_gp_item
   bpl clam_not_angered
+
+  jsr entity_set_not_pausable
 
   lda #CLAM_STATE_RISE_LENGTH
   sta clam_state_counter,x
