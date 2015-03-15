@@ -1591,10 +1591,18 @@ dungeon3_boss_owl_dungeon_entity_instances:
   .byte entity_index_rescueowl, 23, 4, 0, RESCUEOWL_PARAMS, RESCUEOWL_TYPE_GREATGRAYOWL
 
 island1_entity_instances:
-  .byte 3
-  .byte entity_index_starfish, 2, 58, 0, 0
+  .byte 11
   .byte entity_index_tunicate, 8, 48, 0, 0
-  .byte entity_index_clam, 8, 58, 0, 0
+  .byte entity_index_tunicate, 2, 12, 0, 0
+  .byte entity_index_tunicate, 52, 10, 0, 0
+  .byte entity_index_tunicate, 52, 18, 0, 0
+  .byte entity_index_clam, 2, 58, 0, 0
+  .byte entity_index_clam, 2, 5, 0, 0
+  .byte entity_index_clam, 52, 3, 0, 0
+  .byte entity_index_clam, 60, 58, 0, 0
+  .byte entity_index_starfish, 52, 30, 0, 0
+  .byte entity_index_starfish, 23, 9, 0, 0
+  .byte entity_index_starfish, 27, 36, 0, 0
 
 island2_entity_instances:
   .byte 0
