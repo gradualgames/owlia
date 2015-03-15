@@ -419,7 +419,7 @@ dungeon3_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_cage
 
 island1_sprite_chr_groups:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -427,7 +427,6 @@ island1_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_starfish
-  .byte sprite_chr_group_index_tunicate
   .byte sprite_chr_group_index_clam
 
 island2_sprite_chr_groups:
@@ -439,7 +438,7 @@ island2_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_starfish
-  .byte sprite_chr_group_index_tunicate
+  .byte sprite_chr_group_index_clam
 
 temple1_sprite_chr_groups:
   .byte 8   ;sprite_chr_groups .byte
@@ -450,7 +449,7 @@ temple1_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_starfish
-  .byte sprite_chr_group_index_tunicate
+  .byte sprite_chr_group_index_clam
 
 ;****************************************************************
 ;Entity instance sets
@@ -1604,7 +1603,15 @@ island1_entity_instances:
   .byte entity_index_clam, 60, 58, 0, 0
 
 island2_entity_instances:
-  .byte 0
+  .byte 8
+  .byte entity_index_clam, 4, 27, 0, 0
+  .byte entity_index_clam, 5, 48, 0, 0
+  .byte entity_index_clam, 40, 59, 0, 0
+  .byte entity_index_clam, 60, 23, 0, 0
+  .byte entity_index_starfish, 15, 6, 0, 0
+  .byte entity_index_starfish, 26, 45, 0, 0
+  .byte entity_index_starfish, 46, 43, 0, 0
+  .byte entity_index_starfish, 48, 25, 0, 0
 
 temple1_entity_instances:
   .byte 0
