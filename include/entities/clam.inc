@@ -559,6 +559,22 @@ found_entity:
 
   entity_combat #CLAM_FLASH_LENGTH, #CLAM_ATTACKED_LENGTH, clam_flash_counter, clam_knockback_counter, clam_health, clam_direction
 
+  .scope
+  lda clam_health,x
+  bne clam_not_dead
+
+  jsr clam_search_for_gp_item
+  bmi do_not_kill_item
+
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+
+do_not_kill_item:
+
+clam_not_dead:
+  .endscope
+
   rts
 
 .endproc
