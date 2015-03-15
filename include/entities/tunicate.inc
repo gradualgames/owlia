@@ -2,13 +2,31 @@
 .ifndef TUNICATE_INC
 TUNICATE_INC = 1
 
+.include "projectile_constants.inc"
+
+TUNICATE_TIME_UNTIL_FIRE_PROJECTILE = 50
+
 TUNICATE_WIDTH = $0f
 TUNICATE_HEIGHT = $0f
+
+TUNICATE_PROJECTILE_X_OFFSET = 4
+TUNICATE_PROJECTILE_Y_OFFSET = 4
+
+TUNICATE_INITIAL_HEALTH = 3
+TUNICATE_ATTACKED_LENGTH = 20
+TUNICATE_FLASH_LENGTH = 20
 
 .enum
 TUNICATE_STATE_INIT
 TUNICATE_STATE_MAIN
 .endenum
+
+tunicate_state_counter = entity_local0
+tunicate_projectile_direction = entity_local1
+tunicate_health = entity_local2
+tunicate_direction = entity_local3
+tunicate_flash_counter = entity_local4
+tunicate_knockback_counter = entity_local5
 
 .define tunicate_states \
   tunicate_state_init, \
@@ -49,12 +67,57 @@ tunicate_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
+  lda #TUNICATE_INITIAL_HEALTH
+  sta tunicate_health,x
+
+  lda #0
+  sta tunicate_flash_counter,x
+  sta tunicate_knockback_counter,x
+  sta tunicate_direction,x
+
+  lda #TUNICATE_TIME_UNTIL_FIRE_PROJECTILE
+  sta tunicate_state_counter,x
+
+  lda #PROJECTILE_NORTH
+  sta tunicate_projectile_direction,x
+
   lda #TUNICATE_STATE_MAIN
   sta entity_state,x
 
   rts
 
 tunicate_state_main:
+
+  entity_combat #TUNICATE_FLASH_LENGTH, #TUNICATE_ATTACKED_LENGTH, tunicate_flash_counter, tunicate_knockback_counter, tunicate_health, tunicate_direction
+
+  .scope
+  dec tunicate_state_counter,x
+  bne do_not_spawn_projectile
+
+  lda #entity_index_projectile
+  sta b0
+
+  entity_to_zp16 entity_x, w0
+  entity_to_zp16 entity_y, w1
+  zp16_add_im8 w0, TUNICATE_PROJECTILE_X_OFFSET
+  zp16_add_im8 w1, TUNICATE_PROJECTILE_Y_OFFSET
+
+  jsr entity_spawn
+
+  ldy spawned_entity
+  lda tunicate_projectile_direction,x
+  sta projectile_direction,y
+
+  inc tunicate_projectile_direction,x
+  lda tunicate_projectile_direction,x
+  and #%00000111
+  sta tunicate_projectile_direction,x
+
+  lda #TUNICATE_TIME_UNTIL_FIRE_PROJECTILE
+  sta tunicate_state_counter,x
+
+do_not_spawn_projectile:
+  .endscope
 
   jsr entity_update_animation
 

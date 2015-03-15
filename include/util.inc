@@ -58,4 +58,16 @@ UTIL_INC = 1
 
 .endmacro
 
+.macro zp16_add_im8 variable, value
+
+  clc
+  lda variable
+  adc #<value
+  sta variable
+  lda variable+1
+  adc #>value
+  sta variable+1
+
+.endmacro
+
 .endif

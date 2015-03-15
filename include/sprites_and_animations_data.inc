@@ -29,7 +29,7 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 
 .global octopus_fly
 
-.global Explosion
+.global explosion
 
 .global npcman_walk_side
 .global npcman_walk_down

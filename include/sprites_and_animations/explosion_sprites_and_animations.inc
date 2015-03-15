@@ -11,7 +11,7 @@ explosion2:
   .byte $01
   .byte $00,$02,$00,$00,$00
 
-Explosion:
+explosion:
   .byte $02,$06
   .word explosion0
   .word explosion1

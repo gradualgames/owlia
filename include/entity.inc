@@ -528,6 +528,33 @@ flash_state_machine_not_running:
 
 .endmacro
 
+;assumes y has been loaded with a table index.
+;assumes x points to the current entity in the entity arrays.
+;adds the 16 bit value in the look up table (assumed to have _lo and _hi variants)
+;to the 16 bit entity variable (also assumed to have _lo and _hi variants)
+.macro entity_x_add_table_y16 variable, table
+
+  clc
+  lda .ident(.concat(.string(variable), "_lo")),x
+  adc .ident(.concat(.string(table), "_lo")),y
+  sta .ident(.concat(.string(variable), "_lo")),x
+  lda .ident(.concat(.string(variable), "_hi")),x
+  adc .ident(.concat(.string(table), "_hi")),y
+  sta .ident(.concat(.string(variable), "_hi")),x
+
+.endmacro
+
+;transfers a 16 bit entity variable (structures of arrays indexed by x) to
+;a 16 bit zp variable.
+.macro entity_to_zp16 source, destination
+
+  lda .ident(.concat(.string(source), "_lo")),x
+  sta destination
+  lda .ident(.concat(.string(source), "_hi")),x
+  sta destination+1
+
+.endmacro
+
 ;assumes the entity has _lo, _hi appended to variable.
 .macro entity_neg16 variable
 

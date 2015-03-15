@@ -47,9 +47,9 @@ explosion_state_init:
   lda #EXPLOSION_HEIGHT
   sta entity_height,x
 
-  lda #<Explosion
+  lda #<explosion
   sta entity_animation_address_lo,x
-  lda #>Explosion
+  lda #>explosion
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation

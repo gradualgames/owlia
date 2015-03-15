@@ -10,15 +10,9 @@ TEMPLATE_STATE_INIT
 TEMPLATE_STATE_MAIN
 .endenum
 
-.define template_states \
-  template_state_init, \
-  template_state_main
-
-template_lo:
-  .lobytes template_states
-
-template_hi:
-  .hibytes template_states
+define_lohi_tables template, \
+ {template_state_init, \
+  template_state_main}
 
 template_update:
 

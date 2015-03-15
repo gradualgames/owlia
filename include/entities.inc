@@ -13,6 +13,7 @@ ENTITIES_BANK = 0
 .enum
 entity_index_instance_placeholder
 entity_index_explosion
+entity_index_projectile
 entity_index_bomb
 entity_index_octopus
 entity_index_npc
@@ -59,6 +60,7 @@ entity_index_clam
 
 entity_update_bank_instance_placeholder = 4
 entity_update_bank_explosion = 4
+entity_update_bank_projectile = 4
 entity_update_bank_bomb = 4
 entity_update_bank_octopus = 4
 entity_update_bank_npc = 4
@@ -104,6 +106,7 @@ entity_update_bank_clam = 5
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 7
+entity_sprites_and_animations_bank_projectile = 7
 entity_sprites_and_animations_bank_bomb = 7
 entity_sprites_and_animations_bank_octopus = 7
 entity_sprites_and_animations_bank_npc = 7
