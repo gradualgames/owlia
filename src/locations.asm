@@ -1614,7 +1614,12 @@ island2_entity_instances:
   .byte entity_index_starfish, 48, 25, 0, 0
 
 temple1_entity_instances:
-  .byte 0
+  .byte 5
+  .byte entity_index_starfish, 15, 51, 0, 0
+  .byte entity_index_starfish, 49, 51, 0, 0
+  .byte entity_index_clam, 31, 47, 0, 0
+  .byte entity_index_clam, 14, 39, 0, 0
+  .byte entity_index_clam, 48, 39, 0, 0
 
 ;****************************************************************
 ;Palettes.
@@ -1738,7 +1743,7 @@ island_palette:
 
 temple_palette:
   .byte $37,$0e,$09,$19,$37,$0e,$09,$18,$37,$09,$18,$20,$37,$0e,$18,$28
-  .byte $37,$0e,$06,$36,$37,$0e,$18,$20,$37,$0e,$07,$17,$37,$0e,$0e,$0e
+  .byte $37,$0e,$06,$36,$37,$0e,$18,$20,$37,$0e,$13,$23,$37,$0e,$14,$24
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
