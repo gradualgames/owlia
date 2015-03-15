@@ -4,11 +4,11 @@ PROJECTILE_INC = 1
 
 .include "projectile_constants.inc"
 
-define_lohi_tables projectile_x_velocity, \
-  {0, 1, 1, 1, 0, -1, -1, -1}
+define_lohi_tables projectile_x_velocity_table, \
+  {0, PROJECTILE_DIAGONAL_VELOCITY, PROJECTILE_ORTHOGONAL_VELOCITY, PROJECTILE_DIAGONAL_VELOCITY, 0, -PROJECTILE_DIAGONAL_VELOCITY, -PROJECTILE_ORTHOGONAL_VELOCITY, -PROJECTILE_DIAGONAL_VELOCITY}
 
-define_lohi_tables projectile_y_velocity, \
-  {-1, -1, 0, 1, 1, 1, 0, -1}
+define_lohi_tables projectile_y_velocity_table, \
+  {-PROJECTILE_ORTHOGONAL_VELOCITY, -PROJECTILE_DIAGONAL_VELOCITY, 0, PROJECTILE_DIAGONAL_VELOCITY, PROJECTILE_ORTHOGONAL_VELOCITY, PROJECTILE_DIAGONAL_VELOCITY, 0, -PROJECTILE_DIAGONAL_VELOCITY}
 
 define_lohi_tables projectile, \
  {projectile_state_init, \
@@ -44,6 +44,10 @@ projectile_state_init:
   sta entity_sprite_flags,x
 
   entity_lda16 projectile_life, PROJECTILE_INITIAL_LIFE
+
+  lda #0
+  sta projectile_x_fine,x
+  sta projectile_y_fine,x
 
   lda #PROJECTILE_STATE_MAIN
   sta entity_state,x
@@ -82,8 +86,18 @@ not_dead:
   .endscope
 
   ldy projectile_direction,x
-  entity_x_add_table_y16 entity_x, projectile_x_velocity
-  entity_x_add_table_y16 entity_y, projectile_y_velocity
+  lda projectile_x_velocity_table_lo,y
+  sta projectile_x_velocity_lo,x
+  lda projectile_x_velocity_table_hi,y
+  sta projectile_x_velocity_hi,x
+
+  lda projectile_y_velocity_table_lo,y
+  sta projectile_y_velocity_lo,x
+  lda projectile_y_velocity_table_hi,y
+  sta projectile_y_velocity_hi,x
+
+  entity_add_velocity projectile_x, projectile_x_velocity
+  entity_add_velocity projectile_y, projectile_y_velocity
 
   lda projectile_life_lo,x
   and #%00000011
