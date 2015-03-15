@@ -181,15 +181,13 @@ starfish_state_float:
 
   dec starfish_state_counter,x
   lda starfish_state_counter,x
-  and #%01100000
-  beq :+
+  and #%00000111
+  bne :+
   lda rand
-  and #%01100000
-  rol
-  rol
-  rol
-  rol
-  and #%00000011
+  and #%00011000
+  lsr
+  lsr
+  lsr
   sta starfish_meander_direction,x
 :
 
