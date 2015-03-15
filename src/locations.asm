@@ -1592,9 +1592,9 @@ dungeon3_boss_owl_dungeon_entity_instances:
 
 island1_entity_instances:
   .byte 3
-  .byte entity_index_starfish, 4, 56, 0, 0
-  .byte entity_index_tunicate, 4, 58, 0, 0
-  .byte entity_index_clam, 4, 60, 0, 0
+  .byte entity_index_starfish, 2, 58, 0, 0
+  .byte entity_index_tunicate, 8, 48, 0, 0
+  .byte entity_index_clam, 8, 58, 0, 0
 
 island2_entity_instances:
   .byte 0

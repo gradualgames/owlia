@@ -57,13 +57,7 @@ clam_y_velocity_lo = entity_local12
 clam_y_velocity_hi = entity_local13
 clam_altitude_velocity_lo = entity_local14
 clam_altitude_velocity_hi = entity_local15
-
-;these two intentionally share because the item entity index
-;is no longer needed once the hero steals the item. This is
-;a workaround because we only allow 20 total bytes in any given entity.
-clam_item_entity_index = entity_local16
 clam_flash_counter = entity_local16
-
 clam_knockback_counter = entity_local17
 clam_health = entity_local18
 clam_direction = entity_local19
@@ -146,9 +140,15 @@ clam_state_init:
 
 clam_state_open:
 
+  jsr clam_combat
+
   .scope
   dec clam_state_counter,x
   bne do_not_transition_yet
+
+  .scope
+  jsr clam_search_for_gp_item
+  bpl do_not_spawn_item
 
   lda #entity_index_item
   sta b0
@@ -172,7 +172,6 @@ clam_state_open:
   jsr entity_spawn
 
   lda spawned_entity
-  sta clam_item_entity_index,x
 
   ldy spawned_entity
   lda #ITEM_STATE_PICKUP_INIT
@@ -185,6 +184,9 @@ clam_state_open:
   sta item_quantity_hi,y
   lda #0
   sta item_dungeon_flags_mask,y
+
+do_not_spawn_item:
+  .endscope
 
   lda #CLAM_STATE_REVEAL_TREASURE_LENGTH
   sta clam_state_counter,x
@@ -203,32 +205,11 @@ do_not_transition_yet:
 
 clam_state_reveal_treasure:
 
-  .scope
-  dec clam_state_counter,x
-  bne do_not_transition_yet
+  jsr clam_combat
 
   .scope
-  ldy clam_item_entity_index,x
-  cpy familiar_carried_entity_index
-  beq taken
-
-  lda entity_flags,y
-  and #ENTITY_FLAGS_ALIVE_TEST
-  beq taken
-not_taken:
-
-  lda entity_flags,y
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,y
-
-  lda #CLAM_STATE_CLOSE_LENGTH
-  sta clam_state_counter,x
-
-  lda #CLAM_STATE_CLOSE
-  sta entity_state,x
-
-  jmp done
-taken:
+  jsr clam_search_for_gp_item
+  bpl clam_not_angered
 
   lda #CLAM_STATE_RISE_LENGTH
   sta clam_state_counter,x
@@ -236,8 +217,34 @@ taken:
   lda #CLAM_STATE_RISE
   sta entity_state,x
 
-done:
+  rts
+clam_not_angered:
   .endscope
+
+  .scope
+  dec clam_state_counter,x
+  bne do_not_transition_yet
+
+  .scope
+  jsr clam_search_for_gp_item
+  bmi do_not_kill_item
+
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+
+do_not_kill_item:
+  .endscope
+
+  lda #CLAM_STATE_CLOSE_LENGTH
+  sta clam_state_counter,x
+
+  lda #CLAM_STATE_CLOSE
+  sta entity_state,x
+
+  jsr position_clam
+
+  rts
 
 do_not_transition_yet:
   .endscope
@@ -247,6 +254,8 @@ do_not_transition_yet:
   rts
 
 clam_state_close:
+
+  jsr clam_combat
 
   .scope
   dec clam_state_counter,x
@@ -268,6 +277,8 @@ do_not_transition_yet:
   rts
 
 clam_state_rise:
+
+  jsr clam_combat
 
   .scope
   dec clam_state_counter,x
@@ -304,7 +315,7 @@ do_not_transition_yet:
 
 clam_state_float:
 
-  entity_combat #CLAM_FLASH_LENGTH, #CLAM_ATTACKED_LENGTH, clam_flash_counter, clam_knockback_counter, clam_health, clam_direction
+  jsr clam_combat
 
   .scope
   lda clam_knockback_counter,x
@@ -473,6 +484,84 @@ done:
   jsr entity_update_animation
 
   rts
+
+;searches for a gp item at an offset from the clam.
+;returns with negative flag clear if one is found, set if not.
+.proc clam_search_for_gp_item
+
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity
+  lda entity_type,y
+  cmp #entity_index_item
+  bne skip_entity
+
+  lda item_type,y
+  cmp #ITEM_TYPE_GP
+  bne skip_entity
+
+  cpy familiar_carried_entity_index
+  beq skip_entity
+
+  clc
+  lda entity_x_lo,x
+  adc #<CLAM_ITEM_OFFSET_X
+  sta w0
+  lda entity_x_hi,x
+  adc #>CLAM_ITEM_OFFSET_X
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc #<CLAM_ITEM_OFFSET_Y
+  sta w1
+  lda entity_y_hi,x
+  adc #>CLAM_ITEM_OFFSET_Y
+  sta w1+1
+
+  sec
+  lda w0
+  sbc entity_x_lo,y
+  sta w0
+  lda w0+1
+  sbc entity_x_hi,y
+  sta w0+1
+
+  sec
+  lda w1
+  sbc entity_y_lo,y
+  sta w1
+  lda w1+1
+  sbc entity_y_hi,y
+  sta w1+1
+
+  lda w0
+  ora w0+1
+  ora w1
+  ora w1+1
+  beq found_entity
+
+skip_entity:
+  dey
+  bpl next_entity
+found_entity:
+  .endscope
+
+  rts
+
+.endproc
+
+.proc clam_combat
+
+  entity_combat #CLAM_FLASH_LENGTH, #CLAM_ATTACKED_LENGTH, clam_flash_counter, clam_knockback_counter, clam_health, clam_direction
+
+  rts
+
+.endproc
 
 .proc move_clam
 
