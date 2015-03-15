@@ -165,7 +165,64 @@ rect2_attacked_entity:
   far_call #FAMILIAR_BANK, familiar_hit_enemy
 
 rect1_attacked_entity:
-  entity_attacked health, direction
+  entity_attacked health
+  entity_flashed flash_counter_reset, flash_counter
+  entity_knocked_back knockback_counter_reset, knockback_counter
+
+entity_not_attacked:
+  .endscope
+
+.endmacro
+
+;common state machine logic for attacking the hero, getting attacked, flashing,
+;counting down the knockback_counter, decrementing health, dying...there's a lot
+;of stuff here =) This is expressed as a macro to give entities the flexibility
+;to use different entity_local arrays for the various state variables.
+.macro entity_combat_no_direction flash_counter_reset, knockback_counter_reset, flash_counter, knockback_counter, health
+
+  .scope
+  entity_advance_flash_state flash_counter
+  entity_advance_knocked_back_state knockback_counter
+
+  jsr entity_test_hero_rect
+  bne entity_not_hitting_hero
+
+  jsr entity_hurt_hero
+
+entity_not_hitting_hero:
+
+  lda flash_counter,x
+  bne action_rect1_not_deadly
+  lda entity_action_rect1_action
+  cmp #ENTITY_ACTION_ATTACK
+  bne action_rect1_not_deadly
+
+  jsr entity_test_entity_action_rect1
+  bne action_rect1_not_deadly
+
+  jmp rect1_attacked_entity
+
+action_rect1_not_deadly:
+
+  lda flash_counter,x
+  bne action_rect2_not_deadly
+  lda entity_action_rect2_action
+  cmp #ENTITY_ACTION_ATTACK
+  bne action_rect2_not_deadly
+
+  jsr entity_test_entity_action_rect2
+  bne action_rect2_not_deadly
+
+  jmp rect2_attacked_entity
+
+action_rect2_not_deadly:
+  jmp entity_not_attacked
+
+rect2_attacked_entity:
+  far_call #FAMILIAR_BANK, familiar_hit_enemy
+
+rect1_attacked_entity:
+  entity_attacked health
   entity_flashed flash_counter_reset, flash_counter
   entity_knocked_back knockback_counter_reset, knockback_counter
 
@@ -231,7 +288,7 @@ rect2_attacked_entity:
   far_call #FAMILIAR_BANK, familiar_hit_enemy
 
 rect1_attacked_entity:
-  entity_attacked health, direction
+  entity_attacked health
   entity_flashed flash_counter_reset, flash_counter
   entity_knocked_back knockback_counter_reset, knockback_counter
 
@@ -363,7 +420,7 @@ entity_not_attacked:
 
 .endmacro
 
-.macro entity_attacked health, direction
+.macro entity_attacked health
 
   .scope
   ;play a sound
@@ -431,15 +488,6 @@ flash_state_machine_not_running:
 
 .endmacro
 
-.macro define_lohi_tables table_name, values
-
-.ident(.concat(.string(table_name), "_lo")):
-  .lobytes values
-.ident(.concat(.string(table_name), "_hi")):
-  .hibytes values
-
-.endmacro
-
 ;assumes the entity has _lo, and _hi appended to variable.
 .macro entity_shift_left16 variable, amount
 
@@ -477,6 +525,21 @@ flash_state_machine_not_running:
   sta .ident(.concat(.string(destination), "_lo")),x
   lda .ident(.concat(.string(source), "_hi")),x
   sta .ident(.concat(.string(destination), "_hi")),x
+
+.endmacro
+
+;assumes the entity has _lo, _hi appended to variable.
+.macro entity_neg16 variable
+
+  clc
+  lda .ident(.concat(.string(variable), "_lo")),x
+  eor #$ff
+  adc #<1
+  sta .ident(.concat(.string(variable), "_lo")),x
+  lda .ident(.concat(.string(variable), "_hi")),x
+  eor #$ff
+  adc #>1
+  sta .ident(.concat(.string(variable), "_hi")),x
 
 .endmacro
 

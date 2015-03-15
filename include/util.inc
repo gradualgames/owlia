@@ -4,6 +4,15 @@ UTIL_INC = 1
 .global indirect_jsr_w0
 .global next_rand
 
+.macro define_lohi_tables table_name, values
+
+.ident(.concat(.string(table_name), "_lo")):
+  .lobytes values
+.ident(.concat(.string(table_name), "_hi")):
+  .hibytes values
+
+.endmacro
+
 .macro neg16 value
 
   clc

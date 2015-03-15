@@ -5,14 +5,29 @@ CLAM_INC = 1
 CLAM_STATE_OPEN_LENGTH = 20
 CLAM_STATE_REVEAL_TREASURE_LENGTH = 80
 CLAM_STATE_CLOSE_LENGTH = 20
+CLAM_STATE_RISE_LENGTH = 80
+
+CLAM_RISE_SPEED = 100
+
+CLAM_FLOAT_ACCELERATION = 10
+CLAM_FLOAT_ALTITUDE = 40
+
+CLAM_FOLLOW_ACCELERATION = 20
+
+CLAM_MAX_FOLLOW_VELOCITY = 500
+
+CLAM_KNOCKBACK_VELOCITY = 500
+
+CLAM_ATTACKED_LENGTH = 20
+
+CLAM_FLASH_LENGTH = 20
+
+CLAM_INITIAL_HEALTH = 3
 
 CLAM_ITEM_OFFSET_X = 4
 CLAM_ITEM_OFFSET_Y = 4
 
 CLAM_ITEM_QUANTITY = 100
-
-CLAM_INITIAL_JUMP_VELOCITY = 500
-CLAM_JUMP_ACCELERATION = -50
 
 CLAM_WIDTH = $0f
 CLAM_HEIGHT = $0f
@@ -22,39 +37,47 @@ CLAM_STATE_INIT
 CLAM_STATE_OPEN
 CLAM_STATE_REVEAL_TREASURE
 CLAM_STATE_CLOSE
-CLAM_STATE_ANGRY
+CLAM_STATE_RISE
+CLAM_STATE_FLOAT
 .endenum
 
 clam_state_counter = entity_local0
-clam_item_entity_index = entity_local1
-clam_x_lo = entity_local2
-clam_x_hi = entity_local3
-clam_x_fine = entity_local4
-clam_y_lo = entity_local5
-clam_y_hi = entity_local6
-clam_y_fine = entity_local7
-clam_altitude_lo = entity_local8
-clam_altitude_hi = entity_local9
-clam_altitude_fine = entity_local10
-clam_x_velocity_lo = entity_local11
-clam_x_velocity_hi = entity_local12
-clam_y_velocity_lo = entity_local13
-clam_y_velocity_hi = entity_local14
-clam_altitude_velocity_lo = entity_local15
-clam_altitude_velocity_hi = entity_local16
+clam_x_lo = entity_local1
+clam_x_hi = entity_local2
+clam_x_fine = entity_local3
+clam_y_lo = entity_local4
+clam_y_hi = entity_local5
+clam_y_fine = entity_local6
+clam_altitude_lo = entity_local7
+clam_altitude_hi = entity_local8
+clam_altitude_fine = entity_local9
+clam_x_velocity_lo = entity_local10
+clam_x_velocity_hi = entity_local11
+clam_y_velocity_lo = entity_local12
+clam_y_velocity_hi = entity_local13
+clam_altitude_velocity_lo = entity_local14
+clam_altitude_velocity_hi = entity_local15
 
-.define clam_states \
-  clam_state_init, \
+;these two intentionally share because the item entity index
+;is no longer needed once the hero steals the item. This is
+;a workaround because we only allow 20 total bytes in any given entity.
+clam_item_entity_index = entity_local16
+clam_flash_counter = entity_local16
+
+clam_knockback_counter = entity_local17
+clam_health = entity_local18
+clam_direction = entity_local19
+
+define_lohi_tables clam_knockback_x_velocity, {CLAM_KNOCKBACK_VELOCITY, -CLAM_KNOCKBACK_VELOCITY, 0, 0}
+define_lohi_tables clam_knockback_y_velocity, {0, 0, CLAM_KNOCKBACK_VELOCITY, -CLAM_KNOCKBACK_VELOCITY}
+
+define_lohi_tables clam, \
+  {clam_state_init, \
   clam_state_open, \
   clam_state_reveal_treasure, \
   clam_state_close, \
-  clam_state_angry
-
-clam_lo:
-  .lobytes clam_states
-
-clam_hi:
-  .hibytes clam_states
+  clam_state_rise, \
+  clam_state_float}
 
 clam_update:
 
@@ -63,6 +86,8 @@ clam_update:
 clam_state_init:
 
   jsr entity_set_drawable
+
+  jsr entity_set_not_pausable
 
   jsr entity_set_shadow_spot
 
@@ -86,6 +111,16 @@ clam_state_init:
 
   lda #$00
   sta entity_sprite_flags,x
+
+  lda #CLAM_INITIAL_HEALTH
+  sta clam_health,x
+
+  lda #0
+  sta clam_flash_counter,x
+  sta clam_knockback_counter,x
+
+  lda #ENTITY_DIRECTION_NONE
+  sta clam_direction,x
 
   entity_lda24 clam_x, 0
   entity_move16 entity_x, clam_x
@@ -195,11 +230,10 @@ not_taken:
   jmp done
 taken:
 
-  jsr clam_change_direction
+  lda #CLAM_STATE_RISE_LENGTH
+  sta clam_state_counter,x
 
-  entity_lda16 clam_altitude_velocity, CLAM_INITIAL_JUMP_VELOCITY
-
-  lda #CLAM_STATE_ANGRY
+  lda #CLAM_STATE_RISE
   sta entity_state,x
 
 done:
@@ -233,9 +267,32 @@ do_not_transition_yet:
 
   rts
 
-clam_state_angry:
+clam_state_rise:
 
-  entity_add_acceleration clam_altitude_velocity, CLAM_JUMP_ACCELERATION
+  .scope
+  dec clam_state_counter,x
+  bne do_not_transition_yet
+
+  lda #0
+  sta clam_flash_counter,x
+  sta clam_knockback_counter,x
+
+  lda #CLAM_STATE_FLOAT
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  clc
+  lda clam_altitude_fine,x
+  adc #<CLAM_RISE_SPEED
+  sta clam_altitude_fine,x
+  lda clam_altitude_lo,x
+  adc #>CLAM_RISE_SPEED
+  sta clam_altitude_lo,x
+  lda clam_altitude_hi,x
+  adc #^CLAM_RISE_SPEED
+  sta clam_altitude_hi,x
 
   jsr move_clam
 
@@ -245,62 +302,183 @@ clam_state_angry:
 
   rts
 
-.proc clam_change_direction
+clam_state_float:
+
+  entity_combat #CLAM_FLASH_LENGTH, #CLAM_ATTACKED_LENGTH, clam_flash_counter, clam_knockback_counter, clam_health, clam_direction
 
   .scope
-  lda rand
+  lda clam_knockback_counter,x
+  cmp #CLAM_ATTACKED_LENGTH
+  bne not_just_attacked
+
+  ldy clam_direction,x
+  lda clam_knockback_x_velocity_lo,y
   sta clam_x_velocity_lo,x
-  bmi negative
-positive:
-  lda #0
+  lda clam_knockback_x_velocity_hi,y
   sta clam_x_velocity_hi,x
-  jmp done
-negative:
-  lda #$ff
-  sta clam_x_velocity_hi,x
-done:
-  .endscope
 
-  jsr next_rand
+  lda clam_knockback_y_velocity_lo,y
+  sta clam_y_velocity_lo,x
+  lda clam_knockback_y_velocity_hi,y
+  sta clam_y_velocity_hi,x
+
+not_just_attacked:
+  .endscope
 
   .scope
-  lda rand
-  sta clam_y_velocity_lo,x
-  bmi negative
-positive:
-  lda #0
-  sta clam_y_velocity_hi,x
+  sec
+  lda hero_x
+  sbc entity_x_lo,x
+  lda hero_x+1
+  sbc entity_x_hi,x
+  bmi accelerate_left
+accelerate_right:
+
+  entity_add_acceleration clam_x_velocity, CLAM_FOLLOW_ACCELERATION
+
   jmp done
-negative:
-  lda #$ff
-  sta clam_y_velocity_hi,x
+accelerate_left:
+
+  entity_add_acceleration clam_x_velocity, (-CLAM_FOLLOW_ACCELERATION)
+
 done:
   .endscope
 
-  entity_shift_left16 clam_x_velocity, 1
-  entity_shift_left16 clam_y_velocity, 1
+  .scope
+  sec
+  lda hero_y
+  sbc entity_y_lo,x
+  lda hero_y+1
+  sbc entity_y_hi,x
+  bmi accelerate_up
+accelerate_down:
+
+  entity_add_acceleration clam_y_velocity, CLAM_FOLLOW_ACCELERATION
+
+  jmp done
+accelerate_up:
+
+  entity_add_acceleration clam_y_velocity, (-CLAM_FOLLOW_ACCELERATION)
+
+done:
+  .endscope
+
+  .scope
+  lda clam_x_velocity_lo,x
+  sta w0
+  lda clam_x_velocity_hi,x
+  sta w0+1
+
+  lda w0+1
+  bmi negative
+positive:
+
+  .scope
+  sec
+  lda #<CLAM_MAX_FOLLOW_VELOCITY
+  sbc w0
+  lda #>CLAM_MAX_FOLLOW_VELOCITY
+  sbc w0+1
+  bpl do_not_cap
+
+  entity_lda16 clam_x_velocity, CLAM_MAX_FOLLOW_VELOCITY
+
+do_not_cap:
+  .endscope
+
+  jmp done
+negative:
+
+  neg16 w0
+
+  .scope
+  sec
+  lda #<CLAM_MAX_FOLLOW_VELOCITY
+  sbc w0
+  lda #>CLAM_MAX_FOLLOW_VELOCITY
+  sbc w0+1
+  bpl do_not_cap
+
+  entity_lda16 clam_x_velocity, (-CLAM_MAX_FOLLOW_VELOCITY)
+
+do_not_cap:
+  .endscope
+
+done:
+  .endscope
+
+  .scope
+  lda clam_y_velocity_lo,x
+  sta w0
+  lda clam_y_velocity_hi,x
+  sta w0+1
+
+  lda w0+1
+  bmi negative
+positive:
+
+  .scope
+  sec
+  lda #<CLAM_MAX_FOLLOW_VELOCITY
+  sbc w0
+  lda #>CLAM_MAX_FOLLOW_VELOCITY
+  sbc w0+1
+  bpl do_not_cap
+
+  entity_lda16 clam_y_velocity, CLAM_MAX_FOLLOW_VELOCITY
+
+do_not_cap:
+  .endscope
+
+  jmp done
+negative:
+
+  neg16 w0
+
+  .scope
+  sec
+  lda #<CLAM_MAX_FOLLOW_VELOCITY
+  sbc w0
+  lda #>CLAM_MAX_FOLLOW_VELOCITY
+  sbc w0+1
+  bpl do_not_cap
+
+  entity_lda16 clam_y_velocity, (-CLAM_MAX_FOLLOW_VELOCITY)
+
+do_not_cap:
+  .endscope
+
+done:
+  .endscope
+
+  .scope
+  sec
+  lda #<CLAM_FLOAT_ALTITUDE
+  sbc clam_altitude_lo,x
+  lda #>CLAM_FLOAT_ALTITUDE
+  sbc clam_altitude_hi,x
+  bpl float_up
+float_down:
+  entity_add_acceleration clam_altitude_velocity, (-CLAM_FLOAT_ACCELERATION)
+  jmp done
+float_up:
+  entity_add_acceleration clam_altitude_velocity, CLAM_FLOAT_ACCELERATION
+done:
+  .endscope
+
+  jsr move_clam
+
+  jsr position_clam
+
+  jsr entity_update_animation
 
   rts
-
-.endproc
 
 .proc move_clam
 
   entity_add_velocity clam_x, clam_x_velocity
   entity_add_velocity clam_y, clam_y_velocity
   entity_add_velocity clam_altitude, clam_altitude_velocity
-
-  .scope
-  lda clam_altitude_hi,x
-  bpl do_not_reset_jump
-
-  jsr clam_change_direction
-
-  entity_lda24 clam_altitude, 0
-  entity_lda16 clam_altitude_velocity, CLAM_INITIAL_JUMP_VELOCITY
-
-do_not_reset_jump:
-  .endscope
 
   rts
 
