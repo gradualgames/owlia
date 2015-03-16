@@ -30,7 +30,7 @@ overworld_start_locations:
   .byte location_index_meadow1_top_entrance
   .byte location_index_tundra1_entrance
   .byte location_index_mountain1_south_entrance
-  .byte $ff
+  .byte location_index_island1_entrance
   .byte $ff
   .byte $ff
   .byte $ff
@@ -40,7 +40,7 @@ dungeon_start_locations:
   .byte $ff
   .byte location_index_dungeon_0_3_s
   .byte location_index_dungeon2_2_3_s
-  .byte $ff
+  .byte location_index_dungeon3_entrance
   .byte $ff
   .byte $ff
   .byte $ff
