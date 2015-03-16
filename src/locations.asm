@@ -441,7 +441,7 @@ island2_sprite_chr_groups:
   .byte sprite_chr_group_index_clam
 
 temple1_sprite_chr_groups:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 10   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -451,6 +451,7 @@ temple1_sprite_chr_groups:
   .byte sprite_chr_group_index_starfish
   .byte sprite_chr_group_index_clam
   .byte sprite_chr_group_index_seahorse
+  .byte sprite_chr_group_index_dungeon_entrance_statue
 
 ;****************************************************************
 ;Entity instance sets
@@ -1615,7 +1616,7 @@ island2_entity_instances:
   .byte entity_index_starfish, 48, 25, 0, 0
 
 temple1_entity_instances:
-  .byte 8
+  .byte 9
   .byte entity_index_starfish, 15, 51, 0, 0
   .byte entity_index_starfish, 49, 51, 0, 0
   .byte entity_index_clam, 31, 47, 0, 0
@@ -1624,6 +1625,7 @@ temple1_entity_instances:
   .byte entity_index_seahorse, 19, 21, 0, 0
   .byte entity_index_seahorse, 47, 13, 0, 0
   .byte entity_index_seahorse, 15, 5, 0, 0
+  .byte entity_index_dungeon_entrance_statue, 15, 1, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 2, <30000, >30000
 
 ;****************************************************************
 ;Palettes.
