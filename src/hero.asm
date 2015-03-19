@@ -194,7 +194,7 @@ tile_y = w8
   ;get action
   lda b0
   and #ISOLATE_ACTION_MASK
-  cmp #ENTITY_ACTION_CARRY_TO
+  cmp #ACTION_CARRY_TO
   bne skip_carry_to
 
   jsr compute_destination_coordinates
