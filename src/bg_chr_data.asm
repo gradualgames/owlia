@@ -103,3 +103,6 @@ sand_chr:
 
 temple_chr:
 .incbin "temple.chr"
+
+dungeon4_main_chr:
+.incbin "dungeon4_main.chr"

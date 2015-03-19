@@ -38,7 +38,8 @@
     dungeon3_boss_area, \
     island1_area, \
     island2_area, \
-    temple1_area
+    temple1_area, \
+    dungeon4_area
 
 areas_lo:
   .lobytes areas
@@ -809,3 +810,49 @@ temple1_area_bg_chr_groups:
   .word sand_chr
   .byte BG_CHR_DATA_BANK4
   .word temple_chr
+
+dungeon4_area:
+  .byte MAP_DATA_BANK3
+  .byte CONVERSATIONS_BANK
+  .word dungeon4_area_bg_chr_groups
+  .word dungeon_theme
+  .byte $22 ;textbox_attribute
+  .word dungeon4_map
+  .word dungeon4_metatile_table_properties
+  .word dungeon4_metatile_table_params
+  .word dungeon4_metatile_table_attributes
+  .word dungeon4_metatile_table_top_left_tiles
+  .word dungeon4_metatile_table_top_right_tiles
+  .word dungeon4_metatile_table_bottom_left_tiles
+  .word dungeon4_metatile_table_bottom_right_tiles
+  .word dungeon4_big_metatile_table_top_left
+  .word dungeon4_big_metatile_table_top_right
+  .word dungeon4_big_metatile_table_bottom_left
+  .word dungeon4_big_metatile_table_bottom_right
+  .word dungeon4_area_nametable_patches
+  .word 0 ;attribute_patches_address
+
+dungeon4_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK4
+  .word dungeon4_main_chr
+
+dungeon4_area_nametable_patches:
+  .word dungeon4_area_nametable_monolith_patch
+  .word dungeon4_area_nametable_keyed_monolith_patch
+  .word dungeon4_area_nametable_monolith_north_bg_patch
+  .word dungeon4_area_nametable_monolith_south_bg_patch
+  .word dungeon4_area_nametable_monolith_west_bg_patch
+  .word dungeon4_area_nametable_monolith_east_bg_patch
+
+dungeon4_area_nametable_monolith_patch:
+  .byte $02,$06,$05,$06,$0e,$0f,$18,$19,$24,$25,$2c,$2d,$32,$33
+dungeon4_area_nametable_keyed_monolith_patch:
+  .byte $02,$06,$42,$43,$4e,$4f,$18,$19,$24,$25,$2c,$2d,$32,$33
+dungeon4_area_nametable_monolith_north_bg_patch:
+dungeon4_area_nametable_monolith_south_bg_patch:
+  .byte $02,$06,$56,$57,$62,$45,$56,$57,$62,$45,$56,$57,$62,$45
+dungeon4_area_nametable_monolith_west_bg_patch:
+  .byte $02,$06,$67,$68,$6c,$6e,$65,$73,$74,$76,$56,$57,$62,$45
+dungeon4_area_nametable_monolith_east_bg_patch:
+  .byte $02,$06,$69,$66,$6f,$6d,$69,$72,$77,$75,$56,$57,$62,$45

@@ -355,4 +355,18 @@ MAP_DATA_BANK3 = 30
 .global temple1_metatile_table_top_right_tiles
 .global temple1_metatile_table_top_left_tiles
 
+.global dungeon4_palette
+.global dungeon4_map
+.global dungeon4_big_metatile_table_bottom_right
+.global dungeon4_big_metatile_table_bottom_left
+.global dungeon4_big_metatile_table_top_right
+.global dungeon4_big_metatile_table_top_left
+.global dungeon4_metatile_table_properties
+.global dungeon4_metatile_table_params
+.global dungeon4_metatile_table_attributes
+.global dungeon4_metatile_table_bottom_right_tiles
+.global dungeon4_metatile_table_bottom_left_tiles
+.global dungeon4_metatile_table_top_right_tiles
+.global dungeon4_metatile_table_top_left_tiles
+
 .endif

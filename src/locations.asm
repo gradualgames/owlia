@@ -179,7 +179,8 @@
     island1_north_exit, \
     island2_entrance, \
     island2_north_exit, \
-    temple1_entrance
+    temple1_entrance, \
+    dungeon4_entrance
 
 locations_lo:
   .lobytes locations
@@ -452,6 +453,21 @@ temple1_sprite_chr_groups:
   .byte sprite_chr_group_index_clam
   .byte sprite_chr_group_index_seahorse
   .byte sprite_chr_group_index_dungeon_entrance_statue
+
+dungeon4_sprite_chr_groups:
+  .byte 12   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_treasure_chest
+  .byte sprite_chr_group_index_key
+  .byte sprite_chr_group_index_horseshoe_crab
+  .byte sprite_chr_group_index_crab
+  .byte sprite_chr_group_index_seahorse
+  .byte sprite_chr_group_index_urchin
 
 ;****************************************************************
 ;Entity instance sets
@@ -1627,6 +1643,9 @@ temple1_entity_instances:
   .byte entity_index_seahorse, 15, 5, 0, 0
   .byte entity_index_dungeon_entrance_statue, 15, 1, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 2, <30000, >30000
 
+dungeon4_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -1750,6 +1769,11 @@ island_palette:
 temple_palette:
   .byte $37,$0e,$09,$19,$37,$0e,$09,$18,$37,$09,$18,$20,$37,$0e,$18,$28
   .byte $37,$0e,$06,$36,$37,$0e,$18,$20,$37,$0e,$13,$23,$37,$0e,$14,$24
+  .byte PALETTE_CYCLE_LOOP
+
+dungeon4_palette:
+  .byte $0e,$18,$28,$37,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$14,$24
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
@@ -2235,4 +2259,10 @@ temple1_entrance:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   area_index_temple1, temple1_sprite_chr_groups, temple1_entity_instances, temple_palette,\
                   0, 50, 9, 61,\
+                  0, 0, 0, ENTITY_DIRECTION_UP
+
+dungeon4_entrance:
+define_location   {(LOCATION_BRIGHTNESS_LEVEL_4)},\
+                  area_index_dungeon4, dungeon4_sprite_chr_groups, dungeon4_entity_instances, dungeon4_palette,\
+                  0, 0, 4, 10,\
                   0, 0, 0, ENTITY_DIRECTION_UP

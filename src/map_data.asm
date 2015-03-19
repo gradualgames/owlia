@@ -432,3 +432,20 @@ temple1_big_metatile_table_top_right = temple1_data::big_metatile_table_top_righ
 temple1_big_metatile_table_bottom_left = temple1_data::big_metatile_table_bottom_left
 temple1_big_metatile_table_bottom_right = temple1_data::big_metatile_table_bottom_right
 temple1_map = temple1_data::map
+
+.scope dungeon4_data
+.include "dungeon4.inc"
+.endscope
+
+dungeon4_metatile_table_properties = dungeon4_data::metatile_table_properties
+dungeon4_metatile_table_params = dungeon4_data::metatile_table_params
+dungeon4_metatile_table_attributes = dungeon4_data::metatile_table_attributes
+dungeon4_metatile_table_top_left_tiles = dungeon4_data::metatile_table_top_left_tiles
+dungeon4_metatile_table_top_right_tiles = dungeon4_data::metatile_table_top_right_tiles
+dungeon4_metatile_table_bottom_left_tiles = dungeon4_data::metatile_table_bottom_left_tiles
+dungeon4_metatile_table_bottom_right_tiles = dungeon4_data::metatile_table_bottom_right_tiles
+dungeon4_big_metatile_table_top_left = dungeon4_data::big_metatile_table_top_left
+dungeon4_big_metatile_table_top_right = dungeon4_data::big_metatile_table_top_right
+dungeon4_big_metatile_table_bottom_left = dungeon4_data::big_metatile_table_bottom_left
+dungeon4_big_metatile_table_bottom_right = dungeon4_data::big_metatile_table_bottom_right
+dungeon4_map = dungeon4_data::map

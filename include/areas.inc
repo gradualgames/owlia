@@ -60,6 +60,7 @@ area_index_dungeon3_boss
 area_index_island1
 area_index_island2
 area_index_temple1
+area_index_dungeon4
 .endenum
 
 .endif
