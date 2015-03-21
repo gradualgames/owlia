@@ -180,6 +180,7 @@
     island2_entrance, \
     island2_north_exit, \
     temple1_entrance, \
+    temple1_dungeon4_entrance, \
     dungeon4_entrance
 
 locations_lo:
@@ -2260,6 +2261,12 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   area_index_temple1, temple1_sprite_chr_groups, temple1_entity_instances, temple_palette,\
                   0, 50, 9, 61,\
                   0, 0, 0, ENTITY_DIRECTION_UP
+
+temple1_dungeon4_entrance:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                  area_index_temple1, temple1_sprite_chr_groups, temple1_entity_instances, temple_palette,\
+                  8, 0, 15, 3,\
+                  0, 0, 0, ENTITY_DIRECTION_DOWN
 
 dungeon4_entrance:
 define_location   {(LOCATION_BRIGHTNESS_LEVEL_4)},\

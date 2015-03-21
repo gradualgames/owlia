@@ -283,6 +283,7 @@ location_index_island1_north_exit
 location_index_island2_entrance
 location_index_island2_north_exit
 location_index_temple1_entrance
+location_index_temple1_dungeon4_entrance
 location_index_dungeon4_entrance
 .endenum
 
