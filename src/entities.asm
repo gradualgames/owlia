@@ -80,7 +80,8 @@
   crab_boss_eye_update, \
   starfish_update, \
   tunicate_update, \
-  clam_update
+  clam_update, \
+  switch_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -133,6 +134,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_starfish
   .byte entity_update_bank_tunicate
   .byte entity_update_bank_clam
+  .byte entity_update_bank_switch
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -180,6 +182,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_starfish
   .byte entity_sprites_and_animations_bank_tunicate
   .byte entity_sprites_and_animations_bank_clam
+  .byte 0 ;entity_sprites_and_animations_bank_switch
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -228,3 +231,4 @@ entity_defs_sprites_and_animations_bank:
 .include "starfish.inc"
 .include "tunicate.inc"
 .include "clam.inc"
+.include "switch.inc"
