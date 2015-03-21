@@ -1,5 +1,6 @@
 .feature force_range
 .linecont +
+.include "ndxdebug.h"
 .include "hero.inc"
 .include "hero_constants.inc"
 .include "entity.inc"
@@ -161,222 +162,192 @@ no_keyed_monolith_found:
 
 .endproc
 
+define_lohi_tables x_offset, {16, -16, 0, 0}
+define_lohi_tables y_offset, {0, 0, 16, -16}
+
+destination_x_mask:
+  .byte $f0, $f0, $ff, $ff
+
+destination_y_mask:
+  .byte $ff, $ff, $f0, $f0
+
+destination_x_round:
+  .byte 16, 0, 0, 0
+
+destination_y_round:
+  .byte 0, 0, 16, 0
+
 .proc hero_prepare_familiar_carry_hero
-; tile_x = w7
-; tile_y = w8
-  ; ;check to see if the metatile the hero is currently standing on contains ENTITY_ACTION_CARRY_TO
-  ; clc
-  ; lda hero_x
-  ; adc #(HERO_HALF_WIDTH)
-  ; and #$f0
-  ; sta tile_x
-  ; sta w0
-  ; lda hero_x+1
-  ; adc #0
-  ; sta tile_x+1
-  ; sta w0+1
+tile_x = w7
+tile_y = w8
 
-  ; clc
-  ; lda hero_y
-  ; adc #((HERO_HEIGHT/4)*3)
-  ; and #$f0
-  ; sta tile_y
-  ; sta w1
-  ; lda hero_y+1
-  ; adc #0
-  ; sta tile_y+1
-  ; sta w1+1
+  ;check to see if the metatile in front of the hero is marked as a PIT
+  move16 hero_x, tile_x
+  move16 hero_y, tile_y
 
-  ; jsr map_test_collision
+  clc
+  lda tile_y
+  adc #<16
+  sta tile_y
+  lda tile_y+1
+  adc #>16
+  sta tile_y+1
 
-  ; ;find out if this action is indeed ENTITY_ACTION_CARRY_TO
-  ; .scope
-  ; ;get action
-  ; lda b0
-  ; and #ISOLATE_ACTION_MASK
-  ; cmp #ACTION_CARRY_TO
-  ; bne skip_carry_to
+  clc
+  lda tile_x
+  adc #<8
+  sta tile_x
+  lda tile_x+1
+  adc #>8
+  sta tile_x+1
 
-  ; jsr compute_destination_coordinates
+  clc
+  lda tile_y
+  adc #<8
+  sta tile_y
+  lda tile_y+1
+  adc #>8
+  sta tile_y+1
 
-  ; lda #HERO_STATE_CARRIED
-  ; sta hero_state
+  ldy hero_direction
+  clc
+  lda tile_x
+  adc x_offset_lo,y
+  sta tile_x
+  lda tile_x+1
+  adc x_offset_hi,y
+  sta tile_x+1
 
-; skip_carry_to:
-  ; .endscope
+  clc
+  lda tile_y
+  adc y_offset_lo,y
+  sta tile_y
+  lda tile_y+1
+  adc y_offset_hi,y
+  sta tile_y+1
 
-  ; rts
+  move16 tile_x, w0
+  move16 tile_y, w1
 
-; compute_destination_coordinates:
-  ; ;now extract two signed, 4 bit offsets from the param, sign extend them
-  ; ;to 16 bits wide, and pass these values into parameters for the familiar
-  ; ;to interpret as the destination to which to carry the hero, in metatile
-  ; ;units.
+  jsr map_test_collision
+  lda b0
+  and #FLAG_PIT
+  beq no_pit
 
-  ; ;get signed 4 bit x offset from param. This is in the hi nybble.
-  ; lda b1
-  ; and #$f0
-  ; lsr
-  ; lsr
-  ; lsr
-  ; lsr
-  ; sta familiar_param_destination_x
+  jsr count_pits
 
-  ; ;sign extend to all 12 higher bits by testing bit 3 (the x offset sign)
-  ; .scope
-  ; and #%00001000
-  ; beq positive
-; negative:
-  ; lda familiar_param_destination_x
-  ; ora #$f0
-  ; sta familiar_param_destination_x
-  ; lda #$ff
-  ; sta familiar_param_destination_x+1
-  ; jmp done
-; positive:
-  ; lda #$00
-  ; sta familiar_param_destination_x+1
-; done:
-  ; .endscope
+  jsr prepare_parameters
 
-  ; ;get signed 4 bit y offset from param. This is in the lo nybble.
-  ; lda b1
-  ; and #$0f
-  ; sta familiar_param_destination_y
+no_pit:
+  rts
 
-  ; ;sign extend to all 12 higher bits by testing bit 3 (the y offset sign)
-  ; .scope
-  ; and #%00001000
-  ; beq positive
-; negative:
-  ; lda familiar_param_destination_y
-  ; ora #$f0
-  ; sta familiar_param_destination_y
-  ; lda #$ff
-  ; sta familiar_param_destination_y+1
-  ; jmp done
-; positive:
-  ; lda #$00
-  ; sta familiar_param_destination_y+1
-; done:
-  ; .endscope
+count_pits:
 
-  ; ;now the familiar params contain sign extended offsets extracted from the param.
-  ; ;arithmetically shift left both values by 4 to multiply by 16, the size of a
-  ; ;meta tile. After this, they will be true offsets in 16 bit map coordinates to
-  ; ;add to the hero's current position.
+next_pit:
+  ;we found a pit, now keep advancing in the hero's direction until we are not seeing a pit.
+  ldy hero_direction
+  clc
+  lda tile_x
+  adc x_offset_lo,y
+  sta tile_x
+  lda tile_x+1
+  adc x_offset_hi,y
+  sta tile_x+1
 
-  ; lda familiar_param_destination_x+1
-  ; asl familiar_param_destination_x
-  ; rol
-  ; asl familiar_param_destination_x
-  ; rol
-  ; asl familiar_param_destination_x
-  ; rol
-  ; asl familiar_param_destination_x
-  ; rol
-  ; sta familiar_param_destination_x+1
+  clc
+  lda tile_y
+  adc y_offset_lo,y
+  sta tile_y
+  lda tile_y+1
+  adc y_offset_hi,y
+  sta tile_y+1
 
-  ; lda familiar_param_destination_y+1
-  ; asl familiar_param_destination_y
-  ; rol
-  ; asl familiar_param_destination_y
-  ; rol
-  ; asl familiar_param_destination_y
-  ; rol
-  ; asl familiar_param_destination_y
-  ; rol
-  ; sta familiar_param_destination_y+1
+  move16 tile_x, w0
+  move16 tile_y, w1
 
-  ; ;before computing destination coordinates, infer direction that
-  ; ;the hero and the familiar ought to point based on the signs of
-  ; ;the x and y offsets.
-  ; .scope
-  ; ;if x offset is zero, assume this is a vertical offset
-  ; lda familiar_param_destination_x
-  ; ora familiar_param_destination_x+1
-  ; beq infer_from_y_offset
-; infer_from_x_offset:
+  jsr map_test_collision
+  lda b0
+  and #FLAG_PIT
+  bne next_pit
+done:
 
-  ; .scope
-  ; lda familiar_param_destination_x+1
-  ; bmi left
-; right:
-  ; lda #ENTITY_DIRECTION_RIGHT
-  ; sta hero_direction
-  ; jmp done
-; left:
-  ; lda #ENTITY_DIRECTION_LEFT
-  ; sta hero_direction
-; done:
-  ; .endscope
+  rts
 
-  ; jmp done
-; infer_from_y_offset:
+prepare_parameters:
 
-  ; .scope
-  ; lda familiar_param_destination_y+1
-  ; bmi up
-; down:
-  ; lda #ENTITY_DIRECTION_DOWN
-  ; sta hero_direction
-  ; jmp done
-; up:
-  ; lda #ENTITY_DIRECTION_UP
-  ; sta hero_direction
-; done:
-  ; .endscope
+  ;when we reach here, we've ceased to find a tile marked as PIT.
+  ;then tile_x and tile_y are the location to which we want to carry the hero.
+  ;readjust these values so they are the actual coordinate to carry the hero to.
 
-; done:
-  ; .endscope
+  sec
+  lda tile_y
+  sbc #<16
+  sta tile_y
+  lda tile_y+1
+  sbc #>16
+  sta tile_y+1
 
-  ; ;Now compute destination coordinates for carrying the hero
-  ; ;use the tile location x when carrying horizontally to
-  ; ;align to a metatile boundary, and use tile location y when
-  ; ;carrying vertically to align to a metatile boundary.
-  ; .scope
-  ; lda hero_direction
-  ; cmp #ENTITY_DIRECTION_UP
-  ; beq use_vertical_offset
-  ; cmp #ENTITY_DIRECTION_DOWN
-  ; beq use_vertical_offset
-; use_horizontal_offset:
-  ; clc
-  ; lda familiar_param_destination_x
-  ; adc tile_x
-  ; sta familiar_param_destination_x
-  ; lda familiar_param_destination_x+1
-  ; adc tile_x+1
-  ; sta familiar_param_destination_x+1
+  sec
+  lda tile_x
+  sbc #<8
+  sta tile_x
+  lda tile_x+1
+  sbc #>8
+  sta tile_x+1
 
-  ; lda hero_y
-  ; sta familiar_param_destination_y
-  ; lda hero_y+1
-  ; sta familiar_param_destination_y+1
-  ; jmp done
-; use_vertical_offset:
-  ; clc
-  ; lda familiar_param_destination_y
-  ; adc tile_y
-  ; sta familiar_param_destination_y
-  ; lda familiar_param_destination_y+1
-  ; adc tile_y+1
-  ; sta familiar_param_destination_y+1
+  sec
+  lda tile_y
+  sbc #<8
+  sta tile_y
+  lda tile_y+1
+  sbc #>8
+  sta tile_y+1
 
-  ; sec
-  ; lda familiar_param_destination_y
-  ; sbc #$10
-  ; sta familiar_param_destination_y
-  ; lda familiar_param_destination_y+1
-  ; sbc #$00
-  ; sta familiar_param_destination_y+1
+  ;get bit 3 to know if we should round up
+  lda tile_x
+  and #%00001000
+  sta b0
 
-  ; lda hero_x
-  ; sta familiar_param_destination_x
-  ; lda hero_x+1
-  ; sta familiar_param_destination_x+1
-; done:
-  ; .endscope
+  lda tile_y
+  and #%00001000
+  sta b1
+
+  ldy hero_direction
+  lda tile_x
+  and destination_x_mask,y
+  sta tile_x
+
+  lda tile_y
+  and destination_y_mask,y
+  sta tile_y
+
+  lda b0
+  beq :+
+  clc
+  lda tile_x
+  adc destination_x_round,y
+  sta tile_x
+  lda tile_x+1
+  adc #0
+  sta tile_x+1
+:
+
+  lda b1
+  beq :+
+  clc
+  lda tile_y
+  adc destination_y_round,y
+  sta tile_y
+  lda tile_y+1
+  adc #0
+  sta tile_y+1
+:
+
+  move16 tile_x, familiar_param_destination_x
+  move16 tile_y, familiar_param_destination_y
+
+  lda #HERO_STATE_CARRIED
+  sta hero_state
 
   rts
 
