@@ -2183,7 +2183,6 @@ done:
   ;update the two player entities
   switch_bank_ldy #HERO_BANK
   jsr hero_update
-  jsr hero_eject_from_solid_tiles
   switch_bank_ldy #FAMILIAR_BANK
   jsr familiar_update
 

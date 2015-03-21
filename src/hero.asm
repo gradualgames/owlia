@@ -1305,6 +1305,8 @@ hero_state_main:
   sta w0+1
   jsr indirect_jsr_w0
 
+  jsr hero_eject_from_solid_tiles
+
   ;get the direction we're facing and look up the animation address
   lda hero_direction
   tay

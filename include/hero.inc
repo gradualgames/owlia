@@ -7,7 +7,6 @@ HERO_INC = 1
 .global hero_update
 .global hero_draw
 .global hero_draw_status
-.global hero_eject_from_solid_tiles
 .global align_hero_if_occluded_by_textbox
 .global hero_calculate_screen_coordinates
 .global hero_is_moving
