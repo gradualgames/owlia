@@ -846,13 +846,13 @@ dungeon4_area_nametable_patches:
   .word dungeon4_area_nametable_monolith_east_bg_patch
 
 dungeon4_area_nametable_monolith_patch:
-  .byte $02,$06,$05,$06,$0e,$0f,$18,$19,$24,$25,$2c,$2d,$32,$33
+  .byte $02,$06,$07,$08,$11,$12,$19,$1a,$21,$22,$28,$29,$2d,$2e
 dungeon4_area_nametable_keyed_monolith_patch:
-  .byte $02,$06,$42,$43,$4e,$4f,$18,$19,$24,$25,$2c,$2d,$32,$33
+  .byte $02,$06,$3e,$3f,$4e,$4f,$19,$1a,$21,$22,$28,$29,$2d,$2e
 dungeon4_area_nametable_monolith_north_bg_patch:
 dungeon4_area_nametable_monolith_south_bg_patch:
-  .byte $02,$06,$56,$57,$62,$45,$56,$57,$62,$45,$56,$57,$62,$45
+  .byte $02,$06,$56,$57,$62,$63,$56,$57,$62,$63,$56,$57,$62,$63
 dungeon4_area_nametable_monolith_west_bg_patch:
-  .byte $02,$06,$67,$68,$6c,$6e,$65,$73,$74,$76,$56,$57,$62,$45
+  .byte $02,$06,$52,$53,$5e,$5f,$52,$53,$5e,$5f,$56,$57,$62,$63
 dungeon4_area_nametable_monolith_east_bg_patch:
-  .byte $02,$06,$69,$66,$6f,$6d,$69,$72,$77,$75,$56,$57,$62,$45
+  .byte $02,$06,$50,$51,$5c,$5d,$50,$51,$5c,$5d,$56,$57,$62,$63
