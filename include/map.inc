@@ -1,8 +1,8 @@
 .ifndef MAP_INC
 MAP_INC = 1
 
-;used to test hurt and solid flags on metatiles
-FLAG_HURT  = $20
+;used to test pit and solid flags on metatiles
+FLAG_PIT  = $20
 FLAG_SOLID = $10
 
 ISOLATE_ACTION_MASK = $0f
