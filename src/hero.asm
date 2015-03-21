@@ -236,8 +236,16 @@ tile_y = w8
 
   jsr count_pits
 
-  jsr prepare_parameters
+  ;last thing that happens in count_pits is b0 being
+  ;loaded with the flags on the tile that did not have
+  ;a pit flag---check it to make sure it is not solid
+  ;to confirm the player can land there.
+  lda b0
+  and #FLAG_SOLID
+  bne cannot_pass
 
+  jsr prepare_parameters
+cannot_pass:
 no_pit:
   rts
 
