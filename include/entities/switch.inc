@@ -2,7 +2,7 @@
 .ifndef SWITCH_INC
 SWITCH_INC = 1
 
-.include "switch_entity_constants.inc"
+.include "switch_constants.inc"
 
 define_lohi_tables switch, \
  {switch_state_init, \
@@ -21,6 +21,9 @@ switch_state_init:
   sta entity_width,x
   lda #SWITCH_HEIGHT
   sta entity_height,x
+
+  entity_move16 entity_x, switch_x
+  entity_move16 entity_y, switch_y
 
   clc
   lda entity_x_lo,x
@@ -46,7 +49,7 @@ switch_state_init:
 switch_state_wait_until_depressed:
 
   .scope
-  ;load entity rectangle
+  ;load switch rectangle
   lda entity_x_lo,x
   sta w2
   lda entity_x_hi,x
@@ -112,6 +115,8 @@ not_depressed:
 
 switch_state_depress:
 
+  jsr switch_draw_down
+
   ;play a sound
   lda #<sfx_chest_open
   sta sound_param_word_0
@@ -132,10 +137,158 @@ switch_state_depress:
 
 switch_state_pop_up:
 
+  jsr switch_draw_up
+
+  ;play a sound
+  lda #<sfx_chest_open
+  sta sound_param_word_0
+  lda #>sfx_chest_open
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  lda #soundeffect_two
+  sta sound_param_byte_1
+  far_call #SOUND_BANK, stream_initialize
+
+  lda #SWITCH_STATE_IDLE
+  sta entity_state,x
+
   rts
 
 switch_state_idle:
 
   rts
+
+.proc switch_draw_up
+
+  ;select bg patch
+  lda switch_down_patch_index,x
+  sta b0
+
+  ;select fg patch
+  lda switch_up_patch_index,x
+  sta b1
+
+  ;select column
+  lda #0
+  sta b2
+
+  ;select row
+  lda #0
+  sta b3
+
+  lda switch_x_lo,x
+  sta w0
+  lda switch_x_hi,x
+  sta w0+1
+
+  lda switch_y_lo,x
+  sta w1
+  lda switch_y_hi,x
+  sta w1+1
+
+  far_call #AREAS_BANK, patch_decode_foreground_revealing_background
+
+  ;select bg patch
+  lda switch_down_patch_index,x
+  sta b0
+
+  ;select fg patch
+  lda switch_up_patch_index,x
+  sta b1
+
+  ;select column
+  lda #1
+  sta b2
+
+  ;select row
+  lda #0
+  sta b3
+
+  clc
+  lda switch_x_lo,x
+  adc #<8
+  sta w0
+  lda switch_x_hi,x
+  adc #>8
+  sta w0+1
+
+  lda switch_y_lo,x
+  sta w1
+  lda switch_y_hi,x
+  sta w1+1
+
+  far_call #AREAS_BANK, patch_decode_foreground_revealing_background
+
+  rts
+
+.endproc
+
+.proc switch_draw_down
+
+  ;select bg patch
+  lda switch_down_patch_index,x
+  sta b0
+
+  ;select fg patch
+  lda switch_up_patch_index,x
+  sta b1
+
+  ;select column
+  lda #0
+  sta b2
+
+  ;select row
+  lda #2
+  sta b3
+
+  lda switch_x_lo,x
+  sta w0
+  lda switch_x_hi,x
+  sta w0+1
+
+  lda switch_y_lo,x
+  sta w1
+  lda switch_y_hi,x
+  sta w1+1
+
+  far_call #AREAS_BANK, patch_decode_foreground_revealing_background
+
+  ;select bg patch
+  lda switch_down_patch_index,x
+  sta b0
+
+  ;select fg patch
+  lda switch_up_patch_index,x
+  sta b1
+
+  ;select column
+  lda #1
+  sta b2
+
+  ;select row
+  lda #2
+  sta b3
+
+  clc
+  lda switch_x_lo,x
+  adc #<8
+  sta w0
+  lda switch_x_hi,x
+  adc #>8
+  sta w0+1
+
+  lda switch_y_lo,x
+  sta w1
+  lda switch_y_hi,x
+  sta w1+1
+
+  far_call #AREAS_BANK, patch_decode_foreground_revealing_background
+
+  rts
+
+.endproc
 
 .endif
