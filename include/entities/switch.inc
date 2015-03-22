@@ -105,6 +105,8 @@ switch_state_wait_until_depressed:
   jsr geotests_rect_inside_rect
   bne not_depressed
 
+  jsr pop_up_other_switches
+
   lda #SWITCH_STATE_DEPRESS
   sta entity_state,x
 
@@ -152,7 +154,7 @@ switch_state_pop_up:
   sta sound_param_byte_1
   far_call #SOUND_BANK, stream_initialize
 
-  lda #SWITCH_STATE_IDLE
+  lda #SWITCH_STATE_WAIT_UNTIL_DEPRESSED
   sta entity_state,x
 
   rts
@@ -286,6 +288,54 @@ switch_state_idle:
   sta w1+1
 
   far_call #AREAS_BANK, patch_decode_foreground_revealing_background
+
+  rts
+
+.endproc
+
+.proc pop_up_other_switches
+
+  ndxDebugBreak
+
+  ;start at max switch id
+  lda #7
+  sta b0
+  lda switch_pop_up_ids,x
+  sta b1
+
+next_switch_id:
+
+  ;get next bit into the carry bit
+  rol b1
+  bcc not_this_id
+
+  ;if we get here, b0 is the switch id to search for
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity
+  lda entity_type,y
+  cmp #entity_index_switch
+  bne skip_entity
+
+  lda switch_id,y
+  cmp b0
+  bne skip_entity
+
+  ;if we get here, we found the switch that matches the id that
+  ;we want to pop. pop it.
+  lda #SWITCH_STATE_POP_UP
+  sta entity_state,y
+
+skip_entity:
+  dey
+  bpl next_entity
+
+not_this_id:
+  dec b0
+  bpl next_switch_id
 
   rts
 
