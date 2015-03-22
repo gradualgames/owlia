@@ -1746,14 +1746,13 @@ dungeon4_3_0_entity_instances:
                                          0, 4
 
 dungeon4_0_1_entity_instances:
-  .byte 2
+  .byte 1
   .byte entity_index_monolith, 14, 26, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_1_1_w,\
                                          0, 5
-  .byte entity_index_switch, 10, 24, 0, 0
 
 dungeon4_1_1_entity_instances:
   .byte 4

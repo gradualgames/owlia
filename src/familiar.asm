@@ -2083,40 +2083,17 @@ familiar_arc_init_handlers_hi:
 .proc familiar_arc_init_handler_vertical_down
 
   .scope
-  ;calculate y distance between familiar and goal
-  sec
-  lda familiar_param_destination_y
-  sbc familiar_y
-  sta w0
-  lda familiar_param_destination_y+1
-  sbc familiar_y+1
-  sta w0+1
-
-  ;calculate how far we will slide the goal by adding 16 to this
-  clc
-  lda w0
-  adc #16
-  sta w0
+  ARC_SIZE = 20
+  lda #ARC_SIZE
   sta familiar_state_counter
 
-  ;slide the x goal over by 4 to help the arc look cool
-  sec
+  clc
   lda familiar_param_destination_x
-  sbc #4
+  adc #<(-ARC_SIZE)
   sta familiar_param_destination_x
   lda familiar_param_destination_x+1
-  sbc #0
+  adc #>(-ARC_SIZE)
   sta familiar_param_destination_x+1
-
-  ;slide the goal by how much we calculated earlier
-  sec
-  lda familiar_param_destination_y
-  sbc w0
-  sta familiar_param_destination_y
-  lda familiar_param_destination_y+1
-  sbc #0
-  sta familiar_param_destination_y+1
-
   .endscope
 
   rts
@@ -2126,40 +2103,17 @@ familiar_arc_init_handlers_hi:
 .proc familiar_arc_init_handler_vertical_up
 
   .scope
-  ;calculate y distance between familiar and goal
-  sec
-  lda familiar_y
-  sbc familiar_param_destination_y
-  sta w0
-  lda familiar_y+1
-  sbc familiar_param_destination_y+1
-  sta w0+1
-
-  ;calculate how far we will slide the goal by adding 16 to this
-  clc
-  lda w0
-  adc #16
-  sta w0
+  ARC_SIZE = 20
+  lda #ARC_SIZE
   sta familiar_state_counter
 
-  ;slide the x goal over by 4 to help the arc look cool
   clc
   lda familiar_param_destination_x
-  adc #4
+  adc #<ARC_SIZE
   sta familiar_param_destination_x
   lda familiar_param_destination_x+1
-  adc #0
+  adc #>ARC_SIZE
   sta familiar_param_destination_x+1
-
-  ;slide the goal by how much we calculated earlier
-  clc
-  lda familiar_param_destination_y
-  adc w0
-  sta familiar_param_destination_y
-  lda familiar_param_destination_y+1
-  adc #0
-  sta familiar_param_destination_y+1
-
   .endscope
 
   rts
@@ -2215,24 +2169,13 @@ do_not_modify_goal:
   beq do_not_modify_goal
   dec familiar_state_counter
 
-  lda familiar_state_counter
-  bne do_not_reset_x_destination
   clc
   lda familiar_param_destination_x
-  adc #$04
+  adc #<1
   sta familiar_param_destination_x
   lda familiar_param_destination_x+1
-  adc #$00
+  adc #>1
   sta familiar_param_destination_x+1
-do_not_reset_x_destination:
-
-  clc
-  lda familiar_param_destination_y
-  adc #$01
-  sta familiar_param_destination_y
-  lda familiar_param_destination_y+1
-  adc #$00
-  sta familiar_param_destination_y+1
 
 do_not_modify_goal:
   .endscope
@@ -2252,24 +2195,13 @@ do_not_modify_goal:
   beq do_not_modify_goal
   dec familiar_state_counter
 
-  lda familiar_state_counter
-  bne do_not_reset_x_destination
   sec
   lda familiar_param_destination_x
-  sbc #$04
+  sbc #<1
   sta familiar_param_destination_x
   lda familiar_param_destination_x+1
-  sbc #$00
+  sbc #>1
   sta familiar_param_destination_x+1
-do_not_reset_x_destination:
-
-  sec
-  lda familiar_param_destination_y
-  sbc #$01
-  sta familiar_param_destination_y
-  lda familiar_param_destination_y+1
-  sbc #$00
-  sta familiar_param_destination_y+1
 
 do_not_modify_goal:
   .endscope
@@ -2347,14 +2279,7 @@ do_not_modify_goal:
   sta familiar_x_velocity+1
 
   ;do an 16 bit arithmetic left shift on this value
-  asl familiar_x_velocity
-  rol familiar_x_velocity+1
-  asl familiar_x_velocity
-  rol familiar_x_velocity+1
-  asl familiar_x_velocity
-  rol familiar_x_velocity+1
-  asl familiar_x_velocity
-  rol familiar_x_velocity+1
+  shift_left16 familiar_x_velocity, 4
   .endscope
 
   .scope
@@ -2368,14 +2293,7 @@ do_not_modify_goal:
   sta familiar_y_velocity+1
 
   ;do an 16 bit arithmetic left shift on this value
-  asl familiar_y_velocity
-  rol familiar_y_velocity+1
-  asl familiar_y_velocity
-  rol familiar_y_velocity+1
-  asl familiar_y_velocity
-  rol familiar_y_velocity+1
-  asl familiar_y_velocity
-  rol familiar_y_velocity+1
+  shift_left16 familiar_y_velocity, 4
   .endscope
 
   lda familiar_x_velocity
@@ -2408,8 +2326,6 @@ familiar_not_at_goal:
   lda familiar_y+1
   adc #$00
   sta w1+1
-
-  ;jsr sprite_add_shadow_spot
 
   ;make the hero (assumed to be in HERO_STATE_CARRIED)
   ;move underneath the familiar

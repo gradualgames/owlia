@@ -165,18 +165,6 @@ no_keyed_monolith_found:
 define_lohi_tables x_offset, {16, -16, 0, 0}
 define_lohi_tables y_offset, {0, 0, 16, -16}
 
-destination_x_mask:
-  .byte $f0, $f0, $ff, $ff
-
-destination_y_mask:
-  .byte $ff, $ff, $f0, $f0
-
-destination_x_round:
-  .byte 16, 0, 0, 0
-
-destination_y_round:
-  .byte 0, 0, 16, 0
-
 .proc hero_prepare_familiar_carry_hero
 tile_x = w7
 tile_y = w8
@@ -186,28 +174,28 @@ tile_y = w8
   move16 hero_y, tile_y
 
   clc
-  lda tile_y
-  adc #<16
-  sta tile_y
-  lda tile_y+1
-  adc #>16
-  sta tile_y+1
-
-  clc
   lda tile_x
-  adc #<8
+  adc #<HERO_HALF_WIDTH
   sta tile_x
   lda tile_x+1
-  adc #>8
+  adc #>HERO_HALF_WIDTH
   sta tile_x+1
 
   clc
   lda tile_y
-  adc #<8
+  adc #<HERO_THREE_QUARTERS_DOWN
   sta tile_y
   lda tile_y+1
-  adc #>8
+  adc #>HERO_THREE_QUARTERS_DOWN
   sta tile_y+1
+
+  lda tile_x
+  and #$f0
+  sta tile_x
+
+  lda tile_y
+  and #$f0
+  sta tile_y
 
   ldy hero_direction
   clc
@@ -289,67 +277,11 @@ prepare_parameters:
 
   sec
   lda tile_y
-  sbc #<16
+  sbc #<HERO_HALF_HEIGHT
   sta tile_y
   lda tile_y+1
-  sbc #>16
+  sbc #>HERO_HALF_HEIGHT
   sta tile_y+1
-
-  sec
-  lda tile_x
-  sbc #<8
-  sta tile_x
-  lda tile_x+1
-  sbc #>8
-  sta tile_x+1
-
-  sec
-  lda tile_y
-  sbc #<8
-  sta tile_y
-  lda tile_y+1
-  sbc #>8
-  sta tile_y+1
-
-  ;get bit 3 to know if we should round up
-  lda tile_x
-  and #%00001000
-  sta b0
-
-  lda tile_y
-  and #%00001000
-  sta b1
-
-  ldy hero_direction
-  lda tile_x
-  and destination_x_mask,y
-  sta tile_x
-
-  lda tile_y
-  and destination_y_mask,y
-  sta tile_y
-
-  lda b0
-  beq :+
-  clc
-  lda tile_x
-  adc destination_x_round,y
-  sta tile_x
-  lda tile_x+1
-  adc #0
-  sta tile_x+1
-:
-
-  lda b1
-  beq :+
-  clc
-  lda tile_y
-  adc destination_y_round,y
-  sta tile_y
-  lda tile_y+1
-  adc #0
-  sta tile_y+1
-:
 
   move16 tile_x, familiar_param_destination_x
   move16 tile_y, familiar_param_destination_y
