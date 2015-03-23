@@ -1812,11 +1812,11 @@ dungeon4_0_2_entity_instances:
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_1_2_w,\
                                          0, 5
   .byte entity_index_switch, 2, 36, 0, SWITCH_PARAMS, 6, 7, 0, %00000000
-  .byte entity_index_switch, 6, 36, 0, SWITCH_PARAMS, 6, 7, 1, %00000000
-  .byte entity_index_switch, 10, 36, 0, SWITCH_PARAMS, 6, 7, 2, %00000000
-  .byte entity_index_switch, 2, 39, 0, SWITCH_PARAMS, 6, 7, 3, %00000000
-  .byte entity_index_switch, 6, 39, 0, SWITCH_PARAMS, 6, 7, 4, %00000000
-  .byte entity_index_switch, 10, 39, 0, SWITCH_PARAMS, 6, 7, 5, %00011000
+  .byte entity_index_switch, 6, 36, 0, SWITCH_PARAMS, 6, 7, 1, %00000100
+  .byte entity_index_switch, 10, 36, 0, SWITCH_PARAMS, 6, 7, 2, %00000001
+  .byte entity_index_switch, 2, 39, 0, SWITCH_PARAMS, 6, 7, 3, %00000111
+  .byte entity_index_switch, 6, 39, 0, SWITCH_PARAMS, 6, 7, 4, %00000010
+  .byte entity_index_switch, 10, 39, 0, SWITCH_PARAMS, 6, 7, 5, %0001001
 
 dungeon4_1_2_entity_instances:
   .byte 3
