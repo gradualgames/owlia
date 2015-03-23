@@ -227,7 +227,7 @@ cycle_pad_lut1:
   .byte 255
   .byte 175
   .byte 255
-  .byte 255
+  .byte 110
   .byte 255
   .byte 65
 
@@ -238,7 +238,7 @@ cycle_pad_lut2:
   .byte 40
   .byte 1
   .byte 40
-  .byte 40
+  .byte 1
   .byte 40
   .byte 1
 

@@ -243,7 +243,7 @@ switch_state_idle:
   sta b2
 
   ;select row
-  lda #2
+  lda #6
   sta b3
 
   lda switch_x_lo,x
@@ -271,7 +271,7 @@ switch_state_idle:
   sta b2
 
   ;select row
-  lda #2
+  lda #6
   sta b3
 
   clc

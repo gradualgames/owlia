@@ -859,6 +859,6 @@ dungeon4_area_nametable_monolith_west_bg_patch:
 dungeon4_area_nametable_monolith_east_bg_patch:
   .byte $02,$06,$50,$51,$5c,$5d,$50,$51,$5c,$5d,$56,$57,$62,$63
 dungeon4_area_nametable_switch_down_patch:
-  .byte $02,$02,$03,$04,$0d,$0e
+  .byte $02,$06,$03,$04,$0d,$0e,$17,$18,$02,$02,$02,$02,$02,$02
 dungeon4_area_nametable_switch_up_patch:
-  .byte $02,$02,$05,$06,$0f,$10
+  .byte $02,$06,$05,$06,$0f,$10,$17,$18,$02,$02,$02,$02,$02,$02
