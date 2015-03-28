@@ -81,7 +81,8 @@
   starfish_update, \
   tunicate_update, \
   clam_update, \
-  switch_update
+  switch_update, \
+  switch_puzzle_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -135,6 +136,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_tunicate
   .byte entity_update_bank_clam
   .byte entity_update_bank_switch
+  .byte entity_update_bank_switch_puzzle
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -183,6 +185,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_tunicate
   .byte entity_sprites_and_animations_bank_clam
   .byte 0 ;entity_sprites_and_animations_bank_switch
+  .byte 0 ;entity_sprites_and_animations_bank_switch_puzzle
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -232,3 +235,4 @@ entity_defs_sprites_and_animations_bank:
 .include "tunicate.inc"
 .include "clam.inc"
 .include "switch.inc"
+.include "switch_puzzle.inc"
