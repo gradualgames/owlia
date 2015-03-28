@@ -1796,13 +1796,21 @@ dungeon4_2_1_entity_instances:
                                          0, 4
 
 dungeon4_3_1_entity_instances:
-  .byte 1
+  .byte 9
   .byte entity_index_monolith, 55, 19, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_3_0_s,\
                                          0, 2
+  .byte entity_index_switch, 52, 20, 0, SWITCH_PARAMS, 6, 7, 0, %00000000
+  .byte entity_index_switch, 55, 20, 0, SWITCH_PARAMS, 6, 7, 1, %00000000
+  .byte entity_index_switch, 58, 20, 0, SWITCH_PARAMS, 6, 7, 2, %00000000
+  .byte entity_index_switch, 52, 23, 0, SWITCH_PARAMS, 6, 7, 3, %00000000
+  .byte entity_index_switch, 55, 23, 0, SWITCH_PARAMS, 6, 7, 4, %00000000
+  .byte entity_index_switch, 58, 23, 0, SWITCH_PARAMS, 6, 7, 5, %00000000
+  .byte entity_index_switch, 49, 23, 0, SWITCH_PARAMS, 6, 7, 6, %00000000
+  .byte entity_index_switch, 61, 23, 0, SWITCH_PARAMS, 6, 7, 7, %00000000
 
 dungeon4_0_2_entity_instances:
   .byte 8
