@@ -2559,7 +2559,7 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
 temple1_dungeon4_entrance:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   area_index_temple1, temple1_sprite_chr_groups, temple1_entity_instances, temple_palette,\
-                  8, 0, 15, 3,\
+                  8, 0, 15, 2,\
                   0, 0, 0, ENTITY_DIRECTION_DOWN
 
 dungeon4_entrance:
