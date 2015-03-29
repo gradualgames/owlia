@@ -489,7 +489,7 @@ temple1_sprite_chr_groups:
   .byte sprite_chr_group_index_dungeon_entrance_statue
 
 dungeon4_sprite_chr_groups:
-  .byte 12   ;sprite_chr_groups .byte
+  .byte 14   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -498,10 +498,12 @@ dungeon4_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_key
-  .byte sprite_chr_group_index_horseshoe_crab
   .byte sprite_chr_group_index_crab
   .byte sprite_chr_group_index_seahorse
   .byte sprite_chr_group_index_urchin
+  .byte sprite_chr_group_index_starfish
+  .byte sprite_chr_group_index_clam
+  .byte sprite_chr_group_index_tunicate
 
 ;****************************************************************
 ;Entity instance sets
@@ -1678,7 +1680,7 @@ temple1_entity_instances:
   .byte entity_index_dungeon_entrance_statue, 15, 1, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 2, <30000, >30000
 
 dungeon4_0_0_entity_instances:
-  .byte 2
+  .byte 4
   .byte entity_index_monolith, 14, 8, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1691,9 +1693,11 @@ dungeon4_0_0_entity_instances:
                                          MONOLITH_DIRECTION_SOUTH,\
                                          ACTION_GOTO_LOCATION_GROUP1, location_index_temple1_dungeon4_entrance,\
                                          0, 2
+  .byte entity_index_seahorse, 4, 8, 0, 0
+  .byte entity_index_seahorse, 11, 8, 0, 0
 
 dungeon4_1_0_entity_instances:
-  .byte 3
+  .byte 5
   .byte entity_index_monolith, 20, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1714,9 +1718,11 @@ dungeon4_1_0_entity_instances:
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_0_0_e,\
                                          0, 4
+  .byte entity_index_crab, 20, 6, 0, 0
+  .byte entity_index_crab, 28, 10, 0, 0
 
 dungeon4_2_0_entity_instances:
-  .byte 2
+  .byte 4
   .byte entity_index_monolith, 46, 8, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1730,9 +1736,11 @@ dungeon4_2_0_entity_instances:
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_1_0_e,\
                                          0, 4
+  .byte entity_index_tunicate, 34, 11, 0, 0
+  .byte entity_index_tunicate, 45, 5, 0, 0
 
 dungeon4_3_0_entity_instances:
-  .byte 2
+  .byte 5
   .byte entity_index_monolith, 55, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1746,6 +1754,9 @@ dungeon4_3_0_entity_instances:
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_2_0_e,\
                                          0, 4
+  .byte entity_index_tunicate, 55, 6, 0, 0
+  .byte entity_index_tunicate, 55, 8, 0, 0
+  .byte entity_index_tunicate, 55, 10, 0, 0
 
 dungeon4_0_1_entity_instances:
   .byte 1
@@ -1796,7 +1807,7 @@ dungeon4_2_1_entity_instances:
                                          0, 4
 
 dungeon4_3_1_entity_instances:
-  .byte 10
+  .byte 12
   .byte entity_index_monolith, 55, 19, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1812,6 +1823,8 @@ dungeon4_3_1_entity_instances:
   .byte entity_index_switch, 49, 23, 0, SWITCH_PARAMS, 6, 7, 6, %10000000
   .byte entity_index_switch, 61, 23, 0, SWITCH_PARAMS, 6, 7, 7, %00000000
   .byte entity_index_switch_puzzle, 55, 22, 0, SWITCH_PUZZLE_PARAMS, DUNGEON4_DUNGEON_FLAGS_SWITCH_PUZZLE2_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
+  .byte entity_index_starfish, 49, 23, 0, 0
+  .byte entity_index_starfish, 61, 23, 0, 0
 
 dungeon4_0_2_entity_instances:
   .byte 8
