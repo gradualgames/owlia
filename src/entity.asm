@@ -1418,6 +1418,10 @@ next_entity:
   sta w1+1
   bne cull_shadow_spot
 
+  lda w1
+  and #$f0
+  beq cull_shadow_spot
+
   ;draw the shadow spot
   lda w1
   sta sprite+sprite_struct::ycoord,y

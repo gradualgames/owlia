@@ -1181,6 +1181,8 @@ hero_state_init:
 ;****************************************************************
 hero_state_carried:
 
+  jsr hero_advance_invincibility_state
+
   rts
 
 ;****************************************************************
@@ -1189,6 +1191,8 @@ hero_state_carried:
 ;main state
 ;****************************************************************
 hero_state_wait_frames:
+
+  jsr hero_advance_invincibility_state
 
   dec hero_state_counter
   bne :+
