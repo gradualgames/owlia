@@ -1338,6 +1338,8 @@ hero_state_knockback:
   sta w0+1
   jsr indirect_jsr_w0
 
+  jsr hero_eject_from_solid_tiles
+
   ;get the opposite direction we're being knocked in and look up the animation for it
   lda hero_direction
   tay
