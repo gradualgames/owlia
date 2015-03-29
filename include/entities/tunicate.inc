@@ -46,6 +46,8 @@ tunicate_state_init:
 
   jsr entity_set_drawable
 
+  jsr entity_set_is_enemy
+
   lda #<tunicate
   sta entity_animation_address_lo,x
   lda #>tunicate

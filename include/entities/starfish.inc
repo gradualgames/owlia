@@ -72,6 +72,8 @@ starfish_state_init:
 
   jsr entity_set_shadow_spot
 
+  jsr entity_set_is_enemy
+
   lda #<starfish
   sta entity_animation_address_lo,x
   lda #>starfish
