@@ -88,20 +88,37 @@ square1:
   .byte A4,E4,F4,G4,STL,20,F4,STL,10,F4,STL,20,C4,STL,10,C4,STL,20
   .byte G4,STL,10,G4,D4,E4,C4,STL,30,D4,STL,20,D4,STL,10,D4,STL,20
   .byte A4,STL,10,A4,STL,20,E4,STL,10,E4,STL,20,B4,STL,10,B4,STL,20
-  .byte G4,STL,10,G4,A4,B4,C5,B4,C5,D5,STL,20,A4,STL,10,A4
+  .byte G4,STL,10,G4,A4,B4,C5,B4,C5,D5,STL,20,A4,STL,10,A4,STL,20
+  .byte D4,STL,10,D4,STL,20,A4,STL,10,A4,E4,F4,G4,STL,20,F4,STL,10
+  .byte F4,STL,20,C4,STL,10,C4,STL,20,G4,STL,10,G4,D4,E4,C4,STL,30
+  .byte D4,STL,20,D4,STL,10,D4,STL,20,A4,STL,10,A4,STL,20,E4,STL,10
+  .byte E4,STL,20,B4,STL,10,B4,STL,20,G4,STL,10,G4,A4,B4,C5,B4
+  .byte C5,D5,STL,20,A4,STL,10,A4,STL,20,G4,STL,10,G4,STL,20
+  .byte D5,STL,10,D5,E5,D5,C5,STL,20,AS4,STL,10,AS4,STL,20
+  .byte A4,STL,10,A4,STL,20,C5,STL,10,C5,D5,G4,A4,STL,20,G4,STL,10
+  .byte G4,STL,20,G4,STL,10,G4,STL,20,D5,STL,10,D5,D5,E5,F5,STL,20
+  .byte G5,STL,10,G5,STL,20,D5,STL,10,D5,D5,E5,F5,G5,STL,20
+  .byte G5,G5,STL,10,A5
   .byte GOT
   .word square1
 
 square2:
   .byte STV,5,STP,2,SDU,2,STL,60,F3,C4,E3,B3,F3,C4,G3,STL,10
-  .byte A3,G3,F3,E3,F3,A3
+  .byte A3,G3,F3,E3,F3,A3,STL,60,F3,C4,E3,B3,F3,C4,G3,STL,10
+  .byte A3,G3,F3,E3,F3,A3,STL,60,AS3,D4,E4,D4,AS3,D4,C4,STL,50
+  .byte AS3,STL,10,A3
   .byte GOT
   .word square2
 
 triangle:
   .byte STV,6,STP,4,SDU,3,STL,50,D2,STL,10,D2,STL,60,A2,STL,50
   .byte C2,STL,10,C2,STL,60,G2,STL,50,D2,STL,10,D2,STL,50,A2,STL,10
-  .byte A2,STL,50,B2,STL,10,B2,STL,50,C3,STL,10,A2
+  .byte A2,STL,50,B2,STL,10,B2,STL,50,C3,STL,10,A2,STL,50,D2,STL,10
+  .byte D2,STL,60,A2,STL,50,C2,STL,10,C2,STL,60,G2,STL,50,D2,STL,10
+  .byte D2,STL,50,A2,STL,10,A2,STL,50,B2,STL,10,B2,STL,50,C3,STL,10
+  .byte A2,STL,50,G2,STL,10,G2,STL,50,D3,STL,10,D3,STL,50,C3,STL,10
+  .byte C3,STL,50,D3,STL,10,D3,STL,50,G2,STL,10,G2,STL,50,D3,STL,10
+  .byte D3,STL,50,F3,STL,10,F3,STL,30,G3,A3
   .byte GOT
   .word triangle
 
@@ -109,7 +126,13 @@ noise:
   .byte STV,8,STP,4,STL,10,$4,$3,$3,$4,$3,$3,$4,$3,$3,$4,$3,$3
   .byte $4,$3,$3,$4,$3,$3,$4,STV,3,$3,STV,8,$3,$4,$3,$3,$4,$3,$3
   .byte $4,$3,$3,$4,$3,$3,$4,$3,$3,$4,$3,$3,$4,$3,$3,$4,STV,3
-  .byte $3,STV,8,$3,$4,STV,3,$3,STV,8,$3
+  .byte $3,STV,8,$3,$4,STV,3,$3,STV,8,$3,$4,$3,$3,$4,$3,$3,$4,$3
+  .byte $3,$4,$3,$3,$4,$3,$3,$4,$3,$3,$4,STV,3,$3,STV,8,$3,$4,$3
+  .byte $3,$4,$3,$3,$4,$3,$3,$4,$3,$3,$4,$3,$3,$4,$3,$3,$4,$3,$3
+  .byte $4,STV,3,$3,STV,8,$3,$4,STV,3,$3,STV,8,$3,$4,$3,$3,$4,$3
+  .byte $3,$4,$3,$3,$4,$3,$3,$4,$3,$3,$4,$3,$3,$4,STV,3,$3,STV,8
+  .byte $3,$4,$3,$3,$4,$3,$3,$4,$3,$3,$4,$3,$3,$4,$3,$3,$4,$3,$3
+  .byte $4,$3,$3,$4,STV,3,$3,STV,8,$3,$4,STV,3,$3,STV,8,$3
   .byte GOT
   .word noise
 
