@@ -1740,7 +1740,7 @@ dungeon4_2_0_entity_instances:
   .byte entity_index_tunicate, 45, 5, 0, 0
 
 dungeon4_3_0_entity_instances:
-  .byte 5
+  .byte 3
   .byte entity_index_monolith, 55, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1754,9 +1754,7 @@ dungeon4_3_0_entity_instances:
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_2_0_e,\
                                          0, 4
-  .byte entity_index_tunicate, 55, 5, 0, 0
-  .byte entity_index_tunicate, 55, 7, 0, 0
-  .byte entity_index_tunicate, 55, 9, 0, 0
+  .byte entity_index_tunicate, 55, 8, 0, 0
 
 dungeon4_0_1_entity_instances:
   .byte 5
@@ -1895,8 +1893,8 @@ dungeon4_2_2_entity_instances:
   .byte entity_index_tunicate, 34, 41, 0, 0
   .byte entity_index_tunicate, 45, 41, 0, 0
   .byte entity_index_monolith, 39, 44, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
-                                         0,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
+                                         DUNGEON4_DUNGEON_FLAGS_DOOR1_UNLOCKED,\
                                          MONOLITH_DIRECTION_SOUTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_2_3_n,\
                                          0, 2
@@ -1954,7 +1952,7 @@ dungeon4_3_2_entity_instances:
                                          0, 2
 
   .byte entity_index_monolith_puzzle, 59, 38, 0, MONOLITH_PUZZLE_PARAMS,\
-                                               DUNGEON3_DUNGEON_FLAGS_MONOLITH_PUZZLE_COMPLETE,\
+                                               DUNGEON4_DUNGEON_FLAGS_MONOLITH_PUZZLE_COMPLETE,\
                                                %00110110,\
                                                TREASURE_CHEST_ITEM_TYPE_KEY,\
                                                <1,\
@@ -1970,7 +1968,7 @@ dungeon4_0_3_entity_instances:
                                          0, 5
   .byte entity_index_monolith, 7, 59, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
-                                         0,\
+                                         DUNGEON4_DUNGEON_FLAGS_DOOR1_UNLOCKED,\
                                          MONOLITH_DIRECTION_SOUTH,\
                                          ACTION_NOP, 0,\
                                          0, 2
@@ -1989,7 +1987,7 @@ dungeon4_1_3_entity_instances:
 
   .byte entity_index_monolith, 17, 51, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
-                                         0,\
+                                         DUNGEON4_DUNGEON_FLAGS_DOOR1_UNLOCKED,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_0_3_e,\
                                          0, 4
