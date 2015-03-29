@@ -1986,25 +1986,27 @@ dungeon4_1_3_entity_instances:
                                          0, 4
 
 dungeon4_2_3_entity_instances:
-  .byte 5
+  .byte 7
+  .byte entity_index_traproom, 0, 0, 0, 0
+  .byte entity_index_starfish, 39, 55, 0, 0
   .byte entity_index_tunicate, 36, 52, 0, 0
   .byte entity_index_tunicate, 43, 52, 0, 0
   .byte entity_index_monolith, 39, 49, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_UNLOCKED,\
                                          0,\
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_2_2_s,\
                                          0, 2
 
   .byte entity_index_monolith, 46, 53, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_UNLOCKED,\
                                          0,\
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_3_3_w,\
                                          0, 5
 
   .byte entity_index_monolith, 33, 53, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_1_3_e,\
