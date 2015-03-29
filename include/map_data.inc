@@ -369,4 +369,18 @@ MAP_DATA_BANK3 = 30
 .global dungeon4_metatile_table_top_right_tiles
 .global dungeon4_metatile_table_top_left_tiles
 
+.global piratebay_palette
+.global piratebay_map
+.global piratebay_big_metatile_table_bottom_right
+.global piratebay_big_metatile_table_bottom_left
+.global piratebay_big_metatile_table_top_right
+.global piratebay_big_metatile_table_top_left
+.global piratebay_metatile_table_properties
+.global piratebay_metatile_table_params
+.global piratebay_metatile_table_attributes
+.global piratebay_metatile_table_bottom_right_tiles
+.global piratebay_metatile_table_bottom_left_tiles
+.global piratebay_metatile_table_top_right_tiles
+.global piratebay_metatile_table_top_left_tiles
+
 .endif

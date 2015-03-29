@@ -106,3 +106,6 @@ temple_chr:
 
 dungeon4_main_chr:
 .incbin "dungeon4_main.chr"
+
+piratebay_chr:
+.incbin "piratebay.chr"

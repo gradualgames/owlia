@@ -214,7 +214,8 @@
     dungeon4_2_3_n, \
     dungeon4_2_3_e, \
     dungeon4_2_3_w, \
-    dungeon4_3_3_w
+    dungeon4_3_3_w, \
+    piratebay_entrance
 
 locations_lo:
   .lobytes locations
@@ -504,6 +505,15 @@ dungeon4_sprite_chr_groups:
   .byte sprite_chr_group_index_starfish
   .byte sprite_chr_group_index_clam
   .byte sprite_chr_group_index_tunicate
+
+piratebay_sprite_chr_groups:
+  .byte 6   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
 
 ;****************************************************************
 ;Entity instance sets
@@ -2031,6 +2041,9 @@ dungeon4_3_3_entity_instances:
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_2_3_e,\
                                          0, 4
 
+piratebay_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -2159,6 +2172,17 @@ temple_palette:
 dungeon4_palette:
   .byte $0e,$18,$28,$37,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$14,$24
+  .byte PALETTE_CYCLE_LOOP
+
+piratebay_palette:
+  .byte $0e,$08,$18,$21,$0e,$21,$31,$20,$0e,$07,$17,$27,$0e,$08,$18,$28
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$14,$24
+  .byte 6,$21,7,$31,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte 6,$21,7,$20,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte 6,$21,7,$31,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte 6,$31,7,$20,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte 6,$20,7,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte 6,$31,7,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
@@ -2720,3 +2744,9 @@ dungeon4_2_3_w:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon4,dungeon4_sprite_chr_groups,dungeon4_2_3_entity_instances,dungeon4_palette,32, 45, 34, 52, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon4_3_3_w:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon4,dungeon4_sprite_chr_groups,dungeon4_3_3_entity_instances,dungeon4_palette,48, 45, 50, 52, 0, 0, 0, ENTITY_DIRECTION_RIGHT
+
+piratebay_entrance:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                  area_index_piratebay, piratebay_sprite_chr_groups, piratebay_entity_instances, piratebay_palette,\
+                  0, 0, 2, 3,\
+                  0, 0, 0, ENTITY_DIRECTION_DOWN

@@ -449,3 +449,20 @@ dungeon4_big_metatile_table_top_right = dungeon4_data::big_metatile_table_top_ri
 dungeon4_big_metatile_table_bottom_left = dungeon4_data::big_metatile_table_bottom_left
 dungeon4_big_metatile_table_bottom_right = dungeon4_data::big_metatile_table_bottom_right
 dungeon4_map = dungeon4_data::map
+
+.scope piratebay_data
+.include "piratebay.inc"
+.endscope
+
+piratebay_metatile_table_properties = piratebay_data::metatile_table_properties
+piratebay_metatile_table_params = piratebay_data::metatile_table_params
+piratebay_metatile_table_attributes = piratebay_data::metatile_table_attributes
+piratebay_metatile_table_top_left_tiles = piratebay_data::metatile_table_top_left_tiles
+piratebay_metatile_table_top_right_tiles = piratebay_data::metatile_table_top_right_tiles
+piratebay_metatile_table_bottom_left_tiles = piratebay_data::metatile_table_bottom_left_tiles
+piratebay_metatile_table_bottom_right_tiles = piratebay_data::metatile_table_bottom_right_tiles
+piratebay_big_metatile_table_top_left = piratebay_data::big_metatile_table_top_left
+piratebay_big_metatile_table_top_right = piratebay_data::big_metatile_table_top_right
+piratebay_big_metatile_table_bottom_left = piratebay_data::big_metatile_table_bottom_left
+piratebay_big_metatile_table_bottom_right = piratebay_data::big_metatile_table_bottom_right
+piratebay_map = piratebay_data::map

@@ -39,7 +39,8 @@
     island1_area, \
     island2_area, \
     temple1_area, \
-    dungeon4_area
+    dungeon4_area, \
+    piratebay_area
 
 areas_lo:
   .lobytes areas
@@ -868,3 +869,29 @@ dungeon4_area_nametable_switch_floor_down_patch:
   .byte $02,$06,$03,$04,$0d,$0e,$56,$57,$62,$63,$56,$57,$62,$63
 dungeon4_area_nametable_switch_floor_up_patch:
   .byte $02,$06,$05,$06,$0f,$10,$56,$57,$62,$63,$56,$57,$62,$63
+
+piratebay_area:
+  .byte MAP_DATA_BANK3
+  .byte CONVERSATIONS_BANK
+  .word piratebay_area_bg_chr_groups
+  .word hero_theme
+  .byte $00 ;textbox_attribute
+  .word piratebay_map
+  .word piratebay_metatile_table_properties
+  .word piratebay_metatile_table_params
+  .word piratebay_metatile_table_attributes
+  .word piratebay_metatile_table_top_left_tiles
+  .word piratebay_metatile_table_top_right_tiles
+  .word piratebay_metatile_table_bottom_left_tiles
+  .word piratebay_metatile_table_bottom_right_tiles
+  .word piratebay_big_metatile_table_top_left
+  .word piratebay_big_metatile_table_top_right
+  .word piratebay_big_metatile_table_bottom_left
+  .word piratebay_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
+
+piratebay_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK4
+  .word piratebay_chr
