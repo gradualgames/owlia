@@ -16,6 +16,10 @@ tundra_theme:
 .scope
 .include "tundra_theme.inc"
 .endscope
+piratebay_theme:
+.scope
+.include "piratebay_theme.inc"
+.endscope
 dungeon_theme:
 .scope
 .include "dungeon_theme.inc"

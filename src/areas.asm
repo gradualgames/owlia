@@ -874,7 +874,7 @@ piratebay_area:
   .byte MAP_DATA_BANK3
   .byte CONVERSATIONS_BANK
   .word piratebay_area_bg_chr_groups
-  .word hero_theme
+  .word piratebay_theme
   .byte $00 ;textbox_attribute
   .word piratebay_map
   .word piratebay_metatile_table_properties

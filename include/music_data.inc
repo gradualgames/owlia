@@ -4,6 +4,7 @@ MUSIC_DATA_INC = 1
 .global hero_theme
 .global forest_theme
 .global tundra_theme
+.global piratebay_theme
 .global dungeon_theme
 .global octoboss_theme
 .global town_theme
