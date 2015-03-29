@@ -766,6 +766,34 @@ enemy_found:
 
 .endproc
 
+;Kills all entities that are not drawable. These are killed
+;right away during dungeon transitions to allow for drawable
+;entities to remain persistent on screen (and to allow for
+;more of these, in the case of multiple non-drawable entities
+;in the cell we're scrolling away from...)
+.proc entity_kill_all_undrawable_entities
+
+  ldx #(MAX_ENTITIES-1)
+:
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity
+  and #ENTITY_FLAGS_DRAWABLE_TEST
+  bne skip_entity
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+skip_entity:
+
+  dex
+  bpl :-
+
+  rts
+
+.endproc
+
 ;marks all currently living entities to be killed later. As of this
 ;comment, this is primarily used for marking all currently living
 ;entities to be killed after successfully scrolling to a new location.

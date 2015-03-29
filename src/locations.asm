@@ -1754,9 +1754,9 @@ dungeon4_3_0_entity_instances:
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_2_0_e,\
                                          0, 4
-  .byte entity_index_tunicate, 55, 6, 0, 0
-  .byte entity_index_tunicate, 55, 8, 0, 0
-  .byte entity_index_tunicate, 55, 10, 0, 0
+  .byte entity_index_tunicate, 55, 5, 0, 0
+  .byte entity_index_tunicate, 55, 7, 0, 0
+  .byte entity_index_tunicate, 55, 9, 0, 0
 
 dungeon4_0_1_entity_instances:
   .byte 1

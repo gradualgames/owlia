@@ -9,6 +9,7 @@ ENTITY_INC = 1
 .global entity_drop_random_item
 .global entity_drop_item
 .global entity_find_enemy
+.global entity_kill_all_undrawable_entities
 .global entity_mark_all_for_kill
 .global entity_kill_all_marked_for_kill
 .global entity_spawn

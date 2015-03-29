@@ -1326,6 +1326,12 @@ play_state_action_scrollto_location_group1:
   ;the like left flags in place
   jsr clear_dynamic_single_screen_collision_field
 
+  ;kill all undrawable entities right away---this allows for maximum
+  ;entity slots to be used for drawable entities spawned in the cell
+  ;we're scrolling do in the case of complex puzzles (may have lots
+  ;of undrawable entities in puzzle rooms...)
+  jsr entity_kill_all_undrawable_entities
+
   ;mark all currently living entities to be killed after we scroll
   jsr entity_mark_all_for_kill
 
