@@ -33,6 +33,7 @@ BG_CHR_DATA_BANK4 = 27
 .global temple_chr
 .global dungeon4_main_chr
 .global piratebay_chr
+.global piratetavern_chr
 .global inventory_bg_chr
 .global title_chr
 .global intro_cut_scene_great_owls_bg_chr

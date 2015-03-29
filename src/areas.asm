@@ -40,7 +40,8 @@
     island2_area, \
     temple1_area, \
     dungeon4_area, \
-    piratebay_area
+    piratebay_area, \
+    piratetavern_area
 
 areas_lo:
   .lobytes areas
@@ -895,3 +896,29 @@ piratebay_area_bg_chr_groups:
   .byte 1  ;count
   .byte BG_CHR_DATA_BANK4
   .word piratebay_chr
+
+piratetavern_area:
+  .byte MAP_DATA_BANK3
+  .byte CONVERSATIONS_BANK
+  .word piratetavern_area_bg_chr_groups
+  .word piratebay_theme
+  .byte $00 ;textbox_attribute
+  .word piratetavern_map
+  .word piratetavern_metatile_table_properties
+  .word piratetavern_metatile_table_params
+  .word piratetavern_metatile_table_attributes
+  .word piratetavern_metatile_table_top_left_tiles
+  .word piratetavern_metatile_table_top_right_tiles
+  .word piratetavern_metatile_table_bottom_left_tiles
+  .word piratetavern_metatile_table_bottom_right_tiles
+  .word piratetavern_big_metatile_table_top_left
+  .word piratetavern_big_metatile_table_top_right
+  .word piratetavern_big_metatile_table_bottom_left
+  .word piratetavern_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
+
+piratetavern_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK4
+  .word piratetavern_chr

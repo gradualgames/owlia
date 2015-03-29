@@ -383,4 +383,18 @@ MAP_DATA_BANK3 = 30
 .global piratebay_metatile_table_top_right_tiles
 .global piratebay_metatile_table_top_left_tiles
 
+.global piratetavern_palette
+.global piratetavern_map
+.global piratetavern_big_metatile_table_bottom_right
+.global piratetavern_big_metatile_table_bottom_left
+.global piratetavern_big_metatile_table_top_right
+.global piratetavern_big_metatile_table_top_left
+.global piratetavern_metatile_table_properties
+.global piratetavern_metatile_table_params
+.global piratetavern_metatile_table_attributes
+.global piratetavern_metatile_table_bottom_right_tiles
+.global piratetavern_metatile_table_bottom_left_tiles
+.global piratetavern_metatile_table_top_right_tiles
+.global piratetavern_metatile_table_top_left_tiles
+
 .endif

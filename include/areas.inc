@@ -62,6 +62,7 @@ area_index_island2
 area_index_temple1
 area_index_dungeon4
 area_index_piratebay
+area_index_piratetavern
 .endenum
 
 .endif

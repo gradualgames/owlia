@@ -109,3 +109,6 @@ dungeon4_main_chr:
 
 piratebay_chr:
 .incbin "piratebay.chr"
+
+piratetavern_chr:
+.incbin "piratetavern.chr"

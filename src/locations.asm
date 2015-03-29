@@ -215,7 +215,8 @@
     dungeon4_2_3_e, \
     dungeon4_2_3_w, \
     dungeon4_3_3_w, \
-    piratebay_entrance
+    piratebay_entrance, \
+    piratetavern_entrance1
 
 locations_lo:
   .lobytes locations
@@ -507,6 +508,15 @@ dungeon4_sprite_chr_groups:
   .byte sprite_chr_group_index_tunicate
 
 piratebay_sprite_chr_groups:
+  .byte 6   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+
+piratetavern_sprite_chr_groups:
   .byte 6   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -2044,6 +2054,9 @@ dungeon4_3_3_entity_instances:
 piratebay_entity_instances:
   .byte 0
 
+piratetavern_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -2183,6 +2196,11 @@ piratebay_palette:
   .byte 6,$31,7,$20,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte 6,$20,7,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte 6,$31,7,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte PALETTE_CYCLE_LOOP
+
+piratetavern_palette:
+  .byte $0e,$0b,$08,$1b,$0e,$08,$18,$28,$0e,$08,$18,$37,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$14,$24
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
@@ -2750,3 +2768,9 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   area_index_piratebay, piratebay_sprite_chr_groups, piratebay_entity_instances, piratebay_palette,\
                   0, 0, 2, 3,\
                   0, 0, 0, ENTITY_DIRECTION_DOWN
+
+piratetavern_entrance1:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                  area_index_piratetavern, piratetavern_sprite_chr_groups, piratetavern_entity_instances, piratetavern_palette,\
+                  0, 4, 10, 14,\
+                  0, 0, 0, ENTITY_DIRECTION_UP
