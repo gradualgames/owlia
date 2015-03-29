@@ -1916,7 +1916,8 @@ dungeon4_2_2_entity_instances:
                                          0, 4
 
 dungeon4_3_2_entity_instances:
-  .byte 6
+  .byte 7
+  .byte entity_index_starfish, 59, 37, 0, 0
   .byte entity_index_monolith, 49, 38, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
