@@ -1961,13 +1961,19 @@ dungeon4_3_2_entity_instances:
                                                >1
 
 dungeon4_0_3_entity_instances:
-  .byte 1
+  .byte 2
   .byte entity_index_monolith, 14, 51, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_1_3_w,\
                                          0, 5
+  .byte entity_index_monolith, 7, 59, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_SOUTH,\
+                                         ACTION_NOP, 0,\
+                                         0, 2
 
 dungeon4_1_3_entity_instances:
   .byte 5
@@ -1982,7 +1988,7 @@ dungeon4_1_3_entity_instances:
                                          0, 5
 
   .byte entity_index_monolith, 17, 51, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_0_3_e,\
