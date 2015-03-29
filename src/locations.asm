@@ -1970,7 +1970,10 @@ dungeon4_0_3_entity_instances:
                                          0, 5
 
 dungeon4_1_3_entity_instances:
-  .byte 2
+  .byte 5
+  .byte entity_index_tunicate, 24, 51, 0, 0
+  .byte entity_index_tunicate, 24, 53, 0, 0
+  .byte entity_index_tunicate, 24, 55, 0, 0
   .byte entity_index_monolith, 30, 53, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
