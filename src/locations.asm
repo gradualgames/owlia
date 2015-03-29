@@ -1777,7 +1777,7 @@ dungeon4_0_1_entity_instances:
 
 dungeon4_1_1_entity_instances:
   .byte 8
-  .byte entity_index_starfish, 20, 23, 0, 0
+  .byte entity_index_seahorse, 20, 23, 0, 0
   .byte entity_index_tunicate, 28, 21, 0, 0
   .byte entity_index_tunicate, 28, 25, 0, 0
   .byte entity_index_monolith, 20, 19, 0, MONOLITH_PARAMS,\
@@ -1995,7 +1995,7 @@ dungeon4_1_3_entity_instances:
 dungeon4_2_3_entity_instances:
   .byte 7
   .byte entity_index_traproom, 0, 0, 0, 0
-  .byte entity_index_starfish, 39, 55, 0, 0
+  .byte entity_index_seahorse, 39, 55, 0, 0
   .byte entity_index_tunicate, 36, 52, 0, 0
   .byte entity_index_tunicate, 43, 52, 0, 0
   .byte entity_index_monolith, 39, 49, 0, MONOLITH_PARAMS,\
