@@ -216,6 +216,7 @@
     dungeon4_2_3_w, \
     dungeon4_3_3_w, \
     piratebay_entrance, \
+    piratebay_piratetavern_entrance1, \
     piratetavern_entrance1
 
 locations_lo:
@@ -2769,8 +2770,14 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   0, 0, 2, 3,\
                   0, 0, 0, ENTITY_DIRECTION_DOWN
 
+piratebay_piratetavern_entrance1:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                  area_index_piratebay, piratebay_sprite_chr_groups, piratebay_entity_instances, piratebay_palette,\
+                  0, 0, 10, 5,\
+                  sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_DOWN
+
 piratetavern_entrance1:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   area_index_piratetavern, piratetavern_sprite_chr_groups, piratetavern_entity_instances, piratetavern_palette,\
-                  0, 4, 10, 14,\
-                  0, 0, 0, ENTITY_DIRECTION_UP
+                  2, 8, 10, 14,\
+                  sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP

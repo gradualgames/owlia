@@ -317,6 +317,7 @@ location_index_dungeon4_2_3_e
 location_index_dungeon4_2_3_w
 location_index_dungeon4_3_3_w
 location_index_piratebay_entrance
+location_index_piratebay_piratetavern_entrance1
 location_index_piratetavern_entrance1
 .endenum
 
