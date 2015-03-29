@@ -1986,7 +1986,9 @@ dungeon4_1_3_entity_instances:
                                          0, 4
 
 dungeon4_2_3_entity_instances:
-  .byte 3
+  .byte 5
+  .byte entity_index_tunicate, 36, 52, 0, 0
+  .byte entity_index_tunicate, 43, 52, 0, 0
   .byte entity_index_monolith, 39, 49, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2009,7 +2011,10 @@ dungeon4_2_3_entity_instances:
                                          0, 4
 
 dungeon4_3_3_entity_instances:
-  .byte 1
+  .byte 4
+  .byte entity_index_seahorse, 52, 56, 0, 0
+  .byte entity_index_seahorse, 54, 54, 0, 0
+  .byte entity_index_seahorse, 59, 52, 0, 0
   .byte entity_index_monolith, 49, 53, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
