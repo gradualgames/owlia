@@ -1876,13 +1876,19 @@ dungeon4_2_2_entity_instances:
                                          0, 4
 
 dungeon4_3_2_entity_instances:
-  .byte 1
+  .byte 7
   .byte entity_index_monolith, 49, 38, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_2_2_e,\
                                          0, 4
+  .byte entity_index_switch, 58, 36, 0, SWITCH_PARAMS, 6, 7, 0, %00000000
+  .byte entity_index_switch, 59, 36, 0, SWITCH_PARAMS, 6, 7, 1, %00000000
+  .byte entity_index_switch, 60, 36, 0, SWITCH_PARAMS, 6, 7, 2, %00000000
+  .byte entity_index_switch, 58, 39, 0, SWITCH_PARAMS, 6, 7, 3, %00000000
+  .byte entity_index_switch, 59, 39, 0, SWITCH_PARAMS, 6, 7, 4, %00000000
+  .byte entity_index_switch, 60, 39, 0, SWITCH_PARAMS, 6, 7, 5, %00000000
 
 dungeon4_0_3_entity_instances:
   .byte 1

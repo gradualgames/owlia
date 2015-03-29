@@ -846,6 +846,8 @@ dungeon4_area_nametable_patches:
   .word dungeon4_area_nametable_monolith_east_bg_patch
   .word dungeon4_area_nametable_switch_down_patch
   .word dungeon4_area_nametable_switch_up_patch
+  .word dungeon4_area_nametable_switch_floor_down_patch
+  .word dungeon4_area_nametable_switch_floor_up_patch
 
 dungeon4_area_nametable_monolith_patch:
   .byte $02,$06,$07,$08,$11,$12,$19,$1a,$21,$22,$28,$29,$2d,$2e
@@ -862,3 +864,7 @@ dungeon4_area_nametable_switch_down_patch:
   .byte $02,$06,$03,$04,$0d,$0e,$17,$18,$02,$02,$02,$02,$02,$02
 dungeon4_area_nametable_switch_up_patch:
   .byte $02,$06,$05,$06,$0f,$10,$17,$18,$02,$02,$02,$02,$02,$02
+dungeon4_area_nametable_switch_floor_down_patch:
+  .byte $02,$06,$03,$04,$0d,$0e,$56,$57,$62,$63,$56,$57,$62,$63
+dungeon4_area_nametable_switch_floor_up_patch:
+  .byte $02,$06,$05,$06,$0f,$10,$56,$57,$62,$63,$56,$57,$62,$63
