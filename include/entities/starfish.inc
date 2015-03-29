@@ -185,6 +185,7 @@ starfish_state_float:
   lda starfish_state_counter,x
   and #%00000111
   bne :+
+  jsr next_rand
   lda rand
   and #%00011000
   lsr
