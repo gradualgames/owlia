@@ -1759,13 +1759,23 @@ dungeon4_3_0_entity_instances:
   .byte entity_index_tunicate, 55, 9, 0, 0
 
 dungeon4_0_1_entity_instances:
-  .byte 1
+  .byte 5
+  .byte entity_index_urchin, 3, 21, 0, URCHIN_PARAMS, 16*5, 40, <(256*2), >(256*2), 0, 0
+  .byte entity_index_seahorse, 4, 25, 0, 0
+  .byte entity_index_tunicate, 10, 25, 0, 0
   .byte entity_index_monolith, 14, 26, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_1_1_w,\
                                          0, 5
+  .byte entity_index_ordered_defeat_puzzle, 3, 20, 0, ORDERED_DEFEAT_PUZZLE_PARAMS,\
+                                                      entity_index_seahorse,\
+                                                      entity_index_urchin,\
+                                                      entity_index_tunicate,\
+                                                      DUNGEON4_DUNGEON_FLAGS_SEAHORSE_URCHIN_TUNICATE_PUZZLE_COMPLETE,\
+                                                      TREASURE_CHEST_ITEM_TYPE_GP,\
+                                                      <5000, >5000
 
 dungeon4_1_1_entity_instances:
   .byte 8
