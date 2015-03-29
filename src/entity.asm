@@ -778,6 +778,7 @@ enemy_found:
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_TEST
   beq skip_entity
+  lda entity_flags,x
   and #ENTITY_FLAGS_DRAWABLE_TEST
   bne skip_entity
 

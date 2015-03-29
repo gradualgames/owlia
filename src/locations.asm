@@ -1864,7 +1864,9 @@ dungeon4_0_2_entity_instances:
   .byte entity_index_switch_puzzle, 13, 35, 0, SWITCH_PUZZLE_PARAMS, DUNGEON4_DUNGEON_FLAGS_SWITCH_PUZZLE1_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
 
 dungeon4_1_2_entity_instances:
-  .byte 3
+  .byte 5
+  .byte entity_index_seahorse, 24, 39, 0, 0
+  .byte entity_index_seahorse, 28, 39, 0, 0
   .byte entity_index_monolith, 20, 34, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -1887,7 +1889,11 @@ dungeon4_1_2_entity_instances:
                                          0, 4
 
 dungeon4_2_2_entity_instances:
-  .byte 3
+  .byte 7
+  .byte entity_index_treasure_room, 45, 36, 0, TREASURE_ROOM_PARAMS, DUNGEON4_DUNGEON_FLAGS_TREASURE_ROOM1_OBTAINED, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
+  .byte entity_index_crab, 39, 36, 0, 0
+  .byte entity_index_tunicate, 34, 41, 0, 0
+  .byte entity_index_tunicate, 45, 41, 0, 0
   .byte entity_index_monolith, 39, 44, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
