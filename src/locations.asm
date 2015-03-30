@@ -2696,7 +2696,7 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   0, 0, 0, ENTITY_DIRECTION_DOWN
 
 dungeon4_entrance:
-define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
+define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4 | LOCATION_FLAGS_DUNGEON_ENTRANCE)},\
                   area_index_dungeon4, dungeon4_sprite_chr_groups, dungeon4_0_0_entity_instances, dungeon4_palette,\
                   0, 0, 4, 10,\
                   0, 0, 0, ENTITY_DIRECTION_UP
