@@ -40,6 +40,7 @@
     island2_area, \
     temple1_area, \
     dungeon4_area, \
+    dungeon4_boss_area, \
     piratebay_area, \
     piratetavern_area
 
@@ -869,6 +870,64 @@ dungeon4_area_nametable_switch_up_patch:
 dungeon4_area_nametable_switch_floor_down_patch:
   .byte $02,$06,$03,$04,$0d,$0e,$56,$57,$62,$63,$56,$57,$62,$63
 dungeon4_area_nametable_switch_floor_up_patch:
+  .byte $02,$06,$05,$06,$0f,$10,$56,$57,$62,$63,$56,$57,$62,$63
+
+dungeon4_boss_area:
+  .byte MAP_DATA_BANK3
+  .byte CONVERSATIONS_BANK
+  .word dungeon4_boss_area_bg_chr_groups
+  .word dungeon_theme
+  .byte $22 ;textbox_attribute
+  .word dungeon4_boss_map
+  .word dungeon4_boss_metatile_table_properties
+  .word dungeon4_boss_metatile_table_params
+  .word dungeon4_boss_metatile_table_attributes
+  .word dungeon4_boss_metatile_table_top_left_tiles
+  .word dungeon4_boss_metatile_table_top_right_tiles
+  .word dungeon4_boss_metatile_table_bottom_left_tiles
+  .word dungeon4_boss_metatile_table_bottom_right_tiles
+  .word dungeon4_boss_big_metatile_table_top_left
+  .word dungeon4_boss_big_metatile_table_top_right
+  .word dungeon4_boss_big_metatile_table_bottom_left
+  .word dungeon4_boss_big_metatile_table_bottom_right
+  .word dungeon4_boss_area_nametable_patches
+  .word 0 ;attribute_patches_address
+
+dungeon4_boss_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK4
+  .word dungeon4_main_chr
+
+dungeon4_boss_area_nametable_patches:
+  .word dungeon4_boss_area_nametable_monolith_patch
+  .word dungeon4_boss_area_nametable_keyed_monolith_patch
+  .word dungeon4_boss_area_nametable_monolith_north_bg_patch
+  .word dungeon4_boss_area_nametable_monolith_south_bg_patch
+  .word dungeon4_boss_area_nametable_monolith_west_bg_patch
+  .word dungeon4_boss_area_nametable_monolith_east_bg_patch
+  .word dungeon4_boss_area_nametable_switch_down_patch
+  .word dungeon4_boss_area_nametable_switch_up_patch
+  .word dungeon4_boss_area_nametable_switch_floor_down_patch
+  .word dungeon4_boss_area_nametable_switch_floor_up_patch
+
+dungeon4_boss_area_nametable_monolith_patch:
+  .byte $02,$06,$07,$08,$11,$12,$19,$1a,$21,$22,$28,$29,$2d,$2e
+dungeon4_boss_area_nametable_keyed_monolith_patch:
+  .byte $02,$06,$3e,$3f,$4e,$4f,$19,$1a,$21,$22,$28,$29,$2d,$2e
+dungeon4_boss_area_nametable_monolith_north_bg_patch:
+dungeon4_boss_area_nametable_monolith_south_bg_patch:
+  .byte $02,$06,$56,$57,$62,$63,$56,$57,$62,$63,$56,$57,$62,$63
+dungeon4_boss_area_nametable_monolith_west_bg_patch:
+  .byte $02,$06,$52,$53,$5e,$5f,$52,$53,$5e,$5f,$56,$57,$62,$63
+dungeon4_boss_area_nametable_monolith_east_bg_patch:
+  .byte $02,$06,$50,$51,$5c,$5d,$50,$51,$5c,$5d,$56,$57,$62,$63
+dungeon4_boss_area_nametable_switch_down_patch:
+  .byte $02,$06,$03,$04,$0d,$0e,$17,$18,$02,$02,$02,$02,$02,$02
+dungeon4_boss_area_nametable_switch_up_patch:
+  .byte $02,$06,$05,$06,$0f,$10,$17,$18,$02,$02,$02,$02,$02,$02
+dungeon4_boss_area_nametable_switch_floor_down_patch:
+  .byte $02,$06,$03,$04,$0d,$0e,$56,$57,$62,$63,$56,$57,$62,$63
+dungeon4_boss_area_nametable_switch_floor_up_patch:
   .byte $02,$06,$05,$06,$0f,$10,$56,$57,$62,$63,$56,$57,$62,$63
 
 piratebay_area:

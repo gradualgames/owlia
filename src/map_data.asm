@@ -450,6 +450,23 @@ dungeon4_big_metatile_table_bottom_left = dungeon4_data::big_metatile_table_bott
 dungeon4_big_metatile_table_bottom_right = dungeon4_data::big_metatile_table_bottom_right
 dungeon4_map = dungeon4_data::map
 
+.scope dungeon4_boss_data
+.include "dungeon4_boss.inc"
+.endscope
+
+dungeon4_boss_metatile_table_properties = dungeon4_boss_data::metatile_table_properties
+dungeon4_boss_metatile_table_params = dungeon4_boss_data::metatile_table_params
+dungeon4_boss_metatile_table_attributes = dungeon4_boss_data::metatile_table_attributes
+dungeon4_boss_metatile_table_top_left_tiles = dungeon4_boss_data::metatile_table_top_left_tiles
+dungeon4_boss_metatile_table_top_right_tiles = dungeon4_boss_data::metatile_table_top_right_tiles
+dungeon4_boss_metatile_table_bottom_left_tiles = dungeon4_boss_data::metatile_table_bottom_left_tiles
+dungeon4_boss_metatile_table_bottom_right_tiles = dungeon4_boss_data::metatile_table_bottom_right_tiles
+dungeon4_boss_big_metatile_table_top_left = dungeon4_boss_data::big_metatile_table_top_left
+dungeon4_boss_big_metatile_table_top_right = dungeon4_boss_data::big_metatile_table_top_right
+dungeon4_boss_big_metatile_table_bottom_left = dungeon4_boss_data::big_metatile_table_bottom_left
+dungeon4_boss_big_metatile_table_bottom_right = dungeon4_boss_data::big_metatile_table_bottom_right
+dungeon4_boss_map = dungeon4_boss_data::map
+
 .scope piratebay_data
 .include "piratebay.inc"
 .endscope

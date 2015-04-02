@@ -215,6 +215,7 @@
     dungeon4_2_3_e, \
     dungeon4_2_3_w, \
     dungeon4_3_3_w, \
+    dungeon4_boss_area_entrance, \
     piratebay_entrance, \
     piratebay_piratetavern_entrance1, \
     piratetavern_entrance1
@@ -507,6 +508,17 @@ dungeon4_sprite_chr_groups:
   .byte sprite_chr_group_index_starfish
   .byte sprite_chr_group_index_clam
   .byte sprite_chr_group_index_tunicate
+
+dungeon4_boss_sprite_chr_groups:
+  .byte 8   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_treasure_chest
+  .byte sprite_chr_group_index_key
 
 piratebay_sprite_chr_groups:
   .byte 6   ;sprite_chr_groups .byte
@@ -2052,6 +2064,9 @@ dungeon4_3_3_entity_instances:
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_2_3_e,\
                                          0, 4
 
+dungeon4_boss_entity_instances:
+  .byte 0
+
 piratebay_entity_instances:
   .byte 0
 
@@ -2184,6 +2199,11 @@ temple_palette:
   .byte PALETTE_CYCLE_LOOP
 
 dungeon4_palette:
+  .byte $0e,$18,$28,$37,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$14,$24
+  .byte PALETTE_CYCLE_LOOP
+
+dungeon4_boss_palette:
   .byte $0e,$18,$28,$37,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$14,$24
   .byte PALETTE_CYCLE_LOOP
@@ -2763,6 +2783,9 @@ dungeon4_2_3_w:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon4,dungeon4_sprite_chr_groups,dungeon4_2_3_entity_instances,dungeon4_palette,32, 45, 34, 52, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon4_3_3_w:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon4,dungeon4_sprite_chr_groups,dungeon4_3_3_entity_instances,dungeon4_palette,48, 45, 50, 52, 0, 0, 0, ENTITY_DIRECTION_RIGHT
+
+dungeon4_boss_area_entrance:
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon4_boss,dungeon4_boss_sprite_chr_groups,dungeon4_boss_entity_instances,dungeon4_boss_palette, 16, 0, 23, 4, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 piratebay_entrance:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
