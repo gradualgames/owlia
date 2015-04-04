@@ -23,6 +23,7 @@
 .include "triple_anglerfish_puzzle_constants.inc"
 .include "switch_constants.inc"
 .include "switch_puzzle_constants.inc"
+.include "ray_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entity.inc"
@@ -2064,8 +2065,11 @@ dungeon4_3_3_entity_instances:
                                          0, 4
 
 dungeon4_boss_entity_instances:
-  .byte 1
-  .byte entity_index_ray, 20, 10, 0, 0
+  .byte 4
+  .byte entity_index_ray, 20, 7, 0, RAY_PARAMS, ENTITY_DIRECTION_LEFT
+  .byte entity_index_ray, 20, 10, 0, RAY_PARAMS, ENTITY_DIRECTION_RIGHT
+  .byte entity_index_ray, 27, 7, 0, RAY_PARAMS, ENTITY_DIRECTION_DOWN
+  .byte entity_index_ray, 27, 10, 0, RAY_PARAMS, ENTITY_DIRECTION_UP
 
 piratebay_entity_instances:
   .byte 0

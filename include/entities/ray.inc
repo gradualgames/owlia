@@ -2,21 +2,7 @@
 .ifndef RAY_INC
 RAY_INC = 1
 
-RAY_STATE_WAIT_UNDER_SAND_LENGTH = 40
-RAY_STATE_RISE_FROM_SAND_LENGTH = 30
-
-RAY_WIDTH = $0f
-RAY_HEIGHT = $0f
-
-ray_state_counter = entity_local0
-ray_direction = entity_local1
-
-.enum
-RAY_STATE_INIT
-RAY_STATE_WAIT_UNDER_SAND
-RAY_STATE_RISE_FROM_SAND
-RAY_STATE_RISE
-.endenum
+.include "ray_constants.inc"
 
 define_lohi_tables ray_rise_animation_addresses, \
   {ray_rise_side,\
@@ -67,7 +53,7 @@ ray_state_init:
   sta b0
   jsr entity_lookup_sprite_chr_offset
 
-  lda #ENTITY_DIRECTION_DOWN
+  lda ray_initial_direction,x
   sta ray_direction,x
 
   jsr ray_load_rise_animation_from_direction
