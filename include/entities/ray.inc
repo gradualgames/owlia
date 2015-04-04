@@ -2,17 +2,51 @@
 .ifndef RAY_INC
 RAY_INC = 1
 
+RAY_STATE_WAIT_UNDER_SAND_LENGTH = 40
+RAY_STATE_RISE_FROM_SAND_LENGTH = 30
+
 RAY_WIDTH = $0f
 RAY_HEIGHT = $0f
 
+ray_state_counter = entity_local0
+ray_direction = entity_local1
+
 .enum
 RAY_STATE_INIT
-RAY_STATE_MAIN
+RAY_STATE_WAIT_UNDER_SAND
+RAY_STATE_RISE_FROM_SAND
+RAY_STATE_RISE
 .endenum
+
+define_lohi_tables ray_rise_animation_addresses, \
+  {ray_rise_side,\
+   ray_rise_side,\
+   ray_rise_down,\
+   ray_rise_up}
+
+ray_rise_sprite_flags:
+  .byte %00000000
+  .byte %01000000
+  .byte %00000000
+  .byte %00000000
+
+define_lohi_tables ray_fly_animation_addresses, \
+  {ray_fly_side,\
+   ray_fly_side,\
+   ray_fly_down,\
+   ray_fly_up}
+
+ray_fly_sprite_flags:
+  .byte %00000000
+  .byte %01000000
+  .byte %00000000
+  .byte %00000000
 
 define_lohi_tables ray, \
  {ray_state_init, \
-  ray_state_main}
+  ray_state_wait_under_sand, \
+  ray_state_rise_from_sand, \
+  ray_state_rise}
 
 ray_update:
 
@@ -21,13 +55,6 @@ ray_update:
 ray_state_init:
 
   jsr entity_set_drawable
-
-  lda #<ray_fly_down
-  sta entity_animation_address_lo,x
-  lda #>ray_fly_down
-  sta entity_animation_address_hi,x
-
-  jsr entity_reset_animation
 
   lda #RAY_WIDTH
   sta entity_width,x
@@ -40,18 +67,92 @@ ray_state_init:
   sta b0
   jsr entity_lookup_sprite_chr_offset
 
-  lda #$00
-  sta entity_sprite_flags,x
+  lda #ENTITY_DIRECTION_DOWN
+  sta ray_direction,x
 
-  lda #RAY_STATE_MAIN
+  jsr ray_load_rise_animation_from_direction
+
+  lda #RAY_STATE_WAIT_UNDER_SAND_LENGTH
+  sta ray_state_counter,x
+
+  lda #RAY_STATE_WAIT_UNDER_SAND
   sta entity_state,x
 
   rts
 
-ray_state_main:
+ray_state_wait_under_sand:
+
+  .scope
+  dec ray_state_counter,x
+  bne do_not_transition_yet
+
+  lda #RAY_STATE_RISE_FROM_SAND_LENGTH
+  sta ray_state_counter,x
+
+  lda #RAY_STATE_RISE_FROM_SAND
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  rts
+
+ray_state_rise_from_sand:
+
+  .scope
+  dec ray_state_counter,x
+  bne do_not_transition_yet
+
+  jsr ray_load_fly_animation_from_direction
+
+  lda #RAY_STATE_RISE
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
 
   jsr entity_update_animation
 
   rts
+
+ray_state_rise:
+
+  jsr entity_update_animation
+
+  rts
+
+.proc ray_load_rise_animation_from_direction
+
+  ldy ray_direction,x
+  lda ray_rise_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda ray_rise_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+
+  lda ray_rise_sprite_flags,y
+  sta entity_sprite_flags,x
+
+  jsr entity_reset_animation
+
+  rts
+
+.endproc
+
+.proc ray_load_fly_animation_from_direction
+
+  ldy ray_direction,x
+  lda ray_fly_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda ray_fly_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+
+  lda ray_fly_sprite_flags,y
+  sta entity_sprite_flags,x
+
+  jsr entity_reset_animation
+
+  rts
+
+.endproc
 
 .endif
