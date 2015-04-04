@@ -510,15 +510,14 @@ dungeon4_sprite_chr_groups:
   .byte sprite_chr_group_index_tunicate
 
 dungeon4_boss_sprite_chr_groups:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 7   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
-  .byte sprite_chr_group_index_treasure_chest
-  .byte sprite_chr_group_index_key
+  .byte sprite_chr_group_index_ray
 
 piratebay_sprite_chr_groups:
   .byte 6   ;sprite_chr_groups .byte
@@ -2065,7 +2064,8 @@ dungeon4_3_3_entity_instances:
                                          0, 4
 
 dungeon4_boss_entity_instances:
-  .byte 0
+  .byte 1
+  .byte entity_index_ray, 20, 10, 0, 0
 
 piratebay_entity_instances:
   .byte 0
@@ -2205,7 +2205,7 @@ dungeon4_palette:
 
 dungeon4_boss_palette:
   .byte $0e,$18,$28,$37,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$14,$24
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$1b,$01,$0e,$0e,$0e,$28
   .byte PALETTE_CYCLE_LOOP
 
 piratebay_palette:

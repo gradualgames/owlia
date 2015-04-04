@@ -58,6 +58,7 @@ entity_index_tunicate
 entity_index_clam
 entity_index_switch
 entity_index_switch_puzzle
+entity_index_ray
 .endenum
 
 entity_update_bank_instance_placeholder = 4
@@ -107,6 +108,7 @@ entity_update_bank_tunicate = 5
 entity_update_bank_clam = 5
 entity_update_bank_switch = 5
 entity_update_bank_switch_puzzle = 5
+entity_update_bank_ray = 5
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 7
@@ -155,5 +157,6 @@ entity_sprites_and_animations_bank_tunicate = 7
 entity_sprites_and_animations_bank_clam = 7
 ;entity_sprites_and_animations_bank_switch ;this entity has no graphics
 ;entity_sprites_and_animations_bank_switch_puzzle ;this entity has no graphics
+entity_sprites_and_animations_bank_ray = 7
 
 .endif

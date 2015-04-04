@@ -82,7 +82,8 @@
   tunicate_update, \
   clam_update, \
   switch_update, \
-  switch_puzzle_update
+  switch_puzzle_update, \
+  ray_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -137,6 +138,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_clam
   .byte entity_update_bank_switch
   .byte entity_update_bank_switch_puzzle
+  .byte entity_update_bank_ray
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -186,6 +188,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_clam
   .byte 0 ;entity_sprites_and_animations_bank_switch
   .byte 0 ;entity_sprites_and_animations_bank_switch_puzzle
+  .byte entity_sprites_and_animations_bank_ray
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -236,3 +239,4 @@ entity_defs_sprites_and_animations_bank:
 .include "clam.inc"
 .include "switch.inc"
 .include "switch_puzzle.inc"
+.include "ray.inc"

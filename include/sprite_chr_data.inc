@@ -57,6 +57,7 @@ sprite_chr_group_index_greatgrayowl
 sprite_chr_group_index_starfish
 sprite_chr_group_index_tunicate
 sprite_chr_group_index_clam
+sprite_chr_group_index_ray
 .endenum
 
 sprite_chr_group_bank_intro_cut_scene_great_owls = 8
@@ -108,5 +109,6 @@ sprite_chr_group_bank_greatgrayowl = 24
 sprite_chr_group_bank_starfish = 24
 sprite_chr_group_bank_tunicate = 24
 sprite_chr_group_bank_clam = 24
+sprite_chr_group_bank_ray = 24
 
 .endif
