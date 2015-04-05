@@ -157,6 +157,23 @@ do_not_transition_yet:
 
 ray_state_meander:
 
+  .scope
+  sec
+  lda #<RAY_FLOAT_ALTITUDE
+  sbc ray_altitude_lo,x
+  lda #>RAY_FLOAT_ALTITUDE
+  sbc ray_altitude_hi,x
+  bpl float_up
+float_down:
+  entity_add_acceleration ray_altitude_velocity, (-RAY_FLOAT_ACCELERATION)
+  jmp done
+float_up:
+  entity_add_acceleration ray_altitude_velocity, RAY_FLOAT_ACCELERATION
+done:
+  .endscope
+
+  entity_add_velocity ray_altitude, ray_altitude_velocity
+
   jsr position_ray
 
   jsr entity_update_animation
