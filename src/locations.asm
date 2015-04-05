@@ -2065,11 +2065,23 @@ dungeon4_3_3_entity_instances:
                                          0, 4
 
 dungeon4_boss_entity_instances:
-  .byte 4
+  .byte 6
   .byte entity_index_ray, 20, 7, 0, 0
   .byte entity_index_ray, 20, 10, 0, 0
   .byte entity_index_ray, 27, 7, 0, 0
   .byte entity_index_ray, 27, 10, 0, 0
+  .byte entity_index_monolith, 17, 8, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_WEST,\
+                                         ACTION_NOP, 0,\
+                                         0, 4
+  .byte entity_index_monolith, 23, 4, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_NOP, 0,\
+                                         0, 2
 
 piratebay_entity_instances:
   .byte 0

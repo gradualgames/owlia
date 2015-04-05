@@ -194,7 +194,7 @@ ray_state_meander:
   lda ray_x_lo,x
   adc ray_collision_offset_x_lo,y
   sta w0
-  lda ray_y_hi,x
+  lda ray_x_hi,x
   adc ray_collision_offset_x_hi,y
   sta w0+1
 
@@ -225,6 +225,24 @@ ray_state_meander:
 
 no_collision:
 
+  .endscope
+
+  .scope
+  dec ray_state_counter,x
+  lda ray_state_counter,x
+  and #%00111111
+  bne do_not_change_direction
+  jsr ray_randomly_change_direction
+
+  jsr ray_load_meander_velocity_from_direction
+
+  jsr ray_load_fly_animation_from_direction
+
+  jsr entity_update_animation
+
+  rts
+
+do_not_change_direction:
   .endscope
 
   .scope
