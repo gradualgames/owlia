@@ -2066,10 +2066,10 @@ dungeon4_3_3_entity_instances:
 
 dungeon4_boss_entity_instances:
   .byte 4
-  .byte entity_index_ray, 20, 7, 0, RAY_PARAMS, ENTITY_DIRECTION_LEFT
-  .byte entity_index_ray, 20, 10, 0, RAY_PARAMS, ENTITY_DIRECTION_RIGHT
-  .byte entity_index_ray, 27, 7, 0, RAY_PARAMS, ENTITY_DIRECTION_DOWN
-  .byte entity_index_ray, 27, 10, 0, RAY_PARAMS, ENTITY_DIRECTION_UP
+  .byte entity_index_ray, 20, 7, 0, 0
+  .byte entity_index_ray, 20, 10, 0, 0
+  .byte entity_index_ray, 27, 7, 0, 0
+  .byte entity_index_ray, 27, 10, 0, 0
 
 piratebay_entity_instances:
   .byte 0

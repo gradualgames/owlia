@@ -4,6 +4,30 @@ RAY_INC = 1
 
 .include "ray_constants.inc"
 
+define_lohi_tables ray_collision_offset_x, \
+  {RAY_HALFWIDTH+6,\
+  RAY_HALFWIDTH-6,\
+  RAY_HALFWIDTH,\
+  RAY_HALFWIDTH}
+
+define_lohi_tables ray_collision_offset_y, \
+  {RAY_HALFHEIGHT,\
+  RAY_HALFHEIGHT,\
+  RAY_HALFHEIGHT+1,\
+  RAY_HALFHEIGHT-1}
+
+define_lohi_tables ray_meander_x_velocity, \
+  {RAY_SPEED,\
+  -RAY_SPEED,\
+  0,\
+  0}
+
+define_lohi_tables ray_meander_y_velocity, \
+  {0,\
+   0,\
+   RAY_SPEED,\
+  -RAY_SPEED}
+
 define_lohi_tables ray_rise_animation_addresses, \
   {ray_rise_side,\
    ray_rise_side,\
@@ -77,8 +101,7 @@ ray_state_init:
 
   jsr position_ray
 
-  lda ray_initial_direction,x
-  sta ray_direction,x
+  jsr ray_randomly_change_direction
 
   jsr ray_load_rise_animation_from_direction
 
@@ -141,6 +164,8 @@ ray_state_rise:
   dec ray_state_counter,x
   bne do_not_transition_yet
 
+  jsr ray_load_meander_velocity_from_direction
+
   lda #RAY_STATE_MEANDER
   sta entity_state,x
 
@@ -172,13 +197,81 @@ float_up:
 done:
   .endscope
 
+  entity_add_velocity ray_x, ray_x_velocity
+  entity_add_velocity ray_y, ray_y_velocity
   entity_add_velocity ray_altitude, ray_altitude_velocity
 
   jsr position_ray
 
+  .scope
+  ldy ray_direction,x
+  clc
+  lda ray_x_lo,x
+  adc ray_collision_offset_x_lo,y
+  sta w0
+  lda ray_y_hi,x
+  adc ray_collision_offset_x_hi,y
+  sta w0+1
+
+  clc
+  lda ray_y_lo,x
+  adc ray_collision_offset_y_lo,y
+  sta w1
+  lda ray_y_hi,x
+  adc ray_collision_offset_y_hi,y
+  sta w1+1
+
+  jsr map_test_collision
+  lda b0
+  and #FLAG_SOLID
+  beq no_collision
+
+  jsr ray_randomly_change_direction
+
+  jsr ray_load_meander_velocity_from_direction
+
+  jsr ray_load_fly_animation_from_direction
+
+no_collision:
+
+  .endscope
+
   jsr entity_update_animation
 
   rts
+
+.proc ray_randomly_change_direction
+
+  .scope
+try_again:
+  jsr next_rand
+  lda rand
+  and #3
+  cmp ray_direction,x
+  beq try_again
+  sta ray_direction,x
+  .endscope
+
+  rts
+
+.endproc
+
+.proc ray_load_meander_velocity_from_direction
+
+  ldy ray_direction,x
+  lda ray_meander_x_velocity_lo,y
+  sta ray_x_velocity_lo,x
+  lda ray_meander_x_velocity_hi,y
+  sta ray_x_velocity_hi,x
+
+  lda ray_meander_y_velocity_lo,y
+  sta ray_y_velocity_lo,x
+  lda ray_meander_y_velocity_hi,y
+  sta ray_y_velocity_hi,x
+
+  rts
+
+.endproc
 
 .proc ray_load_rise_animation_from_direction
 
