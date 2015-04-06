@@ -491,5 +491,101 @@ ray_rise_up:
   .word ray_rise_up2_reversed
   .word ray_rise_up2
   .word ray_rise_up2_reversed
+ray_fall_down:
+  .byte $01, $3c
+  .word ray_rise_down2
+  .word ray_rise_down2_reversed
+  .word ray_rise_down2
+  .word ray_rise_down2_reversed
+  .word ray_rise_down2
+  .word ray_rise_down2_reversed
+  .word ray_rise_down2
+  .word ray_rise_down2_reversed
+  .word ray_rise_down2
+  .word ray_rise_down2_reversed
+  .word ray_rise_down1
+  .word ray_rise_down1_reversed
+  .word ray_rise_down1
+  .word ray_rise_down1_reversed
+  .word ray_rise_down1
+  .word ray_rise_down1_reversed
+  .word ray_rise_down1
+  .word ray_rise_down1_reversed
+  .word ray_rise_down1
+  .word ray_rise_down1_reversed
+  .word ray_rise_down0
+  .word ray_rise_down0_reversed
+  .word ray_rise_down0
+  .word ray_rise_down0_reversed
+  .word ray_rise_down0
+  .word ray_rise_down0_reversed
+  .word ray_rise_down0
+  .word ray_rise_down0_reversed
+  .word ray_rise_down0
+  .word ray_rise_down0_reversed
+ray_fall_side:
+  .byte $01, $3c
+  .word ray_rise_side2
+  .word ray_rise_side2_reversed
+  .word ray_rise_side2
+  .word ray_rise_side2_reversed
+  .word ray_rise_side2
+  .word ray_rise_side2_reversed
+  .word ray_rise_side2
+  .word ray_rise_side2_reversed
+  .word ray_rise_side2
+  .word ray_rise_side2_reversed
+  .word ray_rise_side1
+  .word ray_rise_side1_reversed
+  .word ray_rise_side1
+  .word ray_rise_side1_reversed
+  .word ray_rise_side1
+  .word ray_rise_side1_reversed
+  .word ray_rise_side1
+  .word ray_rise_side1_reversed
+  .word ray_rise_side1
+  .word ray_rise_side1_reversed
+  .word ray_rise_side0
+  .word ray_rise_side0_reversed
+  .word ray_rise_side0
+  .word ray_rise_side0_reversed
+  .word ray_rise_side0
+  .word ray_rise_side0_reversed
+  .word ray_rise_side0
+  .word ray_rise_side0_reversed
+  .word ray_rise_side0
+  .word ray_rise_side0_reversed
+ray_fall_up:
+  .byte $01, $3c
+  .word ray_rise_up2
+  .word ray_rise_up2_reversed
+  .word ray_rise_up2
+  .word ray_rise_up2_reversed
+  .word ray_rise_up2
+  .word ray_rise_up2_reversed
+  .word ray_rise_up2
+  .word ray_rise_up2_reversed
+  .word ray_rise_up2
+  .word ray_rise_up2_reversed
+  .word ray_rise_up1
+  .word ray_rise_up1_reversed
+  .word ray_rise_up1
+  .word ray_rise_up1_reversed
+  .word ray_rise_up1
+  .word ray_rise_up1_reversed
+  .word ray_rise_up1
+  .word ray_rise_up1_reversed
+  .word ray_rise_up1
+  .word ray_rise_up1_reversed
+  .word ray_rise_up0
+  .word ray_rise_up0_reversed
+  .word ray_rise_up0
+  .word ray_rise_up0_reversed
+  .word ray_rise_up0
+  .word ray_rise_up0_reversed
+  .word ray_rise_up0
+  .word ray_rise_up0_reversed
+  .word ray_rise_up0
+  .word ray_rise_up0_reversed
 
 .endif

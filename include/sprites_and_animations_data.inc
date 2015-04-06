@@ -176,4 +176,8 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global ray_rise_down
 .global ray_rise_up
 
+.global ray_fall_side
+.global ray_fall_down
+.global ray_fall_up
+
 .endif

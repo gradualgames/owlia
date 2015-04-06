@@ -40,7 +40,19 @@ define_lohi_tables ray_rise_animation_addresses, \
    ray_rise_down,\
    ray_rise_up}
 
+define_lohi_tables ray_fall_animation_addresses, \
+  {ray_fall_side,\
+   ray_fall_side,\
+   ray_fall_down,\
+   ray_fall_up}
+
 ray_rise_sprite_flags:
+  .byte %00000000
+  .byte %01000000
+  .byte %00000000
+  .byte %00000000
+
+ray_fall_sprite_flags:
   .byte %00000000
   .byte %01000000
   .byte %00000000
@@ -63,7 +75,9 @@ define_lohi_tables ray, \
   ray_state_wait_under_sand, \
   ray_state_rise_from_sand, \
   ray_state_rise, \
-  ray_state_meander}
+  ray_state_meander, \
+  ray_state_fall, \
+  ray_state_fall_under_sand}
 
 ray_update:
 
@@ -246,6 +260,25 @@ do_not_change_direction:
   .endscope
 
   .scope
+  jsr next_rand
+  lda rand
+  cmp #20
+  bne do_not_transition_to_fall_state
+
+  lda #RAY_STATE_FALL_LENGTH
+  sta ray_state_counter,x
+
+  entity_lda16 ray_x_velocity, 0
+  entity_lda16 ray_y_velocity, 0
+  entity_lda16 ray_altitude_velocity, -RAY_RISE_SPEED
+
+  lda #RAY_STATE_FALL
+  sta entity_state,x
+
+do_not_transition_to_fall_state:
+  .endscope
+
+  .scope
   sec
   lda #<RAY_FLOAT_ALTITUDE
   sbc ray_altitude_lo,x
@@ -265,6 +298,56 @@ done:
   entity_add_velocity ray_altitude, ray_altitude_velocity
 
   jsr position_ray
+
+  jsr entity_update_animation
+
+  rts
+
+ray_state_fall:
+
+  .scope
+  dec ray_state_counter,x
+  bne do_not_transition_yet
+
+  jsr entity_clear_shadow_spot
+
+  jsr ray_load_fall_animation_from_direction
+
+  lda #RAY_STATE_FALL_UNDER_SAND_LENGTH
+  sta ray_state_counter,x
+
+  lda #RAY_STATE_FALL_UNDER_SAND
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  entity_add_velocity ray_altitude, ray_altitude_velocity
+
+  jsr position_ray
+
+  jsr entity_update_animation
+
+  rts
+
+ray_state_fall_under_sand:
+
+  .scope
+  dec ray_state_counter,x
+  bne do_not_transition_yet
+
+  jsr ray_load_rise_animation_from_direction
+
+  jsr entity_reset_animation
+
+  lda #RAY_STATE_WAIT_UNDER_SAND_LENGTH
+  sta ray_state_counter,x
+
+  lda #RAY_STATE_WAIT_UNDER_SAND
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
 
   jsr entity_update_animation
 
@@ -298,6 +381,23 @@ try_again:
   sta ray_y_velocity_lo,x
   lda ray_meander_y_velocity_hi,y
   sta ray_y_velocity_hi,x
+
+  rts
+
+.endproc
+
+.proc ray_load_fall_animation_from_direction
+
+  ldy ray_direction,x
+  lda ray_fall_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda ray_fall_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+
+  lda ray_fall_sprite_flags,y
+  sta entity_sprite_flags,x
+
+  jsr entity_reset_animation
 
   rts
 
