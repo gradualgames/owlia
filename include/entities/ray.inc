@@ -141,6 +141,8 @@ ray_state_init:
 
 ray_state_wait_under_sand:
 
+  jsr ray_advance_flash_state
+
   .scope
   dec ray_state_counter,x
   bne do_not_transition_yet
@@ -157,6 +159,8 @@ do_not_transition_yet:
   rts
 
 ray_state_rise_from_sand:
+
+  jsr ray_advance_flash_state
 
   .scope
   dec ray_state_counter,x
@@ -186,6 +190,8 @@ do_not_transition_yet:
 
 ray_state_rise:
 
+  jsr ray_advance_flash_state
+
   .scope
   dec ray_state_counter,x
   bne do_not_transition_yet
@@ -208,7 +214,7 @@ do_not_transition_yet:
 
 ray_state_meander:
 
-  entity_combat #RAY_ATTACKED_LENGTH, #RAY_KNOCKBACK_LENGTH, ray_flash_counter, ray_knockback_counter, ray_health, ray_direction
+  jsr ray_combat
 
   .scope
   sec
@@ -313,6 +319,8 @@ do_not_transition_to_fall_state:
 
 ray_state_fall:
 
+  jsr ray_advance_flash_state
+
   .scope
   dec ray_state_counter,x
   bne do_not_transition_yet
@@ -340,6 +348,8 @@ do_not_transition_yet:
 
 ray_state_fall_under_sand:
 
+  jsr ray_advance_flash_state
+
   .scope
   dec ray_state_counter,x
   bne do_not_transition_yet
@@ -360,6 +370,38 @@ do_not_transition_yet:
   jsr entity_update_animation
 
   rts
+
+.proc ray_combat
+
+  entity_combat_no_direction #RAY_ATTACKED_LENGTH, #RAY_KNOCKBACK_LENGTH, ray_flash_counter, ray_knockback_counter, ray_health
+
+  rts
+
+.endproc
+
+.proc ray_advance_flash_state
+
+  .scope
+  lda ray_flash_counter,x
+  beq flash_state_machine_not_running
+
+  dec ray_flash_counter,x
+
+  lda ray_flash_counter,x
+  and #%00000011
+  sta b10
+
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b10
+  sta entity_sprite_flags,x
+
+flash_state_machine_not_running:
+  .endscope
+
+  rts
+
+.endproc
 
 .proc ray_randomly_change_direction
 
