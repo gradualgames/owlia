@@ -19,8 +19,8 @@ define_lohi_tables ray_collision_offset_x, \
 define_lohi_tables ray_collision_offset_y, \
   {RAY_HALFHEIGHT,\
   RAY_HALFHEIGHT,\
-  RAY_HALFHEIGHT+4,\
-  RAY_HALFHEIGHT-4}
+  RAY_HALFHEIGHT+9,\
+  RAY_HALFHEIGHT-8}
 
 define_lohi_tables ray_meander_x_velocity, \
   {RAY_SPEED,\
@@ -119,6 +119,12 @@ ray_state_init:
 
   entity_lda16 ray_altitude_velocity, 0
 
+  lda #RAY_INITIAL_HEALTH
+  sta ray_health,x
+  lda #0
+  sta ray_knockback_counter,x
+  sta ray_flash_counter,x
+
   jsr position_ray
 
   jsr ray_randomly_change_direction
@@ -202,6 +208,29 @@ do_not_transition_yet:
 
 ray_state_meander:
 
+  entity_combat #RAY_ATTACKED_LENGTH, #RAY_KNOCKBACK_LENGTH, ray_flash_counter, ray_knockback_counter, ray_health, ray_direction
+
+  .scope
+  sec
+  lda #<RAY_FLOAT_ALTITUDE
+  sbc ray_altitude_lo,x
+  lda #>RAY_FLOAT_ALTITUDE
+  sbc ray_altitude_hi,x
+  bpl float_up
+float_down:
+  entity_add_acceleration ray_altitude_velocity, (-RAY_FLOAT_ACCELERATION)
+  jmp done
+float_up:
+  entity_add_acceleration ray_altitude_velocity, RAY_FLOAT_ACCELERATION
+done:
+  .endscope
+
+  entity_add_velocity ray_x, ray_x_velocity
+  entity_add_velocity ray_y, ray_y_velocity
+  entity_add_velocity ray_altitude, ray_altitude_velocity
+
+  jsr position_ray
+
   .scope
   ldy ray_direction,x
   clc
@@ -277,27 +306,6 @@ do_not_change_direction:
 
 do_not_transition_to_fall_state:
   .endscope
-
-  .scope
-  sec
-  lda #<RAY_FLOAT_ALTITUDE
-  sbc ray_altitude_lo,x
-  lda #>RAY_FLOAT_ALTITUDE
-  sbc ray_altitude_hi,x
-  bpl float_up
-float_down:
-  entity_add_acceleration ray_altitude_velocity, (-RAY_FLOAT_ACCELERATION)
-  jmp done
-float_up:
-  entity_add_acceleration ray_altitude_velocity, RAY_FLOAT_ACCELERATION
-done:
-  .endscope
-
-  entity_add_velocity ray_x, ray_x_velocity
-  entity_add_velocity ray_y, ray_y_velocity
-  entity_add_velocity ray_altitude, ray_altitude_velocity
-
-  jsr position_ray
 
   jsr entity_update_animation
 

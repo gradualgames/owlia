@@ -13,6 +13,10 @@ RAY_RISE_SPEED = 200
 RAY_FLOAT_ACCELERATION = 25
 RAY_FLOAT_ALTITUDE = 16
 
+RAY_INITIAL_HEALTH = 10
+RAY_ATTACKED_LENGTH = 30
+RAY_KNOCKBACK_LENGTH = 10
+
 RAY_WIDTH = $0f
 RAY_HEIGHT = $0f
 RAY_HALFWIDTH = (RAY_WIDTH >> 1)
@@ -35,6 +39,9 @@ ray_altitude_hi = entity_local13
 ray_altitude_fine = entity_local14
 ray_altitude_velocity_lo = entity_local15
 ray_altitude_velocity_hi = entity_local16
+ray_health = entity_local17
+ray_knockback_counter = entity_local18
+ray_flash_counter = entity_local19
 
 .enum
 RAY_STATE_INIT
