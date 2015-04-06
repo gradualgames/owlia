@@ -30,8 +30,8 @@ entity_action_rect1_y = 0x69E
 entity_action_rect1_width = 0x6A0
 entity_action_rect1_height = 0x6A1
 
-geotests_rect_in_rect = 0xD1DE
-geotests_rect_inside_rect = 0xD171
+geotests_rect_in_rect = 0xD202
+geotests_rect_inside_rect = 0xD191
 
 -- draw a box and take care of coordinate checking
 local function box(x1,y1,x2,y2,color)
