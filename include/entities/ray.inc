@@ -170,6 +170,8 @@ ray_state_rise_from_sand:
 
   jsr ray_load_fly_animation_from_direction
 
+  entity_lda24 ray_altitude, 0
+
   lda #<RAY_RISE_SPEED
   sta ray_altitude_velocity_lo,x
   lda #>RAY_RISE_SPEED
