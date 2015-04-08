@@ -2,13 +2,11 @@
 RAY_SPRITES_AND_ANIMATIONS_INC = 1
 
 ray_rise_down0:
-  .byte $08
+  .byte $06
   .byte $00,$13,$00,$00,$08
   .byte $00,$13,$00,$08,$00
   .byte $08,$1e,$02,$00,$08
   .byte $08,$1f,$02,$08,$00
-  .byte $00,$00,$03,$00,$08
-  .byte $00,$00,$03,$08,$00
   .byte $08,$04,$03,$00,$08
   .byte $08,$04,$03,$08,$00
 ray_rise_down1:
@@ -22,13 +20,11 @@ ray_rise_down1:
   .byte $08,$05,$03,$00,$08
   .byte $08,$05,$03,$08,$00
 ray_rise_down2:
-  .byte $08
+  .byte $06
   .byte $00,$16,$02,$00,$08
   .byte $00,$17,$02,$08,$00
   .byte $08,$22,$02,$00,$08
   .byte $08,$23,$02,$08,$00
-  .byte $00,$00,$03,$00,$08
-  .byte $00,$00,$03,$08,$00
   .byte $08,$04,$03,$00,$08
   .byte $08,$04,$03,$08,$00
 ray_rise_side0:
@@ -146,9 +142,7 @@ ray_fly_up1:
   .byte $08,$55,$02,$12,$f6
   .byte $10,$5d,$02,$02,$06
 ray_rise_eyes_down0:
-  .byte $04
-  .byte $00,$00,$03,$00,$08
-  .byte $00,$00,$03,$08,$00
+  .byte $02
   .byte $08,$04,$03,$00,$08
   .byte $08,$04,$03,$08,$00
 ray_rise_eyes_down1:
@@ -158,9 +152,7 @@ ray_rise_eyes_down1:
   .byte $08,$05,$03,$00,$08
   .byte $08,$05,$03,$08,$00
 ray_rise_eyes_down2:
-  .byte $04
-  .byte $00,$00,$03,$00,$08
-  .byte $00,$00,$03,$08,$00
+  .byte $02
   .byte $08,$04,$03,$00,$08
   .byte $08,$04,$03,$08,$00
 ray_rise_eyes_side0:
@@ -191,9 +183,7 @@ ray_eyes_fly_side1:
   .byte $01
   .byte $00,$07,$03,$0c,$fc
 ray_rise_down0_reversed:
-  .byte $08
-  .byte $00,$00,$03,$00,$08
-  .byte $00,$00,$03,$08,$00
+  .byte $06
   .byte $08,$04,$03,$00,$08
   .byte $08,$04,$03,$08,$00
   .byte $00,$13,$00,$08,$00
@@ -211,9 +201,7 @@ ray_rise_down1_reversed:
   .byte $08,$21,$02,$08,$00
   .byte $08,$20,$02,$00,$08
 ray_rise_down2_reversed:
-  .byte $08
-  .byte $00,$00,$03,$00,$08
-  .byte $00,$00,$03,$08,$00
+  .byte $06
   .byte $08,$04,$03,$00,$08
   .byte $08,$04,$03,$08,$00
   .byte $00,$17,$02,$08,$00
@@ -335,9 +323,7 @@ ray_fly_up1_reversed:
   .byte $08,$52,$02,$fa,$0e
   .byte $10,$5d,$02,$02,$06
 ray_rise_eyes_down0_reversed:
-  .byte $04
-  .byte $00,$00,$03,$08,$00
-  .byte $00,$00,$03,$00,$08
+  .byte $02
   .byte $08,$04,$03,$08,$00
   .byte $08,$04,$03,$00,$08
 ray_rise_eyes_down1_reversed:
@@ -347,9 +333,7 @@ ray_rise_eyes_down1_reversed:
   .byte $08,$05,$03,$08,$00
   .byte $08,$05,$03,$00,$08
 ray_rise_eyes_down2_reversed:
-  .byte $04
-  .byte $00,$00,$03,$08,$00
-  .byte $00,$00,$03,$00,$08
+  .byte $02
   .byte $08,$04,$03,$08,$00
   .byte $08,$04,$03,$00,$08
 ray_rise_eyes_side0_reversed:
