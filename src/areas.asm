@@ -877,7 +877,7 @@ dungeon4_boss_area:
   .byte CONVERSATIONS_BANK
   .word dungeon4_boss_area_bg_chr_groups
   .word dungeon_theme
-  .byte $22 ;textbox_attribute
+  .byte $00 ;textbox_attribute
   .word dungeon4_boss_map
   .word dungeon4_boss_metatile_table_properties
   .word dungeon4_boss_metatile_table_params

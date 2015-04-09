@@ -53,3 +53,4 @@
 .include "tunicate_sprites_and_animations.inc"
 .include "clam_sprites_and_animations.inc"
 .include "ray_sprites_and_animations.inc"
+.include "sawwhetowl_sprites_and_animations.inc"

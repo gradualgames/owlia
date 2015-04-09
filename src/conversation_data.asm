@@ -27,7 +27,8 @@
     rescue_greathornedowl, \
     dungeon_statue_deny_entry, \
     rescue_siberianeagleowl, \
-    rescue_greatgrayowl
+    rescue_greatgrayowl, \
+    rescue_sawwhetowl
 
 conversations_lo:
   .lobytes conversations
@@ -285,3 +286,5 @@ rescue_greatgrayowl:
 
   .byte NL,1, "YOU THERE.",WT,EC
 
+rescue_sawwhetowl:
+  .byte    1, "YOU RESCUED ME.",WT,EC

@@ -180,4 +180,7 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global ray_fall_down
 .global ray_fall_up
 
+.global sawwhetowl_outside_cage
+.global sawwhetowl_fly
+
 .endif
