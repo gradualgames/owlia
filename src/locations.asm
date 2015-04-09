@@ -218,6 +218,7 @@
     dungeon4_2_3_w, \
     dungeon4_3_3_w, \
     dungeon4_boss_area_entrance, \
+    dungeon4_boss_area_owl_dungeon, \
     piratebay_entrance, \
     piratebay_piratetavern_entrance1, \
     piratetavern_entrance1
@@ -520,6 +521,15 @@ dungeon4_boss_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_ray
+
+dungeon4_boss_owl_dungeon_sprite_chr_groups:
+  .byte 6   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
 
 piratebay_sprite_chr_groups:
   .byte 6   ;sprite_chr_groups .byte
@@ -2077,7 +2087,7 @@ dungeon4_boss_entity_instances:
                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_WEST,\
-                                         ACTION_NOP, 0,\
+                                         ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon4_boss_area_owl_dungeon,\
                                          0, 4
   .byte entity_index_monolith, 23, 4, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
@@ -2086,6 +2096,9 @@ dungeon4_boss_entity_instances:
                                          ACTION_NOP, 0,\
                                          0, 2
   .byte entity_index_boss, 0, 0, 0, BOSS_PARAMS, tech_shield
+
+dungeon4_boss_owl_dungeon_entity_instances:
+  .byte 0
 
 piratebay_entity_instances:
   .byte 0
@@ -2224,6 +2237,11 @@ dungeon4_palette:
   .byte PALETTE_CYCLE_LOOP
 
 dungeon4_boss_palette:
+  .byte $0e,$18,$28,$37,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$1b,$01,$0e,$0e,$0e,$28
+  .byte PALETTE_CYCLE_LOOP
+
+dungeon4_boss_owl_dungeon_palette:
   .byte $0e,$18,$28,$37,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$1b,$01,$0e,$0e,$0e,$28
   .byte PALETTE_CYCLE_LOOP
@@ -2806,6 +2824,14 @@ define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAG
 
 dungeon4_boss_area_entrance:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon4_boss,dungeon4_boss_sprite_chr_groups,dungeon4_boss_entity_instances,dungeon4_boss_palette, 16, 0, 23, 4, 0, 0, 0, ENTITY_DIRECTION_DOWN
+
+dungeon4_boss_area_owl_dungeon:
+define_location   LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | \
+                  LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | \
+                  LOCATION_BRIGHTNESS_LEVEL_4,\
+                        area_index_dungeon4_boss, dungeon4_boss_owl_dungeon_sprite_chr_groups, dungeon4_boss_owl_dungeon_entity_instances, dungeon4_boss_owl_dungeon_palette,\
+                        0, 0, 13, 8,\
+                        0, 0, 0, ENTITY_DIRECTION_LEFT
 
 piratebay_entrance:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
