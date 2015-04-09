@@ -2069,7 +2069,7 @@ dungeon4_3_3_entity_instances:
                                          0, 4
 
 dungeon4_boss_entity_instances:
-  .byte 5
+  .byte 6
   .byte entity_index_ray, 20, 10, 0, 0
   .byte entity_index_ray, 27, 7, 0, 0
   .byte entity_index_ray, 27, 10, 0, 0
@@ -2085,6 +2085,7 @@ dungeon4_boss_entity_instances:
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_NOP, 0,\
                                          0, 2
+  .byte entity_index_boss, 0, 0, 0, BOSS_PARAMS, tech_shield
 
 piratebay_entity_instances:
   .byte 0

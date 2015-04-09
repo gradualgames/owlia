@@ -87,6 +87,8 @@ ray_state_init:
 
   jsr entity_set_drawable
 
+  jsr entity_set_is_enemy
+
   lda #RAY_WIDTH
   sta entity_width,x
   lda #RAY_HEIGHT
