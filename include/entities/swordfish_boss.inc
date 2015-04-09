@@ -12,7 +12,6 @@ SWORDFISH_BOSS_RIGHT_BOUNDARY = 256 + 64
 SWORDFISH_BOSS_INITIAL_HEALTH = 10
 SWORDFISH_BOSS_ATTACKED_LENGTH = 20
 SWORDFISH_BOSS_FLASH_LENGTH = 20
-SWORDFISH_BOSS_STATE_LOWER_ALL_MONOLITHS_AND_DIE_LENGTH = 50
 SWORDFISH_BOSS_STATE_FLOUNDER_LENGTH = 100
 SWORDFISH_BOSS_STATE_VICTORY_LENGTH = 220
 
@@ -48,6 +47,7 @@ swordfish_boss_splash_index = entity_local8
 
 .enum
 SWORDFISH_BOSS_STATE_INIT
+SWORDFISH_BOSS_STATE_SPAWN_SPLASH
 SWORDFISH_BOSS_STATE_FIN_SWIM_RIGHT
 SWORDFISH_BOSS_STATE_FIN_SWIM_LEFT
 SWORDFISH_BOSS_STATE_CHARGE_RIGHT
@@ -55,19 +55,18 @@ SWORDFISH_BOSS_STATE_CHARGE_LEFT
 SWORDFISH_BOSS_STATE_FALL
 SWORDFISH_BOSS_STATE_FLOUNDER
 SWORDFISH_BOSS_STATE_RISE
-SWORDFISH_BOSS_STATE_VICTORY
 .endenum
 
 .define swordfish_boss_states \
   swordfish_boss_state_init, \
+  swordfish_boss_state_spawn_splash, \
   swordfish_boss_state_fin_swim_right, \
   swordfish_boss_state_fin_swim_left, \
   swordfish_boss_state_charge_right, \
   swordfish_boss_state_charge_left, \
   swordfish_boss_state_fall, \
   swordfish_boss_state_flounder, \
-  swordfish_boss_state_rise, \
-  swordfish_boss_state_victory
+  swordfish_boss_state_rise
 
 swordfish_boss_lo:
   .lobytes swordfish_boss_states
@@ -80,25 +79,6 @@ swordfish_boss_update:
   entity_state_switchboard swordfish_boss_lo, swordfish_boss_hi
 
 swordfish_boss_state_init:
-
-  ;make sure that the boss has only been encountered once
-  lda inventory_earned_techs
-  cmp #tech_carry_lantern
-  bmi do_not_skip_swordfish_boss
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-  rts
-
-do_not_skip_swordfish_boss:
-
-  lda #<octoboss_theme
-  sta song_address
-  lda #>octoboss_theme
-  sta song_address+1
-  far_call #SOUND_BANK, song_initialize
 
   jsr entity_set_not_pausable
 
@@ -134,11 +114,6 @@ do_not_skip_swordfish_boss:
   sta b0
   jsr entity_lookup_sprite_chr_offset
 
-  lda #<SWORDFISH_BOSS_FIN_SWIM_Y
-  sta entity_y_lo,x
-  lda #>SWORDFISH_BOSS_FIN_SWIM_Y
-  sta entity_y_hi,x
-
   sec
   lda entity_x_lo,x
   sbc #<64
@@ -146,6 +121,21 @@ do_not_skip_swordfish_boss:
   lda entity_x_hi,x
   sbc #>64
   sta entity_x_hi,x
+
+  lda #<SWORDFISH_BOSS_FIN_SWIM_Y
+  sta entity_y_lo,x
+  lda #>SWORDFISH_BOSS_FIN_SWIM_Y
+  sta entity_y_hi,x
+
+  lda #%01000000
+  sta entity_sprite_flags,x
+
+  lda #SWORDFISH_BOSS_STATE_SPAWN_SPLASH
+  sta entity_state,x
+
+  rts
+
+swordfish_boss_state_spawn_splash:
 
   lda #entity_index_splash
   sta b0
@@ -163,9 +153,6 @@ do_not_skip_swordfish_boss:
   jsr entity_spawn
   lda spawned_entity
   sta swordfish_boss_splash_index,x
-
-  lda #%01000000
-  sta entity_sprite_flags,x
 
   jsr swordfish_boss_play_whoosh_sound
 
@@ -568,43 +555,6 @@ do_not_switch_state:
 
   rts
 
-swordfish_boss_state_victory:
-
-  .scope
-  dec swordfish_boss_state_counter,x
-  bne do_not_die_yet
-
-  ;stop all sound
-  far_call #SOUND_BANK, sound_stop
-
-  .scope
-  ;search for monolith entity in boss's arena and make it fall
-  ldy #(MAX_ENTITIES-1)
-next_entity:
-  lda entity_type,y
-  cmp #entity_index_monolith
-  bne not_monolith
-
-  lda #MONOLITH_STATE_FALL_INIT
-  sta entity_state,y
-  jmp done
-
-not_monolith:
-
-  dey
-  bpl next_entity
-done:
-  .endscope
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-do_not_die_yet:
-  .endscope
-
-  rts
-
 .proc swordfish_boss_play_whoosh_sound
 
   lda #<sfx_whoosh
@@ -764,21 +714,13 @@ rect1_attacked_entity:
   jsr entity_spawn_explosion
   jsr entity_drop_random_item
 
-  lda #<defeat_boss
-  sta song_address
-  lda #>defeat_boss
-  sta song_address+1
-  far_call #SOUND_BANK, song_initialize
-
   jsr entity_clear_drawable
 
   jsr entity_clear_shadow_spot
 
-  lda #SWORDFISH_BOSS_STATE_VICTORY_LENGTH
-  sta swordfish_boss_state_counter,x
-
-  lda #SWORDFISH_BOSS_STATE_VICTORY
-  sta entity_state,x
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
 
 entity_not_dead_yet:
   .endif
