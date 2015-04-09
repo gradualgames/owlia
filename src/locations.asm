@@ -24,6 +24,7 @@
 .include "switch_constants.inc"
 .include "switch_puzzle_constants.inc"
 .include "ray_constants.inc"
+.include "boss_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entity.inc"
@@ -871,7 +872,7 @@ dungeon_3_3_entity_instances:
                                           0, 4
 
 dungeon1_boss_entity_instances:
-  .byte 3
+  .byte 4
   .byte entity_index_octoboss_head, 4, 4, 0, 0
   .byte entity_index_monolith, 14, 11, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET, 0, \
@@ -883,6 +884,7 @@ dungeon1_boss_entity_instances:
                                           MONOLITH_DIRECTION_SOUTH, \
                                           ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon_3_0_n, \
                                           0, 2
+  .byte entity_index_boss, 0, 0, 0, BOSS_PARAMS, tech_carry_bomb
 
 dungeon1_boss_owl_dungeon_entity_instances:
   .byte 7

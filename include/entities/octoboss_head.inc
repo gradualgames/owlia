@@ -48,18 +48,18 @@ octoboss_head_health = entity_local10
 
 .enum
 OCTOBOSS_HEAD_STATE_INIT
+OCTOBOSS_HEAD_STATE_SPAWN_LEGS_AND_SPLASH
 OCTOBOSS_HEAD_STATE_RISE
 OCTOBOSS_HEAD_STATE_FLOAT
 OCTOBOSS_HEAD_STATE_PAUSE
-OCTOBOSS_HEAD_STATE_VICTORY
 .endenum
 
 .define octoboss_head_states \
   octoboss_head_state_init, \
+  octoboss_head_state_spawn_legs_and_splash, \
   octoboss_head_state_rise, \
   octoboss_head_state_float, \
-  octoboss_head_state_pause, \
-  octoboss_head_state_victory
+  octoboss_head_state_pause
 
 octoboss_head_lo:
   .lobytes octoboss_head_states
@@ -72,25 +72,6 @@ octoboss_head_update:
   entity_state_switchboard octoboss_head_lo, octoboss_head_hi
 
 octoboss_head_state_init:
-
-  ;make sure that the boss has only been encountered once
-  lda inventory_earned_techs
-  cmp #tech_carry_bomb
-  bmi do_not_skip_octoboss
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-  rts
-
-do_not_skip_octoboss:
-
-  lda #<octoboss_theme
-  sta song_address
-  lda #>octoboss_theme
-  sta song_address+1
-  far_call #SOUND_BANK, song_initialize
 
   jsr entity_set_drawable
 
@@ -116,6 +97,27 @@ do_not_skip_octoboss:
 
   lda #$00
   sta entity_sprite_flags,x
+
+  lda #0
+  sta octoboss_head_x_fine,x
+  sta octoboss_head_y_fine,x
+  sta octoboss_head_x_velocity_lo,x
+  sta octoboss_head_x_velocity_hi,x
+  sta octoboss_head_y_velocity_lo,x
+  sta octoboss_head_y_velocity_hi,x
+
+  lda #OCTOBOSS_HEAD_INITIAL_HEALTH
+  sta octoboss_head_health,x
+
+  lda #0
+  sta octoboss_head_flash_counter,x
+
+  lda #OCTOBOSS_HEAD_STATE_SPAWN_LEGS_AND_SPLASH
+  sta entity_state,x
+
+  rts
+
+octoboss_head_state_spawn_legs_and_splash:
 
   ;spawn the legs
   lda #entity_index_octoboss_legs
@@ -164,20 +166,6 @@ do_not_skip_octoboss:
   lda entity_y_hi,y
   adc #>SPLASH_Y_OFFSET
   sta entity_y_hi,y
-
-  lda #0
-  sta octoboss_head_x_fine,x
-  sta octoboss_head_y_fine,x
-  sta octoboss_head_x_velocity_lo,x
-  sta octoboss_head_x_velocity_hi,x
-  sta octoboss_head_y_velocity_lo,x
-  sta octoboss_head_y_velocity_hi,x
-
-  lda #OCTOBOSS_HEAD_INITIAL_HEALTH
-  sta octoboss_head_health,x
-
-  lda #0
-  sta octoboss_head_flash_counter,x
 
   ;play a sound
   lda #<sfx_octoboss_rise
@@ -436,41 +424,6 @@ do_not_unpause_yet:
 
   rts
 
-octoboss_head_state_victory:
-
-  dec octoboss_head_state_counter,x
-  bne do_not_die_yet
-
-  ;stop all sound
-  far_call #SOUND_BANK, sound_stop
-
-  .scope
-  ;search for monolith entity in boss's arena and make it fall
-  ldy #(MAX_ENTITIES-1)
-next_entity:
-  lda entity_type,y
-  cmp #entity_index_monolith
-  bne not_monolith
-
-  lda #MONOLITH_STATE_FALL_INIT
-  sta entity_state,y
-  jmp done
-
-not_monolith:
-
-  dey
-  bpl next_entity
-done:
-  .endscope
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-do_not_die_yet:
-
-  rts
-
 .proc octoboss_head_combat
 
   lda entity_action_rect1_action
@@ -530,18 +483,6 @@ action_rect2_not_deadly:
 
   jsr entity_clear_shadow_spot
 
-  lda #<defeat_boss
-  sta song_address
-  lda #>defeat_boss
-  sta song_address+1
-  far_call #SOUND_BANK, song_initialize
-
-  lda #220
-  sta octoboss_head_state_counter,x
-
-  lda #OCTOBOSS_HEAD_STATE_VICTORY
-  sta entity_state,x
-
   ldy octoboss_head_legs_entity_index,x
   lda #OCTOBOSS_LEGS_STATE_DIE
   sta entity_state,y
@@ -559,6 +500,10 @@ action_rect2_not_deadly:
   sta w1+1
 
   jsr entity_spawn
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
 
 entity_not_dead_yet:
 
