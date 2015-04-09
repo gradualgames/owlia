@@ -8,13 +8,12 @@ CRAB_BOSS_BODY_INC = 1
 
 .define crab_boss_body_states \
   crab_boss_body_state_init, \
+  crab_boss_body_state_spawn_eyes_and_pincers, \
   crab_boss_body_state_walk_left, \
   crab_boss_body_state_walk_right, \
   crab_boss_body_state_init_rush, \
   crab_boss_body_state_rush, \
-  crab_boss_body_state_rush_back, \
-  crab_boss_body_state_victory, \
-  crab_boss_body_state_lower_monolith
+  crab_boss_body_state_rush_back
 
 crab_boss_body_lo:
   .lobytes crab_boss_body_states
@@ -27,26 +26,6 @@ crab_boss_body_update:
   entity_state_switchboard crab_boss_body_lo, crab_boss_body_hi
 
 crab_boss_body_state_init:
-
-  ;make sure that the boss has only been encountered once
-  .scope
-  lda inventory_earned_techs
-  cmp #tech_carry_adlanniel
-  bmi do_not_skip_boss
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-  rts
-do_not_skip_boss:
-  .endscope
-
-  lda #<octoboss_theme
-  sta song_address
-  lda #>octoboss_theme
-  sta song_address+1
-  far_call #SOUND_BANK, song_initialize
 
   jsr entity_set_drawable
 
@@ -71,6 +50,19 @@ do_not_skip_boss:
   lda #sprite_chr_group_index_crab_boss
   sta b0
   jsr entity_lookup_sprite_chr_offset
+
+  lda #%01000000
+  sta entity_sprite_flags,x
+
+  lda #0
+  sta crab_boss_body_flash_counter,x
+
+  lda #CRAB_BOSS_BODY_STATE_SPAWN_EYES_AND_PINCERS
+  sta entity_state,x
+
+  rts
+
+crab_boss_body_state_spawn_eyes_and_pincers:
 
   ;spawn and track crab boss's first eye
   .scope
@@ -157,12 +149,6 @@ do_not_skip_boss:
   .endscope
 
   jsr crab_boss_position_pincers
-
-  lda #%01000000
-  sta entity_sprite_flags,x
-
-  lda #0
-  sta crab_boss_body_flash_counter,x
 
   lda #CRAB_BOSS_BODY_TIME_TIL_RUSH
   sta crab_boss_body_state_rush_counter,x
@@ -366,63 +352,6 @@ do_not_transition_yet:
 
   rts
 
-crab_boss_body_state_victory:
-
-  .scope
-  dec crab_boss_body_state_counter,x
-  bne do_not_transition_yet
-
-  lda #<defeat_boss
-  sta song_address
-  lda #>defeat_boss
-  sta song_address+1
-  far_call #SOUND_BANK, song_initialize
-
-  lda #CRAB_BOSS_BODY_STATE_LOWER_MONOLITH_LENGTH
-  sta crab_boss_body_state_counter,x
-
-  lda #CRAB_BOSS_BODY_STATE_LOWER_MONOLITH
-  sta entity_state,x
-
-do_not_transition_yet:
-  .endscope
-
-  rts
-
-crab_boss_body_state_lower_monolith:
-
-  .scope
-  dec crab_boss_body_state_counter,x
-  bne do_not_transition_yet
-
-  .scope
-  ;search for monolith entity in boss's arena and make it fall
-  ldy #(MAX_ENTITIES-1)
-next_entity:
-  lda entity_type,y
-  cmp #entity_index_monolith
-  bne not_monolith
-
-  lda #MONOLITH_STATE_FALL_INIT
-  sta entity_state,y
-  jmp done
-
-not_monolith:
-
-  dey
-  bpl next_entity
-done:
-  .endscope
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-do_not_transition_yet:
-  .endscope
-
-  rts
-
 .proc crab_boss_check_if_eyes_dead
 
   .scope
@@ -462,11 +391,9 @@ do_not_transition_yet:
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,y
 
-  lda #CRAB_BOSS_BODY_STATE_VICTORY_LENGTH
-  sta crab_boss_body_state_counter,x
-
-  lda #CRAB_BOSS_BODY_STATE_VICTORY
-  sta entity_state,x
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
 
 at_least_one_eye_still_alive:
   .endscope

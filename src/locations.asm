@@ -1660,7 +1660,7 @@ dungeon3_3_3_entity_instances:
                                                >1
 
 dungeon3_boss_entity_instances:
-  .byte 3
+  .byte 4
   .byte entity_index_crab_boss_body, 3, 6, 0, 0
   .byte entity_index_monolith, 14, 11, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET, 0, \
@@ -1673,6 +1673,7 @@ dungeon3_boss_entity_instances:
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon3_3_3_e,\
                                          0, 4
+  .byte entity_index_boss, 0, 0, 0, BOSS_PARAMS, tech_carry_adlanniel
 
 dungeon3_boss_owl_dungeon_entity_instances:
   .byte 2
