@@ -84,7 +84,8 @@
   switch_update, \
   switch_puzzle_update, \
   ray_update, \
-  boss_update
+  boss_update, \
+  target_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -141,6 +142,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_switch_puzzle
   .byte entity_update_bank_ray
   .byte entity_update_bank_boss
+  .byte entity_update_bank_target
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -192,6 +194,7 @@ entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_switch_puzzle
   .byte entity_sprites_and_animations_bank_ray
   .byte 0 ;entity_sprites_and_animations_bank_boss
+  .byte entity_sprites_and_animations_bank_target
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -244,3 +247,4 @@ entity_defs_sprites_and_animations_bank:
 .include "switch_puzzle.inc"
 .include "ray.inc"
 .include "boss.inc"
+.include "target.inc"

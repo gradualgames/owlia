@@ -183,4 +183,12 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global sawwhetowl_outside_cage
 .global sawwhetowl_fly
 
+.global ship
+.global kraken
+.global owl
+.global bottle
+.global bottle_ring
+.global ring
+.global turtle
+
 .endif

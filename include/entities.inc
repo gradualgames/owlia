@@ -60,6 +60,7 @@ entity_index_switch
 entity_index_switch_puzzle
 entity_index_ray
 entity_index_boss
+entity_index_target
 .endenum
 
 entity_update_bank_instance_placeholder = 4
@@ -111,6 +112,7 @@ entity_update_bank_switch = 5
 entity_update_bank_switch_puzzle = 5
 entity_update_bank_ray = 5
 entity_update_bank_boss = 5
+entity_update_bank_target = 5
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 7
@@ -161,5 +163,6 @@ entity_sprites_and_animations_bank_clam = 7
 ;entity_sprites_and_animations_bank_switch_puzzle ;this entity has no graphics
 entity_sprites_and_animations_bank_ray = 7
 ;entity_sprites_and_animations_bank_boss ;this entity has no graphics
+entity_sprites_and_animations_bank_target = 7
 
 .endif

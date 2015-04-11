@@ -54,7 +54,8 @@
   tunicate_chr, \
   clam_chr, \
   ray_chr, \
-  sawwhetowl_chr
+  sawwhetowl_chr, \
+  minigame_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -113,6 +114,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_clam
   .byte sprite_chr_group_bank_ray
   .byte sprite_chr_group_bank_sawwhetowl
+  .byte sprite_chr_group_bank_minigame
 
 .segment "ROM08"
 
@@ -270,3 +272,6 @@ ray_chr:
 
 sawwhetowl_chr:
 .incbin "sawwhetowl.chr"
+
+minigame_chr:
+.incbin "minigame.chr"

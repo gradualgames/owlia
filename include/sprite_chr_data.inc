@@ -59,6 +59,7 @@ sprite_chr_group_index_tunicate
 sprite_chr_group_index_clam
 sprite_chr_group_index_ray
 sprite_chr_group_index_sawwhetowl
+sprite_chr_group_index_minigame
 .endenum
 
 sprite_chr_group_bank_intro_cut_scene_great_owls = 8
@@ -112,5 +113,6 @@ sprite_chr_group_bank_tunicate = 24
 sprite_chr_group_bank_clam = 24
 sprite_chr_group_bank_ray = 24
 sprite_chr_group_bank_sawwhetowl = 24
+sprite_chr_group_bank_minigame = 24
 
 .endif

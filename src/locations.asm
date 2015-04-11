@@ -554,13 +554,14 @@ piratetavern_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
 
 pirateshootinggallery_sprite_chr_groups:
-  .byte 6   ;sprite_chr_groups .byte
+  .byte 7   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_minigame
 
 ;****************************************************************
 ;Entity instance sets
@@ -2122,7 +2123,8 @@ piratetavern_entity_instances:
   .byte 0
 
 pirateshootinggallery_entity_instances:
-  .byte 0
+  .byte 1
+  .byte entity_index_target, 1, 3, 0, 0
 
 ;****************************************************************
 ;Palettes.
