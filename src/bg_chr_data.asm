@@ -110,5 +110,14 @@ dungeon4_main_chr:
 piratebay_chr:
 .incbin "piratebay.chr"
 
-piratetavern_chr:
-.incbin "piratetavern.chr"
+piratetavern_main_chr:
+.incbin "piratetavern_main.chr"
+
+piratetavern_door_chr:
+.incbin "piratetavern_door.chr"
+
+piratetavern_objects_chr:
+.incbin "piratetavern_objects.chr"
+
+piratetavern_shooting_gallery_chr:
+.incbin "piratetavern_shooting_gallery.chr"

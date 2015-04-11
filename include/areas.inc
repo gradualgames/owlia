@@ -64,6 +64,7 @@ area_index_dungeon4
 area_index_dungeon4_boss
 area_index_piratebay
 area_index_piratetavern
+area_index_pirateshootinggallery
 .endenum
 
 .endif

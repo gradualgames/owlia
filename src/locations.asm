@@ -221,7 +221,9 @@
     dungeon4_boss_area_owl_dungeon, \
     piratebay_entrance, \
     piratebay_piratetavern_entrance1, \
-    piratetavern_entrance1
+    piratebay_pirateshootinggallery_entrance1, \
+    piratetavern_entrance1, \
+    pirateshootinggallery_entrance1
 
 locations_lo:
   .lobytes locations
@@ -543,6 +545,15 @@ piratebay_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
 
 piratetavern_sprite_chr_groups:
+  .byte 6   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+
+pirateshootinggallery_sprite_chr_groups:
   .byte 6   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -2110,6 +2121,9 @@ piratebay_entity_instances:
 piratetavern_entity_instances:
   .byte 0
 
+pirateshootinggallery_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -2262,7 +2276,12 @@ piratebay_palette:
   .byte PALETTE_CYCLE_LOOP
 
 piratetavern_palette:
-  .byte $0e,$0b,$08,$1b,$0e,$08,$18,$28,$0e,$08,$18,$37,$0e,$0e,$0e,$0e
+  .byte $0e,$21,$31,$20,$0e,$0b,$08,$1b,$0e,$08,$18,$28,$0e,$08,$18,$37
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$14,$24
+  .byte PALETTE_CYCLE_LOOP
+
+pirateshootinggallery_palette:
+  .byte $0e,$21,$31,$20,$0e,$0b,$08,$1b,$0e,$08,$18,$28,$0e,$08,$18,$37
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$14,$24
   .byte PALETTE_CYCLE_LOOP
 
@@ -2849,8 +2868,20 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   0, 0, 10, 5,\
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_DOWN
 
+piratebay_pirateshootinggallery_entrance1:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                  area_index_piratebay, piratebay_sprite_chr_groups, piratebay_entity_instances, piratebay_palette,\
+                  6, 0, 16, 5,\
+                  sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_DOWN
+
 piratetavern_entrance1:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   area_index_piratetavern, piratetavern_sprite_chr_groups, piratetavern_entity_instances, piratetavern_palette,\
                   2, 8, 10, 14,\
+                  sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
+
+pirateshootinggallery_entrance1:
+define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
+                  area_index_pirateshootinggallery, pirateshootinggallery_sprite_chr_groups, pirateshootinggallery_entity_instances, pirateshootinggallery_palette,\
+                  0, 0, 7, 12,\
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP

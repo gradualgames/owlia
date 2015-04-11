@@ -42,7 +42,8 @@
     dungeon4_area, \
     dungeon4_boss_area, \
     piratebay_area, \
-    piratetavern_area
+    piratetavern_area, \
+    pirateshootinggallery_area
 
 areas_lo:
   .lobytes areas
@@ -978,6 +979,40 @@ piratetavern_area:
   .word 0 ;attribute_patches_address
 
 piratetavern_area_bg_chr_groups:
-  .byte 1  ;count
+  .byte 3  ;count
   .byte BG_CHR_DATA_BANK4
-  .word piratetavern_chr
+  .word piratetavern_main_chr
+  .byte BG_CHR_DATA_BANK4
+  .word piratetavern_door_chr
+  .byte BG_CHR_DATA_BANK4
+  .word piratetavern_objects_chr
+
+pirateshootinggallery_area:
+  .byte MAP_DATA_BANK3
+  .byte CONVERSATIONS_BANK
+  .word pirateshootinggallery_area_bg_chr_groups
+  .word piratebay_theme
+  .byte $00 ;textbox_attribute
+  .word pirateshootinggallery_map
+  .word pirateshootinggallery_metatile_table_properties
+  .word pirateshootinggallery_metatile_table_params
+  .word pirateshootinggallery_metatile_table_attributes
+  .word pirateshootinggallery_metatile_table_top_left_tiles
+  .word pirateshootinggallery_metatile_table_top_right_tiles
+  .word pirateshootinggallery_metatile_table_bottom_left_tiles
+  .word pirateshootinggallery_metatile_table_bottom_right_tiles
+  .word pirateshootinggallery_big_metatile_table_top_left
+  .word pirateshootinggallery_big_metatile_table_top_right
+  .word pirateshootinggallery_big_metatile_table_bottom_left
+  .word pirateshootinggallery_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
+
+pirateshootinggallery_area_bg_chr_groups:
+  .byte 3  ;count
+  .byte BG_CHR_DATA_BANK4
+  .word piratetavern_main_chr
+  .byte BG_CHR_DATA_BANK4
+  .word piratetavern_shooting_gallery_chr
+  .byte BG_CHR_DATA_BANK4
+  .word piratetavern_objects_chr
