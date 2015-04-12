@@ -25,6 +25,7 @@
 .include "switch_puzzle_constants.inc"
 .include "ray_constants.inc"
 .include "boss_constants.inc"
+.include "target_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entity.inc"
@@ -2123,8 +2124,19 @@ piratetavern_entity_instances:
   .byte 0
 
 pirateshootinggallery_entity_instances:
-  .byte 1
-  .byte entity_index_target, 1, 3, 0, 0
+  .byte 2
+  .byte entity_index_target, 20, 3, 0, TARGET_PARAMS,\
+                                       TARGET_MODE_RANDOM_SPEED,\
+                                       TARGET_TYPE_KRAKEN,\
+                                       ENTITY_DIRECTION_LEFT,\
+                                       1,\
+                                       %00000011
+  .byte entity_index_target, 1, 3, 0, TARGET_PARAMS,\
+                                       TARGET_MODE_NORMAL,\
+                                       TARGET_TYPE_TURTLE,\
+                                       ENTITY_DIRECTION_RIGHT,\
+                                       2,\
+                                       0
 
 ;****************************************************************
 ;Palettes.

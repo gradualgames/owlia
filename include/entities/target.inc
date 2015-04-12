@@ -2,13 +2,13 @@
 .ifndef TARGET_INC
 TARGET_INC = 1
 
-TARGET_WIDTH = $0f
-TARGET_HEIGHT = $0f
+.include "target_constants.inc"
 
-.enum
-TARGET_STATE_INIT
-TARGET_STATE_MAIN
-.endenum
+define_lohi_tables target_metasprites, \
+ {ship,\
+  kraken,\
+  owl,\
+  turtle}
 
 define_lohi_tables target, \
  {target_state_init, \
@@ -22,9 +22,12 @@ target_state_init:
 
   jsr entity_set_drawable
 
-  lda #<ship
+  jsr entity_set_not_pausable
+
+  ldy target_type,x
+  lda target_metasprites_lo,y
   sta entity_animation_address_lo,x
-  lda #>ship
+  lda target_metasprites_hi,y
   sta entity_animation_address_hi,x
 
   jsr entity_reset_animation
@@ -49,6 +52,54 @@ target_state_init:
   rts
 
 target_state_main:
+
+  .scope
+  lda target_mode,x
+  cmp #TARGET_MODE_RANDOM_SPEED
+  bne not_random_speed
+  lda rand
+  and target_random_speed_mask,x
+  sta target_speed,x
+not_random_speed:
+  .endscope
+
+  .scope
+  lda target_direction,x
+  cmp #ENTITY_DIRECTION_LEFT
+  beq left
+  cmp #ENTITY_DIRECTION_RIGHT
+  beq right
+left:
+
+  lda entity_sprite_flags,x
+  ora #%01000000
+  sta entity_sprite_flags,x
+
+  sec
+  lda entity_x_lo,x
+  sbc target_speed,x
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  sbc #0
+  sta entity_x_hi,x
+
+  jmp done
+right:
+
+  lda entity_sprite_flags,x
+  and #%10111111
+  sta entity_sprite_flags,x
+
+  clc
+  lda entity_x_lo,x
+  adc target_speed,x
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc #0
+  sta entity_x_hi,x
+
+done:
+  .endscope
 
   jsr entity_update_animation
 
