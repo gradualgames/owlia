@@ -46,12 +46,19 @@ target_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
+  lda #0
+  sta target_flash_counter,x
+  sta target_knockback_counter,x
+  lda target_health,x
+
   lda #TARGET_STATE_MAIN
   sta entity_state,x
 
   rts
 
 target_state_main:
+
+  entity_combat #TARGET_FLASH_LENGTH, #TARGET_ATTACKED_LENGTH, target_flash_counter, target_knockback_counter, target_health, target_direction, "entity_drop_nop"
 
   .scope
   lda target_mode,x

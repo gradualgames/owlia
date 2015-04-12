@@ -2130,13 +2130,13 @@ pirateshootinggallery_entity_instances:
                                        TARGET_TYPE_KRAKEN,\
                                        ENTITY_DIRECTION_LEFT,\
                                        1,\
-                                       %00000011
+                                       %00000111, 1, <1000, >1000
   .byte entity_index_target, 1, 3, 0, TARGET_PARAMS,\
                                        TARGET_MODE_NORMAL,\
                                        TARGET_TYPE_TURTLE,\
                                        ENTITY_DIRECTION_RIGHT,\
                                        2,\
-                                       0
+                                       0, 1, <1000, >1000
 
 ;****************************************************************
 ;Palettes.
