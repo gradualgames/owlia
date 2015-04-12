@@ -169,7 +169,7 @@ crab_state_init:
 
 crab_state_main:
 
-  entity_combat #CRAB_ATTACKED_LENGTH, #CRAB_KNOCKBACK_LENGTH, crab_flash_counter, crab_knockback_counter, crab_health, crab_direction
+  entity_combat #CRAB_ATTACKED_LENGTH, #CRAB_KNOCKBACK_LENGTH, crab_flash_counter, crab_knockback_counter, crab_health, crab_direction, "entity_drop_random_item"
 
   ;advance random turn left state
   .scope

@@ -95,6 +95,12 @@ found_group:
 
 .endproc
 
+.proc entity_drop_nop
+
+  rts
+
+.endproc
+
 .proc entity_drop_random_item
 
   lda #entity_index_item

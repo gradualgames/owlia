@@ -130,7 +130,7 @@ octopus_state_init:
 
 octopus_state_main:
 
-  entity_combat #OCTOPUS_ATTACKED_LENGTH, #OCTOPUS_KNOCKBACK_LENGTH, octopus_flash_counter, octopus_knockback_counter, octopus_health, octopus_direction
+  entity_combat #OCTOPUS_ATTACKED_LENGTH, #OCTOPUS_KNOCKBACK_LENGTH, octopus_flash_counter, octopus_knockback_counter, octopus_health, octopus_direction, "entity_drop_random_item"
 
   ;determine whether hero is within range rect
   .scope

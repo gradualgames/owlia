@@ -6,6 +6,7 @@ ENTITY_INC = 1
 .global entity_lookup_sprite_chr_offset
 .global entity_hurt_hero
 .global entity_spawn_explosion
+.global entity_drop_nop
 .global entity_drop_random_item
 .global entity_drop_item
 .global entity_find_enemy
@@ -105,7 +106,7 @@ ENTITY_DIRECTION_NONE
 ;counting down the knockback_counter, decrementing health, dying...there's a lot
 ;of stuff here =) This is expressed as a macro to give entities the flexibility
 ;to use different entity_local arrays for the various state variables.
-.macro entity_combat flash_counter_reset, knockback_counter_reset, flash_counter, knockback_counter, health, direction
+.macro entity_combat flash_counter_reset, knockback_counter_reset, flash_counter, knockback_counter, health, direction, entity_drop_routine
 
   .scope
   entity_advance_flash_state flash_counter
@@ -165,7 +166,7 @@ rect2_attacked_entity:
   far_call #FAMILIAR_BANK, familiar_hit_enemy
 
 rect1_attacked_entity:
-  entity_attacked health
+  entity_attacked health, entity_drop_routine
   entity_flashed flash_counter_reset, flash_counter
   entity_knocked_back knockback_counter_reset, knockback_counter
 
@@ -178,7 +179,7 @@ entity_not_attacked:
 ;counting down the knockback_counter, decrementing health, dying...there's a lot
 ;of stuff here =) This is expressed as a macro to give entities the flexibility
 ;to use different entity_local arrays for the various state variables.
-.macro entity_combat_no_direction flash_counter_reset, knockback_counter_reset, flash_counter, knockback_counter, health
+.macro entity_combat_no_direction flash_counter_reset, knockback_counter_reset, flash_counter, knockback_counter, health, entity_drop_routine
 
   .scope
   entity_advance_flash_state flash_counter
@@ -222,7 +223,7 @@ rect2_attacked_entity:
   far_call #FAMILIAR_BANK, familiar_hit_enemy
 
 rect1_attacked_entity:
-  entity_attacked health
+  entity_attacked health, entity_drop_routine
   entity_flashed flash_counter_reset, flash_counter
   entity_knocked_back knockback_counter_reset, knockback_counter
 
@@ -235,7 +236,7 @@ entity_not_attacked:
 ;counting down the knockback_counter, decrementing health, dying...there's a lot
 ;of stuff here =) This is expressed as a macro to give entities the flexibility
 ;to use different entity_local arrays for the various state variables.
-.macro entity_harmless_combat flash_counter_reset, knockback_counter_reset, flash_counter, knockback_counter, health, direction
+.macro entity_harmless_combat flash_counter_reset, knockback_counter_reset, flash_counter, knockback_counter, health, direction, entity_drop_routine
 
   .scope
   entity_advance_flash_state flash_counter
@@ -288,7 +289,7 @@ rect2_attacked_entity:
   far_call #FAMILIAR_BANK, familiar_hit_enemy
 
 rect1_attacked_entity:
-  entity_attacked health
+  entity_attacked health, entity_drop_routine
   entity_flashed flash_counter_reset, flash_counter
   entity_knocked_back knockback_counter_reset, knockback_counter
 
@@ -302,7 +303,7 @@ entity_not_attacked:
 ;dying...there's a lot of stuff here =) This is expressed as a macro to give
 ;entities the flexibility to use different entity_local arrays for the various
 ;state variables.
-.macro entity_electric_bomb_combat flash_counter_reset, knockback_counter_reset, flash_counter, knockback_counter, health, direction
+.macro entity_electric_bomb_combat flash_counter_reset, knockback_counter_reset, flash_counter, knockback_counter, health, direction, entity_drop_routine
 
   .scope
   entity_advance_flash_state flash_counter
@@ -420,7 +421,7 @@ entity_not_attacked:
 
 .endmacro
 
-.macro entity_attacked health
+.macro entity_attacked health, entity_drop_routine
 
   .scope
   ;play a sound
@@ -441,7 +442,7 @@ entity_not_attacked:
   bne entity_not_dead_yet
 
   jsr entity_spawn_explosion
-  jsr entity_drop_random_item
+  jsr .ident(entity_drop_routine)
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR

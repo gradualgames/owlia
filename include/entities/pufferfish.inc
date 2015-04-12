@@ -363,7 +363,7 @@ do_not_switch_state:
 
 .proc pufferfish_main
 
-  entity_combat #PUFFERFISH_ATTACKED_LENGTH, #PUFFERFISH_KNOCKBACK_LENGTH, pufferfish_flash_counter, pufferfish_knockback_counter, pufferfish_health, pufferfish_direction
+  entity_combat #PUFFERFISH_ATTACKED_LENGTH, #PUFFERFISH_KNOCKBACK_LENGTH, pufferfish_flash_counter, pufferfish_knockback_counter, pufferfish_health, pufferfish_direction, "entity_drop_random_item"
 
   ;test for collision offset from pufferfish
   ldy pufferfish_direction,x

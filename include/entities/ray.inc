@@ -377,7 +377,7 @@ do_not_transition_yet:
 
 .proc ray_combat
 
-  entity_combat_no_direction #RAY_ATTACKED_LENGTH, #RAY_KNOCKBACK_LENGTH, ray_flash_counter, ray_knockback_counter, ray_health
+  entity_combat_no_direction #RAY_ATTACKED_LENGTH, #RAY_KNOCKBACK_LENGTH, ray_flash_counter, ray_knockback_counter, ray_health, "entity_drop_random_item"
 
   rts
 
