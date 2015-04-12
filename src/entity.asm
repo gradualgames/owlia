@@ -108,6 +108,15 @@ found_group:
 
   ;calculate adjustments for initial location of dropped item to be
   ;roughly the center of the entity
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
   lda entity_width,x
   lsr
   sta b1
@@ -115,28 +124,36 @@ found_group:
   lsr
   sta b2
 
-  sec
-  lda b1
-  sbc #4
-  sta b1
-  sec
-  lda b2
-  sbc #4
-  sta b2
-
   clc
-  lda entity_x_lo,x
+  lda w0
   adc b1
   sta w0
-  lda entity_x_hi,x
+  lda w0+1
   adc #0
   sta w0+1
+
   clc
-  lda entity_y_lo,x
+  lda w1
   adc b2
   sta w1
-  lda entity_y_hi,x
+  lda w1+1
   adc #0
+  sta w1+1
+
+  sec
+  lda w0
+  sbc #<4
+  sta w0
+  lda w0+1
+  sbc #>4
+  sta w0+1
+
+  sec
+  lda w1
+  sbc #<4
+  sta w1
+  lda w1+1
+  sbc #>4
   sta w1+1
 
   jsr entity_spawn
