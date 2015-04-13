@@ -1,3 +1,4 @@
+.feature force_range
 .linecont +
 .ifndef TARGET_INC
 TARGET_INC = 1
@@ -90,6 +91,20 @@ left:
   sbc #0
   sta entity_x_hi,x
 
+  .scope
+  sec
+  lda entity_x_lo,x
+  sbc #<(-64)
+  lda entity_x_hi,x
+  sbc #>(-64)
+  bpl do_not_kill_target
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+do_not_kill_target:
+  .endscope
+
   jmp done
 right:
 
@@ -104,6 +119,20 @@ right:
   lda entity_x_hi,x
   adc #0
   sta entity_x_hi,x
+
+  .scope
+  sec
+  lda #<(256+64)
+  sbc entity_x_lo,x
+  lda #>(256+64)
+  sbc entity_x_hi,x
+  bpl do_not_kill_target
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+do_not_kill_target:
+  .endscope
 
 done:
   .endscope

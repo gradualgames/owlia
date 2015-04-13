@@ -2124,19 +2124,20 @@ piratetavern_entity_instances:
   .byte 0
 
 pirateshootinggallery_entity_instances:
-  .byte 2
-  .byte entity_index_target, 20, 3, 0, TARGET_PARAMS,\
-                                       TARGET_MODE_RANDOM_SPEED,\
-                                       TARGET_TYPE_KRAKEN,\
-                                       ENTITY_DIRECTION_LEFT,\
-                                       1,\
-                                       %00000111, 1, <1000, >1000
-  .byte entity_index_target, 1, 3, 0, TARGET_PARAMS,\
-                                       TARGET_MODE_NORMAL,\
-                                       TARGET_TYPE_TURTLE,\
-                                       ENTITY_DIRECTION_RIGHT,\
-                                       2,\
-                                       0, 1, <1000, >1000
+  .byte 1
+  .byte entity_index_shooting_gallery, 0, 0, 0, 0
+  ; .byte entity_index_target, 20, 3, 0, TARGET_PARAMS,\
+                                       ; TARGET_MODE_RANDOM_SPEED,\
+                                       ; TARGET_TYPE_KRAKEN,\
+                                       ; ENTITY_DIRECTION_LEFT,\
+                                       ; 1,\
+                                       ; %00000111, 1, <1000, >1000
+  ; .byte entity_index_target, 1, 3, 0, TARGET_PARAMS,\
+                                       ; TARGET_MODE_NORMAL,\
+                                       ; TARGET_TYPE_TURTLE,\
+                                       ; ENTITY_DIRECTION_RIGHT,\
+                                       ; 2,\
+                                       ; 0, 1, <1000, >1000
 
 ;****************************************************************
 ;Palettes.
