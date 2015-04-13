@@ -62,6 +62,43 @@ target_state_main:
   entity_combat #TARGET_FLASH_LENGTH, #TARGET_ATTACKED_LENGTH, target_flash_counter, target_knockback_counter, target_health, target_direction, "entity_drop_nop", "entity_spawn_ice_shards_explosion"
 
   .scope
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  bne still_alive
+
+  clc
+  lda inventory_gp
+  adc target_gp_lo,x
+  sta inventory_gp
+  lda inventory_gp+1
+  adc target_gp_hi,x
+  sta inventory_gp+1
+  lda inventory_gp+2
+  adc #0
+  sta inventory_gp+2
+
+  sec
+  lda #<INVENTORY_MAX_GP
+  sbc inventory_gp
+  lda #>INVENTORY_MAX_GP
+  sbc inventory_gp+1
+  lda #^INVENTORY_MAX_GP
+  sbc inventory_gp+2
+  bpl not_maxed_out
+
+  lda #<INVENTORY_MAX_GP
+  sta inventory_gp
+  lda #>INVENTORY_MAX_GP
+  sta inventory_gp+1
+  lda #^INVENTORY_MAX_GP
+  sta inventory_gp+2
+
+not_maxed_out:
+
+still_alive:
+  .endscope
+
+  .scope
   lda target_mode,x
   cmp #TARGET_MODE_RANDOM_SPEED
   bne not_random_speed

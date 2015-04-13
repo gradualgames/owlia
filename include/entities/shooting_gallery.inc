@@ -102,38 +102,10 @@ do_not_spawn_target:
   jsr entity_spawn
 
   ldy spawned_entity
-
-  jsr next_rand
-  lda rand
-  and #%00000001
-  sta target_mode,y
-
-  jsr next_rand
-  lda rand
-  and #%00000011
-  sta target_type,y
-
   lda #ENTITY_DIRECTION_RIGHT
   sta target_direction,y
 
-  jsr next_rand
-  lda rand
-  and #%00000011
-  ora #1
-  sta target_speed,y
-
-  jsr next_rand
-  lda rand
-  and #%00000111
-  sta target_random_speed_mask,y
-
-  lda #1
-  sta target_health,y
-
-  lda #<1000
-  sta target_gp_lo,y
-  lda #>1000
-  sta target_gp_hi,y
+  jsr parameterize_new_target
 
   rts
 
@@ -157,6 +129,18 @@ do_not_spawn_target:
   jsr entity_spawn
 
   ldy spawned_entity
+  lda #ENTITY_DIRECTION_LEFT
+  sta target_direction,y
+
+  jsr parameterize_new_target
+
+  rts
+
+.endproc
+
+.proc parameterize_new_target
+
+  ldy spawned_entity
 
   jsr next_rand
   lda rand
@@ -167,9 +151,6 @@ do_not_spawn_target:
   lda rand
   and #%00000011
   sta target_type,y
-
-  lda #ENTITY_DIRECTION_LEFT
-  sta target_direction,y
 
   jsr next_rand
   lda rand
@@ -185,10 +166,89 @@ do_not_spawn_target:
   lda #1
   sta target_health,y
 
+  .scope
+  lda target_mode,y
+  cmp #TARGET_MODE_NORMAL
+  beq normal
+  cmp #TARGET_MODE_RANDOM_SPEED
+  beq random_speed
+normal:
+
+  .scope
+  lda target_speed,y
+  cmp #1
+  beq one
+  cmp #2
+  beq two
+  cmp #3
+  beq three
+one:
+
   lda #<1000
   sta target_gp_lo,y
   lda #>1000
   sta target_gp_hi,y
+
+  jmp done
+two:
+
+  lda #<3000
+  sta target_gp_lo,y
+  lda #>3000
+  sta target_gp_hi,y
+
+  jmp done
+three:
+
+  lda #<5000
+  sta target_gp_lo,y
+  lda #>5000
+  sta target_gp_hi,y
+
+done:
+  .endscope
+
+  jmp done
+random_speed:
+
+  .scope
+  lda target_random_speed_mask,y
+  and #%00000001
+  bne one
+  lda target_random_speed_mask,y
+  and #%00000010
+  bne two
+  lda target_random_speed_mask,y
+  and #%00000100
+  bne three
+one:
+
+  lda #<2000
+  sta target_gp_lo,y
+  lda #>2000
+  sta target_gp_hi,y
+
+  jmp done
+two:
+
+  lda #<4000
+  sta target_gp_lo,y
+  lda #>4000
+  sta target_gp_hi,y
+
+  jmp done
+three:
+
+  lda #<8000
+  sta target_gp_lo,y
+  lda #>8000
+  sta target_gp_hi,y
+
+done:
+  .endscope
+
+done:
+  .endscope
 
   rts
 
