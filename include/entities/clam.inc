@@ -557,7 +557,7 @@ found_entity:
 
 .proc clam_combat
 
-  entity_combat #CLAM_FLASH_LENGTH, #CLAM_ATTACKED_LENGTH, clam_flash_counter, clam_knockback_counter, clam_health, clam_direction, "entity_drop_random_item"
+  entity_combat #CLAM_FLASH_LENGTH, #CLAM_ATTACKED_LENGTH, clam_flash_counter, clam_knockback_counter, clam_health, clam_direction, "entity_drop_random_item", "entity_spawn_explosion"
 
   .scope
   lda clam_health,x

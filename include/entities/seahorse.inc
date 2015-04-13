@@ -349,7 +349,7 @@ do_not_switch_state:
 
 .proc seahorse_main
 
-  entity_combat #SEAHORSE_ATTACKED_LENGTH, #SEAHORSE_KNOCKBACK_LENGTH, seahorse_flash_counter, seahorse_knockback_counter, seahorse_health, seahorse_direction, "entity_drop_random_item"
+  entity_combat #SEAHORSE_ATTACKED_LENGTH, #SEAHORSE_KNOCKBACK_LENGTH, seahorse_flash_counter, seahorse_knockback_counter, seahorse_health, seahorse_direction, "entity_drop_random_item", "entity_spawn_explosion"
 
   ;test for collision offset from seahorse
   ldy seahorse_direction,x

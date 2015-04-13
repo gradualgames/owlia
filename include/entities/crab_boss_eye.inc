@@ -119,7 +119,7 @@ familiar_already_fetching:
 
 crab_boss_eye_state_wait_til_not_fetched:
 
-  entity_harmless_combat #CRAB_BOSS_EYE_ATTACKED_LENGTH, #CRAB_BOSS_EYE_KNOCKBACK_LENGTH, crab_boss_eye_flash_counter, crab_boss_eye_knockback_counter, crab_boss_eye_health, crab_boss_eye_direction, "entity_drop_nop"
+  entity_harmless_combat #CRAB_BOSS_EYE_ATTACKED_LENGTH, #CRAB_BOSS_EYE_KNOCKBACK_LENGTH, crab_boss_eye_flash_counter, crab_boss_eye_knockback_counter, crab_boss_eye_health, crab_boss_eye_direction, "entity_drop_nop", "entity_spawn_explosion"
 
   .scope
   lda crab_boss_eye_flash_counter,x

@@ -59,7 +59,7 @@ target_state_init:
 
 target_state_main:
 
-  entity_combat #TARGET_FLASH_LENGTH, #TARGET_ATTACKED_LENGTH, target_flash_counter, target_knockback_counter, target_health, target_direction, "entity_drop_nop"
+  entity_combat #TARGET_FLASH_LENGTH, #TARGET_ATTACKED_LENGTH, target_flash_counter, target_knockback_counter, target_health, target_direction, "entity_drop_nop", "entity_spawn_explosion"
 
   .scope
   lda target_mode,x

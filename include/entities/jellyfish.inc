@@ -144,7 +144,7 @@ jellyfish_state_init:
 
 jellyfish_state_main:
 
-  entity_combat #JELLYFISH_ATTACKED_LENGTH, #JELLYFISH_KNOCKBACK_LENGTH, jellyfish_flash_counter, jellyfish_knockback_counter, jellyfish_health, jellyfish_direction, "entity_drop_random_item"
+  entity_combat #JELLYFISH_ATTACKED_LENGTH, #JELLYFISH_KNOCKBACK_LENGTH, jellyfish_flash_counter, jellyfish_knockback_counter, jellyfish_health, jellyfish_direction, "entity_drop_random_item", "entity_spawn_explosion"
 
   ;transfer jellyfish coordinates to entity coordinates
   lda jellyfish_x_lo,x

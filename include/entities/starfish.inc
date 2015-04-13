@@ -230,7 +230,7 @@ done:
 
 .proc starfish_combat
 
-  entity_combat #STARFISH_ATTACKED_LENGTH, #STARFISH_KNOCKBACK_LENGTH, starfish_flash_counter, starfish_knockback_counter, starfish_health, starfish_meander_direction, "entity_drop_random_item"
+  entity_combat #STARFISH_ATTACKED_LENGTH, #STARFISH_KNOCKBACK_LENGTH, starfish_flash_counter, starfish_knockback_counter, starfish_health, starfish_meander_direction, "entity_drop_random_item", "entity_spawn_explosion"
   rts
 
 .endproc

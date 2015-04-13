@@ -205,7 +205,7 @@ do_not_change_state:
 
 .proc horseshoe_crab_combat
 
-  entity_combat #HORSESHOE_CRAB_ATTACKED_LENGTH, #HORSESHOE_CRAB_KNOCKBACK_LENGTH, horseshoe_crab_flash_counter, horseshoe_crab_knockback_counter, horseshoe_crab_health, horseshoe_crab_direction, "entity_drop_random_item"
+  entity_combat #HORSESHOE_CRAB_ATTACKED_LENGTH, #HORSESHOE_CRAB_KNOCKBACK_LENGTH, horseshoe_crab_flash_counter, horseshoe_crab_knockback_counter, horseshoe_crab_health, horseshoe_crab_direction, "entity_drop_random_item", "entity_spawn_explosion"
 
   rts
 

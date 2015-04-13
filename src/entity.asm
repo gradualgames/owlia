@@ -75,6 +75,12 @@ found_group:
 
 .endproc
 
+.proc entity_spawn_explosion_nop
+
+  rts
+
+.endproc
+
 .proc entity_spawn_explosion
 
   lda #entity_index_explosion

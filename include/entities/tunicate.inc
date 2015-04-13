@@ -90,7 +90,7 @@ tunicate_state_init:
 
 tunicate_state_main:
 
-  entity_combat #TUNICATE_FLASH_LENGTH, #TUNICATE_ATTACKED_LENGTH, tunicate_flash_counter, tunicate_knockback_counter, tunicate_health, tunicate_direction, "entity_drop_random_item"
+  entity_combat #TUNICATE_FLASH_LENGTH, #TUNICATE_ATTACKED_LENGTH, tunicate_flash_counter, tunicate_knockback_counter, tunicate_health, tunicate_direction, "entity_drop_random_item", "entity_spawn_explosion"
 
   .scope
   dec tunicate_state_counter,x
