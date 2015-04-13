@@ -555,7 +555,7 @@ piratetavern_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
 
 pirateshootinggallery_sprite_chr_groups:
-  .byte 7   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -563,6 +563,7 @@ pirateshootinggallery_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_minigame
+  .byte sprite_chr_group_index_ice_shards
 
 ;****************************************************************
 ;Entity instance sets
@@ -2126,18 +2127,6 @@ piratetavern_entity_instances:
 pirateshootinggallery_entity_instances:
   .byte 1
   .byte entity_index_shooting_gallery, 0, 0, 0, 0
-  ; .byte entity_index_target, 20, 3, 0, TARGET_PARAMS,\
-                                       ; TARGET_MODE_RANDOM_SPEED,\
-                                       ; TARGET_TYPE_KRAKEN,\
-                                       ; ENTITY_DIRECTION_LEFT,\
-                                       ; 1,\
-                                       ; %00000111, 1, <1000, >1000
-  ; .byte entity_index_target, 1, 3, 0, TARGET_PARAMS,\
-                                       ; TARGET_MODE_NORMAL,\
-                                       ; TARGET_TYPE_TURTLE,\
-                                       ; ENTITY_DIRECTION_RIGHT,\
-                                       ; 2,\
-                                       ; 0, 1, <1000, >1000
 
 ;****************************************************************
 ;Palettes.
@@ -2297,7 +2286,7 @@ piratetavern_palette:
 
 pirateshootinggallery_palette:
   .byte $0e,$21,$31,$20,$0e,$0b,$08,$1b,$0e,$08,$18,$28,$0e,$08,$18,$37
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$14,$24
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$18,$20,$0e,$0e,$18,$20
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************

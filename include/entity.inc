@@ -7,6 +7,7 @@ ENTITY_INC = 1
 .global entity_hurt_hero
 .global entity_spawn_explosion
 .global entity_spawn_explosion_nop
+.global entity_spawn_ice_shards_explosion
 .global entity_drop_nop
 .global entity_drop_random_item
 .global entity_drop_item
