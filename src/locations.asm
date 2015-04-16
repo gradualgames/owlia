@@ -26,6 +26,7 @@
 .include "ray_constants.inc"
 .include "boss_constants.inc"
 .include "target_constants.inc"
+.include "bottle_constants.inc"
 .include "sprite_chr_data.inc"
 .include "conversation_data.inc"
 .include "entity.inc"
@@ -2141,8 +2142,13 @@ pirateshootinggallery_entity_instances:
   .byte entity_index_shooting_gallery, 0, 0, 0, 0
 
 piratetavern_entrance2_entity_instances:
-  .byte 1
-  .byte entity_index_bottle, 55, 5, 0, 0
+  .byte 6
+  .byte entity_index_bottle, 55, 5, 0, BOTTLE_PARAMS, 8
+  .byte entity_index_bottle, 55, 6, 0, BOTTLE_PARAMS, 0
+  .byte entity_index_bottle, 56, 6, 0, BOTTLE_PARAMS, 0
+  .byte entity_index_bottle, 54, 7, 0, BOTTLE_PARAMS, 8
+  .byte entity_index_bottle, 55, 7, 0, BOTTLE_PARAMS, 8
+  .byte entity_index_bottle, 56, 7, 0, BOTTLE_PARAMS, 8
 
 ;****************************************************************
 ;Palettes.

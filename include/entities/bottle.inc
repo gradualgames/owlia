@@ -2,13 +2,7 @@
 .ifndef BOTTLE_INC
 BOTTLE_INC = 1
 
-BOTTLE_WIDTH = $0f
-BOTTLE_HEIGHT = $0f
-
-.enum
-BOTTLE_STATE_INIT
-BOTTLE_STATE_MAIN
-.endenum
+.include "bottle_constants.inc"
 
 define_lohi_tables bottle, \
  {bottle_state_init, \
@@ -42,6 +36,14 @@ bottle_state_init:
 
   lda #$00
   sta entity_sprite_flags,x
+
+  clc
+  lda entity_x_lo,x
+  adc bottle_initial_x_offset,x
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc #0
+  sta entity_x_hi,x
 
   lda #BOTTLE_STATE_MAIN
   sta entity_state,x
