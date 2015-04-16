@@ -547,7 +547,7 @@ piratebay_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
 
-piratetavern_sprite_chr_groups:
+piratetavern_entrance1_sprite_chr_groups:
   .byte 6   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -566,6 +566,16 @@ pirateshootinggallery_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_minigame
   .byte sprite_chr_group_index_ice_shards
+
+piratetavern_entrance2_sprite_chr_groups:
+  .byte 7   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_minigame
 
 ;****************************************************************
 ;Entity instance sets
@@ -2123,12 +2133,16 @@ dungeon4_boss_owl_dungeon_entity_instances:
 piratebay_entity_instances:
   .byte 0
 
-piratetavern_entity_instances:
+piratetavern_entrance1_entity_instances:
   .byte 0
 
 pirateshootinggallery_entity_instances:
   .byte 1
   .byte entity_index_shooting_gallery, 0, 0, 0, 0
+
+piratetavern_entrance2_entity_instances:
+  .byte 1
+  .byte entity_index_bottle, 55, 5, 0, 0
 
 ;****************************************************************
 ;Palettes.
@@ -2888,13 +2902,13 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
 
 piratetavern_entrance1:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
-                  area_index_piratetavern, piratetavern_sprite_chr_groups, piratetavern_entity_instances, piratetavern_palette,\
+                  area_index_piratetavern, piratetavern_entrance1_sprite_chr_groups, piratetavern_entrance1_entity_instances, piratetavern_palette,\
                   2, 8, 10, 14,\
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 
 piratetavern_entrance2:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
-                  area_index_piratetavern, piratetavern_sprite_chr_groups, piratetavern_entity_instances, piratetavern_palette,\
+                  area_index_piratetavern, piratetavern_entrance2_sprite_chr_groups, piratetavern_entrance2_entity_instances, piratetavern_palette,\
                   48, 8, 55, 14,\
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 

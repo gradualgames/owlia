@@ -86,7 +86,8 @@
   ray_update, \
   boss_update, \
   target_update, \
-  shooting_gallery_update
+  shooting_gallery_update, \
+  bottle_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -145,6 +146,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_boss
   .byte entity_update_bank_target
   .byte entity_update_bank_shooting_gallery
+  .byte entity_update_bank_bottle
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -198,6 +200,7 @@ entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_boss
   .byte entity_sprites_and_animations_bank_target
   .byte 0 ;entity_sprites_and_animations_bank_shooting_gallery
+  .byte entity_sprites_and_animations_bank_bottle
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -252,3 +255,4 @@ entity_defs_sprites_and_animations_bank:
 .include "boss.inc"
 .include "target.inc"
 .include "shooting_gallery.inc"
+.include "bottle.inc"
