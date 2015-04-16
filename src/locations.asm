@@ -223,7 +223,9 @@
     piratebay_entrance, \
     piratebay_piratetavern_entrance1, \
     piratebay_pirateshootinggallery_entrance1, \
+    piratebay_piratetavern_entrance2, \
     piratetavern_entrance1, \
+    piratetavern_entrance2, \
     pirateshootinggallery_entrance1
 
 locations_lo:
@@ -2878,10 +2880,22 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   6, 0, 16, 5,\
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_DOWN
 
+piratebay_piratetavern_entrance2:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                  area_index_piratebay, piratebay_sprite_chr_groups, piratebay_entity_instances, piratebay_palette,\
+                  12, 0, 22, 5,\
+                  sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_DOWN
+
 piratetavern_entrance1:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   area_index_piratetavern, piratetavern_sprite_chr_groups, piratetavern_entity_instances, piratetavern_palette,\
                   2, 8, 10, 14,\
+                  sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
+
+piratetavern_entrance2:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                  area_index_piratetavern, piratetavern_sprite_chr_groups, piratetavern_entity_instances, piratetavern_palette,\
+                  48, 8, 55, 14,\
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 
 pirateshootinggallery_entrance1:
