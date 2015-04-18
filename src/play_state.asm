@@ -602,21 +602,6 @@ play_state_action_handlers_hi:
   .hibytes play_state_action_handlers
 
 ;****************************************************************
-;This branch location is a helper location that runs straight
-;into play_state_load_location. It is for callers in another
-;bank who wish to load a location using the x register as an
-;index into locations_lo and locations_hi. This is here only
-;for convenience so we don't have to use our bank-crossing load
-;api which is quite frankly, terrible.
-;****************************************************************
-play_state_load_location_x:
-  switch_bank_ldy #LOCATIONS_BANK
-  lda locations_lo,x
-  sta location_address
-  lda locations_hi,x
-  sta location_address+1
-
-;****************************************************************
 ;This is a branch location and not a routine. It is used to
 ;load all graphics and entities and music for a specific location
 ;within a specific area definition.

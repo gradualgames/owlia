@@ -3,7 +3,6 @@ PLAY_STATE_INC = 1
 
 .global play_state_initialize
 .global play_state_load_location
-.global play_state_load_location_x
 .global play_state
 .global play_state_reload
 

@@ -413,9 +413,15 @@ load_dungeon_location:
 
   jsr initialize_play_state_and_hero
 
-  ldx b10
+  ldy b10
+  far_load #LOCATIONS_BANK, #<locations_lo, #>locations_lo
+  lda far_load_result
+  sta location_address
+  far_load #LOCATIONS_BANK, #<locations_hi, #>locations_hi
+  lda far_load_result
+  sta location_address+1
 
-  jmp play_state_load_location_x
+  jmp play_state_load_location
 
   jmp done
 load_overworld_location:
@@ -433,9 +439,15 @@ load_overworld_location:
 
   jsr initialize_play_state_and_hero
 
-  ldx b10
+  ldy b10
+  far_load #LOCATIONS_BANK, #<locations_lo, #>locations_lo
+  lda far_load_result
+  sta location_address
+  far_load #LOCATIONS_BANK, #<locations_hi, #>locations_hi
+  lda far_load_result
+  sta location_address+1
 
-  jmp play_state_load_location_x
+  jmp play_state_load_location
 
 done:
   .endscope
