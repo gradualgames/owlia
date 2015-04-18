@@ -5,6 +5,8 @@ RING_INC = 1
 RING_FAMILIAR_X_OFFSET = 0
 RING_FAMILIAR_Y_OFFSET = 16
 
+RING_STATE_PAUSE_BEFORE_RETURNING_HOME_LENGTH = 50
+
 RING_FALL_RANDOM_THRESHOLD = 120
 
 RING_WIDTH = $0f
@@ -24,17 +26,28 @@ ring_x_velocity_lo = entity_local4
 ring_x_velocity_hi = entity_local5
 ring_y_velocity_lo = entity_local6
 ring_y_velocity_hi = entity_local7
+ring_state_counter = entity_local8
+ring_spawn_x_lo = entity_local9
+ring_spawn_x_hi = entity_local10
+ring_spawn_y_lo = entity_local11
+ring_spawn_y_hi = entity_local12
 
 .enum
 RING_STATE_INIT
-RING_STATE_MAIN
+RING_STATE_WAIT_UNTIL_FETCHED
+RING_STATE_SEARCH_FOR_BOTTLES
 RING_STATE_FALL_ONTO_BOTTLE
+RING_STATE_PAUSE_BEFORE_RETURNING_HOME
+RING_STATE_RETURN_HOME
 .endenum
 
 define_lohi_tables ring, \
  {ring_state_init, \
-  ring_state_main, \
-  ring_state_fall_onto_bottle}
+  ring_state_wait_until_fetched, \
+  ring_state_search_for_bottles, \
+  ring_state_fall_onto_bottle, \
+  ring_state_pause_before_returning_home, \
+  ring_state_return_home}
 
 ring_update:
 
@@ -69,15 +82,18 @@ ring_state_init:
   sta ring_x_fine,x
   sta ring_y_fine,x
 
+  entity_move16 ring_x, ring_spawn_x
+  entity_move16 ring_y, ring_spawn_y
+
   entity_lda16 ring_x_velocity, 0
   entity_lda16 ring_y_velocity, 0
 
-  lda #RING_STATE_MAIN
+  lda #RING_STATE_WAIT_UNTIL_FETCHED
   sta entity_state,x
 
   rts
 
-ring_state_main:
+ring_state_wait_until_fetched:
 
   .scope
   lda entity_action_rect2_action
@@ -99,9 +115,16 @@ ring_state_main:
   lda rand
   sta ring_fall_random_value,x
 
+  lda #RING_STATE_SEARCH_FOR_BOTTLES
+  sta entity_state,x
+
 familiar_not_intersecting:
 familiar_not_fetching:
   .endscope
+
+  rts
+
+ring_state_search_for_bottles:
 
   ;search for bottle entities. if the ring intersects with a bottle
   ;hit box, then randomly decide whether to "fall onto the bottle."
@@ -163,16 +186,30 @@ next_entity:
 
   lda #RING_STATE_FALL_ONTO_BOTTLE
   sta entity_state,x
-  jmp done
+  rts
 
 skip_entity:
   dey
   bpl next_entity
-done:
-
   .endscope
 
-  jsr entity_update_animation
+  ;if the carried entity index changes to $ff here, we know it
+  ;has been done by the familiar itself. Thus we know the ring
+  ;failed to fall onto a bottle. Now we can change to a state that
+  ;times out and returns to home.
+  .scope
+  lda familiar_carried_entity_index
+  cmp #$ff
+  bne ring_still_being_carried
+
+  lda #RING_STATE_PAUSE_BEFORE_RETURNING_HOME_LENGTH
+  sta ring_state_counter,x
+
+  lda #RING_STATE_PAUSE_BEFORE_RETURNING_HOME
+  sta entity_state,x
+
+ring_still_being_carried:
+  .endscope
 
   rts
 
@@ -244,7 +281,118 @@ ring_state_fall_onto_bottle:
   entity_add_velocity ring_x, ring_x_velocity
   entity_add_velocity ring_y, ring_y_velocity
 
-  jsr entity_update_animation
+  ;if both velocities reach zero, the ring has reached the
+  ;bottle. switch to a state where we count down and then
+  ;return to the home position.
+  .scope
+  lda ring_x_velocity_lo,x
+  ora ring_x_velocity_hi,x
+  ora ring_y_velocity_lo,x
+  ora ring_y_velocity_hi,x
+  bne ring_still_falling_onto_bottle
+
+  lda #RING_STATE_PAUSE_BEFORE_RETURNING_HOME_LENGTH
+  sta ring_state_counter,x
+
+  lda #RING_STATE_PAUSE_BEFORE_RETURNING_HOME
+  sta entity_state,x
+
+ring_still_falling_onto_bottle:
+  .endscope
+
+  rts
+
+ring_state_pause_before_returning_home:
+
+  .scope
+  dec ring_state_counter,x
+  bne do_not_transition_yet
+
+  lda #RING_STATE_RETURN_HOME
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  rts
+
+ring_state_return_home:
+
+  clc
+  lda ring_spawn_x_lo,x
+  sta w0
+  lda ring_spawn_x_hi,x
+  sta w0+1
+
+  clc
+  lda ring_spawn_y_lo,x
+  sta w1
+  lda ring_spawn_y_hi,x
+  sta w1+1
+
+  ;calculate initial velocity as distance between goal and current location of eye
+  sec
+  lda w0
+  sbc entity_x_lo,x
+  sta ring_x_velocity_lo,x
+  lda w0+1
+  sbc entity_x_hi,x
+  sta ring_x_velocity_hi,x
+
+  sec
+  lda w1
+  sbc entity_y_lo,x
+  sta ring_y_velocity_lo,x
+  lda w1+1
+  sbc entity_y_hi,x
+  sta ring_y_velocity_hi,x
+
+  ;now modify velocity
+  lda ring_x_velocity_hi,x
+  asl ring_x_velocity_lo,x
+  rol
+  asl ring_x_velocity_lo,x
+  rol
+  asl ring_x_velocity_lo,x
+  rol
+  asl ring_x_velocity_lo,x
+  rol
+  asl ring_x_velocity_lo,x
+  rol
+  asl ring_x_velocity_lo,x
+  rol
+  sta ring_x_velocity_hi,x
+
+  lda ring_y_velocity_hi,x
+  asl ring_y_velocity_lo,x
+  rol
+  asl ring_y_velocity_lo,x
+  rol
+  asl ring_y_velocity_lo,x
+  rol
+  asl ring_y_velocity_lo,x
+  rol
+  asl ring_y_velocity_lo,x
+  rol
+  asl ring_y_velocity_lo,x
+  rol
+  sta ring_y_velocity_hi,x
+
+  entity_add_velocity ring_x, ring_x_velocity
+  entity_add_velocity ring_y, ring_y_velocity
+
+  .scope
+  lda ring_x_velocity_lo,x
+  ora ring_x_velocity_hi,x
+  ora ring_y_velocity_lo,x
+  ora ring_y_velocity_hi,x
+  bne ring_still_returning_home
+
+  lda #RING_STATE_WAIT_UNTIL_FETCHED
+  sta entity_state,x
+
+ring_still_returning_home:
+  .endscope
 
   rts
 
