@@ -2143,12 +2143,12 @@ pirateshootinggallery_entity_instances:
 
 piratetavern_entrance2_entity_instances:
   .byte 7
-  .byte entity_index_bottle, 55, 5, 0, BOTTLE_PARAMS, 8
+  .byte entity_index_bottle, 55, 7, 0, BOTTLE_PARAMS, 8
   .byte entity_index_bottle, 55, 6, 0, BOTTLE_PARAMS, 0
   .byte entity_index_bottle, 56, 6, 0, BOTTLE_PARAMS, 0
-  .byte entity_index_bottle, 54, 7, 0, BOTTLE_PARAMS, 8
-  .byte entity_index_bottle, 55, 7, 0, BOTTLE_PARAMS, 8
-  .byte entity_index_bottle, 56, 7, 0, BOTTLE_PARAMS, 8
+  .byte entity_index_bottle, 54, 5, 0, BOTTLE_PARAMS, 8
+  .byte entity_index_bottle, 55, 5, 0, BOTTLE_PARAMS, 8
+  .byte entity_index_bottle, 56, 5, 0, BOTTLE_PARAMS, 8
   .byte entity_index_ring, 54, 3, 0, 0
 
 ;****************************************************************
