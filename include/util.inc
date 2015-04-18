@@ -2,6 +2,9 @@
 UTIL_INC = 1
 
 .global indirect_jsr_w0
+.global indirect_jsr_w1
+.global indirect_jsr_w2
+.global indirect_jsr_w3
 .global next_rand
 
 .macro define_lohi_tables table_name, values

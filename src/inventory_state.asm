@@ -20,6 +20,7 @@
 .include "charmap.inc"
 .include "inventory.inc"
 .include "hero_constants.inc"
+.include "util.inc"
 
 .segment "ROM01"
 
@@ -859,22 +860,6 @@ item_was_null:
 
   rts
 
-.endproc
-
-.proc indirect_jsr_w0
-  jmp (w0)
-.endproc
-
-.proc indirect_jsr_w1
-  jmp (w1)
-.endproc
-
-.proc indirect_jsr_w2
-  jmp (w2)
-.endproc
-
-.proc indirect_jsr_w3
-  jmp (w3)
 .endproc
 
 .proc is_enabled_callback_nop

@@ -7,6 +7,18 @@
   jmp (w0)
 .endproc
 
+.proc indirect_jsr_w1
+  jmp (w1)
+.endproc
+
+.proc indirect_jsr_w2
+  jmp (w2)
+.endproc
+
+.proc indirect_jsr_w3
+  jmp (w3)
+.endproc
+
 .proc next_rand
 
   lda rand
