@@ -7,8 +7,6 @@ RING_FAMILIAR_Y_OFFSET = 16
 
 RING_STATE_PAUSE_BEFORE_RETURNING_HOME_LENGTH = 50
 
-RING_FALL_RANDOM_THRESHOLD = 120
-
 RING_WIDTH = $0f
 RING_HEIGHT = $0f
 
@@ -19,18 +17,17 @@ ring_y_lo = entity_y_lo
 ring_y_hi = entity_y_hi
 
 ring_bottle_index = entity_local0
-ring_fall_random_value = entity_local1
-ring_x_fine = entity_local2
-ring_y_fine = entity_local3
-ring_x_velocity_lo = entity_local4
-ring_x_velocity_hi = entity_local5
-ring_y_velocity_lo = entity_local6
-ring_y_velocity_hi = entity_local7
-ring_state_counter = entity_local8
-ring_spawn_x_lo = entity_local9
-ring_spawn_x_hi = entity_local10
-ring_spawn_y_lo = entity_local11
-ring_spawn_y_hi = entity_local12
+ring_x_fine = entity_local1
+ring_y_fine = entity_local2
+ring_x_velocity_lo = entity_local3
+ring_x_velocity_hi = entity_local4
+ring_y_velocity_lo = entity_local5
+ring_y_velocity_hi = entity_local6
+ring_state_counter = entity_local7
+ring_spawn_x_lo = entity_local8
+ring_spawn_x_hi = entity_local9
+ring_spawn_y_lo = entity_local10
+ring_spawn_y_hi = entity_local11
 
 .enum
 RING_STATE_INIT
@@ -112,9 +109,6 @@ ring_state_wait_until_fetched:
   ;tell the familiar to return to the hero with the fetched item.
   far_call #FAMILIAR_BANK, familiar_fetch_current_item
 
-  lda rand
-  sta ring_fall_random_value,x
-
   lda #RING_STATE_SEARCH_FOR_BOTTLES
   sta entity_state,x
 
@@ -174,9 +168,9 @@ next_entity:
 
   ;if we reach here the ring intersects the bottle. Now randomly decide
   ;whether to enter the "fall onto this bottle" state.
-  lda ring_fall_random_value,x
-  cmp #RING_FALL_RANDOM_THRESHOLD
-  bpl skip_entity
+  lda rand
+  and #%00001111
+  bne skip_entity
 
   lda #$ff
   sta familiar_carried_entity_index
