@@ -18,34 +18,28 @@ OCTOPUS_STATE_INIT
 OCTOPUS_STATE_MAIN
 .endenum
 
-octopus_velocity_x_lo    = entity_local0
-octopus_velocity_x_hi    = entity_local1
-octopus_velocity_y_lo    = entity_local2
-octopus_velocity_y_hi    = entity_local3
-octopus_x_fine            = entity_local4
-octopus_y_fine            = entity_local5
-octopus_range_rect_x_lo   = entity_local6
-octopus_range_rect_x_hi   = entity_local7
-octopus_range_rect_y_lo   = entity_local8
-octopus_range_rect_y_hi   = entity_local9
-octopus_initial_x_lo      = entity_local10
-octopus_initial_x_hi      = entity_local11
-octopus_initial_y_lo      = entity_local12
-octopus_initial_y_hi      = entity_local13
-octopus_direction         = entity_local14
-octopus_health            = entity_local15
-octopus_knockback_counter = entity_local16
-octopus_flash_counter = entity_local17
+define_entity_properties octopus_velocity_x_lo,\
+                         octopus_velocity_x_hi,\
+                         octopus_velocity_y_lo,\
+                         octopus_velocity_y_hi,\
+                         octopus_x_fine,\
+                         octopus_y_fine,\
+                         octopus_range_rect_x_lo,\
+                         octopus_range_rect_x_hi,\
+                         octopus_range_rect_y_lo,\
+                         octopus_range_rect_y_hi,\
+                         octopus_initial_x_lo,\
+                         octopus_initial_x_hi,\
+                         octopus_initial_y_lo,\
+                         octopus_initial_y_hi,\
+                         octopus_direction,\
+                         octopus_health,\
+                         octopus_knockback_counter,\
+                         octopus_flash_counter
 
-.define octopus_states \
-  octopus_state_init, \
-  octopus_state_main
-
-octopus_lo:
-  .lobytes octopus_states
-
-octopus_hi:
-  .hibytes octopus_states
+define_lohi_tables octopus,\
+                   {octopus_state_init,\
+                   octopus_state_main}
 
 octopus_update:
 
