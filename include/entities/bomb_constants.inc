@@ -1,3 +1,4 @@
+.linecont +
 .ifndef BOMB_CONSTANTS_INC
 BOMB_CONSTANTS_INC = 1
 
@@ -37,29 +38,22 @@ BOMB_STATE_FALL
 
 bomb_target_x_lo = entity_x_lo
 bomb_target_x_hi = entity_x_hi
-bomb_target_x_fine = entity_local0
 
-bomb_target_y_lo = entity_local1
-bomb_target_y_hi = entity_local2
-bomb_target_y_fine = entity_local3
-
-bomb_target_x_velocity_lo = entity_local4
-bomb_target_x_velocity_hi = entity_local5
-
-bomb_target_y_velocity_lo = entity_local6
-bomb_target_y_velocity_hi = entity_local7
-
-bomb_bounce_offset_y_lo = entity_local8
-bomb_bounce_offset_y_hi = entity_local9
-bomb_bounce_offset_y_fine = entity_local10
-
-bomb_bounce_y_velocity_lo = entity_local11
-bomb_bounce_y_velocity_hi = entity_local12
-
-bomb_bounces = entity_local13
-
-bomb_timer = entity_local14
-
-bomb_frames_since_last_direction_negation = entity_local15
+define_entity_properties bomb_target_x_fine,\
+                         bomb_target_y_lo,\
+                         bomb_target_y_hi,\
+                         bomb_target_y_fine,\
+                         bomb_target_x_velocity_lo,\
+                         bomb_target_x_velocity_hi,\
+                         bomb_target_y_velocity_lo,\
+                         bomb_target_y_velocity_hi,\
+                         bomb_bounce_offset_y_lo,\
+                         bomb_bounce_offset_y_hi,\
+                         bomb_bounce_offset_y_fine,\
+                         bomb_bounce_y_velocity_lo,\
+                         bomb_bounce_y_velocity_hi,\
+                         bomb_bounces,\
+                         bomb_timer,\
+                         bomb_frames_since_last_direction_negation
 
 .endif

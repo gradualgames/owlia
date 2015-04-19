@@ -4,17 +4,11 @@ BOMB_INC = 1
 
 .include "bomb_constants.inc"
 
-.define bomb_states \
-  bomb_state_init_carried, \
-  bomb_state_carried, \
-  bomb_state_init_fall, \
-  bomb_state_fall
-
-bomb_lo:
-  .lobytes bomb_states
-
-bomb_hi:
-  .hibytes bomb_states
+define_lohi_tables bomb,\
+                   {bomb_state_init_carried, \
+                    bomb_state_carried, \
+                    bomb_state_init_fall, \
+                    bomb_state_fall}
 
 bomb_update:
 

@@ -2,14 +2,8 @@
 .linecont +
 .include "ndxdebug.h"
 .include "hero.inc"
-.include "hero_constants.inc"
 .include "inventory.inc"
 .include "familiar.inc"
-.include "familiar_constants.inc"
-.include "bomb_constants.inc"
-.include "lantern_constants.inc"
-.include "key_constants.inc"
-.include "monolith_constants.inc"
 .include "ram.inc"
 .include "zp.inc"
 .include "sprites_and_animations_data.inc"
@@ -25,6 +19,12 @@
 .include "map.inc"
 .include "mapper.inc"
 .include "util.inc"
+.include "hero_constants.inc"
+.include "familiar_constants.inc"
+.include "bomb_constants.inc"
+.include "lantern_constants.inc"
+.include "key_constants.inc"
+.include "monolith_constants.inc"
 
 .segment "ROM03"
 
