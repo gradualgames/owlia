@@ -16,18 +16,18 @@ ring_x_hi = entity_x_hi
 ring_y_lo = entity_y_lo
 ring_y_hi = entity_y_hi
 
-ring_bottle_index = entity_local0
-ring_x_fine = entity_local1
-ring_y_fine = entity_local2
-ring_x_velocity_lo = entity_local3
-ring_x_velocity_hi = entity_local4
-ring_y_velocity_lo = entity_local5
-ring_y_velocity_hi = entity_local6
-ring_state_counter = entity_local7
-ring_spawn_x_lo = entity_local8
-ring_spawn_x_hi = entity_local9
-ring_spawn_y_lo = entity_local10
-ring_spawn_y_hi = entity_local11
+define_entity_properties ring_bottle_index,\
+                         ring_x_fine,\
+                         ring_y_fine,\
+                         ring_x_velocity_lo,\
+                         ring_x_velocity_hi,\
+                         ring_y_velocity_lo,\
+                         ring_y_velocity_hi,\
+                         ring_state_counter,\
+                         ring_spawn_x_lo,\
+                         ring_spawn_x_hi,\
+                         ring_spawn_y_lo,\
+                         ring_spawn_y_hi
 
 .enum
 RING_STATE_INIT

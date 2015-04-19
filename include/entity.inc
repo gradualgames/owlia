@@ -1,3 +1,4 @@
+.linecont +
 .ifndef ENTITY_INC
 ENTITY_INC = 1
 
@@ -615,6 +616,90 @@ sign_extend_positive:
   adc b0
   sta .ident(.concat(.string(variable), "_hi")),x
   .endscope
+
+.endmacro
+
+.macro define_entity_properties property0,\
+                                property1,\
+                                property2,\
+                                property3,\
+                                property4,\
+                                property5,\
+                                property6,\
+                                property7,\
+                                property8,\
+                                property9,\
+                                property10,\
+                                property11,\
+                                property12,\
+                                property13,\
+                                property14,\
+                                property15,\
+                                property16,\
+                                property17,\
+                                property18,\
+                                property19
+
+.ifnblank property0
+  property0 = entity_local0
+.endif
+.ifnblank property1
+  property1 = entity_local1
+.endif
+.ifnblank property2
+  property2 = entity_local2
+.endif
+.ifnblank property3
+  property3 = entity_local3
+.endif
+.ifnblank property4
+  property4 = entity_local4
+.endif
+.ifnblank property5
+  property5 = entity_local5
+.endif
+.ifnblank property6
+  property6 = entity_local6
+.endif
+.ifnblank property7
+  property7 = entity_local7
+.endif
+.ifnblank property8
+  property8 = entity_local8
+.endif
+.ifnblank property9
+  property9 = entity_local9
+.endif
+.ifnblank property10
+  property10 = entity_local10
+.endif
+.ifnblank property11
+  property11 = entity_local11
+.endif
+.ifnblank property12
+  property12 = entity_local12
+.endif
+.ifnblank property13
+  property13 = entity_local13
+.endif
+.ifnblank property14
+  property14 = entity_local14
+.endif
+.ifnblank property15
+  property15 = entity_local15
+.endif
+.ifnblank property16
+  property16 = entity_local16
+.endif
+.ifnblank property17
+  property17 = entity_local17
+.endif
+.ifnblank property18
+  property18 = entity_local18
+.endif
+.ifnblank property19
+  property19 = entity_local19
+.endif
 
 .endmacro
 
