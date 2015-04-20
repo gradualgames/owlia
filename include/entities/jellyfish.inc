@@ -23,26 +23,26 @@ JELLYFISH_FOLLOW_Y_OFFSET = 32
 ;supply new set of x and y coordinates, because
 ;we compute the coordinates of the jellyfish as
 ;floating above this point.
-jellyfish_x_lo = entity_local0
-jellyfish_x_hi = entity_local1
-jellyfish_x_fine = entity_local2
-jellyfish_y_lo = entity_local3
-jellyfish_y_hi = entity_local4
-jellyfish_y_fine = entity_local5
-jellyfish_x_velocity_lo = entity_local6
-jellyfish_x_velocity_hi = entity_local7
-jellyfish_y_velocity_lo = entity_local8
-jellyfish_y_velocity_hi = entity_local9
-jellyfish_y_offset_lo = entity_local10
-jellyfish_y_offset_hi = entity_local11
-jellyfish_y_offset_fine = entity_local12
-jellyfish_y_offset_velocity_lo = entity_local13
-jellyfish_y_offset_velocity_hi = entity_local14
-jellyfish_direction = entity_local15
-jellyfish_health = entity_local16
-jellyfish_knockback_counter = entity_local17
-jellyfish_flash_counter = entity_local18
-jellyfish_frame_counter = entity_local19
+define_entity_properties jellyfish_x_lo,\
+                         jellyfish_x_hi,\
+                         jellyfish_x_fine,\
+                         jellyfish_y_lo,\
+                         jellyfish_y_hi,\
+                         jellyfish_y_fine,\
+                         jellyfish_x_velocity_lo,\
+                         jellyfish_x_velocity_hi,\
+                         jellyfish_y_velocity_lo,\
+                         jellyfish_y_velocity_hi,\
+                         jellyfish_y_offset_lo,\
+                         jellyfish_y_offset_hi,\
+                         jellyfish_y_offset_fine,\
+                         jellyfish_y_offset_velocity_lo,\
+                         jellyfish_y_offset_velocity_hi,\
+                         jellyfish_direction,\
+                         jellyfish_health,\
+                         jellyfish_knockback_counter,\
+                         jellyfish_flash_counter,\
+                         jellyfish_frame_counter
 
 .enum
 JELLYFISH_STATE_INIT

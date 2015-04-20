@@ -5,7 +5,7 @@ TRAPROOM_INC = 1
 TRAPROOM_STATE_RAISE_MONOLITH_LENGTH = 20
 TRAPROOM_STATE_LOWER_MONOLITH_LENGTH = 20
 
-traproom_state_counter = entity_local0
+define_entity_properties traproom_state_counter
 
 .enum
 TRAPROOM_STATE_INIT

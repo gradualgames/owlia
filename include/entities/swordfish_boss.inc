@@ -35,15 +35,15 @@ SWORDFISH_BOSS_HEIGHT = 23
 
 SWORDFISH_BOSS_FLOUNDER_WIDTH = 47
 
-swordfish_boss_state_counter = entity_local0
-swordfish_boss_fin_lap_counter = entity_local1
-swordfish_boss_flash_counter = entity_local2
-swordfish_boss_health = entity_local3
-swordfish_boss_direction = entity_local4
-swordfish_boss_shadow_spot_offset_y = entity_local5
-swordfish_boss_last_charge_state = entity_local6
-swordfish_boss_invincible = entity_local7
-swordfish_boss_splash_index = entity_local8
+define_entity_properties swordfish_boss_state_counter,\
+                         swordfish_boss_fin_lap_counter,\
+                         swordfish_boss_flash_counter,\
+                         swordfish_boss_health,\
+                         swordfish_boss_direction,\
+                         swordfish_boss_shadow_spot_offset_y,\
+                         swordfish_boss_last_charge_state,\
+                         swordfish_boss_invincible,\
+                         swordfish_boss_splash_index
 
 .enum
 SWORDFISH_BOSS_STATE_INIT

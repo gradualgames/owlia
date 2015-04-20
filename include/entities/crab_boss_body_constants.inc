@@ -1,3 +1,4 @@
+.linecont +
 .ifndef CRAB_BOSS_BODY_CONSTANTS_INC
 CRAB_BOSS_BODY_CONSTANTS_INC = 1
 
@@ -32,14 +33,14 @@ CRAB_BOSS_BODY_STATE_LOWER_MONOLITH_LENGTH = 200
 
 CRAB_BOSS_BODY_FLASH_LENGTH = 20
 
-crab_boss_body_eye0 = entity_local0
-crab_boss_body_eye1 = entity_local1
-crab_boss_body_pincer0 = entity_local2
-crab_boss_body_pincer1 = entity_local3
-crab_boss_body_state_counter = entity_local4
-crab_boss_body_state_rush_counter = entity_local5
-crab_boss_body_previous_state = entity_local6
-crab_boss_body_flash_counter = entity_local7
+define_entity_properties crab_boss_body_eye0,\
+                         crab_boss_body_eye1,\
+                         crab_boss_body_pincer0,\
+                         crab_boss_body_pincer1,\
+                         crab_boss_body_state_counter,\
+                         crab_boss_body_state_rush_counter,\
+                         crab_boss_body_previous_state,\
+                         crab_boss_body_flash_counter
 
 .enum
 CRAB_BOSS_BODY_STATE_INIT

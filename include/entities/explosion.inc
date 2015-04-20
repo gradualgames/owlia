@@ -13,16 +13,16 @@ EXPLOSION_STATE_MAIN
 EXPLOSION_COUNT = 5
 EXPLOSION_DELAY = 6
 
-explosion_counter = entity_local0
-explosion_frame_counter = entity_local1
-explosion_random_offset_x = entity_local2
-explosion_random_offset_x_masked = entity_local3
-explosion_random_offset_y = entity_local4
-explosion_random_offset_y_masked = entity_local5
-explosion_spawn_x_lo = entity_local6
-explosion_spawn_x_hi = entity_local7
-explosion_spawn_y_lo = entity_local8
-explosion_spawn_y_hi = entity_local9
+define_entity_properties explosion_counter,\
+                         explosion_frame_counter,\
+                         explosion_random_offset_x,\
+                         explosion_random_offset_x_masked,\
+                         explosion_random_offset_y,\
+                         explosion_random_offset_y_masked,\
+                         explosion_spawn_x_lo,\
+                         explosion_spawn_x_hi,\
+                         explosion_spawn_y_lo,\
+                         explosion_spawn_y_hi
 
 .define explosion_states \
   explosion_state_init, \

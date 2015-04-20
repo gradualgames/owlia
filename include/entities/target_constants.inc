@@ -1,3 +1,4 @@
+.linecont +
 .ifndef TARGET_CONSTANTS_INC
 TARGET_CONSTANTS_INC = 1
 
@@ -21,17 +22,17 @@ TARGET_HEIGHT = $0f
 
 TARGET_PARAMS = 8
 
-target_mode = entity_local0
-target_type = entity_local1
-target_direction = entity_local2
-target_speed = entity_local3
-target_random_speed_mask = entity_local4
-target_health = entity_local5
-target_gp_lo = entity_local6
-target_gp_hi = entity_local7
-
-target_flash_counter = entity_local8
-target_knockback_counter = entity_local9
+define_entity_properties target_mode,\
+                         target_type,\
+                         target_direction,\
+                         target_speed,\
+                         target_random_speed_mask,\
+                         target_health,\
+                         target_gp_lo,\
+                         target_gp_hi,\
+                         \
+                         target_flash_counter,\
+                         target_knockback_counter
 
 .enum
 TARGET_STATE_INIT

@@ -27,33 +27,26 @@ PUFFERFISH_PUFFED_ANIMATION_OFFSET = 4
 
 PUFFERFISH_PUFF_COUNTER_LENGTH = 50
 
-;re-use the built in X coordinate because there is no offset
 pufferfish_shadow_spot_x_lo = entity_x_lo
 pufferfish_shadow_spot_x_hi = entity_x_hi
-pufferfish_shadow_spot_x_fine = entity_local0
 
-;supply new Y coordinate; the entity Y coordinate will be computed
-;to be offset from this on every frame
-pufferfish_shadow_spot_y_lo = entity_local1
-pufferfish_shadow_spot_y_hi = entity_local2
-pufferfish_shadow_spot_y_fine = entity_local3
-
-;variables for making the pufferfish bob slowly up and down over a
-;shadow spot
-bob_altitude_lo = entity_local4
-bob_altitude_hi = entity_local5
-bob_altitude_fine = entity_local6
-bob_velocity_lo = entity_local7
-bob_velocity_hi = entity_local8
-
-pufferfish_random_turnleft_counter = entity_local10
-pufferfish_random_turnright_counter = entity_local11
-pufferfish_animation_offset = entity_local12
-pufferfish_puff_counter = entity_local13
-pufferfish_direction = entity_local14
-pufferfish_health = entity_local15
-pufferfish_knockback_counter = entity_local16
-pufferfish_flash_counter = entity_local17
+define_entity_properties pufferfish_shadow_spot_x_fine,\
+                         pufferfish_shadow_spot_y_lo,\
+                         pufferfish_shadow_spot_y_hi,\
+                         pufferfish_shadow_spot_y_fine,\
+                         bob_altitude_lo,\
+                         bob_altitude_hi,\
+                         bob_altitude_fine,\
+                         bob_velocity_lo,\
+                         bob_velocity_hi,\
+                         pufferfish_random_turnleft_counter,\
+                         pufferfish_random_turnright_counter,\
+                         pufferfish_animation_offset,\
+                         pufferfish_puff_counter,\
+                         pufferfish_direction,\
+                         pufferfish_health,\
+                         pufferfish_knockback_counter,\
+                         pufferfish_flash_counter
 
 .define pufferfish_collision_offset_x \
   PUFFERFISH_HALFWIDTH+6, \

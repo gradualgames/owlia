@@ -4,7 +4,7 @@ SHOOTING_GALLERY_INC = 1
 
 SHOOTING_GALLERY_MAX_TARGETS = 4
 
-shooting_gallery_state_counter = entity_local0
+define_entity_properties shooting_gallery_state_counter
 
 .enum
 SHOOTING_GALLERY_STATE_INIT

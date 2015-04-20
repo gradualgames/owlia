@@ -1,3 +1,4 @@
+.linecont +
 .ifndef SIMULTANEOUS_DEFEAT_PUZZLE_CONSTANTS_INC
 SIMULTANEOUS_DEFEAT_PUZZLE_CONSTANTS_INC = 1
 
@@ -12,9 +13,9 @@ SIMULTANEOUS_DEFEAT_PUZZLE_STATE_VICTORY
 
 SIMULTANEOUS_DEFEAT_PUZZLE_PARAMS = 1
 
-simultaneous_defeat_puzzle_dungeon_flags_mask = entity_local0
-simultaneous_defeat_puzzle_entity_instance0 = entity_local1
-simultaneous_defeat_puzzle_entity_instance1 = entity_local2
-simultaneous_defeat_puzzle_entity_timer = entity_local3
+define_entity_properties simultaneous_defeat_puzzle_dungeon_flags_mask,\
+                         simultaneous_defeat_puzzle_entity_instance0,\
+                         simultaneous_defeat_puzzle_entity_instance1,\
+                         simultaneous_defeat_puzzle_entity_timer
 
 .endif

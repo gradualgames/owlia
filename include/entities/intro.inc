@@ -5,8 +5,7 @@ INTRO_INC = 1
 INTRO_WIDTH = $0f
 INTRO_HEIGHT = $0f
 
-intro_state_counter = entity_local0
-intro_script_index = entity_local1
+define_entity_properties intro_state_counter, intro_script_index
 
 .enum
 INTRO_STATE_INIT

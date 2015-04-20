@@ -1,3 +1,4 @@
+.linecont +
 .ifndef ORDERED_DEFEAT_PUZZLE_CONSTANTS_INC
 ORDERED_DEFEAT_PUZZLE_CONSTANTS_INC = 1
 
@@ -14,18 +15,17 @@ ORDERED_DEFEAT_PUZZLE_STATE_FAIL
 
 ORDERED_DEFEAT_PUZZLE_PARAMS = 7
 
-ordered_defeat_puzzle_entity_type0 = entity_local0
-ordered_defeat_puzzle_entity_type1 = entity_local1
-ordered_defeat_puzzle_entity_type2 = entity_local2
-ordered_defeat_puzzle_entity_dungeon_flags_mask = entity_local3
-ordered_defeat_puzzle_treasure_chest_type = entity_local4
-ordered_defeat_puzzle_treasure_chest_quantity_lo = entity_local5
-ordered_defeat_puzzle_treasure_chest_quantity_hi = entity_local6
-
-ordered_defeat_puzzle_entity_instance0 = entity_local7
-ordered_defeat_puzzle_entity_instance1 = entity_local8
-ordered_defeat_puzzle_entity_instance2 = entity_local9
-ordered_defeat_puzzle_step = entity_local10
-ordered_defeat_puzzle_state_counter = entity_local11
+define_entity_properties ordered_defeat_puzzle_entity_type0,\
+                         ordered_defeat_puzzle_entity_type1,\
+                         ordered_defeat_puzzle_entity_type2,\
+                         ordered_defeat_puzzle_entity_dungeon_flags_mask,\
+                         ordered_defeat_puzzle_treasure_chest_type,\
+                         ordered_defeat_puzzle_treasure_chest_quantity_lo,\
+                         ordered_defeat_puzzle_treasure_chest_quantity_hi,\
+                         ordered_defeat_puzzle_entity_instance0,\
+                         ordered_defeat_puzzle_entity_instance1,\
+                         ordered_defeat_puzzle_entity_instance2,\
+                         ordered_defeat_puzzle_step,\
+                         ordered_defeat_puzzle_state_counter
 
 .endif

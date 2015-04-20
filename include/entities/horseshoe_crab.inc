@@ -11,11 +11,11 @@ HORSESHOE_CRAB_INITIAL_HEALTH = 3
 HORSESHOE_CRAB_KNOCKBACK_LENGTH = 20
 HORSESHOE_CRAB_ATTACKED_LENGTH = 20
 
-horseshoe_crab_state_counter = entity_local0
-horseshoe_crab_flash_counter = entity_local1
-horseshoe_crab_knockback_counter = entity_local2
-horseshoe_crab_health = entity_local3
-horseshoe_crab_direction = entity_local4
+define_entity_properties horseshoe_crab_state_counter,\
+                         horseshoe_crab_flash_counter,\
+                         horseshoe_crab_knockback_counter,\
+                         horseshoe_crab_health,\
+                         horseshoe_crab_direction
 
 .enum
 HORSESHOE_CRAB_STATE_INIT

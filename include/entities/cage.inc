@@ -17,9 +17,9 @@ CAGE_STATE_EXPLODE
 CAGE_STATE_RELEASE_RESCUE_OWL
 .endenum
 
-cage_flash_counter = entity_local0
-cage_health = entity_local1
-cage_rescue_owl_entity_index = entity_local2
+define_entity_properties cage_flash_counter,\
+                         cage_health,\
+                         cage_rescue_owl_entity_index
 
 .define cage_states \
   cage_state_init, \

@@ -1,3 +1,4 @@
+.linecont +
 .ifndef RESCUEOWL_CONSTANTS_INC
 RESCUEOWL_CONSTANTS_INC = 1
 
@@ -20,14 +21,14 @@ RESCUEOWL_TYPE_SAWWHETOWL
 
 RESCUEOWL_PARAMS = 1
 
-rescueowl_type = entity_local0
-rescueowl_state_counter = entity_local1
-rescueowl_x_fine = entity_local2
-rescueowl_y_fine = entity_local3
-rescueowl_velocity_x_lo = entity_local4
-rescueowl_velocity_x_hi = entity_local5
-rescueowl_velocity_y_lo = entity_local6
-rescueowl_velocity_y_hi = entity_local7
+define_entity_properties rescueowl_type,\
+                         rescueowl_state_counter,\
+                         rescueowl_x_fine,\
+                         rescueowl_y_fine,\
+                         rescueowl_velocity_x_lo,\
+                         rescueowl_velocity_x_hi,\
+                         rescueowl_velocity_y_lo,\
+                         rescueowl_velocity_y_hi
 
 .enum
 RESCUEOWL_STATE_INIT

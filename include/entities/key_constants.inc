@@ -1,3 +1,4 @@
+.linecont +
 .ifndef KEY_CONSTANTS_INC
 KEY_CONSTANTS_INC = 1
 
@@ -12,7 +13,6 @@ KEY_STATE_PASSIVE_INSERTED_INIT
 KEY_STATE_PASSIVE
 .endenum
 
-key_initial_state = entity_local0
-key_dungeon_flags_mask = entity_local1
+define_entity_properties key_initial_state, key_dungeon_flags_mask
 
 .endif

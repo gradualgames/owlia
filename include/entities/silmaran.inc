@@ -21,7 +21,7 @@ SILMARAN_TOP_LEFT_SCREEN_Y = (39 * 16)
 SILMARAN_WIDTH = $0f
 SILMARAN_HEIGHT = $0f
 
-silmaran_state_counter = entity_local0
+define_entity_properties silmaran_state_counter
 
 SILMARAN_STATE_ASCEND_LENGTH = 200
 SILMARAN_STATE_SUMMON_ADLANNIEL_LENGTH = 8

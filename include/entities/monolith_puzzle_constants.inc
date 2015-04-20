@@ -1,3 +1,4 @@
+.linecont +
 .ifndef MONOLITH_PUZZLE_CONSTANTS_INC
 MONOLITH_PUZZLE_CONSTANTS_INC = 1
 
@@ -17,18 +18,17 @@ MONOLITH_PUZZLE_STATE_LOWER_ALL_MONOLITHS_AND_DIE
 
 MONOLITH_PUZZLE_PARAMS = 5
 
-monolith_puzzle_dungeon_flags_mask = entity_local0
-monolith_puzzle_solution = entity_local1
-monolith_puzzle_treasure_chest_type = entity_local2
-monolith_puzzle_treasure_chest_quantity_lo = entity_local3
-monolith_puzzle_treasure_chest_quantity_hi = entity_local4
-
-monolith_puzzle_monolith0 = entity_local5
-monolith_puzzle_monolith1 = entity_local6
-monolith_puzzle_monolith2 = entity_local7
-monolith_puzzle_monolith3 = entity_local8
-monolith_puzzle_solution_buffer = entity_local9
-monolith_puzzle_solution_flags = entity_local10
-monolith_puzzle_state_counter = entity_local11
+define_entity_properties monolith_puzzle_dungeon_flags_mask,\
+                         monolith_puzzle_solution,\
+                         monolith_puzzle_treasure_chest_type,\
+                         monolith_puzzle_treasure_chest_quantity_lo,\
+                         monolith_puzzle_treasure_chest_quantity_hi,\
+                         monolith_puzzle_monolith0,\
+                         monolith_puzzle_monolith1,\
+                         monolith_puzzle_monolith2,\
+                         monolith_puzzle_monolith3,\
+                         monolith_puzzle_solution_buffer,\
+                         monolith_puzzle_solution_flags,\
+                         monolith_puzzle_state_counter
 
 .endif

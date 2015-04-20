@@ -1,3 +1,4 @@
+.linecont +
 .ifndef ITEM_CONSTANTS_INC
 ITEM_CONSTANTS_INC = 1
 
@@ -22,16 +23,15 @@ ITEM_FADE_OUT_LENGTH = 400
 
 ITEM_PARAMS = 7
 
-item_initial_state = entity_local0
-item_type = entity_local1
-item_dungeon_flags_mask = entity_local2
-item_price_lo = entity_local3
-item_price_hi = entity_local4
-item_quantity_lo = entity_local5
-item_quantity_hi = entity_local6
-
-item_fade_out_counter_lo = entity_local7
-item_fade_out_counter_hi = entity_local8
+define_entity_properties item_initial_state,\
+                         item_type,\
+                         item_dungeon_flags_mask,\
+                         item_price_lo,\
+                         item_price_hi,\
+                         item_quantity_lo,\
+                         item_quantity_hi,\
+                         item_fade_out_counter_lo,\
+                         item_fade_out_counter_hi
 
 .enum
 ITEM_STATE_INIT

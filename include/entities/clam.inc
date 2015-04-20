@@ -41,26 +41,26 @@ CLAM_STATE_RISE
 CLAM_STATE_FLOAT
 .endenum
 
-clam_state_counter = entity_local0
-clam_x_lo = entity_local1
-clam_x_hi = entity_local2
-clam_x_fine = entity_local3
-clam_y_lo = entity_local4
-clam_y_hi = entity_local5
-clam_y_fine = entity_local6
-clam_altitude_lo = entity_local7
-clam_altitude_hi = entity_local8
-clam_altitude_fine = entity_local9
-clam_x_velocity_lo = entity_local10
-clam_x_velocity_hi = entity_local11
-clam_y_velocity_lo = entity_local12
-clam_y_velocity_hi = entity_local13
-clam_altitude_velocity_lo = entity_local14
-clam_altitude_velocity_hi = entity_local15
-clam_flash_counter = entity_local16
-clam_knockback_counter = entity_local17
-clam_health = entity_local18
-clam_direction = entity_local19
+define_entity_properties clam_state_counter,\
+                         clam_x_lo,\
+                         clam_x_hi,\
+                         clam_x_fine,\
+                         clam_y_lo,\
+                         clam_y_hi,\ 
+                         clam_y_fine,\
+                         clam_altitude_lo,\
+                         clam_altitude_hi,\
+                         clam_altitude_fine,\
+                         clam_x_velocity_lo,\
+                         clam_x_velocity_hi,\
+                         clam_y_velocity_lo,\
+                         clam_y_velocity_hi,\
+                         clam_altitude_velocity_lo,\
+                         clam_altitude_velocity_hi,\
+                         clam_flash_counter,\
+                         clam_knockback_counter,\
+                         clam_health,\
+                         clam_direction
 
 define_lohi_tables clam_knockback_x_velocity, {CLAM_KNOCKBACK_VELOCITY, -CLAM_KNOCKBACK_VELOCITY, 0, 0}
 define_lohi_tables clam_knockback_y_velocity, {0, 0, CLAM_KNOCKBACK_VELOCITY, -CLAM_KNOCKBACK_VELOCITY}

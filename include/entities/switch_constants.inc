@@ -1,3 +1,4 @@
+.linecont +
 .ifndef SWITCH_CONSTANTS_INC
 SWITCH_CONSTANTS_INC = 1
 
@@ -8,15 +9,16 @@ SWITCH_WIDTH = $0f
 SWITCH_HEIGHT = $1f
 
 SWITCH_PARAMS = 4
-switch_down_patch_index = entity_local0
-switch_up_patch_index = entity_local1
-switch_id = entity_local2
-switch_pop_up_ids = entity_local3
 
-switch_x_lo = entity_local4
-switch_x_hi = entity_local5
-switch_y_lo = entity_local6
-switch_y_hi = entity_local7
+define_entity_properties switch_down_patch_index,\
+                         switch_up_patch_index,\
+                         switch_id,\
+                         switch_pop_up_ids,\
+                         \
+                         switch_x_lo,\
+                         switch_x_hi,\
+                         switch_y_lo,\
+                         switch_y_hi
 
 .enum
 SWITCH_STATE_INIT

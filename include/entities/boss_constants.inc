@@ -1,10 +1,11 @@
+.linecont +
 .ifndef BOSS_CONSTANTS_INC
 BOSS_CONSTANTS_INC = 1
 
 BOSS_PARAMS = 1
 
-boss_earned_tech = entity_local0
-boss_state_counter = entity_local1
+define_entity_properties boss_earned_tech,\
+                         boss_state_counter
 
 .enum
 BOSS_STATE_INIT

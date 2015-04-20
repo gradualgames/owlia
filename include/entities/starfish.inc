@@ -14,26 +14,26 @@ STARFISH_MEANDER_VELOCITY = 200
 STARFISH_ATTACKED_LENGTH = 20
 STARFISH_KNOCKBACK_LENGTH = 20
 
-starfish_x_lo = entity_local0
-starfish_x_hi = entity_local1
-starfish_x_fine = entity_local2
-starfish_y_lo = entity_local3
-starfish_y_hi = entity_local4
-starfish_y_fine = entity_local5
-starfish_x_velocity_lo = entity_local6
-starfish_x_velocity_hi = entity_local7
-starfish_y_velocity_lo = entity_local8
-starfish_y_velocity_hi = entity_local9
-starfish_altitude_lo = entity_local10
-starfish_altitude_hi = entity_local11
-starfish_altitude_fine = entity_local12
-starfish_altitude_velocity_lo = entity_local13
-starfish_altitude_velocity_hi = entity_local14
-starfish_state_counter = entity_local15
-starfish_meander_direction = entity_local16
-starfish_flash_counter = entity_local17
-starfish_knockback_counter = entity_local18
-starfish_health = entity_local19
+define_entity_properties starfish_x_lo,\
+                         starfish_x_hi,\
+                         starfish_x_fine,\
+                         starfish_y_lo,\
+                         starfish_y_hi,\
+                         starfish_y_fine,\
+                         starfish_x_velocity_lo,\
+                         starfish_x_velocity_hi,\
+                         starfish_y_velocity_lo,\
+                         starfish_y_velocity_hi,\
+                         starfish_altitude_lo,\
+                         starfish_altitude_hi,\
+                         starfish_altitude_fine,\
+                         starfish_altitude_velocity_lo,\
+                         starfish_altitude_velocity_hi,\
+                         starfish_state_counter,\
+                         starfish_meander_direction,\
+                         starfish_flash_counter,\
+                         starfish_knockback_counter,\
+                         starfish_health
 
 define_lohi_tables \
   starfish_meander_x_velocity, \

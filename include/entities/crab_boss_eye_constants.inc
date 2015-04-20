@@ -1,3 +1,4 @@
+.linecont +
 .ifndef CRAB_BOSS_EYE_CONSTANTS_INC
 CRAB_BOSS_EYE_CONSTANTS_INC = 1
 
@@ -15,18 +16,18 @@ CRAB_BOSS_EYE_STATE_WAIT_TIL_FETCHED
 CRAB_BOSS_EYE_STATE_WAIT_TIL_NOT_FETCHED
 .endenum
 
-crab_boss_eye_body = entity_local0
-crab_boss_eye_x_offset = entity_local1
-crab_boss_eye_y_offset = entity_local2
-crab_boss_eye_x_fine = entity_local3
-crab_boss_eye_y_fine = entity_local4
-crab_boss_eye_x_velocity_lo = entity_local5
-crab_boss_eye_x_velocity_hi = entity_local6
-crab_boss_eye_y_velocity_lo = entity_local7
-crab_boss_eye_y_velocity_hi = entity_local8
-crab_boss_eye_flash_counter = entity_local9
-crab_boss_eye_knockback_counter = entity_local10
-crab_boss_eye_health = entity_local11
-crab_boss_eye_direction = entity_local12
+define_entity_properties crab_boss_eye_body,\
+                         crab_boss_eye_x_offset,\
+                         crab_boss_eye_y_offset,\
+                         crab_boss_eye_x_fine,\
+                         crab_boss_eye_y_fine,\
+                         crab_boss_eye_x_velocity_lo,\
+                         crab_boss_eye_x_velocity_hi,\
+                         crab_boss_eye_y_velocity_lo,\
+                         crab_boss_eye_y_velocity_hi,\
+                         crab_boss_eye_flash_counter,\
+                         crab_boss_eye_knockback_counter,\
+                         crab_boss_eye_health,\
+                         crab_boss_eye_direction
 
 .endif

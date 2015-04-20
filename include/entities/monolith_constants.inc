@@ -1,3 +1,4 @@
+.linecont +
 .ifndef MONOLITH_CONSTANTS_INC
 MONOLITH_CONSTANTS_INC = 1
 
@@ -52,16 +53,16 @@ MONOLITH_STATE_IDLE
 
 MONOLITH_PARAMS = 7
 
-monolith_flags = entity_local0
-monolith_unlock_immediately_dungeon_flags_mask = entity_local1
-monolith_direction = entity_local2
-monolith_goto_location_action = entity_local3
-monolith_location_index = entity_local4
-monolith_foreground_patch_index = entity_local5
-monolith_background_patch_index = entity_local6
-
-monolith_state_counter = entity_local7
-monolith_patch_row = entity_local8
-monolith_patch_column = entity_local9
+define_entity_properties monolith_flags,\
+                         monolith_unlock_immediately_dungeon_flags_mask,\
+                         monolith_direction,\
+                         monolith_goto_location_action,\
+                         monolith_location_index,\
+                         monolith_foreground_patch_index,\
+                         monolith_background_patch_index,\
+                         \
+                         monolith_state_counter,\
+                         monolith_patch_row,\
+                         monolith_patch_column
 
 .endif

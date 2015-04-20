@@ -1,3 +1,4 @@
+.linecont +
 .ifndef URCHIN_CONSTANTS_INC
 URCHIN_CONSTANTS_INC = 1
 
@@ -17,20 +18,20 @@ URCHIN_STATE_SLIDE
 
 URCHIN_PARAMS = 6
 
-urchin_slide_length = entity_local0
-urchin_pause_length = entity_local1
-urchin_x_velocity_lo = entity_local2
-urchin_x_velocity_hi = entity_local3
-urchin_y_velocity_lo = entity_local4
-urchin_y_velocity_hi = entity_local5
-
-urchin_frame_counter = entity_local6
-urchin_x_fine = entity_local7
-urchin_y_fine = entity_local8
-urchin_flash_counter = entity_local9
-urchin_attacked_counter = entity_local10
-urchin_knockback_counter = entity_local11
-urchin_direction = entity_local12
-urchin_health = entity_local13
+define_entity_properties urchin_slide_length,\
+                         urchin_pause_length,\
+                         urchin_x_velocity_lo,\
+                         urchin_x_velocity_hi,\
+                         urchin_y_velocity_lo,\
+                         urchin_y_velocity_hi,\
+                         \
+                         urchin_frame_counter,\
+                         urchin_x_fine,\
+                         urchin_y_fine,\
+                         urchin_flash_counter,\
+                         urchin_attacked_counter,\
+                         urchin_knockback_counter,\
+                         urchin_direction,\
+                         urchin_health
 
 .endif

@@ -1,3 +1,4 @@
+.linecont +
 .ifndef BOMBABLE_WALL_CONSTANTS_INC
 BOMBABLE_WALL_CONSTANTS_INC = 1
 
@@ -19,14 +20,14 @@ BOMBABLE_WALL_STATE_TEST_EXIT
 
 BOMBABLE_WALL_PARAMS = 4
 
-bombable_wall_patch_index = entity_local0
-bombable_wall_corridor_attribute = entity_local1
-bombable_wall_goto_location_action = entity_local2
-bombable_wall_location_index = entity_local3
-
-bombable_wall_patch_offset_y_lo = entity_local4
-bombable_wall_patch_offset_y_hi = entity_local5
-bombable_wall_patch_row = entity_local6
-bombable_wall_frame_counter = entity_local7
+define_entity_properties bombable_wall_patch_index,\
+                         bombable_wall_corridor_attribute,\
+                         bombable_wall_goto_location_action,\
+                         bombable_wall_location_index,\
+                         \
+                         bombable_wall_patch_offset_y_lo,\
+                         bombable_wall_patch_offset_y_hi,\
+                         bombable_wall_patch_row,\
+                         bombable_wall_frame_counter
 
 .endif

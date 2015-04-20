@@ -7,7 +7,7 @@ ICE_SHARDS_EXPLOSION_STATE_MAIN_LENGTH = 10
 ICE_SHARDS_EXPLOSION_WIDTH = $0f
 ICE_SHARDS_EXPLOSION_HEIGHT = $0f
 
-ice_shards_explosion_frame_counter = entity_local0
+define_entity_properties ice_shards_explosion_frame_counter
 
 .enum
 ICE_SHARDS_EXPLOSION_STATE_INIT

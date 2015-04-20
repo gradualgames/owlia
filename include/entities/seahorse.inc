@@ -27,31 +27,24 @@ SEAHORSE_PUFFED_ANIMATION_OFFSET = 4
 
 SEAHORSE_PUFF_COUNTER_LENGTH = 50
 
-;re-use the built in X coordinate because there is no offset
 seahorse_shadow_spot_x_lo = entity_x_lo
 seahorse_shadow_spot_x_hi = entity_x_hi
-seahorse_shadow_spot_x_fine = entity_local0
 
-;supply new Y coordinate; the entity Y coordinate will be computed
-;to be offset from this on every frame
-seahorse_shadow_spot_y_lo = entity_local1
-seahorse_shadow_spot_y_hi = entity_local2
-seahorse_shadow_spot_y_fine = entity_local3
-
-;variables for making the seahorse bob slowly up and down over a
-;shadow spot
-seahorse_bob_altitude_lo = entity_local4
-seahorse_bob_altitude_hi = entity_local5
-seahorse_bob_altitude_fine = entity_local6
-seahorse_bob_velocity_lo = entity_local7
-seahorse_bob_velocity_hi = entity_local8
-
-seahorse_random_turnleft_counter = entity_local10
-seahorse_random_turnright_counter = entity_local11
-seahorse_direction = entity_local14
-seahorse_health = entity_local15
-seahorse_knockback_counter = entity_local16
-seahorse_flash_counter = entity_local17
+define_entity_properties seahorse_shadow_spot_x_fine,\
+                         seahorse_shadow_spot_y_lo,\
+                         seahorse_shadow_spot_y_hi,\
+                         seahorse_shadow_spot_y_fine,\
+                         seahorse_bob_altitude_lo,\
+                         seahorse_bob_altitude_hi,\
+                         seahorse_bob_altitude_fine,\
+                         seahorse_bob_velocity_lo,\
+                         seahorse_bob_velocity_hi,\
+                         seahorse_random_turnleft_counter,\
+                         seahorse_random_turnright_counter,\
+                         seahorse_direction,\
+                         seahorse_health,\
+                         seahorse_knockback_counter,\
+                         seahorse_flash_counter
 
 .define seahorse_collision_offset_x \
   SEAHORSE_HALFWIDTH+6, \

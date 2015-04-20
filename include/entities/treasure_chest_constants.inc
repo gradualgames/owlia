@@ -1,3 +1,4 @@
+.linecont +
 .ifndef TREASURE_CHEST_CONSTANTS_INC
 TREASURE_CHEST_CONSTANTS_INC = 1
 
@@ -30,13 +31,13 @@ TREASURE_CHEST_MODE_OVERWORLD
 
 TREASURE_CHEST_PARAMS = 5
 
-treasure_chest_dungeon_flags_mask = entity_local0
-treasure_chest_mode = entity_local1
-treasure_chest_item_type = entity_local2
-treasure_chest_item_quantity_lo = entity_local3
-treasure_chest_item_quantity_hi = entity_local4
-
-treasure_chest_item_index = entity_local5
-treasure_chest_state_counter = entity_local6
+define_entity_properties treasure_chest_dungeon_flags_mask,\
+                         treasure_chest_mode,\
+                         treasure_chest_item_type,\
+                         treasure_chest_item_quantity_lo,\
+                         treasure_chest_item_quantity_hi,\
+                         \
+                         treasure_chest_item_index,\
+                         treasure_chest_state_counter
 
 .endif

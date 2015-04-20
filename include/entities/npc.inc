@@ -21,19 +21,19 @@ NPC_CONVERSATION_RECT_HEIGHT   = 32
 
 NPC_SPEED = 1
 
-npc_conversation = entity_local0
-npc_graphics_set = entity_local1
-npc_walk_rect_width = entity_local2
-npc_walk_rect_height = entity_local3
-npc_mode = entity_local4
-npc_direction = entity_local5
-npc_random_turnleft_counter = entity_local6
-npc_random_turnright_counter = entity_local7
-npc_random_pause_counter = entity_local8
-npc_spawn_x_lo = entity_local9
-npc_spawn_x_hi = entity_local10
-npc_spawn_y_lo = entity_local11
-npc_spawn_y_hi = entity_local12
+define_entity_properties npc_conversation,\
+                         npc_graphics_set,\
+                         npc_walk_rect_width,\
+                         npc_walk_rect_height,\
+                         npc_mode,\
+                         npc_direction,\
+                         npc_random_turnleft_counter,\
+                         npc_random_turnright_counter,\
+                         npc_random_pause_counter,\
+                         npc_spawn_x_lo,\
+                         npc_spawn_x_hi,\
+                         npc_spawn_y_lo,\
+                         npc_spawn_y_hi
 
 npc_direction_speed_x_lo:
   .byte NPC_SPEED, -NPC_SPEED, 0, 0

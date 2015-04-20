@@ -1,3 +1,4 @@
+.linecont +
 .ifndef EEL_CONSTANTS_INC
 EEL_CONSTANTS_INC = 1
 
@@ -26,15 +27,15 @@ EEL_STATE_RIGHT
 
 EEL_PARAMS = 1
 
-eel_initial_state = entity_local0
-eel_width_index_counter = entity_local1
-eel_width_index = entity_local2
-eel_initial_x_lo = entity_local3
-eel_initial_x_hi = entity_local4
-eel_lash_out_counter = entity_local5
-eel_knockback_counter = entity_local6
-eel_direction = entity_local7
-eel_health            = entity_local8
-eel_flash_counter = entity_local9
+define_entity_properties eel_initial_state,\
+                         eel_width_index_counter,\
+                         eel_width_index,\
+                         eel_initial_x_lo,\
+                         eel_initial_x_hi,\
+                         eel_lash_out_counter,\
+                         eel_knockback_counter,\
+                         eel_direction,\
+                         eel_health           ,\
+                         eel_flash_counter
 
 .endif

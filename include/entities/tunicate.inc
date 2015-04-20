@@ -21,12 +21,12 @@ TUNICATE_STATE_INIT
 TUNICATE_STATE_MAIN
 .endenum
 
-tunicate_state_counter = entity_local0
-tunicate_projectile_direction = entity_local1
-tunicate_health = entity_local2
-tunicate_direction = entity_local3
-tunicate_flash_counter = entity_local4
-tunicate_knockback_counter = entity_local5
+define_entity_properties tunicate_state_counter,\
+                         tunicate_projectile_direction,\
+                         tunicate_health,\
+                         tunicate_direction,\
+                         tunicate_flash_counter,\
+                         tunicate_knockback_counter
 
 .define tunicate_states \
   tunicate_state_init, \

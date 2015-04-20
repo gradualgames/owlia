@@ -9,9 +9,9 @@ OCTOBOSS_LEGS_HEIGHT = $0f
 
 OCTOBOSS_LEGS_STATE_PUNCH_LENGTH = 52
 
-octoboss_legs_state_counter = entity_local0
-octoboss_legs_punch_y_offset = entity_local1
-octoboss_legs_punch_y_velocity = entity_local2
+define_entity_properties octoboss_legs_state_counter,\
+                         octoboss_legs_punch_y_offset,\
+                         octoboss_legs_punch_y_velocity
 
 .define octoboss_legs_states \
   octoboss_legs_state_init, \

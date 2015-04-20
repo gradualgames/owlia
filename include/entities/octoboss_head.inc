@@ -32,17 +32,18 @@ octoboss_head_x_lo = entity_x_lo
 octoboss_head_x_hi = entity_x_hi
 octoboss_head_y_lo = entity_y_lo
 octoboss_head_y_hi = entity_y_hi
-octoboss_head_state_counter = entity_local0
-octoboss_head_legs_entity_index = entity_local1
-octoboss_head_splash_entity_index = entity_local2
-octoboss_head_x_fine = entity_local3
-octoboss_head_y_fine = entity_local4
-octoboss_head_x_velocity_lo = entity_local5
-octoboss_head_x_velocity_hi = entity_local6
-octoboss_head_y_velocity_lo = entity_local7
-octoboss_head_y_velocity_hi = entity_local8
-octoboss_head_flash_counter = entity_local9
-octoboss_head_health = entity_local10
+
+define_entity_properties octoboss_head_state_counter,\
+                         octoboss_head_legs_entity_index,\
+                         octoboss_head_splash_entity_index,\
+                         octoboss_head_x_fine,\
+                         octoboss_head_y_fine,\
+                         octoboss_head_x_velocity_lo,\
+                         octoboss_head_x_velocity_hi,\
+                         octoboss_head_y_velocity_lo,\
+                         octoboss_head_y_velocity_hi,\
+                         octoboss_head_flash_counter,\
+                         octoboss_head_health
 
 .enum
 OCTOBOSS_HEAD_STATE_INIT

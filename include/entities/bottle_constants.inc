@@ -6,7 +6,7 @@ BOTTLE_HEIGHT = $0f
 
 BOTTLE_PARAMS = 1
 
-bottle_initial_x_offset = entity_local0
+define_entity_properties bottle_initial_x_offset
 
 .enum
 BOTTLE_STATE_INIT

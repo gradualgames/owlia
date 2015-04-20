@@ -20,15 +20,15 @@ CRAB_KNOCKBACK_LENGTH = 10
 CRAB_INITIAL_DIRECTION = ENTITY_DIRECTION_DOWN
 CRAB_INITIAL_HEALTH = 3
 
-crab_random_turnleft_counter = entity_local0
-crab_random_turnright_counter = entity_local1
-crab_random_pause_counter = entity_local2
-crab_x_fine = entity_local3
-crab_y_fine = entity_local4
-crab_direction = entity_local5
-crab_health = entity_local6
-crab_knockback_counter = entity_local7
-crab_flash_counter = entity_local8
+define_entity_properties crab_random_turnleft_counter,\
+                         crab_random_turnright_counter,\
+                         crab_random_pause_counter,\
+                         crab_x_fine,\
+                         crab_y_fine,\
+                         crab_direction,\
+                         crab_health,\
+                         crab_knockback_counter,\
+                         crab_flash_counter
 
 .enum
 CRAB_STATE_INIT

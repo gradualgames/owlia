@@ -1,3 +1,4 @@
+.linecont +
 .ifndef DUNGEON_ENTRANCE_STATUE_CONSTANTS_INC
 DUNGEON_ENTRANCE_STATUE_CONSTANTS_INC = 1
 
@@ -16,11 +17,11 @@ DUNGEON_ENTRANCE_STATUE_STATE_ALLOW_ENTRY_AND_DIE
 
 DUNGEON_ENTRANCE_STATUE_PARAMS = 3
 
-dungeon_entrance_statue_attribute = entity_local0
-dungeon_entrance_statue_required_gp_lo = entity_local1
-dungeon_entrance_statue_required_gp_hi = entity_local2
-
-dungeon_entrance_statue_state_counter = entity_local3
-dungeon_entrance_statue_flash_counter = entity_local4
+define_entity_properties dungeon_entrance_statue_attribute,\
+                         dungeon_entrance_statue_required_gp_lo,\
+                         dungeon_entrance_statue_required_gp_hi,\
+                         \
+                         dungeon_entrance_statue_state_counter,\
+                         dungeon_entrance_statue_flash_counter
 
 .endif
