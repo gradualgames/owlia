@@ -5,6 +5,9 @@ RING_INC = 1
 RING_FAMILIAR_X_OFFSET = 0
 RING_FAMILIAR_Y_OFFSET = 16
 
+RING_TIME_UNTIL_REVERSE_DIRECTION = 50
+RING_X_SPEED = 256
+
 RING_STATE_PAUSE_BEFORE_RETURNING_HOME_LENGTH = 50
 
 RING_WIDTH = $0f
@@ -82,8 +85,11 @@ ring_state_init:
   entity_move16 ring_x, ring_spawn_x
   entity_move16 ring_y, ring_spawn_y
 
-  entity_lda16 ring_x_velocity, 0
+  entity_lda16 ring_x_velocity, RING_X_SPEED
   entity_lda16 ring_y_velocity, 0
+
+  lda #RING_TIME_UNTIL_REVERSE_DIRECTION
+  sta ring_state_counter,x
 
   lda #RING_STATE_WAIT_UNTIL_FETCHED
   sta entity_state,x
@@ -115,6 +121,20 @@ ring_state_wait_until_fetched:
 familiar_not_intersecting:
 familiar_not_fetching:
   .endscope
+
+  .scope
+  dec ring_state_counter,x
+  bne do_not_change_direction
+
+  lda #RING_TIME_UNTIL_REVERSE_DIRECTION
+  sta ring_state_counter,x
+
+  entity_neg16 ring_x_velocity
+
+do_not_change_direction:
+  .endscope
+
+  entity_add_velocity ring_x, ring_x_velocity
 
   rts
 
@@ -288,6 +308,20 @@ ring_state_fall_onto_bottle:
   ora ring_y_velocity_hi,x
   bne ring_still_falling_onto_bottle
 
+  ;play a sound
+  lda #<sfx_get_item
+  sta sound_param_word_0
+  lda #>sfx_get_item
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
   ldy ring_bottle_index,x
   lda #BOTTLE_STATE_PLACE_RING_ON
   sta entity_state,y
@@ -386,6 +420,11 @@ ring_state_return_home:
   ora ring_y_velocity_lo,x
   ora ring_y_velocity_hi,x
   bne ring_still_returning_home
+
+  lda #RING_TIME_UNTIL_REVERSE_DIRECTION
+  sta ring_state_counter,x
+
+  entity_lda16 ring_x_velocity, RING_X_SPEED
 
   lda #RING_STATE_WAIT_UNTIL_FETCHED
   sta entity_state,x
