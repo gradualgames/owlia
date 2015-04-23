@@ -131,6 +131,9 @@ next_entity:
   lda entity_type,y
   cmp #entity_index_bottle
   bne skip_entity
+  lda entity_state,y
+  cmp #BOTTLE_STATE_RING_ON
+  beq skip_entity
 
   ;if we reach here we found an alive bottle entity
   ;compare the ring's rect to the bottle's rect

@@ -10,8 +10,9 @@ define_entity_properties bottle_initial_x_offset
 
 .enum
 BOTTLE_STATE_INIT
-BOTTLE_STATE_MAIN
+BOTTLE_STATE_RING_OFF
 BOTTLE_STATE_PLACE_RING_ON
+BOTTLE_STATE_RING_ON
 .endenum
 
 .endif
