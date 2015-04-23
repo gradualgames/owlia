@@ -285,11 +285,13 @@ ring_state_fall_onto_bottle:
   ora ring_y_velocity_hi,x
   bne ring_still_falling_onto_bottle
 
-  lda #RING_STATE_PAUSE_BEFORE_RETURNING_HOME_LENGTH
-  sta ring_state_counter,x
+  ldy ring_bottle_index,x
+  lda #BOTTLE_STATE_PLACE_RING_ON
+  sta entity_state,y
 
-  lda #RING_STATE_PAUSE_BEFORE_RETURNING_HOME
-  sta entity_state,x
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
 
 ring_still_falling_onto_bottle:
   .endscope

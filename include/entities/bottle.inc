@@ -6,7 +6,8 @@ BOTTLE_INC = 1
 
 define_lohi_tables bottle, \
  {bottle_state_init, \
-  bottle_state_main}
+  bottle_state_main, \
+  bottle_state_place_ring_on}
 
 bottle_update:
 
@@ -53,6 +54,18 @@ bottle_state_init:
 bottle_state_main:
 
   jsr entity_update_animation
+
+  rts
+
+bottle_state_place_ring_on:
+
+  lda #<bottle_ring
+  sta entity_animation_address_lo,x
+  lda #>bottle_ring
+  sta entity_animation_address_hi,x
+
+  lda #BOTTLE_STATE_MAIN
+  sta entity_state,x
 
   rts
 
