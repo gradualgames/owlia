@@ -10,6 +10,12 @@ RING_X_SPEED = 256
 
 RING_STATE_PAUSE_BEFORE_RETURNING_HOME_LENGTH = 50
 
+RING_STATE_PAUSE_BEFORE_BECOMING_A_NEW_RING_LENGTH = 50
+
+RING_BECOME_A_NEW_RING_Y_OFFSET = 100
+
+RING_BECOME_A_NEW_RING_SPEED = 1
+
 RING_WIDTH = $0f
 RING_HEIGHT = $0f
 
@@ -39,6 +45,8 @@ RING_STATE_SEARCH_FOR_BOTTLES
 RING_STATE_FALL_ONTO_BOTTLE
 RING_STATE_PAUSE_BEFORE_RETURNING_HOME
 RING_STATE_RETURN_HOME
+RING_STATE_PAUSE_BEFORE_BECOMING_A_NEW_RING
+RING_STATE_BECOME_A_NEW_RING
 .endenum
 
 define_lohi_tables ring, \
@@ -47,7 +55,9 @@ define_lohi_tables ring, \
   ring_state_search_for_bottles, \
   ring_state_fall_onto_bottle, \
   ring_state_pause_before_returning_home, \
-  ring_state_return_home}
+  ring_state_return_home, \
+  ring_state_pause_before_becoming_a_new_ring, \
+  ring_state_become_a_new_ring}
 
 ring_update:
 
@@ -56,6 +66,8 @@ ring_update:
 ring_state_init:
 
   jsr entity_set_drawable
+
+  jsr entity_set_not_pausable
 
   lda #<ring
   sta entity_animation_address_lo,x
@@ -326,9 +338,22 @@ ring_state_fall_onto_bottle:
   lda #BOTTLE_STATE_PLACE_RING_ON
   sta entity_state,y
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  entity_move16 ring_spawn_x, ring_x
+  entity_move16 ring_spawn_y, ring_y
+
+  sec
+  lda ring_y_lo,x
+  sbc #<RING_BECOME_A_NEW_RING_Y_OFFSET
+  sta ring_y_lo,x
+  lda ring_y_hi,x
+  sbc #>RING_BECOME_A_NEW_RING_Y_OFFSET
+  sta ring_y_hi,x
+
+  lda #RING_STATE_PAUSE_BEFORE_BECOMING_A_NEW_RING_LENGTH
+  sta ring_state_counter,x
+
+  lda #RING_STATE_PAUSE_BEFORE_BECOMING_A_NEW_RING
+  sta entity_state,x
 
 ring_still_falling_onto_bottle:
   .endscope
@@ -430,6 +455,57 @@ ring_state_return_home:
   sta entity_state,x
 
 ring_still_returning_home:
+  .endscope
+
+  rts
+
+ring_state_pause_before_becoming_a_new_ring:
+
+  .scope
+  dec ring_state_counter,x
+  bne do_not_transition_yet
+
+  lda #RING_STATE_BECOME_A_NEW_RING
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  rts
+
+ring_state_become_a_new_ring:
+
+  .scope
+  clc
+  lda ring_y_lo,x
+  adc #<RING_BECOME_A_NEW_RING_SPEED
+  sta ring_y_lo,x
+  lda ring_y_hi,x
+  adc #>RING_BECOME_A_NEW_RING_SPEED
+  sta ring_y_hi,x
+
+  sec
+  lda ring_spawn_y_lo,x
+  sbc ring_y_lo,x
+  sta w0
+  lda ring_spawn_y_hi,x
+  sbc ring_y_hi,x
+  sta w0+1
+
+  lda w0
+  ora w0+1
+  bne do_not_transition_yet
+
+  lda #RING_TIME_UNTIL_REVERSE_DIRECTION
+  sta ring_state_counter,x
+
+  entity_lda16 ring_x_velocity, RING_X_SPEED
+  entity_lda16 ring_y_velocity, 0
+
+  lda #RING_STATE_WAIT_UNTIL_FETCHED
+  sta entity_state,x
+
+do_not_transition_yet:
   .endscope
 
   rts
