@@ -540,25 +540,28 @@ dungeon4_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_cage
 
 piratebay_sprite_chr_groups:
-  .byte 6   ;sprite_chr_groups .byte
+  .byte 7   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_npc_captain
 
 piratetavern_entrance1_sprite_chr_groups:
-  .byte 6   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_npc_bosun
+  .byte sprite_chr_group_index_npc_commodore
 
 pirateshootinggallery_sprite_chr_groups:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -567,9 +570,10 @@ pirateshootinggallery_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_minigame
   .byte sprite_chr_group_index_ice_shards
+  .byte sprite_chr_group_index_npc_bosun
 
 piratetavern_entrance2_sprite_chr_groups:
-  .byte 7   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -577,14 +581,15 @@ piratetavern_entrance2_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_minigame
+  .byte sprite_chr_group_index_npc_bosun
 
 ;****************************************************************
 ;Entity instance sets
 ;****************************************************************
 village_entity_instances:
   .byte 3  ;count
-  .byte entity_index_npc, 31, 37, sprite_chr_group_index_npcman, 6, conversation_index_owlia_school_of_falconry, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
-  .byte entity_index_npc, 15, 20, sprite_chr_group_index_npcman, 6, conversation_index_hi_adlanniel, 0, 16 * 6, 16 * 6, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 31, 37, sprite_chr_group_index_npcman, NPC_PARAMS, conversation_index_owlia_school_of_falconry, NPC_GRAPHICS_SET_MAN, 16 * 6, 16 * 6, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 15, 20, sprite_chr_group_index_npcman, NPC_PARAMS, conversation_index_hi_adlanniel, NPC_GRAPHICS_SET_MAN, 16 * 6, 16 * 6, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
   .byte entity_index_item, 31, 32, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_HEALTH, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
 
 house1_intro_entity_instances:
@@ -596,24 +601,24 @@ house1_entity_instances:
 
 housebl_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_npc_housebl, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, NPC_PARAMS, conversation_index_npc_housebl, NPC_GRAPHICS_SET_WOMAN, 16 * 8, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
 
 housebr_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_npc_housebr, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, NPC_PARAMS, conversation_index_npc_housebr, NPC_GRAPHICS_SET_WOMAN, 16 * 8, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
 
 housetr_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, 6, conversation_index_npc_housetr, 4, 16 * 8, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, NPC_PARAMS, conversation_index_npc_housetr, NPC_GRAPHICS_SET_WOMAN, 16 * 8, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
 
 housel_entity_instances:
   .byte 1  ;count
-  .byte entity_index_npc, 30, 19, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_house, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_LEFT
+  .byte entity_index_npc, 30, 19, sprite_chr_group_index_npcwoman, NPC_PARAMS, conversation_index_welcome_to_my_house, NPC_GRAPHICS_SET_WOMAN, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_LEFT
 
 houser_entity_instances:
   .byte 2  ;count
-  .byte entity_index_npc, 15, 16, sprite_chr_group_index_npcwoman, 6, conversation_index_ssh, 4, 16 * 5, 16 * 1, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
-  .byte entity_index_npc, 12, 20, sprite_chr_group_index_npcwoman, 6, conversation_index_welcome_to_my_library, 4, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_RIGHT
+  .byte entity_index_npc, 15, 16, sprite_chr_group_index_npcwoman, NPC_PARAMS, conversation_index_ssh, NPC_GRAPHICS_SET_WOMAN, 16 * 5, 16 * 1, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 12, 20, sprite_chr_group_index_npcwoman, NPC_PARAMS, conversation_index_welcome_to_my_library, NPC_GRAPHICS_SET_WOMAN, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_RIGHT
 
 meadow1_entity_instances:
   .byte 5  ;count
@@ -2132,17 +2137,21 @@ dungeon4_boss_owl_dungeon_entity_instances:
   .byte entity_index_rescueowl, 7, 8, 0, RESCUEOWL_PARAMS, RESCUEOWL_TYPE_SAWWHETOWL
 
 piratebay_entity_instances:
-  .byte 0
+  .byte 1
+  .byte entity_index_npc, 13, 5, sprite_chr_group_index_npc_captain, NPC_PARAMS, conversation_index_hi_adlanniel, NPC_GRAPHICS_SET_CAPTAIN, 16 * 6, 16 * 1, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
 
 piratetavern_entrance1_entity_instances:
-  .byte 0
+  .byte 2
+  .byte entity_index_npc, 5, 5, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_hi_adlanniel, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 14, 8, sprite_chr_group_index_npc_commodore, NPC_PARAMS, conversation_index_hi_adlanniel, NPC_GRAPHICS_SET_COMMODORE, 16 * 2, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
 
 pirateshootinggallery_entity_instances:
-  .byte 1
+  .byte 2
   .byte entity_index_shooting_gallery, 0, 0, 0, 0
+  .byte entity_index_npc, 3, 7, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_hi_adlanniel, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
 
 piratetavern_entrance2_entity_instances:
-  .byte 7
+  .byte 8
   .byte entity_index_bottle, 55, 7, 0, BOTTLE_PARAMS, 8
   .byte entity_index_bottle, 55, 6, 0, BOTTLE_PARAMS, 0
   .byte entity_index_bottle, 56, 6, 0, BOTTLE_PARAMS, 0
@@ -2150,6 +2159,7 @@ piratetavern_entrance2_entity_instances:
   .byte entity_index_bottle, 55, 5, 0, BOTTLE_PARAMS, 8
   .byte entity_index_bottle, 56, 5, 0, BOTTLE_PARAMS, 8
   .byte entity_index_ring, 54, 3, 0, 0
+  .byte entity_index_npc, 52, 10, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_hi_adlanniel, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
 
 ;****************************************************************
 ;Palettes.

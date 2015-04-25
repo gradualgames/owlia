@@ -23,6 +23,9 @@
   octopus_chr, \
   npcman_chr, \
   npcwoman_chr, \
+  npc_commodore_chr, \
+  npc_captain_chr, \
+  npc_bosun_chr, \
   key_chr, \
   treasure_chest_chr, \
   cursor_spr_chr, \
@@ -82,6 +85,9 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_octopus
   .byte sprite_chr_group_bank_npcman
   .byte sprite_chr_group_bank_npcwoman
+  .byte sprite_chr_group_bank_npc_commodore
+  .byte sprite_chr_group_bank_npc_captain
+  .byte sprite_chr_group_bank_npc_bosun
   .byte sprite_chr_group_bank_key
   .byte sprite_chr_group_bank_treasure_chest
   .byte sprite_chr_group_bank_cursor
@@ -275,3 +281,12 @@ sawwhetowl_chr:
 
 minigame_chr:
 .incbin "minigame.chr"
+
+npc_commodore_chr:
+.incbin "npc_commodore.chr"
+
+npc_captain_chr:
+.incbin "npc_captain.chr"
+
+npc_bosun_chr:
+.incbin "npc_bosun.chr"

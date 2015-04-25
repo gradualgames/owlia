@@ -39,6 +39,19 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global npcwoman_walk_up
 .global npcwoman_walk_side
 
+.global npc_commodore_walk_side
+.global npc_commodore_walk_down
+.global npc_commodore_walk_up
+
+.global npc_captain_walk_side
+.global npc_captain_walk_side_patch
+.global npc_captain_walk_down
+.global npc_captain_walk_up
+
+.global npc_bosun_walk_side
+.global npc_bosun_walk_down
+.global npc_bosun_walk_up
+
 .global key
 .global key_inserted
 

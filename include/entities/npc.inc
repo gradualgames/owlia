@@ -4,37 +4,6 @@ NPC_INC = 1
 
 .include "npc_constants.inc"
 
-.enum
-NPC_STATE_INIT
-NPC_STATE_WALK
-NPC_STATE_PAUSE
-NPC_STATE_MOTIONLESS
-.endenum
-
-NPC_WIDTH = 15
-NPC_HEIGHT = 31
-
-NPC_CONVERSATION_RECT_X_OFFSET = 8
-NPC_CONVERSATION_RECT_Y_OFFSET = 0
-NPC_CONVERSATION_RECT_WIDTH    = 8 * 2 + 16
-NPC_CONVERSATION_RECT_HEIGHT   = 32
-
-NPC_SPEED = 1
-
-define_entity_properties npc_conversation,\
-                         npc_graphics_set,\
-                         npc_walk_rect_width,\
-                         npc_walk_rect_height,\
-                         npc_mode,\
-                         npc_direction,\
-                         npc_random_turnleft_counter,\
-                         npc_random_turnright_counter,\
-                         npc_random_pause_counter,\
-                         npc_spawn_x_lo,\
-                         npc_spawn_x_hi,\
-                         npc_spawn_y_lo,\
-                         npc_spawn_y_hi
-
 npc_direction_speed_x_lo:
   .byte NPC_SPEED, -NPC_SPEED, 0, 0
 
@@ -73,7 +42,19 @@ npc_turnleft_direction:
   npcwoman_walk_side,\
   npcwoman_walk_side,\
   npcwoman_walk_down,\
-  npcwoman_walk_up
+  npcwoman_walk_up,\
+  npc_commodore_walk_side,\
+  npc_commodore_walk_side,\
+  npc_commodore_walk_down,\
+  npc_commodore_walk_up,\
+  npc_captain_walk_side,\
+  npc_captain_walk_side,\
+  npc_captain_walk_down,\
+  npc_captain_walk_up,\
+  npc_bosun_walk_side,\
+  npc_bosun_walk_side,\
+  npc_bosun_walk_down,\
+  npc_bosun_walk_up
 
 npc_animation_addresses_lo:
   .lobytes npc_animation_addresses
@@ -82,6 +63,9 @@ npc_animation_addresses_hi:
   .hibytes npc_animation_addresses
 
 npc_sprite_flags_direction:
+  .byte %00000000, %01000000, %00000000, %00000000
+  .byte %00000000, %01000000, %00000000, %00000000
+  .byte %00000000, %01000000, %00000000, %00000000
   .byte %00000000, %01000000, %00000000, %00000000
   .byte %00000000, %01000000, %00000000, %00000000
 
@@ -214,6 +198,8 @@ do_not_move:
   rts
 
 npc_randomly_turn_or_pause:
+
+  jsr next_rand
 
   .scope
   dec npc_random_turnleft_counter,x

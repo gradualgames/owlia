@@ -27,6 +27,9 @@ sprite_chr_group_index_bomb
 sprite_chr_group_index_octopus
 sprite_chr_group_index_npcman
 sprite_chr_group_index_npcwoman
+sprite_chr_group_index_npc_commodore
+sprite_chr_group_index_npc_captain
+sprite_chr_group_index_npc_bosun
 sprite_chr_group_index_key
 sprite_chr_group_index_treasure_chest
 sprite_chr_group_index_cursor
@@ -81,6 +84,9 @@ sprite_chr_group_bank_bomb = 8
 sprite_chr_group_bank_octopus = 8
 sprite_chr_group_bank_npcman = 8
 sprite_chr_group_bank_npcwoman = 8
+sprite_chr_group_bank_npc_commodore = 24
+sprite_chr_group_bank_npc_captain = 24
+sprite_chr_group_bank_npc_bosun = 24
 sprite_chr_group_bank_key = 8
 sprite_chr_group_bank_treasure_chest = 8
 sprite_chr_group_bank_cursor = 8
