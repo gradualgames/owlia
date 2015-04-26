@@ -321,7 +321,7 @@ if_you_want_my_submarine:
   .byte NL,4, "MIGHT BE IN MY SUBMARINE.",WT,EP
 
   .byte NL,1, "YE'LL HAVE TA PAY NEARLY"
-  .byte NL,2, "NINE HUNDRED THOUSAND GP"
+  .byte NL,2, "SIXTY THOUSAND GOLD PIECES"
   .byte NL,3, "TA THE OWL TOTEM TA RENT"
   .byte NL,4, "IT FROM ME MATEY...I",WT,EP
 

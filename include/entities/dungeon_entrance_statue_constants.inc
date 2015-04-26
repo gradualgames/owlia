@@ -15,11 +15,12 @@ DUNGEON_ENTRANCE_STATUE_STATE_DENY_ENTRY
 DUNGEON_ENTRANCE_STATUE_STATE_ALLOW_ENTRY_AND_DIE
 .endenum
 
-DUNGEON_ENTRANCE_STATUE_PARAMS = 3
+DUNGEON_ENTRANCE_STATUE_PARAMS = 4
 
 define_entity_properties dungeon_entrance_statue_attribute,\
                          dungeon_entrance_statue_required_gp_lo,\
                          dungeon_entrance_statue_required_gp_hi,\
+                         dungeon_entrance_statue_required_gp_hi_hi,\
                          \
                          dungeon_entrance_statue_state_counter,\
                          dungeon_entrance_statue_flash_counter

@@ -196,6 +196,8 @@ do_not_die_yet:
   sbc dungeon_entrance_statue_required_gp_lo,x
   lda inventory_gp+1
   sbc dungeon_entrance_statue_required_gp_hi,x
+  lda inventory_gp+2
+  sbc dungeon_entrance_statue_required_gp_hi_hi,x
   bpl transition_to_allow_entry_state
 
   ;take over the controller.
