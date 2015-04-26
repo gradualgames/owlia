@@ -1867,7 +1867,7 @@ dungeon4_0_1_entity_instances:
 
 dungeon4_1_1_entity_instances:
   .byte 8
-  .byte entity_index_seahorse, 20, 23, 0, 0
+  .byte entity_index_seahorse, 22, 23, 0, 0
   .byte entity_index_tunicate, 28, 21, 0, 0
   .byte entity_index_tunicate, 28, 25, 0, 0
   .byte entity_index_monolith, 20, 19, 0, MONOLITH_PARAMS,\
@@ -1987,7 +1987,7 @@ dungeon4_2_2_entity_instances:
                                          DUNGEON4_DUNGEON_FLAGS_DOOR1_UNLOCKED,\
                                          MONOLITH_DIRECTION_SOUTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_2_3_n,\
-                                         0, 2
+                                         1, 2
 
   .byte entity_index_monolith, 46, 38, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
@@ -2058,10 +2058,10 @@ dungeon4_0_3_entity_instances:
                                          0, 5
   .byte entity_index_monolith, 7, 59, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
-                                         DUNGEON4_DUNGEON_FLAGS_DOOR1_UNLOCKED,\
+                                         DUNGEON4_DUNGEON_FLAGS_DOOR3_UNLOCKED,\
                                          MONOLITH_DIRECTION_SOUTH,\
-                                         ACTION_NOP, 0,\
-                                         0, 2
+                                         ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon4_boss_area_entrance,\
+                                         1, 2
 
 dungeon4_1_3_entity_instances:
   .byte 5
@@ -2077,10 +2077,10 @@ dungeon4_1_3_entity_instances:
 
   .byte entity_index_monolith, 17, 51, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET,\
-                                         DUNGEON4_DUNGEON_FLAGS_DOOR1_UNLOCKED,\
+                                         DUNGEON4_DUNGEON_FLAGS_DOOR2_UNLOCKED,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon4_0_3_e,\
-                                         0, 4
+                                         1, 4
 
 dungeon4_2_3_entity_instances:
   .byte 7
