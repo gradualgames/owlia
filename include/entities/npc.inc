@@ -48,7 +48,7 @@ npc_turnleft_direction:
   npc_commodore_walk_down,\
   npc_commodore_walk_up,\
   npc_captain_walk_side,\
-  npc_captain_walk_side,\
+  npc_captain_walk_side_patch,\
   npc_captain_walk_down,\
   npc_captain_walk_up,\
   npc_bosun_walk_side,\
@@ -66,7 +66,7 @@ npc_sprite_flags_direction:
   .byte %00000000, %01000000, %00000000, %00000000
   .byte %00000000, %01000000, %00000000, %00000000
   .byte %00000000, %01000000, %00000000, %00000000
-  .byte %00000000, %01000000, %00000000, %00000000
+  .byte %00000000, %00000000, %00000000, %00000000
   .byte %00000000, %01000000, %00000000, %00000000
 
 .define npc_states \
