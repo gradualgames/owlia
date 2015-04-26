@@ -844,6 +844,9 @@ not_dungeon_entrance:
   lda #$00
   sta familiar_flags
 
+  lda #$ff
+  sta familiar_carried_entity_index
+
   ;spawn all non-hero entities in area
   switch_bank_ldy #LOCATIONS_BANK
   ldy #location::entity_instances_address

@@ -1657,7 +1657,7 @@ dungeon3_1_3_entity_instances:
 dungeon3_2_3_entity_instances:
   .byte 3
   .byte entity_index_seahorse, 44, 51, 0, 0
-  .byte entity_index_seahorse, 35, 55, 0, 0
+  .byte entity_index_seahorse, 36, 56, 0, 0
   .byte entity_index_monolith, 33, 53, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
