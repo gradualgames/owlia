@@ -86,8 +86,9 @@ dungeon_entrance_statue_state_main:
 dungeon_entrance_statue_state_deny_entry:
 
   .scope
+  ldy dungeon_entrance_statue_deny_entry_button,x
   lda #1
-  sta buffer_controller+buttons::_down
+  sta buffer_controller,y
 
   dec dungeon_entrance_statue_state_counter,x
   bne do_not_switch_back_to_main_state

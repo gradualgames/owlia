@@ -12,6 +12,7 @@
 .include "inventory.inc"
 .include "play_state.inc"
 .include "ppu.inc"
+.include "controller.inc"
 .include "hero_constants.inc"
 .include "item_constants.inc"
 .include "npc_constants.inc"
@@ -645,7 +646,7 @@ meadow2_entity_instances:
 
 meadow3_entity_instances:
   .byte 9
-  .byte entity_index_dungeon_entrance_statue, 9, 2, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 1, <6000, >6000, ^6000
+  .byte entity_index_dungeon_entrance_statue, 9, 2, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 1, <6000, >6000, ^6000, buttons::_down
   .byte entity_index_treasure_chest, 21, 27, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_treasure_chest, 57, 41, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_octopus, 55, 41, 0, 0
@@ -979,7 +980,7 @@ tundra3_entity_instances:
   .byte entity_index_jellyfish, 33, 51, 0, 0
   .byte entity_index_jellyfish, 45, 4, 0, 0
   .byte entity_index_jellyfish, 56, 24, 0, 0
-  .byte entity_index_dungeon_entrance_statue, 43, 25, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <15000, >15000, ^15000
+  .byte entity_index_dungeon_entrance_statue, 43, 25, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <15000, >15000, ^15000, buttons::_down
   .byte entity_index_treasure_chest, 17, 30, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 dungeon2_0_0_entity_instances:
@@ -1319,7 +1320,7 @@ mountain1_entity_instances:
   .byte entity_index_octopus, 9, 40, 0, 0
   .byte entity_index_octopus, 10, 8, 0, 0
   .byte entity_index_octopus, 57, 18, 0, 0
-  .byte entity_index_dungeon_entrance_statue, 44, 31, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <22000, >22000, ^22000
+  .byte entity_index_dungeon_entrance_statue, 44, 31, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <22000, >22000, ^22000, buttons::_down
 
 cave_top_left_entity_instances:
   .byte 3
@@ -1766,7 +1767,7 @@ temple1_entity_instances:
   .byte entity_index_seahorse, 19, 21, 0, 0
   .byte entity_index_seahorse, 47, 13, 0, 0
   .byte entity_index_seahorse, 20, 5, 0, 0
-  .byte entity_index_dungeon_entrance_statue, 15, 1, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 2, <30000, >30000, ^30000
+  .byte entity_index_dungeon_entrance_statue, 15, 1, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 2, <30000, >30000, ^30000, buttons::_down
 
 dungeon4_0_0_entity_instances:
   .byte 4
@@ -2147,7 +2148,7 @@ dungeon4_boss_owl_dungeon_entity_instances:
 piratebay_entity_instances:
   .byte 2
   .byte entity_index_npc, 13, 5, sprite_chr_group_index_npc_captain, NPC_PARAMS, conversation_index_welcome_to_pirate_bay, NPC_GRAPHICS_SET_CAPTAIN, 16 * 6, 16 * 1, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
-  .byte entity_index_dungeon_entrance_statue, 60, 4, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 2, <60000, >60000, ^60000
+  .byte entity_index_dungeon_entrance_statue, 60, 4, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 2, <60000, >60000, ^60000, buttons::_left
 
 piratetavern_entrance1_entity_instances:
   .byte 3
