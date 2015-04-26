@@ -2312,12 +2312,17 @@ piratebay_palette:
   .byte 6,$31,7,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte PALETTE_CYCLE_LOOP
 
-piratetavern_palette:
+piratetavern_entrance1_palette:
   .byte $0e,$21,$31,$20,$0e,$0b,$08,$1b,$0e,$08,$18,$28,$0e,$08,$18,$37
-  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$14,$24
+  .byte $0e,$0e,$07,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$36,$0e,$0e,$0e,$0e
   .byte PALETTE_CYCLE_LOOP
 
 pirateshootinggallery_palette:
+  .byte $0e,$21,$31,$20,$0e,$0b,$08,$1b,$0e,$08,$18,$28,$0e,$08,$18,$37
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$18,$20,$0e,$0e,$18,$20
+  .byte PALETTE_CYCLE_LOOP
+
+piratetavern_entrance2_palette:
   .byte $0e,$21,$31,$20,$0e,$0b,$08,$1b,$0e,$08,$18,$28,$0e,$08,$18,$37
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$18,$20,$0e,$0e,$18,$20
   .byte PALETTE_CYCLE_LOOP
@@ -2919,13 +2924,13 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
 
 piratetavern_entrance1:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
-                  area_index_piratetavern, piratetavern_entrance1_sprite_chr_groups, piratetavern_entrance1_entity_instances, piratetavern_palette,\
+                  area_index_piratetavern, piratetavern_entrance1_sprite_chr_groups, piratetavern_entrance1_entity_instances, piratetavern_entrance1_palette,\
                   2, 8, 10, 14,\
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 
 piratetavern_entrance2:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
-                  area_index_piratetavern, piratetavern_entrance2_sprite_chr_groups, piratetavern_entrance2_entity_instances, piratetavern_palette,\
+                  area_index_piratetavern, piratetavern_entrance2_sprite_chr_groups, piratetavern_entrance2_entity_instances, piratetavern_entrance2_palette,\
                   48, 8, 55, 14,\
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 
