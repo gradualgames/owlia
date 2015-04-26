@@ -2913,13 +2913,13 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
 piratebay_pirateshootinggallery_entrance1:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   area_index_piratebay, piratebay_sprite_chr_groups, piratebay_entity_instances, piratebay_palette,\
-                  6, 0, 16, 5,\
+                  22, 0, 28, 5,\
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_DOWN
 
 piratebay_piratetavern_entrance2:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   area_index_piratebay, piratebay_sprite_chr_groups, piratebay_entity_instances, piratebay_palette,\
-                  12, 0, 22, 5,\
+                  44, 0, 52, 5,\
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_DOWN
 
 piratetavern_entrance1:
