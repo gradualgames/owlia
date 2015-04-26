@@ -295,7 +295,11 @@ welcome_to_pirate_bay:
   .byte NL,2, "SIR...ER, FAIR..MAI..ER."
   .byte NL,3, "ELF WARRIOR...PRINCESS?"
   .byte NL,4, "WELCOME TO HUMBLE PIRATE",WT,EP
-  
+
   .byte NL,1, "BAY. IF YE BE SEEKIN'"
   .byte NL,2, "QUICK RICHES, THIS BE THE"
-  .byte NL,3, "PLACE FOR 'E, HEHEHEH.",WT,EC
+  .byte NL,3, "PLACE FOR 'E, HEHEHEH."
+  .byte NL,4, "...OH, BE THAT AN OWL?",WT,EP
+
+  .byte NL,1, "HE BE A MIGHTY FINE"
+  .byte NL,2, "SPECIMEN, AYE.",WT,EC
