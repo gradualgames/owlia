@@ -28,7 +28,8 @@
     dungeon_statue_deny_entry, \
     rescue_siberianeagleowl, \
     rescue_greatgrayowl, \
-    rescue_sawwhetowl
+    rescue_sawwhetowl, \
+    welcome_to_pirate_bay
 
 conversations_lo:
   .lobytes conversations
@@ -288,3 +289,13 @@ rescue_greatgrayowl:
 
 rescue_sawwhetowl:
   .byte    1, "YOU RESCUED ME.",WT,EC
+
+welcome_to_pirate_bay:
+  .byte    1, "TOP O' THE MORNIN' TO 'E"
+  .byte NL,2, "SIR...ER, FAIR..MAI..ER."
+  .byte NL,3, "ELF WARRIOR...PRINCESS?"
+  .byte NL,4, "WELCOME TO HUMBLE PIRATE",WT,EP
+  
+  .byte NL,1, "BAY. IF YE BE SEEKIN'"
+  .byte NL,2, "QUICK RICHES, THIS BE THE"
+  .byte NL,3, "PLACE FOR 'E, HEHEHEH.",WT,EC

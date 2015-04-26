@@ -35,6 +35,7 @@ conversation_index_dungeon_statue_deny_entry
 conversation_index_rescue_siberianeagleowl
 conversation_index_rescue_greatgrayowl
 conversation_index_rescue_sawwhetowl
+conversation_index_welcome_to_pirate_bay
 .endenum
 
 .endif

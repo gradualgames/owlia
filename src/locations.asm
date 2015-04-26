@@ -2138,7 +2138,7 @@ dungeon4_boss_owl_dungeon_entity_instances:
 
 piratebay_entity_instances:
   .byte 1
-  .byte entity_index_npc, 13, 5, sprite_chr_group_index_npc_captain, NPC_PARAMS, conversation_index_hi_adlanniel, NPC_GRAPHICS_SET_CAPTAIN, 16 * 6, 16 * 1, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 13, 5, sprite_chr_group_index_npc_captain, NPC_PARAMS, conversation_index_welcome_to_pirate_bay, NPC_GRAPHICS_SET_CAPTAIN, 16 * 6, 16 * 1, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
 
 piratetavern_entrance1_entity_instances:
   .byte 2
