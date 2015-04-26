@@ -36,6 +36,10 @@ conversation_index_rescue_siberianeagleowl
 conversation_index_rescue_greatgrayowl
 conversation_index_rescue_sawwhetowl
 conversation_index_welcome_to_pirate_bay
+conversation_index_advice
+conversation_index_if_you_want_my_submarine
+conversation_index_target_game_intro
+conversation_index_ring_game_intro
 .endenum
 
 .endif

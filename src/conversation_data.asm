@@ -29,7 +29,11 @@
     rescue_siberianeagleowl, \
     rescue_greatgrayowl, \
     rescue_sawwhetowl, \
-    welcome_to_pirate_bay
+    welcome_to_pirate_bay, \
+    advice, \
+    if_you_want_my_submarine, \
+    target_game_intro, \
+    ring_game_intro
 
 conversations_lo:
   .lobytes conversations
@@ -303,3 +307,46 @@ welcome_to_pirate_bay:
 
   .byte NL,1, "HE BE A MIGHTY FINE"
   .byte NL,2, "SPECIMEN, AYE.",WT,EC
+
+advice:
+  .byte    1, "IF YE WANT SOME KINDLY"
+  .byte NL,2, "ADVICE...BE CAREFUL WHO"
+  .byte NL,3, "YOU TRUST AROUND THESE"
+  .byte NL,4, "HERE DOCKS...",WT,EC
+
+if_you_want_my_submarine:
+  .byte    1, "MERMON'S FARTRESS IS WHAT"
+  .byte NL,2, "YE SEEK??? ...THE ONLY WAY"
+  .byte NL,3, "TA GET THERE STEALTH LIKE"
+  .byte NL,4, "MIGHT BE IN MY SUBMARINE.",WT,EP
+
+  .byte NL,1, "YE'LL HAVE TA PAY NEARLY"
+  .byte NL,2, "NINE HUNDRED THOUSAND GP"
+  .byte NL,3, "TA THE OWL TOTEM TA RENT"
+  .byte NL,4, "IT FROM ME MATEY...I",WT,EP
+
+  .byte NL,1, "RECKON YE HAVEN'T THE"
+  .byte NL,2, "FUNDS...",WT,EC
+
+target_game_intro:
+  .byte    1, "TA PLAY THIS HERE GAME."
+  .byte NL,2, "JUST SHOOT THEM TARRGETS"
+  .byte NL,3, "AND YE WILL RECEIVE"
+  .byte NL,4, "IMMEDIATE REWARDS.",WT,EP
+
+  .byte NL,1, "THE SPEED OF THE TARGET"
+  .byte NL,2, "WILL FETCH YE A HIGHER"
+  .byte NL,3, "REWARD...",WT,EC
+
+ring_game_intro:
+  .byte    1, "THIS GAME ONLY BE FER"
+  .byte NL,2, "PIRATES WITH PARROT"
+  .byte NL,3, "FAMILIARS. ARR, WHAT'S"
+  .byte NL,4, "THAT MIGHTY BIRD ON YER",WT,EP
+
+  .byte NL,1, "SHOULDER? AN OWL YE SAY?"
+  .byte NL,2, "WELL, I SUPPOSE YE CAN TRY"
+  .byte NL,3, "ANYWAY. HAVE YER OWL LAND"
+  .byte NL,4, "A RING ON EACH BOTTLE AND",WT,EP
+
+  .byte NL,1, "YOU WIN A SHINY REWARD.",WT,EC

@@ -2141,14 +2141,15 @@ piratebay_entity_instances:
   .byte entity_index_npc, 13, 5, sprite_chr_group_index_npc_captain, NPC_PARAMS, conversation_index_welcome_to_pirate_bay, NPC_GRAPHICS_SET_CAPTAIN, 16 * 6, 16 * 1, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
 
 piratetavern_entrance1_entity_instances:
-  .byte 2
-  .byte entity_index_npc, 5, 5, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_hi_adlanniel, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
-  .byte entity_index_npc, 14, 8, sprite_chr_group_index_npc_commodore, NPC_PARAMS, conversation_index_hi_adlanniel, NPC_GRAPHICS_SET_COMMODORE, 16 * 2, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
+  .byte 3
+  .byte entity_index_npc, 13, 4, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_hi_adlanniel, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 1, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 5, 5, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_advice, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 14, 8, sprite_chr_group_index_npc_commodore, NPC_PARAMS, conversation_index_if_you_want_my_submarine, NPC_GRAPHICS_SET_COMMODORE, 16 * 2, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
 
 pirateshootinggallery_entity_instances:
   .byte 2
   .byte entity_index_shooting_gallery, 0, 0, 0, 0
-  .byte entity_index_npc, 3, 7, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_hi_adlanniel, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 3, 7, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_target_game_intro, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
 
 piratetavern_entrance2_entity_instances:
   .byte 8
@@ -2159,7 +2160,7 @@ piratetavern_entrance2_entity_instances:
   .byte entity_index_bottle, 55, 5, 0, BOTTLE_PARAMS, 8
   .byte entity_index_bottle, 56, 5, 0, BOTTLE_PARAMS, 8
   .byte entity_index_ring, 54, 3, 0, 0
-  .byte entity_index_npc, 52, 10, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_hi_adlanniel, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 52, 10, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_ring_game_intro, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
 
 ;****************************************************************
 ;Palettes.
