@@ -5,12 +5,16 @@ RING_INC = 1
 RING_FAMILIAR_X_OFFSET = 0
 RING_FAMILIAR_Y_OFFSET = 16
 
+RING_BOTTLE_REWARD = 1000
+
 RING_TIME_UNTIL_REVERSE_DIRECTION = 50
 RING_X_SPEED = 256
 
 RING_STATE_PAUSE_BEFORE_RETURNING_HOME_LENGTH = 50
 
 RING_STATE_PAUSE_BEFORE_BECOMING_A_NEW_RING_LENGTH = 50
+
+RING_STATE_PAUSE_BEFORE_EXPLODE_BOTTLE_LENGTH = 30
 
 RING_BECOME_A_NEW_RING_Y_OFFSET = 100
 
@@ -47,6 +51,8 @@ RING_STATE_PAUSE_BEFORE_RETURNING_HOME
 RING_STATE_RETURN_HOME
 RING_STATE_PAUSE_BEFORE_BECOMING_A_NEW_RING
 RING_STATE_BECOME_A_NEW_RING
+RING_STATE_PAUSE_BEFORE_EXPLODE_BOTTLE
+RING_STATE_EXPLODE_BOTTLE
 .endenum
 
 define_lohi_tables ring, \
@@ -57,7 +63,9 @@ define_lohi_tables ring, \
   ring_state_pause_before_returning_home, \
   ring_state_return_home, \
   ring_state_pause_before_becoming_a_new_ring, \
-  ring_state_become_a_new_ring}
+  ring_state_become_a_new_ring, \
+  ring_state_pause_before_explode_bottle, \
+  ring_state_explode_bottle}
 
 ring_update:
 
@@ -462,6 +470,27 @@ ring_still_returning_home:
 ring_state_pause_before_becoming_a_new_ring:
 
   .scope
+  ;count the number of bottles that have rings on
+  ;if the number is six, don't become a new ring,
+  ;instead enter a state which instructs each bottle
+  ;in turn to explode and reveal some gold.
+  jsr count_bottles_with_rings_on
+
+  lda b0
+  cmp #6
+  bne do_not_enter_explode_bottles_state
+
+  lda #RING_STATE_PAUSE_BEFORE_EXPLODE_BOTTLE_LENGTH
+  sta ring_state_counter,x
+
+  lda #RING_STATE_PAUSE_BEFORE_EXPLODE_BOTTLE
+  sta entity_state,x
+  rts
+
+do_not_enter_explode_bottles_state:
+  .endscope
+
+  .scope
   dec ring_state_counter,x
   bne do_not_transition_yet
 
@@ -509,5 +538,156 @@ do_not_transition_yet:
   .endscope
 
   rts
+
+ring_state_pause_before_explode_bottle:
+
+  .scope
+  dec ring_state_counter,x
+  bne do_not_transition_yet
+
+  lda #RING_STATE_EXPLODE_BOTTLE
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  rts
+
+ring_state_explode_bottle:
+
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity
+  lda entity_type,y
+  cmp #entity_index_bottle
+  bne skip_entity
+
+  jsr spawn_explosion_and_gp
+
+  ;kill off the bottle
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+
+  lda #RING_STATE_PAUSE_BEFORE_EXPLODE_BOTTLE_LENGTH
+  sta ring_state_counter,x
+
+  lda #RING_STATE_PAUSE_BEFORE_EXPLODE_BOTTLE
+  sta entity_state,x
+
+  rts
+
+skip_entity:
+  dey
+  bpl next_entity
+  .endscope
+
+  ;if we reach here, no bottle was found to kill off, so die
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+
+.proc spawn_explosion_and_gp
+
+  ;spawn an explosion entity
+  lda #entity_index_ice_shards_explosion
+  sta b0
+
+  clc
+  lda entity_x_lo,y
+  adc #<4
+  sta w0
+  lda entity_x_hi,y
+  adc #>4
+  sta w0+1
+
+  clc
+  lda entity_y_lo,y
+  adc #<4
+  sta w1
+  lda entity_y_hi,y
+  adc #>4
+  sta w1+1
+
+  jsr entity_spawn
+
+  ;spawn some gp
+  clc
+  lda entity_x_lo,y
+  adc #<4
+  sta w0
+  lda entity_x_hi,y
+  adc #>4
+  sta w0+1
+
+  clc
+  lda entity_y_lo,y
+  adc #<4
+  sta w1
+  lda entity_y_hi,y
+  adc #>4
+  sta w1+1
+
+  lda #entity_index_item
+  sta b0
+
+  jsr entity_spawn
+
+  tya
+  pha
+
+  ldy spawned_entity
+  lda #ITEM_STATE_PICKUP_INIT
+  sta item_initial_state,y
+  lda #ITEM_TYPE_GP
+  sta item_type,y
+  lda #<RING_BOTTLE_REWARD
+  sta item_quantity_lo,y
+  lda #>RING_BOTTLE_REWARD
+  sta item_quantity_hi,y
+  lda #INVENTORY_DUNGEON_FLAGS_MASK_NOP
+  sta item_dungeon_flags_mask,y
+
+  pla
+  tay
+
+  rts
+
+.endproc
+
+.proc count_bottles_with_rings_on
+
+  lda #0
+  sta b0
+
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity
+  lda entity_type,y
+  cmp #entity_index_bottle
+  bne skip_entity
+  lda entity_state,y
+  cmp #BOTTLE_STATE_RING_ON
+  bne skip_entity
+
+  ;count bottle with ring on
+  inc b0
+
+skip_entity:
+  dey
+  bpl next_entity
+  .endscope
+
+  rts
+
+.endproc
 
 .endif
