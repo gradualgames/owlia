@@ -1327,19 +1327,26 @@ cave_top_left_entity_instances:
   .byte entity_index_treasure_chest, 26, 6, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 cave_bottom_left_entity_instances:
-  .byte 4
+  .byte 7
   .byte entity_index_treasure_chest, 16, 36, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <3000, >3000
   .byte entity_index_horseshoe_crab, 12, 52, 0, 0
   .byte entity_index_horseshoe_crab, 5, 37, 0, 0
   .byte entity_index_horseshoe_crab, 4, 47, 0, 0
+  .byte entity_index_item, 8, 50, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_LANTERN, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
+  .byte entity_index_item, 12, 56, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_LANTERN, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
+  .byte entity_index_item, 15, 42, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_LANTERN, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
 
 cave_bottom_right_entity_instances:
-  .byte 5
+  .byte 9
   .byte entity_index_treasure_chest, 35, 36, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <10000, >10000
   .byte entity_index_horseshoe_crab, 35, 42, 0, 0
   .byte entity_index_horseshoe_crab, 43, 36, 0, 0
   .byte entity_index_horseshoe_crab, 59, 47, 0, 0
   .byte entity_index_horseshoe_crab, 49, 45, 0, 0
+  .byte entity_index_item, 35, 52, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_LANTERN, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
+  .byte entity_index_item, 37, 47, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_LANTERN, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
+  .byte entity_index_item, 44, 44, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_LANTERN, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
+  .byte entity_index_item, 49, 50, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_LANTERN, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
 
 dungeon3_0_0_entity_instances:
   .byte 5
