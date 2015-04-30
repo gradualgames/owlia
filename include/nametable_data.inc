@@ -3,6 +3,7 @@ NAMETABLE_DATA_INC = 1
 
 NAMETABLE_DATA_BANK1 = 12
 
+.global gradual_games_logo_screen
 .global inventory_screen
 .global title_screen
 .global intro_cut_scene_great_owls_nametable

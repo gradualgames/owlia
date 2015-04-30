@@ -4,9 +4,14 @@
 
 .segment "ROM06"
 
+
 hero_theme:
 .scope
 .include "hero_theme.inc"
+.endscope
+logo_theme:
+.scope
+.include "logo_theme.inc"
 .endscope
 forest_theme:
 .scope

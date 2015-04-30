@@ -52,6 +52,9 @@ dungeon1_pool_chr:
 dungeon1_stones_chr:
 .incbin "dungeon1_stones.chr"
 
+gradual_games_logo_chr:
+.incbin "gradual_games_logo.chr"
+
 title_chr:
 .incbin "title.chr"
 

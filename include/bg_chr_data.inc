@@ -38,6 +38,7 @@ BG_CHR_DATA_BANK4 = 27
 .global piratetavern_objects_chr
 .global piratetavern_shooting_gallery_chr
 .global submarine_chr
+.global gradual_games_logo_chr
 .global inventory_bg_chr
 .global title_chr
 .global intro_cut_scene_great_owls_bg_chr

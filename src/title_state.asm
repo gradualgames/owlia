@@ -24,6 +24,10 @@
 
 .segment "ROM01"
 
+gradual_games_logo_palette:
+  .byte $0e,$08,$1a,$18,$0e,$12,$24,$20,$0e,$1a,$18,$20,$0e,$0e,$0e,$0e
+  .byte $0e,$08,$1a,$18,$0e,$12,$24,$20,$0e,$1a,$18,$20,$0e,$0e,$0e,$0e
+
 title_screen_palette:
   .byte $0e,$0e,$18,$20,$0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$0e,$0e,$0e
   .byte $0e,$17,$28,$38,$0e,$04,$14,$24,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
@@ -32,6 +36,76 @@ title_state_init:
 
   ;set blank nmi routine
   safely_set_vblank_routine ppu_vblank_nop
+
+  jsr ppu_safely_disable_graphics
+
+  jsr sprite_clear_all
+
+  ;load chr data for the logo
+  lda #$00
+  sta ppu_2006
+  sta ppu_2006+1
+  upload_ppu_2006
+
+  lda #<gradual_games_logo_chr
+  sta w0
+  lda #>gradual_games_logo_chr
+  sta w0+1
+  far_call #TITLE_STATE_BG_CHR_BANK, ppu_load_chr_amount
+
+  ;load nametable data for title screen
+  lda #$20
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  upload_ppu_2006
+  lda #<gradual_games_logo_screen
+  sta w0
+  lda #>gradual_games_logo_screen
+  sta w0+1
+  far_call #TITLE_STATE_BG_NAMETABLE_BANK, ppu_load_nametable
+
+  ;reset scroll
+  lda #$20
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  upload_ppu_2006
+
+  lda #0
+  sta ppu_2005
+  sta ppu_2005+1
+  upload_ppu_2005
+
+  jsr ppu_safely_enable_graphics
+
+  ;fade in logo palette
+  lda #<gradual_games_logo_palette
+  sta palette_address
+  lda #>gradual_games_logo_palette
+  sta palette_address+1
+  lda #MAX_BRIGHTNESS_LEVEL
+  sta b4
+  sta b5
+  jsr ppu_fade_in_palette
+
+  lda #<logo_theme
+  sta song_address
+  lda #>logo_theme
+  sta song_address+1
+  far_call #SOUND_BANK, song_initialize
+
+  ldx #120
+: wait_vblank
+  dex
+  bne :-
+
+  ;fade out logo palette
+  lda #<gradual_games_logo_palette
+  sta palette_address
+  lda #>gradual_games_logo_palette
+  sta palette_address+1
+  jsr ppu_fade_out_palette
 
   jsr ppu_safely_disable_graphics
 

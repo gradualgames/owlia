@@ -2,6 +2,7 @@
 MUSIC_DATA_INC = 1
 
 .global hero_theme
+.global logo_theme
 .global forest_theme
 .global tundra_theme
 .global piratebay_theme
