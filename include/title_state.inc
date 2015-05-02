@@ -13,6 +13,7 @@ TITLE_STATE_SPRITES_AND_ANIMATIONS_BANK = SPRITES_AND_ANIMATIONS_DATA_BANK1
 TITLE_STATE_TIME_TIL_CUT_SCENE = 800
 
 .global title_state_init
+.global title_state_logo
 
 .struct title_state_control
   title_state_counter .word

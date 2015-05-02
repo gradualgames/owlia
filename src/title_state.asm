@@ -32,7 +32,7 @@ title_screen_palette:
   .byte $0e,$0e,$18,$20,$0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$0e,$0e,$0e
   .byte $0e,$17,$28,$38,$0e,$04,$14,$24,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
 
-title_state_init:
+title_state_logo:
 
   ;set blank nmi routine
   safely_set_vblank_routine ppu_vblank_nop
@@ -106,6 +106,11 @@ title_state_init:
   lda #>gradual_games_logo_palette
   sta palette_address+1
   jsr ppu_fade_out_palette
+
+title_state_init:
+
+  ;set blank nmi routine
+  safely_set_vblank_routine ppu_vblank_nop
 
   jsr ppu_safely_disable_graphics
 
