@@ -3,7 +3,8 @@ MAP_DATA_INC = 1
 
 MAP_DATA_BANK1 = 13
 MAP_DATA_BANK2 = 14
-MAP_DATA_BANK3 = 30
+MAP_DATA_BANK3 = 29
+MAP_DATA_BANK4 = 30
 
 .global blank_palette
 .global blank_map
@@ -424,5 +425,19 @@ MAP_DATA_BANK3 = 30
 .global pirateshootinggallery_metatile_table_bottom_left_tiles
 .global pirateshootinggallery_metatile_table_top_right_tiles
 .global pirateshootinggallery_metatile_table_top_left_tiles
+
+.global submarine_palette
+.global submarine_map
+.global submarine_big_metatile_table_bottom_right
+.global submarine_big_metatile_table_bottom_left
+.global submarine_big_metatile_table_top_right
+.global submarine_big_metatile_table_top_left
+.global submarine_metatile_table_properties
+.global submarine_metatile_table_params
+.global submarine_metatile_table_attributes
+.global submarine_metatile_table_bottom_right_tiles
+.global submarine_metatile_table_bottom_left_tiles
+.global submarine_metatile_table_top_right_tiles
+.global submarine_metatile_table_top_left_tiles
 
 .endif

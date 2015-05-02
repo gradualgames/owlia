@@ -346,7 +346,7 @@ cave_big_metatile_table_bottom_left = cave_data::big_metatile_table_bottom_left
 cave_big_metatile_table_bottom_right = cave_data::big_metatile_table_bottom_right
 cave_map = cave_data::map
 
-.segment "ROM30"
+.segment "ROM29"
 
 .scope dungeon3_data
 .include "dungeon3.inc"
@@ -517,3 +517,22 @@ pirateshootinggallery_big_metatile_table_top_right = pirateshootinggallery_data:
 pirateshootinggallery_big_metatile_table_bottom_left = pirateshootinggallery_data::big_metatile_table_bottom_left
 pirateshootinggallery_big_metatile_table_bottom_right = pirateshootinggallery_data::big_metatile_table_bottom_right
 pirateshootinggallery_map = pirateshootinggallery_data::map
+
+.segment "ROM30"
+
+.scope submarine_data
+.include "submarine.inc"
+.endscope
+
+submarine_metatile_table_properties = submarine_data::metatile_table_properties
+submarine_metatile_table_params = submarine_data::metatile_table_params
+submarine_metatile_table_attributes = submarine_data::metatile_table_attributes
+submarine_metatile_table_top_left_tiles = submarine_data::metatile_table_top_left_tiles
+submarine_metatile_table_top_right_tiles = submarine_data::metatile_table_top_right_tiles
+submarine_metatile_table_bottom_left_tiles = submarine_data::metatile_table_bottom_left_tiles
+submarine_metatile_table_bottom_right_tiles = submarine_data::metatile_table_bottom_right_tiles
+submarine_big_metatile_table_top_left = submarine_data::big_metatile_table_top_left
+submarine_big_metatile_table_top_right = submarine_data::big_metatile_table_top_right
+submarine_big_metatile_table_bottom_left = submarine_data::big_metatile_table_bottom_left
+submarine_big_metatile_table_bottom_right = submarine_data::big_metatile_table_bottom_right
+submarine_map = submarine_data::map

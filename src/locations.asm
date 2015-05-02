@@ -228,7 +228,8 @@
     piratebay_piratetavern_entrance2, \
     piratetavern_entrance1, \
     piratetavern_entrance2, \
-    pirateshootinggallery_entrance1
+    pirateshootinggallery_entrance1, \
+    submarine_entrance
 
 locations_lo:
   .lobytes locations
@@ -584,6 +585,15 @@ piratetavern_entrance2_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_minigame
   .byte sprite_chr_group_index_npc_bosun
+
+submarine_sprite_chr_groups:
+  .byte 6   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
 
 ;****************************************************************
 ;Entity instance sets
@@ -2172,6 +2182,9 @@ piratetavern_entrance2_entity_instances:
   .byte entity_index_ring, 54, 3, 0, 0
   .byte entity_index_npc, 52, 10, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_ring_game_intro, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
 
+submarine_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -2335,6 +2348,11 @@ pirateshootinggallery_palette:
 
 piratetavern_entrance2_palette:
   .byte $0e,$21,$31,$20,$0e,$0b,$08,$1b,$0e,$08,$18,$28,$0e,$08,$18,$37
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$18,$20,$0e,$0e,$18,$20
+  .byte PALETTE_CYCLE_LOOP
+
+submarine_palette:
+  .byte $0e,$14,$2c,$37,$0e,$08,$0e,$37,$0e,$08,$18,$38,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$18,$20,$0e,$0e,$18,$20
   .byte PALETTE_CYCLE_LOOP
 
@@ -2950,3 +2968,9 @@ define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FL
                   area_index_pirateshootinggallery, pirateshootinggallery_sprite_chr_groups, pirateshootinggallery_entity_instances, pirateshootinggallery_palette,\
                   0, 0, 7, 12,\
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
+
+submarine_entrance:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                  area_index_submarine, submarine_sprite_chr_groups, submarine_entity_instances, submarine_palette,\
+                  0, 0, 1, 12,\
+                  0, 0, 0, ENTITY_DIRECTION_RIGHT

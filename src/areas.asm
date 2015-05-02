@@ -43,7 +43,8 @@
     dungeon4_boss_area, \
     piratebay_area, \
     piratetavern_area, \
-    pirateshootinggallery_area
+    pirateshootinggallery_area, \
+    submarine_area
 
 areas_lo:
   .lobytes areas
@@ -1016,3 +1017,29 @@ pirateshootinggallery_area_bg_chr_groups:
   .word piratetavern_shooting_gallery_chr
   .byte BG_CHR_DATA_BANK4
   .word piratetavern_objects_chr
+
+submarine_area:
+  .byte MAP_DATA_BANK4
+  .byte CONVERSATIONS_BANK
+  .word submarine_area_bg_chr_groups
+  .word piratebay_theme
+  .byte $00 ;textbox_attribute
+  .word submarine_map
+  .word submarine_metatile_table_properties
+  .word submarine_metatile_table_params
+  .word submarine_metatile_table_attributes
+  .word submarine_metatile_table_top_left_tiles
+  .word submarine_metatile_table_top_right_tiles
+  .word submarine_metatile_table_bottom_left_tiles
+  .word submarine_metatile_table_bottom_right_tiles
+  .word submarine_big_metatile_table_top_left
+  .word submarine_big_metatile_table_top_right
+  .word submarine_big_metatile_table_bottom_left
+  .word submarine_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
+
+submarine_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK4
+  .word submarine_chr
