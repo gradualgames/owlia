@@ -111,9 +111,9 @@ reset:
   far_call #HERO_BANK, hero_module_init
   far_call #FAMILIAR_BANK, familiar_module_init
 
-  ;jump to title state, showing Gradual Games logo first
+  ;jump to title state
   switch_bank_ldy #TITLE_STATE_BANK
-  jmp title_state_logo
+  jmp title_state_init
 
 vblank:
 

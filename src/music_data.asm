@@ -57,3 +57,7 @@ game_menu_theme:
 .scope
 .include "game_menu_theme.inc"
 .endscope
+submarine_ambience:
+.scope
+.include "submarine_ambience.inc"
+.endscope

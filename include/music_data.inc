@@ -14,5 +14,6 @@ MUSIC_DATA_INC = 1
 .global silmaran_theme
 .global defeat_boss
 .global game_menu_theme
+.global submarine_ambience
 
 .endif

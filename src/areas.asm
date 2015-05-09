@@ -1022,7 +1022,7 @@ submarine_area:
   .byte MAP_DATA_BANK4
   .byte CONVERSATIONS_BANK
   .word submarine_area_bg_chr_groups
-  .word piratebay_theme
+  .word submarine_ambience
   .byte $00 ;textbox_attribute
   .word submarine_map
   .word submarine_metatile_table_properties
