@@ -5,33 +5,26 @@
 -- This script shows locations of various hit boxes in Owlia, used
 -- for tweaking/tightening gameplay.
 
-local running = true;
-local restrainingorder = false;
-local myoutput;
-
 b2 = 0x0002
 b3 = 0x0003
-w2 = 0x0010
-w3 = 0x0012
 b4 = 0x0004
 b5 = 0x0005
-w4 = 0x0014
-w5 = 0x0016
-w6 = 0x0018
-w7 = 0x001a
-w8 = 0x001c
-w9 = 0x001e
+
+w2 = 0x0014
+w3 = 0x0016
+w4 = 0x0018
+w5 = 0x001a
+w6 = 0x001c
+w7 = 0x001e
+w8 = 0x0020
+w9 = 0x0022
 
 camera_x = 0x72A
 camera_y = 0x72C
 
-entity_action_rect1_x = 0x69C
-entity_action_rect1_y = 0x69E
-entity_action_rect1_width = 0x6A0
-entity_action_rect1_height = 0x6A1
-
-geotests_rect_in_rect = 0xD202
-geotests_rect_inside_rect = 0xD191
+geotests_rect_in_rect = 0xD23C
+geotests_rect_in_rect_size = 0xD208
+geotests_rect_inside_rect = 0xD1CB
 
 -- draw a box and take care of coordinate checking
 local function box(x1,y1,x2,y2,color)
@@ -121,8 +114,7 @@ end;
 memory.registerexecute(geotests_rect_in_rect, 1, rect_in_rect_executed)
 memory.registerexecute(geotests_rect_inside_rect, 1, rect_inside_rect_executed)
 
-local a,b,c,d;
-while (running) do
+while (true) do
 
     FCEU.frameadvance()
 
