@@ -2972,5 +2972,5 @@ define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FL
 submarine_entrance:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   area_index_submarine, submarine_sprite_chr_groups, submarine_entity_instances, submarine_palette,\
-                  0, 0, 1, 12,\
+                  0, 0, 1, 10,\
                   0, 0, 0, ENTITY_DIRECTION_RIGHT

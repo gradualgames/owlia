@@ -90,7 +90,7 @@ intro_cut_scene_mermon_leer_bg_chr:
 intro_cut_scene_silmaran_bg_chr:
 .incbin "intro_cut_scene_silmaran_bg.chr"
 
-.segment "ROM27"
+.segment "ROM25"
 
 dungeon3_main_chr:
 .incbin "dungeon3_main.chr"
@@ -124,6 +124,8 @@ piratetavern_objects_chr:
 
 piratetavern_shooting_gallery_chr:
 .incbin "piratetavern_shooting_gallery.chr"
+
+.segment "ROM26"
 
 submarine_chr:
 .incbin "submarine.chr"

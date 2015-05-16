@@ -1041,5 +1041,5 @@ submarine_area:
 
 submarine_area_bg_chr_groups:
   .byte 1  ;count
-  .byte BG_CHR_DATA_BANK4
+  .byte BG_CHR_DATA_BANK5
   .word submarine_chr
