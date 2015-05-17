@@ -58,3 +58,4 @@
 .include "ray_sprites_and_animations.inc"
 .include "sawwhetowl_sprites_and_animations.inc"
 .include "minigame_sprites_and_animations.inc"
+.include "crate_sprites_and_animations.inc"
