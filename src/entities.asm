@@ -88,7 +88,8 @@
   target_update, \
   shooting_gallery_update, \
   bottle_update, \
-  ring_update
+  ring_update, \
+  submarine_scene_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -149,6 +150,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_shooting_gallery
   .byte entity_update_bank_bottle
   .byte entity_update_bank_ring
+  .byte entity_update_bank_submarine_scene
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -204,6 +206,7 @@ entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_shooting_gallery
   .byte entity_sprites_and_animations_bank_bottle
   .byte entity_sprites_and_animations_bank_ring
+  .byte entity_sprites_and_animations_bank_submarine_scene
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -260,3 +263,4 @@ entity_defs_sprites_and_animations_bank:
 .include "shooting_gallery.inc"
 .include "bottle.inc"
 .include "ring.inc"
+.include "submarine_scene.inc"
