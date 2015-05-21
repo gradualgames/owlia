@@ -2,17 +2,12 @@
 .ifndef CRATE_INC
 CRATE_INC = 1
 
-CRATE_WIDTH = $0f
-CRATE_HEIGHT = $0f
-
-.enum
-CRATE_STATE_INIT
-CRATE_STATE_MAIN
-.endenum
+.include "crate_constants.inc"
 
 define_lohi_tables crate, \
  {crate_state_init, \
-  crate_state_main}
+  crate_state_main, \
+  crate_state_explode_and_spawn_enemies}
 
 crate_update:
 
@@ -53,6 +48,32 @@ crate_state_init:
 crate_state_main:
 
   jsr entity_update_animation
+
+  rts
+
+crate_state_explode_and_spawn_enemies:
+
+  lda #entity_index_jellyfish
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  jsr entity_spawn_ice_shards_explosion
+
+  jsr crate_make_passable
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
 
   rts
 
@@ -117,6 +138,72 @@ crate_state_main:
   sta w1+1
 
   jsr set_dynamic_single_screen_collision_field_bit
+
+  rts
+
+.endproc
+
+.proc crate_make_passable
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr clear_dynamic_single_screen_collision_field_bit
+
+  clc
+  lda entity_x_lo,x
+  adc #<16
+  sta w0
+  lda entity_x_hi,x
+  adc #>16
+  sta w0+1
+
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr clear_dynamic_single_screen_collision_field_bit
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc #<16
+  sta w1
+  lda entity_y_hi,x
+  adc #>16
+  sta w1+1
+
+  jsr clear_dynamic_single_screen_collision_field_bit
+
+  clc
+  lda entity_x_lo,x
+  adc #<16
+  sta w0
+  lda entity_x_hi,x
+  adc #>16
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc #<16
+  sta w1
+  lda entity_y_hi,x
+  adc #>16
+  sta w1+1
+
+  jsr clear_dynamic_single_screen_collision_field_bit
 
   rts
 

@@ -587,7 +587,7 @@ piratetavern_entrance2_sprite_chr_groups:
   .byte sprite_chr_group_index_npc_bosun
 
 submarine_sprite_chr_groups:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -596,6 +596,7 @@ submarine_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_npc_commodore
   .byte sprite_chr_group_index_crate
+  .byte sprite_chr_group_index_jellyfish
 
 ;****************************************************************
 ;Entity instance sets
