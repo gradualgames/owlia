@@ -204,6 +204,4 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global ring
 .global turtle
 
-.global crate
-
 .endif

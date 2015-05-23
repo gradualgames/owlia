@@ -77,27 +77,6 @@ submarine_scene_state_pause_until_captain_bails:
   lda #conversation_index_run
   sta npc_conversation,y
 
-  .scope
-  ldy #(MAX_ENTITIES-1)
-next_entity:
-
-   lda entity_flags,y
-   and #ENTITY_FLAGS_ALIVE_TEST
-   beq skip_entity
-   lda entity_type,y
-   cmp #entity_index_crate
-   bne skip_entity
-
-   lda #CRATE_STATE_EXPLODE_AND_SPAWN_ENEMIES
-   sta entity_state,y
-
-skip_entity:
-
-   dey
-   bpl next_entity
-done:
-  .endscope
-
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x

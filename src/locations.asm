@@ -587,7 +587,7 @@ piratetavern_entrance2_sprite_chr_groups:
   .byte sprite_chr_group_index_npc_bosun
 
 submarine_sprite_chr_groups:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -595,7 +595,6 @@ submarine_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_npc_commodore
-  .byte sprite_chr_group_index_crate
   .byte sprite_chr_group_index_jellyfish
 
 ;****************************************************************
@@ -2186,11 +2185,9 @@ piratetavern_entrance2_entity_instances:
   .byte entity_index_npc, 52, 10, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_ring_game_intro, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
 
 submarine_entity_instances:
-  .byte 4
+  .byte 2
   .byte entity_index_submarine_scene, 61, 10, 0, 0
   .byte entity_index_npc, 61, 10, sprite_chr_group_index_npc_commodore, NPC_PARAMS, conversation_index_dot_dot_dot, NPC_GRAPHICS_SET_COMMODORE, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_RIGHT
-  .byte entity_index_crate, 49, 8, 0, 0
-  .byte entity_index_crate, 49, 11, 0, 0
 
 ;****************************************************************
 ;Palettes.
