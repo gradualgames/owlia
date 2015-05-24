@@ -229,7 +229,8 @@
     piratetavern_entrance1, \
     piratetavern_entrance2, \
     pirateshootinggallery_entrance1, \
-    submarine_entrance
+    submarine_entrance, \
+    submarine_kraken_room_east
 
 locations_lo:
   .lobytes locations
@@ -2186,13 +2187,16 @@ piratetavern_entrance2_entity_instances:
 
 submarine_entity_instances:
   .byte 2
-  .byte entity_index_submarine_scene, 61, 10, 0, 0
-  .byte entity_index_monolith, 48, 12, 0, MONOLITH_PARAMS,\
+  .byte entity_index_submarine_scene, 58, 10, 0, 0
+  .byte entity_index_monolith, 46, 12, 0, MONOLITH_PARAMS,\
                                           MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
                                           0,\
                                           MONOLITH_DIRECTION_WEST,\
-                                          ACTION_NOP, 0,\
+                                          ACTION_GOTO_LOCATION_GROUP1, location_index_submarine_kraken_room_east,\
                                           0, 1
+
+submarine_kraken_room_entity_instances:
+  .byte 0
 
 ;****************************************************************
 ;Palettes.
@@ -2981,5 +2985,11 @@ define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FL
 submarine_entrance:
 define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
                   area_index_submarine, submarine_sprite_chr_groups, submarine_entity_instances, submarine_palette,\
-                  48, 1, 57, 10,\
+                  46, 1, 57, 10,\
                   0, 0, 0, ENTITY_DIRECTION_RIGHT
+
+submarine_kraken_room_east:
+define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
+                  area_index_submarine, submarine_sprite_chr_groups, submarine_kraken_room_entity_instances, submarine_palette,\
+                  31, 1, 45, 11,\
+                  0, 0, 0, ENTITY_DIRECTION_LEFT

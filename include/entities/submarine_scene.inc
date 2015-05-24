@@ -99,6 +99,8 @@ do_not_transition_yet:
 
 submarine_scene_state_crash:
 
+  jsr entity_set_sorted
+
   lda camera_y
   eor #$04
   sta camera_y
@@ -129,7 +131,6 @@ not_monolith:
 done:
   .endscope
 
-
   lda entity_sprite_flags,x
   ora #%01000000
   sta entity_sprite_flags,x
@@ -148,6 +149,8 @@ do_not_transition_yet:
   rts
 
 submarine_scene_state_idle:
+
+  jsr entity_set_sorted
 
   rts
 
