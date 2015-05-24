@@ -40,8 +40,7 @@ conversation_index_advice
 conversation_index_if_you_want_my_submarine
 conversation_index_target_game_intro
 conversation_index_ring_game_intro
-conversation_index_dot_dot_dot
-conversation_index_run
+conversation_index_what_was_that
 .endenum
 
 .endif

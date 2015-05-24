@@ -34,8 +34,7 @@
     if_you_want_my_submarine, \
     target_game_intro, \
     ring_game_intro, \
-    dot_dot_dot, \
-    run
+    what_was_that
 
 conversations_lo:
   .lobytes conversations
@@ -353,8 +352,6 @@ ring_game_intro:
 
   .byte NL,1, "YOU WIN A SHINY REWARD.",WT,EC
 
-dot_dot_dot:
-  .byte    1, "...",WT,EC
-
-run:
-  .byte    1, "ABANDON SHIP!!!",WT,EC
+what_was_that:
+  .byte    1, "WHAT WAS THAT!?"
+  .byte NL,2, "WE'VE LOST POWER!!",WT,EC

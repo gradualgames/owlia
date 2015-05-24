@@ -2,22 +2,24 @@
 .ifndef SUBMARINE_SCENE_INC
 SUBMARINE_SCENE_INC = 1
 
-.include "npc_constants.inc"
-
+SUBMARINE_SCENE_STATE_CRASH_LENGTH = 20
 SUBMARINE_SCENE_TIME_UNTIL_CAPTAIN_BAILS = 1000
 
 define_entity_properties submarine_scene_state_counter_lo,\
-                         submarine_scene_state_counter_hi,\
-                         submarine_scene_npc_index
+                         submarine_scene_state_counter_hi
 
 .enum
 SUBMARINE_SCENE_STATE_INIT
-SUBMARINE_SCENE_STATE_PAUSE_UNTIL_CAPTAIN_BAILS
+SUBMARINE_SCENE_STATE_PAUSE_UNTIL_CRASH
+SUBMARINE_SCENE_STATE_CRASH
+SUBMARINE_SCENE_STATE_IDLE
 .endenum
 
 define_lohi_tables submarine_scene, \
  {submarine_scene_state_init, \
-  submarine_scene_state_pause_until_captain_bails}
+  submarine_scene_state_pause_until_crash, \
+  submarine_scene_state_crash, \
+  submarine_scene_state_idle}
 
 submarine_scene_update:
 
@@ -25,40 +27,35 @@ submarine_scene_update:
 
 submarine_scene_state_init:
 
-  ;find the npc in the scene and remember the instance index
-  .scope
-  ldy #(MAX_ENTITIES-1)
-next_entity:
+  jsr entity_set_drawable
 
-   lda entity_flags,y
-   and #ENTITY_FLAGS_ALIVE_TEST
-   beq skip_entity
-   lda entity_type,y
-   cmp #entity_index_npc
-   bne skip_entity
+  lda #sprite_chr_group_index_npc_commodore
+  sta b0
+  jsr entity_lookup_sprite_chr_offset
 
-   tya
-   sta submarine_scene_npc_index,x
-   jmp done
+  lda #<npc_commodore_walk_side
+  sta entity_animation_address_lo,x
+  lda #>npc_commodore_walk_side
+  sta entity_animation_address_hi,x
 
-skip_entity:
+  jsr entity_reset_animation
 
-   dey
-   bpl next_entity
-done:
-  .endscope
+  lda #0
+  sta entity_sprite_flags,x
 
   lda #<SUBMARINE_SCENE_TIME_UNTIL_CAPTAIN_BAILS
   sta submarine_scene_state_counter_lo,x
   lda #>SUBMARINE_SCENE_TIME_UNTIL_CAPTAIN_BAILS
   sta submarine_scene_state_counter_hi,x
 
-  lda #SUBMARINE_SCENE_STATE_PAUSE_UNTIL_CAPTAIN_BAILS
+  lda #SUBMARINE_SCENE_STATE_PAUSE_UNTIL_CRASH
   sta entity_state,x
 
   rts
 
-submarine_scene_state_pause_until_captain_bails:
+submarine_scene_state_pause_until_crash:
+
+  jsr entity_set_sorted
 
   .scope
   sec
@@ -73,16 +70,64 @@ submarine_scene_state_pause_until_captain_bails:
   ora submarine_scene_state_counter_hi,x
   bne do_not_transition_yet
 
-  ldy submarine_scene_npc_index,x
-  lda #conversation_index_run
-  sta npc_conversation,y
+  far_call #SOUND_BANK, sound_stop
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  ;play a sound
+  lda #<sfx_monolith_slam
+  sta sound_param_word_0
+  lda #>sfx_monolith_slam
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  lda #SUBMARINE_SCENE_STATE_CRASH_LENGTH
+  sta submarine_scene_state_counter_lo,x
+
+  lda #SUBMARINE_SCENE_STATE_CRASH
+  sta entity_state,x
 
 do_not_transition_yet:
   .endscope
+
+  rts
+
+submarine_scene_state_crash:
+
+  lda camera_y
+  eor #$04
+  sta camera_y
+  lda camera_scroll_y
+  eor #$04
+  sta camera_scroll_y
+
+  .scope
+  dec submarine_scene_state_counter_lo,x
+  bne do_not_transition_yet
+
+  lda entity_sprite_flags,x
+  ora #%01000000
+  sta entity_sprite_flags,x
+
+  lda #ACTION_START_CONVERSATION
+  sta state_control_params+play_state_control::action
+  lda #conversation_index_what_was_that
+  sta state_control_params+play_state_control::param
+
+  lda #SUBMARINE_SCENE_STATE_IDLE
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  rts
+
+submarine_scene_state_idle:
 
   rts
 
