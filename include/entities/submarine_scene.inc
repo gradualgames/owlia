@@ -110,6 +110,26 @@ submarine_scene_state_crash:
   dec submarine_scene_state_counter_lo,x
   bne do_not_transition_yet
 
+  .scope
+  ;search for monolith entity and make it fall
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_type,y
+  cmp #entity_index_monolith
+  bne not_monolith
+
+  lda #MONOLITH_STATE_FALL_INIT
+  sta entity_state,y
+  jmp done
+
+not_monolith:
+
+  dey
+  bpl next_entity
+done:
+  .endscope
+
+
   lda entity_sprite_flags,x
   ora #%01000000
   sta entity_sprite_flags,x

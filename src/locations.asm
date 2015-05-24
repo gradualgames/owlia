@@ -2185,8 +2185,14 @@ piratetavern_entrance2_entity_instances:
   .byte entity_index_npc, 52, 10, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_ring_game_intro, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
 
 submarine_entity_instances:
-  .byte 1
+  .byte 2
   .byte entity_index_submarine_scene, 61, 10, 0, 0
+  .byte entity_index_monolith, 48, 12, 0, MONOLITH_PARAMS,\
+                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
+                                          0,\
+                                          MONOLITH_DIRECTION_WEST,\
+                                          ACTION_NOP, 0,\
+                                          0, 1
 
 ;****************************************************************
 ;Palettes.

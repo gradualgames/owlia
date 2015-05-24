@@ -1036,10 +1036,19 @@ submarine_area:
   .word submarine_big_metatile_table_top_right
   .word submarine_big_metatile_table_bottom_left
   .word submarine_big_metatile_table_bottom_right
-  .word 0 ;nametable_patches_address .word
+  .word submarine_boss_area_nametable_patches
   .word 0 ;attribute_patches_address
 
 submarine_area_bg_chr_groups:
   .byte 1  ;count
   .byte BG_CHR_DATA_BANK5
   .word submarine_chr
+
+submarine_boss_area_nametable_patches:
+  .word submarine_boss_area_nametable_monolith_patch
+  .word submarine_boss_area_nametable_monolith_bg_patch
+
+submarine_boss_area_nametable_monolith_patch:
+  .byte $02,$06,$36,$37,$38,$39,$40,$41,$4d,$4e,$59,$5a,$6e,$6f
+submarine_boss_area_nametable_monolith_bg_patch:
+  .byte $02,$06,$32,$33,$34,$35,$32,$33,$34,$35,$36,$37,$38,$39
