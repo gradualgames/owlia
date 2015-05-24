@@ -73,9 +73,9 @@ submarine_scene_state_pause_until_crash:
   far_call #SOUND_BANK, sound_stop
 
   ;play a sound
-  lda #<sfx_monolith_slam
+  lda #<sfx_boom
   sta sound_param_word_0
-  lda #>sfx_monolith_slam
+  lda #>sfx_boom
   sta sound_param_word_0+1
 
   lda #3
