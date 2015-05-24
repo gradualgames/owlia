@@ -2196,7 +2196,20 @@ submarine_entity_instances:
                                           0, 1
 
 submarine_kraken_room_entity_instances:
-  .byte 0
+  .byte 3
+  .byte entity_index_monolith, 31, 12, 0, MONOLITH_PARAMS,\
+                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
+                                          0,\
+                                          MONOLITH_DIRECTION_WEST,\
+                                          ACTION_NOP, 0,\
+                                          0, 1
+  .byte entity_index_monolith, 46, 12, 0, MONOLITH_PARAMS,\
+                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
+                                          0,\
+                                          MONOLITH_DIRECTION_EAST,\
+                                          ACTION_NOP, 0,\
+                                          0, 1
+  .byte entity_index_boss, 0, 0, 0, BOSS_PARAMS, tech_homing
 
 ;****************************************************************
 ;Palettes.
