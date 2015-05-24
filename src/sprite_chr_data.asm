@@ -58,7 +58,8 @@
   clam_chr, \
   ray_chr, \
   sawwhetowl_chr, \
-  minigame_chr
+  minigame_chr, \
+  kraken_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -121,6 +122,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_ray
   .byte sprite_chr_group_bank_sawwhetowl
   .byte sprite_chr_group_bank_minigame
+  .byte sprite_chr_group_bank_kraken
 
 .segment "ROM08"
 
@@ -290,3 +292,6 @@ npc_captain_chr:
 
 npc_bosun_chr:
 .incbin "npc_bosun.chr"
+
+kraken_chr:
+.incbin "kraken.chr"

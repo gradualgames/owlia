@@ -588,6 +588,16 @@ piratetavern_entrance2_sprite_chr_groups:
   .byte sprite_chr_group_index_npc_bosun
 
 submarine_sprite_chr_groups:
+  .byte 7   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_npc_commodore
+
+submarine_kraken_sprite_chr_groups:
   .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
@@ -596,7 +606,7 @@ submarine_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_npc_commodore
-  .byte sprite_chr_group_index_jellyfish
+  .byte sprite_chr_group_index_kraken
 
 ;****************************************************************
 ;Entity instance sets
@@ -2196,7 +2206,8 @@ submarine_entity_instances:
                                           0, 1
 
 submarine_kraken_room_entity_instances:
-  .byte 3
+  .byte 4
+  .byte entity_index_kraken, 34, 6, 0, 0
   .byte entity_index_monolith, 31, 10, 0, MONOLITH_PARAMS,\
                                           MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
                                           0,\
@@ -2380,6 +2391,11 @@ piratetavern_entrance2_palette:
 submarine_palette:
   .byte $0e,$14,$2c,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$37,$0e,$0e,$18,$20,$0e,$0e,$13,$36,$0e,$0e,$08,$18
+  .byte PALETTE_CYCLE_LOOP
+
+submarine_kraken_palette:
+  .byte $0e,$14,$2c,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$03,$23,$0e,$0e,$24,$20
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
@@ -3003,6 +3019,6 @@ define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FL
 
 submarine_kraken_room_east:
 define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
-                  area_index_submarine, submarine_sprite_chr_groups, submarine_kraken_room_entity_instances, submarine_palette,\
+                  area_index_submarine, submarine_kraken_sprite_chr_groups, submarine_kraken_room_entity_instances, submarine_kraken_palette,\
                   31, 1, 45, 9,\
                   0, 0, 0, ENTITY_DIRECTION_LEFT

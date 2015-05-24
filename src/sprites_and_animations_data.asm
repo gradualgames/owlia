@@ -59,3 +59,6 @@
 .include "sawwhetowl_sprites_and_animations.inc"
 .include "minigame_sprites_and_animations.inc"
 
+.segment "ROM23"
+
+.include "kraken_sprites_and_animations.inc"
