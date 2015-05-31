@@ -2206,9 +2206,10 @@ submarine_entity_instances:
                                           0, 1
 
 submarine_kraken_room_entity_instances:
-  .byte 5
+  .byte 6
   .byte entity_index_kraken_tentacle, 34, 6, 0, 0
   .byte entity_index_kraken_eye, 40, 6, 0, 0
+  .byte entity_index_kraken, 40, 6, 0, 0
   .byte entity_index_monolith, 31, 10, 0, MONOLITH_PARAMS,\
                                           MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
                                           0,\

@@ -43,7 +43,7 @@ kraken_eye_state_init:
   entity_move16 entity_x, kraken_eye_spawn_position_x
   entity_move16 entity_y, kraken_eye_spawn_position_y
 
-  lda #KRAKEN_EYE_STATE_PEEK_FROM_RIGHT_INIT
+  lda #KRAKEN_EYE_STATE_IDLE
   sta entity_state,x
 
   rts

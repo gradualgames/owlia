@@ -59,7 +59,7 @@ kraken_tentacle_state_init:
   lda #KRAKEN_TENTACLE_HEIGHT
   sta entity_height,x
 
-  lda #KRAKEN_TENTACLE_STATE_ATTACK_RIGHT_INIT
+  lda #KRAKEN_TENTACLE_STATE_IDLE
   sta entity_state,x
 
   rts
@@ -95,6 +95,8 @@ kraken_tentacle_state_attack_right_init:
   rts
 
 kraken_tentacle_state_attack:
+
+  jsr entity_set_sorted
 
   jsr entity_update_animation
 
