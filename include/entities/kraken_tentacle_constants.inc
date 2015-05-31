@@ -8,8 +8,6 @@ KRAKEN_TENTACLE_INITIAL_HEALTH = 10
 KRAKEN_TENTACLE_KNOCKBACK_LENGTH = 20
 KRAKEN_TENTACLE_ATTACKED_LENGTH = 20
 
-KRAKEN_TENTACLE_STATE_ATTACK_LENGTH = 51
-
 define_entity_properties kraken_tentacle_spawn_x_position_lo,\
                          kraken_tentacle_spawn_x_position_hi,\
                          kraken_tentacle_spawn_y_position_lo,\
@@ -17,8 +15,7 @@ define_entity_properties kraken_tentacle_spawn_x_position_lo,\
                          kraken_tentacle_knockback_counter,\
                          kraken_tentacle_flash_counter,\
                          kraken_tentacle_health,\
-                         kraken_tentacle_direction,\
-                         kraken_tentacle_state_counter
+                         kraken_tentacle_direction
 
 .enum
 KRAKEN_TENTACLE_STATE_INIT
