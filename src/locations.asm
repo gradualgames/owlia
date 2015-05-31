@@ -2197,8 +2197,8 @@ piratetavern_entrance2_entity_instances:
 
 submarine_entity_instances:
   .byte 2
-  .byte entity_index_submarine_scene, 58, 8, 0, 0
-  .byte entity_index_monolith, 46, 10, 0, MONOLITH_PARAMS,\
+  .byte entity_index_submarine_scene, 60, 8, 0, 0
+  .byte entity_index_monolith, 48, 10, 0, MONOLITH_PARAMS,\
                                           MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
                                           0,\
                                           MONOLITH_DIRECTION_WEST,\
@@ -2207,16 +2207,16 @@ submarine_entity_instances:
 
 submarine_kraken_room_entity_instances:
   .byte 6
-  .byte entity_index_kraken_tentacle, 34, 6, 0, 0
-  .byte entity_index_kraken_eye, 40, 6, 0, 0
-  .byte entity_index_kraken, 40, 6, 0, 0
-  .byte entity_index_monolith, 31, 10, 0, MONOLITH_PARAMS,\
+  .byte entity_index_kraken_tentacle, 36, 6, 0, 0
+  .byte entity_index_kraken_eye, 42, 6, 0, 0
+  .byte entity_index_kraken, 42, 6, 0, 0
+  .byte entity_index_monolith, 32, 10, 0, MONOLITH_PARAMS,\
                                           MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
                                           0,\
                                           MONOLITH_DIRECTION_WEST,\
                                           ACTION_NOP, 0,\
                                           0, 1
-  .byte entity_index_monolith, 46, 10, 0, MONOLITH_PARAMS,\
+  .byte entity_index_monolith, 47, 10, 0, MONOLITH_PARAMS,\
                                           MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
                                           0,\
                                           MONOLITH_DIRECTION_EAST,\
@@ -3016,11 +3016,11 @@ define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FL
 submarine_entrance:
 define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
                   area_index_submarine, submarine_sprite_chr_groups, submarine_entity_instances, submarine_palette,\
-                  46, 1, 52, 8,\
+                  48, 1, 52, 8,\
                   0, 0, 0, ENTITY_DIRECTION_RIGHT
 
 submarine_kraken_room_east:
 define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
                   area_index_submarine, submarine_kraken_sprite_chr_groups, submarine_kraken_room_entity_instances, submarine_kraken_palette,\
-                  31, 1, 45, 9,\
+                  32, 1, 45, 9,\
                   0, 0, 0, ENTITY_DIRECTION_LEFT

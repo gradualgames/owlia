@@ -16,10 +16,10 @@ define_entity_properties kraken_eye_index,\
                          kraken_eye_counter
 
 define_lohi_tables porthole_x_locations, \
-  {34*16,37*16,40*16,43*16, \
-   34*16,37*16,40*16,43*16, \
-   34*16,37*16,40*16,43*16, \
-   34*16,37*16,40*16,43*16}
+  {35*16,38*16,41*16,44*16, \
+   35*16,38*16,41*16,44*16, \
+   35*16,38*16,41*16,44*16, \
+   35*16,38*16,41*16,44*16}
 
 .enum
 KRAKEN_STATE_INIT
