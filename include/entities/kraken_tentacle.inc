@@ -2,21 +2,7 @@
 .ifndef KRAKEN_TENTACLE_INC
 KRAKEN_TENTACLE_INC = 1
 
-KRAKEN_TENTACLE_WIDTH = $f
-KRAKEN_TENTACLE_HEIGHT = $f
-
-KRAKEN_TENTACLE_INITIAL_HEALTH = 10
-KRAKEN_TENTACLE_KNOCKBACK_LENGTH = 20
-KRAKEN_TENTACLE_ATTACKED_LENGTH = 20
-
-define_entity_properties kraken_tentacle_spawn_x_position_lo,\
-                         kraken_tentacle_spawn_x_position_hi,\
-                         kraken_tentacle_spawn_y_position_lo,\
-                         kraken_tentacle_spawn_y_position_hi,\
-                         kraken_tentacle_knockback_counter,\
-                         kraken_tentacle_flash_counter,\
-                         kraken_tentacle_health,\
-                         kraken_tentacle_direction
+.include "kraken_tentacle_constants.inc"
 
 kraken_tentacle_attack_bent_x_offset:
   .byte 0,0,0,0,0,0,16,24,32,24,16,0,0,0,0,0,0
@@ -24,14 +10,12 @@ kraken_tentacle_attack_bent_x_offset:
 kraken_tentacle_attack_bent_y_offset:
   .byte 0,8,16,24,32,40,40,40,40,40,40,40,32,24,16,8,0
 
-.enum
-KRAKEN_TENTACLE_STATE_INIT
-KRAKEN_TENTACLE_STATE_MAIN
-.endenum
-
 define_lohi_tables kraken_tentacle, \
  {kraken_tentacle_state_init, \
-  kraken_tentacle_state_main}
+  kraken_tentacle_state_attack_left_init, \
+  kraken_tentacle_state_attack_right_init, \
+  kraken_tentacle_state_attack, \
+  kraken_tentacle_state_idle}
 
 kraken_tentacle_update:
 
@@ -40,8 +24,6 @@ kraken_tentacle_update:
 kraken_tentacle_state_init:
 
   jsr entity_set_is_enemy
-
-  jsr entity_set_drawable
 
   lda #<kraken_tentacle_attack_bent
   sta entity_animation_address_lo,x
@@ -77,18 +59,64 @@ kraken_tentacle_state_init:
   lda #KRAKEN_TENTACLE_HEIGHT
   sta entity_height,x
 
-  lda #KRAKEN_TENTACLE_STATE_MAIN
+  lda #KRAKEN_TENTACLE_STATE_ATTACK_RIGHT_INIT
   sta entity_state,x
 
   rts
 
-kraken_tentacle_state_main:
+kraken_tentacle_state_attack_left_init:
+
+  jsr entity_set_drawable
+
+  lda #%01000000
+  sta entity_sprite_flags,x
+
+  lda #KRAKEN_TENTACLE_STATE_ATTACK_LENGTH
+  sta kraken_tentacle_state_counter,x
+
+  lda #KRAKEN_TENTACLE_STATE_ATTACK
+  sta entity_state,x
+
+  rts
+
+kraken_tentacle_state_attack_right_init:
+
+  jsr entity_set_drawable
+
+  lda #%00000000
+  sta entity_sprite_flags,x
+
+  lda #KRAKEN_TENTACLE_STATE_ATTACK_LENGTH
+  sta kraken_tentacle_state_counter,x
+
+  lda #KRAKEN_TENTACLE_STATE_ATTACK
+  sta entity_state,x
+
+  rts
+
+kraken_tentacle_state_attack:
 
   jsr entity_update_animation
 
   jsr kraken_tentacle_set_position
 
-  entity_combat #KRAKEN_TENTACLE_ATTACKED_LENGTH, #KRAKEN_TENTACLE_KNOCKBACK_LENGTH, kraken_tentacle_flash_counter, kraken_tentacle_knockback_counter, kraken_tentacle_health, kraken_tentacle_direction, "entity_drop_random_item", "entity_spawn_explosion"
+  jsr kraken_combat
+
+  .scope
+  dec kraken_tentacle_state_counter,x
+  bne do_not_transition_yet
+
+  jsr entity_clear_drawable
+
+  lda #KRAKEN_TENTACLE_STATE_IDLE
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  rts
+
+kraken_tentacle_state_idle:
 
   rts
 
@@ -130,6 +158,14 @@ done:
   lda kraken_tentacle_spawn_y_position_hi,x
   adc #0
   sta entity_y_hi,x
+
+  rts
+
+.endproc
+
+.proc kraken_combat
+
+  entity_combat #KRAKEN_TENTACLE_ATTACKED_LENGTH, #KRAKEN_TENTACLE_KNOCKBACK_LENGTH, kraken_tentacle_flash_counter, kraken_tentacle_knockback_counter, kraken_tentacle_health, kraken_tentacle_direction, "entity_drop_random_item", "entity_spawn_explosion"
 
   rts
 
