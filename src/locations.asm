@@ -2391,11 +2391,13 @@ piratetavern_entrance2_palette:
   .byte PALETTE_CYCLE_LOOP
 
 submarine_palette:
+  ;.byte $0e,$08,$0e,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
   .byte $0e,$14,$2c,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$37,$0e,$0e,$18,$20,$0e,$0e,$13,$36,$0e,$0e,$08,$18
   .byte PALETTE_CYCLE_LOOP
 
 submarine_kraken_palette:
+  ;.byte $0e,$08,$0e,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
   .byte $0e,$14,$2c,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$03,$23,$0e,$0e,$24,$20
   .byte PALETTE_CYCLE_LOOP
