@@ -90,7 +90,7 @@
   bottle_update, \
   ring_update, \
   submarine_scene_update, \
-  kraken_update, \
+  kraken_tentacle_update, \
   kraken_eye_update
 
 entity_defs_update_address_lo:
@@ -153,7 +153,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_bottle
   .byte entity_update_bank_ring
   .byte entity_update_bank_submarine_scene
-  .byte entity_update_bank_kraken
+  .byte entity_update_bank_kraken_tentacle
   .byte entity_update_bank_kraken_eye
 
 entity_defs_sprites_and_animations_bank:
@@ -211,7 +211,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_bottle
   .byte entity_sprites_and_animations_bank_ring
   .byte entity_sprites_and_animations_bank_submarine_scene
-  .byte entity_sprites_and_animations_bank_kraken
+  .byte entity_sprites_and_animations_bank_kraken_tentacle
   .byte entity_sprites_and_animations_bank_kraken_eye
 
 .segment "ROM04"
@@ -270,5 +270,5 @@ entity_defs_sprites_and_animations_bank:
 .include "bottle.inc"
 .include "ring.inc"
 .include "submarine_scene.inc"
-.include "kraken.inc"
+.include "kraken_tentacle.inc"
 .include "kraken_eye.inc"

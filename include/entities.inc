@@ -65,7 +65,7 @@ entity_index_shooting_gallery
 entity_index_bottle
 entity_index_ring
 entity_index_submarine_scene
-entity_index_kraken
+entity_index_kraken_tentacle
 entity_index_kraken_eye
 .endenum
 
@@ -123,7 +123,7 @@ entity_update_bank_shooting_gallery = 5
 entity_update_bank_bottle = 5
 entity_update_bank_ring = 5
 entity_update_bank_submarine_scene = 5
-entity_update_bank_kraken = 5
+entity_update_bank_kraken_tentacle = 5
 entity_update_bank_kraken_eye = 5
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
@@ -180,7 +180,7 @@ entity_sprites_and_animations_bank_target = 7
 entity_sprites_and_animations_bank_bottle = 7
 entity_sprites_and_animations_bank_ring = 7
 entity_sprites_and_animations_bank_submarine_scene = 7
-entity_sprites_and_animations_bank_kraken = 23
+entity_sprites_and_animations_bank_kraken_tentacle = 23
 entity_sprites_and_animations_bank_kraken_eye = 23
 
 .endif
