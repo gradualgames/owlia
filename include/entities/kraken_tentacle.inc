@@ -110,6 +110,12 @@ kraken_tentacle_state_attack:
 
   jsr entity_clear_drawable
 
+  lda #0
+  sta entity_x_lo,x
+  sta entity_x_hi,x
+  sta entity_y_lo,x
+  sta entity_y_hi,x
+
   lda #KRAKEN_TENTACLE_STATE_IDLE
   sta entity_state,x
 
@@ -119,6 +125,8 @@ do_not_transition_yet:
   rts
 
 kraken_tentacle_state_idle:
+
+  jsr kraken_combat
 
   rts
 

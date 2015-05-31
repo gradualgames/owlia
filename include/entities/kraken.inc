@@ -92,6 +92,26 @@ done:
 kraken_state_main:
 
   .scope
+  ldy kraken_tentacle_index,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  bne do_not_kill_kraken_and_eye
+
+  ldy kraken_eye_index,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+
+do_not_kill_kraken_and_eye:
+  .endscope
+
+  .scope
   dec kraken_tentacle_counter,x
   bne do_not_trigger_tentacle
 
