@@ -123,8 +123,8 @@ entity_update_bank_shooting_gallery = 5
 entity_update_bank_bottle = 5
 entity_update_bank_ring = 5
 entity_update_bank_submarine_scene = 5
-entity_update_bank_kraken_tentacle = 5
-entity_update_bank_kraken_eye = 5
+entity_update_bank_kraken_tentacle = 21
+entity_update_bank_kraken_eye = 21
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 7

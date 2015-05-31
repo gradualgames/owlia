@@ -270,5 +270,6 @@ entity_defs_sprites_and_animations_bank:
 .include "bottle.inc"
 .include "ring.inc"
 .include "submarine_scene.inc"
+.segment "ROM21"
 .include "kraken_tentacle.inc"
 .include "kraken_eye.inc"
