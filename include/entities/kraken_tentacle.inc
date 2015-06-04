@@ -200,7 +200,6 @@ sub:
 done:
   .endscope
 
-
   clc
   lda kraken_tentacle_spawn_y_position_lo,x
   adc kraken_tentacle_attack_bent_y_offset,y
