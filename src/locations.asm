@@ -230,7 +230,8 @@
     piratetavern_entrance2, \
     pirateshootinggallery_entrance1, \
     submarine_entrance, \
-    submarine_kraken_room_east
+    submarine_kraken_room_east, \
+    tortoise_entrance
 
 locations_lo:
   .lobytes locations
@@ -607,6 +608,15 @@ submarine_kraken_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_npc_commodore
   .byte sprite_chr_group_index_kraken
+
+tortoise_sprite_chr_groups:
+  .byte 6   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
 
 ;****************************************************************
 ;Entity instance sets
@@ -2224,6 +2234,9 @@ submarine_kraken_room_entity_instances:
                                           0, 1
   .byte entity_index_boss, 0, 0, 0, BOSS_PARAMS, tech_homing
 
+tortoise_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -2399,6 +2412,11 @@ submarine_palette:
 submarine_kraken_palette:
   ;.byte $0e,$08,$0e,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
   .byte $0e,$14,$2c,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$03,$23,$0e,$0e,$24,$20
+  .byte PALETTE_CYCLE_LOOP
+
+tortoise_palette:
+  .byte $0e,$08,$18,$28,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$03,$23,$0e,$0e,$24,$20
   .byte PALETTE_CYCLE_LOOP
 
@@ -3026,3 +3044,9 @@ define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FL
                   area_index_submarine, submarine_kraken_sprite_chr_groups, submarine_kraken_room_entity_instances, submarine_kraken_palette,\
                   32, 1, 45, 9,\
                   0, 0, 0, ENTITY_DIRECTION_LEFT
+
+tortoise_entrance:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                  area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                  30, 48, 35, 62,\
+                  0, 0, 0, ENTITY_DIRECTION_UP

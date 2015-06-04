@@ -44,7 +44,8 @@
     piratebay_area, \
     piratetavern_area, \
     pirateshootinggallery_area, \
-    submarine_area
+    submarine_area, \
+    tortoise_area
 
 areas_lo:
   .lobytes areas
@@ -1052,3 +1053,29 @@ submarine_boss_area_nametable_monolith_patch:
   .byte $02,$06,$36,$37,$38,$39,$40,$41,$4d,$4e,$59,$5a,$6e,$6f
 submarine_boss_area_nametable_monolith_bg_patch:
   .byte $02,$06,$32,$33,$34,$35,$32,$33,$34,$35,$36,$37,$38,$39
+
+tortoise_area:
+  .byte MAP_DATA_BANK4
+  .byte CONVERSATIONS_BANK
+  .word tortoise_area_bg_chr_groups
+  .word hero_theme
+  .byte $00 ;textbox_attribute
+  .word tortoise_map
+  .word tortoise_metatile_table_properties
+  .word tortoise_metatile_table_params
+  .word tortoise_metatile_table_attributes
+  .word tortoise_metatile_table_top_left_tiles
+  .word tortoise_metatile_table_top_right_tiles
+  .word tortoise_metatile_table_bottom_left_tiles
+  .word tortoise_metatile_table_bottom_right_tiles
+  .word tortoise_big_metatile_table_top_left
+  .word tortoise_big_metatile_table_top_right
+  .word tortoise_big_metatile_table_bottom_left
+  .word tortoise_big_metatile_table_bottom_right
+  .word 0 ;tortoise_boss_area_nametable_patches
+  .word 0 ;attribute_patches_address
+
+tortoise_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK5
+  .word tortoise_chr

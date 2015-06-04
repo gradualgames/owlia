@@ -440,4 +440,18 @@ MAP_DATA_BANK4 = 30
 .global submarine_metatile_table_top_right_tiles
 .global submarine_metatile_table_top_left_tiles
 
+.global tortoise_palette
+.global tortoise_map
+.global tortoise_big_metatile_table_bottom_right
+.global tortoise_big_metatile_table_bottom_left
+.global tortoise_big_metatile_table_top_right
+.global tortoise_big_metatile_table_top_left
+.global tortoise_metatile_table_properties
+.global tortoise_metatile_table_params
+.global tortoise_metatile_table_attributes
+.global tortoise_metatile_table_bottom_right_tiles
+.global tortoise_metatile_table_bottom_left_tiles
+.global tortoise_metatile_table_top_right_tiles
+.global tortoise_metatile_table_top_left_tiles
+
 .endif

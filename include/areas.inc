@@ -66,6 +66,7 @@ area_index_piratebay
 area_index_piratetavern
 area_index_pirateshootinggallery
 area_index_submarine
+area_index_tortoise
 .endenum
 
 .endif

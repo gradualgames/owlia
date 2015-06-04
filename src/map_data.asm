@@ -536,3 +536,20 @@ submarine_big_metatile_table_top_right = submarine_data::big_metatile_table_top_
 submarine_big_metatile_table_bottom_left = submarine_data::big_metatile_table_bottom_left
 submarine_big_metatile_table_bottom_right = submarine_data::big_metatile_table_bottom_right
 submarine_map = submarine_data::map
+
+.scope tortoise_data
+.include "tortoise.inc"
+.endscope
+
+tortoise_metatile_table_properties = tortoise_data::metatile_table_properties
+tortoise_metatile_table_params = tortoise_data::metatile_table_params
+tortoise_metatile_table_attributes = tortoise_data::metatile_table_attributes
+tortoise_metatile_table_top_left_tiles = tortoise_data::metatile_table_top_left_tiles
+tortoise_metatile_table_top_right_tiles = tortoise_data::metatile_table_top_right_tiles
+tortoise_metatile_table_bottom_left_tiles = tortoise_data::metatile_table_bottom_left_tiles
+tortoise_metatile_table_bottom_right_tiles = tortoise_data::metatile_table_bottom_right_tiles
+tortoise_big_metatile_table_top_left = tortoise_data::big_metatile_table_top_left
+tortoise_big_metatile_table_top_right = tortoise_data::big_metatile_table_top_right
+tortoise_big_metatile_table_bottom_left = tortoise_data::big_metatile_table_bottom_left
+tortoise_big_metatile_table_bottom_right = tortoise_data::big_metatile_table_bottom_right
+tortoise_map = tortoise_data::map

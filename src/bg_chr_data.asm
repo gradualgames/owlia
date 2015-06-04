@@ -129,3 +129,6 @@ piratetavern_shooting_gallery_chr:
 
 submarine_chr:
 .incbin "submarine.chr"
+
+tortoise_chr:
+.incbin "tortoise.chr"
