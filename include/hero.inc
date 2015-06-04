@@ -16,5 +16,6 @@ HERO_INC = 1
 .global hero_prepare_familiar_carry_hero
 .global hero_set_down
 .global hero_wait_frames
+.global hero_direction_to_direction_handlers_index
 
 .endif

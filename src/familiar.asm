@@ -2327,6 +2327,15 @@ familiar_not_at_goal:
   adc #$00
   sta w1+1
 
+  ;set the hero's direction to match that of the familiar
+  lda familiar_direction
+  sta hero_direction
+  tay
+  far_load #HERO_BANK, #<hero_direction_to_direction_handlers_index, #>hero_direction_to_direction_handlers_index
+  lda far_load_result
+  ;also set hero_direction handler for the benefit of the camera which relies on it.
+  sta hero_direction_handler
+
   ;make the hero (assumed to be in HERO_STATE_CARRIED)
   ;move underneath the familiar
   lda familiar_x
