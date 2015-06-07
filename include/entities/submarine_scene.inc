@@ -131,6 +131,13 @@ not_monolith:
 done:
   .endscope
 
+  ;put hero into a passive state so she cannot
+  ;get input from the controller immediately upon
+  ;finishing the conversation.
+  lda #3
+  sta b0
+  far_call #HERO_BANK, hero_wait_frames
+
   lda entity_sprite_flags,x
   ora #%01000000
   sta entity_sprite_flags,x
