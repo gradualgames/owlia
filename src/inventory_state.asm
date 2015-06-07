@@ -1008,7 +1008,7 @@ health_menu_position:
   next_down  rush_tech2_menu_position
   .word radio0
   .byte (USE_ITEM_ROW * 8)
-  .byte (11 * 8)
+  .byte (14 * 8)
 
 rush_tech1_menu_position:
   .word tech_menu_position_is_enabled_callback
@@ -1215,11 +1215,10 @@ gp_string: .byte "GP",ES
 keys_string: .byte "KEYS",ES
 
 ;use item menu strings
-use_item_string: .byte "USE",ES
+use_item_string: .byte "PRESS A",ES
 health_string: .byte "HEALTH",ES
 
 ;carry item menu strings
-carry_string: .byte "CARRY",ES
 bomb_string: .byte "BOMB",ES
 lantern_string: .byte "LANTERN",ES
 
@@ -1239,7 +1238,7 @@ gp_variable:
   .word inventory_gp
   .word is_enabled_callback_nop
   callback_param 0
-  .byte 7
+  .byte 8
   .byte 9
   .word LAST_MENU_ITEM
 
@@ -1247,7 +1246,7 @@ menu_byte_variables:
   .word inventory_keys
   .word is_enabled_callback_nop
   callback_param 0
-  .byte 8
+  .byte 9
   .byte 9
   .word inventory_healths
   .word is_enabled_callback_nop
@@ -1277,44 +1276,38 @@ gp_label:
   .word gp_string
   .word is_enabled_callback_nop
   callback_param 0
-  .byte 7
+  .byte 8
   .byte 4
 keys_label:
   .word keys_string
   .word is_enabled_callback_nop
   callback_param 0
-  .byte 8
+  .byte 9
   .byte 4
 use_item_label:
   .word use_item_string
   .word is_enabled_callback_nop
   callback_param 0
   .byte USE_ITEM_ROW
-  .byte 4
+  .byte 6
 health_label:
   .word health_string
   .word is_enabled_callback_nop
   callback_param 0
   .byte USE_ITEM_ROW
-  .byte 13
-carry_label:
-  .word carry_string
-  .word is_enabled_callback_nop
-  callback_param 0
-  .byte CARRY_LANTERN_ROW
-  .byte 4
+  .byte 16
 bomb_label:
   .word bomb_string
   .word is_enabled_callback_nop
   callback_param 0
   .byte CARRY_LANTERN_ROW
-  .byte 13
+  .byte 16
 lantern_label:
   .word lantern_string
   .word is_enabled_callback_nop
   callback_param 0
   .byte CARRY_LANTERN_ROW+1
-  .byte 13
+  .byte 16
 tech_label:
   .word tech_string
   .word is_enabled_callback_nop
