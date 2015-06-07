@@ -170,9 +170,9 @@ entity_sprites_and_animations_bank_seahorse = 7
 entity_sprites_and_animations_bank_crab_boss_body = 7
 entity_sprites_and_animations_bank_crab_boss_pincer = 7
 entity_sprites_and_animations_bank_crab_boss_eye = 7
-entity_sprites_and_animations_bank_starfish = 7
-entity_sprites_and_animations_bank_tunicate = 7
-entity_sprites_and_animations_bank_clam = 7
+entity_sprites_and_animations_bank_starfish = 23
+entity_sprites_and_animations_bank_tunicate = 23
+entity_sprites_and_animations_bank_clam = 23
 ;entity_sprites_and_animations_bank_switch ;this entity has no graphics
 ;entity_sprites_and_animations_bank_switch_puzzle ;this entity has no graphics
 entity_sprites_and_animations_bank_ray = 7

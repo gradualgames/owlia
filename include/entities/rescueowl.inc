@@ -8,7 +8,8 @@ RESCUEOWL_INC = 1
   greathornedowl_inside_cage, \
   siberianeagleowl_perch, \
   greatgrayowl_outside_cage, \
-  sawwhetowl_outside_cage
+  sawwhetowl_outside_cage, \
+  barnowl_perch
 
 rescueowl_inside_cage_animations_lo:
   .lobytes rescueowl_inside_cage_animations
@@ -20,7 +21,8 @@ rescueowl_inside_cage_animations_hi:
   greathornedowl_outside_cage, \
   siberianeagleowl_perch, \
   greatgrayowl_outside_cage, \
-  sawwhetowl_outside_cage
+  sawwhetowl_outside_cage, \
+  barnowl_perch
 
 rescueowl_outside_cage_animations_lo:
   .lobytes rescueowl_outside_cage_animations
@@ -32,7 +34,8 @@ rescueowl_outside_cage_animations_hi:
   greathornedowl_fly, \
   siberianeagleowl_fly, \
   greatgrayowl_fly, \
-  sawwhetowl_fly
+  sawwhetowl_fly, \
+  barnowl_fly
 
 rescueowl_fly_away_animations_lo:
   .lobytes rescueowl_fly_away_animations
@@ -45,24 +48,28 @@ rescueowl_spr_chr_group_indices:
   .byte sprite_chr_group_index_siberianeagleowl
   .byte sprite_chr_group_index_greatgrayowl
   .byte sprite_chr_group_index_sawwhetowl
+  .byte sprite_chr_group_index_barnowl
 
 rescueowl_conversation_indices:
   .byte conversation_index_rescue_greathornedowl
   .byte conversation_index_rescue_siberianeagleowl
   .byte conversation_index_rescue_greatgrayowl
   .byte conversation_index_rescue_sawwhetowl
+  .byte conversation_index_rescue_barnowl
 
 rescueowl_earned_techs:
   .byte tech_carry_bomb
   .byte tech_carry_lantern
   .byte tech_carry_adlanniel
   .byte tech_shield
+  .byte tech_homing
 
 rescueowl_dungeon_exit_locations:
   .byte location_index_tundra1_entrance
   .byte location_index_mountain1_south_entrance
   .byte location_index_island1_entrance
   .byte location_index_piratebay_entrance
+  .byte location_index_tortoise_entrance
 
 .define rescueowl_states \
   rescueowl_state_init, \

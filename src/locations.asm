@@ -231,6 +231,7 @@
     pirateshootinggallery_entrance1, \
     submarine_entrance, \
     submarine_kraken_room_east, \
+    submarine_rescueowl_room_east, \
     tortoise_entrance
 
 locations_lo:
@@ -608,6 +609,17 @@ submarine_kraken_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_npc_commodore
   .byte sprite_chr_group_index_kraken
+
+submarine_rescueowl_room_sprite_chr_groups:
+  .byte 8   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_barnowl
+  .byte sprite_chr_group_index_cage
 
 tortoise_sprite_chr_groups:
   .byte 6   ;sprite_chr_groups .byte
@@ -2224,7 +2236,7 @@ submarine_kraken_room_entity_instances:
                                           MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
                                           0,\
                                           MONOLITH_DIRECTION_WEST,\
-                                          ACTION_NOP, 0,\
+                                          ACTION_GOTO_LOCATION_GROUP1, location_index_submarine_rescueowl_room_east,\
                                           0, 1
   .byte entity_index_monolith, 47, 10, 0, MONOLITH_PARAMS,\
                                           MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_UP_SET,\
@@ -2233,6 +2245,11 @@ submarine_kraken_room_entity_instances:
                                           ACTION_NOP, 0,\
                                           0, 1
   .byte entity_index_boss, 0, 0, 0, BOSS_PARAMS, tech_homing
+
+submarine_rescueowl_room_entity_instances:
+  .byte 2
+  .byte entity_index_cage, 19, 8, 0, 0
+  .byte entity_index_rescueowl, 19, 9, 0, RESCUEOWL_PARAMS, RESCUEOWL_TYPE_BARNOWL
 
 tortoise_entity_instances:
   .byte 0
@@ -2404,15 +2421,20 @@ piratetavern_entrance2_palette:
   .byte PALETTE_CYCLE_LOOP
 
 submarine_palette:
-  ;.byte $0e,$08,$0e,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
-  .byte $0e,$14,$2c,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
+  .byte $0e,$08,$0e,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
+  ;.byte $0e,$14,$2c,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$37,$0e,$0e,$18,$20,$0e,$0e,$13,$36,$0e,$0e,$08,$18
   .byte PALETTE_CYCLE_LOOP
 
 submarine_kraken_palette:
-  ;.byte $0e,$08,$0e,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
-  .byte $0e,$14,$2c,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
+  .byte $0e,$08,$0e,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
+  ;.byte $0e,$14,$2c,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$03,$23,$0e,$0e,$24,$20
+  .byte PALETTE_CYCLE_LOOP
+
+submarine_rescueowl_room_palette:
+  .byte $0e,$14,$2c,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$00,$28,$10,$0e,$0e,$18,$20
   .byte PALETTE_CYCLE_LOOP
 
 tortoise_palette:
@@ -3043,6 +3065,12 @@ submarine_kraken_room_east:
 define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
                   area_index_submarine, submarine_kraken_sprite_chr_groups, submarine_kraken_room_entity_instances, submarine_kraken_palette,\
                   32, 1, 45, 9,\
+                  0, 0, 0, ENTITY_DIRECTION_LEFT
+
+submarine_rescueowl_room_east:
+define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
+                  area_index_submarine, submarine_rescueowl_room_sprite_chr_groups, submarine_rescueowl_room_entity_instances, submarine_rescueowl_room_palette,\
+                  16, 1, 30, 9,\
                   0, 0, 0, ENTITY_DIRECTION_LEFT
 
 tortoise_entrance:

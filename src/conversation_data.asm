@@ -29,6 +29,7 @@
     rescue_siberianeagleowl, \
     rescue_greatgrayowl, \
     rescue_sawwhetowl, \
+    rescue_barnowl, \
     welcome_to_pirate_bay, \
     advice, \
     if_you_want_my_submarine, \
@@ -293,6 +294,7 @@ rescue_greatgrayowl:
   .byte NL,1, "YOU THERE.",WT,EC
 
 rescue_sawwhetowl:
+rescue_barnowl:
   .byte    1, "YOU RESCUED ME.",WT,EC
 
 welcome_to_pirate_bay:

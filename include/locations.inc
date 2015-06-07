@@ -327,6 +327,7 @@ location_index_piratetavern_entrance2
 location_index_pirateshootinggallery_entrance1
 location_index_submarine_entrance
 location_index_submarine_kraken_room_east
+location_index_submarine_rescueowl_room_east
 location_index_tortoise_entrance
 .endenum
 

@@ -208,4 +208,7 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global kraken_tentacle_attack_bent
 .global kraken_eye
 
+.global barnowl_fly
+.global barnowl_perch
+
 .endif
