@@ -209,6 +209,16 @@ not_flashing_yet:
 
   jsr item_test_hero_and_familiar
 
+  cpx familiar_carried_entity_index
+  bne do_not_cancel_pickup_fade
+
+  jsr entity_set_drawable
+
+  lda #ITEM_STATE_PICKUP
+  sta entity_state,x
+
+do_not_cancel_pickup_fade:
+
   rts
 
 item_state_drop_random_item_init:
