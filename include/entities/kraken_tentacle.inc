@@ -5,10 +5,10 @@ KRAKEN_TENTACLE_INC = 1
 .include "kraken_tentacle_constants.inc"
 
 kraken_tentacle_attack_bent_x_offset:
-  .byte 0,0,0,0,0,0,16,24,32,24,16,0,0,0,0,0,0
+  .byte 0,0,0,0,0,0,0,16,24,24,16,0,0,0,0,0,0
 
 kraken_tentacle_attack_bent_y_offset:
-  .byte 0,8,16,24,32,40,40,40,40,40,40,40,32,24,16,8,0
+  .byte 0,0,8,16,24,32,40,40,40,40,40,40,32,24,16,8,0
 
 kraken_tentacle_attack_reverse_direction_indices:
   .byte 2*16
@@ -147,6 +147,9 @@ do_not_transition_yet:
   jsr kraken_tentacle_set_position
 
   jsr kraken_combat
+
+  entity_move16 kraken_tentacle_spawn_x_position, entity_x
+  entity_move16 kraken_tentacle_spawn_y_position, entity_y
 
   .scope
   lda kraken_tentacle_flash_counter,x
