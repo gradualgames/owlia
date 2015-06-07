@@ -3074,7 +3074,6 @@ define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FL
                   0, 0, 0, ENTITY_DIRECTION_LEFT
 
 tortoise_entrance:
-define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
-                  area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
-                  30, 48, 35, 62,\
-                  0, 0, 0, ENTITY_DIRECTION_UP
+define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
+                      area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                      35, 62, 0, 0, 0, ENTITY_DIRECTION_UP
