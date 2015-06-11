@@ -2438,8 +2438,11 @@ submarine_rescueowl_room_palette:
   .byte PALETTE_CYCLE_LOOP
 
 tortoise_palette:
-  .byte $0e,$08,$18,$28,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$18,$28,$20,$0e,$08,$18,$28,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$03,$23,$0e,$0e,$24,$20
+  .byte 3,$20,PALETTE_CYCLE_END_FRAME
+  .byte 3,$25,PALETTE_CYCLE_END_FRAME
+  .byte 3,$2a,PALETTE_CYCLE_END_FRAME
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
