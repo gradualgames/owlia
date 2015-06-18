@@ -233,6 +233,7 @@
     submarine_kraken_room_east, \
     submarine_rescueowl_room_east, \
     tortoise_entrance, \
+    tortoise_7_29, \
     tortoise_19_62, \
     tortoise_39_33, \
     tortoise_39_29
@@ -3083,6 +3084,11 @@ tortoise_entrance:
 define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
                       35, 62, 0, 0, 0, ENTITY_DIRECTION_UP
+
+tortoise_7_29:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                           area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                           0, 22, 7, 28, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 tortoise_19_62:
 define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
