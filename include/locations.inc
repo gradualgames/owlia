@@ -329,6 +329,9 @@ location_index_submarine_entrance
 location_index_submarine_kraken_room_east
 location_index_submarine_rescueowl_room_east
 location_index_tortoise_entrance
+location_index_tortoise_19_62
+location_index_tortoise_39_33
+location_index_tortoise_39_29
 .endenum
 
 ;****************************************************************
