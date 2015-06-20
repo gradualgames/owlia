@@ -233,10 +233,15 @@
     submarine_kraken_room_east, \
     submarine_rescueowl_room_east, \
     tortoise_entrance, \
+    tortoise_23_7, \
+    tortoise_23_11, \
+    tortoise_19_22, \
     tortoise_7_29, \
     tortoise_19_62, \
+    tortoise_31_33, \
     tortoise_39_33, \
-    tortoise_39_29
+    tortoise_39_29, \
+    tortoise_55_55
 
 locations_lo:
   .lobytes locations
@@ -3085,6 +3090,21 @@ define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
                       35, 62, 0, 0, 0, ENTITY_DIRECTION_UP
 
+tortoise_23_7:
+define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                           area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                           23, 7, 0, 0, 0, ENTITY_DIRECTION_DOWN
+
+tortoise_23_11:
+define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                           area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                           23, 11, 0, 0, 0, ENTITY_DIRECTION_UP
+
+tortoise_19_22:
+define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                           area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                           19, 22, 0, 0, 0, ENTITY_DIRECTION_UP
+
 tortoise_7_29:
 define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                            area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
@@ -3095,6 +3115,11 @@ define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
                       19, 62, 0, 0, 0, ENTITY_DIRECTION_UP
 
+tortoise_31_33:
+define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                           area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                           31, 33, 0, 0, 0, ENTITY_DIRECTION_UP
+
 tortoise_39_33:
 define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                            area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
@@ -3104,3 +3129,8 @@ tortoise_39_29:
 define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                            area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
                            39, 29, 0, 0, 0, ENTITY_DIRECTION_DOWN
+
+tortoise_55_55:
+define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                           area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                           55, 55, 0, 0, 0, ENTITY_DIRECTION_DOWN
