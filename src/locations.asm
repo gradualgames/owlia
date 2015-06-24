@@ -237,10 +237,14 @@
     tortoise_23_11, \
     tortoise_19_22, \
     tortoise_7_29, \
+    tortoise_7_33, \
+    tortoise_19_18, \
+    tortoise_19_40, \
     tortoise_19_62, \
     tortoise_31_33, \
     tortoise_39_33, \
     tortoise_39_29, \
+    tortoise_55_51, \
     tortoise_55_55
 
 locations_lo:
@@ -3110,6 +3114,21 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                            area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
                            0, 22, 7, 28, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
+tortoise_7_33:
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                           area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                           0, 27, 7, 32, 0, 0, 0, ENTITY_DIRECTION_UP
+
+tortoise_19_18:
+define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                           area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                           19, 18, 0, 0, 0, ENTITY_DIRECTION_UP
+
+tortoise_19_40:
+define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
+                      area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                      19, 40, 0, 0, 0, ENTITY_DIRECTION_UP
+
 tortoise_19_62:
 define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
@@ -3130,7 +3149,12 @@ define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                            area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
                            39, 29, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
+tortoise_55_51:
+define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                           area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                           55, 51, 0, 0, 0, ENTITY_DIRECTION_DOWN
+
 tortoise_55_55:
 define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                            area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
-                           55, 55, 0, 0, 0, ENTITY_DIRECTION_DOWN
+                           55, 55, 0, 0, 0, ENTITY_DIRECTION_UP
