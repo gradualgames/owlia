@@ -240,6 +240,7 @@
     tortoise_7_33, \
     tortoise_19_18, \
     tortoise_19_40, \
+    tortoise_19_44, \
     tortoise_19_62, \
     tortoise_31_33, \
     tortoise_39_33, \
@@ -3125,9 +3126,14 @@ define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                            19, 18, 0, 0, 0, ENTITY_DIRECTION_UP
 
 tortoise_19_40:
-define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
-                      area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
-                      19, 40, 0, 0, 0, ENTITY_DIRECTION_UP
+define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                           area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                           19, 40, 0, 0, 0, ENTITY_DIRECTION_UP
+
+tortoise_19_44:
+define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+                           area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                           19, 44, 0, 0, 0, ENTITY_DIRECTION_UP
 
 tortoise_19_62:
 define_south_location LOCATION_BRIGHTNESS_LEVEL_4,\
