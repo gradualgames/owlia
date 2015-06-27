@@ -16,5 +16,6 @@ MUSIC_DATA_INC = 1
 .global game_menu_theme
 .global submarine_ambience
 .global mermon_fortress_theme
+.global mermon_dungeon_theme
 
 .endif

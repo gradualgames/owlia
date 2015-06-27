@@ -1085,7 +1085,7 @@ dungeon5_area:
   .byte MAP_DATA_BANK4
   .byte CONVERSATIONS_BANK
   .word dungeon5_area_bg_chr_groups
-  .word dungeon_theme
+  .word mermon_dungeon_theme
   .byte $22 ;textbox_attribute
   .word dungeon5_map
   .word dungeon5_metatile_table_properties

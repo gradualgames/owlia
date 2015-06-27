@@ -65,3 +65,7 @@ mermon_fortress_theme:
 .scope
 .include "mermon_fortress_theme.inc"
 .endscope
+mermon_dungeon_theme:
+.scope
+.include "mermon_dungeon_theme.inc"
+.endscope
