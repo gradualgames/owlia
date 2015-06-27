@@ -132,3 +132,6 @@ submarine_chr:
 
 tortoise_chr:
 .incbin "tortoise.chr"
+
+dungeon5_main_chr:
+.incbin "dungeon5_main.chr"

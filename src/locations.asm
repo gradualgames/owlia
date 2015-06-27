@@ -242,7 +242,8 @@
     tortoise_11_62, \
     tortoise_51_43, \
     tortoise_59_21, \
-    tortoise_55_10
+    tortoise_55_10, \
+    dungeon5_entrance
 
 locations_lo:
   .lobytes locations
@@ -642,6 +643,16 @@ tortoise_sprite_chr_groups:
   .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_jellyfish
   .byte sprite_chr_group_index_starfish
+
+dungeon5_sprite_chr_groups:
+  .byte 7   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_treasure_chest
 
 ;****************************************************************
 ;Entity instance sets
@@ -2278,6 +2289,9 @@ tortoise_entity_instances:
   .byte entity_index_starfish, 3, 42, 0, 0
   .byte entity_index_starfish, 47, 53, 0, 0
 
+dungeon5_0_0_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -2467,6 +2481,11 @@ tortoise_palette:
   .byte 3,$20,PALETTE_CYCLE_END_FRAME
   .byte 3,$25,PALETTE_CYCLE_END_FRAME
   .byte 3,$2a,PALETTE_CYCLE_END_FRAME
+  .byte PALETTE_CYCLE_LOOP
+
+dungeon5_palette:
+  .byte $0e,$01,$11,$21,$0e,$0c,$1c,$2c,$0e,$0b,$0c,$2c,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$03,$23,$0e,$0e,$24,$20
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
@@ -3154,3 +3173,6 @@ tortoise_55_10:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
                       55, 10, 0, 0, 0, ENTITY_DIRECTION_DOWN
+
+dungeon5_entrance:
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5,dungeon5_sprite_chr_groups,dungeon5_0_0_entity_instances,dungeon5_palette,0, 0, 4, 10, 0, 0, 0, ENTITY_DIRECTION_UP

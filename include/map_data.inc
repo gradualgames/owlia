@@ -454,4 +454,18 @@ MAP_DATA_BANK4 = 30
 .global tortoise_metatile_table_top_right_tiles
 .global tortoise_metatile_table_top_left_tiles
 
+.global dungeon5_palette
+.global dungeon5_map
+.global dungeon5_big_metatile_table_bottom_right
+.global dungeon5_big_metatile_table_bottom_left
+.global dungeon5_big_metatile_table_top_right
+.global dungeon5_big_metatile_table_top_left
+.global dungeon5_metatile_table_properties
+.global dungeon5_metatile_table_params
+.global dungeon5_metatile_table_attributes
+.global dungeon5_metatile_table_bottom_right_tiles
+.global dungeon5_metatile_table_bottom_left_tiles
+.global dungeon5_metatile_table_top_right_tiles
+.global dungeon5_metatile_table_top_left_tiles
+
 .endif

@@ -553,3 +553,20 @@ tortoise_big_metatile_table_top_right = tortoise_data::big_metatile_table_top_ri
 tortoise_big_metatile_table_bottom_left = tortoise_data::big_metatile_table_bottom_left
 tortoise_big_metatile_table_bottom_right = tortoise_data::big_metatile_table_bottom_right
 tortoise_map = tortoise_data::map
+
+.scope dungeon5_data
+.include "dungeon5.inc"
+.endscope
+
+dungeon5_metatile_table_properties = dungeon5_data::metatile_table_properties
+dungeon5_metatile_table_params = dungeon5_data::metatile_table_params
+dungeon5_metatile_table_attributes = dungeon5_data::metatile_table_attributes
+dungeon5_metatile_table_top_left_tiles = dungeon5_data::metatile_table_top_left_tiles
+dungeon5_metatile_table_top_right_tiles = dungeon5_data::metatile_table_top_right_tiles
+dungeon5_metatile_table_bottom_left_tiles = dungeon5_data::metatile_table_bottom_left_tiles
+dungeon5_metatile_table_bottom_right_tiles = dungeon5_data::metatile_table_bottom_right_tiles
+dungeon5_big_metatile_table_top_left = dungeon5_data::big_metatile_table_top_left
+dungeon5_big_metatile_table_top_right = dungeon5_data::big_metatile_table_top_right
+dungeon5_big_metatile_table_bottom_left = dungeon5_data::big_metatile_table_bottom_left
+dungeon5_big_metatile_table_bottom_right = dungeon5_data::big_metatile_table_bottom_right
+dungeon5_map = dungeon5_data::map

@@ -339,6 +339,7 @@ location_index_tortoise_11_62
 location_index_tortoise_51_43
 location_index_tortoise_59_21
 location_index_tortoise_55_10
+location_index_dungeon5_entrance
 .endenum
 
 ;****************************************************************

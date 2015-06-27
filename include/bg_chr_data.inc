@@ -40,6 +40,7 @@ BG_CHR_DATA_BANK5 = 26
 .global piratetavern_shooting_gallery_chr
 .global submarine_chr
 .global tortoise_chr
+.global dungeon5_main_chr
 .global gradual_games_logo_chr
 .global inventory_bg_chr
 .global title_chr
