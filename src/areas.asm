@@ -1058,7 +1058,7 @@ tortoise_area:
   .byte MAP_DATA_BANK4
   .byte CONVERSATIONS_BANK
   .word tortoise_area_bg_chr_groups
-  .word hero_theme
+  .word mermon_fortress_theme
   .byte $00 ;textbox_attribute
   .word tortoise_map
   .word tortoise_metatile_table_properties

@@ -15,5 +15,6 @@ MUSIC_DATA_INC = 1
 .global defeat_boss
 .global game_menu_theme
 .global submarine_ambience
+.global mermon_fortress_theme
 
 .endif

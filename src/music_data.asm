@@ -61,3 +61,7 @@ submarine_ambience:
 .scope
 .include "submarine_ambience.inc"
 .endscope
+mermon_fortress_theme:
+.scope
+.include "mermon_fortress_theme.inc"
+.endscope
