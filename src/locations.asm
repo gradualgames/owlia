@@ -632,13 +632,14 @@ submarine_rescueowl_room_sprite_chr_groups:
   .byte sprite_chr_group_index_cage
 
 tortoise_sprite_chr_groups:
-  .byte 6   ;sprite_chr_groups .byte
+  .byte 7   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_treasure_chest
 
 ;****************************************************************
 ;Entity instance sets
@@ -2262,7 +2263,10 @@ submarine_rescueowl_room_entity_instances:
   .byte entity_index_rescueowl, 19, 9, 0, RESCUEOWL_PARAMS, RESCUEOWL_TYPE_BARNOWL
 
 tortoise_entity_instances:
-  .byte 0
+  .byte 3
+  .byte entity_index_treasure_chest, 15, 31, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <10000, >10000
+  .byte entity_index_treasure_chest, 31, 53, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <10000, >10000
+  .byte entity_index_treasure_chest, 47, 31, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <10000, >10000
 
 ;****************************************************************
 ;Palettes.
