@@ -294,6 +294,26 @@ rescue_greatgrayowl:
   .byte NL,1, "YOU THERE.",WT,EC
 
 rescue_sawwhetowl:
+  .byte    1, "I SINCERELY THOUGHT I WAS"
+  .byte NL,2, "GOING TO BE SUPPER FOR"
+  .byte NL,3, "THOSE RAYS.",TM,30," THANK YOU FOR"
+  .byte NL,4, "ELIMINATING THEM.",WT,EP
+  
+  .byte NL,1, "WE,",TM,20," THE KING OWLS OF"
+  .byte NL,2, "OWLIA,",TM,20," ARE ALWAYS"
+  .byte NL,3, "CONNECTED EVEN IF WE ARE"
+  .byte NL,4, "APART.",TM,20,".",TM,20,".",TM,20,"I BELIEVE THAT",WT,EP
+  
+  .byte NL,1, "ONE OF MY STILL CAPTIVE"
+  .byte NL,2, "PEERS IS ABOUT TO BE"
+  .byte NL,3, "SHIPPED TO MERMON'S"
+  .byte NL,4, "FORTRESS!",TM,30," I WILL FLY YOU",WT,EP
+  
+  .byte NL,1, "TO THE DOCKS WHERE HE IS"
+  .byte NL,2, "LOCATED.",TM,30," SADLY,",TM,20," I DO NOT"
+  .byte NL,3, "KNOW PRECISELY WHICH"
+  .byte NL,4, "VESSEL HOLDS HIM.",TM,20,".",TM,20,".",TM,20,WT,EC
+
 rescue_barnowl:
   .byte    1, "YOU RESCUED ME.",WT,EC
 
