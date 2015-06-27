@@ -31,9 +31,8 @@ overworld_start_locations:
   .byte location_index_tundra1_entrance
   .byte location_index_mountain1_south_entrance
   .byte location_index_island1_entrance
-  .byte $ff
-  .byte $ff
-  .byte $ff
+  .byte location_index_piratebay_entrance
+  .byte location_index_tortoise_entrance
 
 dungeon_start_locations:
   .byte $ff
@@ -42,8 +41,8 @@ dungeon_start_locations:
   .byte location_index_dungeon2_2_3_s
   .byte location_index_dungeon3_entrance
   .byte location_index_dungeon4_entrance
-  .byte $ff
-  .byte $ff
+  .byte location_index_submarine_entrance
+  .byte location_index_dungeon5_entrance
 
 enter_password_state_palette:
   .byte $0e,$0e,$18,$20,$0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$0e,$0e,$0e
