@@ -3167,7 +3167,7 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
 tortoise_59_21:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
-                      40, 26, 48, 21, 0, 0, 0, ENTITY_DIRECTION_DOWN
+                      48, 16, 59, 21, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 tortoise_55_10:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
