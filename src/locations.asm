@@ -2473,7 +2473,8 @@ submarine_kraken_palette:
   .byte PALETTE_CYCLE_LOOP
 
 submarine_rescueowl_room_palette:
-  .byte $0e,$14,$2c,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
+  .byte $0e,$08,$0e,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
+  ;.byte $0e,$14,$2c,$37,$0e,$08,$18,$28,$0e,$0e,$08,$37,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$00,$28,$10,$0e,$0e,$18,$20
   .byte PALETTE_CYCLE_LOOP
 
