@@ -271,9 +271,12 @@ rescue_siberianeagleowl:
   .byte NL,4, "MOUNTAINS EAST OF HERE.",WT,EP
 
   .byte NL,1, "I WILL CARRY YOU THERE.",TM,30
-  .byte NL,2, "BUT FIRST,",TM,20," PLEASE WAIT A"
-  .byte NL,3, "MOMENT WHILE I WARM UP.",TM,200
-  .byte NL,4, "OK,",TM,20," I AM READY NOW.",WT,EC
+  .byte NL,2, "BUT FIRST,",TM,20," ALLOW ME TO"
+  .byte NL,3, "BEQUEATHE THE ABILITY TO"
+  .byte NL,4, "CARRY LANTERNS UPON TYTO.",WT,EP
+
+  .byte NL,1, "HE WILL NEED THIS IN THE"
+  .byte NL,2, "DARK CAVES.",TM,20,".",TM,20,".",WT,EC
 
 rescue_greatgrayowl:
   .byte    1, "ADLANNIEL.",TM,30," I HAVE FELT"
@@ -288,10 +291,13 @@ rescue_greatgrayowl:
 
   .byte NL,1, "THAT ANOTHER OF MY PEERS"
   .byte NL,2, "IS CAPTIVE THERE.",TM,20," I WILL"
-  .byte NL,3, "BE HONORED TO GRASP YOUR"
-  .byte NL,4, "HEROIC SHOULDERS AND FLY",WT,EP
+  .byte NL,3, "BE HONORED TO FLY YOU"
+  .byte NL,4, "THERE.",TM,30," THE TEMPLE HAS",WT,EP
 
-  .byte NL,1, "YOU THERE.",WT,EC
+  .byte NL,1, "MANY CHASMS.",TM,30," FOR THIS,",TM,20," I"
+  .byte NL,2, "TEACH TYTO THE ABILITY TO"
+  .byte NL,3, "CARRY YOU SHORT DISTANCES.",TM,30
+  .byte NL,4, "GOOD LUCK!!!",WT,EC
 
 rescue_sawwhetowl:
   .byte    1, "I SINCERELY THOUGHT I WAS"
@@ -312,7 +318,14 @@ rescue_sawwhetowl:
   .byte NL,1, "TO THE DOCKS WHERE HE IS"
   .byte NL,2, "LOCATED.",TM,30," SADLY,",TM,20," I DO NOT"
   .byte NL,3, "KNOW PRECISELY WHICH"
-  .byte NL,4, "VESSEL HOLDS HIM.",TM,20,".",TM,20,".",TM,20,WT,EC
+  .byte NL,4, "VESSEL HOLDS HIM.",TM,20,".",TM,20,".",TM,20,WT,EP
+
+  .byte NL,1, "TO HELP YOU FIGHT OFF"
+  .byte NL,2, "MERMON'S EVER INCREASING"
+  .byte NL,3, "HORDE,",TM,20," TYTO CAN NOW FLY"
+  .byte NL,4, "AROUND YOU AT GREAT SPEED",WT,EP
+
+  .byte NL,1, "TO PROTECT YOU.",WT,EC
 
 rescue_barnowl:
   .byte    1, "GOODNESS GRACIOUS!",TM,30," THE"
@@ -328,7 +341,12 @@ rescue_barnowl:
   .byte NL,1, "WE'VE NOT A MOMENT TO"
   .byte NL,2, "LOSE.",TM,30," I'LL FLY YOU TO THE"
   .byte NL,3, "SURFACE OF MERMON'S VAST"
-  .byte NL,4, "MECHANICAL FORTRESS.",TM,20,".",TM,20,".",TM,20,WT,EC
+  .byte NL,4, "MECHANICAL FORTRESS.",TM,20,".",TM,20,".",TM,20,WT,EP
+
+  .byte NL,1, "BY THE WAY,",TM,20," TYTO CAN NOW"
+  .byte NL,2, "EXECUTE A POWERFUL HOMING"
+  .byte NL,3, "ATTACK.",TM,30," SURELY THIS WILL"
+  .byte NL,4, "HELP YOU DEFEAT MERMON!!",WT,EC
 
 welcome_to_pirate_bay:
   .byte    1, "TOP O' THE MORNIN' TO 'E"
