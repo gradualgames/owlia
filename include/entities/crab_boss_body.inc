@@ -150,6 +150,8 @@ crab_boss_body_state_spawn_eyes_and_pincers:
 
   jsr crab_boss_position_pincers
 
+  jsr crab_boss_play_skitter_sound
+
   lda #CRAB_BOSS_BODY_TIME_TIL_RUSH
   sta crab_boss_body_state_rush_counter,x
 
@@ -185,6 +187,8 @@ do_not_transition_yet:
   .scope
   dec crab_boss_body_state_counter,x
   bne do_not_transition_yet
+
+  jsr crab_boss_play_skitter_sound
 
   lda #%01000000
   sta entity_sprite_flags,x
@@ -239,6 +243,8 @@ do_not_transition_yet:
   dec crab_boss_body_state_counter,x
   bne do_not_transition_yet
 
+  jsr crab_boss_play_skitter_sound
+
   lda #%00000000
   sta entity_sprite_flags,x
 
@@ -275,6 +281,8 @@ crab_boss_body_state_init_rush:
   dec crab_boss_body_state_rush_counter,x
   bne do_not_transition_yet
 
+  jsr crab_boss_play_whoosh_sound
+
   lda #CRAB_BOSS_BODY_STATE_RUSH_LENGTH
   sta crab_boss_body_state_rush_counter,x
 
@@ -306,6 +314,8 @@ crab_boss_body_state_rush:
   dec crab_boss_body_state_rush_counter,x
   bne do_not_transition_yet
 
+  jsr crab_boss_play_boom_sound
+
   lda #CRAB_BOSS_BODY_STATE_RUSH_BACK_LENGTH
   sta crab_boss_body_state_rush_counter,x
 
@@ -336,6 +346,8 @@ crab_boss_body_state_rush_back:
   .scope
   dec crab_boss_body_state_rush_counter,x
   bne do_not_transition_yet
+
+  jsr crab_boss_play_skitter_sound
 
   lda #CRAB_BOSS_BODY_TIME_TIL_RUSH
   sta crab_boss_body_state_rush_counter,x
@@ -476,6 +488,66 @@ entity_not_hitting_hero:
 
   lda #%00000000
   sta entity_sprite_flags,y
+
+  rts
+
+.endproc
+
+.proc crab_boss_play_skitter_sound
+
+  ;play a sound
+  lda #<sfx_skitter
+  sta sound_param_word_0
+  lda #>sfx_skitter
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  rts
+
+.endproc
+
+.proc crab_boss_play_whoosh_sound
+
+  ;play a sound
+  lda #<sfx_whoosh
+  sta sound_param_word_0
+  lda #>sfx_whoosh
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  rts
+
+.endproc
+
+.proc crab_boss_play_boom_sound
+
+  ;play a sound
+  lda #<sfx_boom
+  sta sound_param_word_0
+  lda #>sfx_boom
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
 
   rts
 

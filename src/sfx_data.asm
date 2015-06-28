@@ -80,6 +80,9 @@ sfx_volume_envelope_coins:
 sfx_volume_envelope_boom:
   .byte 12,12,11,11,10,10,9,9,9,8,8,8,7,7,7,5,5,5,4,4,3,3,3,3,2,3,3,3,2,2,2,1,0,ENV_STOP
 
+sfx_volume_envelope_skitter:
+  .byte 11,10,7,1,7,5,2,0,0,8,7,5,4,1,0,5,4,3,2,ENV_LOOP
+
 ;****************************************************************
 ;pitch envelopes
 ;****************************************************************
@@ -131,6 +134,7 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_whoosh
   .word sfx_volume_envelope_coins
   .word sfx_volume_envelope_boom
+  .word sfx_volume_envelope_skitter
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_flat
@@ -255,5 +259,9 @@ sfx_coins_square2:
 
 sfx_boom:
   .byte STV,sfx_volume_envelope_index_boom,STP,sfx_pitch_envelope_index_flat,SDU,sfx_duty_envelope_index_standard,STL,33,15
+  .byte TRM
+
+sfx_skitter:
+  .byte STV,sfx_volume_envelope_index_skitter,STP,sfx_pitch_envelope_index_flat,STL,40,8
   .byte TRM
 
