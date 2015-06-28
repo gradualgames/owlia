@@ -3,7 +3,7 @@
 SUBMARINE_SCENE_INC = 1
 
 SUBMARINE_SCENE_STATE_CRASH_LENGTH = 20
-SUBMARINE_SCENE_TIME_UNTIL_CAPTAIN_BAILS = 100
+SUBMARINE_SCENE_TIME_UNTIL_CAPTAIN_BAILS = 2000
 
 define_entity_properties submarine_scene_state_counter_lo,\
                          submarine_scene_state_counter_hi
