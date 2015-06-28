@@ -1586,19 +1586,20 @@ dungeon3_3_1_entity_instances:
                                          0, 2
 
 dungeon3_0_2_entity_instances:
-  .byte 5
+  .byte 6
+  .byte entity_index_traproom, 0, 0, 0, 0
   .byte entity_index_seahorse, 4, 37, 0, 0
   .byte entity_index_seahorse, 11, 37, 0, 0
   .byte entity_index_seahorse, 7, 40, 0, 0
   .byte entity_index_monolith, 8, 34, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_UNLOCKED,\
                                          0,\
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_0_1_s,\
                                          0, 2
 
   .byte entity_index_monolith, 14, 38, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_1_2_w,\
@@ -1724,11 +1725,12 @@ dungeon3_1_3_entity_instances:
                                          0, 4
 
 dungeon3_2_3_entity_instances:
-  .byte 3
+  .byte 4
+  .byte entity_index_traproom, 0, 0, 0, 0
   .byte entity_index_seahorse, 44, 51, 0, 0
   .byte entity_index_seahorse, 36, 56, 0, 0
   .byte entity_index_monolith, 33, 53, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon3_1_3_e,\
