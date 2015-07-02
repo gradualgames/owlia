@@ -83,6 +83,9 @@ sfx_volume_envelope_boom:
 sfx_volume_envelope_skitter:
   .byte 11,10,7,1,7,5,2,0,0,8,7,5,4,1,0,5,4,3,2,ENV_LOOP
 
+sfx_volume_envelope_sand:
+  .byte 0,1,2,5,9,1,6,12,4,0,0,8,10,7,1,8,6,3,0,0,0,ENV_STOP
+
 ;****************************************************************
 ;pitch envelopes
 ;****************************************************************
@@ -135,6 +138,7 @@ sfx_volume_envelopes:
   .word sfx_volume_envelope_coins
   .word sfx_volume_envelope_boom
   .word sfx_volume_envelope_skitter
+  .word sfx_volume_envelope_sand
 
 sfx_pitch_envelopes:
   .word sfx_pitch_envelope_flat
@@ -265,3 +269,6 @@ sfx_skitter:
   .byte STV,sfx_volume_envelope_index_skitter,STP,sfx_pitch_envelope_index_flat,STL,40,8
   .byte TRM
 
+sfx_sand:
+  .byte STV,sfx_volume_envelope_index_sand,STP,sfx_pitch_envelope_index_flat,STL,40,7
+  .byte TRM

@@ -32,6 +32,7 @@ SFX_DATA_INC = 1
 .global sfx_coins_square2
 .global sfx_boom
 .global sfx_skitter
+.global sfx_sand
 
 .enum
 sfx_volume_envelope_index_silence
@@ -59,6 +60,7 @@ sfx_volume_envelope_index_whoosh
 sfx_volume_envelope_index_coins
 sfx_volume_envelope_index_boom
 sfx_volume_envelope_index_skitter
+sfx_volume_envelope_index_sand
 .endenum
 
 .enum

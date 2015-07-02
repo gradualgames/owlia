@@ -149,6 +149,8 @@ ray_state_wait_under_sand:
   dec ray_state_counter,x
   bne do_not_transition_yet
 
+  jsr ray_play_sand_sound
+
   lda #RAY_STATE_RISE_FROM_SAND_LENGTH
   sta ray_state_counter,x
 
@@ -333,6 +335,8 @@ ray_state_fall:
 
   jsr ray_load_fall_animation_from_direction
 
+  jsr ray_play_sand_sound
+
   lda #RAY_STATE_FALL_UNDER_SAND_LENGTH
   sta ray_state_counter,x
 
@@ -506,6 +510,26 @@ try_again:
   entity_lda16 entity_shadow_spot_x, 4
 
   entity_move16 ray_altitude, entity_shadow_spot_y
+
+  rts
+
+.endproc
+
+.proc ray_play_sand_sound
+
+  ;play a sound
+  lda #<sfx_sand
+  sta sound_param_word_0
+  lda #>sfx_sand
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
 
   rts
 
