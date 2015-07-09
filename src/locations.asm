@@ -2487,7 +2487,7 @@ tortoise_palette:
   .byte PALETTE_CYCLE_LOOP
 
 dungeon5_palette:
-  .byte $0e,$01,$11,$21,$0e,$0c,$1c,$2c,$0e,$0b,$0c,$2c,$0e,$0e,$0e,$0e
+  .byte $0e,$01,$11,$21,$0e,$0c,$1c,$2c,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$03,$23,$0e,$0e,$24,$20
   .byte PALETTE_CYCLE_LOOP
 
