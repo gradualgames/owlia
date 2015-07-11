@@ -42,7 +42,7 @@ dungeon_start_locations:
   .byte location_index_dungeon3_entrance
   .byte location_index_dungeon4_entrance
   .byte location_index_submarine_entrance
-  .byte location_index_dungeon5_entrance
+  .byte location_index_dungeon5_0_0_e
 
 enter_password_state_palette:
   .byte $0e,$0e,$18,$20,$0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$0e,$0e,$0e
