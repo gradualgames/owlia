@@ -463,8 +463,12 @@ familiar_already_fetching_another_item:
 .proc familiar_hit_enemy
 
   ;home back in to the hero
+  lda familiar_state
+  cmp #FAMILIAR_STATE_SHIELD
+  beq do_not_home_in_to_hero
   lda #FAMILIAR_STATE_HOME_IN_TO_HERO
   sta familiar_state
+do_not_home_in_to_hero:
 
   rts
 
