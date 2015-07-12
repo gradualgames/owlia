@@ -87,7 +87,11 @@ action_rect2_not_deadly:
 .proc owl_switch_hit
 
   lda entity_sprite_flags,x
-  eor #%00000011
+  and #%00000011
+  sta b0
+  inc b0
+  lda b0
+  and #%00000011
   sta entity_sprite_flags,x
 
   ;play a sound
