@@ -2667,74 +2667,8 @@ do_not_switch_to_home_in_to_hero:
   sta familiar_param_homing_entity_index
 
   ;find an enemy to home in on
-  jsr entity_find_enemy
+  jsr entity_find_enemy_near_hero
   bmi no_enemy_found
-
-  ;x should have index of entity to home in on here
-  ;first check to see if this entity is a reasonable distance from
-  ;the hero
-  .scope
-  sec
-  lda hero_x
-  sbc entity_x_lo,x
-  sta w0
-  lda hero_x+1
-  sbc entity_x_hi,x
-  sta w0+1
-  bpl do_not_get_abs_value
-
-  ;negate the negative value in w0 to get abs value
-  clc
-  lda w0
-  eor #$ff
-  adc #$01
-  sta w0
-  lda w0+1
-  eor #$ff
-  adc #$00
-  sta w0+1
-
-do_not_get_abs_value:
-  .endscope
-
-  .scope
-  sec
-  lda hero_y
-  sbc entity_y_lo,x
-  sta w1
-  lda hero_y+1
-  sbc entity_y_hi,x
-  sta w1+1
-  bpl do_not_get_abs_value
-
-  ;negate the negative value in w1 to get abs value
-  clc
-  lda w1
-  eor #$ff
-  adc #$01
-  sta w1
-  lda w1+1
-  eor #$ff
-  adc #$00
-  sta w1+1
-
-do_not_get_abs_value:
-  .endscope
-
-  ;find out if either X or Y distance from enemy is too far
-  sec
-  lda w0
-  sbc #FAMILIAR_HOMING_DISTANCE
-  lda w0+1
-  sbc #0
-  bpl no_enemy_found
-
-  sec
-  lda w1
-  sbc #FAMILIAR_HOMING_DISTANCE
-  lda w1+1
-  sbc #0
-  bpl no_enemy_found
 
   stx familiar_param_homing_entity_index
 
@@ -2942,7 +2876,7 @@ do_not_kill_familiar:
 ;Y velocity to produce different speeds for different techniques.
 ;****************************************************************
 familiar_homing_speed:
-  .byte 5, 4, 4, 5, 5, 5, 5, 5
+  .byte 5, 4, 4, 5, 5, 5, 5, 6
 
 ;****************************************************************
 ;This routine performs homing logic on a goal. The X and Y

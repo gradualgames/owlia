@@ -13,6 +13,7 @@ ENTITY_INC = 1
 .global entity_drop_random_item
 .global entity_drop_item
 .global entity_find_enemy
+.global entity_find_enemy_near_hero
 .global entity_kill_all_undrawable_entities
 .global entity_mark_all_for_kill
 .global entity_kill_all_marked_for_kill
@@ -68,6 +69,11 @@ ENTITY_FLAGS_MARKED_FOR_KILL_CLEAR = %11011111
 ENTITY_FLAGS_SHADOW_SPOT_SET   = %01000000
 ENTITY_FLAGS_SHADOW_SPOT_TEST  = %01000000
 ENTITY_FLAGS_SHADOW_SPOT_CLEAR = %10111111
+
+NEAR_HERO_RECT_X_OFFSET = 56
+NEAR_HERO_RECT_Y_OFFSET = 48
+NEAR_HERO_RECT_WIDTH = 127
+NEAR_HERO_RECT_HEIGHT = 127
 
 .enum
 ENTITY_ACTION_NOP

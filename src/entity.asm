@@ -457,6 +457,70 @@ enemy_found:
 
 .endproc
 
+;This routine searches for a living entity marked as an enemy
+;which is inside a large rectangle centered on the hero.
+;Returns with x pointing to the living entity that is an enemy
+.proc entity_find_enemy_near_hero
+
+  ldx #(MAX_ENTITIES-1)
+next_entity:
+
+  ;exit the loop only if an entity is found which is alive, an enemy, and NOT paused.
+  ;otherwise, the loop will end with x as $ff, meaning no live enemy was found.
+  lda entity_flags,x
+  and #(ENTITY_FLAGS_ALIVE_TEST|ENTITY_FLAGS_IS_ENEMY_TEST|ENTITY_FLAGS_PAUSED_TEST)
+  cmp #(ENTITY_FLAGS_ALIVE_TEST|ENTITY_FLAGS_IS_ENEMY_TEST)
+  bne not_candidate
+
+  ;now compare a rectangle outside the hero to the entity and return this entity if it
+  ;intersects
+  ;transfer entity rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  lda entity_x_lo,x
+  sta w2
+  lda entity_x_hi,x
+  sta w2+1
+  lda entity_y_lo,x
+  sta w3
+  lda entity_y_hi,x
+  sta w3+1
+  lda entity_width,x
+  sta b2
+  lda entity_height,x
+  sta b3
+
+  ;transfer near hero rect
+  sec
+  lda hero_x
+  sbc #<NEAR_HERO_RECT_X_OFFSET
+  sta w4
+  lda hero_x+1
+  sbc #>NEAR_HERO_RECT_X_OFFSET
+  sta w4+1
+  sec
+  lda hero_y
+  sbc #<NEAR_HERO_RECT_Y_OFFSET
+  sta w5
+  lda hero_y+1
+  sbc #>NEAR_HERO_RECT_Y_OFFSET
+  sta w5+1
+  lda #NEAR_HERO_RECT_WIDTH
+  sta b4
+  lda #NEAR_HERO_RECT_HEIGHT
+  sta b5
+
+  jsr geotests_rect_in_rect_size
+  beq done
+
+not_candidate:
+
+  dex
+  bpl next_entity
+done:
+
+  rts
+
+.endproc
+
 ;this routine is a trampoline wrapper for ppu_load_dynamic_palette_brightness_bg
 ;it saves the calling bank, changes the palette based on the current palette
 ;and then returns to the calling bank. this only adjusts brightness for the bg palette
