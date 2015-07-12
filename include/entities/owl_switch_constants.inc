@@ -1,0 +1,16 @@
+.ifndef OWL_SWITCH_CONSTANTS_INC
+OWL_SWITCH_CONSTANTS_INC = 1
+
+OWL_SWITCH_WIDTH = $0f
+OWL_SWITCH_HEIGHT = $17
+
+.enum
+OWL_SWITCH_STATE_INIT
+OWL_SWITCH_STATE_MAIN
+.endenum
+
+OWL_SWITCH_PARAMS = 1
+
+define_entity_properties owl_switch_id
+
+.endif

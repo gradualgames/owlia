@@ -2,13 +2,7 @@
 .ifndef OWL_SWITCH_INC
 OWL_SWITCH_INC = 1
 
-OWL_SWITCH_WIDTH = $0f
-OWL_SWITCH_HEIGHT = $17
-
-.enum
-OWL_SWITCH_STATE_INIT
-OWL_SWITCH_STATE_MAIN
-.endenum
+.include "owl_switch_constants.inc"
 
 define_lohi_tables owl_switch, \
  {owl_switch_state_init, \
@@ -42,7 +36,7 @@ owl_switch_state_init:
   sta b0
   jsr entity_lookup_sprite_chr_offset
 
-  lda #%00000001
+  lda #%00000000
   sta entity_sprite_flags,x
 
   lda #OWL_SWITCH_STATE_MAIN
