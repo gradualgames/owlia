@@ -674,7 +674,7 @@ tortoise_sprite_chr_groups:
   .byte sprite_chr_group_index_starfish
 
 dungeon5_sprite_chr_groups:
-  .byte 7   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -682,6 +682,7 @@ dungeon5_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_treasure_chest
+  .byte sprite_chr_group_index_dungeon_entrance_statue
 
 ;****************************************************************
 ;Entity instance sets
@@ -2321,7 +2322,11 @@ tortoise_entity_instances:
   .byte entity_index_starfish, 47, 53, 0, 0
 
 dungeon5_0_0_entity_instances:
-  .byte 1
+  .byte 5
+  .byte entity_index_owl_switch, 0, 2, 0, 0
+  .byte entity_index_owl_switch, 15, 2, 0, 0
+  .byte entity_index_owl_switch, 0, 11, 0, 0
+  .byte entity_index_owl_switch, 15, 11, 0, 0
   .byte entity_index_monolith, 14, 8, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\

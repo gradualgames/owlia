@@ -92,7 +92,8 @@
   submarine_scene_update, \
   kraken_tentacle_update, \
   kraken_eye_update, \
-  kraken_update
+  kraken_update, \
+  owl_switch_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -157,6 +158,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_kraken_tentacle
   .byte entity_update_bank_kraken_eye
   .byte entity_update_bank_kraken
+  .byte entity_update_bank_owl_switch
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -216,6 +218,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_kraken_tentacle
   .byte entity_sprites_and_animations_bank_kraken_eye
   .byte 0 ;entity_sprites_and_animations_bank_kraken
+  .byte entity_sprites_and_animations_bank_owl_switch
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -277,3 +280,4 @@ entity_defs_sprites_and_animations_bank:
 .include "kraken_tentacle.inc"
 .include "kraken_eye.inc"
 .include "kraken.inc"
+.include "owl_switch.inc"
