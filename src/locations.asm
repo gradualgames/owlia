@@ -2370,7 +2370,33 @@ dungeon5_2_0_entity_instances:
                                          0, 5
 
 dungeon5_3_0_entity_instances:
-  .byte 2
+  .byte 6
+
+  .byte entity_index_monolith, 59, 9, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON5_DUNGEON_FLAGS_DOOR1_UNLOCKED, \
+                                         0,\
+                                         MONOLITH_DIRECTION_EAST,\
+                                         ACTION_NOP, 0,\
+                                         1, 6
+  .byte entity_index_monolith, 60, 9, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON5_DUNGEON_FLAGS_DOOR2_UNLOCKED, \
+                                         0,\
+                                         MONOLITH_DIRECTION_EAST,\
+                                         ACTION_NOP, 0,\
+                                         1, 6
+  .byte entity_index_monolith, 61, 9, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON5_DUNGEON_FLAGS_DOOR3_UNLOCKED, \
+                                         0,\
+                                         MONOLITH_DIRECTION_EAST,\
+                                         ACTION_NOP, 0,\
+                                         1, 6
+  .byte entity_index_monolith, 62, 9, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON5_DUNGEON_FLAGS_DOOR4_UNLOCKED, \
+                                         0,\
+                                         MONOLITH_DIRECTION_EAST,\
+                                         ACTION_NOP, 0,\
+                                         1, 4
+
   .byte entity_index_monolith, 55, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
