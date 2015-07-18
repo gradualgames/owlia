@@ -354,17 +354,21 @@ location_index_dungeon5_1_1_w
 location_index_dungeon5_2_1_n
 location_index_dungeon5_2_1_w
 location_index_dungeon5_3_1_n
+location_index_dungeon5_3_1_s
 location_index_dungeon5_0_2_s
 location_index_dungeon5_0_2_e
 location_index_dungeon5_1_2_n
+location_index_dungeon5_1_2_s
 location_index_dungeon5_1_2_e
 location_index_dungeon5_1_2_w
 location_index_dungeon5_2_2_s
 location_index_dungeon5_2_2_e
 location_index_dungeon5_2_2_w
+location_index_dungeon5_3_2_n
 location_index_dungeon5_3_2_w
 location_index_dungeon5_0_3_n
 location_index_dungeon5_0_3_e
+location_index_dungeon5_1_3_n
 location_index_dungeon5_1_3_w
 location_index_dungeon5_2_3_n
 location_index_dungeon5_2_3_e
@@ -408,7 +412,5 @@ DUNGEON4_DUNGEON_FLAGS_MONOLITH_PUZZLE_COMPLETE                 = %00010000
 DUNGEON4_DUNGEON_FLAGS_DOOR1_UNLOCKED                           = %00100000
 DUNGEON4_DUNGEON_FLAGS_DOOR2_UNLOCKED                           = %01000000
 DUNGEON4_DUNGEON_FLAGS_DOOR3_UNLOCKED                           = %10000000
-
-DUNGEON5_DUNGEON_FLAGS_SWITCH_PUZZLE1_COMPLETE                  = %00000001
 
 .endif
