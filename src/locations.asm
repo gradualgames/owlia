@@ -2329,7 +2329,12 @@ tortoise_entity_instances:
   .byte entity_index_starfish, 47, 53, 0, 0
 
 dungeon5_0_0_entity_instances:
-  .byte 1
+  .byte 6
+  .byte entity_index_owl_switch_color_puzzle, 5, 8, 0, OWL_SWITCH_COLOR_PUZZLE_PARAMS, DUNGEON5_DUNGEON_FLAGS_SWITCH_PUZZLE1_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
+  .byte entity_index_owl_switch, 0, 2, 0, OWL_SWITCH_PARAMS, 0
+  .byte entity_index_owl_switch, 15, 2, 0, OWL_SWITCH_PARAMS, 1
+  .byte entity_index_owl_switch, 0, 11, 0, OWL_SWITCH_PARAMS, 2
+  .byte entity_index_owl_switch, 15, 11, 0, OWL_SWITCH_PARAMS, 3
   .byte entity_index_monolith, 14, 8, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2371,45 +2376,38 @@ dungeon5_2_0_entity_instances:
 
 dungeon5_3_0_entity_instances:
   .byte 6
-
-  .byte entity_index_monolith, 59, 9, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON5_DUNGEON_FLAGS_DOOR1_UNLOCKED, \
-                                         0,\
-                                         MONOLITH_DIRECTION_EAST,\
-                                         ACTION_NOP, 0,\
-                                         1, 6
-  .byte entity_index_monolith, 60, 9, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON5_DUNGEON_FLAGS_DOOR2_UNLOCKED, \
-                                         0,\
-                                         MONOLITH_DIRECTION_EAST,\
-                                         ACTION_NOP, 0,\
-                                         1, 6
-  .byte entity_index_monolith, 61, 9, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON5_DUNGEON_FLAGS_DOOR3_UNLOCKED, \
-                                         0,\
-                                         MONOLITH_DIRECTION_EAST,\
-                                         ACTION_NOP, 0,\
-                                         1, 6
-  .byte entity_index_monolith, 62, 9, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON5_DUNGEON_FLAGS_DOOR4_UNLOCKED, \
-                                         0,\
-                                         MONOLITH_DIRECTION_EAST,\
-                                         ACTION_NOP, 0,\
-                                         1, 4
-
   .byte entity_index_monolith, 55, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_SOUTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_3_1_n,\
                                          0, 2
-
   .byte entity_index_monolith, 49, 8, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_2_0_e,\
                                          0, 4
+  .byte entity_index_monolith, 59, 9, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON5_DUNGEON_FLAGS_DOOR1_UNLOCKED, \
+                                         MONOLITH_DIRECTION_EAST,\
+                                         ACTION_NOP, 0,\
+                                         1, 6
+  .byte entity_index_monolith, 60, 9, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON5_DUNGEON_FLAGS_DOOR2_UNLOCKED,\
+                                         MONOLITH_DIRECTION_EAST,\
+                                         ACTION_NOP, 0,\
+                                         1, 6
+  .byte entity_index_monolith, 61, 9, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON5_DUNGEON_FLAGS_DOOR3_UNLOCKED, \
+                                         MONOLITH_DIRECTION_EAST,\
+                                         ACTION_NOP, 0,\
+                                         1, 6
+  .byte entity_index_monolith, 62, 9, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON5_DUNGEON_FLAGS_DOOR4_UNLOCKED, \
+                                         MONOLITH_DIRECTION_EAST,\
+                                         ACTION_NOP, 0,\
+                                         1, 4
 
 dungeon5_0_1_entity_instances:
   .byte 1
