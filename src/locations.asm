@@ -2614,7 +2614,12 @@ dungeon5_2_3_entity_instances:
                                          0, 5
 
 dungeon5_3_3_entity_instances:
-  .byte 1
+  .byte 6
+  .byte entity_index_owl_switch_color_puzzle, 53, 51, 0, OWL_SWITCH_COLOR_PUZZLE_PARAMS, DUNGEON5_DUNGEON_FLAGS_SWITCH_PUZZLE2_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
+  .byte entity_index_owl_switch, 60, 51, 0, OWL_SWITCH_PARAMS, 0
+  .byte entity_index_owl_switch, 59, 53, 0, OWL_SWITCH_PARAMS, 2
+  .byte entity_index_owl_switch, 61, 53, 0, OWL_SWITCH_PARAMS, 3
+  .byte entity_index_owl_switch, 60, 55, 0, OWL_SWITCH_PARAMS, 1
   .byte entity_index_monolith, 49, 53, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
