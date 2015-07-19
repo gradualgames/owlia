@@ -2330,7 +2330,7 @@ tortoise_entity_instances:
 
 dungeon5_0_0_entity_instances:
   .byte 6
-  .byte entity_index_owl_switch_color_puzzle, 5, 8, 0, OWL_SWITCH_COLOR_PUZZLE_PARAMS, DUNGEON5_DUNGEON_FLAGS_SWITCH_PUZZLE1_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
+  .byte entity_index_owl_switch_color_puzzle, 5, 8, 0, OWL_SWITCH_COLOR_PUZZLE_PARAMS, DUNGEON5_DUNGEON_FLAGS_PUZZLE1_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
   .byte entity_index_owl_switch, 0, 2, 0, OWL_SWITCH_PARAMS, 0
   .byte entity_index_owl_switch, 15, 2, 0, OWL_SWITCH_PARAMS, 1
   .byte entity_index_owl_switch, 0, 11, 0, OWL_SWITCH_PARAMS, 2
@@ -2503,7 +2503,7 @@ dungeon5_0_2_entity_instances:
   .byte entity_index_switch, 6, 39, 0, SWITCH_PARAMS, 7, 8, 5, %01000000
   .byte entity_index_switch, 10, 39, 0, SWITCH_PARAMS, 7, 8, 6, %10000000
   .byte entity_index_switch, 13, 39, 0, SWITCH_PARAMS, 7, 8, 7, %00000001
-  .byte entity_index_switch_puzzle, 8, 37, 0, SWITCH_PUZZLE_PARAMS, DUNGEON5_DUNGEON_FLAGS_SWITCH_PUZZLE2_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
+  .byte entity_index_switch_puzzle, 8, 37, 0, SWITCH_PUZZLE_PARAMS, DUNGEON5_DUNGEON_FLAGS_PUZZLE2_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
 
 dungeon5_1_2_entity_instances:
   .byte 4
@@ -2633,7 +2633,7 @@ dungeon5_1_3_entity_instances:
                                          ACTION_NOP, 0,\
                                          0, 2
   .byte entity_index_monolith_puzzle, 18, 51, 0, MONOLITH_PUZZLE_PARAMS,\
-                                               DUNGEON5_DUNGEON_FLAGS_SWITCH_PUZZLE3_COMPLETE,\
+                                               DUNGEON5_DUNGEON_FLAGS_PUZZLE3_COMPLETE,\
                                                %00110110,\
                                                TREASURE_CHEST_ITEM_TYPE_KEY,\
                                                <1,\
@@ -2657,7 +2657,7 @@ dungeon5_2_3_entity_instances:
 
 dungeon5_3_3_entity_instances:
   .byte 6
-  .byte entity_index_owl_switch_color_puzzle, 53, 51, 0, OWL_SWITCH_COLOR_PUZZLE_PARAMS, DUNGEON5_DUNGEON_FLAGS_SWITCH_PUZZLE4_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
+  .byte entity_index_owl_switch_color_puzzle, 53, 51, 0, OWL_SWITCH_COLOR_PUZZLE_PARAMS, DUNGEON5_DUNGEON_FLAGS_PUZZLE4_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
   .byte entity_index_owl_switch, 60, 51, 0, OWL_SWITCH_PARAMS, 0
   .byte entity_index_owl_switch, 59, 53, 0, OWL_SWITCH_PARAMS, 2
   .byte entity_index_owl_switch, 61, 53, 0, OWL_SWITCH_PARAMS, 3
