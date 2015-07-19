@@ -2582,7 +2582,7 @@ dungeon5_0_3_entity_instances:
                                          0, 5
 
 dungeon5_1_3_entity_instances:
-  .byte 2
+  .byte 7
   .byte entity_index_monolith, 23, 50, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2596,6 +2596,39 @@ dungeon5_1_3_entity_instances:
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_0_3_e,\
                                          0, 4
+  .byte entity_index_monolith, 18, 53, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_NOP, 0,\
+                                         0, 2
+
+  .byte entity_index_monolith, 19, 53, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_NOP, 0,\
+                                         0, 2
+
+  .byte entity_index_monolith, 28, 53, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_NOP, 0,\
+                                         0, 2
+
+  .byte entity_index_monolith, 29, 53, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_NORTH,\
+                                         ACTION_NOP, 0,\
+                                         0, 2
+  .byte entity_index_monolith_puzzle, 18, 51, 0, MONOLITH_PUZZLE_PARAMS,\
+                                               DUNGEON3_DUNGEON_FLAGS_MONOLITH_PUZZLE_COMPLETE,\
+                                               %00110110,\
+                                               TREASURE_CHEST_ITEM_TYPE_KEY,\
+                                               <1,\
+                                               >1
 
 dungeon5_2_3_entity_instances:
   .byte 2
