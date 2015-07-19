@@ -680,7 +680,7 @@ tortoise_sprite_chr_groups:
   .byte sprite_chr_group_index_starfish
 
 dungeon5_sprite_chr_groups:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 14   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -690,6 +690,11 @@ dungeon5_sprite_chr_groups:
   .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_key
   .byte sprite_chr_group_index_dungeon_entrance_statue
+  .byte sprite_chr_group_index_octopus
+  .byte sprite_chr_group_index_starfish
+  .byte sprite_chr_group_index_tunicate
+  .byte sprite_chr_group_index_crab
+  .byte sprite_chr_group_index_jellyfish
 
 ;****************************************************************
 ;Entity instance sets
@@ -2329,7 +2334,8 @@ tortoise_entity_instances:
   .byte entity_index_starfish, 47, 53, 0, 0
 
 dungeon5_0_0_entity_instances:
-  .byte 6
+  .byte 7
+  .byte entity_index_jellyfish, 4, 9, 0, 0
   .byte entity_index_owl_switch_color_puzzle, 5, 8, 0, OWL_SWITCH_COLOR_PUZZLE_PARAMS, DUNGEON5_DUNGEON_FLAGS_PUZZLE1_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
   .byte entity_index_owl_switch, 0, 2, 0, OWL_SWITCH_PARAMS, 0
   .byte entity_index_owl_switch, 15, 2, 0, OWL_SWITCH_PARAMS, 1
@@ -2343,7 +2349,9 @@ dungeon5_0_0_entity_instances:
                                          0, 5
 
 dungeon5_1_0_entity_instances:
-  .byte 2
+  .byte 4
+  .byte entity_index_octopus, 22, 8, 0, 0
+  .byte entity_index_octopus, 25, 8, 0, 0
   .byte entity_index_monolith, 24, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2359,7 +2367,9 @@ dungeon5_1_0_entity_instances:
                                          0, 4
 
 dungeon5_2_0_entity_instances:
-  .byte 2
+  .byte 4
+  .byte entity_index_crab, 34, 8, 0, 0
+  .byte entity_index_crab, 44, 8, 0, 0
   .byte entity_index_monolith, 41, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
