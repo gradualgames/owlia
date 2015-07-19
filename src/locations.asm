@@ -2481,7 +2481,7 @@ dungeon5_3_1_entity_instances:
                                          0, 2
 
 dungeon5_0_2_entity_instances:
-  .byte 2
+  .byte 10
   .byte entity_index_monolith, 8, 44, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2495,6 +2495,15 @@ dungeon5_0_2_entity_instances:
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_1_2_w,\
                                          0, 5
+  .byte entity_index_switch, 3, 36, 0, SWITCH_PARAMS, 7, 8, 0, %00000000
+  .byte entity_index_switch, 6, 36, 0, SWITCH_PARAMS, 7, 8, 1, %00000000
+  .byte entity_index_switch, 10, 36, 0, SWITCH_PARAMS, 9, 10, 2, %00000000
+  .byte entity_index_switch, 13, 36, 0, SWITCH_PARAMS, 9, 10, 3, %00000000
+  .byte entity_index_switch, 3, 39, 0, SWITCH_PARAMS, 7, 8, 4, %00000000
+  .byte entity_index_switch, 6, 39, 0, SWITCH_PARAMS, 7, 8, 5, %00000000
+  .byte entity_index_switch, 10, 39, 0, SWITCH_PARAMS, 7, 8, 6, %00000000
+  .byte entity_index_switch, 13, 39, 0, SWITCH_PARAMS, 7, 8, 7, %00000000
+  ;.byte entity_index_switch_puzzle, 55, 22, 0, SWITCH_PUZZLE_PARAMS, DUNGEON4_DUNGEON_FLAGS_SWITCH_PUZZLE2_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
 
 dungeon5_1_2_entity_instances:
   .byte 4

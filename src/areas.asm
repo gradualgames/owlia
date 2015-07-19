@@ -1115,6 +1115,10 @@ dungeon5_area_nametable_patches:
   .word dungeon5_area_nametable_monolith_west_bg_patch
   .word dungeon5_area_nametable_monolith_east_bg_patch
   .word dungeon5_area_nametable_monolith_mermon_doors_patch
+  .word dungeon5_area_nametable_switch_floor_down_patch
+  .word dungeon5_area_nametable_switch_floor_up_patch
+  .word dungeon5_area_nametable_switch_floor_down_alternate_patch
+  .word dungeon5_area_nametable_switch_floor_up_alternate_patch
 
 dungeon5_area_nametable_monolith_patch:
   .byte $02,$06,$05,$06,$0d,$0e,$17,$18,$24,$25,$31,$32,$3a,$3b
@@ -1128,3 +1132,11 @@ dungeon5_area_nametable_monolith_east_bg_patch:
   .byte $02,$06,$51,$52,$51,$52,$51,$52,$5f,$60,$2e,$2f,$35,$36
 dungeon5_area_nametable_monolith_mermon_doors_patch:
   .byte $02,$06,$2e,$2f,$35,$36,$4b,$4c,$55,$56,$2e,$2f,$35,$36
+dungeon5_area_nametable_switch_floor_down_patch:
+  .byte $02,$06,$8a,$8b,$90,$91,$8e,$8f,$04,$04,$04,$04,$04,$04
+dungeon5_area_nametable_switch_floor_up_patch:
+  .byte $02,$06,$8c,$8d,$92,$93,$8e,$8f,$04,$04,$04,$04,$04,$04
+dungeon5_area_nametable_switch_floor_down_alternate_patch:
+  .byte $02,$06,$8a,$8b,$90,$91,$8e,$8f,$04,$04,$2e,$2f,$35,$36
+dungeon5_area_nametable_switch_floor_up_alternate_patch:
+  .byte $02,$06,$8c,$8d,$92,$93,$8e,$8f,$04,$04,$2e,$2f,$35,$36
