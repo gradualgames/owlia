@@ -2489,7 +2489,7 @@ dungeon5_0_2_entity_instances:
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_0_3_n,\
                                          0, 2
 
-  .byte entity_index_monolith, 14, 39, 0, MONOLITH_PARAMS,\
+  .byte entity_index_monolith, 14, 38, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_EAST,\
@@ -2528,7 +2528,7 @@ dungeon5_1_2_entity_instances:
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_2_2_w,\
                                          0, 5
 
-  .byte entity_index_monolith, 17, 39, 0, MONOLITH_PARAMS,\
+  .byte entity_index_monolith, 17, 38, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_WEST,\
