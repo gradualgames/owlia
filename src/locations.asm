@@ -680,7 +680,7 @@ tortoise_sprite_chr_groups:
   .byte sprite_chr_group_index_starfish
 
 dungeon5_sprite_chr_groups:
-  .byte 14   ;sprite_chr_groups .byte
+  .byte 15   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -695,6 +695,7 @@ dungeon5_sprite_chr_groups:
   .byte sprite_chr_group_index_tunicate
   .byte sprite_chr_group_index_crab
   .byte sprite_chr_group_index_jellyfish
+  .byte sprite_chr_group_index_urchin
 
 ;****************************************************************
 ;Entity instance sets
@@ -1059,7 +1060,6 @@ dungeon1_boss_owl_dungeon_entity_instances:
 
 tundra1_entity_instances:
   .byte 9
-  ;.byte entity_index_urchin, 40, 40, 0, URCHIN_PARAMS, 16*5, 40, <(256*2), >(256*2), 0, 0
   .byte entity_index_jellyfish, 45, 26, 0, 0
   .byte entity_index_jellyfish, 23, 30, 0, 0
   .byte entity_index_eel, 7, 18, 0, EEL_PARAMS, EEL_STATE_RIGHT_INIT
@@ -2423,7 +2423,17 @@ dungeon5_3_0_entity_instances:
                                          1, 4
 
 dungeon5_0_1_entity_instances:
-  .byte 1
+  .byte 5
+  .byte entity_index_urchin, 2, 21, 0, URCHIN_PARAMS, 16*3, 40, <(256*2), >(256*2), 0, 0
+  .byte entity_index_starfish, 4, 26, 0, 0
+  .byte entity_index_tunicate, 12, 26, 0, 0
+  .byte entity_index_ordered_defeat_puzzle, 12, 25, 0, ORDERED_DEFEAT_PUZZLE_PARAMS,\
+                                                      entity_index_starfish,\
+                                                      entity_index_tunicate,\
+                                                      entity_index_urchin,\
+                                                      0,\
+                                                      TREASURE_CHEST_ITEM_TYPE_BOMB,\
+                                                      <7, >7
   .byte entity_index_monolith, 14, 23, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2432,7 +2442,11 @@ dungeon5_0_1_entity_instances:
                                          0, 5
 
 dungeon5_1_1_entity_instances:
-  .byte 4
+  .byte 8
+  .byte entity_index_jellyfish, 18, 21, 0, 0
+  .byte entity_index_jellyfish, 29, 21, 0, 0
+  .byte entity_index_jellyfish, 18, 26, 0, 0
+  .byte entity_index_jellyfish, 29, 26, 0, 0
   .byte entity_index_monolith, 24, 20, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2462,7 +2476,10 @@ dungeon5_1_1_entity_instances:
                                          0, 4
 
 dungeon5_2_1_entity_instances:
-  .byte 2
+  .byte 5
+  .byte entity_index_jellyfish, 35, 26, 0, 0
+  .byte entity_index_jellyfish, 44, 21, 0, 0
+  .byte entity_index_jellyfish, 41, 26, 0, 0
   .byte entity_index_monolith, 41, 20, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2478,7 +2495,11 @@ dungeon5_2_1_entity_instances:
                                          0, 4
 
 dungeon5_3_1_entity_instances:
-  .byte 2
+  .byte 6
+  .byte entity_index_crab, 52, 25, 0, 0
+  .byte entity_index_crab, 58, 25, 0, 0
+  .byte entity_index_crab, 52, 21, 0, 0
+  .byte entity_index_crab, 58, 21, 0, 0
   .byte entity_index_monolith, 55, 20, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2494,7 +2515,9 @@ dungeon5_3_1_entity_instances:
                                          0, 2
 
 dungeon5_0_2_entity_instances:
-  .byte 11
+  .byte 13
+  .byte entity_index_starfish, 3, 36, 0, 0
+  .byte entity_index_starfish, 3, 39, 0, 0
   .byte entity_index_monolith, 8, 44, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2519,7 +2542,12 @@ dungeon5_0_2_entity_instances:
   .byte entity_index_switch_puzzle, 8, 37, 0, SWITCH_PUZZLE_PARAMS, DUNGEON5_DUNGEON_FLAGS_PUZZLE2_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
 
 dungeon5_1_2_entity_instances:
-  .byte 4
+  .byte 9
+  .byte entity_index_traproom, 0, 0, 0, 0
+  .byte entity_index_crab, 26, 40, 0, 0
+  .byte entity_index_crab, 20, 40, 0, 0
+  .byte entity_index_jellyfish, 20, 36, 0, 0
+  .byte entity_index_octopus, 26, 36, 0, 0
   .byte entity_index_monolith, 24, 35, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2549,7 +2577,9 @@ dungeon5_1_2_entity_instances:
                                          0, 4
 
 dungeon5_2_2_entity_instances:
-  .byte 3
+  .byte 5
+  .byte entity_index_tunicate, 36, 37, 0, 0
+  .byte entity_index_tunicate, 41, 38, 0, 0
   .byte entity_index_monolith, 40, 44, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2572,7 +2602,10 @@ dungeon5_2_2_entity_instances:
                                          0, 4
 
 dungeon5_3_2_entity_instances:
-  .byte 2
+  .byte 5
+  .byte entity_index_crab, 52, 38, 0, 0
+  .byte entity_index_crab, 60, 38, 0, 0
+  .byte entity_index_crab, 52, 36, 0, 0
   .byte entity_index_monolith, 55, 35, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2588,7 +2621,10 @@ dungeon5_3_2_entity_instances:
                                          0, 4
 
 dungeon5_0_3_entity_instances:
-  .byte 2
+  .byte 5
+  .byte entity_index_jellyfish, 2, 52, 0, 0
+  .byte entity_index_jellyfish, 2, 55, 0, 0
+  .byte entity_index_tunicate, 11, 54, 0, 0
   .byte entity_index_monolith, 8, 50, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2604,7 +2640,9 @@ dungeon5_0_3_entity_instances:
                                          0, 5
 
 dungeon5_1_3_entity_instances:
-  .byte 7
+  .byte 9
+  .byte entity_index_starfish, 19, 55, 0, 0
+  .byte entity_index_starfish, 28, 55, 0, 0
   .byte entity_index_monolith, 23, 50, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2653,7 +2691,11 @@ dungeon5_1_3_entity_instances:
                                                >1
 
 dungeon5_2_3_entity_instances:
-  .byte 2
+  .byte 6
+  .byte entity_index_tunicate, 35, 52, 0, 0
+  .byte entity_index_tunicate, 42, 52, 0, 0
+  .byte entity_index_starfish, 35, 56, 0, 0
+  .byte entity_index_starfish, 42, 55, 0, 0
   .byte entity_index_monolith, 40, 50, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2669,7 +2711,9 @@ dungeon5_2_3_entity_instances:
                                          0, 5
 
 dungeon5_3_3_entity_instances:
-  .byte 6
+  .byte 8
+  .byte entity_index_jellyfish, 55, 51, 0, 0
+  .byte entity_index_jellyfish, 55, 55, 0, 0
   .byte entity_index_owl_switch_color_puzzle, 53, 51, 0, OWL_SWITCH_COLOR_PUZZLE_PARAMS, DUNGEON5_DUNGEON_FLAGS_PUZZLE4_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
   .byte entity_index_owl_switch, 60, 51, 0, OWL_SWITCH_PARAMS, 0
   .byte entity_index_owl_switch, 59, 53, 0, OWL_SWITCH_PARAMS, 2
@@ -3600,7 +3644,7 @@ define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAG
 dungeon5_0_2_s:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5,dungeon5_sprite_chr_groups,dungeon5_0_2_entity_instances,dungeon5_palette,0, 30, 8, 40, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon5_0_2_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5,dungeon5_sprite_chr_groups,dungeon5_0_2_entity_instances,dungeon5_palette,0, 30, 13, 38, 0, 0, 0, ENTITY_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5,dungeon5_sprite_chr_groups,dungeon5_0_2_entity_instances,dungeon5_palette,0, 30, 13, 37, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon5_1_2_n:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5,dungeon5_sprite_chr_groups,dungeon5_1_2_entity_instances,dungeon5_palette,16, 30, 24, 35, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon5_1_2_s:
