@@ -373,6 +373,7 @@ location_index_dungeon5_1_3_w
 location_index_dungeon5_2_3_n
 location_index_dungeon5_2_3_e
 location_index_dungeon5_3_3_w
+location_index_dungeon5_boss_area_entrance
 .endenum
 
 ;****************************************************************

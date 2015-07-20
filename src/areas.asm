@@ -46,7 +46,8 @@
     pirateshootinggallery_area, \
     submarine_area, \
     tortoise_area, \
-    dungeon5_area
+    dungeon5_area, \
+    dungeon5_boss_area
 
 areas_lo:
   .lobytes areas
@@ -1139,4 +1140,64 @@ dungeon5_area_nametable_switch_floor_up_patch:
 dungeon5_area_nametable_switch_floor_down_alternate_patch:
   .byte $02,$06,$8a,$8b,$90,$91,$8e,$8f,$04,$04,$2e,$2f,$35,$36
 dungeon5_area_nametable_switch_floor_up_alternate_patch:
+  .byte $02,$06,$8c,$8d,$92,$93,$8e,$8f,$04,$04,$2e,$2f,$35,$36
+
+dungeon5_boss_area:
+  .byte MAP_DATA_BANK4
+  .byte CONVERSATIONS_BANK
+  .word dungeon5_area_bg_chr_groups
+  .word mermon_dungeon_theme
+  .byte $22 ;textbox_attribute
+  .word dungeon5_boss_map
+  .word dungeon5_boss_metatile_table_properties
+  .word dungeon5_boss_metatile_table_params
+  .word dungeon5_boss_metatile_table_attributes
+  .word dungeon5_boss_metatile_table_top_left_tiles
+  .word dungeon5_boss_metatile_table_top_right_tiles
+  .word dungeon5_boss_metatile_table_bottom_left_tiles
+  .word dungeon5_boss_metatile_table_bottom_right_tiles
+  .word dungeon5_boss_big_metatile_table_top_left
+  .word dungeon5_boss_big_metatile_table_top_right
+  .word dungeon5_boss_big_metatile_table_bottom_left
+  .word dungeon5_boss_big_metatile_table_bottom_right
+  .word dungeon5_boss_area_nametable_patches
+  .word 0 ;attribute_patches_address
+
+dungeon5_boss_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK5
+  .word dungeon5_main_chr
+
+dungeon5_boss_area_nametable_patches:
+  .word dungeon5_boss_area_nametable_monolith_patch
+  .word dungeon5_boss_area_nametable_keyed_monolith_patch
+  .word dungeon5_boss_area_nametable_monolith_north_bg_patch
+  .word dungeon5_boss_area_nametable_monolith_south_bg_patch
+  .word dungeon5_boss_area_nametable_monolith_west_bg_patch
+  .word dungeon5_boss_area_nametable_monolith_east_bg_patch
+  .word dungeon5_boss_area_nametable_monolith_mermon_doors_patch
+  .word dungeon5_boss_area_nametable_switch_floor_down_patch
+  .word dungeon5_boss_area_nametable_switch_floor_up_patch
+  .word dungeon5_boss_area_nametable_switch_floor_down_alternate_patch
+  .word dungeon5_boss_area_nametable_switch_floor_up_alternate_patch
+
+dungeon5_boss_area_nametable_monolith_patch:
+  .byte $02,$06,$05,$06,$0d,$0e,$17,$18,$24,$25,$31,$32,$3a,$3b
+dungeon5_boss_area_nametable_keyed_monolith_patch:
+  .byte $02,$06,$3c,$3d,$3f,$40,$17,$18,$24,$25,$31,$32,$3a,$3b
+dungeon5_boss_area_nametable_monolith_north_bg_patch:
+dungeon5_boss_area_nametable_monolith_south_bg_patch:
+  .byte $02,$06,$2e,$2f,$35,$36,$2e,$2f,$35,$36,$2e,$2f,$35,$36
+dungeon5_boss_area_nametable_monolith_west_bg_patch:
+dungeon5_boss_area_nametable_monolith_east_bg_patch:
+  .byte $02,$06,$51,$52,$51,$52,$51,$52,$5f,$60,$2e,$2f,$35,$36
+dungeon5_boss_area_nametable_monolith_mermon_doors_patch:
+  .byte $02,$06,$2e,$2f,$35,$36,$4b,$4c,$55,$56,$2e,$2f,$35,$36
+dungeon5_boss_area_nametable_switch_floor_down_patch:
+  .byte $02,$06,$8a,$8b,$90,$91,$8e,$8f,$04,$04,$04,$04,$04,$04
+dungeon5_boss_area_nametable_switch_floor_up_patch:
+  .byte $02,$06,$8c,$8d,$92,$93,$8e,$8f,$04,$04,$04,$04,$04,$04
+dungeon5_boss_area_nametable_switch_floor_down_alternate_patch:
+  .byte $02,$06,$8a,$8b,$90,$91,$8e,$8f,$04,$04,$2e,$2f,$35,$36
+dungeon5_boss_area_nametable_switch_floor_up_alternate_patch:
   .byte $02,$06,$8c,$8d,$92,$93,$8e,$8f,$04,$04,$2e,$2f,$35,$36

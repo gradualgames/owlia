@@ -278,7 +278,8 @@
     dungeon5_1_3_w, \
     dungeon5_2_3_n, \
     dungeon5_2_3_e, \
-    dungeon5_3_3_w
+    dungeon5_3_3_w, \
+    dungeon5_boss_area_entrance
 
 locations_lo:
   .lobytes locations
@@ -696,6 +697,14 @@ dungeon5_sprite_chr_groups:
   .byte sprite_chr_group_index_crab
   .byte sprite_chr_group_index_jellyfish
   .byte sprite_chr_group_index_urchin
+
+dungeon5_boss_sprite_chr_groups:
+  .byte 5   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
 
 ;****************************************************************
 ;Entity instance sets
@@ -2420,7 +2429,7 @@ dungeon5_3_0_entity_instances:
   .byte entity_index_monolith, 62, 9, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON5_DUNGEON_FLAGS_DOOR4_UNLOCKED, \
                                          MONOLITH_DIRECTION_EAST,\
-                                         ACTION_NOP, 0,\
+                                         ACTION_GOTO_LOCATION_GROUP1, location_index_dungeon5_boss_area_entrance,\
                                          1, 4
 
 dungeon5_0_1_entity_instances:
@@ -2728,6 +2737,9 @@ dungeon5_3_3_entity_instances:
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_2_3_e,\
                                          0, 4
 
+dungeon5_boss_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -2921,6 +2933,11 @@ tortoise_palette:
   .byte PALETTE_CYCLE_LOOP
 
 dungeon5_palette:
+  .byte $0e,$01,$11,$21,$0e,$0c,$1c,$2c,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$03,$23,$0e,$0e,$24,$20
+  .byte PALETTE_CYCLE_LOOP
+
+dungeon5_boss_palette:
   .byte $0e,$01,$11,$21,$0e,$0c,$1c,$2c,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$03,$23,$0e,$0e,$24,$20
   .byte PALETTE_CYCLE_LOOP
@@ -3679,3 +3696,6 @@ dungeon5_2_3_e:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5,dungeon5_sprite_chr_groups,dungeon5_2_3_entity_instances,dungeon5_palette,32, 45, 45, 52, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon5_3_3_w:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5,dungeon5_sprite_chr_groups,dungeon5_3_3_entity_instances,dungeon5_palette,48, 45, 50, 52, 0, 0, 0, ENTITY_DIRECTION_RIGHT
+
+dungeon5_boss_area_entrance:
+define_location {(LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5_boss,dungeon5_boss_sprite_chr_groups,dungeon5_boss_entity_instances,dungeon5_boss_palette, 5, 0, 11, 9, 0, 0, 0, ENTITY_DIRECTION_UP
