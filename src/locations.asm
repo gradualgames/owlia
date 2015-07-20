@@ -2367,9 +2367,10 @@ dungeon5_1_0_entity_instances:
                                          0, 4
 
 dungeon5_2_0_entity_instances:
-  .byte 4
-  .byte entity_index_crab, 34, 8, 0, 0
-  .byte entity_index_crab, 44, 8, 0, 0
+  .byte 5
+  .byte entity_index_crab, 36, 6, 0, 0
+  .byte entity_index_crab, 42, 10, 0, 0
+  .byte entity_index_jellyfish, 34, 9, 0, 0
   .byte entity_index_monolith, 41, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2442,34 +2443,35 @@ dungeon5_0_1_entity_instances:
                                          0, 5
 
 dungeon5_1_1_entity_instances:
-  .byte 8
-  .byte entity_index_jellyfish, 18, 21, 0, 0
+  .byte 9
+  .byte entity_index_traproom, 0, 0, 0, 0
+  .byte entity_index_jellyfish, 20, 21, 0, 0
   .byte entity_index_jellyfish, 29, 21, 0, 0
-  .byte entity_index_jellyfish, 18, 26, 0, 0
+  .byte entity_index_jellyfish, 20, 26, 0, 0
   .byte entity_index_jellyfish, 29, 26, 0, 0
   .byte entity_index_monolith, 24, 20, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_1_0_s,\
                                          0, 2
 
   .byte entity_index_monolith, 24, 29, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_LOCKED,\
                                          0,\
                                          MONOLITH_DIRECTION_SOUTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_1_2_n,\
                                          0, 2
 
   .byte entity_index_monolith, 30, 23, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_LOCKED,\
                                          0,\
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_2_1_w,\
                                          0, 5
 
   .byte entity_index_monolith, 17, 23, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_LOCKED,\
                                          0,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_0_1_e,\
@@ -2498,8 +2500,8 @@ dungeon5_3_1_entity_instances:
   .byte 6
   .byte entity_index_crab, 52, 25, 0, 0
   .byte entity_index_crab, 58, 25, 0, 0
-  .byte entity_index_crab, 52, 21, 0, 0
-  .byte entity_index_crab, 58, 21, 0, 0
+  .byte entity_index_starfish, 52, 21, 0, 0
+  .byte entity_index_starfish, 58, 21, 0, 0
   .byte entity_index_monolith, 55, 20, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -2547,30 +2549,30 @@ dungeon5_1_2_entity_instances:
   .byte entity_index_crab, 26, 40, 0, 0
   .byte entity_index_crab, 20, 40, 0, 0
   .byte entity_index_jellyfish, 20, 36, 0, 0
-  .byte entity_index_octopus, 26, 36, 0, 0
+  .byte entity_index_octopus, 27, 36, 0, 0
   .byte entity_index_monolith, 24, 35, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET,\
                                          0,\
                                          MONOLITH_DIRECTION_NORTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_1_1_s,\
                                          0, 2
 
   .byte entity_index_monolith, 23, 44, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_LOCKED,\
                                          0,\
                                          MONOLITH_DIRECTION_SOUTH,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_1_3_n,\
                                          0, 2
 
   .byte entity_index_monolith, 30, 38, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_LOCKED,\
                                          0,\
                                          MONOLITH_DIRECTION_EAST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_2_2_w,\
                                          0, 5
 
   .byte entity_index_monolith, 17, 38, 0, MONOLITH_PARAMS,\
-                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         MONOLITH_TYPE_LOCKED,\
                                          0,\
                                          MONOLITH_DIRECTION_WEST,\
                                          ACTION_SCROLLTO_LOCATION_GROUP1, location_index_dungeon5_0_2_e,\
