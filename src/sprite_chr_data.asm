@@ -60,7 +60,8 @@
   sawwhetowl_chr, \
   minigame_chr, \
   kraken_chr, \
-  barnowl_chr
+  barnowl_chr, \
+  mermon_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -125,6 +126,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_minigame
   .byte sprite_chr_group_bank_kraken
   .byte sprite_chr_group_bank_barnowl
+  .byte sprite_chr_group_bank_mermon
 
 .segment "ROM08"
 
@@ -300,3 +302,6 @@ kraken_chr:
 
 barnowl_chr:
 .incbin "barnowl.chr"
+
+mermon_chr:
+.incbin "mermon.chr"

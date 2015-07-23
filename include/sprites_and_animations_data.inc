@@ -211,4 +211,8 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global barnowl_fly
 .global barnowl_perch
 
+.global mermon_torso_fly
+.global mermon_torso_toss
+.global mermon_tail_swim
+
 .endif

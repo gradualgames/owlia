@@ -699,12 +699,13 @@ dungeon5_sprite_chr_groups:
   .byte sprite_chr_group_index_urchin
 
 dungeon5_boss_sprite_chr_groups:
-  .byte 5   ;sprite_chr_groups .byte
+  .byte 6   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_mermon
 
 ;****************************************************************
 ;Entity instance sets
@@ -2738,7 +2739,9 @@ dungeon5_3_3_entity_instances:
                                          0, 4
 
 dungeon5_boss_entity_instances:
-  .byte 0
+  .byte 2
+  .byte entity_index_mermon_torso, 5, 5, 0, 0
+  .byte entity_index_mermon_tail, 8, 5, 0, 0
 
 ;****************************************************************
 ;Palettes.

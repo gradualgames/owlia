@@ -70,6 +70,8 @@ entity_index_kraken_eye
 entity_index_kraken
 entity_index_owl_switch
 entity_index_owl_switch_color_puzzle
+entity_index_mermon_torso
+entity_index_mermon_tail
 .endenum
 
 entity_update_bank_instance_placeholder = 4
@@ -131,6 +133,8 @@ entity_update_bank_kraken_eye = 21
 entity_update_bank_kraken = 21
 entity_update_bank_owl_switch = 21
 entity_update_bank_owl_switch_color_puzzle = 21
+entity_update_bank_mermon_torso = 21
+entity_update_bank_mermon_tail = 21
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 7
@@ -191,5 +195,7 @@ entity_sprites_and_animations_bank_kraken_eye = 23
 ;entity_sprites_and_animations_bank_kraken ;this entity has no graphics
 entity_sprites_and_animations_bank_owl_switch = 7
 ;entity_sprites_and_animations_bank_owl_switch ;this entity has no graphics
+entity_sprites_and_animations_bank_mermon_torso = 23
+entity_sprites_and_animations_bank_mermon_tail = 23
 
 .endif

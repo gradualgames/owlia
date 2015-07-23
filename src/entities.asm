@@ -94,7 +94,9 @@
   kraken_eye_update, \
   kraken_update, \
   owl_switch_update, \
-  owl_switch_color_puzzle_update
+  owl_switch_color_puzzle_update, \
+  mermon_torso_update, \
+  mermon_tail_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -161,6 +163,8 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_kraken
   .byte entity_update_bank_owl_switch
   .byte entity_update_bank_owl_switch_color_puzzle
+  .byte entity_update_bank_mermon_torso
+  .byte entity_update_bank_mermon_tail
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -222,6 +226,8 @@ entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_kraken
   .byte entity_sprites_and_animations_bank_owl_switch
   .byte 0 ;entity_sprites_and_animations_bank_owl_switch_color_puzzle
+  .byte entity_sprites_and_animations_bank_mermon_torso
+  .byte entity_sprites_and_animations_bank_mermon_tail
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -285,3 +291,5 @@ entity_defs_sprites_and_animations_bank:
 .include "kraken.inc"
 .include "owl_switch.inc"
 .include "owl_switch_color_puzzle.inc"
+.include "mermon_torso.inc"
+.include "mermon_tail.inc"

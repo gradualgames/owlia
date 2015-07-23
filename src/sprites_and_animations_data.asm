@@ -65,3 +65,4 @@
 .include "tunicate_sprites_and_animations.inc"
 .include "clam_sprites_and_animations.inc"
 .include "kraken_sprites_and_animations.inc"
+.include "mermon_sprites_and_animations.inc"
