@@ -5,10 +5,27 @@ MERMON_TORSO_INC = 1
 MERMON_TAIL_X_OFFSET = 0
 MERMON_TAIL_Y_OFFSET = 16
 
+MERMON_HORIZONTAL_MID_POINT = 172
+MERMON_VERTICAL_MID_POINT = 50
+
+MERMON_HORIZONTAL_ACCELERATION = 15
+
 MERMON_TORSO_WIDTH = $0f
 MERMON_TORSO_HEIGHT = $0f
 
-define_entity_properties mermon_tail_index
+mermon_x_lo = entity_x_lo
+mermon_x_hi = entity_x_hi
+mermon_y_lo = entity_y_lo
+mermon_y_hi = entity_y_hi
+
+define_entity_properties mermon_tail_index,\
+                         mermon_x_fine,\
+                         mermon_y_fine,\
+                         mermon_x_velocity_lo,\
+                         mermon_x_velocity_hi,\
+                         mermon_y_velocity_lo,\
+                         mermon_y_velocity_hi
+
 
 .enum
 MERMON_TORSO_STATE_INIT
@@ -26,6 +43,11 @@ mermon_torso_update:
 mermon_torso_state_init:
 
   jsr entity_set_drawable
+
+  jsr entity_set_shadow_spot
+
+  entity_lda16 entity_shadow_spot_x, 12
+  entity_lda16 entity_shadow_spot_y, 64
 
   lda #<mermon_torso_fly
   sta entity_animation_address_lo,x
@@ -64,6 +86,13 @@ done:
   sta mermon_tail_index,x
   .endscope
 
+  lda #0
+  sta mermon_x_fine,x
+  sta mermon_y_fine,x
+
+  entity_lda16 mermon_x_velocity, 0
+  entity_lda16 mermon_y_velocity, 0
+
   jsr mermon_position_tail
 
   lda #MERMON_TORSO_STATE_MAIN
@@ -72,6 +101,45 @@ done:
   rts
 
 mermon_torso_state_main:
+
+  entity_add_velocity mermon_x, mermon_x_velocity
+  entity_add_velocity mermon_y, mermon_y_velocity
+
+  .scope
+  sec
+  lda mermon_x_lo,x
+  sbc #<MERMON_HORIZONTAL_MID_POINT
+  lda mermon_x_hi,x
+  sbc #>MERMON_HORIZONTAL_MID_POINT
+  bmi accelerate_right
+accelerate_left:
+
+  entity_add_acceleration mermon_x_velocity, -MERMON_HORIZONTAL_ACCELERATION
+
+  jmp done
+accelerate_right:
+
+  entity_add_acceleration mermon_x_velocity, MERMON_HORIZONTAL_ACCELERATION
+
+done:
+  .endscope
+
+  .scope
+  lda mermon_x_velocity_hi,x
+  bmi left
+right:
+
+  lda #%01000000
+  sta entity_sprite_flags,x
+
+  jmp done
+left:
+
+  lda #%00000000
+  sta entity_sprite_flags,x
+
+done:
+  .endscope
 
   jsr mermon_position_tail
 

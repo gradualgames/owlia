@@ -2740,8 +2740,8 @@ dungeon5_3_3_entity_instances:
 
 dungeon5_boss_entity_instances:
   .byte 2
-  .byte entity_index_mermon_torso, 5, 5, 0, 0
-  .byte entity_index_mermon_tail, 8, 5, 0, 0
+  .byte entity_index_mermon_torso, 5, 3, 0, 0
+  .byte entity_index_mermon_tail, 8, 3, 0, 0
 
 ;****************************************************************
 ;Palettes.
