@@ -2,6 +2,8 @@
 .ifndef MERMON_TORSO_INC
 MERMON_TORSO_INC = 1
 
+.include "projectile_constants.inc"
+
 MERMON_TAIL_X_OFFSET = 0
 MERMON_TAIL_Y_OFFSET = 16
 
@@ -244,6 +246,9 @@ done:
   ldy spawned_entity
   lda mermon_projectile_direction_counter,x
   sta projectile_direction,y
+
+  lda #PROJECTILE_MODE_FAST
+  sta projectile_mode,y
 
   inc mermon_projectile_direction_counter,x
 do_not_fire_projectile:

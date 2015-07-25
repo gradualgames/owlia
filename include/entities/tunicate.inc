@@ -110,6 +110,9 @@ tunicate_state_main:
   lda tunicate_projectile_direction,x
   sta projectile_direction,y
 
+  lda #PROJECTILE_MODE_SLOW
+  sta projectile_mode,y
+
   inc tunicate_projectile_direction,x
   lda tunicate_projectile_direction,x
   and #%00000111
