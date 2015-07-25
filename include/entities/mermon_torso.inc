@@ -4,6 +4,8 @@ MERMON_TORSO_INC = 1
 
 .include "projectile_constants.inc"
 
+MERMON_TORSO_INITIAL_HEALTH = 50
+
 MERMON_TAIL_X_OFFSET = 0
 MERMON_TAIL_Y_OFFSET = 16
 
@@ -23,11 +25,14 @@ MERMON_PROJECTILE_FREQUENCY = 12
 
 MERMON_PROJECTILE_LIFE = 50
 
-MERMON_TORSO_WIDTH = $0f
-MERMON_TORSO_HEIGHT = $0f
+MERMON_TORSO_WIDTH = $17
+MERMON_TORSO_HEIGHT = $17
 
 MERMON_TORSO_STATE_MAIN_LENGTH = 200
 MERMON_TORSO_STATE_FLING_LENGTH = 60
+
+MERMON_TORSO_FLASH_LENGTH = 20
+MERMON_TORSO_ATTACKED_LENGTH = 30
 
 mermon_x_lo = entity_x_lo
 mermon_x_hi = entity_x_hi
@@ -43,7 +48,11 @@ define_entity_properties mermon_tail_index,\
                          mermon_y_velocity_hi, \
                          mermon_state_counter, \
                          mermon_projectile_state_counter, \
-                         mermon_projectile_direction_counter
+                         mermon_projectile_direction_counter, \
+                         mermon_torso_direction, \
+                         mermon_torso_health, \
+                         mermon_torso_knockback_counter, \
+                         mermon_torso_flash_counter
 
 .enum
 MERMON_TORSO_STATE_INIT
@@ -61,6 +70,8 @@ mermon_torso_update:
   entity_state_switchboard mermon_torso_lo, mermon_torso_hi
 
 mermon_torso_state_init:
+
+  jsr entity_set_is_enemy
 
   jsr entity_set_drawable
 
@@ -115,6 +126,14 @@ done:
 
   jsr mermon_position_tail
 
+  lda #0
+  sta mermon_torso_flash_counter,x
+  sta mermon_torso_knockback_counter,x
+  sta mermon_torso_direction,x
+
+  lda #MERMON_TORSO_INITIAL_HEALTH
+  sta mermon_torso_health,x
+
   lda #MERMON_TORSO_STATE_MAIN_LENGTH
   sta mermon_state_counter,x
 
@@ -124,6 +143,8 @@ done:
   rts
 
 mermon_torso_state_main:
+
+  jsr mermon_torso_combat
 
   entity_add_velocity mermon_x, mermon_x_velocity
   entity_add_velocity mermon_y, mermon_y_velocity
@@ -171,13 +192,15 @@ done:
   bmi left
 right:
 
-  lda #%01000000
+  lda entity_sprite_flags,x
+  ora #%01000000
   sta entity_sprite_flags,x
 
   jmp done
 left:
 
-  lda #%00000000
+  lda entity_sprite_flags,x
+  and #%10111111
   sta entity_sprite_flags,x
 
 done:
@@ -216,6 +239,8 @@ do_not_transition_yet:
   rts
 
 mermon_torso_state_fling:
+
+  jsr mermon_torso_combat
 
   .scope
   dec mermon_projectile_state_counter,x
@@ -316,6 +341,14 @@ done:
   sta projectile_life_hi,y
 
   inc mermon_projectile_direction_counter,x
+
+  rts
+
+.endproc
+
+.proc mermon_torso_combat
+
+  entity_combat #MERMON_TORSO_FLASH_LENGTH, #MERMON_TORSO_ATTACKED_LENGTH, mermon_torso_flash_counter, mermon_torso_knockback_counter, mermon_torso_health, mermon_torso_direction, "entity_drop_nop", "entity_spawn_explosion"
 
   rts
 
