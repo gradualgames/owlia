@@ -6,9 +6,10 @@ MERMON_TAIL_X_OFFSET = 0
 MERMON_TAIL_Y_OFFSET = 16
 
 MERMON_HORIZONTAL_MID_POINT = 172
-MERMON_VERTICAL_MID_POINT = 50
+MERMON_VERTICAL_MID_POINT = 40
 
 MERMON_HORIZONTAL_ACCELERATION = 15
+MERMON_VERTICAL_ACCELERATION = 15
 
 MERMON_TORSO_WIDTH = $0f
 MERMON_TORSO_HEIGHT = $0f
@@ -120,6 +121,25 @@ accelerate_left:
 accelerate_right:
 
   entity_add_acceleration mermon_x_velocity, MERMON_HORIZONTAL_ACCELERATION
+
+done:
+  .endscope
+
+  .scope
+  sec
+  lda mermon_y_lo,x
+  sbc #<MERMON_VERTICAL_MID_POINT
+  lda mermon_y_hi,x
+  sbc #>MERMON_VERTICAL_MID_POINT
+  bmi accelerate_up
+accelerate_down:
+
+  entity_add_acceleration mermon_y_velocity, -MERMON_VERTICAL_ACCELERATION
+
+  jmp done
+accelerate_up:
+
+  entity_add_acceleration mermon_y_velocity, MERMON_VERTICAL_ACCELERATION
 
 done:
   .endscope
