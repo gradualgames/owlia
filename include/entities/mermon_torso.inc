@@ -21,6 +21,8 @@ MERMON_RIGHT_PROJECTILE_Y_OFFSET = 16
 
 MERMON_PROJECTILE_FREQUENCY = 12
 
+MERMON_PROJECTILE_LIFE = 50
+
 MERMON_TORSO_WIDTH = $0f
 MERMON_TORSO_HEIGHT = $0f
 
@@ -222,35 +224,8 @@ mermon_torso_state_fling:
   lda #MERMON_PROJECTILE_FREQUENCY
   sta mermon_projectile_state_counter,x
 
-  lda #entity_index_projectile
-  sta b0
+  jsr mermon_fire_projectile
 
-  entity_to_zp16 entity_x, w0
-  entity_to_zp16 entity_y, w1
-
-  .scope
-  lda mermon_x_velocity_hi,x
-  bmi left
-right:
-  zp16_add_im8 w0, MERMON_RIGHT_PROJECTILE_X_OFFSET
-  zp16_add_im8 w1, MERMON_RIGHT_PROJECTILE_Y_OFFSET
-  jmp done
-left:
-  zp16_add_im8 w0, MERMON_LEFT_PROJECTILE_X_OFFSET
-  zp16_add_im8 w1, MERMON_LEFT_PROJECTILE_Y_OFFSET
-done:
-  .endscope
-
-  jsr entity_spawn
-
-  ldy spawned_entity
-  lda mermon_projectile_direction_counter,x
-  sta projectile_direction,y
-
-  lda #PROJECTILE_MODE_FAST
-  sta projectile_mode,y
-
-  inc mermon_projectile_direction_counter,x
 do_not_fire_projectile:
   .endscope
 
@@ -300,6 +275,47 @@ do_not_transition_yet:
 
   lda entity_sprite_flags,x
   sta entity_sprite_flags,y
+
+  rts
+
+.endproc
+
+.proc mermon_fire_projectile
+
+  lda #entity_index_projectile
+  sta b0
+
+  entity_to_zp16 entity_x, w0
+  entity_to_zp16 entity_y, w1
+
+  .scope
+  lda mermon_x_velocity_hi,x
+  bmi left
+right:
+  zp16_add_im8 w0, MERMON_RIGHT_PROJECTILE_X_OFFSET
+  zp16_add_im8 w1, MERMON_RIGHT_PROJECTILE_Y_OFFSET
+  jmp done
+left:
+  zp16_add_im8 w0, MERMON_LEFT_PROJECTILE_X_OFFSET
+  zp16_add_im8 w1, MERMON_LEFT_PROJECTILE_Y_OFFSET
+done:
+  .endscope
+
+  jsr entity_spawn
+
+  ldy spawned_entity
+  lda mermon_projectile_direction_counter,x
+  sta projectile_direction,y
+
+  lda #PROJECTILE_MODE_FAST
+  sta projectile_mode,y
+
+  lda #<MERMON_PROJECTILE_LIFE
+  sta projectile_life_lo,y
+  lda #>MERMON_PROJECTILE_LIFE
+  sta projectile_life_hi,y
+
+  inc mermon_projectile_direction_counter,x
 
   rts
 

@@ -45,8 +45,6 @@ projectile_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
-  entity_lda16 projectile_life, PROJECTILE_INITIAL_LIFE
-
   lda #0
   sta projectile_x_fine,x
   sta projectile_y_fine,x
