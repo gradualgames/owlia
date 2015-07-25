@@ -91,7 +91,7 @@ mermon_tail2:
   .byte $17,$4c,$03,$19,$ff
 
 mermon_torso_toss:
-  .byte $0a, $06
+  .byte $04, $06
   .word mermon_torso0
   .word mermon_torso1
   .word mermon_torso2
