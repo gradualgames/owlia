@@ -40,9 +40,6 @@ mermon_tail_state_init:
   sta b0
   jsr entity_lookup_sprite_chr_offset
 
-  lda #$00
-  sta entity_sprite_flags,x
-
   lda #MERMON_TAIL_STATE_MAIN
   sta entity_state,x
 
