@@ -144,8 +144,6 @@ done:
 
 mermon_torso_state_main:
 
-  jsr mermon_torso_combat
-
   entity_add_velocity mermon_x, mermon_x_velocity
   entity_add_velocity mermon_y, mermon_y_velocity
 
@@ -206,10 +204,6 @@ left:
 done:
   .endscope
 
-  jsr mermon_position_tail
-
-  jsr entity_update_animation
-
   .scope
   dec mermon_state_counter,x
   bne do_not_transition_yet
@@ -236,11 +230,15 @@ done:
 do_not_transition_yet:
   .endscope
 
+  jsr mermon_torso_combat
+
+  jsr entity_update_animation
+
+  jsr mermon_position_tail
+
   rts
 
 mermon_torso_state_fling:
-
-  jsr mermon_torso_combat
 
   .scope
   dec mermon_projectile_state_counter,x
@@ -253,8 +251,6 @@ mermon_torso_state_fling:
 
 do_not_fire_projectile:
   .endscope
-
-  jsr entity_update_animation
 
   .scope
   dec mermon_state_counter,x
@@ -275,6 +271,12 @@ do_not_fire_projectile:
 
 do_not_transition_yet:
   .endscope
+
+  jsr mermon_torso_combat
+
+  jsr entity_update_animation
+
+  jsr mermon_position_tail
 
   rts
 
