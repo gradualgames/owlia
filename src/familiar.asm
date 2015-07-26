@@ -2694,6 +2694,9 @@ do_not_switch_to_home_in_to_hero:
 
 no_enemy_found:
 
+  lda #FAMILIAR_STATE_HOMING_LENGTH
+  sta familiar_state_counter
+
   lda #FAMILIAR_STATE_HOMING
   sta familiar_state
 not_ready_yet:
@@ -2711,8 +2714,11 @@ not_ready_yet:
 ;****************************************************************
 .proc familiar_state_homing
 
+  dec familiar_state_counter
+  beq transition_to_home_in_to_hero_state
+
   ldx familiar_param_homing_entity_index
-  bmi homing_entity_dead
+  bmi transition_to_home_in_to_hero_state
   ;calculate distance between "goal" and X coordinate
   sec
   lda entity_x_lo,x
@@ -2756,7 +2762,7 @@ not_ready_yet:
 
   rts
 
-homing_entity_dead:
+transition_to_home_in_to_hero_state:
 
   lda #FAMILIAR_STATE_HOME_IN_TO_HERO
   sta familiar_state
