@@ -156,8 +156,24 @@
   lda #0
   sta key_dungeon_flags_mask,x
 
-  lda #KEY_STATE_PASSIVE_INIT
-  sta key_initial_state,x
+  far_call #entity_update_bank_key, key_state_init
+  far_call #entity_update_bank_key, key_state_passive_init
+
+  clc
+  lda familiar_x
+  adc familiar_carried_entity_x_offset
+  sta entity_x_lo,x
+  lda familiar_x+1
+  adc #$00
+  sta entity_x_hi,x
+
+  clc
+  lda familiar_y
+  adc familiar_carried_entity_y_offset
+  sta entity_y_lo,x
+  lda familiar_y+1
+  adc #$00
+  sta entity_y_hi,x
 
   rts
 cannot_spawn_key:
