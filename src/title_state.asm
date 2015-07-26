@@ -95,10 +95,16 @@ title_state_logo:
   sta song_address+1
   far_call #SOUND_BANK, song_initialize
 
-  ldx #120
+  ldx #140
 : wait_vblank
+  jsr controller_read
+  lda buffer_controller+buttons::_start
+  bne skip_logo
   dex
   bne :-
+skip_logo:
+
+  far_call #SOUND_BANK, sound_stop
 
   ;fade out logo palette
   lda #<gradual_games_logo_palette

@@ -113,7 +113,7 @@ reset:
 
   ;jump to title state
   switch_bank_ldy #TITLE_STATE_BANK
-  jmp title_state_init
+  jmp title_state_logo
 
 vblank:
 
