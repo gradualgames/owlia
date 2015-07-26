@@ -350,6 +350,18 @@ done:
 
   entity_combat #MERMON_TORSO_FLASH_LENGTH, #MERMON_TORSO_ATTACKED_LENGTH, mermon_torso_flash_counter, mermon_torso_knockback_counter, mermon_torso_health, mermon_torso_direction, "entity_drop_nop", "entity_spawn_explosion"
 
+  .scope
+  lda mermon_torso_health,x
+  bne not_dead_yet
+
+  ldy mermon_tail_index,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+
+not_dead_yet:
+  .endscope
+
   rts
 
 .endproc
