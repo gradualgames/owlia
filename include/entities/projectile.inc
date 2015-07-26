@@ -24,6 +24,8 @@ projectile_state_init:
 
   jsr entity_set_drawable
 
+  jsr entity_set_not_pausable
+
   lda #<explosion
   sta entity_animation_address_lo,x
   lda #>explosion
