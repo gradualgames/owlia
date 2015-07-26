@@ -1872,7 +1872,7 @@ play_state_action_start_conversation:
   save_controller_routine
 
   ;install normal controller routine
-  set_controller_routine controller_read_ignore_start
+  set_controller_routine controller_read
 
   ;when an NPC starts a conversation, the NPC specifies the index of a
   ;conversation to load, load it here.
