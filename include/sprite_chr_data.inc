@@ -66,6 +66,7 @@ sprite_chr_group_index_minigame
 sprite_chr_group_index_kraken
 sprite_chr_group_index_barnowl
 sprite_chr_group_index_mermon
+sprite_chr_group_index_mermon_head
 .endenum
 
 sprite_chr_group_bank_intro_cut_scene_great_owls = 8
@@ -126,5 +127,6 @@ sprite_chr_group_bank_minigame = 24
 sprite_chr_group_bank_kraken = 24
 sprite_chr_group_bank_barnowl = 24
 sprite_chr_group_bank_mermon = 24
+sprite_chr_group_bank_mermon_head = 24
 
 .endif

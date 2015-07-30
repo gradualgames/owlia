@@ -279,7 +279,8 @@
     dungeon5_2_3_n, \
     dungeon5_2_3_e, \
     dungeon5_3_3_w, \
-    dungeon5_boss_area_entrance
+    dungeon5_boss_area_entrance, \
+    dungeon5_final_boss_area_entrance
 
 locations_lo:
   .lobytes locations
@@ -706,6 +707,15 @@ dungeon5_boss_sprite_chr_groups:
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_mermon
+
+dungeon5_final_boss_sprite_chr_groups:
+  .byte 6   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_mermon_head
 
 ;****************************************************************
 ;Entity instance sets
@@ -2746,6 +2756,13 @@ dungeon5_boss_entity_instances:
   .byte entity_index_mermon_torso, 5, 3, 0, 0
   .byte entity_index_mermon_tail, 8, 3, 0, 0
 
+dungeon5_final_boss_entity_instances:
+  .byte 2
+  ;tech_homing+1 is invalid but this tech is never earned.
+  ;This ensures that this boss will be launched.
+  .byte entity_index_boss, 0, 0, 0, BOSS_PARAMS, tech_homing+1
+  .byte entity_index_mermon_head, 5, 3, 0, 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -2944,6 +2961,11 @@ dungeon5_palette:
   .byte PALETTE_CYCLE_LOOP
 
 dungeon5_boss_palette:
+  .byte $0e,$01,$11,$21,$0e,$0c,$1c,$2c,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$12,$3c,$0e,$0e,$1c,$3c
+  .byte PALETTE_CYCLE_LOOP
+
+dungeon5_final_boss_palette:
   .byte $0e,$01,$11,$21,$0e,$0c,$1c,$2c,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$12,$3c,$0e,$0e,$1c,$3c
   .byte PALETTE_CYCLE_LOOP
@@ -3705,3 +3727,6 @@ define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAG
 
 dungeon5_boss_area_entrance:
 define_location {(LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5_boss,dungeon5_boss_sprite_chr_groups,dungeon5_boss_entity_instances,dungeon5_boss_palette, 5, 0, 11, 9, 0, 0, 0, ENTITY_DIRECTION_UP
+
+dungeon5_final_boss_area_entrance:
+define_location {(LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5_boss,dungeon5_final_boss_sprite_chr_groups,dungeon5_final_boss_entity_instances,dungeon5_final_boss_palette, 5, 0, 11, 9, 0, 0, 0, ENTITY_DIRECTION_UP

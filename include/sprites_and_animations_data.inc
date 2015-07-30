@@ -215,4 +215,9 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global mermon_torso_toss
 .global mermon_tail_swim
 
+.global mermon_head_ears_forward
+.global mermon_head_ears_back
+.global mermon_head_blow_ears_forward
+.global mermon_head_blow_ears_back
+
 .endif
