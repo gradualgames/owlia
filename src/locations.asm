@@ -2749,18 +2749,12 @@ dungeon5_3_3_entity_instances:
                                          0, 4
 
 dungeon5_boss_entity_instances:
-  .byte 3
-  ;tech_homing+1 is invalid but this tech is never earned.
-  ;This ensures that this boss will be launched.
-  .byte entity_index_boss, 0, 0, 0, BOSS_PARAMS, tech_homing+1
+  .byte 2
   .byte entity_index_mermon_torso, 5, 3, 0, 0
   .byte entity_index_mermon_tail, 8, 3, 0, 0
 
 dungeon5_final_boss_entity_instances:
-  .byte 2
-  ;tech_homing+1 is invalid but this tech is never earned.
-  ;This ensures that this boss will be launched.
-  .byte entity_index_boss, 0, 0, 0, BOSS_PARAMS, tech_homing+1
+  .byte 1
   .byte entity_index_mermon_head, 5, 3, 0, 0
 
 ;****************************************************************

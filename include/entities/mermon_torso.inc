@@ -34,6 +34,8 @@ MERMON_TORSO_STATE_FLING_LENGTH = 60
 MERMON_TORSO_FLASH_LENGTH = 20
 MERMON_TORSO_ATTACKED_LENGTH = 30
 
+MERMON_TORSO_STATE_TRANSITION_TO_FINAL_FORM_LENGTH = 255
+
 mermon_x_lo = entity_x_lo
 mermon_x_hi = entity_x_hi
 mermon_y_lo = entity_y_lo
@@ -58,12 +60,14 @@ define_entity_properties mermon_tail_index,\
 MERMON_TORSO_STATE_INIT
 MERMON_TORSO_STATE_MAIN
 MERMON_TORSO_STATE_FLING
+MERMON_TORSO_STATE_TRANSITION_TO_FINAL_FORM
 .endenum
 
 define_lohi_tables mermon_torso, \
  {mermon_torso_state_init, \
   mermon_torso_state_main, \
-  mermon_torso_state_fling}
+  mermon_torso_state_fling, \
+  mermon_torso_state_transition_to_final_form}
 
 mermon_torso_update:
 
@@ -280,6 +284,26 @@ do_not_transition_yet:
 
   rts
 
+mermon_torso_state_transition_to_final_form:
+
+  .scope
+  dec mermon_state_counter,x
+  bne do_not_transition_yet
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  lda #ACTION_GOTO_LOCATION_GROUP1
+  sta state_control_params+play_state_control::action
+  lda #location_index_dungeon5_final_boss_area_entrance
+  sta state_control_params+play_state_control::param
+
+do_not_transition_yet:
+  .endscope
+
+  rts
+
 .proc mermon_position_tail
 
   ldy mermon_tail_index,x
@@ -356,10 +380,27 @@ done:
   lda mermon_torso_health,x
   bne not_dead_yet
 
+  jsr entity_clear_shadow_spot
+
+  ;keep torso entity alive because we're going to transition to the final boss in the next state
+  ;but make it not drawable as though it died
+  lda entity_flags,x
+  and #ENTITY_FLAGS_DRAWABLE_CLEAR
+  ora #ENTITY_FLAGS_ALIVE_SET
+  sta entity_flags,x
+
+  ;make the tail not drawable either
   ldy mermon_tail_index,x
   lda entity_flags,y
-  and #ENTITY_FLAGS_ALIVE_CLEAR
+  and #ENTITY_FLAGS_DRAWABLE_CLEAR
   sta entity_flags,y
+
+  ;transition to the state which will count down and then transition to the final boss location
+  lda #MERMON_TORSO_STATE_TRANSITION_TO_FINAL_FORM_LENGTH
+  sta mermon_state_counter,x
+
+  lda #MERMON_TORSO_STATE_TRANSITION_TO_FINAL_FORM
+  sta entity_state,x
 
 not_dead_yet:
   .endscope
