@@ -3651,7 +3651,7 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       55, 10, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 dungeon5_0_0_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5,dungeon5_sprite_chr_groups,dungeon5_0_0_entity_instances,dungeon5_palette,0, 0, 13, 7, 0, 0, 0, ENTITY_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_DUNGEON_ENTRANCE | LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5,dungeon5_sprite_chr_groups,dungeon5_0_0_entity_instances,dungeon5_palette,0, 0, 13, 7, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon5_1_0_s:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5,dungeon5_sprite_chr_groups,dungeon5_1_0_entity_instances,dungeon5_palette,16, 0, 24, 10, 0, 0, 0, ENTITY_DIRECTION_UP
 dungeon5_1_0_w:
