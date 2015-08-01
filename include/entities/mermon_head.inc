@@ -13,8 +13,8 @@ MERMON_HEAD_INITIAL_HEALTH = 50
 MERMON_HEAD_ATTACKED_LENGTH = 30
 MERMON_HEAD_FLASH_LENGTH = 20
 
-MERMON_HEAD_WIDTH = $0f
-MERMON_HEAD_HEIGHT = $0f
+MERMON_HEAD_WIDTH = $1f
+MERMON_HEAD_HEIGHT = $1f
 
 mermon_head_x_lo = entity_x_lo
 mermon_head_x_hi = entity_x_hi
@@ -65,7 +65,7 @@ mermon_head_state_init:
 
   jsr entity_set_shadow_spot
 
-  entity_lda16 entity_shadow_spot_x, 20
+  entity_lda16 entity_shadow_spot_x, 10
   entity_lda16 entity_shadow_spot_y, 32
 
   lda #<mermon_head_ears_forward
