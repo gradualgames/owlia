@@ -9,6 +9,10 @@ MERMON_HEAD_STATE_HOME_IN_TO_RANDOM_SPOT_LENGTH = 50
 MERMON_HEAD_FOLLOW_ACCELERATION = 20
 MERMON_HEAD_MAX_FOLLOW_VELOCITY = 500
 
+MERMON_HEAD_INITIAL_HEALTH = 50
+MERMON_HEAD_ATTACKED_LENGTH = 30
+MERMON_HEAD_FLASH_LENGTH = 20
+
 MERMON_HEAD_WIDTH = $0f
 MERMON_HEAD_HEIGHT = $0f
 
@@ -25,7 +29,12 @@ define_entity_properties mermon_head_ear_animation_counter, \
                          mermon_head_x_velocity_lo, \
                          mermon_head_x_velocity_hi, \
                          mermon_head_y_velocity_lo, \
-                         mermon_head_y_velocity_hi
+                         mermon_head_y_velocity_hi, \
+                         mermon_head_health, \
+                         mermon_head_attacked_counter, \
+                         mermon_head_flash_counter, \
+                         mermon_head_knockback_counter, \
+                         mermon_head_direction
 
 .enum
 MERMON_HEAD_STATE_INIT
@@ -93,6 +102,14 @@ mermon_head_state_init:
   lda #0
   sta mermon_head_ear_animation_index,x
 
+  lda #0
+  sta mermon_head_attacked_counter,x
+  sta mermon_head_flash_counter,x
+  sta mermon_head_direction,x
+
+  lda #MERMON_HEAD_INITIAL_HEALTH
+  sta mermon_head_health,x
+
   lda #MERMON_HEAD_STATE_PAUSE_LENGTH
   sta mermon_head_state_counter,x
 
@@ -102,6 +119,8 @@ mermon_head_state_init:
   rts
 
 mermon_head_state_pause:
+
+  jsr mermon_head_combat
 
   jsr mermon_head_update_ear_animation
 
@@ -123,6 +142,8 @@ do_not_transition_yet:
   rts
 
 mermon_head_state_home_in_to_random_spot:
+
+  jsr mermon_head_combat
 
   jsr mermon_head_float
 
@@ -303,6 +324,14 @@ done:
 
   entity_add_velocity mermon_head_x, mermon_head_x_velocity
   entity_add_velocity mermon_head_y, mermon_head_y_velocity
+
+  rts
+
+.endproc
+
+.proc mermon_head_combat
+
+  entity_combat #MERMON_HEAD_FLASH_LENGTH, #MERMON_HEAD_ATTACKED_LENGTH, mermon_head_flash_counter, mermon_head_knockback_counter, mermon_head_health, mermon_head_direction, "entity_drop_random_item", "entity_spawn_explosion"
 
   rts
 
