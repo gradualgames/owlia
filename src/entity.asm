@@ -483,22 +483,10 @@ next_entity:
   sta w3
   lda entity_y_hi,x
   sta w3+1
-
-  clc
-  lda entity_x_lo,x
-  adc entity_width,x
-  sta w6
-  lda entity_x_hi,x
-  adc #0
-  sta w6+1
-
-  clc
-  lda entity_y_lo,x
-  adc entity_height,x
-  sta w7
-  lda entity_y_hi,x
-  adc #0
-  sta w7+1
+  lda entity_width,x
+  sta b2
+  lda entity_height,x
+  sta b3
 
   ;transfer near hero rect
   sec
@@ -515,24 +503,12 @@ next_entity:
   lda hero_y+1
   sbc #>NEAR_HERO_RECT_Y_OFFSET
   sta w5+1
+  lda #NEAR_HERO_RECT_WIDTH
+  sta b4
+  lda #NEAR_HERO_RECT_HEIGHT
+  sta b5
 
-  clc
-  lda w4
-  adc #<NEAR_HERO_RECT_WIDTH
-  sta w8
-  lda w4+1
-  adc #>NEAR_HERO_RECT_WIDTH
-  sta w8+1
-
-  clc
-  lda w5
-  adc #<NEAR_HERO_RECT_HEIGHT
-  sta w9
-  lda w5+1
-  adc #>NEAR_HERO_RECT_HEIGHT
-  sta w9+1
-
-  jsr geotests_rect_in_rect
+  jsr geotests_rect_in_rect_size
   beq done
 
 not_candidate:
