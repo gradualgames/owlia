@@ -13,6 +13,9 @@ MERMON_HEAD_INITIAL_HEALTH = 50
 MERMON_HEAD_ATTACKED_LENGTH = 30
 MERMON_HEAD_FLASH_LENGTH = 20
 
+MERMON_HEAD_PROJECTILE_X_OFFSET = 10
+MERMON_HEAD_PROJECTILE_Y_OFFSET = 24
+
 MERMON_HEAD_WIDTH = $1f
 MERMON_HEAD_HEIGHT = $1f
 
@@ -34,7 +37,8 @@ define_entity_properties mermon_head_ear_animation_counter, \
                          mermon_head_attacked_counter, \
                          mermon_head_flash_counter, \
                          mermon_head_knockback_counter, \
-                         mermon_head_direction
+                         mermon_head_direction, \
+                         mermon_head_projectile_direction_counter
 
 .enum
 MERMON_HEAD_STATE_INIT
@@ -154,6 +158,8 @@ mermon_head_state_home_in_to_random_spot:
   .scope
   dec mermon_head_state_counter,x
   bne do_not_transition_yet
+
+  jsr mermon_head_fire_projectiles
 
   lda #MERMON_HEAD_STATE_PAUSE_LENGTH
   sta mermon_head_state_counter,x
@@ -332,6 +338,49 @@ done:
 .proc mermon_head_combat
 
   entity_combat #MERMON_HEAD_FLASH_LENGTH, #MERMON_HEAD_ATTACKED_LENGTH, mermon_head_flash_counter, mermon_head_knockback_counter, mermon_head_health, mermon_head_direction, "entity_drop_random_item", "entity_spawn_explosion"
+
+  rts
+
+.endproc
+
+.proc mermon_head_fire_projectiles
+
+  lda #7
+  sta mermon_head_projectile_direction_counter,x
+
+next_direction:
+
+  jsr perform_spawn
+
+  dec mermon_head_projectile_direction_counter,x
+  bpl next_direction
+
+  rts
+
+perform_spawn:
+
+  lda #entity_index_projectile
+  sta b0
+
+  entity_to_zp16 entity_x, w0
+  entity_to_zp16 entity_y, w1
+
+  zp16_add_im8 w0, MERMON_HEAD_PROJECTILE_X_OFFSET
+  zp16_add_im8 w1, MERMON_HEAD_PROJECTILE_Y_OFFSET
+
+  jsr entity_spawn
+
+  ldy spawned_entity
+  lda mermon_head_projectile_direction_counter,x
+  sta projectile_direction,y
+
+  lda #PROJECTILE_MODE_FAST
+  sta projectile_mode,y
+
+  lda #<MERMON_PROJECTILE_LIFE
+  sta projectile_life_lo,y
+  lda #>MERMON_PROJECTILE_LIFE
+  sta projectile_life_hi,y
 
   rts
 
