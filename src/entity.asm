@@ -462,6 +462,7 @@ enemy_found:
 ;Returns with x pointing to the living entity that is an enemy
 .proc entity_find_enemy_near_hero
 
+  .scope
   ldx #(MAX_ENTITIES-1)
 next_entity:
 
@@ -509,13 +510,35 @@ next_entity:
   sta b5
 
   jsr geotests_rect_in_rect_size
-  beq done
+  beq found_entity
 
 not_candidate:
 
   dex
   bpl next_entity
-done:
+  .endscope
+
+  ;now try to just find an entity that meets all criteria except distance. This
+  ;helps make the technique more powerful when fighting enemies from afar. The
+  ;first search above gives the player proximity control when they want to hit
+  ;specific out of reach objects.
+
+  .scope
+  ldx #(MAX_ENTITIES-1)
+next_entity:
+
+  ;exit the loop only if an entity is found which is alive, an enemy, and NOT paused.
+  ;otherwise, the loop will end with x as $ff, meaning no live enemy was found.
+  lda entity_flags,x
+  and #(ENTITY_FLAGS_ALIVE_TEST|ENTITY_FLAGS_IS_ENEMY_TEST|ENTITY_FLAGS_PAUSED_TEST)
+  cmp #(ENTITY_FLAGS_ALIVE_TEST|ENTITY_FLAGS_IS_ENEMY_TEST)
+  beq found_entity
+
+  dex
+  bpl next_entity
+  .endscope
+
+found_entity:
 
   rts
 
