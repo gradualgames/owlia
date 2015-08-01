@@ -2,9 +2,11 @@
 .ifndef MERMON_HEAD_INC
 MERMON_HEAD_INC = 1
 
+MERMON_HEAD_PROJECTILE_LIFE = 50
+
 MERMON_HEAD_EARS_FLAP_LENGTH = 14
 MERMON_HEAD_STATE_PAUSE_LENGTH = 50
-MERMON_HEAD_STATE_HOME_IN_TO_RANDOM_SPOT_LENGTH = 50
+MERMON_HEAD_STATE_HOME_IN_TO_RANDOM_SPOT_LENGTH = 100
 
 MERMON_HEAD_FOLLOW_ACCELERATION = 20
 MERMON_HEAD_MAX_FOLLOW_VELOCITY = 500
@@ -49,6 +51,10 @@ MERMON_HEAD_STATE_HOME_IN_TO_RANDOM_SPOT
 define_lohi_tables mermon_head_ear_animations, \
   {mermon_head_ears_forward, \
    mermon_head_ears_back}
+
+define_lohi_tables mermon_head_blow_ear_animations, \
+  {mermon_head_blow_ears_forward, \
+   mermon_head_blow_ears_back}
 
 define_lohi_tables mermon_head, \
  {mermon_head_state_init, \
@@ -126,13 +132,15 @@ mermon_head_state_pause:
 
   jsr mermon_head_combat
 
-  jsr mermon_head_update_ear_animation
+  jsr mermon_head_update_blow_animation
 
   jsr entity_update_animation
 
   .scope
   dec mermon_head_state_counter,x
   bne do_not_transition_yet
+
+  jsr entity_reset_animation
 
   lda #MERMON_HEAD_STATE_HOME_IN_TO_RANDOM_SPOT_LENGTH
   sta mermon_head_state_counter,x
@@ -153,13 +161,13 @@ mermon_head_state_home_in_to_random_spot:
 
   jsr mermon_head_update_ear_animation
 
-  ;jsr entity_update_animation
-
   .scope
   dec mermon_head_state_counter,x
   bne do_not_transition_yet
 
   jsr mermon_head_fire_projectiles
+
+  jsr entity_reset_animation
 
   lda #MERMON_HEAD_STATE_PAUSE_LENGTH
   sta mermon_head_state_counter,x
@@ -194,6 +202,34 @@ advance_ear_animation:
   lda mermon_head_ear_animations_lo,y
   sta entity_animation_address_lo,x
   lda mermon_head_ear_animations_hi,y
+  sta entity_animation_address_hi,x
+
+  rts
+
+.endproc
+
+.proc mermon_head_update_blow_animation
+
+  dec mermon_head_ear_animation_counter,x
+  beq advance_blow_animation
+
+  rts
+
+advance_blow_animation:
+
+  lda #MERMON_HEAD_EARS_FLAP_LENGTH
+  sta mermon_head_ear_animation_counter,x
+
+  clc
+  lda mermon_head_ear_animation_index,x
+  adc #1
+  and #%00000001
+  sta mermon_head_ear_animation_index,x
+
+  ldy mermon_head_ear_animation_index,x
+  lda mermon_head_blow_ear_animations_lo,y
+  sta entity_animation_address_lo,x
+  lda mermon_head_blow_ear_animations_hi,y
   sta entity_animation_address_hi,x
 
   rts
@@ -377,9 +413,9 @@ perform_spawn:
   lda #PROJECTILE_MODE_FAST
   sta projectile_mode,y
 
-  lda #<MERMON_PROJECTILE_LIFE
+  lda #<MERMON_HEAD_PROJECTILE_LIFE
   sta projectile_life_lo,y
-  lda #>MERMON_PROJECTILE_LIFE
+  lda #>MERMON_HEAD_PROJECTILE_LIFE
   sta projectile_life_hi,y
 
   rts
