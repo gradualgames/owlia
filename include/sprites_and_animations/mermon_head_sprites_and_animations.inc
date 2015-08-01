@@ -187,13 +187,13 @@ mermon_head_ears_back3:
   .byte $18,$1d,$02,$20,$08
 
 mermon_head_ears_forward:
-  .byte $05, $08
+  .byte 20, $08
   .word mermon_head_ears_out0
   .word mermon_head_ears_out1
   .word mermon_head_ears_out0
   .word mermon_head_ears_out2
 mermon_head_ears_back:
-  .byte $0a, $08
+  .byte 20, $08
   .word mermon_head_ears_back0
   .word mermon_head_ears_back1
   .word mermon_head_ears_back0
