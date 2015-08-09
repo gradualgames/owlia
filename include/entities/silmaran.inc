@@ -58,6 +58,10 @@ silmaran_state_init:
 
 silmaran_state_wait:
 
+  .scope
+  lda silmaran_flags,x
+  and #SILMARAN_FLAGS_EARN_UNLOCK_TECH_TEST
+  beq do_not_skip_silmaran
   ;make sure that Silmaran has only been encountered once
   lda inventory_earned_techs
   cmp #SILMARAN_EARNED_TECH
@@ -67,8 +71,8 @@ silmaran_state_wait:
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
   rts
-
 do_not_skip_silmaran:
+  .endscope
 
   .scope
   lda silmaran_flags,x
@@ -246,7 +250,7 @@ silmaran_state_descend:
 
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
-  lda #conversation_index_silmaran_encounter_scene
+  lda silmaran_conversation,x
   sta state_control_params+play_state_control::param
 
   lda #SILMARAN_STATE_PERCH
@@ -310,9 +314,15 @@ silmaran_state_ascend:
   sta song_address+1
   far_call #SOUND_BANK, song_initialize
 
+  .scope
+  lda silmaran_flags,x
+  and #SILMARAN_FLAGS_EARN_UNLOCK_TECH_TEST
+  beq do_not_earn_unlock_tech
   ;earn the unlock technique
   lda #SILMARAN_EARNED_TECH
   sta inventory_earned_techs
+do_not_earn_unlock_tech:
+  .endscope
 
   ;restore control to the player
   lda #$ff

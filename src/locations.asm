@@ -757,7 +757,7 @@ houser_entity_instances:
 
 meadow1_entity_instances:
   .byte 5  ;count
-  .byte entity_index_silmaran, 45, 47, 0, SILMARAN_PARAMS, 0, SILMARAN_STATE_WAIT
+  .byte entity_index_silmaran, 45, 47, 0, SILMARAN_PARAMS, SILMARAN_FLAGS_CHECK_SUMMON_RECT_SET | SILMARAN_FLAGS_EARN_UNLOCK_TECH_SET, SILMARAN_STATE_WAIT, conversation_index_silmaran_encounter_scene
   .byte entity_index_item, 29, 44, sprite_chr_group_index_hero, ITEM_PARAMS, ITEM_STATE_PICKUP_INIT, ITEM_TYPE_HEALTH, INVENTORY_DUNGEON_FLAGS_MASK_NOP, 0, 0, 1, 0
   .byte entity_index_treasure_chest, 11, 38, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_octopus, 12, 38, 0, 0
