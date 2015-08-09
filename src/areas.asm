@@ -1147,7 +1147,7 @@ dungeon5_boss_area:
   .byte CONVERSATIONS_BANK
   .word dungeon5_area_bg_chr_groups
   .word mermon_dungeon_theme
-  .byte $22 ;textbox_attribute
+  .byte $00 ;textbox_attribute
   .word dungeon5_boss_map
   .word dungeon5_boss_metatile_table_properties
   .word dungeon5_boss_metatile_table_params

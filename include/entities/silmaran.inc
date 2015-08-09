@@ -125,10 +125,10 @@ silmaran_state_align_camera_horiz:
 
   .scope
   lda camera_x
-  cmp #<SILMARAN_TOP_LEFT_SCREEN_X
+  cmp silmaran_top_left_screen_x_lo,x
   bne not_equal
   lda camera_x+1
-  cmp #>SILMARAN_TOP_LEFT_SCREEN_X
+  cmp silmaran_top_left_screen_x_hi,x
   bne not_equal
 
   jmp done
@@ -136,9 +136,9 @@ silmaran_state_align_camera_horiz:
 not_equal:
   sec
   lda camera_x
-  sbc #<SILMARAN_TOP_LEFT_SCREEN_X
+  sbc silmaran_top_left_screen_x_lo,x
   lda camera_x+1
-  sbc #>SILMARAN_TOP_LEFT_SCREEN_X
+  sbc silmaran_top_left_screen_x_hi,x
   bmi scroll_right
   bpl scroll_left
 scroll_right:
@@ -164,10 +164,10 @@ silmaran_state_align_camera_vert:
 
   .scope
   lda camera_y
-  cmp #<SILMARAN_TOP_LEFT_SCREEN_Y
+  cmp silmaran_top_left_screen_y_lo,x
   bne not_equal
   lda camera_y+1
-  cmp #>SILMARAN_TOP_LEFT_SCREEN_Y
+  cmp silmaran_top_left_screen_y_hi,x
   bne not_equal
 
   jmp done
@@ -175,9 +175,9 @@ silmaran_state_align_camera_vert:
 not_equal:
   sec
   lda camera_y
-  sbc #<SILMARAN_TOP_LEFT_SCREEN_Y
+  sbc silmaran_top_left_screen_y_lo,x
   lda camera_y+1
-  sbc #>SILMARAN_TOP_LEFT_SCREEN_Y
+  sbc silmaran_top_left_screen_y_hi,x
   bmi scroll_down
   bpl scroll_up
 scroll_down:
@@ -227,10 +227,10 @@ silmaran_state_descend:
 
   .scope
   lda entity_y_lo,x
-  cmp #<SILMARAN_PERCH_Y
+  cmp silmaran_perch_y_lo,x
   bne not_equal
   lda entity_y_hi,x
-  cmp #>SILMARAN_PERCH_Y
+  cmp silmaran_perch_y_hi,x
   bne not_equal
 
   clc

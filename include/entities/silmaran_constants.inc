@@ -19,19 +19,21 @@ SILMARAN_OFFSCREEN_X_OFFSET = 16
 SILMARAN_OFFSCREEN_Y_OFFSET = 200
 
 SILMARAN_PERCH_X_OFFSET = 8
-SILMARAN_PERCH_Y = (44 * 16)
-
-SILMARAN_TOP_LEFT_SCREEN_X = (37 * 16)
-SILMARAN_TOP_LEFT_SCREEN_Y = (39 * 16)
 
 SILMARAN_WIDTH = $0f
 SILMARAN_HEIGHT = $0f
 
-SILMARAN_PARAMS = 3
+SILMARAN_PARAMS = 9
 
 define_entity_properties silmaran_flags,\
                          silmaran_initial_state,\
                          silmaran_conversation,\
+                         silmaran_top_left_screen_x_lo,\
+                         silmaran_top_left_screen_x_hi,\
+                         silmaran_top_left_screen_y_lo,\
+                         silmaran_top_left_screen_y_hi,\
+                         silmaran_perch_y_lo,\
+                         silmaran_perch_y_hi,\
                          silmaran_state_counter
 
 SILMARAN_STATE_ASCEND_LENGTH = 200

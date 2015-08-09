@@ -7,11 +7,12 @@ MERMON_HEAD_PROJECTILE_LIFE = 50
 MERMON_HEAD_EARS_FLAP_LENGTH = 14
 MERMON_HEAD_STATE_PAUSE_LENGTH = 50
 MERMON_HEAD_STATE_HOME_IN_TO_RANDOM_SPOT_LENGTH = 100
+MERMON_HEAD_STATE_TRANSITION_TO_FINAL_SCENE_LENGTH = 200
 
 MERMON_HEAD_FOLLOW_ACCELERATION = 20
 MERMON_HEAD_MAX_FOLLOW_VELOCITY = 500
 
-MERMON_HEAD_INITIAL_HEALTH = 50
+MERMON_HEAD_INITIAL_HEALTH = 5
 MERMON_HEAD_ATTACKED_LENGTH = 30
 MERMON_HEAD_FLASH_LENGTH = 20
 
@@ -46,6 +47,7 @@ define_entity_properties mermon_head_ear_animation_counter, \
 MERMON_HEAD_STATE_INIT
 MERMON_HEAD_STATE_PAUSE
 MERMON_HEAD_STATE_HOME_IN_TO_RANDOM_SPOT
+MERMON_HEAD_STATE_TRANSITION_TO_FINAL_SCENE
 .endenum
 
 define_lohi_tables mermon_head_ear_animations, \
@@ -59,7 +61,8 @@ define_lohi_tables mermon_head_blow_ear_animations, \
 define_lohi_tables mermon_head, \
  {mermon_head_state_init, \
   mermon_head_state_pause, \
-  mermon_head_state_home_in_to_random_spot}
+  mermon_head_state_home_in_to_random_spot, \
+  mermon_head_state_transition_to_final_scene}
 
 mermon_head_update:
 
@@ -174,6 +177,22 @@ mermon_head_state_home_in_to_random_spot:
 
   lda #MERMON_HEAD_STATE_PAUSE
   sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  rts
+
+mermon_head_state_transition_to_final_scene:
+
+  .scope
+  dec mermon_head_state_counter,x
+  bne do_not_transition_yet
+
+  lda #ACTION_GOTO_LOCATION_GROUP1
+  sta state_control_params+play_state_control::action
+  lda #location_index_dungeon5_final_silmaran_encounter
+  sta state_control_params+play_state_control::param
 
 do_not_transition_yet:
   .endscope
@@ -374,6 +393,29 @@ done:
 .proc mermon_head_combat
 
   entity_combat #MERMON_HEAD_FLASH_LENGTH, #MERMON_HEAD_ATTACKED_LENGTH, mermon_head_flash_counter, mermon_head_knockback_counter, mermon_head_health, mermon_head_direction, "entity_drop_random_item", "entity_spawn_explosion"
+
+  .scope
+  lda mermon_head_health,x
+  bne not_dead_yet
+
+  jsr entity_clear_shadow_spot
+
+  ;keep entity alive because we're going to transition to the final scene in the next state
+  ;but make it not drawable as though it died
+  lda entity_flags,x
+  and #ENTITY_FLAGS_DRAWABLE_CLEAR
+  ora #ENTITY_FLAGS_ALIVE_SET
+  sta entity_flags,x
+
+  ;transition to the state which will count down and then transition to the final scene
+  lda #MERMON_HEAD_STATE_TRANSITION_TO_FINAL_SCENE_LENGTH
+  sta mermon_state_counter,x
+
+  lda #MERMON_HEAD_STATE_TRANSITION_TO_FINAL_SCENE
+  sta entity_state,x
+
+not_dead_yet:
+  .endscope
 
   rts
 
