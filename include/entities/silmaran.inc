@@ -6,13 +6,13 @@ SILMARAN_INC = 1
 
 .define silmaran_states \
   silmaran_state_init, \
-  silmaran_state_intro_wait, \
-  silmaran_state_intro_align_camera_horiz, \
-  silmaran_state_intro_align_camera_vert, \
-  silmaran_state_intro_descend, \
-  silmaran_state_intro_perch, \
-  silmaran_state_intro_ascend, \
-  silmaran_state_intro_summon_adlanniel
+  silmaran_state_wait, \
+  silmaran_state_align_camera_horiz, \
+  silmaran_state_align_camera_vert, \
+  silmaran_state_descend, \
+  silmaran_state_perch, \
+  silmaran_state_ascend, \
+  silmaran_state_summon_adlanniel
 
 silmaran_lo:
   .lobytes silmaran_states
@@ -56,7 +56,7 @@ silmaran_state_init:
 
   rts
 
-silmaran_state_intro_wait:
+silmaran_state_wait:
 
   ;make sure that Silmaran has only been encountered once
   lda inventory_earned_techs
@@ -70,7 +70,13 @@ silmaran_state_intro_wait:
 
 do_not_skip_silmaran:
 
+  .scope
+  lda silmaran_flags,x
+  and #SILMARAN_FLAGS_CHECK_SUMMON_RECT_TEST
+  beq do_not_check_summon_rect
   jsr check_summon_rect
+do_not_check_summon_rect:
+  .endscope
 
   jsr entity_test_hero_rect
   bne entity_not_hitting_hero
@@ -104,14 +110,14 @@ do_not_skip_silmaran:
   sbc #>SILMARAN_OFFSCREEN_Y_OFFSET
   sta entity_y_hi,x
 
-  lda #SILMARAN_STATE_INTRO_ALIGN_CAMERA_HORIZ
+  lda #SILMARAN_STATE_ALIGN_CAMERA_HORIZ
   sta entity_state,x
 
 entity_not_hitting_hero:
 
   rts
 
-silmaran_state_intro_align_camera_horiz:
+silmaran_state_align_camera_horiz:
 
   .scope
   lda camera_x
@@ -143,14 +149,14 @@ scroll_left:
   rts
 done:
 
-  lda #SILMARAN_STATE_INTRO_ALIGN_CAMERA_VERT
+  lda #SILMARAN_STATE_ALIGN_CAMERA_VERT
   sta entity_state,x
 
   .endscope
 
   rts
 
-silmaran_state_intro_align_camera_vert:
+silmaran_state_align_camera_vert:
 
   .scope
   lda camera_y
@@ -198,14 +204,14 @@ done:
 
   jsr entity_set_drawable
 
-  lda #SILMARAN_STATE_INTRO_DESCEND
+  lda #SILMARAN_STATE_DESCEND
   sta entity_state,x
 
   .endscope
 
   rts
 
-silmaran_state_intro_descend:
+silmaran_state_descend:
 
   clc
   lda entity_y_lo,x
@@ -243,7 +249,7 @@ silmaran_state_intro_descend:
   lda #conversation_index_silmaran_encounter_scene
   sta state_control_params+play_state_control::param
 
-  lda #SILMARAN_STATE_INTRO_PERCH
+  lda #SILMARAN_STATE_PERCH
   sta entity_state,x
 
 not_equal:
@@ -253,9 +259,9 @@ not_equal:
 
   rts
 
-silmaran_state_intro_perch:
+silmaran_state_perch:
 
-  lda #SILMARAN_STATE_INTRO_ASCEND_LENGTH
+  lda #SILMARAN_STATE_ASCEND_LENGTH
   sta silmaran_state_counter,x
 
   ;play a flapping sound
@@ -285,14 +291,14 @@ silmaran_state_intro_perch:
   lda #>silmaran_descend
   sta entity_animation_address_hi,x
 
-  lda #SILMARAN_STATE_INTRO_ASCEND
+  lda #SILMARAN_STATE_ASCEND
   sta entity_state,x
 
   jsr entity_update_animation
 
   rts
 
-silmaran_state_intro_ascend:
+silmaran_state_ascend:
 
   .scope
   dec silmaran_state_counter,x
@@ -334,7 +340,7 @@ not_gone_yet:
 
   rts
 
-silmaran_state_intro_summon_adlanniel:
+silmaran_state_summon_adlanniel:
 
   lda #1
   sta buffer_controller+buttons::_right
@@ -346,7 +352,7 @@ silmaran_state_intro_summon_adlanniel:
   jsr controller_clear
   set_controller_routine controller_read
 
-  lda #SILMARAN_STATE_INTRO_WAIT
+  lda #SILMARAN_STATE_WAIT
   sta entity_state,x
 
 do_not_switch_back_to_wait_state:
@@ -396,10 +402,10 @@ do_not_switch_back_to_wait_state:
   lda #conversation_index_silmaran_call_adlanniel
   sta state_control_params+play_state_control::param
 
-  lda #SILMARAN_STATE_INTRO_SUMMON_ADLANNIEL_LENGTH
+  lda #SILMARAN_STATE_SUMMON_ADLANNIEL_LENGTH
   sta silmaran_state_counter,x
 
-  lda #SILMARAN_STATE_INTRO_SUMMON_ADLANNIEL
+  lda #SILMARAN_STATE_SUMMON_ADLANNIEL
   sta entity_state,x
 
 do_not_summon_adlanniel:
