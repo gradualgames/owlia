@@ -308,11 +308,26 @@ silmaran_state_ascend:
   dec silmaran_state_counter,x
   bne not_gone_yet
 
-  lda #<forest_theme
+  .scope
+  ;save x---we're about to use far_load which does not preserve x.
+  txa
+  pha
+  ;reload current area's song
+  ldy #area::song_address
+  far_load #AREAS_BANK, area_address, area_address+1
+  lda far_load_result
   sta song_address
-  lda #>forest_theme
+
+  iny
+  far_load #AREAS_BANK, area_address, area_address+1
+  lda far_load_result
   sta song_address+1
+
   far_call #SOUND_BANK, song_initialize
+  ;restore x
+  pla
+  tax
+  .endscope
 
   .scope
   lda silmaran_flags,x
