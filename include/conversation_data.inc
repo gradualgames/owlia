@@ -42,6 +42,7 @@ conversation_index_if_you_want_my_submarine
 conversation_index_target_game_intro
 conversation_index_ring_game_intro
 conversation_index_what_was_that
+conversation_index_silmaran_final_encounter
 .endenum
 
 .endif

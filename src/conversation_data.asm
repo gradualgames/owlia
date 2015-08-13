@@ -35,7 +35,8 @@
     if_you_want_my_submarine, \
     target_game_intro, \
     ring_game_intro, \
-    what_was_that
+    what_was_that, \
+    silmaran_final_encounter
 
 conversations_lo:
   .lobytes conversations
@@ -408,3 +409,19 @@ ring_game_intro:
 what_was_that:
   .byte    1, "WHAT WAS THAT!?"
   .byte NL,2, "WE'VE LOST POWER!!",WT,EC
+
+silmaran_final_encounter:
+  .byte    1, "ADLANNIEL.",TM,30," TYTO.",TM,30," YOU HAVE"
+  .byte NL,2, "RESCUED ALL OF THE GREAT"
+  .byte NL,3, "OWL KINGS OF OWLIA AND"
+  .byte NL,4, "DEFEATED MERMON.",TM,30," THIS",WT,EP
+
+  .byte NL,1, "GREAT FORTRESS OF HIS WILL"
+  .byte NL,2, "NOW SINK TO THE DEEPEST,"
+  .byte NL,3, "DARKEST ABYSS,",TM,20," NEVER TO"
+  .byte NL,4, "RISE AGAIN.",WT,EP
+
+  .byte NL,1, "YOUR BRAVERY AND COURAGE"
+  .byte NL,2, "WILL BE REMEMBERED FOR ALL"
+  .byte NL,3, "TIME.",TM,30," NOW,",TM,20," LET ME TAKE YOU"
+  .byte NL,4, "TO SAFETY!",WT,EC
