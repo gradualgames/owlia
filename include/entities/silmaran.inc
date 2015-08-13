@@ -12,7 +12,12 @@ SILMARAN_INC = 1
   silmaran_state_descend, \
   silmaran_state_perch, \
   silmaran_state_ascend, \
-  silmaran_state_summon_adlanniel
+  silmaran_state_summon_adlanniel, \
+  silmaran_state_fly_to_hero_init, \
+  silmaran_state_fly_to_hero, \
+  silmaran_state_fly_away_init, \
+  silmaran_state_fly_away, \
+  silmaran_state_leave_dungeon
 
 silmaran_lo:
   .lobytes silmaran_states
@@ -50,6 +55,14 @@ silmaran_state_init:
 
   lda #$00
   sta entity_sprite_flags,x
+
+  lda #$00
+  sta silmaran_x_fine,x
+  sta silmaran_y_fine,x
+  sta silmaran_velocity_x_lo,x
+  sta silmaran_velocity_y_hi,x
+  sta silmaran_velocity_x_lo,x
+  sta silmaran_velocity_y_hi,x
 
   lda silmaran_initial_state,x
   sta entity_state,x
@@ -295,8 +308,19 @@ silmaran_state_perch:
   lda #>silmaran_descend
   sta entity_animation_address_hi,x
 
+  .scope
+  lda silmaran_flags,x
+  and #SILMARAN_FLAGS_FINAL_ENCOUNTER_TEST
+  beq ascend
+carry_adlanniel:
+  lda #SILMARAN_STATE_FLY_TO_HERO_INIT
+  sta entity_state,x
+  jmp done
+ascend:
   lda #SILMARAN_STATE_ASCEND
   sta entity_state,x
+done:
+  .endscope
 
   jsr entity_update_animation
 
@@ -381,6 +405,240 @@ silmaran_state_summon_adlanniel:
   sta entity_state,x
 
 do_not_switch_back_to_wait_state:
+
+  rts
+
+silmaran_state_fly_to_hero_init:
+
+  ;play a flapping sound
+  lda #<sfx_flap
+  sta sound_param_word_0
+  lda #>sfx_flap
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  lda #<silmaran_descend
+  sta entity_animation_address_lo,x
+  lda #>silmaran_descend
+  sta entity_animation_address_hi,x
+
+  jsr entity_update_animation
+
+  lda #SILMARAN_STATE_FLY_TO_HERO_LENGTH
+  sta silmaran_state_counter,x
+
+  lda #SILMARAN_STATE_FLY_TO_HERO
+  sta entity_state,x
+
+  rts
+
+silmaran_state_fly_to_hero:
+
+  .scope
+  dec silmaran_state_counter,x
+  bne do_not_switch_to_fly_away_state
+
+  lda #SILMARAN_STATE_FLY_AWAY_INIT
+  sta entity_state,x
+
+  rts
+
+do_not_switch_to_fly_away_state:
+  .endscope
+
+  ;compute goal coordinates for homing into hero
+  sec
+  lda hero_x
+  sbc #<16
+  sta w0
+  lda hero_x+1
+  sbc #>16
+  sta w0+1
+
+  sec
+  lda hero_y
+  sbc #<16
+  sta w1
+  lda hero_y+1
+  sbc #>16
+  sta w1+1
+
+  .scope
+  ;calculate distance between "goal" and X coordinate
+  sec
+  lda w0
+  sbc entity_x_lo,x
+  sta silmaran_velocity_x_lo,x
+  lda w0+1
+  sbc entity_x_hi,x
+  sta silmaran_velocity_x_hi,x
+
+  ;do an 16 bit arithmetic left shift on this value
+  asl silmaran_velocity_x_lo,x
+  rol silmaran_velocity_x_hi,x
+  asl silmaran_velocity_x_lo,x
+  rol silmaran_velocity_x_hi,x
+  asl silmaran_velocity_x_lo,x
+  rol silmaran_velocity_x_hi,x
+  asl silmaran_velocity_x_lo,x
+  rol silmaran_velocity_x_hi,x
+  .endscope
+
+  .scope
+  ;calculate distance between "goal" and Y coordinate
+  sec
+  lda w1
+  sbc entity_y_lo,x
+  sta silmaran_velocity_y_lo,x
+  lda w1+1
+  sbc entity_y_hi,x
+  sta silmaran_velocity_y_hi,x
+
+  ;do an 16 bit arithmetic left shift on this value
+  asl silmaran_velocity_y_lo,x
+  rol silmaran_velocity_y_hi,x
+  asl silmaran_velocity_y_lo,x
+  rol silmaran_velocity_y_hi,x
+  asl silmaran_velocity_y_lo,x
+  rol silmaran_velocity_y_hi,x
+  asl silmaran_velocity_y_lo,x
+  rol silmaran_velocity_y_hi,x
+  .endscope
+
+  .scope
+  lda silmaran_velocity_x_lo,x
+  sta w10
+  lda silmaran_velocity_x_hi,x
+  sta w10+1
+  bpl not_negative
+  ;find absolute value
+  lda w10
+  eor #$ff
+  adc #$01
+  sta w10
+  lda w10+1
+  eor #$ff
+  adc #$00
+  sta w10+1
+not_negative:
+  .endscope
+
+  .scope
+  lda silmaran_velocity_y_lo,x
+  sta w11
+  lda silmaran_velocity_y_hi,x
+  sta w11+1
+  bpl not_negative
+  ;find absolute value
+  lda w11
+  eor #$ff
+  adc #$01
+  sta w11
+  lda w11+1
+  eor #$ff
+  adc #$00
+  sta w11+1
+not_negative:
+  .endscope
+
+  jsr silmaran_move
+
+  jsr entity_update_animation
+
+  rts
+
+silmaran_state_fly_away_init:
+
+  ;play a flapping sound
+  lda #<sfx_flap
+  sta sound_param_word_0
+  lda #>sfx_flap
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  jsr entity_reset_animation
+
+  lda #<silmaran_descend
+  sta entity_animation_address_lo,x
+  lda #>silmaran_descend
+  sta entity_animation_address_hi,x
+
+  jsr entity_update_animation
+
+  lda #230
+  sta silmaran_state_counter,x
+
+  lda #SILMARAN_STATE_FLY_AWAY
+  sta entity_state,x
+
+  rts
+
+silmaran_state_fly_away:
+
+  dec silmaran_state_counter,x
+  lda silmaran_state_counter,x
+  bne :+
+  lda #SILMARAN_STATE_LEAVE_DUNGEON
+  sta entity_state,x
+:
+
+  sec
+  lda entity_y_lo,x
+  sbc #<SILMARAN_FLY_AWAY_SPEED
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  sbc #>SILMARAN_FLY_AWAY_SPEED
+  sta entity_y_hi,x
+
+  clc
+  lda entity_x_lo,x
+  adc #<SILMARAN_HERO_OFFSET_X
+  sta hero_x
+  lda entity_x_hi,x
+  adc #>SILMARAN_HERO_OFFSET_X
+  sta hero_x+1
+
+  clc
+  lda entity_y_lo,x
+  adc #<SILMARAN_HERO_OFFSET_Y
+  sta hero_y
+  lda entity_y_hi,x
+  adc #>SILMARAN_HERO_OFFSET_Y
+  sta hero_y+1
+
+  lda #ENTITY_DIRECTION_DOWN
+  sta hero_direction
+
+  jsr entity_update_animation
+
+  rts
+
+silmaran_state_leave_dungeon:
+
+  ;restore control to the player
+  lda #$ff
+  jsr controller_fill_buffer_with_accumulator
+  set_controller_routine controller_read
+
+  ;TODO: Transition to ending cut scene
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
 
   rts
 
@@ -563,6 +821,67 @@ do_not_summon_adlanniel:
 
   pla
   tax
+
+  rts
+
+.endproc
+
+.proc silmaran_move
+
+  ;add 16 bit velocity to 24 bit coordinate with sign extension
+  .scope
+  clc
+  lda silmaran_velocity_x_lo,x
+  adc silmaran_x_fine,x
+  sta silmaran_x_fine,x
+  lda silmaran_velocity_x_hi,x
+  bmi sign_extend
+
+  adc entity_x_lo,x
+  sta entity_x_lo,x
+
+  lda entity_x_hi,x
+  adc #0
+  sta entity_x_hi,x
+
+  jmp done
+sign_extend:
+
+  adc entity_x_lo,x
+  sta entity_x_lo,x
+
+  lda entity_x_hi,x
+  adc #$ff
+  sta entity_x_hi,x
+done:
+  .endscope
+
+  .scope
+  clc
+  lda silmaran_velocity_y_lo,x
+  adc silmaran_y_fine,x
+  sta silmaran_y_fine,x
+  lda silmaran_velocity_y_hi,x
+  bmi sign_extend
+
+  adc entity_y_lo,x
+  sta entity_y_lo,x
+
+  lda entity_y_hi,x
+  adc #0
+  sta entity_y_hi,x
+
+  jmp done
+sign_extend:
+
+  adc entity_y_lo,x
+  sta entity_y_lo,x
+
+  lda entity_y_hi,x
+  adc #$ff
+  sta entity_y_hi,x
+done:
+  .endscope
 
   rts
 
