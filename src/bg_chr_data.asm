@@ -135,3 +135,6 @@ tortoise_chr:
 
 dungeon5_main_chr:
 .incbin "dungeon5_main.chr"
+
+end_cut_scene_slide1_chr:
+.incbin "end_cut_scene_slide1.chr"

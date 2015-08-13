@@ -634,7 +634,12 @@ silmaran_state_leave_dungeon:
   jsr controller_fill_buffer_with_accumulator
   set_controller_routine controller_read
 
-  ;TODO: Transition to ending cut scene
+  lda #ACTION_PLAY_CUT_SCENE
+  sta state_control_params+play_state_control::action
+  lda #<end_cut_scene_slide1
+  sta state_control_params+play_state_control::param
+  lda #>end_cut_scene_slide1
+  sta state_control_params+play_state_control::param+1
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR

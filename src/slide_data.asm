@@ -28,6 +28,10 @@ intro_cut_scene_silmaran_palette:
   .byte $0e,$28,$10,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte $0e,$28,$10,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
 
+end_cut_scene_slide1_palette:
+  .byte $0e,$0e,$0e,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$0e,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+
 ;NOTE! These slides must be contiguous in ROM. Supporting arrays such as
 ;sprite chr sets and sprite overlays must be defined outside the slides.
 intro_cut_scene_great_owls:
@@ -105,3 +109,14 @@ intro_cut_scene_slide4_sprite_overlays:
   .byte 7
   .word intro_cut_scene_mermon_leer_spr_overlay1
   .byte 0, 0
+
+end_cut_scene_slide1:
+  .byte 26                                             ; bg_chr_bank .byte
+  .word end_cut_scene_slide1_chr                       ; bg_chr_address .word
+  .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
+  .word end_cut_scene_slide1_nametable                 ; nametable_address .word
+  .word end_cut_scene_slide1_palette                   ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .word 0                                              ; sprite_chr_sets_address .word
+  .word 0                                              ; sprite_chr_sets_address .word
+  .byte LAST_SLIDE

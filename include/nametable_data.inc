@@ -11,5 +11,6 @@ NAMETABLE_DATA_BANK1 = 12
 .global intro_cut_scene_mermon_mad_nametable
 .global intro_cut_scene_mermon_leer_nametable
 .global intro_cut_scene_silmaran_nametable
+.global end_cut_scene_slide1_nametable
 
 .endif
