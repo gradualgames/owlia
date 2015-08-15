@@ -51,6 +51,7 @@
 .include "crab_boss_sprites_and_animations.inc"
 .include "ray_sprites_and_animations.inc"
 .include "minigame_sprites_and_animations.inc"
+.include "bubbles_sprites_and_animations.inc"
 
 ;the rescue owl sprites and animations must all reside in the same bank
 .include "greathornedowl_sprites_and_animations.inc"

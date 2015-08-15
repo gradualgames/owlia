@@ -640,7 +640,7 @@ piratetavern_entrance2_sprite_chr_groups:
   .byte sprite_chr_group_index_npc_bosun
 
 submarine_sprite_chr_groups:
-  .byte 7   ;sprite_chr_groups .byte
+  .byte 8   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -648,6 +648,7 @@ submarine_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_npc_commodore
+  .byte sprite_chr_group_index_bubbles
 
 submarine_kraken_sprite_chr_groups:
   .byte 8   ;sprite_chr_groups .byte

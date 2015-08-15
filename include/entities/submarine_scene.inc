@@ -6,7 +6,8 @@ SUBMARINE_SCENE_STATE_CRASH_LENGTH = 20
 SUBMARINE_SCENE_TIME_UNTIL_CAPTAIN_BAILS = 2000
 
 define_entity_properties submarine_scene_state_counter_lo,\
-                         submarine_scene_state_counter_hi
+                         submarine_scene_state_counter_hi, \
+                         submarine_scene_bubble_counter
 
 .enum
 SUBMARINE_SCENE_STATE_INIT
@@ -43,6 +44,10 @@ submarine_scene_state_init:
   lda #0
   sta entity_sprite_flags,x
 
+  lda rand
+  ora #1
+  sta submarine_scene_bubble_counter,x
+
   lda #<SUBMARINE_SCENE_TIME_UNTIL_CAPTAIN_BAILS
   sta submarine_scene_state_counter_lo,x
   lda #>SUBMARINE_SCENE_TIME_UNTIL_CAPTAIN_BAILS
@@ -54,6 +59,8 @@ submarine_scene_state_init:
   rts
 
 submarine_scene_state_pause_until_crash:
+
+  jsr submarine_scene_spawn_bubbles
 
   jsr entity_set_sorted
 
@@ -160,5 +167,66 @@ submarine_scene_state_idle:
   jsr entity_set_sorted
 
   rts
+
+.proc submarine_scene_spawn_bubbles
+
+  dec submarine_scene_bubble_counter,x
+  bne do_not_spawn_bubble
+
+  lda rand
+  and #%00011111
+  ora #1
+  sta submarine_scene_bubble_counter,x
+
+  lda #entity_index_bubble
+  sta b0
+
+  lda camera_x
+  sta w0
+  lda camera_x+1
+  sta w0+1
+
+  clc
+  lda w0
+  adc #<300
+  sta w0
+  lda w0+1
+  adc #>300
+  sta w0+1
+
+  jsr next_rand
+
+  lda rand
+  sta w1
+  lda #0
+  sta w1+1
+
+  sec
+  lda w1
+  sbc #<30
+  sta w1
+  lda w1+1
+  sbc #>30
+  sta w1+1
+
+  jsr entity_spawn
+
+  ldy spawned_entity
+  lda #<(-500)
+  sta bubble_x_velocity_lo,y
+  lda #>(-500)
+  sta bubble_x_velocity_hi,y
+
+  lda #0
+  sta bubble_y_velocity_lo,y
+  sta bubble_y_velocity_hi,y
+
+  lda #BUBBLE_INITIAL_LIFE
+  sta bubble_life,y
+do_not_spawn_bubble:
+
+  rts
+
+.endproc
 
 .endif

@@ -59,6 +59,7 @@
   ray_chr, \
   sawwhetowl_chr, \
   minigame_chr, \
+  bubbles_chr, \
   kraken_chr, \
   barnowl_chr, \
   mermon_chr, \
@@ -125,6 +126,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_ray
   .byte sprite_chr_group_bank_sawwhetowl
   .byte sprite_chr_group_bank_minigame
+  .byte sprite_chr_group_bank_bubbles
   .byte sprite_chr_group_bank_kraken
   .byte sprite_chr_group_bank_barnowl
   .byte sprite_chr_group_bank_mermon
@@ -289,6 +291,9 @@ sawwhetowl_chr:
 
 minigame_chr:
 .incbin "minigame.chr"
+
+bubbles_chr:
+.incbin "bubbles.chr"
 
 npc_commodore_chr:
 .incbin "npc_commodore.chr"
