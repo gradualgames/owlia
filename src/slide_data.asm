@@ -35,52 +35,62 @@ end_cut_scene_slide1_palette:
 ;NOTE! These slides must be contiguous in ROM. Supporting arrays such as
 ;sprite chr sets and sprite overlays must be defined outside the slides.
 intro_cut_scene_great_owls:
+  .byte SLIDE_TYPE_TEXTBOX
   .byte 10                                             ; bg_chr_bank .byte
   .word intro_cut_scene_great_owls_bg_chr              ; bg_chr_address .word
   .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
   .word intro_cut_scene_great_owls_nametable           ; nametable_address .word
   .word intro_cut_scene_great_owls_palette             ; palette_address .word
   .byte conversation_index_intro_cut_scene_owls_text   ; conversation_index .byte
+  .byte 0                                              ; slide_length .byte
   .word intro_cut_scene_great_owls_sprite_chr_sets     ; sprite_chr_sets_address .word
   .word intro_cut_scene_great_owls_sprite_overlays     ; sprite_overlays_address .word
 
 intro_cut_scene_mermon:
+  .byte SLIDE_TYPE_TEXTBOX
   .byte 10                                             ; bg_chr_bank .byte
   .word intro_cut_scene_mermon_bg_chr                  ; bg_chr_address .word
   .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
   .word intro_cut_scene_mermon_nametable               ; nametable_address .word
   .word intro_cut_scene_mermon_palette                 ; palette_address .word
   .byte conversation_index_intro_cut_scene_mermon_text ; conversation_index .byte
+  .byte 0                                              ; slide_length .byte
   .word 0                                              ; sprite_chr_sets_address .word
   .word 0                                              ; sprite_overlays_address .word
 
 intro_cut_scene_mermon_mad:
+  .byte SLIDE_TYPE_TEXTBOX
   .byte 10                                                   ; bg_chr_bank .byte
   .word intro_cut_scene_mermon_mad_bg_chr                    ; bg_chr_address .word
   .byte NAMETABLE_DATA_BANK1                                 ; nametable_bank .byte
   .word intro_cut_scene_mermon_mad_nametable                 ; nametable_address .word
   .word intro_cut_scene_mermon_mad_palette                   ; palette_address .word
   .byte conversation_index_intro_cut_scene_mermon_mad_text   ; conversation_index .byte
+  .byte 0                                              ; slide_length .byte
   .word 0                                                    ; sprite_chr_sets_address .word
   .word 0                                                    ; sprite_overlays_address .word
 
 intro_cut_scene_mermon_leer:
+  .byte SLIDE_TYPE_TEXTBOX
   .byte 11                                                   ; bg_chr_bank .byte
   .word intro_cut_scene_mermon_leer_bg_chr                   ; bg_chr_address .word
   .byte NAMETABLE_DATA_BANK1                                 ; nametable_bank .byte
   .word intro_cut_scene_mermon_leer_nametable                ; nametable_address .word
   .word intro_cut_scene_mermon_leer_palette                  ; palette_address .word
   .byte conversation_index_intro_cut_scene_mermon_leer_text  ; conversation_index .byte
+  .byte 0                                              ; slide_length .byte
   .word intro_cut_scene_slide4_sprite_chr_sets               ; sprite_chr_sets_address .word
   .word intro_cut_scene_slide4_sprite_overlays               ; sprite_overlays_address .word
 
 intro_cut_scene_silmaran:
+  .byte SLIDE_TYPE_TEXTBOX
   .byte 11                                                   ; bg_chr_bank .byte
   .word intro_cut_scene_silmaran_bg_chr                      ; bg_chr_address .word
   .byte NAMETABLE_DATA_BANK1                                 ; nametable_bank .byte
   .word intro_cut_scene_silmaran_nametable                   ; nametable_address .word
   .word intro_cut_scene_silmaran_palette                     ; palette_address .word
   .byte conversation_index_intro_cut_scene_silmaran_text     ; conversation_index .byte
+  .byte 0                                              ; slide_length .byte
   .word 0                                                    ; sprite_chr_sets_address .word
   .word 0                                                    ; sprite_overlays_address .word
 
@@ -111,12 +121,14 @@ intro_cut_scene_slide4_sprite_overlays:
   .byte 0, 0
 
 end_cut_scene_slide1:
+  .byte SLIDE_TYPE_IMAGE_ONLY
   .byte 26                                             ; bg_chr_bank .byte
   .word end_cut_scene_slide1_chr                       ; bg_chr_address .word
   .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
   .word end_cut_scene_slide1_nametable                 ; nametable_address .word
   .word end_cut_scene_slide1_palette                   ; palette_address .word
   .byte 0                                              ; conversation_index .byte
+  .byte SLIDE_LENGTH_INFINITE                          ; slide_length .byte
   .word 0                                              ; sprite_chr_sets_address .word
   .word 0                                              ; sprite_chr_sets_address .word
   .byte LAST_SLIDE

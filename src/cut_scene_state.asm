@@ -326,6 +326,12 @@ load_sprite_overlay:
   lda b3
   sta textbox_chr_offset
 
+  .scope
+  ldy #slide::slide_type
+  far_load #SLIDE_DATA_BANK, w10, w10+1
+  lda far_load_result
+  cmp #SLIDE_TYPE_IMAGE_ONLY
+  beq skip_textbox
   ;load the textbox graphics.
   lda #<textbox_chr
   sta w0
@@ -350,6 +356,8 @@ load_sprite_overlay:
   lda #>punctuation_chr
   sta w0+1
   far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+skip_textbox:
+  .endscope
 
   ;load sprite chr data for slide
   jsr load_slide_sprite_chr_groups
@@ -431,6 +439,13 @@ load_sprite_overlay:
 
   safely_set_vblank_routine nametable_and_attribute_update_ppu
 
+  .scope
+  ldy #slide::slide_type
+  far_load #SLIDE_DATA_BANK, w10, w10+1
+  lda far_load_result
+  cmp #SLIDE_TYPE_IMAGE_ONLY
+  beq image_slide
+textbox_slide:
   lda #0
   sta textbox_attribute
 
@@ -451,6 +466,33 @@ load_sprite_overlay:
   sta w0+1
 
   far_call #TEXTBOX_BANK, run_conversation
+
+  jmp done
+image_slide:
+
+  .scope
+  ldy #slide::slide_length
+  far_load #SLIDE_DATA_BANK, w10, w10+1
+  ldx far_load_result
+  bne wait_length
+
+  ;if slide_length is 0, this is SLIDE_LENGTH_INFINITE.
+  ;It is assumed this is only used for the final slide of the
+  ;last cut scene. It will remain on the screen indefinitely until
+  ;a reset.
+wait_infinitely:
+: wait_vblank
+  jmp :-
+
+wait_length:
+: wait_vblank
+  dex
+  bne :-
+
+  .endscope
+
+done:
+  .endscope
 
   ;fade out from current slide palette
   ldy #slide::palette_address

@@ -4,13 +4,22 @@ SLIDE_DATA_INC = 1
 SLIDE_DATA_BANK = 0
 LAST_SLIDE = 255
 
+.enum
+SLIDE_TYPE_TEXTBOX
+SLIDE_TYPE_IMAGE_ONLY
+.endenum
+
+SLIDE_LENGTH_INFINITE = 0
+
 .struct slide
+  slide_type .byte
   bg_chr_bank .byte
   bg_chr_address .word
   nametable_bank .byte
   nametable_address .word
   palette_address .word
   conversation_index .byte
+  slide_length .byte
   sprite_chr_groups_address .word
   sprite_overlays_address .word
 .endstruct
