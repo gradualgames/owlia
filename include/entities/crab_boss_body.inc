@@ -8,7 +8,6 @@ CRAB_BOSS_BODY_INC = 1
 
 .define crab_boss_body_states \
   crab_boss_body_state_init, \
-  crab_boss_body_state_spawn_eyes_and_pincers, \
   crab_boss_body_state_pause, \
   crab_boss_body_state_walk_left, \
   crab_boss_body_state_walk_right, \
@@ -58,98 +57,7 @@ crab_boss_body_state_init:
   lda #0
   sta crab_boss_body_flash_counter,x
 
-  lda #CRAB_BOSS_BODY_STATE_SPAWN_EYES_AND_PINCERS
-  sta entity_state,x
-
-  rts
-
-crab_boss_body_state_spawn_eyes_and_pincers:
-
-  ;spawn and track crab boss's first eye
-  .scope
-  lda #entity_index_crab_boss_eye
-  sta b0
-
-  jsr entity_spawn
-
-  lda spawned_entity
-  sta crab_boss_body_eye0,x
-
-  ;configure the eye
-  ldy spawned_entity
-  lda #CRAB_BOSS_BODY_EYE0_OFFSET_X
-  sta crab_boss_eye_x_offset,y
-  lda #CRAB_BOSS_BODY_EYE0_OFFSET_Y
-  sta crab_boss_eye_y_offset,y
-
-  ;tell the eye about its parent, which is this body entity
-  txa
-  sta crab_boss_eye_body,y
-  .endscope
-
-  ;spawn and track crab boss's second eye
-  .scope
-  lda #entity_index_crab_boss_eye
-  sta b0
-
-  jsr entity_spawn
-
-  lda spawned_entity
-  sta crab_boss_body_eye1,x
-
-  ;configure the eye
-  ldy spawned_entity
-  lda #CRAB_BOSS_BODY_EYE1_OFFSET_X
-  sta crab_boss_eye_x_offset,y
-  lda #CRAB_BOSS_BODY_EYE1_OFFSET_Y
-  sta crab_boss_eye_y_offset,y
-
-  ;tell the eye about its parent, which is this body entity
-  txa
-  sta crab_boss_eye_body,y
-  .endscope
-
-  ;spawn and track crab boss's first pincer
-  .scope
-  lda #entity_index_crab_boss_pincer
-  sta b0
-
-  jsr entity_spawn
-
-  lda spawned_entity
-  sta crab_boss_body_pincer0,x
-
-  ;configure the pincer
-  ldy spawned_entity
-  lda #CRAB_BOSS_BODY_PINCER0_PUNCH_DELAY
-  sta crab_boss_pincer_punch_delay,y
-  lda #CRAB_BOSS_BODY_PINCER0_PUNCH_LENGTH
-  sta crab_boss_pincer_punch_length,y
-  lda #CRAB_BOSS_BODY_PINCER0_INITIAL_STATE_COUNTER
-  sta crab_boss_pincer_state_counter,y
-  .endscope
-
-  ;spawn and track crab boss's second pincer
-  .scope
-  lda #entity_index_crab_boss_pincer
-  sta b0
-
-  jsr entity_spawn
-
-  lda spawned_entity
-  sta crab_boss_body_pincer1,x
-
-  ;configure the pincer
-  ldy spawned_entity
-  lda #CRAB_BOSS_BODY_PINCER1_PUNCH_DELAY
-  sta crab_boss_pincer_punch_delay,y
-  lda #CRAB_BOSS_BODY_PINCER1_PUNCH_LENGTH
-  sta crab_boss_pincer_punch_length,y
-  lda #CRAB_BOSS_BODY_PINCER1_INITIAL_STATE_COUNTER
-  sta crab_boss_pincer_state_counter,y
-  .endscope
-
-  jsr crab_boss_position_pincers
+  jsr crab_boss_body_spawn_eyes_and_pincers
 
   lda #CRAB_BOSS_BODY_STATE_PAUSE_LENGTH
   sta crab_boss_body_state_counter,x
@@ -167,10 +75,10 @@ crab_boss_body_state_pause:
 
   jsr crab_boss_play_skitter_sound
 
-  lda #CRAB_BOSS_BODY_TIME_TIL_RUSH
+  lda #(CRAB_BOSS_BODY_TIME_TIL_RUSH-25)
   sta crab_boss_body_state_rush_counter,x
 
-  lda #CRAB_BOSS_BODY_WALK_RIGHT_LENGTH
+  lda #(CRAB_BOSS_BODY_WALK_RIGHT_LENGTH-25)
   sta crab_boss_body_state_counter,x
 
   lda #CRAB_BOSS_BODY_STATE_WALK_RIGHT
@@ -380,6 +288,98 @@ do_not_transition_yet:
   jsr entity_update_animation
 
   rts
+
+.proc crab_boss_body_spawn_eyes_and_pincers
+
+  ;spawn and track crab boss's first eye
+  .scope
+  lda #entity_index_crab_boss_eye
+  sta b0
+
+  jsr entity_spawn
+
+  lda spawned_entity
+  sta crab_boss_body_eye0,x
+
+  ;configure the eye
+  ldy spawned_entity
+  lda #CRAB_BOSS_BODY_EYE0_OFFSET_X
+  sta crab_boss_eye_x_offset,y
+  lda #CRAB_BOSS_BODY_EYE0_OFFSET_Y
+  sta crab_boss_eye_y_offset,y
+
+  ;tell the eye about its parent, which is this body entity
+  txa
+  sta crab_boss_eye_body,y
+  .endscope
+
+  ;spawn and track crab boss's second eye
+  .scope
+  lda #entity_index_crab_boss_eye
+  sta b0
+
+  jsr entity_spawn
+
+  lda spawned_entity
+  sta crab_boss_body_eye1,x
+
+  ;configure the eye
+  ldy spawned_entity
+  lda #CRAB_BOSS_BODY_EYE1_OFFSET_X
+  sta crab_boss_eye_x_offset,y
+  lda #CRAB_BOSS_BODY_EYE1_OFFSET_Y
+  sta crab_boss_eye_y_offset,y
+
+  ;tell the eye about its parent, which is this body entity
+  txa
+  sta crab_boss_eye_body,y
+  .endscope
+
+  ;spawn and track crab boss's first pincer
+  .scope
+  lda #entity_index_crab_boss_pincer
+  sta b0
+
+  jsr entity_spawn
+
+  lda spawned_entity
+  sta crab_boss_body_pincer0,x
+
+  ;configure the pincer
+  ldy spawned_entity
+  lda #CRAB_BOSS_BODY_PINCER0_PUNCH_DELAY
+  sta crab_boss_pincer_punch_delay,y
+  lda #CRAB_BOSS_BODY_PINCER0_PUNCH_LENGTH
+  sta crab_boss_pincer_punch_length,y
+  lda #CRAB_BOSS_BODY_PINCER0_INITIAL_STATE_COUNTER
+  sta crab_boss_pincer_state_counter,y
+  .endscope
+
+  ;spawn and track crab boss's second pincer
+  .scope
+  lda #entity_index_crab_boss_pincer
+  sta b0
+
+  jsr entity_spawn
+
+  lda spawned_entity
+  sta crab_boss_body_pincer1,x
+
+  ;configure the pincer
+  ldy spawned_entity
+  lda #CRAB_BOSS_BODY_PINCER1_PUNCH_DELAY
+  sta crab_boss_pincer_punch_delay,y
+  lda #CRAB_BOSS_BODY_PINCER1_PUNCH_LENGTH
+  sta crab_boss_pincer_punch_length,y
+  lda #CRAB_BOSS_BODY_PINCER1_INITIAL_STATE_COUNTER
+  sta crab_boss_pincer_state_counter,y
+  .endscope
+
+  jsr crab_boss_position_pincers
+
+  rts
+
+.endproc
 
 .proc crab_boss_check_if_eyes_dead
 
