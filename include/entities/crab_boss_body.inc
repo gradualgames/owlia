@@ -9,6 +9,7 @@ CRAB_BOSS_BODY_INC = 1
 .define crab_boss_body_states \
   crab_boss_body_state_init, \
   crab_boss_body_state_spawn_eyes_and_pincers, \
+  crab_boss_body_state_pause, \
   crab_boss_body_state_walk_left, \
   crab_boss_body_state_walk_right, \
   crab_boss_body_state_init_rush, \
@@ -150,6 +151,20 @@ crab_boss_body_state_spawn_eyes_and_pincers:
 
   jsr crab_boss_position_pincers
 
+  lda #CRAB_BOSS_BODY_STATE_PAUSE_LENGTH
+  sta crab_boss_body_state_counter,x
+
+  lda #CRAB_BOSS_BODY_STATE_PAUSE
+  sta entity_state,x
+
+  rts
+
+crab_boss_body_state_pause:
+
+  .scope
+  dec crab_boss_body_state_counter,x
+  bne do_not_transition_yet
+
   jsr crab_boss_play_skitter_sound
 
   lda #CRAB_BOSS_BODY_TIME_TIL_RUSH
@@ -160,6 +175,8 @@ crab_boss_body_state_spawn_eyes_and_pincers:
 
   lda #CRAB_BOSS_BODY_STATE_WALK_RIGHT
   sta entity_state,x
+do_not_transition_yet:
+  .endscope
 
   rts
 
