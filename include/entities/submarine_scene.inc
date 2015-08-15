@@ -44,8 +44,7 @@ submarine_scene_state_init:
   lda #0
   sta entity_sprite_flags,x
 
-  lda rand
-  ora #1
+  lda #1
   sta submarine_scene_bubble_counter,x
 
   lda #<SUBMARINE_SCENE_TIME_UNTIL_CAPTAIN_BAILS
@@ -118,6 +117,34 @@ submarine_scene_state_crash:
   .scope
   dec submarine_scene_state_counter_lo,x
   bne do_not_transition_yet
+
+  .scope
+  ;search for bubble entity and change its trajectory to up
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq not_bubble
+  lda entity_type,y
+  cmp #entity_index_bubble
+  bne not_bubble
+
+  lda #0
+  sta bubble_x_velocity_lo,y
+  sta bubble_x_velocity_hi,y
+
+  lda #<(-500)
+  sta bubble_y_velocity_lo,y
+  lda #>(-500)
+  sta bubble_y_velocity_hi,y
+
+  lda #BUBBLE_INITIAL_LIFE
+  sta bubble_life,y
+not_bubble:
+
+  dey
+  bpl next_entity
+  .endscope
 
   .scope
   ;search for monolith entity and make it fall
