@@ -28,22 +28,6 @@ submarine_scene_update:
 
 submarine_scene_state_init:
 
-  jsr entity_set_drawable
-
-  lda #sprite_chr_group_index_npc_commodore
-  sta b0
-  jsr entity_lookup_sprite_chr_offset
-
-  lda #<npc_commodore_walk_side
-  sta entity_animation_address_lo,x
-  lda #>npc_commodore_walk_side
-  sta entity_animation_address_hi,x
-
-  jsr entity_reset_animation
-
-  lda #0
-  sta entity_sprite_flags,x
-
   lda #1
   sta submarine_scene_bubble_counter,x
 
@@ -60,8 +44,6 @@ submarine_scene_state_init:
 submarine_scene_state_pause_until_crash:
 
   jsr submarine_scene_spawn_bubbles
-
-  jsr entity_set_sorted
 
   .scope
   sec
@@ -104,8 +86,6 @@ do_not_transition_yet:
   rts
 
 submarine_scene_state_crash:
-
-  jsr entity_set_sorted
 
   lda camera_y
   eor #$04
@@ -165,16 +145,35 @@ not_monolith:
 done:
   .endscope
 
+  .scope
+  ;search for npc entity and change its conversation
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_type,y
+  cmp #entity_index_npc
+  bne not_npc
+
+  lda #conversation_index_what_was_that
+  sta npc_conversation,y
+
+  lda #ENTITY_DIRECTION_LEFT
+  sta npc_direction,y
+
+  jmp done
+
+not_npc:
+
+  dey
+  bpl next_entity
+done:
+  .endscope
+
   ;put hero into a passive state so she cannot
   ;get input from the controller immediately upon
   ;finishing the conversation.
   lda #3
   sta b0
   far_call #HERO_BANK, hero_wait_frames
-
-  lda entity_sprite_flags,x
-  ora #%01000000
-  sta entity_sprite_flags,x
 
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
@@ -190,8 +189,6 @@ do_not_transition_yet:
   rts
 
 submarine_scene_state_idle:
-
-  jsr entity_set_sorted
 
   rts
 

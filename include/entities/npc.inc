@@ -154,6 +154,18 @@ npc_state_motionless:
 
   jsr test_whether_hero_wants_to_start_conversation
 
+  ;face in that direction
+  lda npc_direction,x
+  clc
+  adc npc_graphics_set,x
+  tay
+  lda npc_animation_addresses_lo,y
+  sta entity_animation_address_lo,x
+  lda npc_animation_addresses_hi,y
+  sta entity_animation_address_hi,x
+  lda npc_sprite_flags_direction,y
+  sta entity_sprite_flags,x
+
   rts
 
 npc_state_pause:

@@ -35,6 +35,7 @@
     if_you_want_my_submarine, \
     target_game_intro, \
     ring_game_intro, \
+    welcome_aboard,\
     what_was_that, \
     silmaran_final_encounter
 
@@ -405,6 +406,16 @@ ring_game_intro:
   .byte NL,4, "A RING ON EACH BOTTLE AND",WT,EP
 
   .byte NL,1, "YOU WIN A SHINY REWARD.",WT,EC
+
+welcome_aboard:
+  .byte    1, "WELCOME ABOARD ME HUMBLE"
+  .byte NL,2, "SUBMARINE. IT'LL BE A FEW"
+  .byte NL,3, "FATHOMS TIL WE CATCH UP"
+  .byte NL,4, "WITH MERMON'S FORTRESS..",WT,EP
+
+  .byte NL,1, "WHY DON'T YE ENJOY THE"
+  .byte NL,2, "SIGHTS O' THE DEEP SEAS"
+  .byte NL,3, "WHILE WE TRAVEL?",WT,EC
 
 what_was_that:
   .byte    1, "WHAT WAS THAT!?"
