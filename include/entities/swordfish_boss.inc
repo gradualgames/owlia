@@ -14,6 +14,7 @@ SWORDFISH_BOSS_ATTACKED_LENGTH = 20
 SWORDFISH_BOSS_FLASH_LENGTH = 20
 SWORDFISH_BOSS_STATE_FLOUNDER_LENGTH = 100
 SWORDFISH_BOSS_STATE_VICTORY_LENGTH = 220
+SWORDFISH_BOSS_STATE_PAUSE_LENGTH = 50
 
 SWORDFISH_BOSS_RANDOM_NUMBER_SEED = 10
 SWORDFISH_BOSS_SWIM_SPEED = 4
@@ -47,6 +48,7 @@ define_entity_properties swordfish_boss_state_counter,\
 
 .enum
 SWORDFISH_BOSS_STATE_INIT
+SWORDFISH_BOSS_STATE_PAUSE
 SWORDFISH_BOSS_STATE_SPAWN_SPLASH
 SWORDFISH_BOSS_STATE_FIN_SWIM_RIGHT
 SWORDFISH_BOSS_STATE_FIN_SWIM_LEFT
@@ -59,6 +61,7 @@ SWORDFISH_BOSS_STATE_RISE
 
 .define swordfish_boss_states \
   swordfish_boss_state_init, \
+  swordfish_boss_state_pause, \
   swordfish_boss_state_spawn_splash, \
   swordfish_boss_state_fin_swim_right, \
   swordfish_boss_state_fin_swim_left, \
@@ -130,8 +133,25 @@ swordfish_boss_state_init:
   lda #%01000000
   sta entity_sprite_flags,x
 
+  lda #SWORDFISH_BOSS_STATE_PAUSE_LENGTH
+  sta swordfish_boss_state_counter,x
+
+  lda #SWORDFISH_BOSS_STATE_PAUSE
+  sta entity_state,x
+
+  rts
+
+swordfish_boss_state_pause:
+
+  .scope
+  dec swordfish_boss_state_counter,x
+  bne do_not_transition_yet
+
   lda #SWORDFISH_BOSS_STATE_SPAWN_SPLASH
   sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
 
   rts
 
