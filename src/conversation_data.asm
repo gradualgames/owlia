@@ -37,6 +37,7 @@
     ring_game_intro, \
     welcome_aboard,\
     what_was_that, \
+    mermon_threat, \
     silmaran_final_encounter
 
 conversations_lo:
@@ -420,6 +421,14 @@ welcome_aboard:
 what_was_that:
   .byte    1, "WHAT WAS THAT!?"
   .byte NL,2, "WE'VE LOST POWER!!",WT,EC
+
+mermon_threat:
+  .byte    1, "YOU AND YOUR PUNY OWL"
+  .byte NL,2, "ARE NO MATCH FOR ME. I"
+  .byte NL,3, "ALREADY POSSESS THE POWER"
+  .byte NL,4, "OF SILMARAN! PREPARE",WT,EP
+
+  .byte NL,1, "YOURSELVES!!!",WT,EC
 
 silmaran_final_encounter:
   .byte    1, "ADLANNIEL.",TM,30," TYTO.",TM,30," YOU HAVE"

@@ -138,6 +138,15 @@ done:
   lda #MERMON_TORSO_INITIAL_HEALTH
   sta mermon_torso_health,x
 
+  lda #50
+  sta b0
+  far_call #HERO_BANK, hero_wait_frames
+
+  lda #ACTION_START_CONVERSATION
+  sta state_control_params+play_state_control::action
+  lda #conversation_index_mermon_threat
+  sta state_control_params+play_state_control::param
+
   lda #MERMON_TORSO_STATE_MAIN_LENGTH
   sta mermon_state_counter,x
 
