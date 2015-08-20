@@ -17,6 +17,7 @@ OCTOBOSS_HEAD_RISE_SPEED = 1
 OCTOBOSS_HEAD_STATE_RISE_LENGTH = 48
 
 OCTOBOSS_HEAD_STATE_PAUSE_LENGTH = 70
+OCTOBOSS_HEAD_STATE_EXPLODE_LENGTH = 255
 
 OCTOBOSS_HEAD_ATTACKED_LENGTH = 20
 
@@ -51,6 +52,7 @@ OCTOBOSS_HEAD_STATE_SPAWN_LEGS_AND_SPLASH
 OCTOBOSS_HEAD_STATE_RISE
 OCTOBOSS_HEAD_STATE_FLOAT
 OCTOBOSS_HEAD_STATE_PAUSE
+OCTOBOSS_HEAD_STATE_EXPLODE
 .endenum
 
 .define octoboss_head_states \
@@ -58,7 +60,8 @@ OCTOBOSS_HEAD_STATE_PAUSE
   octoboss_head_state_spawn_legs_and_splash, \
   octoboss_head_state_rise, \
   octoboss_head_state_float, \
-  octoboss_head_state_pause
+  octoboss_head_state_pause, \
+  octoboss_head_state_explode
 
 octoboss_head_lo:
   .lobytes octoboss_head_states
@@ -423,6 +426,43 @@ do_not_unpause_yet:
 
   rts
 
+octoboss_head_state_explode:
+
+  .scope
+  dec octoboss_head_state_counter,x
+  beq dead
+
+  lda entity_sprite_flags,x
+  and #%00000011
+  sta b0
+  inc b0
+  lda b0
+  and #%00000011
+  sta b0
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b0
+  sta entity_sprite_flags,x
+
+  rts
+
+dead:
+
+  jsr entity_clear_drawable
+
+  jsr entity_clear_shadow_spot
+
+  ldy octoboss_head_legs_entity_index,x
+  lda #OCTOBOSS_LEGS_STATE_DIE
+  sta entity_state,y
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+  .endscope
+
 .proc octoboss_head_combat
 
   lda entity_action_rect1_action
@@ -478,20 +518,15 @@ action_rect2_not_deadly:
   dec octoboss_head_health,x
   bne entity_not_dead_yet
 
-  jsr entity_clear_drawable
-
-  jsr entity_clear_shadow_spot
-
-  ldy octoboss_head_legs_entity_index,x
-  lda #OCTOBOSS_LEGS_STATE_DIE
-  sta entity_state,y
-
-  lda #entity_index_explosion
+  lda #entity_index_big_explosion
   sta b0
 
+  sec
   lda entity_x_lo,x
+  sbc #<12
   sta w0
   lda entity_x_hi,x
+  sbc #>12
   sta w0+1
   lda entity_y_lo,x
   sta w1
@@ -500,9 +535,20 @@ action_rect2_not_deadly:
 
   jsr entity_spawn
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  ldy spawned_entity
+  lda #31
+  sta entity_width,y
+  sta entity_height,y
+  lda #4
+  sta big_explosion_time_between_explosions,y
+  lda #OCTOBOSS_HEAD_STATE_EXPLODE_LENGTH
+  sta big_explosion_length,y
+
+  lda #OCTOBOSS_HEAD_STATE_EXPLODE_LENGTH
+  sta octoboss_head_state_counter,x
+
+  lda #OCTOBOSS_HEAD_STATE_EXPLODE
+  sta entity_state,x
 
 entity_not_dead_yet:
 
