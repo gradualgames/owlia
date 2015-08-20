@@ -38,6 +38,7 @@
 .define entity_defs_update_address \
   instance_placeholder_update, \
   explosion_update, \
+  big_explosion_update, \
   projectile_update, \
   bomb_update, \
   octopus_update, \
@@ -108,6 +109,7 @@ entity_defs_update_address_hi:
 entity_defs_update_address_bank:
   .byte entity_update_bank_instance_placeholder
   .byte entity_update_bank_explosion
+  .byte entity_update_bank_big_explosion
   .byte entity_update_bank_projectile
   .byte entity_update_bank_bomb
   .byte entity_update_bank_octopus
@@ -173,6 +175,7 @@ entity_defs_update_address_bank:
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
   .byte entity_sprites_and_animations_bank_explosion
+  .byte entity_sprites_and_animations_bank_big_explosion
   .byte entity_sprites_and_animations_bank_projectile
   .byte entity_sprites_and_animations_bank_bomb
   .byte entity_sprites_and_animations_bank_octopus
@@ -238,6 +241,7 @@ entity_defs_sprites_and_animations_bank:
 .segment "ROM04"
 .include "instance_placeholder.inc"
 .include "explosion.inc"
+.include "big_explosion.inc"
 .include "projectile.inc"
 .include "bomb.inc"
 .include "octopus.inc"

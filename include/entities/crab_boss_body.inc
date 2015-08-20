@@ -13,7 +13,8 @@ CRAB_BOSS_BODY_INC = 1
   crab_boss_body_state_walk_right, \
   crab_boss_body_state_init_rush, \
   crab_boss_body_state_rush, \
-  crab_boss_body_state_rush_back
+  crab_boss_body_state_rush_back, \
+  crab_boss_body_state_explode
 
 crab_boss_body_lo:
   .lobytes crab_boss_body_states
@@ -289,6 +290,46 @@ do_not_transition_yet:
 
   rts
 
+crab_boss_body_state_explode:
+
+  .scope
+  dec crab_boss_body_state_counter,x
+  beq dead
+
+  lda entity_sprite_flags,x
+  and #%00000011
+  sta b0
+  inc b0
+  lda b0
+  and #%00000011
+  sta b0
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b0
+  sta entity_sprite_flags,x
+
+  rts
+dead:
+
+  jsr entity_clear_drawable
+
+  ;kill off pincers
+  ldy crab_boss_body_pincer0,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+  ldy crab_boss_body_pincer1,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+  .endscope
+
 .proc crab_boss_body_spawn_eyes_and_pincers
 
   ;spawn and track crab boss's first eye
@@ -394,10 +435,12 @@ do_not_transition_yet:
   and #ENTITY_FLAGS_ALIVE_TEST
   bne at_least_one_eye_still_alive
 
-  lda #entity_index_explosion
+  lda #entity_index_big_explosion
   sta b0
 
+  clc
   lda entity_x_lo,x
+  adc #4
   sta w0
   lda entity_x_hi,x
   sta w0+1
@@ -408,21 +451,20 @@ do_not_transition_yet:
 
   jsr entity_spawn
 
-  jsr entity_clear_drawable
+  ldy spawned_entity
+  lda #31
+  sta entity_width,y
+  sta entity_height,y
+  lda #4
+  sta big_explosion_time_between_explosions,y
+  lda #CRAB_BOSS_BODY_STATE_EXPLODE_LENGTH
+  sta big_explosion_length,y
 
-  ;kill off pincers
-  ldy crab_boss_body_pincer0,x
-  lda entity_flags,y
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,y
-  ldy crab_boss_body_pincer1,x
-  lda entity_flags,y
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,y
+  lda #CRAB_BOSS_BODY_STATE_EXPLODE_LENGTH
+  sta crab_boss_body_state_counter,x
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  lda #CRAB_BOSS_BODY_STATE_EXPLODE
+  sta entity_state,x
 
 at_least_one_eye_still_alive:
   .endscope
