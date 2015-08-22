@@ -634,6 +634,12 @@ silmaran_state_leave_dungeon:
   jsr controller_fill_buffer_with_accumulator
   set_controller_routine controller_read
 
+  lda #<ending_theme
+  sta song_address
+  lda #>ending_theme
+  sta song_address+1
+  far_call #SOUND_BANK, song_initialize
+
   lda #ACTION_PLAY_CUT_SCENE
   sta state_control_params+play_state_control::action
   lda #<end_cut_scene_slide1

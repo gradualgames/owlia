@@ -73,4 +73,7 @@ final_boss_theme:
 .scope
 .include "final_boss_theme.inc"
 .endscope
-
+ending_theme:
+.scope
+.include "ending_theme.inc"
+.endscope
