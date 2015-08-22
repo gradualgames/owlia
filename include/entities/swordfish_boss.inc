@@ -15,6 +15,7 @@ SWORDFISH_BOSS_FLASH_LENGTH = 20
 SWORDFISH_BOSS_STATE_FLOUNDER_LENGTH = 100
 SWORDFISH_BOSS_STATE_VICTORY_LENGTH = 220
 SWORDFISH_BOSS_STATE_PAUSE_LENGTH = 50
+SWORDFISH_BOSS_STATE_EXPLODE_LENGTH = 255
 
 SWORDFISH_BOSS_RANDOM_NUMBER_SEED = 10
 SWORDFISH_BOSS_SWIM_SPEED = 4
@@ -57,6 +58,7 @@ SWORDFISH_BOSS_STATE_CHARGE_LEFT
 SWORDFISH_BOSS_STATE_FALL
 SWORDFISH_BOSS_STATE_FLOUNDER
 SWORDFISH_BOSS_STATE_RISE
+SWORDFISH_BOSS_STATE_EXPLODE
 .endenum
 
 .define swordfish_boss_states \
@@ -69,7 +71,8 @@ SWORDFISH_BOSS_STATE_RISE
   swordfish_boss_state_charge_left, \
   swordfish_boss_state_fall, \
   swordfish_boss_state_flounder, \
-  swordfish_boss_state_rise
+  swordfish_boss_state_rise, \
+  swordfish_boss_state_explode
 
 swordfish_boss_lo:
   .lobytes swordfish_boss_states
@@ -575,6 +578,38 @@ do_not_switch_state:
 
   rts
 
+swordfish_boss_state_explode:
+
+  .scope
+  dec swordfish_boss_state_counter,x
+  beq die
+
+  lda entity_sprite_flags,x
+  and #%00000011
+  sta b0
+  inc b0
+  lda b0
+  and #%00000011
+  sta b0
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b0
+  sta entity_sprite_flags,x
+
+  rts
+die:
+
+  jsr entity_clear_drawable
+
+  jsr entity_clear_shadow_spot
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+  .endscope
+
 .proc swordfish_boss_play_whoosh_sound
 
   lda #<sfx_whoosh
@@ -731,16 +766,40 @@ rect1_attacked_entity:
   dec swordfish_boss_health,x
   bne entity_not_dead_yet
 
-  jsr entity_spawn_explosion
-  jsr entity_drop_random_item
+  lda #entity_index_big_explosion
+  sta b0
 
-  jsr entity_clear_drawable
+  sec
+  lda entity_x_lo,x
+  sbc #<2
+  sta w0
+  lda entity_x_hi,x
+  sbc #>2
+  sta w0+1
+  sec
+  lda entity_y_lo,x
+  sbc #<10
+  sta w1
+  lda entity_y_hi,x
+  sbc #>10
+  sta w1+1
 
-  jsr entity_clear_shadow_spot
+  jsr entity_spawn
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  ldy spawned_entity
+  lda #31
+  sta entity_width,y
+  sta entity_height,y
+  lda #4
+  sta big_explosion_time_between_explosions,y
+  lda #SWORDFISH_BOSS_STATE_EXPLODE_LENGTH
+  sta big_explosion_length,y
+
+  lda #SWORDFISH_BOSS_STATE_EXPLODE_LENGTH
+  sta swordfish_boss_state_counter,x
+
+  lda #SWORDFISH_BOSS_STATE_EXPLODE
+  sta entity_state,x
 
 entity_not_dead_yet:
   .endif
