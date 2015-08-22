@@ -16,72 +16,121 @@ volume:
   .word volume4
   .word volume5
   .word volume6
+  .word volume7
+  .word volume8
+  .word volume9
+  .word volume10
+  .word volume11
 
 pitch:
   .word pitch0
   .word pitch1
+  .word pitch2
+  .word pitch3
+  .word pitch4
 
 duty:
   .word duty0
   .word duty1
   .word duty2
   .word duty3
+  .word duty4
 
 volume0:
-  .byte 3,2,1,0,ENV_STOP
-volume1:
-  .byte 0,ENV_STOP
-volume2:
-  .byte 10,9,8,7,6,5,4,4,3,3,3,2,1,1,1,0,ENV_STOP
-volume3:
-  .byte 3,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,4,4,4,4,3,ENV_STOP
-volume4:
-  .byte 7,7,6,6,6,5,5,4,4,3,3,3,2,2,1,1,0,0,0,0,0,ENV_STOP
-volume5:
   .byte 4,4,4,4,4,0,ENV_STOP
+volume1:
+  .byte 1,1,1,1,1,1,1,1,1,1,0,ENV_STOP
+volume2:
+  .byte 5,5,2,0,0,0,ENV_STOP
+volume3:
+  .byte 4,3,0,4,3,0,4,3,0,4,3,0,4,3,0,4,3,0,4,3,0,ENV_STOP
+volume4:
+  .byte 3,4,4,5,5,5,5,5,5,5,5,4,4,4,4,4,4,4,3,3,3,ENV_STOP
+volume5:
+  .byte 3,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,4,4,4,4,3,ENV_STOP
 volume6:
+  .byte 6,5,4,2,2,1,0,0,0,0,0,0,0,0,0,0,ENV_STOP
+volume7:
+  .byte 0,ENV_STOP
+volume8:
+  .byte 7,5,2,0,ENV_STOP
+volume9:
+  .byte 11,9,6,3,1,1,1,ENV_STOP
+volume10:
+  .byte 1,1,1,1,1,1,0,ENV_STOP
+volume11:
   .byte 0,ENV_STOP
 
 pitch0:
-  .byte 0,0,0,0,0,0,0,0,0,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,ENV_STOP
+  .byte 12,12,12,12,12,12,12,12,12,12,ENV_STOP
 pitch1:
   .byte 0,0,0,0,0,0,0,0,0,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,ENV_STOP
+pitch2:
+  .byte 0,0,0,0,0,0,0,0,0,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,ENV_STOP
+pitch3:
+  .byte 120,120,120,120,120,120,120,120,ENV_STOP
+pitch4:
+  .byte 0,ENV_STOP
 
 duty0:
-  .byte 64,DUTY_ENV_STOP
+  .byte 128,DUTY_ENV_STOP
 duty1:
   .byte 128,DUTY_ENV_STOP
 duty2:
-  .byte 64,DUTY_ENV_STOP
-duty3:
   .byte 128,DUTY_ENV_STOP
+duty3:
+  .byte 64,DUTY_ENV_STOP
+duty4:
+  .byte 128,0,DUTY_ENV_STOP
 
 square1:
-  .byte STV,4,STP,1,SDU,2,STL,8,CS1,E1,DS1,FS1,CS1,E1,DS1,FS1,CS1
-  .byte E1,DS1,FS1,CS1,E1,DS1,FS1,CS1,E1,DS1,FS1,CS1,E1,DS1,FS1,CS1
-  .byte E1,DS1,FS1,CS1,E1,DS1,FS1,CS1,E1,DS1,FS1,CS1,E1,DS1,FS1,CS1
-  .byte E1,DS1,FS1,CS1,E1,DS1,FS1,CS1,E1,DS1,FS1,CS1,E1,DS1,FS1,CS1
-  .byte E1,DS1,FS1,CS1,E1,DS1,FS1,STV,2,SDU,0,CS1,CS1,CS1,CS1,C1
-  .byte C1,C1,C1,A0,A0,A0,A0,C1,C1,C1,C1,CS1,CS1,CS1,CS1,C1,C1,C1
-  .byte C1,A0,A0,A0,A0,C1,C1,C1,C1,CS1,CS1,CS1,CS1,C1,C1,C1,C1,A0
-  .byte A0,A0,A0,C1,C1,C1,C1,CS1,CS1,CS1,CS1,C1,C1,C1,C1,A0,A0,A0
-  .byte A0,C1,C1,C1,C1
+  .byte STV,6,STP,4,SDU,3,STL,6,E1,B1,B1,B1,B1,B1,B1,B1,E1,B1,B1
+  .byte B1,B1,B1,B1,B1,E1,C2,C2,C2,C2,C2,C2,C2,FS1,FS1,FS1,FS1
+  .byte FS1,FS1,FS1,FS1,E1,B1,B1,B1,B1,B1,B1,B1,E1,B1,B1,B1,B1
+  .byte B1,B1,B1,E1,C2,C2,C2,C2,C2,C2,C2,DS2,DS2,DS2,DS2,DS2,DS2
+  .byte DS2,DS2,E1,B1,B1,B1,B1,B1,B1,B1,E1,B1,B1,B1,B1,B1,B1,B1
+  .byte E1,C2,C2,C2,C2,C2,C2,C2,FS1,FS1,FS1,FS1,FS1,FS1,FS1,FS1
+  .byte E1,B1,B1,B1,B1,B1,B1,B1,E1,B1,B1,B1,B1,B1,B1,B1,E1,C2,C2
+  .byte C2,C2,C2,C2,C2,DS2,DS2,DS2,DS2,DS2,DS2,DS2,DS2,F1,F1,F1
+  .byte F1,F1,F1,F1,F1,FS1,FS1,FS1,FS1,C1,C1,C1,C1,F1,F1,F1,F1
+  .byte F1,F1,F1,F1,FS1,FS1,FS1,FS1,C1,C1,C1,C1,F1,F1,F1,F1,F1
+  .byte F1,F1,F1,FS1,FS1,FS1,FS1,C1,C1,C1,C1,F1,F1,F1,F1,FS1,FS1
+  .byte FS1,FS1,G1,G1,G1,G1,GS1,GS1,GS1,GS1,F1,F1,F1,F1,F1,F1,F1
+  .byte F1,FS1,FS1,FS1,FS1,C1,C1,C1,C1,F1,F1,F1,F1,F1,F1,F1,F1
+  .byte FS1,FS1,FS1,FS1,C1,C1,C1,C1,F1,F1,F1,F1,F1,F1,F1,F1,FS1
+  .byte FS1,FS1,FS1,C1,C1,C1,C1,F1,F1,F1,F1,FS1,FS1,FS1,FS1,G1
+  .byte G1,G1,G1,GS1,GS1,GS1,GS1
   .byte GOT
   .word square1
 
 square2:
-  .byte STV,3,STP,0,SDU,1,STL,96,CS3,STL,32,C3,STL,128,E3,STL,96
-  .byte CS3,STL,32,C3,STL,128,E3,STL,112,GS2,STL,8,G2,E2,STL,128
-  .byte GS2,STL,112,CS3,STL,8,A3,C3,STL,128,GS3
+  .byte STV,4,STP,1,SDU,1,STL,6,E2,C3,B2,C3,STL,72,E3,STL,6
+  .byte E2,C3,B2,C3,STL,72,DS3,STL,6,B2,E3,DS3,E3,STL,72,G3,STL,6
+  .byte B2,E3,DS3,E3,STL,24,FS3,STL,6,G3,FS3,E3,DS3,C3,B2,G2,FS2
+  .byte E2,C3,B2,C3,STL,72,E3,STL,6,E2,C3,B2,C3,STL,72,DS3,STL,6
+  .byte B2,E3,DS3,E3,STL,72,G3,STL,6,B2,E3,DS3,E3,B3,C4,A3,B3,G3
+  .byte A3,FS3,G3,E3,FS3,DS3,B2,A2,GS2,A2,E3,STL,72,F3,STL,6
+  .byte C3,B2,C3,GS3,STL,72,A3,STL,24,C4,B3,STL,6,C4,B3,GS3,G3
+  .byte F3,E3,C3,B2,A2,GS2,F2,E2,STL,72,F2,STL,6,A2,GS2,A2,E3,STL,72
+  .byte F3,STL,6,C3,B2,C3,GS3,STL,72,A3,STL,24,C4,B3,STL,12
+  .byte F4,E4,B4,AS4,CS5,C5,B4,GS4,STL,6,GS4,G4,FS4,F4,E4,F4,FS4
+  .byte F4
   .byte GOT
   .word square2
 
 triangle:
-  .byte STV,6,STL,255,A0,A0,A0,A0,STL,4,A0
+  .byte STV,11,STP,4,STL,255,A0,A0,A0,STL,3,A0,STV,0,SDU,0,STL,48
+  .byte F2,STL,24,FS2,C2,STL,48,F2,STL,24,FS2,C2,STL,48,F2,STL,24
+  .byte FS2,C2,STL,48,F2,STL,24,G2,GS2,STL,48,F2,STL,24,FS2,C2
+  .byte STL,48,F2,STL,24,FS2,C2,STL,48,F2,STL,24,FS2,C2,STL,48
+  .byte F2,STL,24,G2,GS2
   .byte GOT
   .word triangle
 
 noise:
-  .byte STV,6,STL,255,A0,A0,A0,A0,STL,4,A0
+  .byte STV,2,STP,4,STL,48,0,0,0,0,0,0,0,STL,24,0,0,STL,48
+  .byte 0,0,0,0,0,0,0,STL,24,0,0,STL,48,0,0,0,0,0,0,0,STL,24
+  .byte 0,0,STL,48,0,0,0,0,0,0,0,STL,24,0,0
   .byte GOT
   .word noise
+
