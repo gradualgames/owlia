@@ -8,11 +8,12 @@ MERMON_HEAD_EARS_FLAP_LENGTH = 14
 MERMON_HEAD_STATE_PAUSE_LENGTH = 50
 MERMON_HEAD_STATE_HOME_IN_TO_RANDOM_SPOT_LENGTH = 100
 MERMON_HEAD_STATE_TRANSITION_TO_FINAL_SCENE_LENGTH = 200
+MERMON_HEAD_STATE_EXPLODE_LENGTH = 255
 
 MERMON_HEAD_FOLLOW_ACCELERATION = 20
 MERMON_HEAD_MAX_FOLLOW_VELOCITY = 500
 
-MERMON_HEAD_INITIAL_HEALTH = 5
+MERMON_HEAD_INITIAL_HEALTH = 50
 MERMON_HEAD_ATTACKED_LENGTH = 30
 MERMON_HEAD_FLASH_LENGTH = 20
 
@@ -47,6 +48,7 @@ define_entity_properties mermon_head_ear_animation_counter, \
 MERMON_HEAD_STATE_INIT
 MERMON_HEAD_STATE_PAUSE
 MERMON_HEAD_STATE_HOME_IN_TO_RANDOM_SPOT
+MERMON_HEAD_STATE_EXPLODE
 MERMON_HEAD_STATE_TRANSITION_TO_FINAL_SCENE
 .endenum
 
@@ -62,6 +64,7 @@ define_lohi_tables mermon_head, \
  {mermon_head_state_init, \
   mermon_head_state_pause, \
   mermon_head_state_home_in_to_random_spot, \
+  mermon_head_state_explode, \
   mermon_head_state_transition_to_final_scene}
 
 mermon_head_update:
@@ -198,6 +201,46 @@ do_not_transition_yet:
   .endscope
 
   rts
+
+mermon_head_state_explode:
+
+  .scope
+  dec mermon_head_state_counter,x
+  beq die
+
+  lda entity_sprite_flags,x
+  and #%00000011
+  sta b0
+  inc b0
+  lda b0
+  and #%00000011
+  sta b0
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b0
+  sta entity_sprite_flags,x
+
+  rts
+die:
+
+  jsr entity_clear_shadow_spot
+
+  ;keep entity alive because we're going to transition to the final scene in the next state
+  ;but make it not drawable as though it died
+  lda entity_flags,x
+  and #ENTITY_FLAGS_DRAWABLE_CLEAR
+  ora #ENTITY_FLAGS_ALIVE_SET
+  sta entity_flags,x
+
+  ;transition to the state which will count down and then transition to the final scene
+  lda #MERMON_HEAD_STATE_TRANSITION_TO_FINAL_SCENE_LENGTH
+  sta mermon_state_counter,x
+
+  lda #MERMON_HEAD_STATE_TRANSITION_TO_FINAL_SCENE
+  sta entity_state,x
+
+  rts
+  .endscope
 
 .proc mermon_head_update_ear_animation
 
@@ -392,26 +435,50 @@ done:
 
 .proc mermon_head_combat
 
-  entity_combat #MERMON_HEAD_FLASH_LENGTH, #MERMON_HEAD_ATTACKED_LENGTH, mermon_head_flash_counter, mermon_head_knockback_counter, mermon_head_health, mermon_head_direction, "entity_drop_random_item", "entity_spawn_explosion"
+  entity_combat #MERMON_HEAD_FLASH_LENGTH, #MERMON_HEAD_ATTACKED_LENGTH, mermon_head_flash_counter, mermon_head_knockback_counter, mermon_head_health, mermon_head_direction, "entity_drop_random_item", "entity_spawn_explosion_nop"
 
   .scope
   lda mermon_head_health,x
   bne not_dead_yet
 
-  jsr entity_clear_shadow_spot
-
-  ;keep entity alive because we're going to transition to the final scene in the next state
-  ;but make it not drawable as though it died
+  ;keep head alive for explode state
   lda entity_flags,x
-  and #ENTITY_FLAGS_DRAWABLE_CLEAR
   ora #ENTITY_FLAGS_ALIVE_SET
   sta entity_flags,x
 
-  ;transition to the state which will count down and then transition to the final scene
-  lda #MERMON_HEAD_STATE_TRANSITION_TO_FINAL_SCENE_LENGTH
-  sta mermon_state_counter,x
+  lda #entity_index_big_explosion
+  sta b0
 
-  lda #MERMON_HEAD_STATE_TRANSITION_TO_FINAL_SCENE
+  sec
+  lda entity_x_lo,x
+  sbc #<8
+  sta w0
+  lda entity_x_hi,x
+  sbc #>8
+  sta w0+1
+  sec
+  lda entity_y_lo,x
+  sbc #<8
+  sta w1
+  lda entity_y_hi,x
+  sbc #>8
+  sta w1+1
+
+  jsr entity_spawn
+
+  ldy spawned_entity
+  lda #31
+  sta entity_width,y
+  sta entity_height,y
+  lda #4
+  sta big_explosion_time_between_explosions,y
+  lda #MERMON_HEAD_STATE_EXPLODE_LENGTH
+  sta big_explosion_length,y
+
+  lda #MERMON_HEAD_STATE_EXPLODE_LENGTH
+  sta mermon_head_state_counter,x
+
+  lda #MERMON_HEAD_STATE_EXPLODE
   sta entity_state,x
 
 not_dead_yet:
