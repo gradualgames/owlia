@@ -192,7 +192,7 @@ house_intro_scene_window:
   .byte    1, "WHAT A BEAUTIFUL DAY!",TM,30," I"
   .byte NL,2, "THINK I'M GOING TO TAKE"
   .byte NL,3, "TYTO OUTSIDE TO STRETCH"
-  .byte NL,4, "HIS WINGS.",TM,75,EC
+  .byte NL,4, "HIS WINGS.",TM,30,".",TM,30,".",TM,30,".",EC
 
 house_intro_scene_call_tyto1:
   .byte    1, "...",TM,30,"TYTO!",TM,75,EC

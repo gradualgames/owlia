@@ -87,10 +87,13 @@ intro_state_init:
   jsr controller_clear
   set_controller_routine controller_nop
 
-  lda #ACTION_START_CONVERSATION
+  lda #ACTION_START_CONVERSATION_WITH_PAUSES
   sta state_control_params+play_state_control::action
   lda #conversation_index_house_intro_scene_window
   sta state_control_params+play_state_control::param
+  lda #50
+  sta state_control_params+play_state_control::pre_conversation_pause
+  sta state_control_params+play_state_control::post_conversation_pause
 
   lda #0
   sta intro_script_index,x
@@ -141,10 +144,13 @@ do_not_get_next_walk_to_tyto_step:
 
 intro_state_call_tyto:
 
-  lda #ACTION_START_CONVERSATION
+  lda #ACTION_START_CONVERSATION_WITH_PAUSES
   sta state_control_params+play_state_control::action
   lda #conversation_index_house_intro_scene_call_tyto1
   sta state_control_params+play_state_control::param
+  lda #50
+  sta state_control_params+play_state_control::pre_conversation_pause
+  sta state_control_params+play_state_control::post_conversation_pause
 
   lda #64
   sta intro_state_counter,x
@@ -170,10 +176,13 @@ do_not_switch_to_to_me_state:
 
 intro_state_tyto_to_me:
 
-  lda #ACTION_START_CONVERSATION
+  lda #ACTION_START_CONVERSATION_WITH_PAUSES
   sta state_control_params+play_state_control::action
   lda #conversation_index_house_intro_scene_call_tyto2
   sta state_control_params+play_state_control::param
+  lda #50
+  sta state_control_params+play_state_control::pre_conversation_pause
+  sta state_control_params+play_state_control::post_conversation_pause
 
   lda #INTRO_STATE_FLY_TO_ADLANNIEL
   sta entity_state,x

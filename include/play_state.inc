@@ -10,6 +10,8 @@ PLAY_STATE_INC = 1
   action .byte
   param  .word
   monolith_index .byte
+  pre_conversation_pause .byte
+  post_conversation_pause .byte
 .endstruct
 
 ;actions 0 thru 15 are reserved for use by the map (or anybody else)
@@ -20,6 +22,7 @@ ACTION_NOP
 ACTION_GOTO_LOCATION_GROUP1
 ACTION_SCROLLTO_LOCATION_GROUP1
 ACTION_START_CONVERSATION
+ACTION_START_CONVERSATION_WITH_PAUSES
 ACTION_SHOW_INVENTORY_SCREEN
 ACTION_GAME_OVER
 ACTION_PLAY_CUT_SCENE

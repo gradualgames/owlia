@@ -591,6 +591,7 @@ done:
   play_state_action_goto_location_group1, \
   play_state_action_scrollto_location_group1, \
   play_state_action_start_conversation, \
+  play_state_action_start_conversation_with_pauses, \
   play_state_action_transition_to_inventory_state, \
   play_state_action_game_over, \
   play_state_action_cut_scene
@@ -1838,8 +1839,23 @@ scroll_south_impl:
 ;state.
 ;****************************************************************
 play_state_action_start_conversation:
+play_state_action_start_conversation_with_pauses:
 
   safely_set_vblank_routine nametable_and_attribute_update_ppu
+
+  .scope
+  lda state_control_params+play_state_control::action
+  cmp #ACTION_START_CONVERSATION_WITH_PAUSES
+  bne do_not_do_conversation_pause
+
+  ldy state_control_params+play_state_control::pre_conversation_pause
+: clear_vblank_done
+  wait_vblank_done
+  dey
+  bne :-
+
+do_not_do_conversation_pause:
+  .endscope
 
   jsr align_camera_to_metatile_boundary
 
@@ -1894,6 +1910,20 @@ play_state_action_start_conversation:
   far_call #TEXTBOX_BANK, erase_textbox
 
   jsr load_vblank_routine
+
+  .scope
+  lda state_control_params+play_state_control::action
+  cmp #ACTION_START_CONVERSATION_WITH_PAUSES
+  bne do_not_do_conversation_pause
+
+  ldy state_control_params+play_state_control::post_conversation_pause
+: clear_vblank_done
+  wait_vblank_done
+  dey
+  bne :-
+
+do_not_do_conversation_pause:
+  .endscope
 
   ;the user has finished advancing through the conversation, make
   ;sure the play state control action is a nop as we return to the
