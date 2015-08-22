@@ -481,11 +481,13 @@ image_slide:
   ;last cut scene. It will remain on the screen indefinitely until
   ;a reset.
 wait_infinitely:
-: wait_vblank
+: clear_vblank_done
+  wait_vblank_done
   jmp :-
 
 wait_length:
-: wait_vblank
+: clear_vblank_done
+  wait_vblank_done
   dex
   bne :-
 
