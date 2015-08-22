@@ -34,6 +34,7 @@ MERMON_TORSO_STATE_FLING_LENGTH = 60
 MERMON_TORSO_FLASH_LENGTH = 20
 MERMON_TORSO_ATTACKED_LENGTH = 30
 
+MERMON_TORSO_STATE_EXPLODE_LENGTH = 255
 MERMON_TORSO_STATE_TRANSITION_TO_FINAL_FORM_LENGTH = 255
 
 mermon_x_lo = entity_x_lo
@@ -60,6 +61,7 @@ define_entity_properties mermon_tail_index,\
 MERMON_TORSO_STATE_INIT
 MERMON_TORSO_STATE_MAIN
 MERMON_TORSO_STATE_FLING
+MERMON_TORSO_STATE_EXPLODE
 MERMON_TORSO_STATE_TRANSITION_TO_FINAL_FORM
 .endenum
 
@@ -67,6 +69,7 @@ define_lohi_tables mermon_torso, \
  {mermon_torso_state_init, \
   mermon_torso_state_main, \
   mermon_torso_state_fling, \
+  mermon_torso_state_explode, \
   mermon_torso_state_transition_to_final_form}
 
 mermon_torso_update:
@@ -293,6 +296,51 @@ do_not_transition_yet:
 
   rts
 
+mermon_torso_state_explode:
+
+  .scope
+  dec mermon_state_counter,x
+  beq die
+
+  lda entity_sprite_flags,x
+  and #%00000011
+  sta b0
+  inc b0
+  lda b0
+  and #%00000011
+  sta b0
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b0
+  sta entity_sprite_flags,x
+
+  rts
+die:
+
+  ;keep torso entity alive because we're going to transition to the final boss in the next state
+  ;but make it not drawable as though it died
+  lda entity_flags,x
+  and #ENTITY_FLAGS_DRAWABLE_CLEAR
+  ora #ENTITY_FLAGS_ALIVE_SET
+  sta entity_flags,x
+
+  ;make the tail not drawable either
+  ldy mermon_tail_index,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_DRAWABLE_CLEAR
+  sta entity_flags,y
+
+  ;transition to the state which will count down and then transition to the final boss location
+  lda #MERMON_TORSO_STATE_TRANSITION_TO_FINAL_FORM_LENGTH
+  sta mermon_state_counter,x
+
+  lda #MERMON_TORSO_STATE_TRANSITION_TO_FINAL_FORM
+  sta entity_state,x
+
+  rts
+
+  .endscope
+
 mermon_torso_state_transition_to_final_form:
 
   .scope
@@ -391,24 +439,41 @@ done:
 
   jsr entity_clear_shadow_spot
 
-  ;keep torso entity alive because we're going to transition to the final boss in the next state
-  ;but make it not drawable as though it died
+  ;keep torso entity alive because we're going to enter the explode state
   lda entity_flags,x
-  and #ENTITY_FLAGS_DRAWABLE_CLEAR
   ora #ENTITY_FLAGS_ALIVE_SET
   sta entity_flags,x
 
-  ;make the tail not drawable either
-  ldy mermon_tail_index,x
-  lda entity_flags,y
-  and #ENTITY_FLAGS_DRAWABLE_CLEAR
-  sta entity_flags,y
+  lda #entity_index_big_explosion
+  sta b0
 
-  ;transition to the state which will count down and then transition to the final boss location
-  lda #MERMON_TORSO_STATE_TRANSITION_TO_FINAL_FORM_LENGTH
+  sec
+  lda entity_x_lo,x
+  sbc #<8
+  sta w0
+  lda entity_x_hi,x
+  sbc #>8
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  ldy spawned_entity
+  lda #31
+  sta entity_width,y
+  sta entity_height,y
+  lda #4
+  sta big_explosion_time_between_explosions,y
+  lda #MERMON_TORSO_STATE_EXPLODE_LENGTH
+  sta big_explosion_length,y
+
+  lda #MERMON_TORSO_STATE_EXPLODE_LENGTH
   sta mermon_state_counter,x
 
-  lda #MERMON_TORSO_STATE_TRANSITION_TO_FINAL_FORM
+  lda #MERMON_TORSO_STATE_EXPLODE
   sta entity_state,x
 
 not_dead_yet:
