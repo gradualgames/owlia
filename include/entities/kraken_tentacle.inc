@@ -34,7 +34,8 @@ define_lohi_tables kraken_tentacle, \
   kraken_tentacle_state_attack_left_init, \
   kraken_tentacle_state_attack_right_init, \
   kraken_tentacle_state_attack, \
-  kraken_tentacle_state_idle}
+  kraken_tentacle_state_idle, \
+  kraken_tentacle_state_explode}
 
 kraken_tentacle_update:
 
@@ -173,6 +174,38 @@ kraken_tentacle_state_idle:
 
   rts
 
+kraken_tentacle_state_explode:
+
+  .scope
+  dec kraken_tentacle_state_counter,x
+  beq die
+
+  lda entity_sprite_flags,x
+  and #%00000011
+  sta b0
+  inc b0
+  lda b0
+  and #%00000011
+  sta b0
+  lda entity_sprite_flags,x
+  and #%11111100
+  ora b0
+  sta entity_sprite_flags,x
+
+  rts
+die:
+
+  jsr entity_clear_drawable
+
+  jsr entity_clear_shadow_spot
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+  .endscope
+
 .proc kraken_tentacle_set_position
 
   lda entity_animation_frame,x
@@ -218,6 +251,54 @@ done:
 .proc kraken_combat
 
   entity_combat #KRAKEN_TENTACLE_ATTACKED_LENGTH, #KRAKEN_TENTACLE_KNOCKBACK_LENGTH, kraken_tentacle_flash_counter, kraken_tentacle_knockback_counter, kraken_tentacle_health, kraken_tentacle_direction, "entity_drop_random_item", "entity_spawn_explosion"
+
+  .scope
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_TEST
+  bne not_dead
+
+  ;keep tentacle alive so we can enter the explode state
+  lda entity_flags,x
+  ora #ENTITY_FLAGS_ALIVE_SET
+  sta entity_flags,x
+
+  lda #entity_index_big_explosion
+  sta b0
+
+  sec
+  lda entity_x_lo,x
+  sbc #<16
+  sta w0
+  lda entity_x_hi,x
+  sbc #>16
+  sta w0+1
+  sec
+  lda entity_y_lo,x
+  sbc #<32
+  sta w1
+  lda entity_y_hi,x
+  sbc #>32
+  sta w1+1
+
+  jsr entity_spawn
+
+  ldy spawned_entity
+  lda #31
+  sta entity_width,y
+  sta entity_height,y
+  lda #4
+  sta big_explosion_time_between_explosions,y
+  lda #KRAKEN_TENTACLE_STATE_EXPLODE_LENGTH
+  sta big_explosion_length,y
+
+  lda #KRAKEN_TENTACLE_STATE_EXPLODE_LENGTH
+  sta kraken_tentacle_state_counter,x
+
+  lda #KRAKEN_TENTACLE_STATE_EXPLODE
+  sta entity_state,x
+
+not_dead:
+  .endscope
 
   rts
 
