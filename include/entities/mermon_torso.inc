@@ -4,7 +4,7 @@ MERMON_TORSO_INC = 1
 
 .include "projectile_constants.inc"
 
-MERMON_TORSO_INITIAL_HEALTH = 50
+MERMON_TORSO_INITIAL_HEALTH = 1
 
 MERMON_TAIL_X_OFFSET = 0
 MERMON_TAIL_Y_OFFSET = 16
@@ -83,6 +83,14 @@ mermon_torso_state_init:
   jsr entity_set_drawable
 
   jsr entity_set_shadow_spot
+
+  jsr entity_set_not_pausable
+
+  lda #<octoboss_theme
+  sta song_address
+  lda #>octoboss_theme
+  sta song_address+1
+  far_call #SOUND_BANK, song_initialize
 
   entity_lda16 entity_shadow_spot_x, 12
   entity_lda16 entity_shadow_spot_y, 64

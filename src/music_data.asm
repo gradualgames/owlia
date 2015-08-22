@@ -69,3 +69,8 @@ mermon_dungeon_theme:
 .scope
 .include "mermon_dungeon_theme.inc"
 .endscope
+final_boss_theme:
+.scope
+.include "final_boss_theme.inc"
+.endscope
+

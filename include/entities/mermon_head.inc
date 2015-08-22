@@ -13,7 +13,7 @@ MERMON_HEAD_STATE_EXPLODE_LENGTH = 255
 MERMON_HEAD_FOLLOW_ACCELERATION = 20
 MERMON_HEAD_MAX_FOLLOW_VELOCITY = 500
 
-MERMON_HEAD_INITIAL_HEALTH = 50
+MERMON_HEAD_INITIAL_HEALTH = 1
 MERMON_HEAD_ATTACKED_LENGTH = 30
 MERMON_HEAD_FLASH_LENGTH = 20
 
@@ -81,6 +81,12 @@ mermon_head_state_init:
 
   jsr entity_set_shadow_spot
 
+  lda #<final_boss_theme
+  sta song_address
+  lda #>final_boss_theme
+  sta song_address+1
+  far_call #SOUND_BANK, song_initialize
+  
   entity_lda16 entity_shadow_spot_x, 10
   entity_lda16 entity_shadow_spot_y, 32
 
