@@ -100,7 +100,8 @@
   mermon_torso_update, \
   mermon_tail_update, \
   mermon_head_update, \
-  ending_update
+  ending_update, \
+  silmaran_carry_adlanniel_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -173,6 +174,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_mermon_tail
   .byte entity_update_bank_mermon_head
   .byte entity_update_bank_ending
+  .byte entity_update_bank_silmaran_carry_adlanniel
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -240,6 +242,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_mermon_tail
   .byte entity_sprites_and_animations_bank_mermon_head
   .byte entity_sprites_and_animations_bank_ending
+  .byte entity_sprites_and_animations_bank_silmaran_carry_adlanniel
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -309,3 +312,4 @@ entity_defs_sprites_and_animations_bank:
 .include "mermon_tail.inc"
 .include "mermon_head.inc"
 .include "ending.inc"
+.include "silmaran_carry_adlanniel.inc"

@@ -38,6 +38,18 @@ ending_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
+  lda #entity_index_silmaran_carry_adlanniel
+  sta b0
+
+  lda #<50
+  sta w0
+  sta w1
+  lda #>50
+  sta w0+1
+  sta w1+1
+
+  jsr entity_spawn
+
   jsr controller_clear
   set_controller_routine controller_nop
 

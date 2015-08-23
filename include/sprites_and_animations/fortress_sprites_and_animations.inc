@@ -37,27 +37,22 @@ tortoise_fortress0:
   .byte $20,$2a,$00,$28,$10
   .byte $20,$2b,$00,$30,$08
   .byte $20,$2c,$00,$38,$00
-silmaran_carry_adlanniel_overlay0:
-  .byte $02
+silmaran_carry_adlanniel0:
+  .byte $06
   .byte $08,$03,$01,$00,$08
   .byte $08,$04,$01,$08,$00
-silmaran_carry_adlanniel0:
-  .byte $04
   .byte $00,$01,$02,$00,$08
   .byte $00,$02,$02,$08,$00
   .byte $08,$05,$02,$00,$08
   .byte $08,$06,$02,$08,$00
 silmaran_carry_adlanniel1:
-  .byte $04
+  .byte $06
+  .byte $08,$03,$01,$00,$08
+  .byte $08,$04,$01,$08,$00
   .byte $00,$07,$02,$00,$08
   .byte $00,$08,$02,$08,$00
   .byte $08,$0d,$02,$00,$08
   .byte $08,$0e,$02,$08,$00
-silmaran_carry_adlanniel_overlay1:
-  .byte $02
-  .byte $08,$03,$01,$00,$08
-  .byte $08,$04,$01,$08,$00
-
 fortress:
   .byte $0a, $02
   .word tortoise_fortress0
