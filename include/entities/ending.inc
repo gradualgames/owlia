@@ -98,6 +98,7 @@ ending_state_main:
   lsr
   sta big_explosion_time_between_explosions,y
 
+  lda big_explosion_time_between_explosions,y
   cmp #16
   bne do_not_spawn_silmaran_carry_adlanniel_yet
 
@@ -118,6 +119,7 @@ ending_state_main:
 
 do_not_spawn_silmaran_carry_adlanniel_yet:
 
+  lda big_explosion_time_between_explosions,y
   cmp #1
   bne do_not_advance_state_yet
 
