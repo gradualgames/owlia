@@ -2784,7 +2784,8 @@ dungeon5_final_silmaran_encounter_entity_instances:
   .byte entity_index_silmaran, 11, 6, 0, SILMARAN_PARAMS, SILMARAN_FLAGS_FINAL_ENCOUNTER_SET, SILMARAN_STATE_WAIT, conversation_index_silmaran_final_encounter, <(4 * 16), >(4 * 16), <(0 * 16), >(0 * 16), <(3 * 16), >(3 * 16)
 
 sea_entity_instances:
-  .byte 0
+  .byte 1
+  .byte entity_index_ending, 0, 0, 0, 0
 
 ;****************************************************************
 ;Palettes.
