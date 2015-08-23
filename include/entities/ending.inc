@@ -8,11 +8,16 @@ ENDING_HEIGHT = $0f
 .enum
 ENDING_STATE_INIT
 ENDING_STATE_MAIN
+ENDING_STATE_DESTROY_FORTRESS
 .endenum
+
+define_entity_properties ending_big_explosion_index,\
+                         ending_state_counter
 
 define_lohi_tables ending, \
  {ending_state_init, \
-  ending_state_main}
+  ending_state_main, \
+  ending_state_destroy_fortress}
 
 ending_update:
 
@@ -38,18 +43,6 @@ ending_state_init:
   lda #$00
   sta entity_sprite_flags,x
 
-  lda #entity_index_silmaran_carry_adlanniel
-  sta b0
-
-  lda #<50
-  sta w0
-  sta w1
-  lda #>50
-  sta w0+1
-  sta w1+1
-
-  jsr entity_spawn
-
   lda #entity_index_big_explosion
   sta b0
 
@@ -67,14 +60,19 @@ ending_state_init:
 
   jsr entity_spawn
 
-  ldy spawned_entity
+  lda spawned_entity
+  sta ending_big_explosion_index,x
+  tay
   lda #31
   sta entity_width,y
   sta entity_height,y
-  lda #16
+  lda #32
   sta big_explosion_time_between_explosions,y
   lda #255
   sta big_explosion_length,y
+
+  lda #255
+  sta ending_state_counter,x
 
   jsr controller_clear
   set_controller_routine controller_nop
@@ -91,7 +89,54 @@ ending_state_init:
 
 ending_state_main:
 
+  .scope
+  dec ending_state_counter,x
+  bne do_not_advance_state_yet
+
+  ldy ending_big_explosion_index,x
+  lda big_explosion_time_between_explosions,y
+  lsr
+  sta big_explosion_time_between_explosions,y
+
+  cmp #16
+  bne do_not_spawn_silmaran_carry_adlanniel_yet
+
+  lda #entity_index_silmaran_carry_adlanniel
+  sta b0
+
+  lda entity_x_lo,x
+  sta w0
+  lda entity_x_hi,x
+  sta w0+1
+
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+do_not_spawn_silmaran_carry_adlanniel_yet:
+
+  cmp #1
+  bne do_not_advance_state_yet
+
+  lda #ENDING_STATE_DESTROY_FORTRESS
+  sta entity_state,x
+  rts
+
+do_not_advance_state_yet:
+  .endscope
+
+  ldy ending_big_explosion_index,x
+  lda #255
+  sta big_explosion_length,y
+
   jsr entity_update_animation
+
+  rts
+
+ending_state_destroy_fortress:
 
   rts
 
