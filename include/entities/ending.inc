@@ -48,6 +48,7 @@ ending_state_init:
 
   lda hero_flags
   and #HERO_FLAGS_DRAWABLE_CLEAR
+  ora #HERO_FLAGS_HIDE_STATUS_SET
   sta hero_flags
 
   lda #ENDING_STATE_MAIN

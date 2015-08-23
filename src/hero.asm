@@ -817,6 +817,11 @@ do_not_draw:
 ;Draws the hero's health status.
 ;This assumes the current bank is the sprites and animations bank!
 .proc hero_draw_status
+  lda hero_flags
+  and #HERO_FLAGS_HIDE_STATUS_TEST
+  beq draw_status
+  jmp hide_status
+draw_status:
   switch_bank_ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
 
   lda hero_sprite_group_offset
@@ -896,7 +901,7 @@ done:
   lda #0
   sta b2
   jsr sprite_draw_metasprite
-
+hide_status:
   rts
 
 .endproc
