@@ -50,6 +50,32 @@ ending_state_init:
 
   jsr entity_spawn
 
+  lda #entity_index_big_explosion
+  sta b0
+
+  clc
+  lda entity_x_lo,x
+  adc #<8
+  sta w0
+  lda entity_x_hi,x
+  adc #>8
+  sta w0+1
+  lda entity_y_lo,x
+  sta w1
+  lda entity_y_hi,x
+  sta w1+1
+
+  jsr entity_spawn
+
+  ldy spawned_entity
+  lda #31
+  sta entity_width,y
+  sta entity_height,y
+  lda #16
+  sta big_explosion_time_between_explosions,y
+  lda #255
+  sta big_explosion_length,y
+
   jsr controller_clear
   set_controller_routine controller_nop
 

@@ -16,7 +16,7 @@ pitch:
 duty:
   .word duty0
 volume0:
-  .byte 2,ENV_STOP
+  .byte 7,ENV_STOP
 volume1:
   .byte 0,ENV_LOOP
 
