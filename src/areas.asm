@@ -47,7 +47,8 @@
     submarine_area, \
     tortoise_area, \
     dungeon5_area, \
-    dungeon5_boss_area
+    dungeon5_boss_area, \
+    sea_area
 
 areas_lo:
   .lobytes areas
@@ -1201,3 +1202,33 @@ dungeon5_boss_area_nametable_switch_floor_down_alternate_patch:
   .byte $02,$06,$8a,$8b,$90,$91,$8e,$8f,$04,$04,$2e,$2f,$35,$36
 dungeon5_boss_area_nametable_switch_floor_up_alternate_patch:
   .byte $02,$06,$8c,$8d,$92,$93,$8e,$8f,$04,$04,$2e,$2f,$35,$36
+
+sea_area:
+  .byte MAP_DATA_BANK4
+  .byte CONVERSATIONS_BANK
+  .word sea_area_bg_chr_groups
+  .word explode
+  .byte $00 ;textbox_attribute
+  .word sea_map
+  .word sea_metatile_table_properties
+  .word sea_metatile_table_params
+  .word sea_metatile_table_attributes
+  .word sea_metatile_table_top_left_tiles
+  .word sea_metatile_table_top_right_tiles
+  .word sea_metatile_table_bottom_left_tiles
+  .word sea_metatile_table_bottom_right_tiles
+  .word sea_big_metatile_table_top_left
+  .word sea_big_metatile_table_top_right
+  .word sea_big_metatile_table_bottom_left
+  .word sea_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
+
+sea_area_bg_chr_groups:
+  .byte 3  ;count
+  .byte BG_CHR_DATA_BANK4
+  .word palm_trees_chr
+  .byte BG_CHR_DATA_BANK4
+  .word sand_chr
+  .byte BG_CHR_DATA_BANK4
+  .word shore_chr

@@ -77,3 +77,7 @@ ending_theme:
 .scope
 .include "ending_theme.inc"
 .endscope
+explode:
+.scope
+.include "explode.inc"
+.endscope

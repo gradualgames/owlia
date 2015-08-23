@@ -282,7 +282,8 @@
     dungeon5_3_3_w, \
     dungeon5_boss_area_entrance, \
     dungeon5_final_boss_area_entrance, \
-    dungeon5_final_silmaran_encounter
+    dungeon5_final_silmaran_encounter, \
+    sea_exploding_fortress_scene
 
 locations_lo:
   .lobytes locations
@@ -728,6 +729,14 @@ dungeon5_final_silmaran_encounter_sprite_chr_groups:
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_silmaran
+
+sea_sprite_chr_groups:
+  .byte 5   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
 
 ;****************************************************************
 ;Entity instance sets
@@ -2774,6 +2783,9 @@ dungeon5_final_silmaran_encounter_entity_instances:
   .byte 1
   .byte entity_index_silmaran, 11, 6, 0, SILMARAN_PARAMS, SILMARAN_FLAGS_FINAL_ENCOUNTER_SET, SILMARAN_STATE_WAIT, conversation_index_silmaran_final_encounter, <(4 * 16), >(4 * 16), <(0 * 16), >(0 * 16), <(3 * 16), >(3 * 16)
 
+sea_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -2984,6 +2996,17 @@ dungeon5_final_boss_palette:
 dungeon5_final_silmaran_encounter_palette:
   .byte $0e,$01,$11,$21,$0e,$0c,$1c,$2c,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$37,$0e,$0e,$18,$20,$0e,$0e,$28,$20,$0e,$0e,$0e,$0e
+  .byte PALETTE_CYCLE_LOOP
+
+sea_palette:
+  .byte $37,$0e,$09,$19,$37,$0e,$09,$18,$37,$09,$18,$20,$37,$21,$31,$20
+  .byte $37,$0e,$06,$36,$37,$0e,$18,$20,$37,$0e,$13,$23,$37,$0e,$14,$24
+  .byte 14,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte 14,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte 14,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte 14,$31,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte 14,$20,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte 14,$31,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
@@ -3749,3 +3772,8 @@ define_location {(LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIG
 
 dungeon5_final_silmaran_encounter:
 define_location {(LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5_boss,dungeon5_final_silmaran_encounter_sprite_chr_groups,dungeon5_final_silmaran_encounter_entity_instances,dungeon5_final_silmaran_encounter_palette, 5, 0, 11, 9, 0, 0, 0, ENTITY_DIRECTION_UP
+
+sea_exploding_fortress_scene:
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
+                      area_index_sea, sea_sprite_chr_groups, sea_entity_instances, sea_palette,\
+                      0, 0, 0, 0, 0, 0, 0, ENTITY_DIRECTION_DOWN

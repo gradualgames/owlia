@@ -587,3 +587,20 @@ dungeon5_boss_big_metatile_table_top_right = dungeon5_boss_data::big_metatile_ta
 dungeon5_boss_big_metatile_table_bottom_left = dungeon5_boss_data::big_metatile_table_bottom_left
 dungeon5_boss_big_metatile_table_bottom_right = dungeon5_boss_data::big_metatile_table_bottom_right
 dungeon5_boss_map = dungeon5_boss_data::map
+
+.scope sea_data
+.include "sea.inc"
+.endscope
+
+sea_metatile_table_properties = sea_data::metatile_table_properties
+sea_metatile_table_params = sea_data::metatile_table_params
+sea_metatile_table_attributes = sea_data::metatile_table_attributes
+sea_metatile_table_top_left_tiles = sea_data::metatile_table_top_left_tiles
+sea_metatile_table_top_right_tiles = sea_data::metatile_table_top_right_tiles
+sea_metatile_table_bottom_left_tiles = sea_data::metatile_table_bottom_left_tiles
+sea_metatile_table_bottom_right_tiles = sea_data::metatile_table_bottom_right_tiles
+sea_big_metatile_table_top_left = sea_data::big_metatile_table_top_left
+sea_big_metatile_table_top_right = sea_data::big_metatile_table_top_right
+sea_big_metatile_table_bottom_left = sea_data::big_metatile_table_bottom_left
+sea_big_metatile_table_bottom_right = sea_data::big_metatile_table_bottom_right
+sea_map = sea_data::map

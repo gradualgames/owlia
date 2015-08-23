@@ -19,5 +19,6 @@ MUSIC_DATA_INC = 1
 .global mermon_dungeon_theme
 .global final_boss_theme
 .global ending_theme
+.global explode
 
 .endif

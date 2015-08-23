@@ -69,6 +69,7 @@ area_index_submarine
 area_index_tortoise
 area_index_dungeon5
 area_index_dungeon5_boss
+area_index_sea
 .endenum
 
 .endif

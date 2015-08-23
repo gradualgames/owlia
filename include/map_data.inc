@@ -482,4 +482,18 @@ MAP_DATA_BANK4 = 30
 .global dungeon5_boss_metatile_table_top_right_tiles
 .global dungeon5_boss_metatile_table_top_left_tiles
 
+.global sea_palette
+.global sea_map
+.global sea_big_metatile_table_bottom_right
+.global sea_big_metatile_table_bottom_left
+.global sea_big_metatile_table_top_right
+.global sea_big_metatile_table_top_left
+.global sea_metatile_table_properties
+.global sea_metatile_table_params
+.global sea_metatile_table_attributes
+.global sea_metatile_table_bottom_right_tiles
+.global sea_metatile_table_bottom_left_tiles
+.global sea_metatile_table_top_right_tiles
+.global sea_metatile_table_top_left_tiles
+
 .endif
