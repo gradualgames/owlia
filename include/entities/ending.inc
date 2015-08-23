@@ -20,28 +20,23 @@ ending_update:
 
 ending_state_init:
 
-  ; jsr entity_set_drawable
+  jsr entity_set_drawable
 
-  ; lda #<ending
-  ; sta entity_animation_address_lo,x
-  ; lda #>ending
-  ; sta entity_animation_address_hi,x
+  lda #<fortress
+  sta entity_animation_address_lo,x
+  lda #>fortress
+  sta entity_animation_address_hi,x
 
-  ; jsr entity_reset_animation
-
-  ; lda #ENDING_WIDTH
-  ; sta entity_width,x
-  ; lda #ENDING_HEIGHT
-  ; sta entity_height,x
+  jsr entity_reset_animation
 
   ;some entities are parameterized for graphics set, ones
   ;that are always hard coded should set their chr offset here
-  ;lda #sprite_chr_group_index_ending
-  ;sta b0
-  ;jsr entity_lookup_sprite_chr_offset
+  lda #sprite_chr_group_index_fortress
+  sta b0
+  jsr entity_lookup_sprite_chr_offset
 
-  ; lda #$00
-  ; sta entity_sprite_flags,x
+  lda #$00
+  sta entity_sprite_flags,x
 
   jsr controller_clear
   set_controller_routine controller_nop

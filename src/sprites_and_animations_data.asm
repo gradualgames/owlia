@@ -68,3 +68,4 @@
 .include "kraken_sprites_and_animations.inc"
 .include "mermon_sprites_and_animations.inc"
 .include "mermon_head_sprites_and_animations.inc"
+.include "fortress_sprites_and_animations.inc"

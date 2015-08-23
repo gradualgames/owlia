@@ -731,12 +731,13 @@ dungeon5_final_silmaran_encounter_sprite_chr_groups:
   .byte sprite_chr_group_index_silmaran
 
 sea_sprite_chr_groups:
-  .byte 5   ;sprite_chr_groups .byte
+  .byte 6   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_fortress
 
 ;****************************************************************
 ;Entity instance sets
@@ -2785,7 +2786,7 @@ dungeon5_final_silmaran_encounter_entity_instances:
 
 sea_entity_instances:
   .byte 1
-  .byte entity_index_ending, 0, 0, 0, 0
+  .byte entity_index_ending, 6, 5, 0, 0
 
 ;****************************************************************
 ;Palettes.
@@ -3001,7 +3002,7 @@ dungeon5_final_silmaran_encounter_palette:
 
 sea_palette:
   .byte $37,$0e,$09,$19,$37,$0e,$09,$18,$37,$09,$18,$20,$37,$21,$31,$20
-  .byte $37,$0e,$06,$36,$37,$0e,$18,$20,$37,$0e,$13,$23,$37,$0e,$14,$24
+  .byte $37,$0e,$08,$18,$37,$0e,$0e,$07,$37,$0e,$28,$20,$37,$0e,$0e,$0e
   .byte 14,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte 14,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte 14,$21,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME

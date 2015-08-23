@@ -222,4 +222,7 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 .global mermon_head_blow_ears_forward
 .global mermon_head_blow_ears_back
 
+.global fortress
+.global silmaran_carry_adlanniel
+
 .endif
