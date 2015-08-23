@@ -121,6 +121,20 @@ do_not_spawn_silmaran_carry_adlanniel_yet:
   cmp #1
   bne do_not_advance_state_yet
 
+  lda #<tortoise_fortress_sinking
+  sta entity_animation_address_lo,x
+  lda #>tortoise_fortress_sinking
+  sta entity_animation_address_hi,x
+
+  jsr entity_reset_animation
+
+  ldy ending_big_explosion_index,x
+  lda #25
+  sta big_explosion_length,y
+
+  lda #25
+  sta ending_state_counter,x
+
   lda #ENDING_STATE_DESTROY_FORTRESS
   sta entity_state,x
   rts
@@ -137,6 +151,21 @@ do_not_advance_state_yet:
   rts
 
 ending_state_destroy_fortress:
+
+  .scope
+  dec ending_state_counter,x
+  bne do_not_transition_yet
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+
+do_not_transition_yet:
+  .endscope
+
+  jsr entity_update_animation
 
   rts
 

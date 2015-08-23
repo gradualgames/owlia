@@ -91,6 +91,139 @@ silmaran_carry_adlanniel1:
   .byte $08,$0d,$01,$00,$08
   .byte $08,$0e,$01,$08,$00
 
+tortoise_fortress2:
+  .byte $12
+  .byte $10,$09,$02,$10,$28
+  .byte $10,$0a,$02,$18,$20
+  .byte $10,$0b,$02,$20,$18
+  .byte $10,$0c,$02,$28,$10
+  .byte $18,$0f,$02,$08,$30
+  .byte $18,$10,$02,$10,$28
+  .byte $18,$11,$02,$18,$20
+  .byte $18,$12,$02,$20,$18
+  .byte $18,$13,$02,$28,$10
+  .byte $18,$14,$02,$30,$08
+  .byte $20,$15,$00,$00,$38
+  .byte $20,$16,$02,$08,$30
+  .byte $20,$17,$02,$10,$28
+  .byte $20,$18,$02,$18,$20
+  .byte $20,$19,$02,$20,$18
+  .byte $20,$1a,$02,$28,$10
+  .byte $20,$1b,$02,$30,$08
+  .byte $20,$1c,$00,$38,$00
+tortoise_fortress3:
+  .byte $0a
+  .byte $18,$09,$02,$10,$28
+  .byte $18,$0a,$02,$18,$20
+  .byte $18,$0b,$02,$20,$18
+  .byte $18,$0c,$02,$28,$10
+  .byte $20,$0f,$02,$08,$30
+  .byte $20,$10,$02,$10,$28
+  .byte $20,$11,$02,$18,$20
+  .byte $20,$12,$02,$20,$18
+  .byte $20,$13,$02,$28,$10
+  .byte $20,$14,$02,$30,$08
+tortoise_fortress4:
+  .byte $04
+  .byte $20,$09,$02,$10,$28
+  .byte $20,$0a,$02,$18,$20
+  .byte $20,$0b,$02,$20,$18
+  .byte $20,$0c,$00,$28,$10
+tortoise_fortress1:
+  .byte $1a
+  .byte $08,$09,$02,$10,$28
+  .byte $08,$0a,$02,$18,$20
+  .byte $08,$0b,$02,$20,$18
+  .byte $08,$0c,$02,$28,$10
+  .byte $10,$0f,$02,$08,$30
+  .byte $10,$10,$02,$10,$28
+  .byte $10,$11,$02,$18,$20
+  .byte $10,$12,$02,$20,$18
+  .byte $10,$13,$02,$28,$10
+  .byte $10,$14,$02,$30,$08
+  .byte $18,$15,$02,$00,$38
+  .byte $18,$16,$02,$08,$30
+  .byte $18,$17,$02,$10,$28
+  .byte $18,$18,$02,$18,$20
+  .byte $18,$19,$02,$20,$18
+  .byte $18,$1a,$02,$28,$10
+  .byte $18,$1b,$02,$30,$08
+  .byte $18,$1c,$02,$38,$00
+  .byte $20,$1d,$02,$00,$38
+  .byte $20,$1e,$02,$08,$30
+  .byte $20,$1f,$02,$10,$28
+  .byte $20,$20,$02,$18,$20
+  .byte $20,$21,$02,$20,$18
+  .byte $20,$22,$02,$28,$10
+  .byte $20,$23,$02,$30,$08
+  .byte $20,$24,$02,$38,$00
+tortoise_fortress2_reversed:
+  .byte $12
+  .byte $10,$0c,$02,$28,$10
+  .byte $10,$0b,$02,$20,$18
+  .byte $10,$0a,$02,$18,$20
+  .byte $10,$09,$02,$10,$28
+  .byte $18,$14,$02,$30,$08
+  .byte $18,$13,$02,$28,$10
+  .byte $18,$12,$02,$20,$18
+  .byte $18,$11,$02,$18,$20
+  .byte $18,$10,$02,$10,$28
+  .byte $18,$0f,$02,$08,$30
+  .byte $20,$1c,$00,$38,$00
+  .byte $20,$1b,$02,$30,$08
+  .byte $20,$1a,$02,$28,$10
+  .byte $20,$19,$02,$20,$18
+  .byte $20,$18,$02,$18,$20
+  .byte $20,$17,$02,$10,$28
+  .byte $20,$16,$02,$08,$30
+  .byte $20,$15,$00,$00,$38
+tortoise_fortress3_reversed:
+  .byte $0a
+  .byte $18,$0c,$02,$28,$10
+  .byte $18,$0b,$02,$20,$18
+  .byte $18,$0a,$02,$18,$20
+  .byte $18,$09,$02,$10,$28
+  .byte $20,$14,$02,$30,$08
+  .byte $20,$13,$02,$28,$10
+  .byte $20,$12,$02,$20,$18
+  .byte $20,$11,$02,$18,$20
+  .byte $20,$10,$02,$10,$28
+  .byte $20,$0f,$02,$08,$30
+tortoise_fortress4_reversed:
+  .byte $04
+  .byte $20,$0c,$00,$28,$10
+  .byte $20,$0b,$02,$20,$18
+  .byte $20,$0a,$02,$18,$20
+  .byte $20,$09,$02,$10,$28
+tortoise_fortress1_reversed:
+  .byte $1a
+  .byte $08,$0c,$02,$28,$10
+  .byte $08,$0b,$02,$20,$18
+  .byte $08,$0a,$02,$18,$20
+  .byte $08,$09,$02,$10,$28
+  .byte $10,$14,$02,$30,$08
+  .byte $10,$13,$02,$28,$10
+  .byte $10,$12,$02,$20,$18
+  .byte $10,$11,$02,$18,$20
+  .byte $10,$10,$02,$10,$28
+  .byte $10,$0f,$02,$08,$30
+  .byte $18,$1c,$02,$38,$00
+  .byte $18,$1b,$02,$30,$08
+  .byte $18,$1a,$02,$28,$10
+  .byte $18,$19,$02,$20,$18
+  .byte $18,$18,$02,$18,$20
+  .byte $18,$17,$02,$10,$28
+  .byte $18,$16,$02,$08,$30
+  .byte $18,$15,$02,$00,$38
+  .byte $20,$24,$02,$38,$00
+  .byte $20,$23,$02,$30,$08
+  .byte $20,$22,$02,$28,$10
+  .byte $20,$21,$02,$20,$18
+  .byte $20,$20,$02,$18,$20
+  .byte $20,$1f,$02,$10,$28
+  .byte $20,$1e,$02,$08,$30
+  .byte $20,$1d,$02,$00,$38
+
 silmaran_carry_adlanniel:
   .byte $0a, $04
   .word silmaran_carry_adlanniel0
@@ -108,6 +241,34 @@ fortress:
   .word tortoise_fortress0_reversed
   .word tortoise_fortress0
   .word tortoise_fortress0_reversed
+
+tortoise_fortress_sinking:
+  .byte $01, $32
+  .word tortoise_fortress0
+  .word tortoise_fortress0_reversed
+  .word tortoise_fortress0
+  .word tortoise_fortress0_reversed
+  .word tortoise_fortress0
+  .word tortoise_fortress1
+  .word tortoise_fortress1_reversed
+  .word tortoise_fortress1
+  .word tortoise_fortress1_reversed
+  .word tortoise_fortress1
+  .word tortoise_fortress2
+  .word tortoise_fortress2_reversed
+  .word tortoise_fortress2
+  .word tortoise_fortress2_reversed
+  .word tortoise_fortress2
+  .word tortoise_fortress3
+  .word tortoise_fortress3_reversed
+  .word tortoise_fortress3
+  .word tortoise_fortress3_reversed
+  .word tortoise_fortress3
+  .word tortoise_fortress4
+  .word tortoise_fortress4_reversed
+  .word tortoise_fortress4
+  .word tortoise_fortress4_reversed
+  .word tortoise_fortress4
 
 .endif
 

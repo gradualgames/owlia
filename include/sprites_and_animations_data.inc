@@ -224,5 +224,6 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 
 .global fortress
 .global silmaran_carry_adlanniel
+.global tortoise_fortress_sinking
 
 .endif
