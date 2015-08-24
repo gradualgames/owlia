@@ -4,8 +4,9 @@
 .include "sprite_chr_data.inc"
 .include "nametable_data.inc"
 .include "sprites_and_animations_data.inc"
+.include "music_data.inc"
 
-.segment "ROM00"
+.segment "CODE"
 
 intro_cut_scene_great_owls_palette:
   .byte $0e,$08,$18,$20,$0e,$18,$38,$20,$0e,$08,$38,$20,$0e,$28,$10,$20
@@ -45,6 +46,7 @@ intro_cut_scene_great_owls:
   .byte 0                                              ; slide_length .byte
   .word intro_cut_scene_great_owls_sprite_chr_sets     ; sprite_chr_sets_address .word
   .word intro_cut_scene_great_owls_sprite_overlays     ; sprite_overlays_address .word
+  .word 0                                              ; song_address .word
 
 intro_cut_scene_mermon:
   .byte SLIDE_TYPE_TEXTBOX
@@ -57,6 +59,7 @@ intro_cut_scene_mermon:
   .byte 0                                              ; slide_length .byte
   .word 0                                              ; sprite_chr_sets_address .word
   .word 0                                              ; sprite_overlays_address .word
+  .word 0                                              ; song_address .word
 
 intro_cut_scene_mermon_mad:
   .byte SLIDE_TYPE_TEXTBOX
@@ -66,9 +69,10 @@ intro_cut_scene_mermon_mad:
   .word intro_cut_scene_mermon_mad_nametable                 ; nametable_address .word
   .word intro_cut_scene_mermon_mad_palette                   ; palette_address .word
   .byte conversation_index_intro_cut_scene_mermon_mad_text   ; conversation_index .byte
-  .byte 0                                              ; slide_length .byte
+  .byte 0                                                    ; slide_length .byte
   .word 0                                                    ; sprite_chr_sets_address .word
   .word 0                                                    ; sprite_overlays_address .word
+  .word 0                                                    ; song_address .word
 
 intro_cut_scene_mermon_leer:
   .byte SLIDE_TYPE_TEXTBOX
@@ -78,9 +82,10 @@ intro_cut_scene_mermon_leer:
   .word intro_cut_scene_mermon_leer_nametable                ; nametable_address .word
   .word intro_cut_scene_mermon_leer_palette                  ; palette_address .word
   .byte conversation_index_intro_cut_scene_mermon_leer_text  ; conversation_index .byte
-  .byte 0                                              ; slide_length .byte
+  .byte 0                                                    ; slide_length .byte
   .word intro_cut_scene_slide4_sprite_chr_sets               ; sprite_chr_sets_address .word
   .word intro_cut_scene_slide4_sprite_overlays               ; sprite_overlays_address .word
+  .word 0                                                    ; song_address .word
 
 intro_cut_scene_silmaran:
   .byte SLIDE_TYPE_TEXTBOX
@@ -90,9 +95,10 @@ intro_cut_scene_silmaran:
   .word intro_cut_scene_silmaran_nametable                   ; nametable_address .word
   .word intro_cut_scene_silmaran_palette                     ; palette_address .word
   .byte conversation_index_intro_cut_scene_silmaran_text     ; conversation_index .byte
-  .byte 0                                              ; slide_length .byte
+  .byte 0                                                    ; slide_length .byte
   .word 0                                                    ; sprite_chr_sets_address .word
   .word 0                                                    ; sprite_overlays_address .word
+  .word 0                                                    ; song_address .word
 
   ;marks end of slide show
   .byte LAST_SLIDE
@@ -131,4 +137,5 @@ end_cut_scene_slide1:
   .byte SLIDE_LENGTH_INFINITE                          ; slide_length .byte
   .word 0                                              ; sprite_chr_sets_address .word
   .word 0                                              ; sprite_chr_sets_address .word
+  .word ending_theme                                   ; song_address .word
   .byte LAST_SLIDE

@@ -16,6 +16,8 @@
 .include "map_data.inc"
 .include "title_state.inc"
 .include "sprite_chr_data.inc"
+.include "soundengine.inc"
+.include "music_data.inc"
 
 .segment "CODE"
 
@@ -438,6 +440,30 @@ skip_textbox:
   sta column_ready
 
   safely_set_vblank_routine nametable_and_attribute_update_ppu
+
+  ;load song if present
+  .scope
+  ldy #slide::song_address
+  far_load #SLIDE_DATA_BANK, w10, w10+1
+  lda far_load_result
+  sta w11
+  ldy #slide::song_address+1
+  far_load #SLIDE_DATA_BANK, w10, w10+1
+  lda far_load_result
+  sta w11+1
+
+  lda w11
+  ora w11
+  beq no_song
+
+  lda w11
+  sta song_address
+  lda w11+1
+  sta song_address+1
+  far_call #SOUND_BANK, song_initialize
+
+no_song:
+  .endscope
 
   .scope
   ldy #slide::slide_type

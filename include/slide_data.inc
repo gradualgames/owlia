@@ -1,7 +1,7 @@
 .ifndef SLIDE_DATA_INC
 SLIDE_DATA_INC = 1
 
-SLIDE_DATA_BANK = 0
+SLIDE_DATA_BANK = 31
 LAST_SLIDE = 255
 
 .enum
@@ -22,6 +22,7 @@ SLIDE_LENGTH_INFINITE = 0
   slide_length .byte
   sprite_chr_groups_address .word
   sprite_overlays_address .word
+  song_address .word
 .endstruct
 
 .global intro_cut_scene_great_owls
