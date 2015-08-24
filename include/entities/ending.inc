@@ -5,19 +5,26 @@ ENDING_INC = 1
 ENDING_WIDTH = $0f
 ENDING_HEIGHT = $0f
 
+ENDING_STATE_TRANSITION_TO_ENDING_CUT_SCENE_LENGTH = 500
+
 .enum
 ENDING_STATE_INIT
 ENDING_STATE_MAIN
 ENDING_STATE_DESTROY_FORTRESS
+ENDING_STATE_TRANSITION_TO_ENDING_CUT_SCENE
 .endenum
 
 define_entity_properties ending_big_explosion_index,\
-                         ending_state_counter
+                         ending_state_counter_lo,\
+                         ending_state_counter_hi,\
+                         ending_state_splash1_index,\
+                         ending_state_splash2_index
 
 define_lohi_tables ending, \
  {ending_state_init, \
   ending_state_main, \
-  ending_state_destroy_fortress}
+  ending_state_destroy_fortress, \
+  ending_state_transition_to_ending_cut_scene}
 
 ending_update:
 
@@ -72,7 +79,7 @@ ending_state_init:
   sta big_explosion_length,y
 
   lda #255
-  sta ending_state_counter,x
+  sta ending_state_counter_lo,x
 
   jsr controller_clear
   set_controller_routine controller_nop
@@ -90,7 +97,7 @@ ending_state_init:
 ending_state_main:
 
   .scope
-  dec ending_state_counter,x
+  dec ending_state_counter_lo,x
   bne do_not_advance_state_yet
 
   ldy ending_big_explosion_index,x
@@ -123,6 +130,8 @@ do_not_spawn_silmaran_carry_adlanniel_yet:
   cmp #1
   bne do_not_advance_state_yet
 
+  jsr ending_spawn_splashes
+
   lda #<tortoise_fortress_sinking
   sta entity_animation_address_lo,x
   lda #>tortoise_fortress_sinking
@@ -135,7 +144,7 @@ do_not_spawn_silmaran_carry_adlanniel_yet:
   sta big_explosion_length,y
 
   lda #25
-  sta ending_state_counter,x
+  sta ending_state_counter_lo,x
 
   lda #ENDING_STATE_DESTROY_FORTRESS
   sta entity_state,x
@@ -155,12 +164,20 @@ do_not_advance_state_yet:
 ending_state_destroy_fortress:
 
   .scope
-  dec ending_state_counter,x
+  dec ending_state_counter_lo,x
   bne do_not_transition_yet
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  far_call #SOUND_BANK, sound_stop
+
+  jsr entity_clear_drawable
+
+  lda #<ENDING_STATE_TRANSITION_TO_ENDING_CUT_SCENE_LENGTH
+  sta ending_state_counter_lo,x
+  lda #>ENDING_STATE_TRANSITION_TO_ENDING_CUT_SCENE_LENGTH
+  sta ending_state_counter_hi,x
+
+  lda #ENDING_STATE_TRANSITION_TO_ENDING_CUT_SCENE
+  sta entity_state,x
 
   rts
 
@@ -170,5 +187,112 @@ do_not_transition_yet:
   jsr entity_update_animation
 
   rts
+
+ending_state_transition_to_ending_cut_scene:
+
+  .scope
+  sec
+  lda ending_state_counter_lo,x
+  sbc #<1
+  sta ending_state_counter_lo,x
+  lda ending_state_counter_hi,x
+  sbc #>1
+  sta ending_state_counter_hi,x
+
+  lda ending_state_counter_lo,x
+  ora ending_state_counter_hi,x
+
+  bne do_not_transition_yet
+
+  lda #<ending_theme
+  sta song_address
+  lda #>ending_theme
+  sta song_address+1
+  far_call #SOUND_BANK, song_initialize
+
+  lda #ACTION_PLAY_CUT_SCENE
+  sta state_control_params+play_state_control::action
+  lda #<end_cut_scene_slide1
+  sta state_control_params+play_state_control::param
+  lda #>end_cut_scene_slide1
+  sta state_control_params+play_state_control::param+1
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+do_not_transition_yet:
+  .endscope
+
+  .scope
+  lda ending_state_counter_lo,x
+  cmp #100
+  bne do_not_erase_splashes
+
+  ldy ending_state_splash1_index,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+  ldy ending_state_splash2_index,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+
+do_not_erase_splashes:
+  .endscope
+
+  rts
+
+.proc ending_spawn_splashes
+
+  ;spawn the splash
+  lda #entity_index_splash
+  sta b0
+
+  clc
+  lda entity_x_lo,x
+  adc #<8
+  sta w0
+  lda entity_x_hi,x
+  adc #>8
+  sta w0+1
+  clc
+  lda entity_y_lo,x
+  adc #<32
+  sta w1
+  lda entity_y_hi,x
+  adc #>32
+  sta w1+1
+
+  jsr entity_spawn
+  lda spawned_entity
+  sta ending_state_splash1_index,x
+
+  ;spawn the splash
+  lda #entity_index_splash
+  sta b0
+
+  clc
+  lda entity_x_lo,x
+  adc #<32
+  sta w0
+  lda entity_x_hi,x
+  adc #>32
+  sta w0+1
+  clc
+  lda entity_y_lo,x
+  adc #<32
+  sta w1
+  lda entity_y_hi,x
+  adc #>32
+  sta w1+1
+
+  jsr entity_spawn
+  lda spawned_entity
+  sta ending_state_splash2_index,x
+
+  rts
+
+.endproc
 
 .endif

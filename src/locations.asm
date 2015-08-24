@@ -731,13 +731,14 @@ dungeon5_final_silmaran_encounter_sprite_chr_groups:
   .byte sprite_chr_group_index_silmaran
 
 sea_sprite_chr_groups:
-  .byte 6   ;sprite_chr_groups .byte
+  .byte 7   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_fortress
+  .byte sprite_chr_group_index_splash
 
 ;****************************************************************
 ;Entity instance sets
