@@ -31,6 +31,7 @@ TECH2_OFFSET = -2
   string_address .word
   string_row .byte
   string_column .byte
+  password_field .byte 6
 .endstruct
 
 .struct inventory_state_menu_position

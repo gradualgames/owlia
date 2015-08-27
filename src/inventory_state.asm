@@ -1,7 +1,6 @@
 .linecont +
 .include "map.inc"
 .include "play_state.inc"
-.include "current_password_state.inc"
 .include "controller.inc"
 .include "bg_chr_data.inc"
 .include "nametable_data.inc"
@@ -21,6 +20,7 @@
 .include "inventory.inc"
 .include "hero_constants.inc"
 .include "util.inc"
+.include "password.inc"
 
 .segment "ROM01"
 
@@ -197,6 +197,25 @@ next_tech:
 
   jsr inventory_state_draw
 
+  ;generate password bit field from inventory state
+  lda #<(state_control_params+inventory_state_control::password_field)
+  sta w0
+  lda #>(state_control_params+inventory_state_control::password_field)
+  sta w0+1
+  far_call #PASSWORD_BANK, inventory_state_to_password_bit_field
+
+  ;generate password string from password field
+  lda #<string_buffer
+  sta w1
+  lda #>string_buffer
+  sta w1+1
+  far_call #PASSWORD_BANK, password_bit_field_to_password_string
+
+  ;print the password
+  lda font_chr_offset
+  sta chr_group_offset
+  print_string string_buffer, state_control_params+inventory_state_control::nametable_hi, #6, #16
+
   ;reset scroll
   lda state_control_params+inventory_state_control::nametable_hi
   sta ppu_2006
@@ -244,32 +263,7 @@ inventory_state_main:
   cmp #%00000001
   beq inventory_state_exit
 
-  ;test select button
-  lda buffer_controller+buttons::_select
-  and #%00000011
-  cmp #%00000001
-  beq transition_to_current_password_state
-
   jmp inventory_state_main
-
-transition_to_current_password_state:
-
-  ;play a sound
-  lda #<sfx_inventory
-  sta sound_param_word_0
-  lda #>sfx_inventory
-  sta sound_param_word_0+1
-
-  lda #0
-  sta sound_param_byte_0
-  lda #soundeffect_one
-  sta sound_param_byte_1
-
-  far_call #SOUND_BANK, stream_initialize
-
-  jsr ppu_fade_out_palette
-
-  jmp current_password_state_init
 
 inventory_state_exit:
 
@@ -1207,8 +1201,8 @@ homing_tech2_menu_position:
 ;screen.
 ;****************************************************************
 
-;inventory title string
-inventory_string: .byte "INVENTORY",ES
+;password string
+password_string: .byte "PASSWORD",ES
 
 ;stat strings
 gp_string: .byte "GP",ES
@@ -1266,12 +1260,12 @@ menu_byte_variables:
   .word LAST_MENU_ITEM
 
 menu_labels:
-inventory_label:
-  .word inventory_string
+password_label:
+  .word password_string
   .word is_enabled_callback_nop
   callback_param 0
+  .byte 6
   .byte 4
-  .byte 11
 gp_label:
   .word gp_string
   .word is_enabled_callback_nop
