@@ -15,6 +15,7 @@
 .include "inventory.inc"
 .include "soundengine.inc"
 .include "music_data.inc"
+.include "sfx_data.inc"
 
 .segment "ROM01"
 
@@ -199,8 +200,26 @@ skip_load_song:
   print_string new_game_string, #$20, #13, #12
   print_string continue_string, #$20, #15, #12
 
+  .scope
+  lda #0
+  sta b0
+  ldx #5
+: lda b0
+  ora last_password,x
+  sta b0
+  dex
+  bpl :-
+  lda b0
+  beq new_game
+continue:
+  lda #CONTINUE
+  sta state_control_params+start_game_state_control::menu_position
+  jmp done
+new_game:
   lda #NEW_GAME
   sta state_control_params+start_game_state_control::menu_position
+done:
+  .endscope
 
   jsr start_game_state_draw_cursor
 
@@ -244,6 +263,18 @@ start_game_state_main:
   cmp #%00000001
   bne skip_change_menu_selection
 
+  lda #<sfx_move_cursor
+  sta sound_param_word_0
+  lda #>sfx_move_cursor
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
   inc state_control_params+start_game_state_control::menu_position
   lda state_control_params+start_game_state_control::menu_position
   cmp #2
@@ -260,6 +291,18 @@ skip_change_menu_selection:
   and #%00000011
   cmp #%00000001
   bne skip_menu_selection_chosen
+
+  lda #<sfx_select
+  sta sound_param_word_0
+  lda #>sfx_select
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
 
   lda state_control_params+start_game_state_control::menu_position
   cmp #NEW_GAME
