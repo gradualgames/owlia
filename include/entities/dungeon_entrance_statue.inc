@@ -24,8 +24,8 @@ dungeon_entrance_statue_state_init:
 
   ;Check to see if the player has already entered the current dungeon. Die if so.
   .scope
-  lda inventory_dungeon_flags
-  cmp #$ff
+  lda inventory_entered_dungeon
+  cmp #INVENTORY_NOT_YET_ENTERED_DUNGEON
   beq do_not_die
 
   lda entity_flags,x
