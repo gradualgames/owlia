@@ -788,9 +788,8 @@ play_state_load_location:
 same_song:
 
   ;****************************************************************
-  ;Is this a dungeon entrance? If so, check to see if the
-  ;inventory_dungeon_flags is already in progress (not #$ff) and
-  ;reset it to #$00 if not.
+  ;Is this a dungeon entrance? If so, make sure the flag which
+  ;remembers whether we've entered a dungeon is set.
   ;****************************************************************
   switch_bank_ldy #LOCATIONS_BANK
   ldy #location::flags
@@ -798,16 +797,9 @@ same_song:
   and #LOCATION_FLAGS_DUNGEON_ENTRANCE
   beq not_dungeon_entrance
 
-  lda inventory_dungeon_flags
-  cmp #INVENTORY_DUNGEON_FLAGS_NOT_YET_ENTERED
-  bne dungeon_already_entered
+  lda #INVENTORY_ENTERED_DUNGEON
+  sta inventory_entered_dungeon
 
-  ;this is the first time the player has entered this dungeon, clear
-  ;the dungeon flags so they can start solving puzzles.
-  lda #INVENTORY_DUNGEON_FLAGS_ENTERED
-  sta inventory_dungeon_flags
-
-dungeon_already_entered:
 not_dungeon_entrance:
 
   ;****************************************************************

@@ -73,8 +73,7 @@ password_obfuscation_masks:
   ldx #8
   jsr rotate_value_into_password_field
 
-  ;rotate in 0 as the unused bit
-  lda #0
+  lda inventory_entered_dungeon
   ldx #1
   jsr rotate_value_into_password_field
 
@@ -303,6 +302,10 @@ rotate_carry_into_password_field:
   ldx #8
   jsr rotate_password_field_into_accumulator
   sta inventory_gp+2
+
+  ldx #1
+  jsr rotate_password_field_into_accumulator
+  sta inventory_entered_dungeon
 
   rts
 

@@ -393,8 +393,8 @@ do_not_exit_enter_password_state:
   ;inventory_earned_techs in conjunction with inventory_dungeon_flags
   ;to pick the starting location from two LUTs.
   .scope
-  lda inventory_dungeon_flags
-  cmp #INVENTORY_DUNGEON_FLAGS_NOT_YET_ENTERED
+  lda inventory_entered_dungeon
+  cmp #INVENTORY_NOT_YET_ENTERED_DUNGEON
   beq load_overworld_location
 load_dungeon_location:
 

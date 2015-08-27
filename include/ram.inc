@@ -118,6 +118,7 @@ MAX_ENTITIES = 14
 .global inventory_tech1
 .global inventory_tech2
 .global inventory_dungeon_flags
+.global inventory_entered_dungeon
 
 .global hero_ram_start
 .global hero_flags
