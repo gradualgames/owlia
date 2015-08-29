@@ -198,7 +198,7 @@ submarine_scene_state_idle:
   bne do_not_spawn_bubble
 
   lda rand
-  and #%00011111
+  and #%00111111
   ora #1
   sta submarine_scene_bubble_counter,x
 
