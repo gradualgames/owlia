@@ -16,7 +16,7 @@
 .include "soundengine.inc"
 .include "sfx_data.inc"
 .include "textbox.inc"
-.include "charmap.inc"
+.include "charmap_password.inc"
 .include "inventory.inc"
 .include "hero_constants.inc"
 .include "util.inc"
@@ -77,13 +77,6 @@ inventory_state_init:
   sta w0+1
   far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
-  ;load the punctuation graphics.
-  lda #<punctuation_chr
-  sta w0
-  lda #>punctuation_chr
-  sta w0+1
-  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
-
   ;grab tile accumulator to know where the digits group begins
   lda b3
   sta state_control_params+inventory_state_control::digits_chr_offset
@@ -93,6 +86,13 @@ inventory_state_init:
   lda #<digits_chr
   sta w0
   lda #>digits_chr
+  sta w0+1
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+
+  ;load the punctuation graphics.
+  lda #<punctuation_chr
+  sta w0
+  lda #>punctuation_chr
   sta w0+1
   far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
