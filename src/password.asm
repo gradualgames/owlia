@@ -37,6 +37,10 @@ password_obfuscation_masks:
 ;storing it at the 6 byte field pointed to by w0
 .proc inventory_state_to_password_bit_field
 
+  lda inventory_gp+1
+  ldx #8
+  jsr rotate_value_into_password_field
+
   lda inventory_earned_techs
   ldx #3
   jsr rotate_value_into_password_field
@@ -57,24 +61,20 @@ password_obfuscation_masks:
   ldx #3
   jsr rotate_value_into_password_field
 
-  lda inventory_dungeon_flags
-  ldx #8
-  jsr rotate_value_into_password_field
-
-  lda inventory_gp
-  ldx #8
-  jsr rotate_value_into_password_field
-
-  lda inventory_gp+1
-  ldx #8
-  jsr rotate_value_into_password_field
-
   lda inventory_gp+2
+  ldx #8
+  jsr rotate_value_into_password_field
+
+  lda inventory_dungeon_flags
   ldx #8
   jsr rotate_value_into_password_field
 
   lda inventory_entered_dungeon
   ldx #1
+  jsr rotate_value_into_password_field
+
+  lda inventory_gp
+  ldx #8
   jsr rotate_value_into_password_field
 
   ;copy b0 through b5 into the password field
@@ -267,6 +267,10 @@ rotate_carry_into_password_field:
   dey
   bpl :-
 
+  ldx #8
+  jsr rotate_password_field_into_accumulator
+  sta inventory_gp+1
+
   ldx #3
   jsr rotate_password_field_into_accumulator
   sta inventory_earned_techs
@@ -289,23 +293,19 @@ rotate_carry_into_password_field:
 
   ldx #8
   jsr rotate_password_field_into_accumulator
-  sta inventory_dungeon_flags
-
-  ldx #8
-  jsr rotate_password_field_into_accumulator
-  sta inventory_gp
-
-  ldx #8
-  jsr rotate_password_field_into_accumulator
-  sta inventory_gp+1
-
-  ldx #8
-  jsr rotate_password_field_into_accumulator
   sta inventory_gp+2
+
+  ldx #8
+  jsr rotate_password_field_into_accumulator
+  sta inventory_dungeon_flags
 
   ldx #1
   jsr rotate_password_field_into_accumulator
   sta inventory_entered_dungeon
+
+  ldx #8
+  jsr rotate_password_field_into_accumulator
+  sta inventory_gp
 
   rts
 
