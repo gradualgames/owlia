@@ -1316,6 +1316,10 @@ play_state_action_scrollto_location_group1:
   ;mark all currently living entities to be killed after we scroll
   jsr entity_mark_all_for_kill
 
+  ;make sure familiar is in a correct state for this dungeon cell transition
+  switch_bank_ldy #FAMILIAR_BANK
+  jsr familiar_notify_dungeon_cell_transition
+
   ;load the new location address and spawn the entities from it,
   ;assuming the entity set has not changed.
   ldx state_control_params+play_state_control::param

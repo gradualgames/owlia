@@ -119,7 +119,6 @@ found_keyed_monolith:
   .ifndef INFINITE_ITEMS
   lda inventory_keys
   beq no_keys_left
-  dec inventory_keys
   .endif
 
   ;compute the x and y coordinate of the keyhole
@@ -138,6 +137,9 @@ found_keyed_monolith:
   lda entity_y_hi,x
   adc #>MONOLITH_KEYHOLE_Y_OFFSET
   sta familiar_param_keyhole_y+1
+
+  lda monolith_unlock_immediately_dungeon_flags_mask,x
+  sta familiar_param_dungeon_flags_mask
 
   far_call #FAMILIAR_BANK, familiar_spawn_unlock
 

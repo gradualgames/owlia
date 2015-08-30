@@ -174,6 +174,7 @@ MAX_ENTITIES = 14
 .global familiar_param_keyhole_x
 .global familiar_param_keyhole_y
 .global familiar_param_keyed_monolith_entity_index
+.global familiar_param_dungeon_flags_mask
 
 .global familiar_param_carry_bomb_return_state
 

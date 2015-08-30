@@ -277,6 +277,7 @@ familiar_ram_end:
 familiar_param_keyhole_x = familiar_param_w1
 familiar_param_keyhole_y = familiar_param_w2
 familiar_param_keyed_monolith_entity_index = familiar_param_b0
+familiar_param_dungeon_flags_mask = familiar_param_b1
 
 ;carry bomb
 familiar_param_carry_bomb_return_state = familiar_param_b0

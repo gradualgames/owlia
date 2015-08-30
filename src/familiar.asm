@@ -428,6 +428,7 @@ cannot_spawn_lantern:
   beq bomb
   cmp #entity_index_lantern
   beq lantern
+  jmp done
 bomb:
 
   ;drop the bomb
@@ -450,6 +451,36 @@ no_carried_item:
   ;restore x
   pla
   tax
+
+  rts
+
+.endproc
+
+;Ensures the familiar does not modify any state that it
+;shouldn't in the event of a cell transition, particularly for
+;the unlock technique.
+.proc familiar_notify_dungeon_cell_transition
+
+  lda familiar_flags
+  and #FAMILIAR_FLAGS_TECH_ISOLATE
+  cmp #tech_unlock
+  bne not_unlock
+
+  ;invalidate the monolith we may have found
+  lda #$ff
+  sta familiar_param_keyed_monolith_entity_index
+
+  ;mark key for kill
+  ldx familiar_carried_entity_index
+  lda entity_flags,x
+  ora #ENTITY_FLAGS_MARKED_FOR_KILL_SET
+  sta entity_flags,x
+
+  ;drop the key
+  lda #$ff
+  sta familiar_carried_entity_index
+
+not_unlock:
 
   rts
 
@@ -1402,7 +1433,9 @@ not_at_keyhole_yet:
   sta familiar_y_velocity+1
 
   ;cause the keyed monolith to fall
+  .scope
   ldx familiar_param_keyed_monolith_entity_index
+  bmi monolith_invalid
   lda #MONOLITH_STATE_FALL_INIT
   sta entity_state,x
 
@@ -1410,11 +1443,8 @@ not_at_keyhole_yet:
   lda monolith_flags,x
   ora #MONOLITH_FLAGS_UNLOCKED_SET
   sta monolith_flags,x
-
-  ;in addition, set the dungeon flags bit using the monolith's "unlock immediately" dungeon flags mask
-  lda inventory_dungeon_flags
-  ora monolith_unlock_immediately_dungeon_flags_mask,x
-  sta inventory_dungeon_flags
+monolith_invalid:
+  .endscope
 
   ;transition to the fall with monolith state
   lda #FAMILIAR_STATE_UNLOCK_FALL_WITH_MONOLITH
@@ -1458,6 +1488,7 @@ not_at_keyhole_yet:
   bne :+
 
   ldx familiar_carried_entity_index
+  bmi no_carried_entity
   lda #KEY_STATE_PASSIVE_INSERTED_INIT
   sta entity_state,x
 
@@ -1594,6 +1625,19 @@ transition_to_pause_with_monolith_state:
   sta w1+1
   ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
+
+  ;use up the key that the familiar was carrying.
+  .scope
+  lda inventory_keys
+  beq no_keys
+  dec inventory_keys
+no_keys:
+  .endscope
+
+  ;in addition, set the dungeon flags bit
+  lda inventory_dungeon_flags
+  ora familiar_param_dungeon_flags_mask
+  sta inventory_dungeon_flags
 
   ;familiar is no longer carrying the key!
   lda #$ff
