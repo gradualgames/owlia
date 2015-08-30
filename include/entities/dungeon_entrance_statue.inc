@@ -93,6 +93,9 @@ dungeon_entrance_statue_state_deny_entry:
   dec dungeon_entrance_statue_state_counter,x
   bne do_not_switch_back_to_main_state
 
+  lda #ACTION_RESPAWN_ALL_ENTITIES
+  sta state_control_params+play_state_control::action
+
   ;restore control to the player
   jsr controller_clear
   set_controller_routine controller_read

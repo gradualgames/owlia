@@ -594,7 +594,8 @@ done:
   play_state_action_start_conversation_with_pauses, \
   play_state_action_transition_to_inventory_state, \
   play_state_action_game_over, \
-  play_state_action_cut_scene
+  play_state_action_cut_scene, \
+  play_state_action_respawn_all_entities
 
 play_state_action_handlers_lo:
   .lobytes play_state_action_handlers
@@ -1113,6 +1114,33 @@ play_state_action_cut_scene:
   sta state_control_params+cut_scene_state_control::slide_address
 
   jmp play_cut_scene
+
+;****************************************************************
+;This branch location kills and respawns all entities in an area.
+;****************************************************************
+play_state_action_respawn_all_entities:
+
+  ;kill all entities
+  jsr entity_init_all
+
+  ;spawn all non-hero entities in area
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::entity_instances_address
+  lda (location_address),y
+  sta w3
+  iny
+  lda (location_address),y
+  sta w3+1
+
+  jsr spawn_entities
+
+  ;make sure current action of play state is a no-op
+  lda #ACTION_NOP
+  sta state_control_params+play_state_control::action
+  lda #0
+  sta state_control_params+play_state_control::param
+
+  jmp play_state
 
 ;****************************************************************
 ;This branch location is a sub-state of the play state intended
