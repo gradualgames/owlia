@@ -472,9 +472,11 @@ no_carried_item:
 
   ;mark key for kill
   ldx familiar_carried_entity_index
+  bmi key_already_invalid
   lda entity_flags,x
   ora #ENTITY_FLAGS_MARKED_FOR_KILL_SET
   sta entity_flags,x
+key_already_invalid:
 
   ;drop the key
   lda #$ff
