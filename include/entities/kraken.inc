@@ -159,6 +159,20 @@ even:
 done:
   .endscope
 
+  ;play a sound
+  lda #<sfx_octoboss_punch
+  sta sound_param_word_0
+  lda #>sfx_octoboss_punch
+  sta sound_param_word_0+1
+
+  lda #2
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
 do_not_trigger_tentacle:
   .endscope
 
