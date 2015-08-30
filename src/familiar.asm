@@ -1455,9 +1455,23 @@ monolith_invalid:
 
   ;play a get item sound as the key being used sound, right
   ;at the top of the insertion animation
+  .scope
   lda familiar_state_counter
   cmp #8
   bne :+
+
+  ;use up the key that the familiar was carrying.
+  .scope
+  lda inventory_keys
+  beq no_keys
+  dec inventory_keys
+no_keys:
+  .endscope
+
+  ;in addition, set the dungeon flags bit
+  lda inventory_dungeon_flags
+  ora familiar_param_dungeon_flags_mask
+  sta inventory_dungeon_flags
 
   ;play a sound
   lda #<sfx_get_item
@@ -1471,8 +1485,8 @@ monolith_invalid:
   sta sound_param_byte_1
 
   far_call #SOUND_BANK, stream_initialize
-
 :
+  .endscope
 
   ;only move when the familiar is done hovering above the keyhole
   lda familiar_state_counter
@@ -1625,19 +1639,6 @@ transition_to_pause_with_monolith_state:
   sta w1+1
   ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
-
-  ;use up the key that the familiar was carrying.
-  .scope
-  lda inventory_keys
-  beq no_keys
-  dec inventory_keys
-no_keys:
-  .endscope
-
-  ;in addition, set the dungeon flags bit
-  lda inventory_dungeon_flags
-  ora familiar_param_dungeon_flags_mask
-  sta inventory_dungeon_flags
 
   ;familiar is no longer carrying the key!
   lda #$ff
