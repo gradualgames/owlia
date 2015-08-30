@@ -145,9 +145,9 @@
     dungeon2_boss_area_owl_dungeon, \
     mountain1_south_entrance, \
     mountain1_dungeon3_entrance, \
-    mountain1_top_left_cave_entrance, \
-    mountain1_bottom_left_cave_entrance, \
-    mountain1_bottom_right_cave_entrance, \
+    mountain1_first_cave_entrance, \
+    mountain1_second_cave_entrance, \
+    mountain1_third_cave_entrance, \
     cave_top_left, \
     cave_bottom_left, \
     cave_bottom_right, \
@@ -1474,7 +1474,7 @@ mountain1_entity_instances:
   .byte entity_index_octopus, 9, 40, 0, 0
   .byte entity_index_octopus, 10, 8, 0, 0
   .byte entity_index_octopus, 57, 18, 0, 0
-  .byte entity_index_dungeon_entrance_statue, 44, 31, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <22000, >22000, ^22000, buttons::_down
+  .byte entity_index_dungeon_entrance_statue, 6, 2, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <22000, >22000, ^22000, buttons::_down
 
 cave_top_left_entity_instances:
   .byte 3
@@ -3352,17 +3352,17 @@ define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                                area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
                                44, 33, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
-mountain1_top_left_cave_entrance:
-define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+mountain1_third_cave_entrance:
+define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                                area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
-                               2, 0, 10, 3, 0, 0, 0, ENTITY_DIRECTION_DOWN
+                               44, 33, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
-mountain1_bottom_left_cave_entrance:
+mountain1_first_cave_entrance:
 define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                                area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
                                10, 51, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
-mountain1_bottom_right_cave_entrance:
+mountain1_second_cave_entrance:
 define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                                area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
                                56, 50, 0, 0, 0, ENTITY_DIRECTION_DOWN
