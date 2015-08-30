@@ -209,6 +209,18 @@ entity_not_alive:
   dec treasure_chest_state_counter,x
   bne do_not_switch_state
 
+  .scope
+  lda treasure_chest_item_type,x
+  cmp #TREASURE_CHEST_ITEM_TYPE_KEY
+  bne not_key
+
+  ldy treasure_chest_item_index,x
+  lda #KEY_STATE_PICKUP
+  sta entity_state,y
+
+not_key:
+  .endscope
+
   far_call #FAMILIAR_BANK, familiar_forget_carried_item
   far_call #FAMILIAR_BANK, familiar_spawn_fetch
 
@@ -252,10 +264,10 @@ spawn_key:
 
   sec
   lda w1
-  sbc #<20
+  sbc #<8
   sta w1
   lda w1+1
-  sbc #>20
+  sbc #>8
   sta w1+1
 
   ;spawn a key entity
@@ -273,7 +285,7 @@ spawn_key:
   lda treasure_chest_dungeon_flags_mask,x
   sta key_dungeon_flags_mask,y
 
-  lda #KEY_STATE_PICKUP
+  lda #KEY_STATE_PASSIVE_INIT
   sta key_initial_state,y
 
   rts
