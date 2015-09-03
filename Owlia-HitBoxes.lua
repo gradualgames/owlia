@@ -19,12 +19,12 @@ w7 = 0x001e
 w8 = 0x0020
 w9 = 0x0022
 
-camera_x = 0x72A
-camera_y = 0x72C
+camera_x = 0x72B
+camera_y = 0x72D
 
-geotests_rect_in_rect = 0xD294
-geotests_rect_in_rect_size = 0xD260
-geotests_rect_inside_rect = 0xD223
+geotests_rect_in_rect = 0xD2A7
+geotests_rect_in_rect_size = 0xD273
+geotests_rect_inside_rect = 0xD236
 
 -- draw a box and take care of coordinate checking
 local function box(x1,y1,x2,y2,color)

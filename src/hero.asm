@@ -1095,7 +1095,7 @@ attack_rect_offset_x_hi:
   .byte 0, $ff, 0, 0
 
 attack_rect_offset_y_lo:
-  .byte 4, 4, 24, -16
+  .byte 4, 4, 32, -16
 
 attack_rect_offset_y_hi:
   .byte 0, 0, 0, $ff
