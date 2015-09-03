@@ -21,6 +21,16 @@ adlanniel_walk_down1:
   .byte $10,$15,$00,$08,$00
   .byte $18,$1c,$00,$00,$08
   .byte $18,$1d,$00,$08,$00
+adlanniel_walk_down2:
+  .byte $08
+  .byte $00,$01,$00,$00,$08
+  .byte $00,$02,$00,$08,$00
+  .byte $08,$0a,$00,$00,$08
+  .byte $08,$0b,$00,$08,$00
+  .byte $10,$12,$40,$08,$00
+  .byte $10,$13,$40,$00,$08
+  .byte $18,$1a,$40,$08,$00
+  .byte $18,$1b,$40,$00,$08
 adlanniel_walk_up0:
   .byte $08
   .byte $00,$05,$00,$00,$08
@@ -41,6 +51,16 @@ adlanniel_walk_up1:
   .byte $10,$19,$00,$08,$00
   .byte $18,$20,$00,$00,$08
   .byte $18,$21,$00,$08,$00
+adlanniel_walk_up2:
+  .byte $08
+  .byte $00,$05,$00,$00,$08
+  .byte $00,$06,$00,$08,$00
+  .byte $08,$0e,$00,$00,$08
+  .byte $08,$0f,$00,$08,$00
+  .byte $10,$16,$40,$08,$00
+  .byte $10,$17,$40,$00,$08
+  .byte $18,$1e,$40,$08,$00
+  .byte $18,$1f,$40,$00,$08
 heart0:
   .byte $01
   .byte $00,$09,$00,$00,$00
@@ -182,16 +202,16 @@ adlanniel_throw_up0:
 
 adlanniel_walk_down:
   .byte $08, $08
-  .word adlanniel_walk_down0
   .word adlanniel_walk_down1
   .word adlanniel_walk_down0
   .word adlanniel_walk_down1
+  .word adlanniel_walk_down2
 adlanniel_walk_up:
   .byte $08, $08
-  .word adlanniel_walk_up0
   .word adlanniel_walk_up1
   .word adlanniel_walk_up0
   .word adlanniel_walk_up1
+  .word adlanniel_walk_up2
 adlanniel_walk_side:
   .byte $08, $08
   .word adlanniel_walk_side0
