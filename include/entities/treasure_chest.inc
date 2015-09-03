@@ -285,7 +285,7 @@ spawn_key:
   lda treasure_chest_dungeon_flags_mask,x
   sta key_dungeon_flags_mask,y
 
-  lda #KEY_STATE_PASSIVE_INIT
+  lda #KEY_STATE_PASSIVE
   sta key_initial_state,y
 
   rts
