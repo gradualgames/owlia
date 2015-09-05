@@ -449,8 +449,9 @@ done:
 
   far_call #SOUND_BANK, sound_stop
 
-  ;keep head alive for explode state
+  ;keep head alive for explode state but mark it as not enemy so Tyto cannot home in on it
   lda entity_flags,x
+  and #ENTITY_FLAGS_IS_ENEMY_CLEAR
   ora #ENTITY_FLAGS_ALIVE_SET
   sta entity_flags,x
 

@@ -448,7 +448,9 @@ done:
   jsr entity_clear_shadow_spot
 
   ;keep torso entity alive because we're going to enter the explode state
+  ;but mark entity as not enemy so Tyto cannot home in on him anymore.
   lda entity_flags,x
+  and #ENTITY_FLAGS_IS_ENEMY_CLEAR
   ora #ENTITY_FLAGS_ALIVE_SET
   sta entity_flags,x
 
