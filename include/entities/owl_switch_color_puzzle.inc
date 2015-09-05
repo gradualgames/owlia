@@ -16,6 +16,39 @@ owl_switch_color_puzzle_update:
 
 owl_switch_color_puzzle_state_init:
 
+  .scope
+  lda inventory_dungeon_flags
+  and owl_switch_color_puzzle_dungeon_flags_mask,x
+  beq do_not_skip_puzzle
+
+  .scope
+  ;search for all owl switches and kill them
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+
+  lda entity_type,y
+  cmp #entity_index_owl_switch
+  beq kill_entity
+  jmp do_not_kill_entity
+kill_entity:
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+do_not_kill_entity:
+
+  dey
+  bpl next_entity
+  .endscope
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+
+do_not_skip_puzzle:
+  .endscope
+
   jsr entity_set_not_pausable
 
   lda #0
