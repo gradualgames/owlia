@@ -124,6 +124,23 @@ shooting_gallery_state_main:
   ora shooting_gallery_timer_hi,x
   bne game_not_over_yet
 
+  ;kill off all targets
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_type,y
+  cmp #entity_index_target
+  bne skip_entity
+
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+
+skip_entity:
+  dey
+  bpl next_entity
+  .endscope
+
   ;change NPC conversation back to intro for game
   ldy shooting_gallery_npc_index,x
   lda #conversation_index_target_game_intro
@@ -170,22 +187,6 @@ win:
 
   jmp done
 lose:
-
-  ;kill off all targets
-  .scope
-  ldy #(MAX_ENTITIES-1)
-  lda entity_type,y
-  cmp #entity_index_target
-  bne skip_entity
-
-  lda entity_flags,y
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,y
-
-skip_entity:
-  dey
-  bpl next_entity
-  .endscope
 
   ;run lose conversation
   lda #ACTION_START_CONVERSATION
