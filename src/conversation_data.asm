@@ -38,6 +38,7 @@
     welcome_aboard,\
     what_was_that, \
     mermon_threat, \
+    mermon_ha_ha_ha, \
     silmaran_final_encounter
 
 conversations_lo:
@@ -421,6 +422,9 @@ welcome_aboard:
 what_was_that:
   .byte    1, "WHAT WAS THAT!?"
   .byte NL,2, "WE'VE LOST POWER!!",WT,EC
+
+mermon_ha_ha_ha:
+  .byte    1, "HA HA HA.",TM,30,".",TM,30,".",WT,EC
 
 mermon_threat:
   .byte    1, "YOU AND YOUR PUNY OWL"

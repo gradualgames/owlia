@@ -44,6 +44,7 @@ conversation_index_ring_game_intro
 conversation_index_welcome_aboard
 conversation_index_what_was_that
 conversation_index_mermon_threat
+conversation_index_mermon_ha_ha_ha
 conversation_index_silmaran_final_encounter
 .endenum
 

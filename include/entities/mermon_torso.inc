@@ -367,6 +367,18 @@ mermon_torso_state_transition_to_final_form:
 do_not_transition_yet:
   .endscope
 
+  .scope
+  lda mermon_state_counter,x
+  cmp #10
+  bne do_not_say_ha_ha_ha
+
+  lda #ACTION_START_CONVERSATION
+  sta state_control_params+play_state_control::action
+  lda #conversation_index_mermon_ha_ha_ha
+  sta state_control_params+play_state_control::param
+do_not_say_ha_ha_ha:
+  .endscope
+
   rts
 
 .proc mermon_position_tail
