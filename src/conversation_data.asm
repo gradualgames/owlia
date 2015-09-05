@@ -34,6 +34,9 @@
     advice, \
     if_you_want_my_submarine, \
     target_game_intro, \
+    target_game_during, \
+    target_game_win, \
+    target_game_lose, \
     ring_game_intro, \
     welcome_aboard,\
     what_was_that, \
@@ -387,14 +390,34 @@ if_you_want_my_submarine:
   .byte NL,2, "FUNDS...",WT,EC
 
 target_game_intro:
-  .byte    1, "TA PLAY THIS HERE GAME."
-  .byte NL,2, "JUST SHOOT THEM TARRGETS"
-  .byte NL,3, "AND YE WILL RECEIVE"
-  .byte NL,4, "IMMEDIATE REWARDS.",WT,EP
+  .byte    1, "WELCOME TO MY HUMBLE"
+  .byte NL,2, "POYRIT GAME. IT'LL COST"
+  .byte NL,3, "YA TEN THOUSAND GOLD"
+  .byte NL,4, "PIECES TA PLAY...BUT",WT,EP
 
-  .byte NL,1, "THE SPEED OF THE TARGET"
-  .byte NL,2, "WILL FETCH YE A HIGHER"
-  .byte NL,3, "REWARD...",WT,EC
+  .byte NL,1, "IF YA HIT TWENTY TARGETS"
+  .byte NL,2, "IN THIRRTY SECONDS,"
+  .byte NL,3, "YE'LL RECEIVE TWENTY"
+  .byte NL,4, "THOUSAND GOLD PIECES.",WT,EP
+
+  .byte NL,1, "DO YOU WANT TO PAY?"
+  .byte NL,2, "PRESS A FOR YES"
+  .byte NL,3, "PRESS B FOR NO",CC,EC
+
+target_game_during:
+  .byte    1, "...WHAT'RE YE TALKIN'"
+  .byte NL,2, "TA ME FORR? KEEP SHOOTIN!",WT,EC
+
+target_game_win:
+  .byte    1, "...YA HIT TWENTY TARGETS!"
+  .byte NL,2, "CONGRATULATIONS. HERE'S"
+  .byte NL,3, "TWENTY THOUSAND GOLD"
+  .byte NL,4, "PIECES IN REWARD.",WT,EC
+
+target_game_lose:
+  .byte    1, "...YA DIDN'T HIT ENOUGH"
+  .byte NL,2, "TARGETS MATEY. BETTER"
+  .byte NL,3, "LUCK IF YE TRY AGAIN.",WT,EC
 
 ring_game_intro:
   .byte    1, "THIS GAME ONLY BE FER"

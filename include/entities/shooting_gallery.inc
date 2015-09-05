@@ -2,17 +2,26 @@
 .ifndef SHOOTING_GALLERY_INC
 SHOOTING_GALLERY_INC = 1
 
+.include "npc_constants.inc"
+
 SHOOTING_GALLERY_MAX_TARGETS = 4
 
-define_entity_properties shooting_gallery_state_counter
+SHOOTING_GALLERY_GAME_TIME = 60 * 30
+
+define_entity_properties shooting_gallery_state_counter,\
+                         shooting_gallery_npc_index,\
+                         shooting_gallery_timer_lo,\
+                         shooting_gallery_timer_hi
 
 .enum
 SHOOTING_GALLERY_STATE_INIT
+SHOOTING_GALLERY_STATE_WAIT_FOR_TEXTBOX_CONFIRM
 SHOOTING_GALLERY_STATE_MAIN
 .endenum
 
 define_lohi_tables shooting_gallery, \
  {shooting_gallery_state_init, \
+  shooting_gallery_state_wait_for_textbox_confirm, \
   shooting_gallery_state_main}
 
 shooting_gallery_update:
@@ -26,12 +35,96 @@ shooting_gallery_state_init:
   lda rand
   sta shooting_gallery_state_counter,x
 
-  lda #SHOOTING_GALLERY_STATE_MAIN
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_type,y
+  cmp #entity_index_npc
+  beq found_npc
+
+  dey
+  bne next_entity
+  tya
+  sta shooting_gallery_npc_index,x
+found_npc:
+  .endscope
+
+  ;make sure this is in the right state before we monitor it for confirm
+  lda #TEXTBOX_NO_RESULT
+  sta textbox_result
+
+  lda #SHOOTING_GALLERY_STATE_WAIT_FOR_TEXTBOX_CONFIRM
   sta entity_state,x
 
   rts
 
+shooting_gallery_state_wait_for_textbox_confirm:
+
+  .scope
+  lda textbox_result
+  cmp #TEXTBOX_CONFIRM
+  bne do_not_transition_to_main_state
+
+  lda #<SHOOTING_GALLERY_GAME_TIME
+  sta shooting_gallery_timer_lo,x
+  lda #>SHOOTING_GALLERY_GAME_TIME
+  sta shooting_gallery_timer_hi,x
+
+  ;change NPC conversation so that he doesn't start the game
+  ;again until the game is done.
+  ldy shooting_gallery_npc_index,x
+  lda #conversation_index_target_game_during
+  sta npc_conversation,y
+
+  lda #SHOOTING_GALLERY_STATE_MAIN
+  sta entity_state,x
+
+do_not_transition_to_main_state:
+  .endscope
+
+  rts
+
 shooting_gallery_state_main:
+
+  .scope
+  sec
+  lda shooting_gallery_timer_lo,x
+  sbc #<1
+  sta shooting_gallery_timer_lo,x
+  lda shooting_gallery_timer_hi,x
+  sbc #>1
+  sta shooting_gallery_timer_hi,x
+
+  lda shooting_gallery_timer_lo,x
+  ora shooting_gallery_timer_hi,x
+  bne game_not_over_yet
+
+  ;change NPC conversation back to intro for game
+  ldy shooting_gallery_npc_index,x
+  lda #conversation_index_target_game_intro
+  sta npc_conversation,y
+
+  ;TODO: Add logic for determining win criteria
+
+  ;run congratulations conversation and bequeathe reward
+  ; lda #ACTION_START_CONVERSATION
+  ; sta state_control_params+play_state_control::action
+  ; lda #conversation_index_target_game_win
+  ; sta state_control_params+play_state_control::param
+
+  ;run lose conversation
+  lda #ACTION_START_CONVERSATION
+  sta state_control_params+play_state_control::action
+  lda #conversation_index_target_game_lose
+  sta state_control_params+play_state_control::param
+
+  lda #SHOOTING_GALLERY_STATE_WAIT_FOR_TEXTBOX_CONFIRM
+  sta entity_state,x
+
+  rts
+
+game_not_over_yet:
+  .endscope
 
   .scope
   dec shooting_gallery_state_counter,x
