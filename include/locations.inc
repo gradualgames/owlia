@@ -20,6 +20,11 @@ LOCATION_FLAGS_BRIGHTNESS_LEVEL_ISOLATE         = %00011100
 
 LOCATION_FLAGS_DUNGEON_ENTRANCE                 = %00100000
 
+;Use this bit to tell the play state loading code to skip loading
+;the music for the current area. Used only by the final encounter
+;with Silmaran.
+LOCATION_FLAGS_DISABLE_MUSIC                    = %01000000
+
 ;Use these to set the brightness level in a location definition.
 LOCATION_BRIGHTNESS_LEVEL_0 = %00000000
 LOCATION_BRIGHTNESS_LEVEL_1 = %00000100

@@ -3774,7 +3774,7 @@ dungeon5_final_boss_area_entrance:
 define_location {(LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5_boss,dungeon5_final_boss_sprite_chr_groups,dungeon5_final_boss_entity_instances,dungeon5_final_boss_palette, 5, 0, 11, 9, 0, 0, 0, ENTITY_DIRECTION_UP
 
 dungeon5_final_silmaran_encounter:
-define_location {(LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5_boss,dungeon5_final_silmaran_encounter_sprite_chr_groups,dungeon5_final_silmaran_encounter_entity_instances,dungeon5_final_silmaran_encounter_palette, 5, 0, 11, 9, 0, 0, 0, ENTITY_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4 | LOCATION_FLAGS_DISABLE_MUSIC)},area_index_dungeon5_boss,dungeon5_final_silmaran_encounter_sprite_chr_groups,dungeon5_final_silmaran_encounter_entity_instances,dungeon5_final_silmaran_encounter_palette, 5, 0, 11, 9, 0, 0, 0, ENTITY_DIRECTION_UP
 
 sea_exploding_fortress_scene:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\

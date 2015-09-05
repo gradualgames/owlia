@@ -768,6 +768,11 @@ play_state_load_location:
   ;Load song for the current area if different from the already
   ;playing song
   ;****************************************************************
+  switch_bank_ldy #LOCATIONS_BANK
+  ldy #location::flags
+  lda (location_address),y
+  and #LOCATION_FLAGS_DISABLE_MUSIC
+  bne music_disabled
   switch_bank_ldy #AREAS_BANK
   ldy #area::song_address
   sec
@@ -787,6 +792,7 @@ play_state_load_location:
   switch_bank_ldy #SOUND_BANK
   jsr song_initialize
 same_song:
+music_disabled:
 
   ;****************************************************************
   ;Is this a dungeon entrance? If so, make sure the flag which
