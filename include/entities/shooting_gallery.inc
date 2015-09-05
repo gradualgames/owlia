@@ -5,7 +5,7 @@ SHOOTING_GALLERY_INC = 1
 .include "npc_constants.inc"
 
 SHOOTING_GALLERY_MAX_TARGETS = 4
-
+SHOOTING_GALLERY_PRICE = 10000
 SHOOTING_GALLERY_GAME_TIME = 60 * 30
 
 define_entity_properties shooting_gallery_state_counter,\
@@ -64,6 +64,41 @@ shooting_gallery_state_wait_for_textbox_confirm:
   lda textbox_result
   cmp #TEXTBOX_CONFIRM
   bne do_not_transition_to_main_state
+
+  ;check to see if player has enough gp to play the game
+  sec
+  lda inventory_gp
+  sbc #<SHOOTING_GALLERY_PRICE
+  lda inventory_gp+1
+  sbc #>SHOOTING_GALLERY_PRICE
+  lda inventory_gp+2
+  sbc #^SHOOTING_GALLERY_PRICE
+  bpl continue_with_game
+cancel_game:
+
+  lda #TEXTBOX_NO_RESULT
+  sta textbox_result
+
+  lda #ACTION_START_CONVERSATION
+  sta state_control_params+play_state_control::action
+  lda #conversation_index_target_game_not_enough_gp
+  sta state_control_params+play_state_control::param
+
+  rts
+
+continue_with_game:
+
+  ;we know there's enough gp, subtract the price from gp
+  sec
+  lda inventory_gp
+  sbc #<SHOOTING_GALLERY_PRICE
+  sta inventory_gp
+  lda inventory_gp+1
+  sbc #>SHOOTING_GALLERY_PRICE
+  sta inventory_gp+1
+  lda inventory_gp+2
+  sbc #^SHOOTING_GALLERY_PRICE
+  sta inventory_gp+2
 
   lda #<SHOOTING_GALLERY_GAME_TIME
   sta shooting_gallery_timer_lo,x

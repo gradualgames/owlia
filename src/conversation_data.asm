@@ -34,6 +34,7 @@
     advice, \
     if_you_want_my_submarine, \
     target_game_intro, \
+    target_game_not_enough_gp, \
     target_game_during, \
     target_game_win, \
     target_game_lose, \
@@ -403,6 +404,12 @@ target_game_intro:
   .byte NL,1, "DO YOU WANT TO PAY?"
   .byte NL,2, "PRESS A FOR YES"
   .byte NL,3, "PRESS B FOR NO",CC,EC
+
+target_game_not_enough_gp:
+  .byte    1, "ARRR...WHAT'RE YE TRYIN'"
+  .byte NL,2, "TA PULL MATEY? YE HAVEN'T"
+  .byte NL,3, "SUFFICIENT FUNDS TA PLAY"
+  .byte NL,4, "ME GAME.",WT,EC
 
 target_game_during:
   .byte    1, "...WHAT'RE YE TALKIN'"
