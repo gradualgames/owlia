@@ -441,11 +441,13 @@ done:
 
 .proc mermon_head_combat
 
-  entity_combat #MERMON_HEAD_FLASH_LENGTH, #MERMON_HEAD_ATTACKED_LENGTH, mermon_head_flash_counter, mermon_head_knockback_counter, mermon_head_health, mermon_head_direction, "entity_drop_random_item", "entity_spawn_explosion_nop"
+  entity_combat #MERMON_HEAD_FLASH_LENGTH, #MERMON_HEAD_ATTACKED_LENGTH, mermon_head_flash_counter, mermon_head_knockback_counter, mermon_head_health, mermon_head_direction, "entity_drop_nop", "entity_spawn_explosion_nop"
 
   .scope
   lda mermon_head_health,x
   bne not_dead_yet
+
+  far_call #SOUND_BANK, sound_stop
 
   ;keep head alive for explode state
   lda entity_flags,x
