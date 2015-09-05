@@ -2,6 +2,7 @@
 .ifndef SUBMARINE_SCENE_INC
 SUBMARINE_SCENE_INC = 1
 
+SUBMARINE_SCENE_MAX_BUBBLES = 10
 SUBMARINE_SCENE_STATE_CRASH_LENGTH = 20
 SUBMARINE_SCENE_TIME_UNTIL_CAPTAIN_BAILS = 2000
 
@@ -196,6 +197,30 @@ submarine_scene_state_idle:
 
   dec submarine_scene_bubble_counter,x
   bne do_not_spawn_bubble
+
+  .scope
+  lda #0
+  sta b0
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity
+  lda entity_type,y
+  cmp #entity_index_bubble
+  bne skip_entity
+
+  inc b0
+
+skip_entity:
+  dey
+  bpl next_entity
+  .endscope
+
+  lda b0
+  cmp #SUBMARINE_SCENE_MAX_BUBBLES
+  bpl do_not_spawn_bubble
 
   lda rand
   and #%00111111
