@@ -396,10 +396,10 @@ target_game_intro:
   .byte NL,3, "YA TEN THOUSAND GOLD"
   .byte NL,4, "PIECES TA PLAY...BUT",WT,EP
 
-  .byte NL,1, "IF YA HIT TWENTY TARGETS"
+  .byte NL,1, "IF YA EARN TWENTY POINTS"
   .byte NL,2, "IN THIRRTY SECONDS,"
   .byte NL,3, "YE'LL RECEIVE TWENTY"
-  .byte NL,4, "THOUSAND GOLD PIECES.",WT,EP
+  .byte NL,4, "THOUSAND GOLD PIECES.",WT,EP 
 
   .byte NL,1, "DO YOU WANT TO PAY?"
   .byte NL,2, "PRESS A FOR YES"
@@ -416,7 +416,7 @@ target_game_during:
   .byte NL,2, "TA ME FORR? KEEP SHOOTIN!",WT,EC
 
 target_game_win:
-  .byte    1, "...YA HIT TWENTY TARGETS!"
+  .byte    1, "YE EARNED PLENTY POINTS!"
   .byte NL,2, "CONGRATULATIONS. HERE'S"
   .byte NL,3, "TWENTY THOUSAND GOLD"
   .byte NL,4, "PIECES IN REWARD.",WT,EC

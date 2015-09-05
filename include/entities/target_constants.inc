@@ -28,11 +28,10 @@ define_entity_properties target_mode,\
                          target_speed,\
                          target_random_speed_mask,\
                          target_health,\
-                         target_gp_lo,\
-                         target_gp_hi,\
-                         \
                          target_flash_counter,\
-                         target_knockback_counter
+                         target_knockback_counter,\
+                         target_points,\
+                         target_shooting_gallery_index
 
 .enum
 TARGET_STATE_INIT

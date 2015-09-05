@@ -3,21 +3,7 @@
 SHOOTING_GALLERY_INC = 1
 
 .include "npc_constants.inc"
-
-SHOOTING_GALLERY_MAX_TARGETS = 4
-SHOOTING_GALLERY_PRICE = 10000
-SHOOTING_GALLERY_GAME_TIME = 60 * 30
-
-define_entity_properties shooting_gallery_state_counter,\
-                         shooting_gallery_npc_index,\
-                         shooting_gallery_timer_lo,\
-                         shooting_gallery_timer_hi
-
-.enum
-SHOOTING_GALLERY_STATE_INIT
-SHOOTING_GALLERY_STATE_WAIT_FOR_TEXTBOX_CONFIRM
-SHOOTING_GALLERY_STATE_MAIN
-.endenum
+.include "shooting_gallery_constants.inc"
 
 define_lohi_tables shooting_gallery, \
  {shooting_gallery_state_init, \
@@ -111,6 +97,10 @@ continue_with_game:
   lda #conversation_index_target_game_during
   sta npc_conversation,y
 
+  ;reset points to 0
+  lda #0
+  sta shooting_gallery_earned_points,x
+
   lda #SHOOTING_GALLERY_STATE_MAIN
   sta entity_state,x
 
@@ -139,19 +129,71 @@ shooting_gallery_state_main:
   lda #conversation_index_target_game_intro
   sta npc_conversation,y
 
-  ;TODO: Add logic for determining win criteria
+  .scope
+  lda shooting_gallery_earned_points,x
+  cmp #SHOOTING_GALLERY_WINNING_POINTS
+  bmi lose
+win:
 
-  ;run congratulations conversation and bequeathe reward
-  ; lda #ACTION_START_CONVERSATION
-  ; sta state_control_params+play_state_control::action
-  ; lda #conversation_index_target_game_win
-  ; sta state_control_params+play_state_control::param
+  ;spawn gold reward
+  lda hero_x
+  sta w0
+  lda hero_x+1
+  sta w0+1
+  lda hero_y
+  sta w1
+  lda hero_y+1
+  sta w1+1
+
+  lda #entity_index_item
+  sta b0
+
+  jsr entity_spawn
+
+  ldy spawned_entity
+  lda #ITEM_STATE_PICKUP_INIT
+  sta item_initial_state,y
+  lda #ITEM_TYPE_GP
+  sta item_type,y
+  lda #<SHOOTING_GALLERY_REWARD
+  sta item_quantity_lo,y
+  lda #>SHOOTING_GALLERY_REWARD
+  sta item_quantity_hi,y
+  lda #INVENTORY_DUNGEON_FLAGS_MASK_NOP
+  sta item_dungeon_flags_mask,y
+
+  ;run congratulations conversation
+  lda #ACTION_START_CONVERSATION
+  sta state_control_params+play_state_control::action
+  lda #conversation_index_target_game_win
+  sta state_control_params+play_state_control::param
+
+  jmp done
+lose:
+
+  ;kill off all targets
+  .scope
+  ldy #(MAX_ENTITIES-1)
+  lda entity_type,y
+  cmp #entity_index_target
+  bne skip_entity
+
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+
+skip_entity:
+  dey
+  bpl next_entity
+  .endscope
 
   ;run lose conversation
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
   lda #conversation_index_target_game_lose
   sta state_control_params+play_state_control::param
+done:
+  .endscope
 
   lda #SHOOTING_GALLERY_STATE_WAIT_FOR_TEXTBOX_CONFIRM
   sta entity_state,x
@@ -233,6 +275,9 @@ do_not_spawn_target:
   lda #ENTITY_DIRECTION_RIGHT
   sta target_direction,y
 
+  txa
+  sta target_shooting_gallery_index,y
+
   jsr parameterize_new_target
 
   rts
@@ -259,6 +304,9 @@ do_not_spawn_target:
   ldy spawned_entity
   lda #ENTITY_DIRECTION_LEFT
   sta target_direction,y
+
+  txa
+  sta target_shooting_gallery_index,y
 
   jsr parameterize_new_target
 
@@ -312,26 +360,20 @@ normal:
   beq three
 one:
 
-  lda #<1000
-  sta target_gp_lo,y
-  lda #>1000
-  sta target_gp_hi,y
+  lda #<1
+  sta target_points,y
 
   jmp done
 two:
 
-  lda #<3000
-  sta target_gp_lo,y
-  lda #>3000
-  sta target_gp_hi,y
+  lda #<2
+  sta target_points,y
 
   jmp done
 three:
 
-  lda #<5000
-  sta target_gp_lo,y
-  lda #>5000
-  sta target_gp_hi,y
+  lda #<3
+  sta target_points,y
 
 done:
   .endscope
@@ -351,26 +393,20 @@ random_speed:
   bne three
 one:
 
-  lda #<2000
-  sta target_gp_lo,y
-  lda #>2000
-  sta target_gp_hi,y
+  lda #<1
+  sta target_points,y
 
   jmp done
 two:
 
-  lda #<4000
-  sta target_gp_lo,y
-  lda #>4000
-  sta target_gp_hi,y
+  lda #<2
+  sta target_points,y
 
   jmp done
 three:
 
-  lda #<8000
-  sta target_gp_lo,y
-  lda #>8000
-  sta target_gp_hi,y
+  lda #<3
+  sta target_points,y
 
 done:
   .endscope

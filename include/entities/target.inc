@@ -4,6 +4,7 @@
 TARGET_INC = 1
 
 .include "target_constants.inc"
+.include "shooting_gallery_constants.inc"
 
 define_lohi_tables target_metasprites, \
  {ship,\
@@ -66,35 +67,14 @@ target_state_main:
   and #ENTITY_FLAGS_ALIVE_TEST
   bne still_alive
 
+  ;add points this target is worth to shooting gallery earned points
+  ldy target_shooting_gallery_index,x
   clc
-  lda inventory_gp
-  adc target_gp_lo,x
-  sta inventory_gp
-  lda inventory_gp+1
-  adc target_gp_hi,x
-  sta inventory_gp+1
-  lda inventory_gp+2
-  adc #0
-  sta inventory_gp+2
+  lda shooting_gallery_earned_points,y
+  adc target_points,x
+  sta shooting_gallery_earned_points,y
 
-  sec
-  lda #<INVENTORY_MAX_GP
-  sbc inventory_gp
-  lda #>INVENTORY_MAX_GP
-  sbc inventory_gp+1
-  lda #^INVENTORY_MAX_GP
-  sbc inventory_gp+2
-  bpl not_maxed_out
-
-  lda #<INVENTORY_MAX_GP
-  sta inventory_gp
-  lda #>INVENTORY_MAX_GP
-  sta inventory_gp+1
-  lda #^INVENTORY_MAX_GP
-  sta inventory_gp+2
-
-not_maxed_out:
-
+  rts
 still_alive:
   .endscope
 
