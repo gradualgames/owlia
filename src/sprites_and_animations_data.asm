@@ -69,3 +69,4 @@
 .include "mermon_sprites_and_animations.inc"
 .include "mermon_head_sprites_and_animations.inc"
 .include "fortress_sprites_and_animations.inc"
+.include "end_cut_scene_slide1_sprites_and_animations.inc"

@@ -64,7 +64,8 @@
   barnowl_chr, \
   mermon_chr, \
   mermon_head_chr, \
-  fortress_chr
+  fortress_chr, \
+  end_cut_scene_slide1_spr_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -133,6 +134,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_mermon
   .byte sprite_chr_group_bank_mermon_head
   .byte sprite_chr_group_bank_fortress
+  .byte sprite_chr_group_bank_end_cut_scene_slide1
 
 .segment "ROM08"
 
@@ -320,3 +322,6 @@ mermon_head_chr:
 
 fortress_chr:
 .incbin "fortress.chr"
+
+end_cut_scene_slide1_spr_chr:
+.incbin "end_cut_scene_slide1_spr.chr"

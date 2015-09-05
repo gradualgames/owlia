@@ -30,8 +30,8 @@ intro_cut_scene_silmaran_palette:
   .byte $0e,$28,$10,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
 
 end_cut_scene_slide1_palette:
-  .byte $0e,$0e,$0e,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
-  .byte $0e,$0e,$0e,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$0c,$26,$36,$0e,$18,$38,$20,$0e,$07,$06,$36,$0e,$0e,$0e,$0e
+  .byte $0e,$18,$38,$20,$0e,$07,$06,$20,$0e,$07,$00,$10,$0e,$0e,$0e,$0e
 
 ;NOTE! These slides must be contiguous in ROM. Supporting arrays such as
 ;sprite chr sets and sprite overlays must be defined outside the slides.
@@ -135,7 +135,16 @@ end_cut_scene_slide1:
   .word end_cut_scene_slide1_palette                   ; palette_address .word
   .byte 0                                              ; conversation_index .byte
   .byte SLIDE_LENGTH_INFINITE                          ; slide_length .byte
-  .word 0                                              ; sprite_chr_sets_address .word
-  .word 0                                              ; sprite_chr_sets_address .word
+  .word end_cut_scene_slide1_sprite_chr_sets           ; sprite_chr_sets_address .word
+  .word end_cut_scene_slide1_sprite_overlays           ; sprite_overlays_address .word
   .word ending_theme                                   ; song_address .word
   .byte LAST_SLIDE
+
+end_cut_scene_slide1_sprite_chr_sets:
+  .byte 1
+  .byte sprite_chr_group_index_end_cut_scene_slide1
+
+end_cut_scene_slide1_sprite_overlays:
+  .byte 1
+  .byte 23
+  .word end_cut_scene_slide1_sprite_overlay0
