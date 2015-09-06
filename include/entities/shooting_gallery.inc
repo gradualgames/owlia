@@ -88,6 +88,8 @@ cancel_game:
 
 continue_with_game:
 
+  jsr shooting_gallery_play_coins_sound
+
   ;we know there's enough gp, subtract the price from gp
   sec
   lda inventory_gp
@@ -428,6 +430,40 @@ done:
 
 done:
   .endscope
+
+  rts
+
+.endproc
+
+.proc shooting_gallery_play_coins_sound
+
+  ;play a sound
+  lda #<sfx_coins_square1
+  sta sound_param_word_0
+  lda #>sfx_coins_square1
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  ;play a sound
+  lda #<sfx_coins_square2
+  sta sound_param_word_0
+  lda #>sfx_coins_square2
+  sta sound_param_word_0+1
+
+  lda #1
+  sta sound_param_byte_0
+
+  lda #soundeffect_two
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
 
   rts
 
