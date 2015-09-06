@@ -130,6 +130,27 @@ do_not_spawn_silmaran_carry_adlanniel_yet:
   cmp #1
   bne do_not_advance_state_yet
 
+  ;kill off at least two explosion entities to guarantee that two
+  ;splash entities can show up
+  .scope
+  lda #2
+  sta b0
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_type,y
+  cmp #entity_index_explosion
+  bne skip_entity
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+  dec b0
+  beq done
+skip_entity:
+  dey
+  bpl next_entity
+done:
+  .endscope
+
   jsr ending_spawn_splashes
 
   lda #<tortoise_fortress_sinking
