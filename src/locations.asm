@@ -39,6 +39,7 @@
 .include "bottle_constants.inc"
 .include "owl_switch_color_puzzle_constants.inc"
 .include "owl_switch_constants.inc"
+.include "read_constants.inc"
 
 .segment "ROM00"
 
@@ -788,7 +789,9 @@ housel_entity_instances:
   .byte entity_index_npc, 30, 19, sprite_chr_group_index_npcwoman, NPC_PARAMS, conversation_index_welcome_to_my_house, NPC_GRAPHICS_SET_WOMAN, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_LEFT
 
 houser_entity_instances:
-  .byte 2  ;count
+  .byte 4  ;count
+  .byte entity_index_read, 14, 20, 0, READ_PARAMS, conversation_index_owlia_history
+  .byte entity_index_read, 20, 16, 0, READ_PARAMS, conversation_index_temple_history
   .byte entity_index_npc, 15, 16, sprite_chr_group_index_npcwoman, NPC_PARAMS, conversation_index_ssh, NPC_GRAPHICS_SET_WOMAN, 16 * 5, 16 * 1, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
   .byte entity_index_npc, 12, 20, sprite_chr_group_index_npcwoman, NPC_PARAMS, conversation_index_welcome_to_my_library, NPC_GRAPHICS_SET_WOMAN, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_RIGHT
 

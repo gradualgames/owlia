@@ -14,6 +14,8 @@
     welcome_to_my_house, \
     shh, \
     welcome_to_my_library, \
+    owlia_history, \
+    temple_history, \
     intro_cut_scene_owls_text, \
     intro_cut_scene_mermon_text, \
     intro_cut_scene_mermon_mad_text, \
@@ -149,6 +151,60 @@ shh:
 welcome_to_my_library:
   .byte    1, "WELCOME TO MY LIBRARY!",WT
   .byte NL,2, "CHECK OUT SOME BOOKS!!",WT,EC
+
+owlia_history:
+  .byte    1, "A HISTORY OF OWLIA",WT,EP
+
+  .byte NL,1, "IT IS SAID THAT EIGHTY"
+  .byte NL,2, "THOUSAND YEARS AGO, SIX"
+  .byte NL,3, "GREAT OWL GODS FORGED"
+  .byte NL,4, "THIS LAND.",WT,EP
+
+  .byte NL,1, "SILMARAN, THE KING OWL"
+  .byte NL,2, "CREATED THE SKIES AND"
+  .byte NL,3, "IS THE MOST POWERFUL.",WT,EP
+
+  .byte NL,1, "THE GREAT HORNED OWL"
+  .byte NL,2, "CREATED THE FORESTS AND"
+  .byte NL,3, "MEADOWS OF THE SOUTH.",WT,EP
+
+  .byte NL,1, "THE SIBERIAN EAGLE OWL"
+  .byte NL,2, "CREATED THE NORTHERN"
+  .byte NL,3, "TUNDRA.",WT,EP
+
+  .byte NL,1, "THE GREAT GRAY OWL WROUGHT"
+  .byte NL,2, "THE MIGHTY MOUNTAINS OF"
+  .byte NL,3, "THE EAST.",WT,EP
+
+  .byte NL,1, "THE SAW WHET OWL BROUGHT"
+  .byte NL,2, "LIFE AND OASIS TO THE"
+  .byte NL,3, "DESERTS.",WT,EP
+
+  .byte NL,1, "THE BARN OWL INVITED IN"
+  .byte NL,2, "ELVES AND MEN TO TEND THE"
+  .byte NL,3, "LAND.",WT,EP
+
+  .byte NL,1, "IT IS SAID THAT LONG,"
+  .byte NL,2, "LONG AGO, BEFORE THE TIME"
+  .byte NL,3, "OF OWLIA, THE WORLD WAS"
+  .byte NL,4, "NOTHING BUT OCEAN AS FAR",WT,EP
+
+  .byte NL,1, "AS THE EYE CAN SEE...",WT,EC
+
+temple_history:
+  .byte    1, "AN ARCHAEOLOGICAL HISTORY"
+  .byte NL,2, "OF THE GREAT OWL TEMPLES"
+  .byte NL,3, "OF OWLIA",WT,EP
+
+  .byte NL,1, "SOME TEMPLES HAVE OWL"
+  .byte NL,2, "INSIGNIAS WHICH MUST BE"
+  .byte NL,3, "ACTIVATED BY LIGHT TO"
+  .byte NL,4, "GRANT PASSAGE.",WT,EP
+
+  .byte NL,1, "IT IS SAID THAT IN"
+  .byte NL,2, "SILMARAN'S TEMPLE THAT THE"
+  .byte NL,3, "THE COLORS OF THE OWLS"
+  .byte NL,4, "SHALL BE RYPP OR RPPY.",WT,EC
 
 intro_cut_scene_owls_text:
   .byte    1, "ONCE UPON A TIME,",TM,20," ON A"
