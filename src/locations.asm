@@ -2327,7 +2327,7 @@ piratetavern_entrance2_entity_instances:
   .byte entity_index_bottle, 55, 5, 0, BOTTLE_PARAMS, 8
   .byte entity_index_bottle, 56, 5, 0, BOTTLE_PARAMS, 8
   .byte entity_index_ring, 54, 3, 0, 0
-  .byte entity_index_npc, 52, 10, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_ring_game_intro, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
+  .byte entity_index_npc, 52, 10, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_target_game_intro, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
 
 submarine_entity_instances:
   .byte 3

@@ -8,7 +8,8 @@ define_lohi_tables bottle, \
  {bottle_state_init, \
   bottle_state_ring_off, \
   bottle_state_place_ring_on, \
-  bottle_state_ring_on}
+  bottle_state_ring_on, \
+  bottle_state_remove_ring}
 
 bottle_update:
 
@@ -73,6 +74,18 @@ bottle_state_place_ring_on:
 bottle_state_ring_on:
 
   jsr entity_update_animation
+
+  rts
+
+bottle_state_remove_ring:
+
+  lda #<bottle
+  sta entity_animation_address_lo,x
+  lda #>bottle
+  sta entity_animation_address_hi,x
+
+  lda #BOTTLE_STATE_RING_OFF
+  sta entity_state,x
 
   rts
 

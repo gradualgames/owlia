@@ -28,12 +28,11 @@ next_entity:
   lda entity_type,y
   cmp #entity_index_npc
   beq found_npc
-
   dey
-  bne next_entity
+  bpl next_entity
+found_npc:
   tya
   sta shooting_gallery_npc_index,x
-found_npc:
   .endscope
 
   lda #0

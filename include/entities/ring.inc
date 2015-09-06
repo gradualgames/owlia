@@ -2,6 +2,8 @@
 .ifndef RING_INC
 RING_INC = 1
 
+RING_GAME_PRICE = 5000
+RING_GAME_TRIES = 15
 RING_FAMILIAR_X_OFFSET = 0
 RING_FAMILIAR_Y_OFFSET = 16
 
@@ -30,6 +32,7 @@ ring_y_lo = entity_y_lo
 ring_y_hi = entity_y_hi
 
 define_entity_properties ring_bottle_index,\
+                         ring_npc_index,\
                          ring_x_fine,\
                          ring_y_fine,\
                          ring_x_velocity_lo,\
@@ -40,10 +43,12 @@ define_entity_properties ring_bottle_index,\
                          ring_spawn_x_lo,\
                          ring_spawn_x_hi,\
                          ring_spawn_y_lo,\
-                         ring_spawn_y_hi
+                         ring_spawn_y_hi,\
+                         ring_tries
 
 .enum
 RING_STATE_INIT
+RING_STATE_WAIT_UNTIL_TEXTBOX_CONFIRM
 RING_STATE_WAIT_UNTIL_FETCHED
 RING_STATE_SEARCH_FOR_BOTTLES
 RING_STATE_FALL_ONTO_BOTTLE
@@ -57,6 +62,7 @@ RING_STATE_EXPLODE_BOTTLE
 
 define_lohi_tables ring, \
  {ring_state_init, \
+  ring_state_wait_until_textbox_confirm, \
   ring_state_wait_until_fetched, \
   ring_state_search_for_bottles, \
   ring_state_fall_onto_bottle, \
@@ -95,8 +101,81 @@ ring_state_init:
   sta b0
   jsr entity_lookup_sprite_chr_offset
 
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_type,y
+  cmp #entity_index_npc
+  beq found_npc
+  dey
+  bpl next_entity
+found_npc:
+  tya
+  sta ring_npc_index,x
+  .endscope
+
   lda #$00
   sta entity_sprite_flags,x
+
+  lda #RING_STATE_WAIT_UNTIL_TEXTBOX_CONFIRM
+  sta entity_state,x
+
+  rts
+
+ring_state_wait_until_textbox_confirm:
+
+  .scope
+  lda textbox_result
+  cmp #TEXTBOX_CONFIRM
+  beq :+
+  jmp do_not_transition
+:
+
+  ;check to see if player has enough gp to play the game
+  sec
+  lda inventory_gp
+  sbc #<RING_GAME_PRICE
+  lda inventory_gp+1
+  sbc #>RING_GAME_PRICE
+  lda inventory_gp+2
+  sbc #^RING_GAME_PRICE
+  bpl continue_with_game
+cancel_game:
+
+  lda #TEXTBOX_NO_RESULT
+  sta textbox_result
+
+  lda #ACTION_START_CONVERSATION
+  sta state_control_params+play_state_control::action
+  lda #conversation_index_target_game_not_enough_gp
+  sta state_control_params+play_state_control::param
+
+  rts
+
+continue_with_game:
+
+  jsr ring_game_play_coins_sound
+
+  ;we know there's enough gp, subtract the price from gp
+  sec
+  lda inventory_gp
+  sbc #<RING_GAME_PRICE
+  sta inventory_gp
+  lda inventory_gp+1
+  sbc #>RING_GAME_PRICE
+  sta inventory_gp+1
+  lda inventory_gp+2
+  sbc #^RING_GAME_PRICE
+  sta inventory_gp+2
+
+  lda #RING_GAME_TRIES
+  sta ring_tries,x
+
+  ;change NPC conversation so that he doesn't start the game
+  ;again until the game is done.
+  ldy ring_npc_index,x
+  lda #conversation_index_target_game_during
+  sta npc_conversation,y
 
   lda #0
   sta ring_x_fine,x
@@ -114,9 +193,53 @@ ring_state_init:
   lda #RING_STATE_WAIT_UNTIL_FETCHED
   sta entity_state,x
 
+do_not_transition:
+  .endscope
+
   rts
 
 ring_state_wait_until_fetched:
+
+  .scope
+  lda ring_tries,x
+  bne tries_remaining
+
+  ;reset all bottles to having no rings on them
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_type,y
+  cmp #entity_index_bottle
+  bne skip_entity
+
+  lda #BOTTLE_STATE_REMOVE_RING
+  sta entity_state,y
+
+skip_entity:
+  dey
+  bpl next_entity
+  .endscope
+
+  lda #ACTION_START_CONVERSATION
+  sta state_control_params+play_state_control::action
+  lda #conversation_index_target_game_lose
+  sta state_control_params+play_state_control::param
+
+  ;change NPC conversation back to intro for game
+  ldy ring_npc_index,x
+  lda #conversation_index_target_game_intro
+  sta npc_conversation,y
+
+  lda #TEXTBOX_NO_RESULT
+  sta textbox_result
+
+  lda #RING_STATE_WAIT_UNTIL_TEXTBOX_CONFIRM
+  sta entity_state,x
+
+  rts
+
+tries_remaining:
+  .endscope
 
   .scope
   lda entity_action_rect2_action
@@ -125,6 +248,8 @@ ring_state_wait_until_fetched:
 
   jsr entity_test_entity_action_rect2
   bne familiar_not_intersecting
+
+  dec ring_tries,x
 
   ;store offsets for this entity when it is being fetched by familiar
   lda #RING_FAMILIAR_X_OFFSET
@@ -480,6 +605,12 @@ ring_state_pause_before_becoming_a_new_ring:
   cmp #6
   bne do_not_enter_explode_bottles_state
 
+  ;change the npc conversation to congratulations since the game is
+  ;over and you can pick up the gold
+  ldy ring_npc_index,x
+  lda #conversation_index_target_game_win
+  sta npc_conversation,y
+
   lda #RING_STATE_PAUSE_BEFORE_EXPLODE_BOTTLE_LENGTH
   sta ring_state_counter,x
 
@@ -591,6 +722,40 @@ skip_entity:
   sta entity_flags,x
 
   rts
+
+.proc ring_game_play_coins_sound
+
+  ;play a sound
+  lda #<sfx_coins_square1
+  sta sound_param_word_0
+  lda #>sfx_coins_square1
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  ;play a sound
+  lda #<sfx_coins_square2
+  sta sound_param_word_0
+  lda #>sfx_coins_square2
+  sta sound_param_word_0+1
+
+  lda #1
+  sta sound_param_byte_0
+
+  lda #soundeffect_two
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  rts
+
+.endproc
 
 .proc spawn_explosion_and_gp
 
