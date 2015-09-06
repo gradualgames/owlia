@@ -129,6 +129,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_ray
   .byte sprite_chr_group_bank_sawwhetowl
   .byte sprite_chr_group_bank_minigame
+  .byte sprite_chr_group_bank_digits
   .byte sprite_chr_group_bank_bubbles
   .byte sprite_chr_group_bank_kraken
   .byte sprite_chr_group_bank_barnowl
