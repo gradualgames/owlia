@@ -144,6 +144,45 @@ jellyfish_state_init:
 
 jellyfish_state_main:
 
+  ;count unpaused other jellyfish and kill self if there are more than 2 others
+  .scope
+  lda #0
+  sta b0
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity
+  lda entity_flags,y
+  and #ENTITY_FLAGS_PAUSED_TEST
+  bne skip_entity
+  lda entity_type,y
+  cmp #entity_index_jellyfish
+  bne skip_entity
+  tya
+  sta b1
+  txa
+  cmp b1
+  beq skip_entity
+
+  inc b0
+
+skip_entity:
+  dey
+  bpl next_entity
+
+  lda b0
+  cmp #3
+  bmi do_not_die
+
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
+
+  rts
+do_not_die:
+  .endscope
+
   entity_combat #JELLYFISH_ATTACKED_LENGTH, #JELLYFISH_KNOCKBACK_LENGTH, jellyfish_flash_counter, jellyfish_knockback_counter, jellyfish_health, jellyfish_direction, "entity_drop_random_item", "entity_spawn_explosion"
 
   ;transfer jellyfish coordinates to entity coordinates
