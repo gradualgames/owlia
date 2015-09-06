@@ -147,7 +147,7 @@ cancel_game:
 
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
-  lda #conversation_index_target_game_not_enough_gp
+  lda #conversation_index_ring_game_not_enough_gp
   sta state_control_params+play_state_control::param
 
   rts
@@ -174,7 +174,7 @@ continue_with_game:
   ;change NPC conversation so that he doesn't start the game
   ;again until the game is done.
   ldy ring_npc_index,x
-  lda #conversation_index_target_game_during
+  lda #conversation_index_ring_game_during
   sta npc_conversation,y
 
   lda #0
@@ -222,12 +222,12 @@ skip_entity:
 
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
-  lda #conversation_index_target_game_lose
+  lda #conversation_index_ring_game_lose
   sta state_control_params+play_state_control::param
 
   ;change NPC conversation back to intro for game
   ldy ring_npc_index,x
-  lda #conversation_index_target_game_intro
+  lda #conversation_index_ring_game_intro
   sta npc_conversation,y
 
   lda #TEXTBOX_NO_RESULT
@@ -608,7 +608,7 @@ ring_state_pause_before_becoming_a_new_ring:
   ;change the npc conversation to congratulations since the game is
   ;over and you can pick up the gold
   ldy ring_npc_index,x
-  lda #conversation_index_target_game_win
+  lda #conversation_index_ring_game_win
   sta npc_conversation,y
 
   lda #RING_STATE_PAUSE_BEFORE_EXPLODE_BOTTLE_LENGTH

@@ -39,6 +39,10 @@
     target_game_win, \
     target_game_lose, \
     ring_game_intro, \
+    ring_game_not_enough_gp, \
+    ring_game_during, \
+    ring_game_win, \
+    ring_game_lose, \
     welcome_aboard,\
     what_was_that, \
     mermon_threat, \
@@ -391,17 +395,17 @@ if_you_want_my_submarine:
   .byte NL,2, "FUNDS...",WT,EC
 
 target_game_intro:
-  .byte    1, "WELCOME TO MY HUMBLE"
-  .byte NL,2, "POYRIT GAME. IT'LL COST"
-  .byte NL,3, "YA TEN THOUSAND GOLD"
-  .byte NL,4, "PIECES TA PLAY...BUT",WT,EP
+  .byte    1, "WELCOME TO ME HUMBLE"
+  .byte NL,2, "POYRIT TARRGET GAME."
+  .byte NL,3, "IT'LL COST YA TEN"
+  .byte NL,4, "THOUSAND GOLD PIECES TA",WT,EP
 
-  .byte NL,1, "IF YA EARN TWENTY POINTS"
-  .byte NL,2, "IN THIRRTY SECONDS,"
-  .byte NL,3, "YE'LL RECEIVE TWENTY"
-  .byte NL,4, "THOUSAND GOLD PIECES.",WT,EP 
+  .byte NL,1, "PLAY. FASTER TARGETS"
+  .byte NL,2, "EARN MORE POINTS. SEE"
+  .byte NL,3, "THE NUMBER AT THE TOP"
+  .byte NL,4, "O' THE BOARD?",WT,EP
 
-  .byte NL,1, "DO YOU WANT TO PAY?"
+  .byte NL,1, "WILL YOU PAY?"
   .byte NL,2, "PRESS A FOR YES"
   .byte NL,3, "PRESS B FOR NO",CC,EC
 
@@ -427,17 +431,43 @@ target_game_lose:
   .byte NL,3, "LUCK IF YE TRY AGAIN.",WT,EC
 
 ring_game_intro:
-  .byte    1, "THIS GAME ONLY BE FER"
-  .byte NL,2, "PIRATES WITH PARROT"
-  .byte NL,3, "FAMILIARS. ARR, WHAT'S"
-  .byte NL,4, "THAT MIGHTY BIRD ON YER",WT,EP
+  .byte    1, "WELCOME TO ME HUMBLE"
+  .byte NL,2, "POYRIT RING FETCHIN'"
+  .byte NL,3, "GAME. IT'LL COST YA TEN"
+  .byte NL,4, "THOUSAND GOLD PIECES TA",WT,EP
 
-  .byte NL,1, "SHOULDER? AN OWL YE SAY?"
-  .byte NL,2, "WELL, I SUPPOSE YE CAN TRY"
-  .byte NL,3, "ANYWAY. HAVE YER OWL LAND"
-  .byte NL,4, "A RING ON EACH BOTTLE AND",WT,EP
+  .byte NL,1, "PLAY. YE GET FIFTEEN TRIES"
+  .byte NL,2, "TO LAND RINGS ON ALL THEM"
+  .byte NL,3, "RUM BOTTLES.",WT,EP
 
-  .byte NL,1, "YOU WIN A SHINY REWARD.",WT,EC
+  .byte NL,1, "WILL YOU PAY?"
+  .byte NL,2, "PRESS A FOR YES"
+  .byte NL,3, "PRESS B FOR NO",CC,EC
+
+ring_game_not_enough_gp:
+  .byte    1, "ARRR...WHAT'RE YE TRYIN'"
+  .byte NL,2, "TA PULL MATEY? YE HAVEN'T"
+  .byte NL,3, "SUFFICIENT FUNDS TA PLAY"
+  .byte NL,4, "ME GAME.",WT,EC
+
+ring_game_during:
+  .byte    1, "...WHAT'RE YE TALKIN'"
+  .byte NL,2, "TA ME FORR? KEEP TRYIN!",WT,EC
+
+ring_game_win:
+  .byte    1, "ARR, CONGRATULATIONS."
+  .byte NL,2, "YE LANDED A RING ON EACH"
+  .byte NL,3, "BOTTLE. JUST FETCH THE"
+  .byte NL,4, "GOLD THAT WERE IN EACH",WT,EP
+
+  .byte NL,1, "BOTTLE. PLEASE COME BACK"
+  .byte NL,2, "AGAIN SO'S I CAN SET UP"
+  .byte NL,3, "THE GAME AGAIN.",WT,EC
+
+ring_game_lose:
+  .byte    1, "...YA DIDN'T GET ENOUGH"
+  .byte NL,2, "RINGS ON BOTTLES MATEY."
+  .byte NL,3, "WHY DON'T YE TRY AGAIN?",WT,EC
 
 welcome_aboard:
   .byte    1, "WELCOME ABOARD ME HUMBLE"
