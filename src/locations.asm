@@ -473,7 +473,7 @@ mountain1_sprite_chr_groups:
   .byte sprite_chr_group_index_seahorse
 
 cave_sprite_chr_groups:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -482,6 +482,7 @@ cave_sprite_chr_groups:
   .byte sprite_chr_group_index_coins
   .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_horseshoe_crab
+  .byte sprite_chr_group_index_npcman
 
 dungeon3_sprite_chr_groups:
   .byte 12   ;sprite_chr_groups .byte
@@ -1491,7 +1492,8 @@ mountain1_entity_instances:
   .byte entity_index_dungeon_entrance_statue, 6, 2, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <22000, >22000, ^22000, buttons::_down
 
 cave_top_left_entity_instances:
-  .byte 3
+  .byte 4
+  .byte entity_index_npc, 18, 6, sprite_chr_group_index_npcman, NPC_PARAMS, conversation_index_mountain_dungeon_hint, NPC_GRAPHICS_SET_MAN, 0, 0, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
   .byte entity_index_horseshoe_crab, 12, 7, 0, 0
   .byte entity_index_horseshoe_crab, 26, 12, 0, 0
   .byte entity_index_treasure_chest, 26, 6, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000

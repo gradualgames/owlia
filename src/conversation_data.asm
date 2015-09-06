@@ -25,6 +25,7 @@
     silmaran_call_adlanniel, \
     silmaran_encounter_scene, \
     tundra_dungeon_hint, \
+    mountain_dungeon_hint, \
     rescue_greathornedowl, \
     dungeon_statue_deny_entry, \
     rescue_siberianeagleowl, \
@@ -267,6 +268,14 @@ tundra_dungeon_hint:
   .byte NL,1, "DROP THE BOMB UNTIL HE"
   .byte NL,2, "RETURNS TO YOU. COULD"
   .byte NL,3, "COME IN HANDY...",WT,EC
+
+mountain_dungeon_hint:
+  .byte    1, "IN THE ANCIENT MOUNTAIN"
+  .byte NL,2, "DUNGEON...REMEMBER THESE"
+  .byte NL,3, "NUMBERS...",WT,EP
+
+  .byte NL,1, "ONE. FOUR. TWO. THREE."
+  .byte NL,2, "FOUR. THREE. ONE. TWO.",WT,EC
 
 rescue_greathornedowl:
   .byte    1, "NOBLE ADLANNIEL.",TM,30," MY POWER"
