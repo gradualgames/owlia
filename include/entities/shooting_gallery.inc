@@ -4,6 +4,7 @@ SHOOTING_GALLERY_INC = 1
 
 .include "npc_constants.inc"
 .include "shooting_gallery_constants.inc"
+.include "number_constants.inc"
 
 define_lohi_tables shooting_gallery, \
  {shooting_gallery_state_init, \
@@ -35,7 +36,10 @@ next_entity:
 found_npc:
   .endscope
 
-  lda #entity_index_digit
+  lda #0
+  sta shooting_gallery_earned_points,x
+
+  lda #entity_index_number
   sta b0
 
   lda #<SHOOTING_GALLERY_POINTS_DISPLAY_X
@@ -48,6 +52,16 @@ found_npc:
   sta w1+1
 
   jsr entity_spawn
+
+  lda spawned_entity
+  sta shooting_gallery_number_display_index,x
+  tay
+  lda shooting_gallery_earned_points,x
+  sta number_value_lo,y
+  lda #0
+  sta number_value_hi,y
+  lda #0
+  sta number_value_hi_hi,y
 
   ;make sure this is in the right state before we monitor it for confirm
   lda #TEXTBOX_NO_RESULT
@@ -126,6 +140,8 @@ do_not_transition_to_main_state:
   rts
 
 shooting_gallery_state_main:
+
+  jsr reinitialize_points_display
 
   .scope
   sec
@@ -212,6 +228,10 @@ lose:
 done:
   .endscope
 
+  lda #0
+  sta shooting_gallery_earned_points,x
+  jsr reinitialize_points_display
+
   lda #SHOOTING_GALLERY_STATE_WAIT_FOR_TEXTBOX_CONFIRM
   sta entity_state,x
 
@@ -270,6 +290,21 @@ do_not_spawn_target:
   .endscope
 
   rts
+
+.proc reinitialize_points_display
+
+  ldy shooting_gallery_number_display_index,x
+  lda shooting_gallery_earned_points,x
+  sta number_value_lo,y
+  lda #0
+  sta number_value_hi,y
+  lda #0
+  sta number_value_hi_hi,y
+  lda #NUMBER_STATE_INIT
+  sta entity_state,y
+  rts
+
+.endproc
 
 .proc spawn_target_left
 

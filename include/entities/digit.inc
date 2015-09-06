@@ -26,8 +26,6 @@ digit_state_init:
   lda #>digit
   sta entity_animation_address_hi,x
 
-  jsr entity_reset_animation
-
   ;some entities are parameterized for graphics set, ones
   ;that are always hard coded should set their chr offset here
   lda #sprite_chr_group_index_digits

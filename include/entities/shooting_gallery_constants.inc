@@ -11,6 +11,7 @@ SHOOTING_GALLERY_POINTS_DISPLAY_Y = 8
 
 define_entity_properties shooting_gallery_state_counter,\
                          shooting_gallery_npc_index,\
+                         shooting_gallery_number_display_index,\
                          shooting_gallery_timer_lo,\
                          shooting_gallery_timer_hi,\
                          shooting_gallery_earned_points
