@@ -433,7 +433,7 @@ target_game_lose:
 ring_game_intro:
   .byte    1, "WELCOME TO ME HUMBLE"
   .byte NL,2, "POYRIT RING FETCHIN'"
-  .byte NL,3, "GAME. IT'LL COST YA TEN"
+  .byte NL,3, "GAME. IT'LL COST YA THREE"
   .byte NL,4, "THOUSAND GOLD PIECES TA",WT,EP
 
   .byte NL,1, "PLAY. YE GET FIFTEEN TRIES"
