@@ -63,6 +63,7 @@ sprite_chr_group_index_clam
 sprite_chr_group_index_ray
 sprite_chr_group_index_sawwhetowl
 sprite_chr_group_index_minigame
+sprite_chr_group_index_digits
 sprite_chr_group_index_bubbles
 sprite_chr_group_index_kraken
 sprite_chr_group_index_barnowl
@@ -127,6 +128,7 @@ sprite_chr_group_bank_clam = 24
 sprite_chr_group_bank_ray = 24
 sprite_chr_group_bank_sawwhetowl = 24
 sprite_chr_group_bank_minigame = 24
+sprite_chr_group_bank_digits = 24
 sprite_chr_group_bank_bubbles = 24
 sprite_chr_group_bank_kraken = 24
 sprite_chr_group_bank_barnowl = 24

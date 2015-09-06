@@ -35,6 +35,20 @@ next_entity:
 found_npc:
   .endscope
 
+  lda #entity_index_digit
+  sta b0
+
+  lda #<SHOOTING_GALLERY_POINTS_DISPLAY_X
+  sta w0
+  lda #>SHOOTING_GALLERY_POINTS_DISPLAY_X
+  sta w0+1
+  lda #<SHOOTING_GALLERY_POINTS_DISPLAY_Y
+  sta w1
+  lda #>SHOOTING_GALLERY_POINTS_DISPLAY_Y
+  sta w1+1
+
+  jsr entity_spawn
+
   ;make sure this is in the right state before we monitor it for confirm
   lda #TEXTBOX_NO_RESULT
   sta textbox_result

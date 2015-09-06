@@ -228,4 +228,6 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 
 .global end_cut_scene_slide1_sprite_overlay0
 
+.global digit
+
 .endif

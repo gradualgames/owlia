@@ -88,6 +88,7 @@
   boss_update, \
   target_update, \
   shooting_gallery_update, \
+  digit_update, \
   bottle_update, \
   ring_update, \
   bubble_update, \
@@ -161,6 +162,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_boss
   .byte entity_update_bank_target
   .byte entity_update_bank_shooting_gallery
+  .byte entity_update_bank_digit
   .byte entity_update_bank_bottle
   .byte entity_update_bank_ring
   .byte entity_update_bank_bubble
@@ -229,6 +231,7 @@ entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_boss
   .byte entity_sprites_and_animations_bank_target
   .byte 0 ;entity_sprites_and_animations_bank_shooting_gallery
+  .byte entity_sprites_and_animations_bank_digit
   .byte entity_sprites_and_animations_bank_bottle
   .byte entity_sprites_and_animations_bank_ring
   .byte entity_sprites_and_animations_bank_bubble
@@ -303,6 +306,7 @@ entity_defs_sprites_and_animations_bank:
 .include "submarine_scene.inc"
 .segment "ROM21"
 .include "shooting_gallery.inc"
+.include "digit.inc"
 .include "kraken_tentacle.inc"
 .include "kraken_eye.inc"
 .include "kraken.inc"

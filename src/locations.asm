@@ -618,7 +618,7 @@ piratetavern_entrance1_sprite_chr_groups:
   .byte sprite_chr_group_index_npc_commodore
 
 pirateshootinggallery_sprite_chr_groups:
-  .byte 9   ;sprite_chr_groups .byte
+  .byte 10   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -628,6 +628,7 @@ pirateshootinggallery_sprite_chr_groups:
   .byte sprite_chr_group_index_minigame
   .byte sprite_chr_group_index_ice_shards
   .byte sprite_chr_group_index_npc_bosun
+  .byte sprite_chr_group_index_digits
 
 piratetavern_entrance2_sprite_chr_groups:
   .byte 8   ;sprite_chr_groups .byte

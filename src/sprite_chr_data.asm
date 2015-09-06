@@ -59,6 +59,7 @@
   ray_chr, \
   sawwhetowl_chr, \
   minigame_chr, \
+  digits_chr, \
   bubbles_chr, \
   kraken_chr, \
   barnowl_chr, \
@@ -295,6 +296,13 @@ sawwhetowl_chr:
 
 minigame_chr:
 .incbin "minigame.chr"
+
+;this is also included in the bg chr data. However we re-use
+;it for a simple digit display entity for the shooting gallery game.
+;It is duplicated here due to the entrenched infrastructure for loading
+;bg versus sprite chr data.
+digits_chr:
+.incbin "digits.chr"
 
 bubbles_chr:
 .incbin "bubbles.chr"
