@@ -24,6 +24,7 @@
     house_intro_scene_call_tyto2, \
     silmaran_call_adlanniel, \
     silmaran_encounter_scene, \
+    tundra_dungeon_hint, \
     rescue_greathornedowl, \
     dungeon_statue_deny_entry, \
     rescue_siberianeagleowl, \
@@ -251,6 +252,21 @@ silmaran_encounter_scene:
   .byte NL,1, "DOORS.",TM,30," GOOD LUCK,",TM,20
   .byte NL,2, "ADLANNIEL,",TM,20," AND FLY TRUE,",TM,20
   .byte NL,3, "NOBLE TYTO.",WT,EC
+
+tundra_dungeon_hint:
+  .byte    1, "NOW THAT YOUR OWL CAN TOSS"
+  .byte NL,2, "BOMBS, YOU CAN BLOW UP"
+  .byte NL,3, "ENEMIES AND THINGS THAT"
+  .byte NL,4, "WERE IN YOUR WAY.",WT,EP
+
+  .byte NL,1, "I HAVE HEARD OF AN"
+  .byte NL,2, "ADVANCED TECHNIQUE WHERE"
+  .byte NL,3, "IF YOU SEND YOUR OWL OVER"
+  .byte NL,4, "AN OBSTACLE, HE WILL NOT",WT,EP
+
+  .byte NL,1, "DROP THE BOMB UNTIL HE"
+  .byte NL,2, "RETURNS TO YOU. COULD"
+  .byte NL,3, "COME IN HANDY...",WT,EC
 
 rescue_greathornedowl:
   .byte    1, "NOBLE ADLANNIEL.",TM,30," MY POWER"

@@ -391,7 +391,6 @@ dungeon1_boss_owl_dungeon_sprite_chr_groups:
   .byte sprite_chr_group_index_cage
 
 tundra1_sprite_chr_groups:
-tundra2_sprite_chr_groups:
 tundra3_sprite_chr_groups:
   .byte 11   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
@@ -405,6 +404,18 @@ tundra3_sprite_chr_groups:
   .byte sprite_chr_group_index_jellyfish
   .byte sprite_chr_group_index_urchin
   .byte sprite_chr_group_index_dungeon_entrance_statue
+
+tundra2_sprite_chr_groups:
+  .byte 9   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_coins
+  .byte sprite_chr_group_index_treasure_chest
+  .byte sprite_chr_group_index_jellyfish
+  .byte sprite_chr_group_index_npcman
 
 dungeon2_sprite_chr_groups:
   .byte 13   ;sprite_chr_groups .byte
@@ -1116,7 +1127,8 @@ tundra1_entity_instances:
   .byte entity_index_treasure_chest, 31, 53, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
 
 tundra2_entity_instances:
-  .byte 8
+  .byte 9
+  .byte entity_index_npc, 16, 54, sprite_chr_group_index_npcman, NPC_PARAMS, conversation_index_tundra_dungeon_hint, NPC_GRAPHICS_SET_MAN, 16 * 11, 16 * 3, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
   .byte entity_index_jellyfish, 51, 14, 0, 0
   .byte entity_index_jellyfish, 22, 36, 0, 0
   .byte entity_index_jellyfish, 17, 55, 0, 0
