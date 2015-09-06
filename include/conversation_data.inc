@@ -6,7 +6,7 @@ CONVERSATIONS_LUT_BANK = 0
 ;please note, this bank is intended to be the same as TEXTBOX_BANK,
 ;as the run_conversation routine assumes that the conversation data is
 ;loaded in the same bank as the textbox code.
-CONVERSATIONS_BANK = 1
+CONVERSATIONS_BANK = 17
 
 .global conversations_lo
 .global conversations_hi

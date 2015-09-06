@@ -3,6 +3,7 @@ TEXTBOX_INC = 1
 
 .include "bg_chr_data.inc"
 .include "camera.inc"
+.include "conversation_data.inc"
 
 ;please note, this bank is intended to be the same as CONVERSATIONS_BANK,
 ;as the run_conversation routine assumes that the conversation data is

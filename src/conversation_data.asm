@@ -51,7 +51,7 @@ conversations_lo:
 conversations_hi:
   .hibytes conversations
 
-.segment "ROM01"
+.segment "ROM17"
 
 hi_adlanniel:
   .byte    1, "HI,",TM,5," ADLANNIEL!",TM,10," TYTO IS"

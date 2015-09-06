@@ -185,7 +185,14 @@ row_y_offset = b0
   ;Read row number. Reset row index
   ldy #0
 read_next_row:
-  lda (conversation_address),y
+
+  txa
+  pha
+  far_load #CONVERSATIONS_BANK, conversation_address, conversation_address+1
+  pla
+  tax
+  lda far_load_result
+
   ;Use row number to determine parameters to the draw_textbox_middle_row
   ;routine.
   ;multiply row number by 8
@@ -272,7 +279,14 @@ do_not_exit_conversation:
   lda conversation_address+1
   adc #$00
   sta conversation_address+1
-  lda (conversation_address),y
+
+  txa
+  pha
+  far_load #CONVERSATIONS_BANK, conversation_address, conversation_address+1
+  pla
+  tax
+  lda far_load_result
+
   bmi interpret_control_character
   ;If positive (it is just an offset into the font)
 interpret_font_character:
@@ -540,7 +554,14 @@ store_result_cancel:
   sta conversation_address+1
 
   ldy #0
-  lda (conversation_address),y
+
+  txa
+  pha
+  far_load #CONVERSATIONS_BANK, conversation_address, conversation_address+1
+  pla
+  tax
+  lda far_load_result
+
   sta b0
 
 time_wait_loop:
