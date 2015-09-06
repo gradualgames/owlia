@@ -6,6 +6,8 @@ RING_GAME_PRICE = 5000
 RING_GAME_TRIES = 15
 RING_FAMILIAR_X_OFFSET = 0
 RING_FAMILIAR_Y_OFFSET = 16
+RING_TRIES_DISPLAY_X = 55 * 16 + 8
+RING_TRIES_DISPLAY_Y = 4 * 16
 
 RING_BOTTLE_REWARD = 1000
 
@@ -33,6 +35,7 @@ ring_y_hi = entity_y_hi
 
 define_entity_properties ring_bottle_index,\
                          ring_npc_index,\
+                         ring_number_display_index,\
                          ring_x_fine,\
                          ring_y_fine,\
                          ring_x_velocity_lo,\
@@ -114,6 +117,30 @@ found_npc:
   sta ring_npc_index,x
   .endscope
 
+  lda #entity_index_number
+  sta b0
+
+  lda #<RING_TRIES_DISPLAY_X
+  sta w0
+  lda #>RING_TRIES_DISPLAY_X
+  sta w0+1
+  lda #<RING_TRIES_DISPLAY_Y
+  sta w1
+  lda #>RING_TRIES_DISPLAY_Y
+  sta w1+1
+
+  jsr entity_spawn
+
+  lda spawned_entity
+  sta ring_number_display_index,x
+  tay
+  lda #0
+  sta number_value_lo,y
+  lda #0
+  sta number_value_hi,y
+  lda #0
+  sta number_value_hi_hi,y
+
   lda #$00
   sta entity_sprite_flags,x
 
@@ -170,6 +197,8 @@ continue_with_game:
 
   lda #RING_GAME_TRIES
   sta ring_tries,x
+
+  jsr ring_reinitialize_number_display
 
   ;change NPC conversation so that he doesn't start the game
   ;again until the game is done.
@@ -250,6 +279,8 @@ tries_remaining:
   bne familiar_not_intersecting
 
   dec ring_tries,x
+
+  jsr ring_reinitialize_number_display
 
   ;store offsets for this entity when it is being fetched by familiar
   lda #RING_FAMILIAR_X_OFFSET
@@ -851,6 +882,21 @@ skip_entity:
   bpl next_entity
   .endscope
 
+  rts
+
+.endproc
+
+.proc ring_reinitialize_number_display
+
+  ldy ring_number_display_index,x
+  lda ring_tries,x
+  sta number_value_lo,y
+  lda #0
+  sta number_value_hi,y
+  lda #0
+  sta number_value_hi_hi,y
+  lda #NUMBER_STATE_INIT
+  sta entity_state,y
   rts
 
 .endproc
