@@ -26,6 +26,7 @@
     silmaran_encounter_scene, \
     tundra_dungeon_hint, \
     mountain_dungeon_hint, \
+    temple_dungeon_hint, \
     rescue_greathornedowl, \
     dungeon_statue_deny_entry, \
     rescue_siberianeagleowl, \
@@ -276,6 +277,12 @@ mountain_dungeon_hint:
 
   .byte NL,1, "ONE. FOUR. TWO. THREE."
   .byte NL,2, "FOUR. THREE. ONE. TWO.",WT,EC
+
+temple_dungeon_hint:
+  .byte    1, "IF YOU COUNT LEFT TO"
+  .byte NL,2, "RIGHT, TOP TO BOTTOM.."
+  .byte NL,3, "YOUR MEMORY MAY SERVE"
+  .byte NL,4, "YOU WELL.",WT,EC
 
 rescue_greathornedowl:
   .byte    1, "NOBLE ADLANNIEL.",TM,30," MY POWER"

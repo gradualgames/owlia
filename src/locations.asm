@@ -557,7 +557,7 @@ island2_sprite_chr_groups:
   .byte sprite_chr_group_index_clam
 
 temple1_sprite_chr_groups:
-  .byte 10   ;sprite_chr_groups .byte
+  .byte 11   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
@@ -568,6 +568,7 @@ temple1_sprite_chr_groups:
   .byte sprite_chr_group_index_clam
   .byte sprite_chr_group_index_seahorse
   .byte sprite_chr_group_index_dungeon_entrance_statue
+  .byte sprite_chr_group_index_npcman
 
 dungeon4_sprite_chr_groups:
   .byte 14   ;sprite_chr_groups .byte
@@ -1931,6 +1932,7 @@ island2_entity_instances:
 
 temple1_entity_instances:
   .byte 9
+  .byte entity_index_npc, 18, 3, sprite_chr_group_index_npcman, NPC_PARAMS, conversation_index_temple_dungeon_hint, NPC_GRAPHICS_SET_MAN, 3 * 16, 2 * 16, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
   .byte entity_index_starfish, 15, 51, 0, 0
   .byte entity_index_starfish, 49, 51, 0, 0
   .byte entity_index_clam, 31, 47, 0, 0
@@ -1938,7 +1940,6 @@ temple1_entity_instances:
   .byte entity_index_clam, 48, 39, 0, 0
   .byte entity_index_seahorse, 19, 21, 0, 0
   .byte entity_index_seahorse, 47, 13, 0, 0
-  .byte entity_index_seahorse, 20, 5, 0, 0
   .byte entity_index_dungeon_entrance_statue, 15, 1, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 2, <30000, >30000, ^30000, buttons::_down
 
 dungeon4_0_0_entity_instances:
