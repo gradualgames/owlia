@@ -636,6 +636,10 @@ ring_state_pause_before_becoming_a_new_ring:
   cmp #6
   bne do_not_enter_explode_bottles_state
 
+  lda #0
+  sta ring_tries,x
+  jsr ring_reinitialize_number_display
+
   ;change the npc conversation to congratulations since the game is
   ;over and you can pick up the gold
   ldy ring_npc_index,x
