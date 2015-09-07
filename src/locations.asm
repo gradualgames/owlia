@@ -3646,7 +3646,7 @@ define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FL
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 
 submarine_entrance:
-define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
+define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4 | LOCATION_FLAGS_DUNGEON_ENTRANCE)},\
                   area_index_submarine, submarine_sprite_chr_groups, submarine_entity_instances, submarine_palette,\
                   48, 2, 52, 8,\
                   0, 0, 0, ENTITY_DIRECTION_RIGHT
