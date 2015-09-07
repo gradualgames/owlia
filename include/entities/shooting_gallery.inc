@@ -19,7 +19,7 @@ shooting_gallery_state_init:
 
   jsr entity_set_not_pausable
 
-  lda rand
+  lda #30
   sta shooting_gallery_state_counter,x
 
   .scope
@@ -251,6 +251,9 @@ next_entity:
   lda entity_flags,y
   and #ENTITY_FLAGS_ALIVE_TEST
   beq skip_entity
+  lda entity_type,y
+  cmp #entity_index_target
+  bne skip_entity
   inc b0
 skip_entity:
 
@@ -282,6 +285,7 @@ done:
 
   jsr next_rand
   lda rand
+  and #%00011111
   ora #1
   sta shooting_gallery_state_counter,x
 
