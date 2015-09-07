@@ -636,6 +636,9 @@ ring_state_pause_before_becoming_a_new_ring:
   cmp #6
   bne do_not_enter_explode_bottles_state
 
+  lda #TEXTBOX_NO_RESULT
+  sta textbox_result
+
   lda #0
   sta ring_tries,x
   jsr ring_reinitialize_number_display
