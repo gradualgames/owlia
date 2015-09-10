@@ -864,7 +864,7 @@ dungeon_1_0_entity_instances:
 dungeon_2_0_entity_instances:
   .byte 4
   .byte entity_index_anglerfish, 36, 5, 0, ANGLERFISH_PARAMS, ANGLERFISH_TURN_MODE_OPPOSITE, ANGLERFISH_PAUSE_MODE_NORMAL, ANGLERFISH_TURN_LENGTH_LONG, ENTITY_DIRECTION_RIGHT, ANGLERFISH_SPOTLIGHT_OFF, 0, 0
-  .byte entity_index_spotlight_puzzle, 0, 0, 0, SPOTLIGHT_PUZZLE_PARAMS, SPOTLIGHT_PUZZLE_STATE_SINGLE_ANGLERFISH, DUNGEON1_DUNGEON_FLAGS_SINGLE_ANGLERFISH_COMPLETE, 40, 6
+  .byte entity_index_spotlight_puzzle, 0, 0, 0, SPOTLIGHT_PUZZLE_PARAMS, SPOTLIGHT_PUZZLE_STATE_SINGLE_ANGLERFISH, DUNGEON1_DUNGEON_FLAGS_SINGLE_ANGLERFISH_COMPLETE, 36, 6
   .byte entity_index_monolith, 46, 10, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_KEYED | MONOLITH_FLAGS_UP_SET, DUNGEON1_DUNGEON_FLAGS_DOOR1_UNLOCKED, \
                                           MONOLITH_DIRECTION_EAST, \
@@ -2846,6 +2846,12 @@ dungeon_palette:
   .byte PALETTE_CYCLE_END_FRAME
   .byte PALETTE_CYCLE_LOOP
 
+dungeon_anglerfish_palette:
+  .byte $0e,$1b,$0b,$08,$0e,$0b,$19,$2a,$0e,$0b,$08,$18,$0e,$08,$07,$08
+  .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
+  .byte PALETTE_CYCLE_END_FRAME
+  .byte PALETTE_CYCLE_LOOP
+
 dungeon1_boss_palette:
   .byte $0e,$1b,$0b,$08,$0e,$0b,$19,$2a,$0e,$0b,$08,$18,$0e,$08,$01,$12
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$13,$23,$0e,$0e,$01,$31
@@ -3194,7 +3200,7 @@ define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAG
 dungeon_2_3_e:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_3_entity_instances, dungeon_palette, 32, 45, 45, 55, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon_3_3_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_sprite_chr_groups, dungeon_3_3_entity_instances, dungeon_palette, 48, 45, 50, 55, 0, 0, 0, ENTITY_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_sprite_chr_groups, dungeon_3_3_entity_instances, dungeon_anglerfish_palette, 48, 45, 50, 55, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_2_2_w:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_2_2_entity_instances, dungeon_palette, 32, 30, 34, 37, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_2_2_e:
@@ -3206,11 +3212,11 @@ define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAG
 dungeon_3_1_w:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_1_entity_instances, dungeon_palette, 48, 15, 50, 22, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_2_0_e:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_sprite_chr_groups, dungeon_2_0_entity_instances, dungeon_palette, 32, 0, 45, 9, 0, 0, 0, ENTITY_DIRECTION_LEFT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_sprite_chr_groups, dungeon_2_0_entity_instances, dungeon_anglerfish_palette, 32, 0, 45, 9, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon_3_0_w:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_0_entity_instances, dungeon_palette, 48, 0, 50, 9, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_2_0_w:
-define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_sprite_chr_groups, dungeon_2_0_entity_instances, dungeon_palette, 32, 0, 34, 7, 0, 0, 0, ENTITY_DIRECTION_RIGHT
+define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_anglerfish_puzzle_sprite_chr_groups, dungeon_2_0_entity_instances, dungeon_anglerfish_palette, 32, 0, 34, 7, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon_3_0_n:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)}, area_index_dungeon, dungeon_sprite_chr_groups, dungeon_3_0_entity_instances, dungeon_palette, 48, 0, 55, 4, 0, 0, 0, ENTITY_DIRECTION_DOWN
 dungeon_3_1_s:

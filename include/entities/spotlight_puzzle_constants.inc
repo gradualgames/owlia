@@ -17,7 +17,11 @@ define_entity_properties spotlight_puzzle_initial_state,\
                          spotlight_index1,\
                          anglerfish_index0,\
                          anglerfish_index1,\
-                         spotlight_puzzle_state_counter
+                         spotlight_puzzle_state_counter,\
+                         spotlight_puzzle_key_tile_x_lo,\
+                         spotlight_puzzle_key_tile_x_hi,\
+                         spotlight_puzzle_key_tile_y_lo,\
+                         spotlight_puzzle_key_tile_y_hi
 
 .enum
 SPOTLIGHT_PUZZLE_STATE_INIT

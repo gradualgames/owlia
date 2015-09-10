@@ -129,6 +129,11 @@ found_second_anglerfish:
 done:
   .endscope
 
+  ;compute location of key tile
+  jsr compute_key_tile_location_in_map_coordinates
+
+  jsr ppu_disable_palette_cycling
+
   lda spotlight_puzzle_initial_state,x
   sta entity_state,x
 
@@ -136,20 +141,8 @@ done:
 
 spotlight_puzzle_state_single_anglerfish:
 
-  ;first check to see if the one angler fish has a non-zero
-  ;flash counter. This means it is stunned, and is one of
-  ;the conditions of this puzzle that must be satisfied
-  ldy anglerfish_index0,x
-  lda anglerfish_flash_counter,y
-  beq anglerfish_not_stunned
-
-  jsr check_spotlight_intersect_destination_key_tile
-
-anglerfish_not_stunned:
-
-  rts
-
-.proc check_spotlight_intersect_destination_key_tile
+  lda #$08
+  sta dynamic_palette+15
 
   ;check whether the single spotlight entity is
   ;intersecting the destination key tile. This
@@ -171,17 +164,14 @@ anglerfish_not_stunned:
   lda entity_height,y
   sta b3
 
-  ;compute destination key meta tile rectangle
-  jsr load_key_destination_location
-
   ;transfer destination key meta tile rectangle to w4 = left and w5 = top and b4 = width and b5 = height
-  lda w0
+  lda spotlight_puzzle_key_tile_x_lo,x
   sta w4
-  lda w0+1
+  lda spotlight_puzzle_key_tile_x_hi,x
   sta w4+1
-  lda w1
+  lda spotlight_puzzle_key_tile_y_lo,x
   sta w5
-  lda w1+1
+  lda spotlight_puzzle_key_tile_y_hi,x
   sta w5+1
   lda #$0f
   sta b4
@@ -191,6 +181,16 @@ anglerfish_not_stunned:
   jsr geotests_rect_in_rect_size
 
   bne not_intersecting
+
+  lda #$28
+  sta dynamic_palette+15
+
+  ;check to see if the one angler fish has a non-zero
+  ;flash counter. This means it is stunned, and is one of
+  ;the conditions of this puzzle that must be satisfied
+  ldy anglerfish_index0,x
+  lda anglerfish_flash_counter,y
+  beq anglerfish_not_stunned
 
   ;kill the one anglerfish (this will also kill the spotlight)
   ldy anglerfish_index0,x
@@ -206,11 +206,92 @@ anglerfish_not_stunned:
 
 not_intersecting:
 
+anglerfish_not_stunned:
+
   rts
 
-.endproc
-
 spotlight_puzzle_state_twin_anglerfish:
+
+  lda #$08
+  sta dynamic_palette+15
+
+  ;transfer spotlight rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  ldy spotlight_index0,x
+  lda entity_x_lo,y
+  sta w2
+  lda entity_x_hi,y
+  sta w2+1
+  lda entity_y_lo,y
+  sta w3
+  lda entity_y_hi,y
+  sta w3+1
+  lda entity_width,y
+  sta b2
+  lda entity_height,y
+  sta b3
+
+  ;transfer destination key meta tile rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda spotlight_puzzle_key_tile_x_lo,x
+  sta w4
+  lda spotlight_puzzle_key_tile_x_hi,x
+  sta w4+1
+  lda spotlight_puzzle_key_tile_y_lo,x
+  sta w5
+  lda spotlight_puzzle_key_tile_y_hi,x
+  sta w5+1
+  lda #$0f
+  sta b4
+  lda #$0f
+  sta b5
+
+  jsr geotests_rect_in_rect_size
+  bne spotlight0_not_intersecting
+
+  clc
+  lda dynamic_palette+15
+  adc #$10
+  sta dynamic_palette+15
+
+spotlight0_not_intersecting:
+
+  ;transfer spotlight rectangle to w2 = left and w3 = top and b2 = width and b3 = height
+  ldy spotlight_index1,x
+  lda entity_x_lo,y
+  sta w2
+  lda entity_x_hi,y
+  sta w2+1
+  lda entity_y_lo,y
+  sta w3
+  lda entity_y_hi,y
+  sta w3+1
+  lda entity_width,y
+  sta b2
+  lda entity_height,y
+  sta b3
+
+  ;transfer destination key meta tile rectangle to w4 = left and w5 = top and b4 = width and b5 = height
+  lda spotlight_puzzle_key_tile_x_lo,x
+  sta w4
+  lda spotlight_puzzle_key_tile_x_hi,x
+  sta w4+1
+  lda spotlight_puzzle_key_tile_y_lo,x
+  sta w5
+  lda spotlight_puzzle_key_tile_y_hi,x
+  sta w5+1
+  lda #$0f
+  sta b4
+  lda #$0f
+  sta b5
+
+  jsr geotests_rect_in_rect_size
+  bne spotlight1_not_intersecting
+
+  clc
+  lda dynamic_palette+15
+  adc #$10
+  sta dynamic_palette+15
+
+spotlight1_not_intersecting:
 
   ;first check to see if both angler fish have a non zero attack
   ;counter. This means they are both stunned, and is one of the
@@ -223,8 +304,27 @@ spotlight_puzzle_state_twin_anglerfish:
   lda anglerfish_flash_counter,y
   beq anglerfish_not_both_stunned
 
-  jsr check_distance_of_spotlights
+  lda dynamic_palette+15
+  cmp #$28
+  bne puzzle_not_solved
 
+  ;kill the two anglerfish (this will also kill the spotlights)
+  ldy anglerfish_index0,x
+  lda #ANGLERFISH_STATE_DIE
+  sta entity_state,y
+
+  ldy anglerfish_index1,x
+  lda #ANGLERFISH_STATE_DIE
+  sta entity_state,y
+
+  jsr spawn_key
+
+  lda #SPOTLIGHT_PUZZLE_STATE_PLAY_SOLVED_MELODY_DELAY
+  sta spotlight_puzzle_state_counter,x
+  lda #SPOTLIGHT_PUZZLE_STATE_PLAY_SOLVED_MELODY
+  sta entity_state,x
+
+puzzle_not_solved:
 anglerfish_not_both_stunned:
 
   rts
@@ -246,130 +346,6 @@ not_dead_yet:
   .endscope
 
   rts
-
-.proc check_distance_of_spotlights
-
-  ;compare the positions of the two spotlight entities by
-  ;comparing the difference of their X and Y coordinates.
-  ;if small enough, we consider them close enough for the
-  ;puzzle to be "completed." At this stage, we make both
-  ;spotlights and both angler fish passive so that they
-  ;continue shining their lights on the same spot. We spawn
-  ;a key entity for the player to retrieve with the fetch
-  ;tech.
-
-  spotlight0_x = w0
-  spotlight0_y = w1
-  spotlight1_x = w2
-  spotlight1_y = w3
-  spotlight_x_distance = w4
-  spotlight_y_distance = w5
-
-  ldy spotlight_index0,x
-  lda entity_x_lo,y
-  sta spotlight0_x
-  lda entity_x_hi,y
-  sta spotlight0_x+1
-
-  lda entity_y_lo,y
-  sta spotlight0_y
-  lda entity_y_hi,y
-  sta spotlight0_y+1
-
-  ldy spotlight_index1,x
-  lda entity_x_lo,y
-  sta spotlight1_x
-  lda entity_x_hi,y
-  sta spotlight1_x+1
-
-  lda entity_y_lo,y
-  sta spotlight1_y
-  lda entity_y_hi,y
-  sta spotlight1_y+1
-
-  .scope
-  sec
-  lda spotlight1_x
-  sbc spotlight0_x
-  sta spotlight_x_distance
-  lda spotlight1_x+1
-  sbc spotlight0_x+1
-  sta spotlight_x_distance+1
-  bpl do_not_find_abs_value
-
-  clc
-  lda spotlight_x_distance
-  eor #$ff
-  adc #$01
-  sta spotlight_x_distance
-  lda spotlight_x_distance+1
-  eor #$ff
-  adc #$00
-  sta spotlight_x_distance+1
-
-do_not_find_abs_value:
-  .endscope
-
-  .scope
-  sec
-  lda spotlight1_y
-  sbc spotlight0_y
-  sta spotlight_y_distance
-  lda spotlight1_y+1
-  sbc spotlight0_y+1
-  sta spotlight_y_distance+1
-  bpl do_not_find_abs_value
-
-  clc
-  lda spotlight_y_distance
-  eor #$ff
-  adc #$01
-  sta spotlight_y_distance
-  lda spotlight_y_distance+1
-  eor #$ff
-  adc #$00
-  sta spotlight_y_distance+1
-
-do_not_find_abs_value:
-  .endscope
-
-  sec
-  lda spotlight_x_distance
-  sbc #SPOTLIGHT_DISTANCE
-  lda spotlight_x_distance+1
-  sbc #$00
-  bpl too_far
-
-  sec
-  lda spotlight_y_distance
-  sbc #SPOTLIGHT_DISTANCE
-  lda spotlight_y_distance+1
-  sbc #$00
-  bpl too_far
-close_enough:
-
-  ;kill the two anglerfish (this will also kill the spotlights)
-  ldy anglerfish_index0,x
-  lda #ANGLERFISH_STATE_DIE
-  sta entity_state,y
-
-  ldy anglerfish_index1,x
-  lda #ANGLERFISH_STATE_DIE
-  sta entity_state,y
-
-  jsr spawn_key
-
-  lda #SPOTLIGHT_PUZZLE_STATE_PLAY_SOLVED_MELODY_DELAY
-  sta spotlight_puzzle_state_counter,x
-  lda #SPOTLIGHT_PUZZLE_STATE_PLAY_SOLVED_MELODY
-  sta entity_state,x
-
-  rts
-too_far:
-
-  rts
-
-.endproc
 
 .proc spotlight_puzzle_play_solved_melody
 
@@ -405,7 +381,15 @@ too_far:
 
 .proc spawn_key
 
-  jsr load_key_destination_location
+  lda spotlight_puzzle_key_tile_x_lo,x
+  sta w0
+  lda spotlight_puzzle_key_tile_x_hi,x
+  sta w0+1
+
+  lda spotlight_puzzle_key_tile_y_lo,x
+  sta w1
+  lda spotlight_puzzle_key_tile_y_hi,x
+  sta w1+1
 
   ;spawn a key entity where the spotlights meet
   lda #entity_index_key
@@ -427,42 +411,41 @@ too_far:
 .endproc
 
 ;transforms key destination location from meta tile coordinates
-;to map coordinates returning in w0 and w1
-.proc load_key_destination_location
+.proc compute_key_tile_location_in_map_coordinates
 
   ;load the destination location for the key
   lda spotlight_puzzle_key_meta_tile_x,x
-  sta w0
+  sta spotlight_puzzle_key_tile_x_lo,x
   lda #$00
-  sta w0+1
+  sta spotlight_puzzle_key_tile_x_hi,x
 
   lda spotlight_puzzle_key_meta_tile_y,x
-  sta w1
+  sta spotlight_puzzle_key_tile_y_lo,x
   lda #$00
-  sta w1+1
+  sta spotlight_puzzle_key_tile_y_hi,x
 
   ;transform to map coordinates for entity_spawn
-  lda w0+1
-  asl w0
+  lda spotlight_puzzle_key_tile_x_hi,x
+  asl spotlight_puzzle_key_tile_x_lo,x
   rol
-  asl w0
+  asl spotlight_puzzle_key_tile_x_lo,x
   rol
-  asl w0
+  asl spotlight_puzzle_key_tile_x_lo,x
   rol
-  asl w0
+  asl spotlight_puzzle_key_tile_x_lo,x
   rol
-  sta w0+1
+  sta spotlight_puzzle_key_tile_x_hi,x
 
-  lda w1+1
-  asl w1
+  lda spotlight_puzzle_key_tile_y_hi,x
+  asl spotlight_puzzle_key_tile_y_lo,x
   rol
-  asl w1
+  asl spotlight_puzzle_key_tile_y_lo,x
   rol
-  asl w1
+  asl spotlight_puzzle_key_tile_y_lo,x
   rol
-  asl w1
+  asl spotlight_puzzle_key_tile_y_lo,x
   rol
-  sta w1+1
+  sta spotlight_puzzle_key_tile_y_hi,x
 
   rts
 
