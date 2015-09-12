@@ -621,10 +621,11 @@ piratebay_sprite_chr_groups:
   .byte sprite_chr_group_index_dungeon_entrance_statue
 
 piratetavern_entrance1_sprite_chr_groups:
-  .byte 8   ;sprite_chr_groups .byte
+  .byte 9   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_treasure_chest
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_coins
@@ -2326,7 +2327,8 @@ piratebay_entity_instances:
   .byte entity_index_dungeon_entrance_statue, 60, 4, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 2, <60000, >60000, ^60000, buttons::_left
 
 piratetavern_entrance1_entity_instances:
-  .byte 3
+  .byte 4
+  .byte entity_index_treasure_chest, 1, 5, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_npc, 13, 4, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_hi_adlanniel, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 1, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
   .byte entity_index_npc, 5, 5, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_advice, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
   .byte entity_index_npc, 14, 8, sprite_chr_group_index_npc_commodore, NPC_PARAMS, conversation_index_if_you_want_my_submarine, NPC_GRAPHICS_SET_COMMODORE, 16 * 2, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
