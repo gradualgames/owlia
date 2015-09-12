@@ -117,6 +117,11 @@ owlia_school_of_falconry:
   .byte NL,3, "HIT A IF YES."
   .byte NL,4, "HIT B IF NOT.",CC,EIC,EP
 
+  .byte NL,1, "PRESS B TO COMMAND YOUR"
+  .byte NL,2, "OWL TO PERFORM THE TECH"
+  .byte NL,3, "SHOWN IN THE ICON BELOW"
+  .byte NL,4, "YOUR HEART METER.",WT,EP
+
   .byte NL,1, "YOUR OWL CAN SWITCH"
   .byte NL,2, "BETWEEN TWO TECHNIQUES AT"
   .byte NL,3, "A TIME.",TM,30," HIT SELECT TO"
