@@ -101,6 +101,8 @@ cancel_game:
 
 continue_with_game:
 
+  jsr shooting_gallery_make_exit_impassable
+
   jsr shooting_gallery_play_coins_sound
 
   ;we know there's enough gp, subtract the price from gp
@@ -155,22 +157,7 @@ shooting_gallery_state_main:
   ora shooting_gallery_timer_hi,x
   bne game_not_over_yet
 
-  ;kill off all targets
-  .scope
-  ldy #(MAX_ENTITIES-1)
-next_entity:
-  lda entity_type,y
-  cmp #entity_index_target
-  bne skip_entity
-
-  lda entity_flags,y
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,y
-
-skip_entity:
-  dey
-  bpl next_entity
-  .endscope
+  jsr shooting_gallery_kill_all_targets
 
   ;change NPC conversation back to intro for game
   ldy shooting_gallery_npc_index,x
@@ -182,6 +169,8 @@ skip_entity:
   cmp #SHOOTING_GALLERY_WINNING_POINTS
   bmi lose
 win:
+
+  jsr shooting_gallery_make_exit_passable
 
   ;spawn gold reward
   lda hero_x
@@ -218,6 +207,8 @@ win:
 
   jmp done
 lose:
+
+  jsr shooting_gallery_make_exit_passable
 
   ;run lose conversation
   lda #ACTION_START_CONVERSATION
@@ -502,6 +493,89 @@ done:
   sta sound_param_byte_1
 
   far_call #SOUND_BANK, stream_initialize
+
+  rts
+
+.endproc
+
+.proc shooting_gallery_make_exit_impassable
+
+  lda #<SHOOTING_GALLERY_EXIT_BLOCK1_X
+  sta w0
+  lda #>SHOOTING_GALLERY_EXIT_BLOCK1_X
+  sta w0+1
+
+  lda #<SHOOTING_GALLERY_EXIT_BLOCK1_Y
+  sta w1
+  lda #>SHOOTING_GALLERY_EXIT_BLOCK1_Y
+  sta w1+1
+
+  jsr set_dynamic_single_screen_collision_field_bit
+
+  lda #<SHOOTING_GALLERY_EXIT_BLOCK2_X
+  sta w0
+  lda #>SHOOTING_GALLERY_EXIT_BLOCK2_X
+  sta w0+1
+
+  lda #<SHOOTING_GALLERY_EXIT_BLOCK2_Y
+  sta w1
+  lda #>SHOOTING_GALLERY_EXIT_BLOCK2_Y
+  sta w1+1
+
+  jsr set_dynamic_single_screen_collision_field_bit
+
+  rts
+
+.endproc
+
+.proc shooting_gallery_make_exit_passable
+
+  lda #<SHOOTING_GALLERY_EXIT_BLOCK1_X
+  sta w0
+  lda #>SHOOTING_GALLERY_EXIT_BLOCK1_X
+  sta w0+1
+
+  lda #<SHOOTING_GALLERY_EXIT_BLOCK1_Y
+  sta w1
+  lda #>SHOOTING_GALLERY_EXIT_BLOCK1_Y
+  sta w1+1
+
+  jsr clear_dynamic_single_screen_collision_field_bit
+
+  lda #<SHOOTING_GALLERY_EXIT_BLOCK2_X
+  sta w0
+  lda #>SHOOTING_GALLERY_EXIT_BLOCK2_X
+  sta w0+1
+
+  lda #<SHOOTING_GALLERY_EXIT_BLOCK2_Y
+  sta w1
+  lda #>SHOOTING_GALLERY_EXIT_BLOCK2_Y
+  sta w1+1
+
+  jsr clear_dynamic_single_screen_collision_field_bit
+
+  rts
+
+.endproc
+
+.proc shooting_gallery_kill_all_targets
+
+  ;kill off all targets
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_type,y
+  cmp #entity_index_target
+  bne skip_entity
+
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+
+skip_entity:
+  dey
+  bpl next_entity
+  .endscope
 
   rts
 
