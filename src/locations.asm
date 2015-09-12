@@ -3373,9 +3373,9 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                       0, 0, 0, ENTITY_DIRECTION_UP
 
 mountain1_dungeon3_entrance:
-define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                                area_index_mountain1, mountain1_sprite_chr_groups, mountain1_entity_instances, mountain1_palette,\
-                               44, 33, 0, 0, 0, ENTITY_DIRECTION_DOWN
+                               0, 0, 6, 3, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 mountain1_third_cave_entrance:
 define_centered_location   LOCATION_BRIGHTNESS_LEVEL_4,\
