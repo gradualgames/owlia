@@ -6,7 +6,8 @@ OWL_SWITCH_INC = 1
 
 define_lohi_tables owl_switch, \
  {owl_switch_state_init, \
-  owl_switch_state_main}
+  owl_switch_state_main, \
+  owl_switch_state_idle}
 
 owl_switch_update:
 
@@ -75,6 +76,10 @@ action_rect2_not_deadly:
   .endscope
 
   jsr entity_update_animation
+
+  rts
+
+owl_switch_state_idle:
 
   rts
 

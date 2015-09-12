@@ -126,6 +126,27 @@ skip_entity:
   cmp #OWL_SWITCH_COLOR_PUZZLE_SOLUTION
   bne not_solved_yet
 
+  .scope
+  ;search for all owl switches and make them idle so their
+  ;color cannot change anymore
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity
+  lda entity_type,y
+  cmp #entity_index_owl_switch
+  bne skip_entity
+
+  lda #OWL_SWITCH_STATE_IDLE
+  sta entity_state,y
+
+skip_entity:
+  dey
+  bpl next_entity
+  .endscope
+
   lda #OWL_SWITCH_COLOR_PUZZLE_STATE_VICTORY_LENGTH
   sta owl_switch_color_puzzle_state_counter,x
 
