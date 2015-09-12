@@ -15,6 +15,7 @@ define_entity_properties crab_boss_pincer_state_counter,\
 CRAB_BOSS_PINCER_STATE_INIT
 CRAB_BOSS_PINCER_STATE_MAIN
 CRAB_BOSS_PINCER_STATE_PUNCH
+CRAB_BOSS_PINCER_STATE_IDLE
 .endenum
 
 .endif

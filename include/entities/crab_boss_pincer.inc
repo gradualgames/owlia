@@ -7,7 +7,8 @@ CRAB_BOSS_PINCER_INC = 1
 .define crab_boss_pincer_states \
   crab_boss_pincer_state_init, \
   crab_boss_pincer_state_main, \
-  crab_boss_pincer_state_punch
+  crab_boss_pincer_state_punch, \
+  crab_boss_pincer_state_idle
 
 ;lut using animation frame to index, so every other entry is 0
 crab_boss_pincer_height:
@@ -116,6 +117,10 @@ do_not_transition_yet:
   .endscope
 
   jsr entity_update_animation
+
+  rts
+
+crab_boss_pincer_state_idle:
 
   rts
 

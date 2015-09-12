@@ -451,6 +451,14 @@ dead:
 
   jsr entity_spawn
 
+  ldy crab_boss_body_pincer0,x
+  lda #CRAB_BOSS_PINCER_STATE_IDLE
+  sta entity_state,y
+
+  ldy crab_boss_body_pincer1,x
+  lda #CRAB_BOSS_PINCER_STATE_IDLE
+  sta entity_state,y
+
   ldy spawned_entity
   lda #31
   sta entity_width,y
