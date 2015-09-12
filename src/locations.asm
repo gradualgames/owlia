@@ -932,7 +932,7 @@ dungeon_1_1_entity_instances:
 
 dungeon_2_1_entity_instances:
   .byte 5
-  .byte entity_index_pufferfish, 39, 23, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_pufferfish, 42, 23, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_pufferfish, 39, 25, sprite_chr_group_index_pufferfish, 0
   .byte entity_index_monolith, 33, 23, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, 0, \

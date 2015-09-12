@@ -397,6 +397,7 @@ do_not_turn_pufferfish:
   lda pufferfish_turnleft_direction,y
   sta pufferfish_direction,x
 
+  jsr next_rand
   lda rand
   sta pufferfish_random_turnleft_counter,x
 
@@ -412,6 +413,7 @@ do_not_turn_pufferfish:
   sta pufferfish_direction,x
 
   ;select random number with an offset
+  jsr next_rand
   clc
   lda rand
   adc #128
