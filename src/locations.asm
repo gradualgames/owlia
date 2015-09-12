@@ -1030,10 +1030,9 @@ dungeon_3_2_entity_instances:
 
 
 dungeon_0_3_entity_instances:
-  .byte 6
-  .byte entity_index_treasure_chest, 3, 51, 0, TREASURE_CHEST_PARAMS, DUNGEON1_DUNGEON_FLAGS_TREASURE_CHEST1_OBTAINED, TREASURE_CHEST_MODE_DUNGEON, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
-  .byte entity_index_pufferfish, 11, 52, sprite_chr_group_index_pufferfish, 0
-  .byte entity_index_crab, 12, 52, sprite_chr_group_index_crab, 0
+  .byte 5
+  .byte entity_index_pufferfish, 2, 53, sprite_chr_group_index_pufferfish, 0
+  .byte entity_index_crab, 11, 53, sprite_chr_group_index_crab, 0
   .byte entity_index_monolith, 7, 49, 0, MONOLITH_PARAMS, \
                                           MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET, 0, \
                                           MONOLITH_DIRECTION_NORTH, \
