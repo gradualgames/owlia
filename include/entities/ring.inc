@@ -7,7 +7,12 @@ RING_GAME_TRIES = 15
 RING_FAMILIAR_X_OFFSET = 0
 RING_FAMILIAR_Y_OFFSET = 16
 RING_TRIES_DISPLAY_X = 55 * 16 + 8
-RING_TRIES_DISPLAY_Y = 4 * 16
+RING_TRIES_DISPLAY_Y = 3 * 16
+
+RING_EXIT_BLOCK1_X = 55 * 16
+RING_EXIT_BLOCK1_Y = 13 * 16
+RING_EXIT_BLOCK2_X = 56 * 16
+RING_EXIT_BLOCK2_Y = 13 * 16
 
 RING_BOTTLE_REWARD = 1000
 
@@ -181,6 +186,8 @@ cancel_game:
 
 continue_with_game:
 
+  jsr ring_make_exit_impassable
+
   jsr ring_game_play_coins_sound
 
   ;we know there's enough gp, subtract the price from gp
@@ -232,6 +239,8 @@ ring_state_wait_until_fetched:
   .scope
   lda ring_tries,x
   bne tries_remaining
+
+  jsr ring_make_exit_passable
 
   ;reset all bottles to having no rings on them
   .scope
@@ -643,6 +652,8 @@ ring_state_pause_before_becoming_a_new_ring:
   sta ring_tries,x
   jsr ring_reinitialize_number_display
 
+  jsr ring_make_exit_passable
+
   ;change the npc conversation to congratulations since the game is
   ;over and you can pick up the gold
   ldy ring_npc_index,x
@@ -904,6 +915,66 @@ skip_entity:
   sta number_value_hi_hi,y
   lda #NUMBER_STATE_INIT
   sta entity_state,y
+  rts
+
+.endproc
+
+.proc ring_make_exit_impassable
+
+  lda #<RING_EXIT_BLOCK1_X
+  sta w0
+  lda #>RING_EXIT_BLOCK1_X
+  sta w0+1
+
+  lda #<RING_EXIT_BLOCK1_Y
+  sta w1
+  lda #>RING_EXIT_BLOCK1_Y
+  sta w1+1
+
+  jsr set_dynamic_single_screen_collision_field_bit
+
+  lda #<RING_EXIT_BLOCK2_X
+  sta w0
+  lda #>RING_EXIT_BLOCK2_X
+  sta w0+1
+
+  lda #<RING_EXIT_BLOCK2_Y
+  sta w1
+  lda #>RING_EXIT_BLOCK2_Y
+  sta w1+1
+
+  jsr set_dynamic_single_screen_collision_field_bit
+
+  rts
+
+.endproc
+
+.proc ring_make_exit_passable
+
+  lda #<RING_EXIT_BLOCK1_X
+  sta w0
+  lda #>RING_EXIT_BLOCK1_X
+  sta w0+1
+
+  lda #<RING_EXIT_BLOCK1_Y
+  sta w1
+  lda #>RING_EXIT_BLOCK1_Y
+  sta w1+1
+
+  jsr clear_dynamic_single_screen_collision_field_bit
+
+  lda #<RING_EXIT_BLOCK2_X
+  sta w0
+  lda #>RING_EXIT_BLOCK2_X
+  sta w0+1
+
+  lda #<RING_EXIT_BLOCK2_Y
+  sta w1
+  lda #>RING_EXIT_BLOCK2_Y
+  sta w1+1
+
+  jsr clear_dynamic_single_screen_collision_field_bit
+
   rts
 
 .endproc

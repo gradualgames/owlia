@@ -2338,14 +2338,14 @@ pirateshootinggallery_entity_instances:
 
 piratetavern_entrance2_entity_instances:
   .byte 8
-  .byte entity_index_bottle, 55, 7, 0, BOTTLE_PARAMS, 8
-  .byte entity_index_bottle, 55, 6, 0, BOTTLE_PARAMS, 0
-  .byte entity_index_bottle, 56, 6, 0, BOTTLE_PARAMS, 0
-  .byte entity_index_bottle, 54, 5, 0, BOTTLE_PARAMS, 8
-  .byte entity_index_bottle, 55, 5, 0, BOTTLE_PARAMS, 8
-  .byte entity_index_bottle, 56, 5, 0, BOTTLE_PARAMS, 8
-  .byte entity_index_ring, 54, 3, 0, 0
-  .byte entity_index_npc, 52, 10, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_ring_game_intro, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
+  .byte entity_index_bottle, 55, 6, 0, BOTTLE_PARAMS, 8
+  .byte entity_index_bottle, 55, 5, 0, BOTTLE_PARAMS, 0
+  .byte entity_index_bottle, 56, 5, 0, BOTTLE_PARAMS, 0
+  .byte entity_index_bottle, 54, 4, 0, BOTTLE_PARAMS, 8
+  .byte entity_index_bottle, 55, 4, 0, BOTTLE_PARAMS, 8
+  .byte entity_index_bottle, 56, 4, 0, BOTTLE_PARAMS, 8
+  .byte entity_index_ring, 54, 2, 0, 0
+  .byte entity_index_npc, 52, 8, sprite_chr_group_index_npc_bosun, NPC_PARAMS, conversation_index_ring_game_intro, NPC_GRAPHICS_SET_BOSUN, 16 * 2, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_DOWN
 
 submarine_entity_instances:
   .byte 3
@@ -3639,9 +3639,9 @@ define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 
 piratetavern_entrance2:
-define_location   LOCATION_BRIGHTNESS_LEVEL_4,\
+define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
                   area_index_piratetavern, piratetavern_entrance2_sprite_chr_groups, piratetavern_entrance2_entity_instances, piratetavern_entrance2_palette,\
-                  48, 8, 55, 14,\
+                  48, 0, 55, 12,\
                   sfx_door, 3, soundeffect_one, ENTITY_DIRECTION_UP
 
 pirateshootinggallery_entrance1:
