@@ -511,7 +511,9 @@ familiar_already_fetching_another_item:
 ;informs the familiar that it hit an enemy.
 .proc familiar_hit_enemy
 
-  ;home back in to the hero
+  lda entity_action_rect2_from
+  cmp #ENTITY_ACTION_FROM_FAMILIAR
+  bne do_not_home_in_to_hero
   lda familiar_state
   cmp #FAMILIAR_STATE_SHIELD
   beq do_not_home_in_to_hero
