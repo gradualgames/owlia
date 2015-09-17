@@ -2,52 +2,7 @@
 .ifndef JELLYFISH_INC
 JELLYFISH_INC = 1
 
-JELLYFISH_WIDTH = $0f
-JELLYFISH_HEIGHT = $0f
-
-JELLYFISH_INITIAL_HEALTH = 3
-
-JELLYFISH_INITIAL_Y_OFFSET = 40
-
-JELLYFISH_OFFSET_MIDPOINT = 35
-
-JELLYFISH_UNDULATION_ACCELERATION = 5
-
-JELLYFISH_ATTACKED_LENGTH = 30
-
-JELLYFISH_KNOCKBACK_LENGTH = 30
-
-JELLYFISH_FOLLOW_X_OFFSET = 0
-JELLYFISH_FOLLOW_Y_OFFSET = 32
-
-;supply new set of x and y coordinates, because
-;we compute the coordinates of the jellyfish as
-;floating above this point.
-define_entity_properties jellyfish_x_lo,\
-                         jellyfish_x_hi,\
-                         jellyfish_x_fine,\
-                         jellyfish_y_lo,\
-                         jellyfish_y_hi,\
-                         jellyfish_y_fine,\
-                         jellyfish_x_velocity_lo,\
-                         jellyfish_x_velocity_hi,\
-                         jellyfish_y_velocity_lo,\
-                         jellyfish_y_velocity_hi,\
-                         jellyfish_y_offset_lo,\
-                         jellyfish_y_offset_hi,\
-                         jellyfish_y_offset_fine,\
-                         jellyfish_y_offset_velocity_lo,\
-                         jellyfish_y_offset_velocity_hi,\
-                         jellyfish_direction,\
-                         jellyfish_health,\
-                         jellyfish_knockback_counter,\
-                         jellyfish_flash_counter,\
-                         jellyfish_frame_counter
-
-.enum
-JELLYFISH_STATE_INIT
-JELLYFISH_STATE_MAIN
-.endenum
+.include "jellyfish_constants.inc"
 
 .define jellyfish_states \
   jellyfish_state_init, \
@@ -143,45 +98,6 @@ jellyfish_state_init:
   rts
 
 jellyfish_state_main:
-
-  ;count unpaused other jellyfish and kill self if there are more than 2 others
-  .scope
-  lda #0
-  sta b0
-  ldy #(MAX_ENTITIES-1)
-next_entity:
-  lda entity_flags,y
-  and #ENTITY_FLAGS_ALIVE_TEST
-  beq skip_entity
-  lda entity_flags,y
-  and #ENTITY_FLAGS_PAUSED_TEST
-  bne skip_entity
-  lda entity_type,y
-  cmp #entity_index_jellyfish
-  bne skip_entity
-  tya
-  sta b1
-  txa
-  cmp b1
-  beq skip_entity
-
-  inc b0
-
-skip_entity:
-  dey
-  bpl next_entity
-
-  lda b0
-  cmp #3
-  bmi do_not_die
-
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
-
-  rts
-do_not_die:
-  .endscope
 
   entity_combat #JELLYFISH_ATTACKED_LENGTH, #JELLYFISH_KNOCKBACK_LENGTH, jellyfish_flash_counter, jellyfish_knockback_counter, jellyfish_health, jellyfish_direction, "entity_drop_random_item", "entity_spawn_explosion"
 

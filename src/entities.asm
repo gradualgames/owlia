@@ -65,6 +65,7 @@
   dungeon_entrance_statue_update, \
   eel_update, \
   jellyfish_update, \
+  jellyfish_monitor_update, \
   urchin_update, \
   ice_shards_explosion_update, \
   bombable_wall_update, \
@@ -141,6 +142,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_dungeon_entrance_statue
   .byte entity_update_bank_eel
   .byte entity_update_bank_jellyfish
+  .byte entity_update_bank_jellyfish_monitor
   .byte entity_update_bank_urchin
   .byte entity_update_bank_ice_shards_explosion
   .byte entity_update_bank_bombable_wall
@@ -212,6 +214,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_dungeon_entrance_statue
   .byte entity_sprites_and_animations_bank_eel
   .byte entity_sprites_and_animations_bank_jellyfish
+  .byte 0 ;entity_sprites_and_animations_bank_jellyfish_monitor
   .byte entity_sprites_and_animations_bank_urchin
   .byte entity_sprites_and_animations_bank_ice_shards_explosion
   .byte 0 ;entity_sprites_and_animations_bank_bombable_wall
@@ -284,6 +287,7 @@ entity_defs_sprites_and_animations_bank:
 .include "eel.inc"
 .segment "ROM05"
 .include "jellyfish.inc"
+.include "jellyfish_monitor.inc"
 .include "urchin.inc"
 .include "ice_shards_explosion.inc"
 .include "bombable_wall.inc"

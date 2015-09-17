@@ -40,6 +40,7 @@ entity_index_monolith
 entity_index_dungeon_entrance_statue
 entity_index_eel
 entity_index_jellyfish
+entity_index_jellyfish_monitor
 entity_index_urchin
 entity_index_ice_shards_explosion
 entity_index_bombable_wall
@@ -111,6 +112,7 @@ entity_update_bank_monolith = 4
 entity_update_bank_dungeon_entrance_statue = 4
 entity_update_bank_eel = 4
 entity_update_bank_jellyfish = 5
+entity_update_bank_jellyfish_monitor = 5
 entity_update_bank_urchin = 5
 entity_update_bank_ice_shards_explosion = 5
 entity_update_bank_bombable_wall = 5
@@ -181,6 +183,7 @@ entity_sprites_and_animations_bank_cage = 7
 entity_sprites_and_animations_bank_dungeon_entrance_statue = 7
 entity_sprites_and_animations_bank_eel = 7
 entity_sprites_and_animations_bank_jellyfish = 7
+;entity_sprites_and_animations_bank_jellyfish ;this entity has no graphics
 entity_sprites_and_animations_bank_urchin = 7
 entity_sprites_and_animations_bank_ice_shards_explosion = 7
 ;entity_sprites_and_animations_bank_bombable_wall ;this entity has no graphics
