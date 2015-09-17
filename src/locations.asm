@@ -2511,10 +2511,10 @@ dungeon5_0_1_entity_instances:
 dungeon5_1_1_entity_instances:
   .byte 9
   .byte entity_index_traproom, 0, 0, 0, 0
-  .byte entity_index_jellyfish, 20, 21, 0, 0
-  .byte entity_index_jellyfish, 29, 21, 0, 0
-  .byte entity_index_jellyfish, 20, 26, 0, 0
-  .byte entity_index_jellyfish, 29, 26, 0, 0
+  .byte entity_index_jellyfish, 18, 18, 0, 0
+  .byte entity_index_jellyfish, 29, 18, 0, 0
+  .byte entity_index_jellyfish, 18, 27, 0, 0
+  .byte entity_index_jellyfish, 29, 27, 0, 0
   .byte entity_index_monolith, 24, 20, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET,\
                                          0,\
@@ -2614,8 +2614,8 @@ dungeon5_1_2_entity_instances:
   .byte entity_index_traproom, 0, 0, 0, 0
   .byte entity_index_crab, 26, 40, 0, 0
   .byte entity_index_crab, 20, 40, 0, 0
-  .byte entity_index_jellyfish, 20, 36, 0, 0
-  .byte entity_index_octopus, 27, 36, 0, 0
+  .byte entity_index_jellyfish, 18, 33, 0, 0
+  .byte entity_index_jellyfish, 29, 33, 0, 0
   .byte entity_index_monolith, 24, 35, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_LOCKED | MONOLITH_FLAGS_SHAKE_SCREEN_SET,\
                                          0,\
