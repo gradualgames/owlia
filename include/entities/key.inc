@@ -72,7 +72,7 @@ do_not_skip:
 key_state_pickup:
 
   .scope
-  jsr entity_test_hero_rect
+  jsr entity_test_hero_item_pickup_rect
   bne entity_not_hitting_hero
 
   jsr inventory_can_add_key

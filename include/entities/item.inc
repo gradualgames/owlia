@@ -538,7 +538,7 @@ exceeded_max:
 .proc item_test_hero_and_familiar
 
   .scope
-  jsr entity_test_hero_rect
+  jsr entity_test_hero_item_pickup_rect
   bne not_touching_hero
 
   lda inventory_dungeon_flags
