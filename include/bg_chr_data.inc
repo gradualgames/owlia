@@ -50,5 +50,6 @@ BG_CHR_DATA_BANK5 = 26
 .global intro_cut_scene_mermon_leer_bg_chr
 .global intro_cut_scene_silmaran_bg_chr
 .global end_cut_scene_slide1_chr
+.global end_cut_scene_slide2_chr
 
 .endif

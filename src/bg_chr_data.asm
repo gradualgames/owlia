@@ -138,3 +138,6 @@ dungeon5_main_chr:
 
 end_cut_scene_slide1_chr:
 .incbin "end_cut_scene_slide1.chr"
+
+end_cut_scene_slide2_chr:
+.incbin "end_cut_scene_slide2.chr"

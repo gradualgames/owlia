@@ -66,7 +66,8 @@
   mermon_chr, \
   mermon_head_chr, \
   fortress_chr, \
-  end_cut_scene_slide1_spr_chr
+  end_cut_scene_slide1_spr_chr, \
+  end_cut_scene_slide2_spr_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -137,6 +138,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_mermon_head
   .byte sprite_chr_group_bank_fortress
   .byte sprite_chr_group_bank_end_cut_scene_slide1
+  .byte sprite_chr_group_bank_end_cut_scene_slide2
 
 .segment "ROM08"
 
@@ -334,3 +336,6 @@ fortress_chr:
 
 end_cut_scene_slide1_spr_chr:
 .incbin "end_cut_scene_slide1_spr.chr"
+
+end_cut_scene_slide2_spr_chr:
+.incbin "end_cut_scene_slide2_spr.chr"
