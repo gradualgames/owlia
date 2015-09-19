@@ -192,6 +192,9 @@ spotlight_puzzle_state_single_anglerfish:
   lda anglerfish_flash_counter,y
   beq anglerfish_not_stunned
 
+  lda #$08
+  sta dynamic_palette+15
+
   ;kill the one anglerfish (this will also kill the spotlight)
   ldy anglerfish_index0,x
   lda #ANGLERFISH_STATE_DIE
@@ -307,6 +310,9 @@ spotlight1_not_intersecting:
   lda dynamic_palette+15
   cmp #$28
   bne puzzle_not_solved
+
+  lda #$08
+  sta dynamic_palette+15
 
   ;kill the two anglerfish (this will also kill the spotlights)
   ldy anglerfish_index0,x
