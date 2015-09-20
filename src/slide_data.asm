@@ -48,6 +48,10 @@ end_cut_scene_slide4_palette:
   .byte $0e,$08,$28,$20,$0e,$18,$28,$20,$0e,$08,$18,$28,$0e,$28,$10,$20
   .byte $0e,$07,$17,$26,$0e,$0a,$19,$37,$0e,$16,$12,$21,$0e,$0e,$0e,$0e
 
+end_cut_scene_text_palette:
+  .byte $0e,$08,$28,$20,$0e,$18,$28,$20,$0e,$08,$18,$28,$0e,$28,$10,$20
+  .byte $0e,$07,$17,$26,$0e,$0a,$19,$37,$0e,$16,$12,$21,$0e,$0e,$0e,$0e
+
 ;NOTE! These slides must be contiguous in ROM. Supporting arrays such as
 ;sprite chr sets and sprite overlays must be defined outside the slides.
 intro_cut_scene_great_owls:
@@ -146,18 +150,18 @@ intro_cut_scene_slide4_sprite_overlays:
   .word intro_cut_scene_mermon_leer_spr_overlay1
   .byte 0, 0
 
-end_cut_scene_slide5:
+end_cut_scene_thanks_for_playing:
   .byte SLIDE_TYPE_STRINGS_ONLY
   .byte 0                                              ; bg_chr_bank .byte
   .word 0                                              ; bg_chr_address .word
   .byte 0                                              ; nametable_bank .byte
   .word 0                                              ; nametable_address .word
-  .word end_cut_scene_slide4_palette                   ; palette_address .word
+  .word end_cut_scene_text_palette                     ; palette_address .word
   .byte 0                                              ; conversation_index .byte
   .byte 255                                            ; slide_length .byte
   .word 0                                              ; sprite_chr_sets_address .word
   .word 0                                              ; sprite_overlays_address .word
-  .word end_cut_scene_slide5_strings                   ; strings_address .word
+  .word end_cut_scene_thanks_for_playing_strings       ; strings_address .word
   .word ending_theme                                   ; song_address .word
 
 end_cut_scene_slide1:
@@ -172,6 +176,20 @@ end_cut_scene_slide1:
   .word end_cut_scene_slide1_sprite_chr_sets           ; sprite_chr_sets_address .word
   .word end_cut_scene_slide1_sprite_overlays           ; sprite_overlays_address .word
   .word 0                                              ; strings_address .word
+  .word 0                                              ; song_address .word
+
+end_cut_scene_derek_andrews:
+  .byte SLIDE_TYPE_STRINGS_ONLY
+  .byte 0                                              ; bg_chr_bank .byte
+  .word 0                                              ; bg_chr_address .word
+  .byte 0                                              ; nametable_bank .byte
+  .word 0                                              ; nametable_address .word
+  .word end_cut_scene_text_palette                     ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .byte 255                                            ; slide_length .byte
+  .word 0                                              ; sprite_chr_sets_address .word
+  .word 0                                              ; sprite_overlays_address .word
+  .word end_cut_scene_derek_andrews_strings            ; strings_address .word
   .word 0                                              ; song_address .word
 
 end_cut_scene_slide2:
@@ -253,7 +271,7 @@ end_cut_scene_slide4_sprite_overlays:
   .byte 23
   .word end_cut_scene_slide4_sprite_overlay0
 
-end_cut_scene_slide5_strings:
+end_cut_scene_thanks_for_playing_strings:
   .byte 3
   .byte 12, 5
   .word thank_you_for_playing_string
@@ -270,3 +288,21 @@ the_legends_of_owlia_string:
 
 by_gradual_games_string:
   .byte "BY GRADUAL GAMES",ES
+
+end_cut_scene_derek_andrews_strings:
+  .byte 3
+  .byte 12, 5
+  .word design_programming_string
+  .byte 14, 8
+  .word and_music_string
+  .byte 16, 8
+  .word derek_andrews_string
+
+design_programming_string:
+  .byte "DESIGN, PROGRAMMING",ES
+
+and_music_string:
+  .byte "AND MUSIC BY",ES
+
+derek_andrews_string:
+  .byte "DEREK ANDREWS",ES
