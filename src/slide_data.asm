@@ -248,6 +248,20 @@ end_cut_scene_testers:
   .word end_cut_scene_testers_strings                  ; strings_address .word
   .word 0                                              ; song_address .word
 
+end_cut_scene_produced_by:
+  .byte SLIDE_TYPE_STRINGS_ONLY
+  .byte 0                                              ; bg_chr_bank .byte
+  .word 0                                              ; bg_chr_address .word
+  .byte 0                                              ; nametable_bank .byte
+  .word 0                                              ; nametable_address .word
+  .word end_cut_scene_text_palette                     ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .byte 255                                            ; slide_length .byte
+  .word 0                                              ; sprite_chr_sets_address .word
+  .word 0                                              ; sprite_overlays_address .word
+  .word end_cut_scene_produced_by_strings              ; strings_address .word
+  .word 0                                              ; song_address .word
+
 end_cut_scene_slide4:
   .byte SLIDE_TYPE_IMAGE_ONLY
   .byte 26                                             ; bg_chr_bank .byte
@@ -385,3 +399,16 @@ bradley_bateman_string:
 
 john_white_string:
   .byte "JOHN WHITE",ES
+
+end_cut_scene_produced_by_strings:
+  .byte 2
+  .byte 12,6
+  .word produced_by_string
+  .byte 14,6
+  .word infinite_nes_lives_string
+
+produced_by_string:
+  .byte "PRODUCED BY",ES
+
+infinite_nes_lives_string:
+  .byte "INFINITE NES LIVES",ES
