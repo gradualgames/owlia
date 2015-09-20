@@ -72,4 +72,5 @@
 .include "end_cut_scene_slide1_sprites_and_animations.inc"
 .include "end_cut_scene_slide2_sprites_and_animations.inc"
 .include "end_cut_scene_slide3_sprites_and_animations.inc"
+.include "end_cut_scene_slide4_sprites_and_animations.inc"
 .include "digit_sprites_and_animations.inc"

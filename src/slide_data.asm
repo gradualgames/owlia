@@ -41,6 +41,10 @@ end_cut_scene_slide3_palette:
   .byte $0e,$26,$36,$37,$0e,$07,$17,$20,$0e,$18,$38,$20,$0e,$0e,$0e,$0e
   .byte $0e,$0e,$06,$20,$0e,$07,$06,$0c,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
 
+end_cut_scene_slide4_palette:
+  .byte $0e,$08,$28,$20,$0e,$18,$28,$20,$0e,$08,$18,$28,$0e,$28,$10,$20
+  .byte $0e,$07,$17,$26,$0e,$0a,$19,$37,$0e,$16,$12,$21,$0e,$0e,$0e,$0e
+
 ;NOTE! These slides must be contiguous in ROM. Supporting arrays such as
 ;sprite chr sets and sprite overlays must be defined outside the slides.
 intro_cut_scene_great_owls:
@@ -168,9 +172,22 @@ end_cut_scene_slide3:
   .word end_cut_scene_slide3_nametable                 ; nametable_address .word
   .word end_cut_scene_slide3_palette                   ; palette_address .word
   .byte 0                                              ; conversation_index .byte
-  .byte SLIDE_LENGTH_INFINITE                          ; slide_length .byte
+  .byte 255                                            ; slide_length .byte
   .word end_cut_scene_slide3_sprite_chr_sets           ; sprite_chr_sets_address .word
   .word end_cut_scene_slide3_sprite_overlays           ; sprite_overlays_address .word
+  .word 0                                              ; song_address .word
+
+end_cut_scene_slide4:
+  .byte SLIDE_TYPE_IMAGE_ONLY
+  .byte 26                                             ; bg_chr_bank .byte
+  .word end_cut_scene_slide4_chr                       ; bg_chr_address .word
+  .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
+  .word end_cut_scene_slide4_nametable                 ; nametable_address .word
+  .word end_cut_scene_slide4_palette                   ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .byte SLIDE_LENGTH_INFINITE                          ; slide_length .byte
+  .word end_cut_scene_slide4_sprite_chr_sets           ; sprite_chr_sets_address .word
+  .word end_cut_scene_slide4_sprite_overlays           ; sprite_overlays_address .word
   .word 0                                              ; song_address .word
   .byte LAST_SLIDE
 
@@ -200,3 +217,12 @@ end_cut_scene_slide3_sprite_overlays:
   .byte 1
   .byte 23
   .word end_cut_scene_slide3_sprite_overlay0
+
+end_cut_scene_slide4_sprite_chr_sets:
+  .byte 1
+  .byte sprite_chr_group_index_end_cut_scene_slide4
+
+end_cut_scene_slide4_sprite_overlays:
+  .byte 1
+  .byte 23
+  .word end_cut_scene_slide4_sprite_overlay0

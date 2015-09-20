@@ -73,6 +73,7 @@ sprite_chr_group_index_fortress
 sprite_chr_group_index_end_cut_scene_slide1
 sprite_chr_group_index_end_cut_scene_slide2
 sprite_chr_group_index_end_cut_scene_slide3
+sprite_chr_group_index_end_cut_scene_slide4
 .endenum
 
 sprite_chr_group_bank_intro_cut_scene_great_owls = 8
@@ -140,5 +141,6 @@ sprite_chr_group_bank_fortress = 24
 sprite_chr_group_bank_end_cut_scene_slide1 = 24
 sprite_chr_group_bank_end_cut_scene_slide2 = 24
 sprite_chr_group_bank_end_cut_scene_slide3 = 24
+sprite_chr_group_bank_end_cut_scene_slide4 = 24
 
 .endif
