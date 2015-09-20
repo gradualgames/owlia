@@ -1516,14 +1516,22 @@ attack_not_done:
   dec hero_invincibility_counter
 
   lda hero_invincibility_counter
-  and #%00000001
-  beq do_not_flip_drawable_bit
+  and #%00000010
+  beq drawable
+not_drawable:
 
   lda hero_flags
-  eor #HERO_FLAGS_DRAWABLE_SET
+  and #HERO_FLAGS_DRAWABLE_CLEAR
   sta hero_flags
 
-do_not_flip_drawable_bit:
+  jmp done
+drawable:
+
+  lda hero_flags
+  ora #HERO_FLAGS_DRAWABLE_SET
+  sta hero_flags
+
+done:
 hero_not_invincible:
   .endscope
 

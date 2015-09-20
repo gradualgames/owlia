@@ -1691,6 +1691,11 @@ monolith_not_up:
 SCROLL_SPEED = 4
 scroll_counter = b10
 
+  ;make sure hero is drawable
+  lda hero_flags
+  ora #HERO_FLAGS_DRAWABLE_SET
+  sta hero_flags
+
   ;save old scrolling enable flags
   lda camera_x_scrolling_enabled
   pha
