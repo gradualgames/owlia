@@ -24,6 +24,9 @@
 
 play_cut_scene:
 
+  lda #TEXTBOX_NO_RESULT
+  sta textbox_result
+
   far_call #CUT_SCENE_STATE_BANK, load_blank_map
 
   set_controller_routine controller_read
