@@ -1100,6 +1100,12 @@ attack_rect_offset_y_lo:
 attack_rect_offset_y_hi:
   .byte 0, 0, 0, $ff
 
+attack_rect_width:
+  .byte 15, 15, 15, 15
+
+attack_rect_height:
+  .byte 15, 15, 15, 31
+
 hero_update:
 
   lda hero_state
@@ -1465,8 +1471,9 @@ hero_state_attack:
   adc hero_y+1
   sta entity_action_rect1_y+1
 
-  lda #16
+  lda attack_rect_width,y
   sta entity_action_rect1_width
+  lda attack_rect_height,y
   sta entity_action_rect1_height
 
   jsr hero_update_animation
