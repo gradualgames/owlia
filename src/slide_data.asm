@@ -492,7 +492,7 @@ nintendulator_string:
   .byte "NINTENDULATOR",ES
 
 end_cut_scene_thanks_to_strings:
-  .byte 6
+  .byte 8
   .byte 12,11
   .word thanks_to_string
   .byte 14,11
@@ -507,6 +507,10 @@ end_cut_scene_thanks_to_strings:
   .word nesdev_string
   .byte 19,11
   .word nintendoage_string
+  .byte 20,11
+  .word thefox_string
+  .byte 21,11
+  .word brian_parker_string
 
 thanks_to_string:
   .byte "THANKS TO",ES
@@ -528,3 +532,9 @@ nesdev_string:
 
 nintendoage_string:
   .byte "NINTENDOAGE",ES
+
+thefox_string:
+  .byte "THEFOX",ES
+
+brian_parker_string:
+  .byte "BRIAN PARKER",ES
