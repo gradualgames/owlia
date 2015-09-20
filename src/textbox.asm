@@ -148,8 +148,6 @@ string_address = w0
   set_ppu_2006_abs b0, b1, b2
   upload_ppu_2006
 
-  ndxDebugBreak
-
   ldy #0
 : lda (string_address),y
   cmp #ES

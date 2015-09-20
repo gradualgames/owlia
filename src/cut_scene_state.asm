@@ -287,7 +287,9 @@ load_sprite_overlay:
 .endproc
 
 .proc load_strings
-strings_address = w1
+string_count = b10
+string_offset = b11
+strings_address = w11
 
   ldy #slide::strings_address
   far_load #SLIDE_DATA_BANK, w10, w10+1
@@ -303,12 +305,16 @@ strings_address = w1
   sta chr_group_offset
 
   ;load string count
-  ldy #0
+  lda #0
+  sta string_offset
+  ldy string_offset
   far_load #SLIDE_DATA_BANK, strings_address, strings_address+1
   lda far_load_result
-  sta b10
+  sta string_count
+  ndxDebugBreak
 next_string:
 
+  ldy string_offset
   ;load row
   iny
   far_load #SLIDE_DATA_BANK, strings_address, strings_address+1
@@ -335,9 +341,11 @@ next_string:
   lda #$20
   sta b0
 
+  sty string_offset
+
   far_call #SLIDE_DATA_BANK, print_string_impl
 
-  dec b10
+  dec string_count
   bne next_string
   .endscope
 
