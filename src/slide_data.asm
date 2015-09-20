@@ -6,7 +6,6 @@
 .include "nametable_data.inc"
 .include "sprites_and_animations_data.inc"
 .include "music_data.inc"
-.include "charmap.inc"
 .include "textbox.inc"
 
 .segment "CODE"
@@ -262,6 +261,20 @@ end_cut_scene_produced_by:
   .word end_cut_scene_produced_by_strings              ; strings_address .word
   .word 0                                              ; song_address .word
 
+end_cut_scene_tools:
+  .byte SLIDE_TYPE_STRINGS_ONLY
+  .byte 0                                              ; bg_chr_bank .byte
+  .word 0                                              ; bg_chr_address .word
+  .byte 0                                              ; nametable_bank .byte
+  .word 0                                              ; nametable_address .word
+  .word end_cut_scene_text_palette                     ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .byte 255                                            ; slide_length .byte
+  .word 0                                              ; sprite_chr_sets_address .word
+  .word 0                                              ; sprite_overlays_address .word
+  .word end_cut_scene_tools_strings              ; strings_address .word
+  .word 0                                              ; song_address .word
+
 end_cut_scene_slide4:
   .byte SLIDE_TYPE_IMAGE_ONLY
   .byte 26                                             ; bg_chr_bank .byte
@@ -312,6 +325,8 @@ end_cut_scene_slide4_sprite_overlays:
   .byte 1
   .byte 23
   .word end_cut_scene_slide4_sprite_overlay0
+
+.include "charmap_password.inc"
 
 end_cut_scene_thanks_for_playing_strings:
   .byte 3
@@ -412,3 +427,52 @@ produced_by_string:
 
 infinite_nes_lives_string:
   .byte "INFINITE NES LIVES",ES
+
+end_cut_scene_tools_strings:
+  .byte 9
+  .byte 12,6
+  .word tools_string
+  .byte 14,6
+  .word ca65_string
+  .byte 15,6
+  .word notepad_plus_plus_string
+  .byte 16,6
+  .word paint_dot_net_string
+  .byte 17,6
+  .word python_string
+  .byte 18,6
+  .word famitracker_string
+  .byte 19,6
+  .word fceux_string
+  .byte 20,6
+  .word nestopia_string
+  .byte 21,6
+  .word nintendulator_string
+  .byte 22,6
+
+tools_string:
+  .byte "TOOLS",ES
+
+ca65_string:
+  .byte "CA65",ES
+
+notepad_plus_plus_string:
+  .byte "NOTEPAD PLUS PLUS",ES
+
+paint_dot_net_string:
+  .byte "PAINT.NET",ES
+
+python_string:
+  .byte "PYTHON",ES
+
+famitracker_string:
+  .byte "FAMITRACKER",ES
+
+fceux_string:
+  .byte "FCEUX",ES
+
+nestopia_string:
+  .byte "NESTOPIA",ES
+
+nintendulator_string:
+  .byte "NINTENDULATOR",ES

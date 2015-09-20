@@ -18,6 +18,7 @@
 .include "sprite_chr_data.inc"
 .include "soundengine.inc"
 .include "music_data.inc"
+.include "charmap_password.inc"
 
 .segment "CODE"
 
@@ -124,6 +125,51 @@ exit_cut_scene_state:
   sta map_address
   lda #>blank_map
   sta map_address+1
+
+  rts
+
+.endproc
+
+.proc load_textbox_chr
+
+  ;load the textbox graphics.
+  lda #<textbox_chr
+  sta w0
+  lda #>textbox_chr
+  sta w0+1
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+
+  ;grab tile accumulator to know where font group begins
+  lda b3
+  sta font_chr_offset
+
+  ;load the font graphics.
+  lda #<font_chr
+  sta w0
+  lda #>font_chr
+  sta w0+1
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+
+  ;load the digit graphics.
+  .scope
+  ldy #slide::slide_type
+  far_load #SLIDE_DATA_BANK, w10, w10+1
+  lda far_load_result
+  cmp #SLIDE_TYPE_STRINGS_ONLY
+  bne not_a_strings_only_slide
+  lda #<digits_chr
+  sta w0
+  lda #>digits_chr
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
+not_a_strings_only_slide:
+  .endscope
+
+  ;load the punctuation graphics.
+  lda #<punctuation_chr
+  sta w0
+  lda #>punctuation_chr
+  sta w0+1
+  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
   rts
 
@@ -311,7 +357,6 @@ strings_address = w11
   far_load #SLIDE_DATA_BANK, strings_address, strings_address+1
   lda far_load_result
   sta string_count
-  ndxDebugBreak
 next_string:
 
   ldy string_offset
@@ -407,30 +452,9 @@ no_bg_chr_data:
   lda far_load_result
   cmp #SLIDE_TYPE_IMAGE_ONLY
   beq skip_textbox
-  ;load the textbox graphics.
-  lda #<textbox_chr
-  sta w0
-  lda #>textbox_chr
-  sta w0+1
-  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 
-  ;grab tile accumulator to know where font group begins
-  lda b3
-  sta font_chr_offset
+  jsr load_textbox_chr
 
-  ;load the font graphics.
-  lda #<font_chr
-  sta w0
-  lda #>font_chr
-  sta w0+1
-  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
-
-  ;load the punctuation graphics.
-  lda #<punctuation_chr
-  sta w0
-  lda #>punctuation_chr
-  sta w0+1
-  far_call #TEXTBOX_BG_CHR_BANK, ppu_load_chr_amount
 skip_textbox:
   .endscope
 
