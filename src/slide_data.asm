@@ -206,6 +206,20 @@ end_cut_scene_slide2:
   .word 0                                              ; strings_address .word
   .word 0                                              ; song_address .word
 
+end_cut_scene_laurie_andrews:
+  .byte SLIDE_TYPE_STRINGS_ONLY
+  .byte 0                                              ; bg_chr_bank .byte
+  .word 0                                              ; bg_chr_address .word
+  .byte 0                                              ; nametable_bank .byte
+  .word 0                                              ; nametable_address .word
+  .word end_cut_scene_text_palette                     ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .byte 255                                            ; slide_length .byte
+  .word 0                                              ; sprite_chr_sets_address .word
+  .word 0                                              ; sprite_overlays_address .word
+  .word end_cut_scene_laurie_andrews_strings           ; strings_address .word
+  .word 0                                              ; song_address .word
+
 end_cut_scene_slide3:
   .byte SLIDE_TYPE_IMAGE_ONLY
   .byte 26                                             ; bg_chr_bank .byte
@@ -218,6 +232,20 @@ end_cut_scene_slide3:
   .word end_cut_scene_slide3_sprite_chr_sets           ; sprite_chr_sets_address .word
   .word end_cut_scene_slide3_sprite_overlays           ; sprite_overlays_address .word
   .word 0                                              ; strings_address .word
+  .word 0                                              ; song_address .word
+
+end_cut_scene_testers:
+  .byte SLIDE_TYPE_STRINGS_ONLY
+  .byte 0                                              ; bg_chr_bank .byte
+  .word 0                                              ; bg_chr_address .word
+  .byte 0                                              ; nametable_bank .byte
+  .word 0                                              ; nametable_address .word
+  .word end_cut_scene_text_palette                     ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .byte 255                                            ; slide_length .byte
+  .word 0                                              ; sprite_chr_sets_address .word
+  .word 0                                              ; sprite_overlays_address .word
+  .word end_cut_scene_testers_strings                  ; strings_address .word
   .word 0                                              ; song_address .word
 
 end_cut_scene_slide4:
@@ -273,11 +301,11 @@ end_cut_scene_slide4_sprite_overlays:
 
 end_cut_scene_thanks_for_playing_strings:
   .byte 3
-  .byte 12, 5
+  .byte 12, 6
   .word thank_you_for_playing_string
-  .byte 14, 5
+  .byte 14, 6
   .word the_legends_of_owlia_string
-  .byte 16, 7
+  .byte 16, 8
   .word by_gradual_games_string
 
 thank_you_for_playing_string:
@@ -291,11 +319,11 @@ by_gradual_games_string:
 
 end_cut_scene_derek_andrews_strings:
   .byte 3
-  .byte 12, 5
+  .byte 12, 7
   .word design_programming_string
-  .byte 14, 8
+  .byte 14, 10
   .word and_music_string
-  .byte 16, 8
+  .byte 16, 10
   .word derek_andrews_string
 
 design_programming_string:
@@ -306,3 +334,54 @@ and_music_string:
 
 derek_andrews_string:
   .byte "DEREK ANDREWS",ES
+
+end_cut_scene_laurie_andrews_strings:
+  .byte 2
+  .byte 12, 7
+  .word art_string
+  .byte 14, 9
+  .word laurie_andrews_string
+
+art_string:
+  .byte "GRAPHICS AND ART BY",ES
+
+laurie_andrews_string:
+  .byte "LAURIE ANDREWS",ES
+
+end_cut_scene_testers_strings:
+  .byte 7
+  .byte 12, 12
+  .word testers_string
+  .byte 14,8
+  .word daniel_hwozdek_string
+  .byte 15,8
+  .word john_alznauer_string
+  .byte 16,8
+  .word meg_alznauer_string
+  .byte 17,8
+  .word ernest_holland_string
+  .byte 18,8
+  .word bradley_bateman_string
+  .byte 19,8
+  .word john_white_string
+
+testers_string:
+  .byte "TESTERS",ES
+
+daniel_hwozdek_string:
+  .byte "DANIEL HWOZDEK",ES
+
+john_alznauer_string:
+  .byte "JOHN ALZNAUER",ES
+
+meg_alznauer_string:
+  .byte "MEG ALZNAUER",ES
+
+ernest_holland_string:
+  .byte "ERNEST HOLLAND",ES
+
+bradley_bateman_string:
+  .byte "BRADLEY BATEMAN",ES
+
+john_white_string:
+  .byte "JOHN WHITE",ES
