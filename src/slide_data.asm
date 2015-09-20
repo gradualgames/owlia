@@ -177,6 +177,34 @@ end_cut_scene_slide1:
   .word 0                                              ; strings_address .word
   .word 0                                              ; song_address .word
 
+end_cut_scene_produced_by:
+  .byte SLIDE_TYPE_STRINGS_ONLY
+  .byte 0                                              ; bg_chr_bank .byte
+  .word 0                                              ; bg_chr_address .word
+  .byte 0                                              ; nametable_bank .byte
+  .word 0                                              ; nametable_address .word
+  .word end_cut_scene_text_palette                     ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .byte 255                                            ; slide_length .byte
+  .word 0                                              ; sprite_chr_sets_address .word
+  .word 0                                              ; sprite_overlays_address .word
+  .word end_cut_scene_produced_by_strings              ; strings_address .word
+  .word 0                                              ; song_address .word
+
+end_cut_scene_slide2:
+  .byte SLIDE_TYPE_IMAGE_ONLY
+  .byte 26                                             ; bg_chr_bank .byte
+  .word end_cut_scene_slide2_chr                       ; bg_chr_address .word
+  .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
+  .word end_cut_scene_slide2_nametable                 ; nametable_address .word
+  .word end_cut_scene_slide2_palette                   ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .byte 255                                            ; slide_length .byte
+  .word end_cut_scene_slide2_sprite_chr_sets           ; sprite_chr_sets_address .word
+  .word end_cut_scene_slide2_sprite_overlays           ; sprite_overlays_address .word
+  .word 0                                              ; strings_address .word
+  .word 0                                              ; song_address .word
+
 end_cut_scene_derek_andrews:
   .byte SLIDE_TYPE_STRINGS_ONLY
   .byte 0                                              ; bg_chr_bank .byte
@@ -191,17 +219,17 @@ end_cut_scene_derek_andrews:
   .word end_cut_scene_derek_andrews_strings            ; strings_address .word
   .word 0                                              ; song_address .word
 
-end_cut_scene_slide2:
+end_cut_scene_slide3:
   .byte SLIDE_TYPE_IMAGE_ONLY
   .byte 26                                             ; bg_chr_bank .byte
-  .word end_cut_scene_slide2_chr                       ; bg_chr_address .word
+  .word end_cut_scene_slide3_chr                       ; bg_chr_address .word
   .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
-  .word end_cut_scene_slide2_nametable                 ; nametable_address .word
-  .word end_cut_scene_slide2_palette                   ; palette_address .word
+  .word end_cut_scene_slide3_nametable                 ; nametable_address .word
+  .word end_cut_scene_slide3_palette                   ; palette_address .word
   .byte 0                                              ; conversation_index .byte
   .byte 255                                            ; slide_length .byte
-  .word end_cut_scene_slide2_sprite_chr_sets           ; sprite_chr_sets_address .word
-  .word end_cut_scene_slide2_sprite_overlays           ; sprite_overlays_address .word
+  .word end_cut_scene_slide3_sprite_chr_sets           ; sprite_chr_sets_address .word
+  .word end_cut_scene_slide3_sprite_overlays           ; sprite_overlays_address .word
   .word 0                                              ; strings_address .word
   .word 0                                              ; song_address .word
 
@@ -219,20 +247,6 @@ end_cut_scene_laurie_andrews:
   .word end_cut_scene_laurie_andrews_strings           ; strings_address .word
   .word 0                                              ; song_address .word
 
-end_cut_scene_slide3:
-  .byte SLIDE_TYPE_IMAGE_ONLY
-  .byte 26                                             ; bg_chr_bank .byte
-  .word end_cut_scene_slide3_chr                       ; bg_chr_address .word
-  .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
-  .word end_cut_scene_slide3_nametable                 ; nametable_address .word
-  .word end_cut_scene_slide3_palette                   ; palette_address .word
-  .byte 0                                              ; conversation_index .byte
-  .byte 255                                            ; slide_length .byte
-  .word end_cut_scene_slide3_sprite_chr_sets           ; sprite_chr_sets_address .word
-  .word end_cut_scene_slide3_sprite_overlays           ; sprite_overlays_address .word
-  .word 0                                              ; strings_address .word
-  .word 0                                              ; song_address .word
-
 end_cut_scene_testers:
   .byte SLIDE_TYPE_STRINGS_ONLY
   .byte 0                                              ; bg_chr_bank .byte
@@ -247,20 +261,6 @@ end_cut_scene_testers:
   .word end_cut_scene_testers_strings                  ; strings_address .word
   .word 0                                              ; song_address .word
 
-end_cut_scene_produced_by:
-  .byte SLIDE_TYPE_STRINGS_ONLY
-  .byte 0                                              ; bg_chr_bank .byte
-  .word 0                                              ; bg_chr_address .word
-  .byte 0                                              ; nametable_bank .byte
-  .word 0                                              ; nametable_address .word
-  .word end_cut_scene_text_palette                     ; palette_address .word
-  .byte 0                                              ; conversation_index .byte
-  .byte 255                                            ; slide_length .byte
-  .word 0                                              ; sprite_chr_sets_address .word
-  .word 0                                              ; sprite_overlays_address .word
-  .word end_cut_scene_produced_by_strings              ; strings_address .word
-  .word 0                                              ; song_address .word
-
 end_cut_scene_tools:
   .byte SLIDE_TYPE_STRINGS_ONLY
   .byte 0                                              ; bg_chr_bank .byte
@@ -272,7 +272,21 @@ end_cut_scene_tools:
   .byte 255                                            ; slide_length .byte
   .word 0                                              ; sprite_chr_sets_address .word
   .word 0                                              ; sprite_overlays_address .word
-  .word end_cut_scene_tools_strings              ; strings_address .word
+  .word end_cut_scene_tools_strings                    ; strings_address .word
+  .word 0                                              ; song_address .word
+
+end_cut_scene_thanks_to:
+  .byte SLIDE_TYPE_STRINGS_ONLY
+  .byte 0                                              ; bg_chr_bank .byte
+  .word 0                                              ; bg_chr_address .word
+  .byte 0                                              ; nametable_bank .byte
+  .word 0                                              ; nametable_address .word
+  .word end_cut_scene_text_palette                     ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .byte 255                                            ; slide_length .byte
+  .word 0                                              ; sprite_chr_sets_address .word
+  .word 0                                              ; sprite_overlays_address .word
+  .word end_cut_scene_thanks_to_strings                ; strings_address .word
   .word 0                                              ; song_address .word
 
 end_cut_scene_slide4:
@@ -417,7 +431,7 @@ john_white_string:
 
 end_cut_scene_produced_by_strings:
   .byte 2
-  .byte 12,6
+  .byte 12,10
   .word produced_by_string
   .byte 14,6
   .word infinite_nes_lives_string
@@ -430,25 +444,25 @@ infinite_nes_lives_string:
 
 end_cut_scene_tools_strings:
   .byte 9
-  .byte 12,6
+  .byte 12,13
   .word tools_string
-  .byte 14,6
+  .byte 14,8
   .word ca65_string
-  .byte 15,6
+  .byte 15,8
   .word notepad_plus_plus_string
-  .byte 16,6
+  .byte 16,8
   .word paint_dot_net_string
-  .byte 17,6
+  .byte 17,8
   .word python_string
-  .byte 18,6
+  .byte 18,8
   .word famitracker_string
-  .byte 19,6
+  .byte 19,8
   .word fceux_string
-  .byte 20,6
+  .byte 20,8
   .word nestopia_string
-  .byte 21,6
+  .byte 21,8
   .word nintendulator_string
-  .byte 22,6
+  .byte 22,8
 
 tools_string:
   .byte "TOOLS",ES
@@ -476,3 +490,36 @@ nestopia_string:
 
 nintendulator_string:
   .byte "NINTENDULATOR",ES
+
+end_cut_scene_thanks_to_strings:
+  .byte 6
+  .byte 12,11
+  .word thanks_to_string
+  .byte 14,11
+  .word lordqbasic_string
+  .byte 15,11
+  .word joe_granato_string
+  .byte 16,11
+  .word joe_gillis_string
+  .byte 17,11
+  .word nesdev_string
+  .byte 18,11
+  .word nintendoage_string
+
+thanks_to_string:
+  .byte "THANKS TO",ES
+
+lordqbasic_string:
+  .byte "LORDQBASIC",ES
+
+joe_granato_string:
+  .byte "JOE GRANATO",ES
+
+joe_gillis_string:
+  .byte "JOE GILLIS",ES
+
+nesdev_string:
+  .byte "NESDEV",ES
+
+nintendoage_string:
+  .byte "NINTENDOAGE",ES
