@@ -514,6 +514,8 @@ wait_infinitely:
 wait_length:
 : clear_vblank_done
   wait_vblank_done
+  clear_vblank_done
+  wait_vblank_done
   dex
   bne :-
 
