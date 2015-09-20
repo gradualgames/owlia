@@ -17,7 +17,7 @@ JELLYFISH_ATTACKED_LENGTH = 30
 JELLYFISH_KNOCKBACK_LENGTH = 30
 
 JELLYFISH_FOLLOW_X_OFFSET = 0
-JELLYFISH_FOLLOW_Y_OFFSET = 32
+JELLYFISH_FOLLOW_Y_OFFSET = 48
 
 ;supply new set of x and y coordinates, because
 ;we compute the coordinates of the jellyfish as
