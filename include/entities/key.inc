@@ -9,6 +9,7 @@ KEY_INC = 1
   key_state_pickup, \
   key_state_passive_init, \
   key_state_passive_inserted_init, \
+  key_state_passive_inserted_monolith_init, \
   key_state_passive
 
 key_lo:
@@ -162,6 +163,17 @@ key_state_passive_inserted_init:
 
   ;store the key's entity index
   stx familiar_carried_entity_index
+
+  lda #KEY_STATE_PASSIVE
+  sta entity_state,x
+  rts
+
+key_state_passive_inserted_monolith_init:
+
+  lda #<key_inserted
+  sta entity_animation_address_lo,x
+  lda #>key_inserted
+  sta entity_animation_address_hi,x
 
   lda #KEY_STATE_PASSIVE
   sta entity_state,x

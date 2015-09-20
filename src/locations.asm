@@ -2452,10 +2452,7 @@ dungeon5_2_0_entity_instances:
                                          0, 5
 
 dungeon5_3_0_entity_instances:
-  .byte 9
-  .byte entity_index_starfish, 56, 9, 0, 0
-  .byte entity_index_starfish, 56, 7, 0, 0
-  .byte entity_index_starfish, 56, 10, 0, 0
+  .byte 6
   .byte entity_index_monolith, 55, 14, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\

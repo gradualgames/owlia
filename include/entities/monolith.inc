@@ -29,6 +29,9 @@ monolith_state_init:
   lda #MONOLITH_HEIGHT
   sta entity_height,x
 
+  lda #0
+  sta monolith_inserted_key_index,x
+
   .scope
   lda monolith_flags,x
   and #MONOLITH_FLAGS_UP_OR_DOWN_ISOLATE
@@ -57,6 +60,52 @@ done:
   lda monolith_unlock_immediately_dungeon_flags_mask,x
   and inventory_dungeon_flags
   beq not_set_to_immediately_unlock
+
+  ;if so, spawn a key entity and put it into the passive "inserted in keyhole"
+  ;state. This tells the player that the monolith is already unlocked.
+  ;spawn a key entity and put it in passive state
+  .scope
+  txa
+  pha
+
+  lda #entity_index_key
+  sta b0
+
+  clc
+  lda entity_x_lo,x
+  adc #<MONOLITH_INSERTED_KEY_X_OFFSET
+  sta w0
+  lda entity_x_hi,x
+  adc #>MONOLITH_INSERTED_KEY_X_OFFSET
+  sta w0+1
+  clc
+  lda entity_y_lo,x
+  adc #<MONOLITH_INSERTED_KEY_Y_OFFSET
+  sta w1
+  lda entity_y_hi,x
+  adc #>MONOLITH_INSERTED_KEY_Y_OFFSET
+  sta w1+1
+
+  jsr entity_spawn
+
+  lda spawned_entity
+  sta monolith_inserted_key_index,x
+  tax
+
+  bmi cannot_spawn_key
+
+  ;make sure no stale data causes the key to kill itself based
+  ;on a dungeon flag!
+  lda #0
+  sta key_dungeon_flags_mask,x
+
+  far_call #entity_update_bank_key, key_state_init
+  far_call #entity_update_bank_key, key_state_passive_inserted_monolith_init
+
+  pla
+  tax
+cannot_spawn_key:
+  .endscope
 
   ;if so, set the unlocked flag, change the type to unlocked, then transition
   ;to the idle state so the monolith will respond to the player.
@@ -105,6 +154,25 @@ monolith_state_fall:
   lda monolith_state_counter,x
   and #1
   beq delay_frame
+
+  ;move the key along with the monolith if it is present
+  .scope
+  ldy monolith_inserted_key_index,x
+  beq no_inserted_key
+  lda monolith_patch_row,x
+  beq do_not_move_key
+
+  clc
+  lda entity_y_lo,y
+  adc #<8
+  sta entity_y_lo,y
+  lda entity_y_hi,y
+  adc #>8
+  sta entity_y_hi,y
+
+do_not_move_key:
+no_inserted_key:
+  .endscope
 
   jsr monolith_draw
 
@@ -482,6 +550,7 @@ monolith_touch_rect_height:
   cmp monolith_direction,x
   bne do_not_activate_monolith
   ;at this point, we know that the hero is trying to activate the monolith
+
   lda #MONOLITH_STATE_FALL_INIT
   sta entity_state,x
 

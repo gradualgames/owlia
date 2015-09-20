@@ -7,6 +7,9 @@ MONOLITH_HEIGHT = $0f
 
 MONOLITH_Y_OFFSET = 32
 
+MONOLITH_INSERTED_KEY_X_OFFSET = 1
+MONOLITH_INSERTED_KEY_Y_OFFSET = -32
+
 MONOLITH_KEYHOLE_X_OFFSET = 1
 MONOLITH_KEYHOLE_Y_OFFSET = -60
 
@@ -63,6 +66,7 @@ define_entity_properties monolith_flags,\
                          \
                          monolith_state_counter,\
                          monolith_patch_row,\
-                         monolith_patch_column
+                         monolith_patch_column, \
+                         monolith_inserted_key_index
 
 .endif
