@@ -24,6 +24,7 @@
 .include "inventory.inc"
 .include "mapper.inc"
 .include "util.inc"
+.include "ppu.inc"
 
 .segment "ROM02"
 
@@ -372,11 +373,15 @@ cannot_spawn_bomb:
   beq no_lanterns_left
   dec inventory_lanterns
   .endif
+  lda dynamic_palette_brightness_level_bg
+  cmp #MAX_BRIGHTNESS_LEVEL
+  beq already_at_max_brightness
 
   far_call #FAMILIAR_BANK, familiar_spawn_carry_lantern
 
   rts
 
+already_at_max_brightness:
 no_lanterns_left:
 
   ;play a sound
