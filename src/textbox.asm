@@ -10,6 +10,7 @@
 .include "controller.inc"
 .include "soundengine.inc"
 .include "sfx_data.inc"
+.include "ndxdebug.h"
 
 .segment "CODE"
 
@@ -146,6 +147,8 @@ string_address = w0
 
   set_ppu_2006_abs b0, b1, b2
   upload_ppu_2006
+
+  ndxDebugBreak
 
   ldy #0
 : lda (string_address),y

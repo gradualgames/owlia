@@ -286,6 +286,65 @@ load_sprite_overlay:
 
 .endproc
 
+.proc load_strings
+strings_address = w1
+
+  ldy #slide::strings_address
+  far_load #SLIDE_DATA_BANK, w10, w10+1
+  lda far_load_result
+  sta strings_address
+  iny
+  far_load #SLIDE_DATA_BANK, w10, w10+1
+  lda far_load_result
+  sta strings_address+1
+
+  .scope
+  lda font_chr_offset
+  sta chr_group_offset
+
+  ;load string count
+  ldy #0
+  far_load #SLIDE_DATA_BANK, strings_address, strings_address+1
+  lda far_load_result
+  sta b10
+next_string:
+
+  ;load row
+  iny
+  far_load #SLIDE_DATA_BANK, strings_address, strings_address+1
+  lda far_load_result
+  sta b1
+
+  ;load column
+  iny
+  far_load #SLIDE_DATA_BANK, strings_address, strings_address+1
+  lda far_load_result
+  sta b2
+
+  ;load string address
+  iny
+  far_load #SLIDE_DATA_BANK, strings_address, strings_address+1
+  lda far_load_result
+  sta w0
+
+  iny
+  far_load #SLIDE_DATA_BANK, strings_address, strings_address+1
+  lda far_load_result
+  sta w0+1
+
+  lda #$20
+  sta b0
+
+  far_call #SLIDE_DATA_BANK, print_string_impl
+
+  dec b10
+  bne next_string
+  .endscope
+
+  rts
+
+.endproc
+
 .proc load_slide
 
   ;set blank nmi routine
@@ -308,6 +367,7 @@ load_sprite_overlay:
   lda state_control_params+cut_scene_state_control::slide_address+1
   sta w10+1
 
+  .scope
   ldy #slide::bg_chr_address
   far_load #SLIDE_DATA_BANK, w10, w10+1
   lda far_load_result
@@ -322,7 +382,12 @@ load_sprite_overlay:
   lda far_load_result
   sta b0
 
+  lda w0
+  ora w0+1
+  beq no_bg_chr_data
   far_call b0, ppu_load_chr_amount
+no_bg_chr_data:
+  .endscope
 
   ;grab tile accumulator to know where the textbox group begins
   lda b3
@@ -376,6 +441,7 @@ skip_textbox:
   sta ppu_2006+1
   upload_ppu_2006
 
+  .scope
   ldy #slide::nametable_address
   far_load #SLIDE_DATA_BANK, w10, w10+1
   lda far_load_result
@@ -390,7 +456,32 @@ skip_textbox:
   lda far_load_result
   sta b0
 
+  lda w0
+  ora w0+1
+  beq no_nametable_data
   far_call b0, ppu_load_nametable
+  jmp done
+no_nametable_data:
+  clc
+  lda font_chr_offset
+  adc #' '
+  sta b0
+  lda #0
+  sta b1
+  jsr ppu_fill_nametable
+done:
+  .endscope
+
+  ;print specified list of strings on the screen if specified
+  .scope
+  ldy #slide::slide_type
+  far_load #SLIDE_DATA_BANK, w10, w10+1
+  lda far_load_result
+  cmp #SLIDE_TYPE_STRINGS_ONLY
+  bne not_strings_slide
+  jsr load_strings
+not_strings_slide:
+  .endscope
 
   ;reset scroll
   lda #$20
@@ -471,6 +562,8 @@ no_song:
   lda far_load_result
   cmp #SLIDE_TYPE_IMAGE_ONLY
   beq image_slide
+  cmp #SLIDE_TYPE_STRINGS_ONLY
+  beq strings_slide
 textbox_slide:
   lda #0
   sta textbox_attribute
@@ -494,6 +587,7 @@ textbox_slide:
   far_call #TEXTBOX_BANK, run_conversation
 
   jmp done
+strings_slide:
 image_slide:
 
   .scope

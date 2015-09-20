@@ -1,3 +1,4 @@
+.feature force_range
 .include "slide_data.inc"
 .include "conversation_data.inc"
 .include "bg_chr_data.inc"
@@ -5,6 +6,8 @@
 .include "nametable_data.inc"
 .include "sprites_and_animations_data.inc"
 .include "music_data.inc"
+.include "charmap.inc"
+.include "textbox.inc"
 
 .segment "CODE"
 
@@ -58,6 +61,7 @@ intro_cut_scene_great_owls:
   .byte 0                                              ; slide_length .byte
   .word intro_cut_scene_great_owls_sprite_chr_sets     ; sprite_chr_sets_address .word
   .word intro_cut_scene_great_owls_sprite_overlays     ; sprite_overlays_address .word
+  .word 0                                              ; strings_address .word
   .word 0                                              ; song_address .word
 
 intro_cut_scene_mermon:
@@ -71,6 +75,7 @@ intro_cut_scene_mermon:
   .byte 0                                              ; slide_length .byte
   .word 0                                              ; sprite_chr_sets_address .word
   .word 0                                              ; sprite_overlays_address .word
+  .word 0                                              ; strings_address .word
   .word 0                                              ; song_address .word
 
 intro_cut_scene_mermon_mad:
@@ -84,6 +89,7 @@ intro_cut_scene_mermon_mad:
   .byte 0                                                    ; slide_length .byte
   .word 0                                                    ; sprite_chr_sets_address .word
   .word 0                                                    ; sprite_overlays_address .word
+  .word 0                                                    ; strings_address .word
   .word 0                                                    ; song_address .word
 
 intro_cut_scene_mermon_leer:
@@ -97,6 +103,7 @@ intro_cut_scene_mermon_leer:
   .byte 0                                                    ; slide_length .byte
   .word intro_cut_scene_slide4_sprite_chr_sets               ; sprite_chr_sets_address .word
   .word intro_cut_scene_slide4_sprite_overlays               ; sprite_overlays_address .word
+  .word 0                                                    ; strings_address .word
   .word 0                                                    ; song_address .word
 
 intro_cut_scene_silmaran:
@@ -110,6 +117,7 @@ intro_cut_scene_silmaran:
   .byte 0                                                    ; slide_length .byte
   .word 0                                                    ; sprite_chr_sets_address .word
   .word 0                                                    ; sprite_overlays_address .word
+  .word 0                                                    ; strings_address .word
   .word 0                                                    ; song_address .word
 
   ;marks end of slide show
@@ -149,6 +157,7 @@ end_cut_scene_slide1:
   .byte 255                                            ; slide_length .byte
   .word end_cut_scene_slide1_sprite_chr_sets           ; sprite_chr_sets_address .word
   .word end_cut_scene_slide1_sprite_overlays           ; sprite_overlays_address .word
+  .word 0                                              ; strings_address .word
   .word ending_theme                                   ; song_address .word
 
 end_cut_scene_slide2:
@@ -162,6 +171,7 @@ end_cut_scene_slide2:
   .byte 255                                            ; slide_length .byte
   .word end_cut_scene_slide2_sprite_chr_sets           ; sprite_chr_sets_address .word
   .word end_cut_scene_slide2_sprite_overlays           ; sprite_overlays_address .word
+  .word 0                                              ; strings_address .word
   .word 0                                              ; song_address .word
 
 end_cut_scene_slide3:
@@ -175,6 +185,7 @@ end_cut_scene_slide3:
   .byte 255                                            ; slide_length .byte
   .word end_cut_scene_slide3_sprite_chr_sets           ; sprite_chr_sets_address .word
   .word end_cut_scene_slide3_sprite_overlays           ; sprite_overlays_address .word
+  .word 0                                              ; strings_address .word
   .word 0                                              ; song_address .word
 
 end_cut_scene_slide4:
@@ -185,9 +196,24 @@ end_cut_scene_slide4:
   .word end_cut_scene_slide4_nametable                 ; nametable_address .word
   .word end_cut_scene_slide4_palette                   ; palette_address .word
   .byte 0                                              ; conversation_index .byte
-  .byte SLIDE_LENGTH_INFINITE                          ; slide_length .byte
+  .byte 255                                            ; slide_length .byte
   .word end_cut_scene_slide4_sprite_chr_sets           ; sprite_chr_sets_address .word
   .word end_cut_scene_slide4_sprite_overlays           ; sprite_overlays_address .word
+  .word 0                                              ; strings_address .word
+  .word 0                                              ; song_address .word
+
+end_cut_scene_slide5:
+  .byte SLIDE_TYPE_STRINGS_ONLY
+  .byte 0                                              ; bg_chr_bank .byte
+  .word 0                                              ; bg_chr_address .word
+  .byte 0                                              ; nametable_bank .byte
+  .word 0                                              ; nametable_address .word
+  .word end_cut_scene_slide4_palette                   ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .byte SLIDE_LENGTH_INFINITE                          ; slide_length .byte
+  .word 0                                              ; sprite_chr_sets_address .word
+  .word 0                                              ; sprite_overlays_address .word
+  .word end_cut_scene_slide5_strings                   ; strings_address .word
   .word 0                                              ; song_address .word
   .byte LAST_SLIDE
 
@@ -226,3 +252,11 @@ end_cut_scene_slide4_sprite_overlays:
   .byte 1
   .byte 23
   .word end_cut_scene_slide4_sprite_overlay0
+
+end_cut_scene_slide5_strings:
+  .byte 1
+  .byte 10, 10
+  .word programmed_by_string
+
+programmed_by_string:
+  .byte "PROGRAMMED BY",ES
