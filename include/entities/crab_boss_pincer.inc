@@ -13,9 +13,9 @@ CRAB_BOSS_PINCER_INC = 1
 ;lut using animation frame to index, so every other entry is 0
 crab_boss_pincer_height:
   .byte $0f, $00
-  .byte $0f + 8, $00
-  .byte $0f + 16, $00
-  .byte $0f + 8, $00
+  .byte $0f + 4, $00
+  .byte $0f + 12, $00
+  .byte $0f + 4, $00
   .byte $0f, $00
 
 crab_boss_pincer_lo:
