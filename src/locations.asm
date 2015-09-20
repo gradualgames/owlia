@@ -1494,7 +1494,7 @@ mountain1_entity_instances:
   .byte entity_index_octopus, 9, 40, 0, 0
   .byte entity_index_octopus, 10, 8, 0, 0
   .byte entity_index_octopus, 57, 18, 0, 0
-  .byte entity_index_dungeon_entrance_statue, 6, 2, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <22000, >22000, ^22000, buttons::_down
+  .byte entity_index_dungeon_entrance_statue, 6, 2, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 3, <30000, >30000, ^30000, buttons::_down
 
 cave_top_left_entity_instances:
   .byte 4
