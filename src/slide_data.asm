@@ -8,7 +8,7 @@
 .include "music_data.inc"
 .include "textbox.inc"
 
-.segment "CODE"
+.segment "ROM15"
 
 intro_cut_scene_great_owls_palette:
   .byte $0e,$08,$18,$20,$0e,$18,$38,$20,$0e,$08,$38,$20,$0e,$28,$10,$20
@@ -498,12 +498,14 @@ end_cut_scene_thanks_to_strings:
   .byte 14,11
   .word lordqbasic_string
   .byte 15,11
-  .word joe_granato_string
+  .word paul_molloy_string
   .byte 16,11
-  .word joe_gillis_string
+  .word joe_granato_string
   .byte 17,11
-  .word nesdev_string
+  .word joe_gillis_string
   .byte 18,11
+  .word nesdev_string
+  .byte 19,11
   .word nintendoage_string
 
 thanks_to_string:
@@ -511,6 +513,9 @@ thanks_to_string:
 
 lordqbasic_string:
   .byte "LORDQBASIC",ES
+
+paul_molloy_string:
+  .byte "PAUL MOLLOY",ES
 
 joe_granato_string:
   .byte "JOE GRANATO",ES
