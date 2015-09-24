@@ -202,7 +202,7 @@ spotlight_puzzle_state_single_anglerfish:
 
   jsr spawn_key
 
-  lda #SPOTLIGHT_PUZZLE_STATE_PLAY_SOLVED_MELODY_DELAY
+  lda #PUZZLE_VICTORY_MELODY_DELAY
   sta spotlight_puzzle_state_counter,x
   lda #SPOTLIGHT_PUZZLE_STATE_PLAY_SOLVED_MELODY
   sta entity_state,x
@@ -325,7 +325,7 @@ spotlight1_not_intersecting:
 
   jsr spawn_key
 
-  lda #SPOTLIGHT_PUZZLE_STATE_PLAY_SOLVED_MELODY_DELAY
+  lda #PUZZLE_VICTORY_MELODY_DELAY
   sta spotlight_puzzle_state_counter,x
   lda #SPOTLIGHT_PUZZLE_STATE_PLAY_SOLVED_MELODY
   sta entity_state,x
