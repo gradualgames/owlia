@@ -285,7 +285,7 @@ skip:
   bne error
 solved:
 
-  lda #MONOLITH_PUZZLE_STATE_PAUSE
+  lda #PUZZLE_VICTORY_MELODY_DELAY
   sta monolith_puzzle_state_counter,x
 
   lda #MONOLITH_PUZZLE_STATE_SOLVED
@@ -439,7 +439,7 @@ monolith_puzzle_state_solved:
   sta monolith_puzzle_solution_flags,x
   sta monolith_puzzle_solution_buffer,x
 
-  lda #MONOLITH_PUZZLE_TREASURE_CHEST_PAUSE
+  lda #PUZZLE_TREASURE_CHEST_DELAY
   sta monolith_puzzle_state_counter,x
 
   lda #MONOLITH_PUZZLE_STATE_SPAWN_TREASURE_CHEST
