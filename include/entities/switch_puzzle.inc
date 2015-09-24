@@ -8,7 +8,8 @@ SWITCH_PUZZLE_INC = 1
 define_lohi_tables switch_puzzle, \
  {switch_puzzle_state_init, \
   switch_puzzle_state_main, \
-  switch_puzzle_state_victory}
+  switch_puzzle_state_victory, \
+  switch_puzzle_state_spawn_treasure_chest}
 
 switch_puzzle_update:
 
@@ -71,7 +72,7 @@ skip_entity:
   lda b0
   bne puzzle_not_solved
 
-  lda #SWITCH_PUZZLE_VICTORY_PAUSE
+  lda #PUZZLE_VICTORY_MELODY_DELAY
   sta switch_puzzle_state_counter,x
 
   lda #SWITCH_PUZZLE_STATE_VICTORY
@@ -83,6 +84,49 @@ puzzle_not_solved:
   rts
 
 switch_puzzle_state_victory:
+
+  .scope
+  dec switch_puzzle_state_counter,x
+  bne do_not_transition_yet
+
+  ;play a sound
+  lda #<sfx_solved_puzzle_instrument_one
+  sta sound_param_word_0
+  lda #>sfx_solved_puzzle_instrument_one
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  ;play a sound
+  lda #<sfx_solved_puzzle_instrument_two
+  sta sound_param_word_0
+  lda #>sfx_solved_puzzle_instrument_two
+  sta sound_param_word_0+1
+
+  lda #1
+  sta sound_param_byte_0
+  lda #soundeffect_two
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  lda #PUZZLE_TREASURE_CHEST_DELAY
+  sta switch_puzzle_state_counter,x
+
+  lda #SWITCH_PUZZLE_STATE_SPAWN_TREASURE_CHEST
+  sta entity_state,x
+
+do_not_transition_yet:
+  .endscope
+
+  rts
+
+switch_puzzle_state_spawn_treasure_chest:
 
   .scope
   dec switch_puzzle_state_counter,x
@@ -126,29 +170,16 @@ do_not_transition_yet:
   sta treasure_chest_item_quantity_hi,y
 
   ;play a sound
-  lda #<sfx_solved_puzzle_instrument_one
+  lda #<sfx_chest_melody
   sta sound_param_word_0
-  lda #>sfx_solved_puzzle_instrument_one
+  lda #>sfx_chest_melody
   sta sound_param_word_0+1
 
   lda #0
   sta sound_param_byte_0
+
   lda #soundeffect_one
   sta sound_param_byte_1
-
-  far_call #SOUND_BANK, stream_initialize
-
-  ;play a sound
-  lda #<sfx_solved_puzzle_instrument_two
-  sta sound_param_word_0
-  lda #>sfx_solved_puzzle_instrument_two
-  sta sound_param_word_0+1
-
-  lda #1
-  sta sound_param_byte_0
-  lda #soundeffect_two
-  sta sound_param_byte_1
-
   far_call #SOUND_BANK, stream_initialize
 
   lda entity_flags,x

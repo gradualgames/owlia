@@ -100,6 +100,9 @@ ENTITY_DIRECTION_UP
 ENTITY_DIRECTION_NONE
 .endenum
 
+PUZZLE_VICTORY_MELODY_DELAY = 25
+PUZZLE_TREASURE_CHEST_DELAY = 120
+
 .macro entity_state_switchboard jump_table_lo, jump_table_hi
 
   lda entity_state,x
