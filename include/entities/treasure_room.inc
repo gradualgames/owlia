@@ -72,7 +72,7 @@ skip_entity:
   lda b0
   bne enemies_still_alive
 
-  lda #100
+  lda #TREASURE_ROOM_TREASURE_CHEST_DELAY
   sta treasure_room_state_counter,x
 
   lda #TREASURE_ROOM_STATE_SPAWN_TREASURE_CHEST
