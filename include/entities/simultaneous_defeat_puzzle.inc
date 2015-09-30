@@ -8,7 +8,8 @@ SIMULTANEOUS_DEFEAT_PUZZLE_INC = 1
   simultaneous_defeat_puzzle_state_init, \
   simultaneous_defeat_puzzle_state_wait_for_first_kill, \
   simultaneous_defeat_puzzle_state_wait_for_both_dead, \
-  simultaneous_defeat_puzzle_state_victory
+  simultaneous_defeat_puzzle_state_victory, \
+  simultaneous_defeat_puzzle_state_spawn_treasure_chest
 
 simultaneous_defeat_puzzle_lo:
   .lobytes simultaneous_defeat_puzzle_states
@@ -170,6 +171,9 @@ simultaneous_defeat_puzzle_state_wait_for_both_dead:
   and #ENTITY_FLAGS_ALIVE_TEST
   bne entity_still_alive
 
+  lda #PUZZLE_VICTORY_MELODY_DELAY
+  sta simultaneous_defeat_puzzle_state_counter,x
+
   ;if we reach here, both entities have been defeated within the alotted time frame.
   ;transition to victory state.
   lda #SIMULTANEOUS_DEFEAT_PUZZLE_STATE_VICTORY
@@ -189,6 +193,65 @@ simultaneous_defeat_puzzle_failed:
   rts
 
 simultaneous_defeat_puzzle_state_victory:
+
+  .scope
+  dec simultaneous_defeat_puzzle_state_counter,x
+  bne do_not_transition_yet
+
+  ;play a sound
+  lda #<sfx_solved_puzzle_instrument_one
+  sta sound_param_word_0
+  lda #>sfx_solved_puzzle_instrument_one
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  ;play a sound
+  lda #<sfx_solved_puzzle_instrument_two
+  sta sound_param_word_0
+  lda #>sfx_solved_puzzle_instrument_two
+  sta sound_param_word_0+1
+
+  lda #1
+  sta sound_param_byte_0
+  lda #soundeffect_two
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  lda #PUZZLE_TREASURE_CHEST_DELAY
+  sta simultaneous_defeat_puzzle_state_counter,x
+
+  lda #SIMULTANEOUS_DEFEAT_PUZZLE_STATE_SPAWN_TREASURE_CHEST
+  sta entity_state,x
+do_not_transition_yet:
+  .endscope
+
+  rts
+
+simultaneous_defeat_puzzle_state_spawn_treasure_chest:
+
+  .scope
+  dec simultaneous_defeat_puzzle_state_counter,x
+  bne do_not_transition_yet
+
+  ;play a sound
+  lda #<sfx_chest_melody
+  sta sound_param_word_0
+  lda #>sfx_chest_melody
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+  far_call #SOUND_BANK, stream_initialize
 
   .scope
   ;spawn a treasure chest with a key inside
@@ -220,35 +283,12 @@ simultaneous_defeat_puzzle_state_victory:
   sta treasure_chest_item_quantity_hi,y
   .endscope
 
-  ;play a sound
-  lda #<sfx_solved_puzzle_instrument_one
-  sta sound_param_word_0
-  lda #>sfx_solved_puzzle_instrument_one
-  sta sound_param_word_0+1
-
-  lda #0
-  sta sound_param_byte_0
-  lda #soundeffect_one
-  sta sound_param_byte_1
-
-  far_call #SOUND_BANK, stream_initialize
-
-  ;play a sound
-  lda #<sfx_solved_puzzle_instrument_two
-  sta sound_param_word_0
-  lda #>sfx_solved_puzzle_instrument_two
-  sta sound_param_word_0+1
-
-  lda #1
-  sta sound_param_byte_0
-  lda #soundeffect_two
-  sta sound_param_byte_1
-
-  far_call #SOUND_BANK, stream_initialize
-
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
+
+do_not_transition_yet:
+  .endscope
 
   rts
 
