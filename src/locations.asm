@@ -3808,7 +3808,7 @@ dungeon5_3_3_w:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5,dungeon5_sprite_chr_groups,dungeon5_3_3_entity_instances,dungeon5_palette,48, 45, 50, 52, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 
 dungeon5_boss_area_entrance:
-define_location {(LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5_boss,dungeon5_boss_sprite_chr_groups,dungeon5_boss_entity_instances,dungeon5_boss_palette, 5, 0, 11, 9, 0, 0, 0, ENTITY_DIRECTION_UP
+define_location {(LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5_boss,dungeon5_boss_sprite_chr_groups,dungeon5_boss_entity_instances,dungeon5_boss_palette, 0, 0, 6, 9, 0, 0, 0, ENTITY_DIRECTION_UP
 
 dungeon5_final_boss_area_entrance:
 define_location {(LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5_boss,dungeon5_final_boss_sprite_chr_groups,dungeon5_final_boss_entity_instances,dungeon5_final_boss_palette, 5, 0, 11, 9, 0, 0, 0, ENTITY_DIRECTION_UP

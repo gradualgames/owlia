@@ -149,7 +149,7 @@ done:
   lda #MERMON_TORSO_INITIAL_HEALTH
   sta mermon_torso_health,x
 
-  lda #50
+  lda #2
   sta b0
   far_call #HERO_BANK, hero_wait_frames
 
