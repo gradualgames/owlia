@@ -2730,19 +2730,6 @@ do_not_switch_to_home_in_to_hero:
 
   jsr familiar_play_flap_sound
 
-  ;make sure to clear out the entity index in case it has an old
-  ;value and we can't find an enemy in the subsequent search
-  lda #$ff
-  sta familiar_param_homing_entity_index
-
-  ;find an enemy to home in on
-  jsr entity_find_enemy_near_hero
-  bmi no_enemy_found
-
-  stx familiar_param_homing_entity_index
-
-no_enemy_found:
-
   lda #FAMILIAR_STATE_HOMING_LENGTH
   sta familiar_state_counter
 

@@ -67,6 +67,7 @@
 
 .proc hero_spawn_familiar_spawn_rush
 
+  jsr hero_throw
   far_call #FAMILIAR_BANK, familiar_spawn_rush
 
   rts
@@ -75,6 +76,7 @@
 
 .proc hero_spawn_familiar_spawn_fetch
 
+  jsr hero_throw
   far_call #FAMILIAR_BANK, familiar_spawn_fetch
 
   rts
@@ -142,24 +144,14 @@ found_keyed_monolith:
   lda monolith_unlock_immediately_dungeon_flags_mask,x
   sta familiar_param_dungeon_flags_mask
 
+  jsr hero_throw
   far_call #FAMILIAR_BANK, familiar_spawn_unlock
 
   rts
 no_keys_left:
 no_keyed_monolith_found:
 
-  ;play a sound
-  lda #<sfx_error
-  sta sound_param_word_0
-  lda #>sfx_error
-  sta sound_param_word_0+1
-
-  lda #0
-  sta sound_param_byte_0
-  lda #soundeffect_one
-  sta sound_param_byte_1
-
-  far_call #SOUND_BANK, stream_initialize
+  jsr hero_play_error_sound
 
   rts
 
@@ -238,6 +230,9 @@ tile_y = w8
   jsr prepare_parameters
 cannot_pass:
 no_pit:
+
+  jsr hero_play_error_sound
+
   rts
 
 count_pits:
@@ -342,24 +337,14 @@ not_bomb:
   cmp #2
   bpl cannot_spawn_bomb
 
+  jsr hero_throw
   far_call #FAMILIAR_BANK, familiar_spawn_carry_bomb
 
   rts
 
 cannot_spawn_bomb:
 
-  ;play a sound
-  lda #<sfx_error
-  sta sound_param_word_0
-  lda #>sfx_error
-  sta sound_param_word_0+1
-
-  lda #0
-  sta sound_param_byte_0
-  lda #soundeffect_one
-  sta sound_param_byte_1
-
-  far_call #SOUND_BANK, stream_initialize
+  jsr hero_play_error_sound
 
   rts
 
@@ -377,12 +362,55 @@ cannot_spawn_bomb:
   cmp #MAX_BRIGHTNESS_LEVEL
   beq already_at_max_brightness
 
+  jsr hero_throw
   far_call #FAMILIAR_BANK, familiar_spawn_carry_lantern
 
   rts
 
 already_at_max_brightness:
 no_lanterns_left:
+
+  jsr hero_play_error_sound
+
+  rts
+
+.endproc
+
+.proc hero_spawn_familiar_spawn_shield
+
+  jsr hero_throw
+  far_call #FAMILIAR_BANK, familiar_spawn_shield
+
+  rts
+
+.endproc
+
+.proc hero_spawn_familiar_spawn_homing
+
+  ;make sure to clear out the entity index in case it has an old
+  ;value and we can't find an enemy in the subsequent search
+  lda #$ff
+  sta familiar_param_homing_entity_index
+
+  ;find an enemy to home in on
+  jsr entity_find_enemy_near_hero
+  bmi no_enemy_found
+
+  stx familiar_param_homing_entity_index
+
+  jsr hero_throw
+  far_call #FAMILIAR_BANK, familiar_spawn_homing
+
+  rts
+no_enemy_found:
+
+  jsr hero_play_error_sound
+
+  rts
+
+.endproc
+
+.proc hero_play_error_sound
 
   ;play a sound
   lda #<sfx_error
@@ -396,22 +424,6 @@ no_lanterns_left:
   sta sound_param_byte_1
 
   far_call #SOUND_BANK, stream_initialize
-
-  rts
-
-.endproc
-
-.proc hero_spawn_familiar_spawn_shield
-
-  far_call #FAMILIAR_BANK, familiar_spawn_shield
-
-  rts
-
-.endproc
-
-.proc hero_spawn_familiar_spawn_homing
-
-  far_call #FAMILIAR_BANK, familiar_spawn_homing
 
   rts
 
@@ -576,10 +588,20 @@ tech2_selected:
   ldx inventory_tech2
 done:
 
-  cpx #tech_carry_adlanniel
-  beq do_not_switch_to_throw_state
-  cpx #tech_carry_lantern
-  beq do_not_switch_to_throw_state
+  lda familiar_spawn_tech_lo,x
+  sta w0
+  lda familiar_spawn_tech_hi,x
+  sta w0+1
+  jsr indirect_jsr_w0
+familiar_still_alive:
+
+  rts
+
+.endproc
+
+;initializes the hero's throw state. Called by
+;any tech above that involves throwing the familiar.
+.proc hero_throw
 
   lda #HERO_STATE_THROW
   sta hero_state
@@ -603,15 +625,6 @@ done:
 
   ldy #HERO_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_reset_animation
-
-do_not_switch_to_throw_state:
-
-  lda familiar_spawn_tech_lo,x
-  sta w0
-  lda familiar_spawn_tech_hi,x
-  sta w0+1
-  jsr indirect_jsr_w0
-familiar_still_alive:
 
   rts
 
