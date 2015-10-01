@@ -440,9 +440,10 @@ dead:
 
   clc
   lda entity_x_lo,x
-  adc #4
+  adc #<4
   sta w0
   lda entity_x_hi,x
+  adc #>4
   sta w0+1
   lda entity_y_lo,x
   sta w1
