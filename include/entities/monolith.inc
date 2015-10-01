@@ -219,6 +219,26 @@ monolith_state_rise:
   and #1
   beq delay_frame
 
+  ;move the key along with the monolith if it is present
+  .scope
+  ldy monolith_inserted_key_index,x
+  beq no_inserted_key
+  lda monolith_patch_row,x
+  cmp #4
+  beq do_not_move_key
+
+  sec
+  lda entity_y_lo,y
+  sbc #<8
+  sta entity_y_lo,y
+  lda entity_y_hi,y
+  sbc #>8
+  sta entity_y_hi,y
+
+do_not_move_key:
+no_inserted_key:
+  .endscope
+
   jsr monolith_draw
 
   dec monolith_patch_row,x
