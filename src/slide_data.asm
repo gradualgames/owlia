@@ -443,7 +443,7 @@ infinite_nes_lives_string:
   .byte "INFINITE NES LIVES",ES
 
 end_cut_scene_tools_strings:
-  .byte 9
+  .byte 12
   .byte 12,13
   .word tools_string
   .byte 14,8
@@ -463,6 +463,11 @@ end_cut_scene_tools_strings:
   .byte 21,8
   .word nintendulator_string
   .byte 22,8
+  .word git_string
+  .byte 23,8
+  .word sourcetree_string
+  .byte 24,8
+  .word photoshop_string
 
 tools_string:
   .byte "TOOLS",ES
@@ -490,6 +495,15 @@ nestopia_string:
 
 nintendulator_string:
   .byte "NINTENDULATOR",ES
+
+git_string:
+  .byte "GIT",ES
+
+sourcetree_string:
+  .byte "SOURCETREE",ES
+
+photoshop_string:
+  .byte "PHOTOSHOP",ES
 
 end_cut_scene_thanks_to_strings:
   .byte 8
