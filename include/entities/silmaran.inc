@@ -42,6 +42,22 @@ silmaran_state_init:
 
   jsr entity_reset_animation
 
+  sec
+  lda entity_x_lo,x
+  sbc #<2
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  sbc #>2
+  sta entity_x_hi,x
+
+  sec
+  lda entity_y_lo,x
+  sbc #<2
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  sbc #>2
+  sta entity_y_hi,x
+
   lda #SILMARAN_WIDTH
   sta entity_width,x
   lda #SILMARAN_HEIGHT
