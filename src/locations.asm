@@ -2394,7 +2394,7 @@ tortoise_entity_instances:
   .byte entity_index_jellyfish, 39, 31, 0, 0
   .byte entity_index_jellyfish, 55, 31, 0, 0
   .byte entity_index_jellyfish, 7, 31, 0, 0
-  .byte entity_index_starfish, 3, 20, 0, 0
+  .byte entity_index_starfish, 3, 21, 0, 0
   .byte entity_index_starfish, 51, 20, 0, 0
   .byte entity_index_starfish, 3, 42, 0, 0
   .byte entity_index_starfish, 47, 53, 0, 0
