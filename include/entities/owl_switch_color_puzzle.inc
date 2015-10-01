@@ -8,7 +8,8 @@ OWL_SWITCH_COLOR_PUZZLE_INC = 1
 define_lohi_tables owl_switch_color_puzzle, \
  {owl_switch_color_puzzle_state_init, \
   owl_switch_color_puzzle_state_main, \
-  owl_switch_color_puzzle_state_victory}
+  owl_switch_color_puzzle_state_victory, \
+  owl_switch_color_puzzle_state_spawn_treasure_chest}
 
 owl_switch_color_puzzle_update:
 
@@ -147,7 +148,7 @@ skip_entity:
   bpl next_entity
   .endscope
 
-  lda #OWL_SWITCH_COLOR_PUZZLE_STATE_VICTORY_LENGTH
+  lda #PUZZLE_VICTORY_MELODY_DELAY
   sta owl_switch_color_puzzle_state_counter,x
 
   lda #OWL_SWITCH_COLOR_PUZZLE_STATE_VICTORY
@@ -165,6 +166,36 @@ owl_switch_color_puzzle_state_victory:
   bne do_not_be_solved_yet
 
   jsr owl_switch_color_puzzle_play_victory_sound
+
+  lda #PUZZLE_TREASURE_CHEST_DELAY
+  sta owl_switch_color_puzzle_state_counter,x
+
+  lda #OWL_SWITCH_COLOR_PUZZLE_STATE_SPAWN_TREASURE_CHEST
+  sta entity_state,x
+do_not_be_solved_yet:
+
+  .endscope
+
+  rts
+
+owl_switch_color_puzzle_state_spawn_treasure_chest:
+
+  .scope
+  dec owl_switch_color_puzzle_state_counter,x
+  bne do_not_transition_yet
+
+  ;play a sound
+  lda #<sfx_chest_melody
+  sta sound_param_word_0
+  lda #>sfx_chest_melody
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+  far_call #SOUND_BANK, stream_initialize
 
   ;spawn a treasure chest with the forwarded parameters
   lda #entity_index_treasure_chest
@@ -197,8 +228,8 @@ owl_switch_color_puzzle_state_victory:
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
-do_not_be_solved_yet:
 
+do_not_transition_yet:
   .endscope
 
   rts
