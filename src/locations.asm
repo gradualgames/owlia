@@ -239,6 +239,7 @@
     tortoise_entrance, \
     tortoise_7_53, \
     tortoise_11_21, \
+    tortoise_31_31, \
     tortoise_31_33, \
     tortoise_55_54, \
     tortoise_7_9, \
@@ -247,6 +248,7 @@
     tortoise_51_43, \
     tortoise_59_21, \
     tortoise_55_10, \
+    dungeon5_entrance, \
     dungeon5_0_0_e, \
     dungeon5_1_0_s, \
     dungeon5_1_0_w, \
@@ -2400,13 +2402,19 @@ tortoise_entity_instances:
   .byte entity_index_starfish, 47, 53, 0, 0
 
 dungeon5_0_0_entity_instances:
-  .byte 7
-  .byte entity_index_jellyfish, 4, 9, 0, 0
+  .byte 8
+  .byte entity_index_jellyfish, 6, 9, 0, 0
   .byte entity_index_owl_switch_color_puzzle, 5, 8, 0, OWL_SWITCH_COLOR_PUZZLE_PARAMS, DUNGEON5_DUNGEON_FLAGS_PUZZLE1_COMPLETE, TREASURE_CHEST_ITEM_TYPE_KEY, <1, >1
   .byte entity_index_owl_switch, 0, 2, 0, OWL_SWITCH_PARAMS, 0
   .byte entity_index_owl_switch, 15, 2, 0, OWL_SWITCH_PARAMS, 1
   .byte entity_index_owl_switch, 0, 11, 0, OWL_SWITCH_PARAMS, 2
   .byte entity_index_owl_switch, 15, 11, 0, OWL_SWITCH_PARAMS, 3
+  .byte entity_index_monolith, 1, 8, 0, MONOLITH_PARAMS,\
+                                         MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
+                                         0,\
+                                         MONOLITH_DIRECTION_WEST,\
+                                         ACTION_GOTO_LOCATION_GROUP1, location_index_tortoise_31_31,\
+                                         0, 5
   .byte entity_index_monolith, 14, 8, 0, MONOLITH_PARAMS,\
                                          MONOLITH_TYPE_UNLOCKED | MONOLITH_FLAGS_UP_SET,\
                                          0,\
@@ -3683,6 +3691,11 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
                       11, 21, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
+tortoise_31_31:
+define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
+                      area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
+                      31, 31, 0, 0, 0, ENTITY_DIRECTION_DOWN
+
 tortoise_31_33:
 define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
@@ -3723,6 +3736,8 @@ define_centered_location LOCATION_BRIGHTNESS_LEVEL_4,\
                       area_index_tortoise, tortoise_sprite_chr_groups, tortoise_entity_instances, tortoise_palette,\
                       55, 10, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
+dungeon5_entrance:
+define_location {(LOCATION_FLAGS_DUNGEON_ENTRANCE | LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5,dungeon5_sprite_chr_groups,dungeon5_0_0_entity_instances,dungeon5_palette,0, 0, 2, 7, 0, 0, 0, ENTITY_DIRECTION_RIGHT
 dungeon5_0_0_e:
 define_location {(LOCATION_FLAGS_DUNGEON_ENTRANCE | LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},area_index_dungeon5,dungeon5_sprite_chr_groups,dungeon5_0_0_entity_instances,dungeon5_palette,0, 0, 13, 7, 0, 0, 0, ENTITY_DIRECTION_LEFT
 dungeon5_1_0_s:
