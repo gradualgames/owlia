@@ -47,6 +47,10 @@ end_cut_scene_slide4_palette:
   .byte $0e,$08,$28,$20,$0e,$18,$28,$20,$0e,$08,$18,$28,$0e,$28,$10,$20
   .byte $0e,$07,$17,$26,$0e,$0a,$19,$37,$0e,$16,$12,$21,$0e,$0e,$0e,$0e
 
+end_cut_scene_slide5_palette:
+  .byte $0e,$18,$38,$20,$0e,$0e,$01,$32,$0e,$07,$06,$0c,$0e,$06,$0c,$37
+  .byte $0e,$00,$10,$36,$0e,$26,$36,$20,$0e,$0e,$06,$36,$0e,$0e,$0e,$0e
+
 end_cut_scene_text_palette:
   .byte $0e,$08,$28,$20,$0e,$18,$28,$20,$0e,$08,$18,$28,$0e,$28,$10,$20
   .byte $0e,$07,$17,$26,$0e,$0a,$19,$37,$0e,$16,$12,$21,$0e,$0e,$0e,$0e
@@ -247,6 +251,20 @@ end_cut_scene_laurie_andrews:
   .word end_cut_scene_laurie_andrews_strings           ; strings_address .word
   .word 0                                              ; song_address .word
 
+end_cut_scene_slide5:
+  .byte SLIDE_TYPE_IMAGE_ONLY
+  .byte BG_CHR_DATA_BANK6                              ; bg_chr_bank .byte
+  .word end_cut_scene_slide5_chr                       ; bg_chr_address .word
+  .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
+  .word end_cut_scene_slide5_nametable                 ; nametable_address .word
+  .word end_cut_scene_slide5_palette                   ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .byte 255                                            ; slide_length .byte
+  .word end_cut_scene_slide5_sprite_chr_sets           ; sprite_chr_sets_address .word
+  .word end_cut_scene_slide5_sprite_overlays           ; sprite_overlays_address .word
+  .word 0                                              ; strings_address .word
+  .word 0                                              ; song_address .word
+
 end_cut_scene_testers:
   .byte SLIDE_TYPE_STRINGS_ONLY
   .byte 0                                              ; bg_chr_bank .byte
@@ -339,6 +357,15 @@ end_cut_scene_slide4_sprite_overlays:
   .byte 1
   .byte 23
   .word end_cut_scene_slide4_sprite_overlay0
+
+end_cut_scene_slide5_sprite_chr_sets:
+  .byte 1
+  .byte sprite_chr_group_index_end_cut_scene_slide5
+
+end_cut_scene_slide5_sprite_overlays:
+  .byte 1
+  .byte 23
+  .word end_cut_scene_slide5_sprite_overlay0
 
 .include "charmap_password.inc"
 

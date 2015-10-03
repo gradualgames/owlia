@@ -69,7 +69,8 @@
   end_cut_scene_slide1_spr_chr, \
   end_cut_scene_slide2_spr_chr, \
   end_cut_scene_slide3_spr_chr, \
-  end_cut_scene_slide4_spr_chr
+  end_cut_scene_slide4_spr_chr, \
+  end_cut_scene_slide5_spr_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -143,6 +144,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_end_cut_scene_slide2
   .byte sprite_chr_group_bank_end_cut_scene_slide3
   .byte sprite_chr_group_bank_end_cut_scene_slide4
+  .byte sprite_chr_group_bank_end_cut_scene_slide5
 
 .segment "ROM08"
 
@@ -349,3 +351,8 @@ end_cut_scene_slide3_spr_chr:
 
 end_cut_scene_slide4_spr_chr:
 .incbin "end_cut_scene_slide4_spr.chr"
+
+.segment "ROM28"
+
+end_cut_scene_slide5_spr_chr:
+.incbin "end_cut_scene_slide5_spr.chr"

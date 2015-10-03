@@ -15,5 +15,6 @@ NAMETABLE_DATA_BANK1 = 12
 .global end_cut_scene_slide2_nametable
 .global end_cut_scene_slide3_nametable
 .global end_cut_scene_slide4_nametable
+.global end_cut_scene_slide5_nametable
 
 .endif
