@@ -376,8 +376,6 @@ next_entity_instance:
   ;spawn the entity
   jsr entity_spawn
 
-  ldx spawned_entity
-
   ;get chr offset for this entity
   ldy entities_index
   iny
@@ -403,75 +401,106 @@ get_entity_params:
   lda (entities_address),y
   sta entities_params_count
 
-  beq no_more_params
+  bne :+
+  jmp no_more_params
+:
   ;get the params for the entity (entity specific, often NPC conversation index)
 
   iny
   lda (entities_address),y
+  ldx spawned_entity
+  bmi :+
   sta entity_local0,x
+:
 
   dec entities_params_count
   beq no_more_params
 
   iny
   lda (entities_address),y
+  ldx spawned_entity
+  bmi :+
   sta entity_local1,x
+:
 
   dec entities_params_count
   beq no_more_params
 
   iny
   lda (entities_address),y
+  ldx spawned_entity
+  bmi :+
   sta entity_local2,x
+:
 
   dec entities_params_count
   beq no_more_params
 
   iny
   lda (entities_address),y
+  ldx spawned_entity
+  bmi :+
   sta entity_local3,x
+:
 
   dec entities_params_count
   beq no_more_params
 
   iny
   lda (entities_address),y
+  ldx spawned_entity
+  bmi :+
   sta entity_local4,x
+:
 
   dec entities_params_count
   beq no_more_params
 
   iny
   lda (entities_address),y
+  ldx spawned_entity
+  bmi :+
   sta entity_local5,x
-
+:
   dec entities_params_count
   beq no_more_params
 
   iny
   lda (entities_address),y
+  ldx spawned_entity
+  bmi :+
   sta entity_local6,x
+:
 
   dec entities_params_count
   beq no_more_params
 
   iny
   lda (entities_address),y
+  ldx spawned_entity
+  bmi :+
   sta entity_local7,x
+:
 
   dec entities_params_count
   beq no_more_params
 
   iny
   lda (entities_address),y
+  ldx spawned_entity
+  bmi :+
   sta entity_local8,x
+:
 
   dec entities_params_count
   beq no_more_params
 
   iny
   lda (entities_address),y
+  ldx spawned_entity
+  bmi :+
   sta entity_local9,x
+:
 
 no_more_params:
 

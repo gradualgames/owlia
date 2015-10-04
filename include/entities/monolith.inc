@@ -29,7 +29,7 @@ monolith_state_init:
   lda #MONOLITH_HEIGHT
   sta entity_height,x
 
-  lda #0
+  lda #$ff
   sta monolith_inserted_key_index,x
 
   .scope
@@ -65,9 +65,6 @@ done:
   ;state. This tells the player that the monolith is already unlocked.
   ;spawn a key entity and put it in passive state
   .scope
-  txa
-  pha
-
   lda #entity_index_key
   sta b0
 
@@ -89,10 +86,16 @@ done:
   jsr entity_spawn
 
   lda spawned_entity
-  sta monolith_inserted_key_index,x
-  tax
-
   bmi cannot_spawn_key
+  sta monolith_inserted_key_index,x
+
+  ;save CURRENT x register (the monolith)
+  txa
+  pha
+
+  ;replace x register with inserted key index temporarily
+  lda monolith_inserted_key_index,x
+  tax
 
   ;make sure no stale data causes the key to kill itself based
   ;on a dungeon flag!
@@ -102,8 +105,10 @@ done:
   far_call #entity_update_bank_key, key_state_init
   far_call #entity_update_bank_key, key_state_passive_inserted_monolith_init
 
+  ;restore original x register for THIS monolith
   pla
   tax
+
 cannot_spawn_key:
   .endscope
 
@@ -158,7 +163,7 @@ monolith_state_fall:
   ;move the key along with the monolith if it is present
   .scope
   ldy monolith_inserted_key_index,x
-  beq no_inserted_key
+  bmi no_inserted_key
   lda monolith_patch_row,x
   beq do_not_move_key
 
@@ -222,7 +227,7 @@ monolith_state_rise:
   ;move the key along with the monolith if it is present
   .scope
   ldy monolith_inserted_key_index,x
-  beq no_inserted_key
+  bmi no_inserted_key
   lda monolith_patch_row,x
   cmp #4
   beq do_not_move_key
