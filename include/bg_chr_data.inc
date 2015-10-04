@@ -55,5 +55,6 @@ BG_CHR_DATA_BANK6 = 27
 .global end_cut_scene_slide3_chr
 .global end_cut_scene_slide4_chr
 .global end_cut_scene_slide5_chr
+.global end_cut_scene_slide6_chr
 
 .endif

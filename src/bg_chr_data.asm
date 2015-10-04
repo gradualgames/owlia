@@ -152,3 +152,6 @@ end_cut_scene_slide4_chr:
 
 end_cut_scene_slide5_chr:
 .incbin "end_cut_scene_slide5.chr"
+
+end_cut_scene_slide6_chr:
+.incbin "end_cut_scene_slide6.chr"
