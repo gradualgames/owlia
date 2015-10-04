@@ -191,7 +191,7 @@ sfx_text:
   .byte TRM
 
 sfx_get_item:
-  .byte STV,sfx_volume_envelope_index_get_item,STP,sfx_pitch_envelope_index_flat,SDU,sfx_duty_envelope_index_ooo,STL,3,D6,A6,STV,0,D6
+  .byte STV,sfx_volume_envelope_index_get_item,STP,sfx_pitch_envelope_index_flat,SDU,sfx_duty_envelope_index_ooo,STL,5,D6,A6
   .byte TRM
 
 sfx_move_cursor:
