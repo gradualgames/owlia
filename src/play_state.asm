@@ -383,7 +383,11 @@ next_entity_instance:
   sty entities_index
 
   sta b0
+
+  ldx spawned_entity
+  bmi :+
   jsr entity_lookup_sprite_chr_offset
+:
 
   jsr get_entity_params
 
