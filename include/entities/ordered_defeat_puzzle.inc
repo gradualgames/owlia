@@ -10,7 +10,8 @@ ORDERED_DEFEAT_PUZZLE_INC = 1
   ordered_defeat_puzzle_state_step0, \
   ordered_defeat_puzzle_state_step1, \
   ordered_defeat_puzzle_state_step2, \
-  ordered_defeat_puzzle_state_complete, \
+  ordered_defeat_puzzle_state_victory, \
+  ordered_defeat_puzzle_state_spawn_treasure_chest, \
   ordered_defeat_puzzle_state_fail
 
 ordered_defeat_puzzle_lo:
@@ -176,10 +177,10 @@ ordered_defeat_puzzle_state_step2:
   and #ENTITY_FLAGS_ALIVE_TEST
   bne entity_alive
 
-  lda #ORDERED_DEFEAT_PUZZLE_TIME_UNTIL_TREASURE_CHEST_SPAWN
+  lda #PUZZLE_VICTORY_MELODY_DELAY
   sta ordered_defeat_puzzle_state_counter,x
 
-  lda #ORDERED_DEFEAT_PUZZLE_STATE_COMPLETE
+  lda #ORDERED_DEFEAT_PUZZLE_STATE_VICTORY
   sta entity_state,x
 
 entity_alive:
@@ -187,28 +188,67 @@ entity_alive:
 
   rts
 
-ordered_defeat_puzzle_state_complete:
+ordered_defeat_puzzle_state_victory:
 
   .scope
   dec ordered_defeat_puzzle_state_counter,x
   bne do_not_transition_yet
 
-  jsr ordered_defeat_puzzle_spawn_treasure_chest_and_die
+  ;play a sound
+  lda #<sfx_solved_puzzle_instrument_one
+  sta sound_param_word_0
+  lda #>sfx_solved_puzzle_instrument_one
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  ;play a sound
+  lda #<sfx_solved_puzzle_instrument_two
+  sta sound_param_word_0
+  lda #>sfx_solved_puzzle_instrument_two
+  sta sound_param_word_0+1
+
+  lda #1
+  sta sound_param_byte_0
+  lda #soundeffect_two
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  lda #PUZZLE_TREASURE_CHEST_DELAY
+  sta ordered_defeat_puzzle_state_counter,x
+
+  lda #ORDERED_DEFEAT_PUZZLE_STATE_SPAWN_TREASURE_CHEST
+  sta entity_state,x
 
 do_not_transition_yet:
   .endscope
 
   rts
 
-ordered_defeat_puzzle_state_fail:
+ordered_defeat_puzzle_state_spawn_treasure_chest:
 
-  lda entity_flags,x
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,x
+  .scope
+  dec ordered_defeat_puzzle_state_counter,x
+  bne do_not_transition_yet
 
-  rts
+  ;play a sound
+  lda #<sfx_chest_melody
+  sta sound_param_word_0
+  lda #>sfx_chest_melody
+  sta sound_param_word_0+1
 
-.proc ordered_defeat_puzzle_spawn_treasure_chest_and_die
+  lda #0
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+  far_call #SOUND_BANK, stream_initialize
 
   .scope
   lda #entity_index_treasure_chest
@@ -239,38 +279,21 @@ ordered_defeat_puzzle_state_fail:
   sta treasure_chest_item_quantity_hi,y
   .endscope
 
-  ;play a sound
-  lda #<sfx_solved_puzzle_instrument_one
-  sta sound_param_word_0
-  lda #>sfx_solved_puzzle_instrument_one
-  sta sound_param_word_0+1
+  lda entity_flags,x
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,x
 
-  lda #0
-  sta sound_param_byte_0
-  lda #soundeffect_one
-  sta sound_param_byte_1
+do_not_transition_yet:
+  .endscope
 
-  far_call #SOUND_BANK, stream_initialize
+  rts
 
-  ;play a sound
-  lda #<sfx_solved_puzzle_instrument_two
-  sta sound_param_word_0
-  lda #>sfx_solved_puzzle_instrument_two
-  sta sound_param_word_0+1
-
-  lda #1
-  sta sound_param_byte_0
-  lda #soundeffect_two
-  sta sound_param_byte_1
-
-  far_call #SOUND_BANK, stream_initialize
+ordered_defeat_puzzle_state_fail:
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
 
   rts
-
-.endproc
 
 .endif
