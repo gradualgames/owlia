@@ -822,7 +822,7 @@ meadow2_entity_instances:
 
 meadow3_entity_instances:
   .byte 9
-  .byte entity_index_dungeon_entrance_statue, 9, 2, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 1, <6000, >6000, ^6000, buttons::_down
+  .byte entity_index_dungeon_entrance_statue, 9, 6, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 1, <6000, >6000, ^6000, buttons::_down
   .byte entity_index_treasure_chest, 21, 27, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_treasure_chest, 57, 41, 0, TREASURE_CHEST_PARAMS, INVENTORY_DUNGEON_FLAGS_MASK_NOP, TREASURE_CHEST_MODE_OVERWORLD, TREASURE_CHEST_ITEM_TYPE_GP, <1000, >1000
   .byte entity_index_octopus, 55, 41, 0, 0
@@ -3160,7 +3160,7 @@ define_location LOCATION_BRIGHTNESS_LEVEL_4,\
 meadow3_dungeon_entrance:
 define_location LOCATION_BRIGHTNESS_LEVEL_4,\
                         area_index_meadow3, meadow3_sprite_chr_groups, meadow3_entity_instances, meadow3_palette,\
-                        1, 0, 9, 2,\
+                        1, 0, 9, 6,\
                         0, 0, 0, ENTITY_DIRECTION_DOWN
 
 ;dungeon locations
