@@ -355,10 +355,9 @@ rescue_greathornedowl:
   .byte NL,2, "TYTO THE ABILITY TO TOSS"
   .byte NL,3, "BOMBS!",WT,EP
 
-  .byte NL,1, "OWLIA IS A VAST LAND.",TM,30
-  .byte NL,2, "YOU MUST NOW TRAVEL TO"
-  .byte NL,3, "THE VAST NORTHERN TUNDRA.",TM,30
-  .byte NL,4, "I WILL TAKE YOU THERE.",WT,EC
+  .byte NL,1, "YOU MUST NOW TRAVEL TO"
+  .byte NL,2, "THE VAST NORTHERN TUNDRA.",TM,30
+  .byte NL,3, "I WILL TAKE YOU THERE.",WT,EC
 
 dungeon_statue_deny_entry:
   .byte    1, "YOU DO NOT POSSESS ENOUGH"
