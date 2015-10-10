@@ -171,20 +171,6 @@ end_cut_scene_thanks_for_playing:
   .word end_cut_scene_thanks_for_playing_strings       ; strings_address .word
   .word ending_theme                                   ; song_address .word
 
-end_cut_scene_slide1:
-  .byte SLIDE_TYPE_IMAGE_ONLY
-  .byte 26                                             ; bg_chr_bank .byte
-  .word end_cut_scene_slide1_chr                       ; bg_chr_address .word
-  .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
-  .word end_cut_scene_slide1_nametable                 ; nametable_address .word
-  .word end_cut_scene_slide1_palette                   ; palette_address .word
-  .byte 0                                              ; conversation_index .byte
-  .byte 255                                            ; slide_length .byte
-  .word end_cut_scene_slide1_sprite_chr_sets           ; sprite_chr_sets_address .word
-  .word end_cut_scene_slide1_sprite_overlays           ; sprite_overlays_address .word
-  .word 0                                              ; strings_address .word
-  .word 0                                              ; song_address .word
-
 end_cut_scene_produced_by:
   .byte SLIDE_TYPE_STRINGS_ONLY
   .byte 0                                              ; bg_chr_bank .byte
@@ -199,17 +185,17 @@ end_cut_scene_produced_by:
   .word end_cut_scene_produced_by_strings              ; strings_address .word
   .word 0                                              ; song_address .word
 
-end_cut_scene_slide2:
+end_cut_scene_slide1:
   .byte SLIDE_TYPE_IMAGE_ONLY
   .byte 26                                             ; bg_chr_bank .byte
-  .word end_cut_scene_slide2_chr                       ; bg_chr_address .word
+  .word end_cut_scene_slide1_chr                       ; bg_chr_address .word
   .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
-  .word end_cut_scene_slide2_nametable                 ; nametable_address .word
-  .word end_cut_scene_slide2_palette                   ; palette_address .word
+  .word end_cut_scene_slide1_nametable                 ; nametable_address .word
+  .word end_cut_scene_slide1_palette                   ; palette_address .word
   .byte 0                                              ; conversation_index .byte
   .byte 255                                            ; slide_length .byte
-  .word end_cut_scene_slide2_sprite_chr_sets           ; sprite_chr_sets_address .word
-  .word end_cut_scene_slide2_sprite_overlays           ; sprite_overlays_address .word
+  .word end_cut_scene_slide1_sprite_chr_sets           ; sprite_chr_sets_address .word
+  .word end_cut_scene_slide1_sprite_overlays           ; sprite_overlays_address .word
   .word 0                                              ; strings_address .word
   .word 0                                              ; song_address .word
 
@@ -227,17 +213,17 @@ end_cut_scene_derek_andrews:
   .word end_cut_scene_derek_andrews_strings            ; strings_address .word
   .word 0                                              ; song_address .word
 
-end_cut_scene_slide3:
+end_cut_scene_slide2:
   .byte SLIDE_TYPE_IMAGE_ONLY
   .byte 26                                             ; bg_chr_bank .byte
-  .word end_cut_scene_slide3_chr                       ; bg_chr_address .word
+  .word end_cut_scene_slide2_chr                       ; bg_chr_address .word
   .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
-  .word end_cut_scene_slide3_nametable                 ; nametable_address .word
-  .word end_cut_scene_slide3_palette                   ; palette_address .word
+  .word end_cut_scene_slide2_nametable                 ; nametable_address .word
+  .word end_cut_scene_slide2_palette                   ; palette_address .word
   .byte 0                                              ; conversation_index .byte
   .byte 255                                            ; slide_length .byte
-  .word end_cut_scene_slide3_sprite_chr_sets           ; sprite_chr_sets_address .word
-  .word end_cut_scene_slide3_sprite_overlays           ; sprite_overlays_address .word
+  .word end_cut_scene_slide2_sprite_chr_sets           ; sprite_chr_sets_address .word
+  .word end_cut_scene_slide2_sprite_overlays           ; sprite_overlays_address .word
   .word 0                                              ; strings_address .word
   .word 0                                              ; song_address .word
 
@@ -255,17 +241,17 @@ end_cut_scene_laurie_andrews:
   .word end_cut_scene_laurie_andrews_strings           ; strings_address .word
   .word 0                                              ; song_address .word
 
-end_cut_scene_slide4:
+end_cut_scene_slide3:
   .byte SLIDE_TYPE_IMAGE_ONLY
   .byte 26                                             ; bg_chr_bank .byte
-  .word end_cut_scene_slide4_chr                       ; bg_chr_address .word
+  .word end_cut_scene_slide3_chr                       ; bg_chr_address .word
   .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
-  .word end_cut_scene_slide4_nametable                 ; nametable_address .word
-  .word end_cut_scene_slide4_palette                   ; palette_address .word
+  .word end_cut_scene_slide3_nametable                 ; nametable_address .word
+  .word end_cut_scene_slide3_palette                   ; palette_address .word
   .byte 0                                              ; conversation_index .byte
   .byte 255                                            ; slide_length .byte
-  .word end_cut_scene_slide4_sprite_chr_sets           ; sprite_chr_sets_address .word
-  .word end_cut_scene_slide4_sprite_overlays           ; sprite_overlays_address .word
+  .word end_cut_scene_slide3_sprite_chr_sets           ; sprite_chr_sets_address .word
+  .word end_cut_scene_slide3_sprite_overlays           ; sprite_overlays_address .word
   .word 0                                              ; strings_address .word
   .word 0                                              ; song_address .word
 
@@ -333,10 +319,24 @@ end_cut_scene_thanks_to:
   .word 0                                              ; nametable_address .word
   .word end_cut_scene_text_palette                     ; palette_address .word
   .byte 0                                              ; conversation_index .byte
-  .byte SLIDE_LENGTH_INFINITE                          ; slide_length .byte
+  .byte 255                                            ; slide_length .byte
   .word 0                                              ; sprite_chr_sets_address .word
   .word 0                                              ; sprite_overlays_address .word
   .word end_cut_scene_thanks_to_strings                ; strings_address .word
+  .word 0                                              ; song_address .word
+
+end_cut_scene_slide4:
+  .byte SLIDE_TYPE_IMAGE_ONLY
+  .byte 26                                             ; bg_chr_bank .byte
+  .word end_cut_scene_slide4_chr                       ; bg_chr_address .word
+  .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
+  .word end_cut_scene_slide4_nametable                 ; nametable_address .word
+  .word end_cut_scene_slide4_palette                   ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .byte SLIDE_LENGTH_INFINITE                          ; slide_length .byte
+  .word end_cut_scene_slide4_sprite_chr_sets           ; sprite_chr_sets_address .word
+  .word end_cut_scene_slide4_sprite_overlays           ; sprite_overlays_address .word
+  .word 0                                              ; strings_address .word
   .word 0                                              ; song_address .word
   .byte LAST_SLIDE
 
@@ -446,7 +446,7 @@ laurie_andrews_string:
   .byte "LAURIE ANDREWS",ES
 
 end_cut_scene_testers_strings:
-  .byte 7
+  .byte 8
   .byte 12, 12
   .word testers_string
   .byte 14,8
@@ -461,6 +461,8 @@ end_cut_scene_testers_strings:
   .word bradley_bateman_string
   .byte 19,8
   .word john_white_string
+  .byte 20,8
+  .word justin_orenich_string
 
 testers_string:
   .byte "TESTERS",ES
@@ -483,6 +485,9 @@ bradley_bateman_string:
 john_white_string:
   .byte "JOHN WHITE",ES
 
+justin_orenich_string:
+  .byte "JUSTIN ORENICH",ES
+
 end_cut_scene_produced_by_strings:
   .byte 2
   .byte 12,10
@@ -498,29 +503,29 @@ infinite_nes_lives_string:
 
 end_cut_scene_tools_strings:
   .byte 12
-  .byte 12,13
+  .byte 8,13
   .word tools_string
-  .byte 14,8
+  .byte 10,8
   .word ca65_string
-  .byte 15,8
+  .byte 11,8
   .word notepad_plus_plus_string
-  .byte 16,8
+  .byte 12,8
   .word paint_dot_net_string
-  .byte 17,8
+  .byte 13,8
   .word python_string
-  .byte 18,8
+  .byte 14,8
   .word famitracker_string
-  .byte 19,8
+  .byte 15,8
   .word fceux_string
-  .byte 20,8
+  .byte 16,8
   .word nestopia_string
-  .byte 21,8
+  .byte 17,8
   .word nintendulator_string
-  .byte 22,8
+  .byte 18,8
   .word git_string
-  .byte 23,8
+  .byte 19,8
   .word sourcetree_string
-  .byte 24,8
+  .byte 20,8
   .word photoshop_string
 
 tools_string:
