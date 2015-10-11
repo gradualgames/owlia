@@ -384,6 +384,7 @@ location_index_dungeon5_boss_area_entrance
 location_index_dungeon5_final_boss_area_entrance
 location_index_dungeon5_final_silmaran_encounter
 location_index_sea_exploding_fortress_scene
+location_index_endless_meadow_silmaran_carried_adlanniel_scene
 .endenum
 
 ;****************************************************************

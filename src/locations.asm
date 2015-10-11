@@ -286,7 +286,8 @@
     dungeon5_boss_area_entrance, \
     dungeon5_final_boss_area_entrance, \
     dungeon5_final_silmaran_encounter, \
-    sea_exploding_fortress_scene
+    sea_exploding_fortress_scene, \
+    endless_meadow_silmaran_carried_adlanniel_scene
 
 locations_lo:
   .lobytes locations
@@ -758,6 +759,14 @@ sea_sprite_chr_groups:
   .byte sprite_chr_group_index_lantern
   .byte sprite_chr_group_index_fortress
   .byte sprite_chr_group_index_splash
+
+endless_meadow_sprite_chr_groups:
+  .byte 5   ;sprite_chr_groups .byte
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
 
 ;****************************************************************
 ;Entity instance sets
@@ -2816,6 +2825,9 @@ sea_entity_instances:
   .byte 1
   .byte entity_index_ending, 6, 5, 0, 0
 
+endless_meadow_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -3043,6 +3055,11 @@ sea_palette:
   .byte 14,$31,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte 14,$20,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte 14,$31,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte PALETTE_CYCLE_LOOP
+
+endless_meadow_palette:
+  .byte $0e,$0a,$08,$19,$0e,$0a,$19,$15,$0e,$0a,$19,$28,$0e,$08,$19,$18
+  .byte $0e,$0e,$06,$37,$0e,$0e,$18,$20,$0e,$0e,$28,$20,$0e,$0e,$0e,$0e
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
@@ -3819,4 +3836,9 @@ define_location {(LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIG
 sea_exploding_fortress_scene:
 define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
                       area_index_sea, sea_sprite_chr_groups, sea_entity_instances, sea_palette,\
+                      0, 0, 0, 0, 0, 0, 0, ENTITY_DIRECTION_DOWN
+
+endless_meadow_silmaran_carried_adlanniel_scene:
+define_location {(LOCATION_BRIGHTNESS_LEVEL_4)},\
+                      area_index_endless_meadow, endless_meadow_sprite_chr_groups, endless_meadow_entity_instances, endless_meadow_palette,\
                       0, 0, 0, 0, 0, 0, 0, ENTITY_DIRECTION_DOWN

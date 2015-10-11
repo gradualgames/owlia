@@ -70,6 +70,7 @@ area_index_tortoise
 area_index_dungeon5
 area_index_dungeon5_boss
 area_index_sea
+area_index_endless_meadow
 .endenum
 
 .endif

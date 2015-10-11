@@ -496,4 +496,18 @@ MAP_DATA_BANK4 = 30
 .global sea_metatile_table_top_right_tiles
 .global sea_metatile_table_top_left_tiles
 
+.global endless_meadow_palette
+.global endless_meadow_map
+.global endless_meadow_big_metatile_table_bottom_right
+.global endless_meadow_big_metatile_table_bottom_left
+.global endless_meadow_big_metatile_table_top_right
+.global endless_meadow_big_metatile_table_top_left
+.global endless_meadow_metatile_table_properties
+.global endless_meadow_metatile_table_params
+.global endless_meadow_metatile_table_attributes
+.global endless_meadow_metatile_table_bottom_right_tiles
+.global endless_meadow_metatile_table_bottom_left_tiles
+.global endless_meadow_metatile_table_top_right_tiles
+.global endless_meadow_metatile_table_top_left_tiles
+
 .endif

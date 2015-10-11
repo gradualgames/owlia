@@ -48,7 +48,8 @@
     tortoise_area, \
     dungeon5_area, \
     dungeon5_boss_area, \
-    sea_area
+    sea_area, \
+    endless_meadow_area
 
 areas_lo:
   .lobytes areas
@@ -1232,3 +1233,35 @@ sea_area_bg_chr_groups:
   .word sand_chr
   .byte BG_CHR_DATA_BANK4
   .word shore_chr
+
+endless_meadow_area:
+  .byte MAP_DATA_BANK4
+  .byte CONVERSATIONS_BANK
+  .word endless_meadow_area_bg_chr_groups
+  .word ending_theme
+  .byte $00 ;textbox_attribute
+  .word endless_meadow_map
+  .word endless_meadow_metatile_table_properties
+  .word endless_meadow_metatile_table_params
+  .word endless_meadow_metatile_table_attributes
+  .word endless_meadow_metatile_table_top_left_tiles
+  .word endless_meadow_metatile_table_top_right_tiles
+  .word endless_meadow_metatile_table_bottom_left_tiles
+  .word endless_meadow_metatile_table_bottom_right_tiles
+  .word endless_meadow_big_metatile_table_top_left
+  .word endless_meadow_big_metatile_table_top_right
+  .word endless_meadow_big_metatile_table_bottom_left
+  .word endless_meadow_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
+
+endless_meadow_area_bg_chr_groups:
+  .byte 4  ;count
+  .byte BG_CHR_DATA_BANK1
+  .word meadow1_trees
+  .byte BG_CHR_DATA_BANK1
+  .word meadow1_flowers
+  .byte BG_CHR_DATA_BANK1
+  .word meadow1_grass
+  .byte BG_CHR_DATA_BANK1
+  .word meadow1_trees_corners

@@ -341,7 +341,7 @@ end_cut_scene_thanks_to:
   .word 0                                              ; sprite_overlays_address .word
   .word end_cut_scene_thanks_to_strings                ; strings_address .word
   .word 0                                              ; song_address .word
-  .byte location_index_sea_exploding_fortress_scene    ; location_index .byte
+  .byte location_index_endless_meadow_silmaran_carried_adlanniel_scene ; location_index .byte
   .byte LAST_SLIDE
 
 ; end_cut_scene_slide4:
