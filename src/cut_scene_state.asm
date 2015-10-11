@@ -37,6 +37,26 @@ play_cut_scene:
   cmp #TEXTBOX_EXIT
   beq exit_cut_scene_state
 
+  ;check if there is a location to load
+  switch_bank_ldy #SLIDE_DATA_BANK
+  lda state_control_params+cut_scene_state_control::slide_address
+  sta w0
+  lda state_control_params+cut_scene_state_control::slide_address+1
+  sta w0+1
+  ldy #slide::location_index
+  lda (w0),y
+  cmp #$ff
+  beq no_location_to_load
+  tax
+  switch_bank_ldy #LOCATIONS_BANK
+  lda locations_lo,x
+  sta location_address
+  lda locations_hi,x
+  sta location_address+1
+  jsr play_state_initialize
+  jmp play_state_load_location
+no_location_to_load:
+
   ;advance slide address
   clc
   lda state_control_params+cut_scene_state_control::slide_address
@@ -55,10 +75,12 @@ play_cut_scene:
   ldy #0
   lda (w0),y
   cmp #LAST_SLIDE
-  bne play_cut_scene
+  beq :+
+  jmp play_cut_scene
+:
 
 exit_cut_scene_state:
-
+load_title_state:
   switch_bank_ldy #TITLE_STATE_BANK
   jmp title_state_init
 

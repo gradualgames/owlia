@@ -25,6 +25,7 @@ SLIDE_LENGTH_INFINITE = 0
   sprite_overlays_address .word
   strings_address .word
   song_address .word
+  location_index .byte
 .endstruct
 
 .global intro_cut_scene_great_owls
