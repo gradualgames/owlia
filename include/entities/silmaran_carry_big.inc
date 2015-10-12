@@ -2,8 +2,16 @@
 .ifndef SILMARAN_CARRY_BIG_INC
 SILMARAN_CARRY_BIG_INC = 1
 
+SILMARAN_CARRY_BIG_SPEED = 4
+
+SILMARAN_HERO_X_OFFSET = 24
+SILMARAN_HERO_Y_OFFSET = 32
+
 SILMARAN_CARRY_BIG_WIDTH = $0f
 SILMARAN_CARRY_BIG_HEIGHT = $0f
+
+define_entity_properties silmaran_carry_big_spawn_x_lo,\
+                         silmaran_carry_big_spawn_x_hi
 
 .enum
 SILMARAN_CARRY_BIG_STATE_INIT
@@ -21,6 +29,20 @@ silmaran_carry_big_update:
 silmaran_carry_big_state_init:
 
   jsr entity_set_drawable
+
+  jsr entity_set_shadow_spot
+
+  lda #<28
+  sta entity_shadow_spot_x_lo,x
+  lda #>28
+  sta entity_shadow_spot_x_hi,x
+
+  lda #<112
+  sta entity_shadow_spot_y_lo,x
+  lda #>112
+  sta entity_shadow_spot_y_hi,x
+
+  entity_move16 entity_x, silmaran_carry_big_spawn_x
 
   lda #<silmaran_carry_big
   sta entity_animation_address_lo,x
@@ -46,10 +68,14 @@ silmaran_carry_big_state_init:
   jsr controller_clear
   set_controller_routine controller_nop
 
+  lda #ENTITY_DIRECTION_RIGHT
+  sta hero_direction
+
   lda hero_flags
-  and #HERO_FLAGS_DRAWABLE_CLEAR
   ora #HERO_FLAGS_HIDE_STATUS_SET
   sta hero_flags
+
+  jsr silmaran_carry_big_set_hero_position
 
   lda #SILMARAN_CARRY_BIG_STATE_MAIN
   sta entity_state,x
@@ -58,8 +84,91 @@ silmaran_carry_big_state_init:
 
 silmaran_carry_big_state_main:
 
+  clc
+  lda entity_x_lo,x
+  adc #<SILMARAN_CARRY_BIG_SPEED
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  adc #>SILMARAN_CARRY_BIG_SPEED
+  sta entity_x_hi,x
+
+  jsr silmaran_carry_big_set_hero_position
+
+  jsr silmaran_carry_big_scroll_right
+
+  .scope
+  lda camera_x
+  cmp #64
+  bne do_not_reset_scroll
+
+  lda #0
+  sta camera_x
+  sta camera_x+1
+  sta camera_scroll_x
+
+  entity_move16 silmaran_carry_big_spawn_x, entity_x
+
+  jsr silmaran_carry_big_set_hero_position
+
+do_not_reset_scroll:
+  .endscope
+
   jsr entity_update_animation
 
   rts
+
+.proc silmaran_carry_big_scroll_right
+
+  txa
+  pha
+
+  lda #SILMARAN_CARRY_BIG_SPEED
+  sta b0
+  jsr increment_camera_x
+
+  clc
+  lda camera_x
+  adc #$00
+  sta w0
+  lda camera_x+1
+  adc #$01
+  sta w0+1
+
+  lda camera_y
+  sta w1
+  lda camera_y+1
+  sta w1+1
+  far_call map_bank, map_decode_column
+  far_call map_bank,  map_process_intermediate_attribute_column_buffer
+  lda #1
+  sta column_ready
+
+  pla
+  tax
+
+  rts
+
+.endproc
+
+.proc silmaran_carry_big_set_hero_position
+
+  clc
+  lda entity_x_lo,x
+  adc #<SILMARAN_HERO_X_OFFSET
+  sta hero_x
+  lda entity_x_hi,x
+  adc #>SILMARAN_HERO_X_OFFSET
+  sta hero_x+1
+  clc
+  lda entity_y_lo,x
+  adc #<SILMARAN_HERO_Y_OFFSET
+  sta hero_y
+  lda entity_y_hi,x
+  adc #>SILMARAN_HERO_Y_OFFSET
+  sta hero_y+1
+
+  rts
+
+.endproc
 
 .endif

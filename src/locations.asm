@@ -2828,7 +2828,7 @@ sea_entity_instances:
 
 endless_meadow_entity_instances:
   .byte 1
-  .byte entity_index_silmaran_carry_big, 4, 4, 0, 0
+  .byte entity_index_silmaran_carry_big, 6, 4, 0, 0
 
 ;****************************************************************
 ;Palettes.
