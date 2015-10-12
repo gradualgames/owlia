@@ -3060,7 +3060,7 @@ sea_palette:
   .byte PALETTE_CYCLE_LOOP
 
 endless_meadow_palette:
-  .byte $0e,$0a,$08,$19,$0e,$0a,$19,$15,$0e,$0a,$19,$28,$0e,$08,$19,$18
+  .byte $0e,$19,$08,$29,$0e,$0a,$19,$15,$0e,$0a,$19,$28,$0e,$08,$19,$18
   .byte $0e,$0e,$06,$37,$0e,$0e,$18,$20,$0e,$0e,$28,$20,$0e,$0e,$0e,$0e
   .byte PALETTE_CYCLE_LOOP
 
@@ -3841,6 +3841,6 @@ define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAG
                       0, 0, 0, 0, 0, 0, 0, ENTITY_DIRECTION_DOWN
 
 endless_meadow_silmaran_carried_adlanniel_scene:
-define_location {(LOCATION_BRIGHTNESS_LEVEL_4)},\
+define_location {(LOCATION_BRIGHTNESS_LEVEL_0)},\
                       area_index_endless_meadow, endless_meadow_sprite_chr_groups, endless_meadow_entity_instances, endless_meadow_palette,\
                       0, 0, 0, 0, 0, 0, 0, ENTITY_DIRECTION_DOWN

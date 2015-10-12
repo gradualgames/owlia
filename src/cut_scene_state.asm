@@ -651,7 +651,6 @@ image_slide:
   ldy #slide::slide_length
   far_load #SLIDE_DATA_BANK, w10, w10+1
   ldx far_load_result
-  ldx #10
   bne wait_length
 
   ;if slide_length is 0, this is SLIDE_LENGTH_INFINITE.

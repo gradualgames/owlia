@@ -3,6 +3,7 @@
 SILMARAN_CARRY_BIG_INC = 1
 
 SILMARAN_CARRY_BIG_SPEED = 4
+SILMARAN_INITIAL_Y_OFFSET = 220
 
 SILMARAN_HERO_X_OFFSET = 24
 SILMARAN_HERO_Y_OFFSET = 32
@@ -11,7 +12,12 @@ SILMARAN_CARRY_BIG_WIDTH = $0f
 SILMARAN_CARRY_BIG_HEIGHT = $0f
 
 define_entity_properties silmaran_carry_big_spawn_x_lo,\
-                         silmaran_carry_big_spawn_x_hi
+                         silmaran_carry_big_spawn_x_hi,\
+                         silmaran_carry_big_y_counter,\
+                         silmaran_carry_big_state_counter_lo,\
+                         silmaran_carry_big_state_counter_hi,\
+                         silmaran_carry_big_palette_level,\
+                         silmaran_carry_big_palette_counter
 
 .enum
 SILMARAN_CARRY_BIG_STATE_INIT
@@ -32,6 +38,8 @@ silmaran_carry_big_state_init:
 
   jsr entity_set_shadow_spot
 
+  jsr entity_set_not_pausable
+
   lda #<28
   sta entity_shadow_spot_x_lo,x
   lda #>28
@@ -43,6 +51,17 @@ silmaran_carry_big_state_init:
   sta entity_shadow_spot_y_hi,x
 
   entity_move16 entity_x, silmaran_carry_big_spawn_x
+
+  sec
+  lda entity_y_lo,x
+  sbc #<SILMARAN_INITIAL_Y_OFFSET
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  sbc #>SILMARAN_INITIAL_Y_OFFSET
+  sta entity_y_hi,x
+
+  lda #SILMARAN_INITIAL_Y_OFFSET
+  sta silmaran_carry_big_y_counter,x
 
   lda #<silmaran_carry_big
   sta entity_animation_address_lo,x
@@ -77,12 +96,65 @@ silmaran_carry_big_state_init:
 
   jsr silmaran_carry_big_set_hero_position
 
+  lda #0
+  sta silmaran_carry_big_state_counter_lo,x
+  sta silmaran_carry_big_state_counter_hi,x
+
+  lda #0
+  sta silmaran_carry_big_palette_level,x
+
+  lda #0
+  sta silmaran_carry_big_palette_counter,x
+
   lda #SILMARAN_CARRY_BIG_STATE_MAIN
   sta entity_state,x
 
   rts
 
 silmaran_carry_big_state_main:
+
+  lda silmaran_carry_big_state_counter_lo,x
+  adc #<1
+  sta silmaran_carry_big_state_counter_lo,x
+  lda silmaran_carry_big_state_counter_hi,x
+  adc #>1
+  sta silmaran_carry_big_state_counter_hi,x
+
+  .scope
+  lda silmaran_carry_big_palette_level,x
+  cmp #MAX_BRIGHTNESS_LEVEL
+  beq do_not_increment_scene_brightness
+
+  inc silmaran_carry_big_palette_counter,x
+  lda silmaran_carry_big_palette_counter,x
+  cmp #64
+  bne do_not_increment_scene_brightness
+
+  lda #0
+  sta silmaran_carry_big_palette_counter,x
+
+  inc silmaran_carry_big_palette_level,x
+  lda silmaran_carry_big_palette_level,x
+  sta dynamic_palette_brightness_level_bg
+  sta b3
+  jsr entity_change_palette_brightness_bg_trampoline
+
+do_not_increment_scene_brightness:
+  .endscope
+
+  .scope
+  lda silmaran_carry_big_y_counter,x
+  beq do_not_lower_silmaran_any_longer
+  dec silmaran_carry_big_y_counter,x
+  clc
+  lda entity_y_lo,x
+  adc #<1
+  sta entity_y_lo,x
+  lda entity_y_hi,x
+  adc #>1
+  sta entity_y_hi,x
+do_not_lower_silmaran_any_longer:
+  .endscope
 
   clc
   lda entity_x_lo,x
