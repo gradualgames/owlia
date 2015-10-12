@@ -53,7 +53,15 @@ play_cut_scene:
   sta location_address
   lda locations_hi,x
   sta location_address+1
-  jsr play_state_initialize
+
+  ;set up state control struct for the "nop" action
+  lda #ACTION_NOP
+  sta state_control_params+play_state_control::action
+  lda #0
+  sta state_control_params+play_state_control::param
+
+  jsr ppu_disable_palette_cycling
+
   jmp play_state_load_location
 no_location_to_load:
 
