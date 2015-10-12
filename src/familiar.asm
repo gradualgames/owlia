@@ -819,7 +819,8 @@ familiar_direction_change_init:
     familiar_state_shield_fly_to_circle, \
     familiar_state_shield, \
     familiar_state_homing_init, \
-    familiar_state_homing
+    familiar_state_homing, \
+    familiar_state_passive
 
 familiar_lo:
   .lobytes familiar_states
@@ -2802,6 +2803,36 @@ transition_to_home_in_to_hero_state:
 
   lda #FAMILIAR_STATE_HOME_IN_TO_HERO
   sta familiar_state
+
+  rts
+
+.endproc
+
+.proc familiar_state_passive
+
+  ;reload animation based on direction
+  ldy familiar_direction
+  lda familiar_animation_addresses_lo,y
+  sta familiar_animation_address
+  sta w2
+  lda familiar_animation_addresses_hi,y
+  sta familiar_animation_address+1
+  sta w2+1
+  lda familiar_sprite_flags_direction,y
+  sta familiar_sprite_flags
+
+  ;animate the familiar
+  lda familiar_animation_address
+  sta w2
+  lda familiar_animation_address+1
+  sta w2+1
+
+  lda #<familiar_animation_object
+  sta w1
+  lda #>familiar_animation_object
+  sta w1+1
+  ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
+  jsr sprite_update_animation
 
   rts
 

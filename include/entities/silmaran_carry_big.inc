@@ -8,6 +8,9 @@ SILMARAN_INITIAL_Y_OFFSET = 220
 SILMARAN_HERO_X_OFFSET = 24
 SILMARAN_HERO_Y_OFFSET = 32
 
+SILMARAN_FAMILIAR_X_OFFSET = -24
+SILMARAN_FAMILIAR_Y_OFFSET = 32
+
 SILMARAN_CARRY_BIG_WIDTH = $0f
 SILMARAN_CARRY_BIG_HEIGHT = $0f
 
@@ -94,7 +97,21 @@ silmaran_carry_big_state_init:
   ora #HERO_FLAGS_HIDE_STATUS_SET
   sta hero_flags
 
+  far_call #FAMILIAR_BANK, familiar_common_init
+
+  lda #ENTITY_DIRECTION_RIGHT
+  sta familiar_direction
+
+  lda familiar_flags
+  ora #FAMILIAR_FLAGS_ALIVE_SET
+  sta familiar_flags
+
+  lda #FAMILIAR_STATE_PASSIVE
+  sta familiar_state
+
   jsr silmaran_carry_big_set_hero_position
+
+  jsr silmaran_carry_big_set_familiar_position
 
   lda #0
   sta silmaran_carry_big_state_counter_lo,x
@@ -166,6 +183,8 @@ do_not_lower_silmaran_any_longer:
 
   jsr silmaran_carry_big_set_hero_position
 
+  jsr silmaran_carry_big_set_familiar_position
+
   jsr silmaran_carry_big_scroll_right
 
   .scope
@@ -181,6 +200,8 @@ do_not_lower_silmaran_any_longer:
   entity_move16 silmaran_carry_big_spawn_x, entity_x
 
   jsr silmaran_carry_big_set_hero_position
+
+  jsr silmaran_carry_big_set_familiar_position
 
 do_not_reset_scroll:
   .endscope
@@ -238,6 +259,27 @@ do_not_reset_scroll:
   lda entity_y_hi,x
   adc #>SILMARAN_HERO_Y_OFFSET
   sta hero_y+1
+
+  rts
+
+.endproc
+
+.proc silmaran_carry_big_set_familiar_position
+
+  clc
+  lda entity_x_lo,x
+  adc #<SILMARAN_FAMILIAR_X_OFFSET
+  sta familiar_x
+  lda entity_x_hi,x
+  adc #>SILMARAN_FAMILIAR_X_OFFSET
+  sta familiar_x+1
+  clc
+  lda entity_y_lo,x
+  adc #<SILMARAN_FAMILIAR_Y_OFFSET
+  sta familiar_y
+  lda entity_y_hi,x
+  adc #>SILMARAN_FAMILIAR_Y_OFFSET
+  sta familiar_y+1
 
   rts
 
