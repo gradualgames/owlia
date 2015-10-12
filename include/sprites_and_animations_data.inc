@@ -235,4 +235,6 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 
 .global digit
 
+.global silmaran_carry_big
+
 .endif

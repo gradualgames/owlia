@@ -71,7 +71,8 @@
   end_cut_scene_slide3_spr_chr, \
   end_cut_scene_slide4_spr_chr, \
   end_cut_scene_slide5_spr_chr, \
-  end_cut_scene_slide6_spr_chr
+  end_cut_scene_slide6_spr_chr, \
+  silmaran_carry_big_chr
 
 sprite_chr_group_addresses_lo:
   .lobytes sprite_chr_group_addresses
@@ -147,6 +148,7 @@ sprite_chr_group_bank:
   .byte sprite_chr_group_bank_end_cut_scene_slide4
   .byte sprite_chr_group_bank_end_cut_scene_slide5
   .byte sprite_chr_group_bank_end_cut_scene_slide6
+  .byte sprite_chr_group_bank_silmaran_carry_big
 
 .segment "ROM08"
 
@@ -357,3 +359,6 @@ end_cut_scene_slide5_spr_chr:
 
 end_cut_scene_slide6_spr_chr:
 .incbin "end_cut_scene_slide6_spr.chr"
+
+silmaran_carry_big_chr:
+.incbin "silmaran_carry_big.chr"

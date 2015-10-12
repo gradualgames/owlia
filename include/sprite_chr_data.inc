@@ -76,6 +76,7 @@ sprite_chr_group_index_end_cut_scene_slide3
 sprite_chr_group_index_end_cut_scene_slide4
 sprite_chr_group_index_end_cut_scene_slide5
 sprite_chr_group_index_end_cut_scene_slide6
+sprite_chr_group_index_silmaran_carry_big
 .endenum
 
 sprite_chr_group_bank_intro_cut_scene_great_owls = 8
@@ -146,5 +147,6 @@ sprite_chr_group_bank_end_cut_scene_slide3 = 24
 sprite_chr_group_bank_end_cut_scene_slide4 = 24
 sprite_chr_group_bank_end_cut_scene_slide5 = 28
 sprite_chr_group_bank_end_cut_scene_slide6 = 28
+sprite_chr_group_bank_silmaran_carry_big = 28
 
 .endif

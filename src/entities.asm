@@ -31,7 +31,7 @@
 .include "areas.inc"
 .include "util.inc"
 
-.segment "ROM00"
+.segment "CODE"
 
 ;update routines for entities. The hero and familiar are left blank because
 ;they only use the entity system for loading CHR graphics.
@@ -105,7 +105,8 @@
   mermon_head_update, \
   ending_update, \
   silmaran_carry_adlanniel_update, \
-  read_update
+  read_update, \
+  silmaran_carry_big_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -183,6 +184,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_ending
   .byte entity_update_bank_silmaran_carry_adlanniel
   .byte entity_update_bank_read
+  .byte entity_update_bank_silmaran_carry_big
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -255,6 +257,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_ending
   .byte entity_sprites_and_animations_bank_silmaran_carry_adlanniel
   .byte 0; entity_sprites_and_animations_bank_read
+  .byte entity_sprites_and_animations_bank_silmaran_carry_big
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -329,3 +332,4 @@ entity_defs_sprites_and_animations_bank:
 .include "ending.inc"
 .include "silmaran_carry_adlanniel.inc"
 .include "read.inc"
+.include "silmaran_carry_big.inc"

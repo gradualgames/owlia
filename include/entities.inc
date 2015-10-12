@@ -3,8 +3,6 @@ ENTITIES_INC = 1
 
 .feature force_range
 
-ENTITIES_BANK = 0
-
 .global entity_defs_update_address_lo
 .global entity_defs_update_address_hi
 .global entity_defs_update_address_bank
@@ -81,6 +79,7 @@ entity_index_mermon_head
 entity_index_ending
 entity_index_silmaran_carry_adlanniel
 entity_index_read
+entity_index_silmaran_carry_big
 .endenum
 
 entity_update_bank_instance_placeholder = 4
@@ -153,6 +152,7 @@ entity_update_bank_mermon_head = 21
 entity_update_bank_ending = 21
 entity_update_bank_silmaran_carry_adlanniel = 21
 entity_update_bank_read = 21
+entity_update_bank_silmaran_carry_big = 21
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 7
@@ -224,5 +224,6 @@ entity_sprites_and_animations_bank_mermon_head = 23
 entity_sprites_and_animations_bank_ending = 23
 entity_sprites_and_animations_bank_silmaran_carry_adlanniel = 23
 ;entity_sprites_and_animations_bank_read ;this entity has no graphics
+entity_sprites_and_animations_bank_silmaran_carry_big = 23
 
 .endif

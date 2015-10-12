@@ -2296,7 +2296,6 @@ done:
   lda state_control_params+play_state_control::monolith_index
   sta entity_index
 
-  switch_bank_ldx #ENTITIES_BANK
   ldy #entity_index_monolith
   lda entity_defs_update_address_lo,y
   sta w0

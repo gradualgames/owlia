@@ -761,12 +761,13 @@ sea_sprite_chr_groups:
   .byte sprite_chr_group_index_splash
 
 endless_meadow_sprite_chr_groups:
-  .byte 5   ;sprite_chr_groups .byte
+  .byte 6   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_hero
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_explosion
   .byte sprite_chr_group_index_bomb
   .byte sprite_chr_group_index_lantern
+  .byte sprite_chr_group_index_silmaran_carry_big
 
 ;****************************************************************
 ;Entity instance sets
@@ -2826,7 +2827,8 @@ sea_entity_instances:
   .byte entity_index_ending, 6, 5, 0, 0
 
 endless_meadow_entity_instances:
-  .byte 0
+  .byte 1
+  .byte entity_index_silmaran_carry_big, 4, 4, 0, 0
 
 ;****************************************************************
 ;Palettes.
