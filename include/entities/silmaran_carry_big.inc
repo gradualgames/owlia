@@ -94,6 +94,7 @@ silmaran_carry_big_state_init:
   sta hero_direction
 
   lda hero_flags
+  and #HERO_FLAGS_DRAWABLE_CLEAR
   ora #HERO_FLAGS_HIDE_STATUS_SET
   sta hero_flags
 
@@ -108,6 +109,14 @@ silmaran_carry_big_state_init:
 
   lda #FAMILIAR_STATE_PASSIVE
   sta familiar_state
+
+  ;this is an ugly hard-coded hack because these are hard-coded
+  ;for the hero and familiar. But we didn't have room for the hero's
+  ;CHR due to how huge this silmaran flying sprite is, so we load
+  ;the familiar at slot 0 this time.
+  ldy #0
+  lda sprite_chr_group_offsets,y
+  sta familiar_sprite_group_offset
 
   jsr silmaran_carry_big_set_hero_position
 
