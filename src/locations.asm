@@ -2835,7 +2835,7 @@ endless_meadow_entity_instances:
 thrones_entity_instances:
   .byte 2
   .byte entity_index_thrones_overlay, 4, 3, 0, 0
-  .byte entity_index_silmaran, 7, 3, 0, SILMARAN_PARAMS, SILMARAN_FLAGS_FINAL_CUT_SCENE_SET, SILMARAN_STATE_INIT_ENDING_SCENE_DESCENT, 0, <(0 * 16), >(0 * 16), <(0 * 16), >(0 * 16), <(7 * 16 + 8), >(7 * 16 + 8)
+  .byte entity_index_silmaran, 7, 0, 0, SILMARAN_PARAMS, SILMARAN_FLAGS_FINAL_CUT_SCENE_SET, SILMARAN_STATE_INIT_ENDING_SCENE_DESCENT, 0, <(0 * 16), >(0 * 16), <(0 * 16), >(0 * 16), <(7 * 16 + 8), >(7 * 16 + 8)
 
 ;****************************************************************
 ;Palettes.

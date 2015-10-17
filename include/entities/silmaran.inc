@@ -249,6 +249,14 @@ done:
 
 silmaran_state_init_ending_scene_descent:
 
+  sec
+  lda entity_x_lo,x
+  sbc #<6
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  sbc #>6
+  sta entity_x_hi,x
+
   lda #SILMARAN_ENDING_SCENE_DESCENT_LENGTH
   sta silmaran_state_counter,x
 
@@ -262,6 +270,20 @@ silmaran_state_pause_before_descent:
   .scope
   dec silmaran_state_counter,x
   bne do_not_transition_yet
+
+  ;play a flapping sound
+  lda #<sfx_flap
+  sta sound_param_word_0
+  lda #>sfx_flap
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
 
   lda #SILMARAN_STATE_DESCEND
   sta entity_state,x
@@ -323,14 +345,6 @@ silmaran_state_descend:
   rts
 
 final_cut_scene:
-
-  sec
-  lda entity_x_lo,x
-  sbc #<SILMARAN_PERCH_X_OFFSET
-  sta entity_x_lo,x
-  lda entity_x_hi,x
-  sbc #>SILMARAN_PERCH_X_OFFSET
-  sta entity_x_hi,x
 
   lda #<silmaran_perch
   sta entity_animation_address_lo,x

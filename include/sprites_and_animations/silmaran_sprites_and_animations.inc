@@ -170,7 +170,7 @@ silmaran_perch0_reversed:
   .byte $18,$4b,$02,$08,$10
   .byte $18,$4a,$02,$00,$18
 silmaran_descend:
-  .byte $01, $50
+  .byte $01, $40
   .word silmaran_descend0
   .word silmaran_descend0_reversed
   .word silmaran_descend0
@@ -179,10 +179,6 @@ silmaran_descend:
   .word silmaran_descend0_reversed
   .word silmaran_descend0
   .word silmaran_descend0_reversed
-  .word silmaran_descend0
-  .word silmaran_descend0_reversed
-  .word silmaran_descend1
-  .word silmaran_descend1_reversed
   .word silmaran_descend1
   .word silmaran_descend1_reversed
   .word silmaran_descend1
@@ -199,10 +195,6 @@ silmaran_descend:
   .word silmaran_descend2_reversed
   .word silmaran_descend2
   .word silmaran_descend2_reversed
-  .word silmaran_descend2
-  .word silmaran_descend2_reversed
-  .word silmaran_descend1
-  .word silmaran_descend1_reversed
   .word silmaran_descend1
   .word silmaran_descend1_reversed
   .word silmaran_descend1

@@ -285,7 +285,6 @@ entity_defs_sprites_and_animations_bank:
 .include "octoboss_legs.inc"
 .include "splash.inc"
 .include "intro.inc"
-.include "silmaran.inc"
 .include "rescueowl.inc"
 .include "cage.inc"
 .include "monolith.inc"
@@ -337,3 +336,4 @@ entity_defs_sprites_and_animations_bank:
 .include "read.inc"
 .include "silmaran_carry_big.inc"
 .include "thrones_overlay.inc"
+.include "silmaran.inc"
