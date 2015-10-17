@@ -237,4 +237,6 @@ SPRITES_AND_ANIMATIONS_DATA_BANK1 = 7
 
 .global silmaran_carry_big
 
+.global end_cut_scene_slide4_sprite_overlay
+
 .endif

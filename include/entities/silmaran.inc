@@ -11,6 +11,7 @@ SILMARAN_INC = 1
   silmaran_state_align_camera_vert, \
   silmaran_state_descend, \
   silmaran_state_perch, \
+  silmaran_state_idle, \
   silmaran_state_ascend, \
   silmaran_state_summon_adlanniel, \
   silmaran_state_fly_to_hero_init, \
@@ -246,6 +247,8 @@ done:
 
 silmaran_state_descend:
 
+  jsr entity_set_drawable
+
   clc
   lda entity_y_lo,x
   adc #1
@@ -277,6 +280,10 @@ silmaran_state_descend:
 
   jsr entity_reset_animation
 
+  .scope
+  lda silmaran_flags,x
+  and #SILMARAN_FLAGS_FINAL_CUT_SCENE_TEST
+  bne final_cut_scene
   lda #ACTION_START_CONVERSATION
   sta state_control_params+play_state_control::action
   lda silmaran_conversation,x
@@ -284,6 +291,33 @@ silmaran_state_descend:
 
   lda #SILMARAN_STATE_PERCH
   sta entity_state,x
+
+  jsr entity_update_animation
+
+  rts
+
+final_cut_scene:
+
+  sec
+  lda entity_x_lo,x
+  sbc #<SILMARAN_PERCH_X_OFFSET
+  sta entity_x_lo,x
+  lda entity_x_hi,x
+  sbc #>SILMARAN_PERCH_X_OFFSET
+  sta entity_x_hi,x
+
+  lda #<silmaran_perch
+  sta entity_animation_address_lo,x
+  lda #>silmaran_perch
+  sta entity_animation_address_hi,x
+
+  lda #SILMARAN_STATE_IDLE
+  sta entity_state,x
+
+  jsr entity_update_animation
+
+  rts
+  .endscope
 
 not_equal:
   .endscope
@@ -337,6 +371,12 @@ ascend:
   sta entity_state,x
 done:
   .endscope
+
+  jsr entity_update_animation
+
+  rts
+
+silmaran_state_idle:
 
   jsr entity_update_animation
 

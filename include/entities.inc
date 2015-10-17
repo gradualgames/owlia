@@ -80,6 +80,7 @@ entity_index_ending
 entity_index_silmaran_carry_adlanniel
 entity_index_read
 entity_index_silmaran_carry_big
+entity_index_thrones_overlay
 .endenum
 
 entity_update_bank_instance_placeholder = 4
@@ -153,6 +154,7 @@ entity_update_bank_ending = 21
 entity_update_bank_silmaran_carry_adlanniel = 21
 entity_update_bank_read = 21
 entity_update_bank_silmaran_carry_big = 21
+entity_update_bank_thrones_overlay = 21
 
 ;entity_sprites_and_animations_bank_instance_placeholder ;this entity has no graphics
 entity_sprites_and_animations_bank_explosion = 7
@@ -225,5 +227,6 @@ entity_sprites_and_animations_bank_ending = 23
 entity_sprites_and_animations_bank_silmaran_carry_adlanniel = 23
 ;entity_sprites_and_animations_bank_read ;this entity has no graphics
 entity_sprites_and_animations_bank_silmaran_carry_big = 23
+entity_sprites_and_animations_bank_thrones_overlay = 23
 
 .endif

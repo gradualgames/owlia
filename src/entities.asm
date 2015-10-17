@@ -106,7 +106,8 @@
   ending_update, \
   silmaran_carry_adlanniel_update, \
   read_update, \
-  silmaran_carry_big_update
+  silmaran_carry_big_update, \
+  thrones_overlay_update
 
 entity_defs_update_address_lo:
   .lobytes entity_defs_update_address
@@ -185,6 +186,7 @@ entity_defs_update_address_bank:
   .byte entity_update_bank_silmaran_carry_adlanniel
   .byte entity_update_bank_read
   .byte entity_update_bank_silmaran_carry_big
+  .byte entity_update_bank_thrones_overlay
 
 entity_defs_sprites_and_animations_bank:
   .byte 0 ;entity_sprites_and_animations_bank_instance_placeholder
@@ -258,6 +260,7 @@ entity_defs_sprites_and_animations_bank:
   .byte entity_sprites_and_animations_bank_silmaran_carry_adlanniel
   .byte 0; entity_sprites_and_animations_bank_read
   .byte entity_sprites_and_animations_bank_silmaran_carry_big
+  .byte entity_sprites_and_animations_bank_thrones_overlay
 
 .segment "ROM04"
 .include "instance_placeholder.inc"
@@ -333,3 +336,4 @@ entity_defs_sprites_and_animations_bank:
 .include "silmaran_carry_adlanniel.inc"
 .include "read.inc"
 .include "silmaran_carry_big.inc"
+.include "thrones_overlay.inc"

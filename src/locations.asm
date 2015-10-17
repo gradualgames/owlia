@@ -767,12 +767,9 @@ endless_meadow_sprite_chr_groups:
   .byte sprite_chr_group_index_silmaran_carry_big
 
 thrones_sprite_chr_groups:
-  .byte 5
-  .byte sprite_chr_group_index_hero
-  .byte sprite_chr_group_index_familiar
-  .byte sprite_chr_group_index_explosion
-  .byte sprite_chr_group_index_bomb
-  .byte sprite_chr_group_index_lantern
+  .byte 2
+  .byte sprite_chr_group_index_end_cut_scene_slide4
+  .byte sprite_chr_group_index_silmaran
 
 ;****************************************************************
 ;Entity instance sets
@@ -2836,7 +2833,9 @@ endless_meadow_entity_instances:
   .byte entity_index_silmaran_carry_big, 6, 4, 0, 0
 
 thrones_entity_instances:
-  .byte 0
+  .byte 2
+  .byte entity_index_thrones_overlay, 4, 3, 0, 0
+  .byte entity_index_silmaran, 7, 3, 0, SILMARAN_PARAMS, SILMARAN_FLAGS_FINAL_CUT_SCENE_SET, SILMARAN_STATE_DESCEND, 0, <(0 * 16), >(0 * 16), <(0 * 16), >(0 * 16), <(7 * 16 + 8), >(7 * 16 + 8)
 
 ;****************************************************************
 ;Palettes.
@@ -3073,8 +3072,8 @@ endless_meadow_palette:
   .byte PALETTE_CYCLE_LOOP
 
 thrones_palette:
-  .byte $0e,$08,$28,$20,$0e,$18,$28,$20,$0e,$08,$18,$28,$0e,$28,$10,$20
-  .byte $0e,$07,$17,$26,$0e,$0a,$19,$37,$0e,$16,$12,$21,$0e,$0e,$0e,$0e
+  .byte $0e,$12,$21,$20,$0e,$18,$28,$20,$0e,$0e,$0a,$19,$0e,$07,$17,$26
+  .byte $0e,$08,$28,$20,$0e,$28,$10,$20,$0e,$0e,$28,$20,$0e,$16,$10,$20
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
@@ -3861,4 +3860,4 @@ define_location {(LOCATION_BRIGHTNESS_LEVEL_0)},\
 thrones_scene:
 define_location {(LOCATION_BRIGHTNESS_LEVEL_4)},\
                       area_index_thrones, thrones_sprite_chr_groups, thrones_entity_instances, thrones_palette,\
-                      0, 0, 0, 0, 0, 0, 0, ENTITY_DIRECTION_DOWN
+                      0, 1, 0, 0, 0, 0, 0, ENTITY_DIRECTION_DOWN
