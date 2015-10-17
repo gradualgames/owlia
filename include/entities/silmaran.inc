@@ -9,6 +9,8 @@ SILMARAN_INC = 1
   silmaran_state_wait, \
   silmaran_state_align_camera_horiz, \
   silmaran_state_align_camera_vert, \
+  silmaran_state_init_ending_scene_descent, \
+  silmaran_state_pause_before_descent, \
   silmaran_state_descend, \
   silmaran_state_perch, \
   silmaran_state_idle, \
@@ -241,6 +243,30 @@ done:
   lda #SILMARAN_STATE_DESCEND
   sta entity_state,x
 
+  .endscope
+
+  rts
+
+silmaran_state_init_ending_scene_descent:
+
+  lda #SILMARAN_ENDING_SCENE_DESCENT_LENGTH
+  sta silmaran_state_counter,x
+
+  lda #SILMARAN_STATE_PAUSE_BEFORE_DESCENT
+  sta entity_state,x
+
+  rts
+
+silmaran_state_pause_before_descent:
+
+  .scope
+  dec silmaran_state_counter,x
+  bne do_not_transition_yet
+
+  lda #SILMARAN_STATE_DESCEND
+  sta entity_state,x
+
+do_not_transition_yet:
   .endscope
 
   rts
