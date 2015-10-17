@@ -49,7 +49,8 @@
     dungeon5_area, \
     dungeon5_boss_area, \
     sea_area, \
-    endless_meadow_area
+    endless_meadow_area, \
+    thrones_area
 
 areas_lo:
   .lobytes areas
@@ -1265,3 +1266,29 @@ endless_meadow_area_bg_chr_groups:
   .word meadow1_grass
   .byte BG_CHR_DATA_BANK1
   .word meadow1_trees_corners
+
+thrones_area:
+  .byte MAP_DATA_BANK4
+  .byte CONVERSATIONS_BANK
+  .word thrones_area_bg_chr_groups
+  .word ending_theme
+  .byte $00 ;textbox_attribute
+  .word thrones_map
+  .word thrones_metatile_table_properties
+  .word thrones_metatile_table_params
+  .word thrones_metatile_table_attributes
+  .word thrones_metatile_table_top_left_tiles
+  .word thrones_metatile_table_top_right_tiles
+  .word thrones_metatile_table_bottom_left_tiles
+  .word thrones_metatile_table_bottom_right_tiles
+  .word thrones_big_metatile_table_top_left
+  .word thrones_big_metatile_table_top_right
+  .word thrones_big_metatile_table_bottom_left
+  .word thrones_big_metatile_table_bottom_right
+  .word 0 ;nametable_patches_address .word
+  .word 0 ;attribute_patches_address
+
+thrones_area_bg_chr_groups:
+  .byte 1  ;count
+  .byte BG_CHR_DATA_BANK6
+  .word end_cut_scene_slide4_chr

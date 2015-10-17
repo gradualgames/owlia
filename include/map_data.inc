@@ -510,4 +510,18 @@ MAP_DATA_BANK4 = 30
 .global endless_meadow_metatile_table_top_right_tiles
 .global endless_meadow_metatile_table_top_left_tiles
 
+.global thrones_palette
+.global thrones_map
+.global thrones_big_metatile_table_bottom_right
+.global thrones_big_metatile_table_bottom_left
+.global thrones_big_metatile_table_top_right
+.global thrones_big_metatile_table_top_left
+.global thrones_metatile_table_properties
+.global thrones_metatile_table_params
+.global thrones_metatile_table_attributes
+.global thrones_metatile_table_bottom_right_tiles
+.global thrones_metatile_table_bottom_left_tiles
+.global thrones_metatile_table_top_right_tiles
+.global thrones_metatile_table_top_left_tiles
+
 .endif

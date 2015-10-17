@@ -346,7 +346,7 @@ end_cut_scene_thanks_to:
 
 ; end_cut_scene_slide4:
   ; .byte SLIDE_TYPE_IMAGE_ONLY
-  ; .byte 26                                             ; bg_chr_bank .byte
+  ; .byte 27                                             ; bg_chr_bank .byte
   ; .word end_cut_scene_slide4_chr                       ; bg_chr_address .word
   ; .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
   ; .word end_cut_scene_slide4_nametable                 ; nametable_address .word

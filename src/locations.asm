@@ -287,7 +287,8 @@
     dungeon5_final_boss_area_entrance, \
     dungeon5_final_silmaran_encounter, \
     sea_exploding_fortress_scene, \
-    endless_meadow_silmaran_carried_adlanniel_scene
+    endless_meadow_silmaran_carried_adlanniel_scene, \
+    thrones_scene
 
 locations_lo:
   .lobytes locations
@@ -764,6 +765,14 @@ endless_meadow_sprite_chr_groups:
   .byte 2   ;sprite_chr_groups .byte
   .byte sprite_chr_group_index_familiar
   .byte sprite_chr_group_index_silmaran_carry_big
+
+thrones_sprite_chr_groups:
+  .byte 5
+  .byte sprite_chr_group_index_hero
+  .byte sprite_chr_group_index_familiar
+  .byte sprite_chr_group_index_explosion
+  .byte sprite_chr_group_index_bomb
+  .byte sprite_chr_group_index_lantern
 
 ;****************************************************************
 ;Entity instance sets
@@ -2826,6 +2835,9 @@ endless_meadow_entity_instances:
   .byte 1
   .byte entity_index_silmaran_carry_big, 6, 4, 0, 0
 
+thrones_entity_instances:
+  .byte 0
+
 ;****************************************************************
 ;Palettes.
 ;****************************************************************
@@ -3058,6 +3070,11 @@ sea_palette:
 endless_meadow_palette:
   .byte $0e,$19,$08,$29,$0e,$0a,$19,$15,$0e,$0a,$19,$28,$0e,$08,$19,$18
   .byte $0e,$0e,$06,$37,$0e,$0e,$18,$20,$0e,$0e,$28,$20,$0e,$0e,$06,$36
+  .byte PALETTE_CYCLE_LOOP
+
+thrones_palette:
+  .byte $0e,$08,$28,$20,$0e,$18,$28,$20,$0e,$08,$18,$28,$0e,$28,$10,$20
+  .byte $0e,$07,$17,$26,$0e,$0a,$19,$37,$0e,$16,$12,$21,$0e,$0e,$0e,$0e
   .byte PALETTE_CYCLE_LOOP
 
 ;****************************************************************
@@ -3839,4 +3856,9 @@ define_location {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAG
 endless_meadow_silmaran_carried_adlanniel_scene:
 define_location {(LOCATION_BRIGHTNESS_LEVEL_0)},\
                       area_index_endless_meadow, endless_meadow_sprite_chr_groups, endless_meadow_entity_instances, endless_meadow_palette,\
+                      0, 0, 0, 0, 0, 0, 0, ENTITY_DIRECTION_DOWN
+
+thrones_scene:
+define_location {(LOCATION_BRIGHTNESS_LEVEL_4)},\
+                      area_index_thrones, thrones_sprite_chr_groups, thrones_entity_instances, thrones_palette,\
                       0, 0, 0, 0, 0, 0, 0, ENTITY_DIRECTION_DOWN

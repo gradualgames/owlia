@@ -621,3 +621,20 @@ endless_meadow_big_metatile_table_top_right = endless_meadow_data::big_metatile_
 endless_meadow_big_metatile_table_bottom_left = endless_meadow_data::big_metatile_table_bottom_left
 endless_meadow_big_metatile_table_bottom_right = endless_meadow_data::big_metatile_table_bottom_right
 endless_meadow_map = endless_meadow_data::map
+
+.scope thrones_data
+.include "thrones.inc"
+.endscope
+
+thrones_metatile_table_properties = thrones_data::metatile_table_properties
+thrones_metatile_table_params = thrones_data::metatile_table_params
+thrones_metatile_table_attributes = thrones_data::metatile_table_attributes
+thrones_metatile_table_top_left_tiles = thrones_data::metatile_table_top_left_tiles
+thrones_metatile_table_top_right_tiles = thrones_data::metatile_table_top_right_tiles
+thrones_metatile_table_bottom_left_tiles = thrones_data::metatile_table_bottom_left_tiles
+thrones_metatile_table_bottom_right_tiles = thrones_data::metatile_table_bottom_right_tiles
+thrones_big_metatile_table_top_left = thrones_data::big_metatile_table_top_left
+thrones_big_metatile_table_top_right = thrones_data::big_metatile_table_top_right
+thrones_big_metatile_table_bottom_left = thrones_data::big_metatile_table_bottom_left
+thrones_big_metatile_table_bottom_right = thrones_data::big_metatile_table_bottom_right
+thrones_map = thrones_data::map

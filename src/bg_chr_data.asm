@@ -145,10 +145,10 @@ end_cut_scene_slide2_chr:
 end_cut_scene_slide3_chr:
 .incbin "end_cut_scene_slide3.chr"
 
+.segment "ROM27"
+
 end_cut_scene_slide4_chr:
 .incbin "end_cut_scene_slide4.chr"
-
-.segment "ROM27"
 
 end_cut_scene_slide5_chr:
 .incbin "end_cut_scene_slide5.chr"

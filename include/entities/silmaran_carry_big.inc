@@ -2,6 +2,8 @@
 .ifndef SILMARAN_CARRY_BIG_INC
 SILMARAN_CARRY_BIG_INC = 1
 
+SILMARAN_CARRY_TIME = 1000
+
 SILMARAN_CARRY_BIG_SPEED = 6
 SILMARAN_INITIAL_Y_OFFSET = 220
 
@@ -122,8 +124,9 @@ silmaran_carry_big_state_init:
 
   jsr silmaran_carry_big_set_familiar_position
 
-  lda #0
+  lda #<1000
   sta silmaran_carry_big_state_counter_lo,x
+  lda #>1000
   sta silmaran_carry_big_state_counter_hi,x
 
   lda #0
@@ -139,12 +142,26 @@ silmaran_carry_big_state_init:
 
 silmaran_carry_big_state_main:
 
+  .scope
+  sec
   lda silmaran_carry_big_state_counter_lo,x
-  adc #<1
+  sbc #<1
   sta silmaran_carry_big_state_counter_lo,x
   lda silmaran_carry_big_state_counter_hi,x
-  adc #>1
+  sbc #>1
   sta silmaran_carry_big_state_counter_hi,x
+
+  lda silmaran_carry_big_state_counter_lo,x
+  ora silmaran_carry_big_state_counter_hi,x
+  bne do_not_transition_yet
+
+  lda #ACTION_GOTO_LOCATION_GROUP1
+  sta state_control_params+play_state_control::action
+  lda #location_index_thrones_scene
+  sta state_control_params+play_state_control::param
+
+do_not_transition_yet:
+  .endscope
 
   .scope
   lda silmaran_carry_big_palette_level,x
