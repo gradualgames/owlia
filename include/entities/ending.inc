@@ -5,7 +5,7 @@ ENDING_INC = 1
 ENDING_WIDTH = $0f
 ENDING_HEIGHT = $0f
 
-ENDING_STATE_TRANSITION_TO_ENDING_CUT_SCENE_LENGTH = 500
+ENDING_STATE_TRANSITION_TO_ENDING_CUT_SCENE_LENGTH = 300
 
 .enum
 ENDING_STATE_INIT
@@ -190,6 +190,8 @@ ending_state_destroy_fortress:
 
   far_call #SOUND_BANK, sound_stop
 
+  jsr ending_play_whoosh_sound
+
   jsr entity_clear_drawable
 
   lda #<ENDING_STATE_TRANSITION_TO_ENDING_CUT_SCENE_LENGTH
@@ -241,7 +243,7 @@ do_not_transition_yet:
 
   .scope
   lda ending_state_counter_lo,x
-  cmp #100
+  cmp #200
   bne do_not_erase_splashes
 
   ldy ending_state_splash1_index,x
@@ -257,6 +259,24 @@ do_not_erase_splashes:
   .endscope
 
   rts
+
+.proc ending_play_whoosh_sound
+
+  lda #<sfx_whoosh
+  sta sound_param_word_0
+  lda #>sfx_whoosh
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
+  rts
+
+.endproc
 
 .proc ending_spawn_splashes
 
