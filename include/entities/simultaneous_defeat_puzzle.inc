@@ -186,6 +186,19 @@ entity_still_alive:
 
 simultaneous_defeat_puzzle_failed:
 
+  ;play a sound
+  lda #<sfx_error
+  sta sound_param_word_0
+  lda #>sfx_error
+  sta sound_param_word_0+1
+
+  lda #0
+  sta sound_param_byte_0
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
   sta entity_flags,x
