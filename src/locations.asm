@@ -2948,23 +2948,29 @@ cave_palette:
   .byte PALETTE_CYCLE_LOOP
 
 dungeon3_palette:
-  .byte $0e,$16,$26,$36,$0e,$07,$17,$27,$0e,$0e,$07,$16,$0e,$0e,$0e,$0e
+  .byte $0e,$16,$26,$36,$0e,$07,$17,$27,$0e,$0e,$07,$16,$0e,$16,$26,$28
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$05,$15,$0e,$0e,$07,$17
+  .byte 15,$20,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte 15,$28,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte PALETTE_CYCLE_LOOP
 
 dungeon3_0_3_palette:
-  .byte $0e,$16,$26,$36,$0e,$07,$17,$27,$0e,$0e,$07,$16,$0e,$0e,$0e,$0e
+  .byte $0e,$16,$26,$36,$0e,$07,$17,$27,$0e,$0e,$07,$16,$0e,$16,$26,$28
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$09,$19,$0e,$0e,$10,$20
   .byte PALETTE_CYCLE_LOOP
 
 dungeon3_boss_palette:
-  .byte $0e,$16,$26,$36,$0e,$07,$17,$27,$0e,$0e,$07,$16,$0e,$0e,$0e,$0e
+  .byte $0e,$16,$26,$36,$0e,$07,$17,$27,$0e,$0e,$07,$16,$0e,$16,$26,$28
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$07,$17,$0e,$0e,$07,$20
+  .byte 15,$20,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte 15,$28,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte PALETTE_CYCLE_LOOP
 
 dungeon3_boss_owl_dungeon_palette:
-  .byte $0e,$16,$26,$36,$0e,$07,$17,$27,$0e,$0e,$07,$16,$0e,$0e,$0e,$0e
+  .byte $0e,$16,$26,$36,$0e,$07,$17,$27,$0e,$0e,$07,$16,$0e,$16,$26,$28
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$10,$20,$0e,$00,$28,$10
+  .byte 15,$20,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
+  .byte 15,$28,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME,PALETTE_CYCLE_END_FRAME
   .byte PALETTE_CYCLE_LOOP
 
 island_palette:
