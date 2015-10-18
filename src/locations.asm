@@ -2846,8 +2846,17 @@ village_palette:
   .byte PALETTE_CYCLE_LOOP
 
 house_palette:
-  .byte $0e,$04,$14,$37,$0e,$07,$17,$27,$0e,$02,$12,$22,$0e,$08,$18,$37
+  .byte $0e,$04,$14,$37,$0e,$07,$17,$27,$0e,$08,$18,$37,$0e,$02,$12,$22
   .byte $0e,$0e,$06,$36,$0e,$0e,$18,$20,$0e,$0e,$1a,$36,$0e,$0e,$15,$36
+  .byte 5,$07,6,$17,7,$27,PALETTE_CYCLE_END_FRAME
+  .byte 5,$07,6,$17,7,$27,PALETTE_CYCLE_END_FRAME
+  .byte 5,$07,6,$17,7,$27,PALETTE_CYCLE_END_FRAME
+  .byte 5,$17,6,$27,7,$07,PALETTE_CYCLE_END_FRAME
+  .byte 5,$17,6,$27,7,$07,PALETTE_CYCLE_END_FRAME
+  .byte 5,$17,6,$27,7,$07,PALETTE_CYCLE_END_FRAME
+  .byte 5,$27,6,$07,7,$17,PALETTE_CYCLE_END_FRAME
+  .byte 5,$27,6,$07,7,$17,PALETTE_CYCLE_END_FRAME
+  .byte 5,$27,6,$07,7,$17,PALETTE_CYCLE_END_FRAME
   .byte PALETTE_CYCLE_LOOP
 
 meadow1_palette:
