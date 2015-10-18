@@ -50,9 +50,9 @@ silmaran_carry_big_state_init:
   lda #>28
   sta entity_shadow_spot_x_hi,x
 
-  lda #<112
+  lda #<80
   sta entity_shadow_spot_y_lo,x
-  lda #>112
+  lda #>80
   sta entity_shadow_spot_y_hi,x
 
   entity_move16 entity_x, silmaran_carry_big_spawn_x
@@ -102,11 +102,19 @@ silmaran_carry_big_state_init:
 
   far_call #FAMILIAR_BANK, familiar_common_init
 
+  clc
+  lda familiar_shadow_spot_y
+  adc #<40
+  sta familiar_shadow_spot_y
+  lda familiar_shadow_spot_y+1
+  adc #>40
+  sta familiar_shadow_spot_y+1
+
   lda #ENTITY_DIRECTION_RIGHT
   sta familiar_direction
 
   lda familiar_flags
-  ora #FAMILIAR_FLAGS_ALIVE_SET
+  ora #(FAMILIAR_FLAGS_ALIVE_SET | FAMILIAR_FLAGS_SHADOW_SPOT_SET)
   sta familiar_flags
 
   lda #FAMILIAR_STATE_PASSIVE

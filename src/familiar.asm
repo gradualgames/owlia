@@ -2834,6 +2834,8 @@ transition_to_home_in_to_hero_state:
   ldy #FAMILIAR_SPRITES_AND_ANIMATIONS_BANK
   jsr sprite_update_animation
 
+  jsr familiar_draw_shadow_spot
+
   rts
 
 .endproc
