@@ -10,25 +10,6 @@ kraken_tentacle_attack_bent_x_offset:
 kraken_tentacle_attack_bent_y_offset:
   .byte 0,0,8,16,24,32,40,40,40,40,40,40,32,24,16,8,0
 
-kraken_tentacle_attack_reverse_direction_indices:
-  .byte 2*16
-  .byte 2*15
-  .byte 2*14
-  .byte 2*13
-  .byte 2*12
-  .byte 2*11
-  .byte 2*10
-  .byte 2*9
-  .byte 2*8
-  .byte 2*9
-  .byte 2*10
-  .byte 2*11
-  .byte 2*12
-  .byte 2*13
-  .byte 2*14
-  .byte 2*15
-  .byte 2*16
-
 define_lohi_tables kraken_tentacle, \
  {kraken_tentacle_state_init, \
   kraken_tentacle_state_attack_left_init, \
@@ -151,20 +132,6 @@ do_not_transition_yet:
 
   entity_move16 kraken_tentacle_spawn_x_position, entity_x
   entity_move16 kraken_tentacle_spawn_y_position, entity_y
-
-  .scope
-  lda kraken_tentacle_flash_counter,x
-  cmp #KRAKEN_TENTACLE_ATTACKED_LENGTH
-  bne do_not_reverse_animation
-
-  lda entity_animation_frame,x
-  lsr
-  tay
-  lda kraken_tentacle_attack_reverse_direction_indices,y
-  sta entity_animation_frame,x
-
-do_not_reverse_animation:
-  .endscope
 
   rts
 

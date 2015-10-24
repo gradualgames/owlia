@@ -3719,7 +3719,7 @@ define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FL
 submarine_kraken_room_east:
 define_location   {(LOCATION_FLAGS_CAMERA_X_SCROLLING_DISABLED_SET | LOCATION_FLAGS_CAMERA_Y_SCROLLING_DISABLED_SET | LOCATION_BRIGHTNESS_LEVEL_4)},\
                   area_index_submarine, submarine_kraken_sprite_chr_groups, submarine_kraken_room_entity_instances, submarine_kraken_palette,\
-                  32, 2, 45, 9,\
+                  32, 2, 46, 9,\
                   0, 0, 0, ENTITY_DIRECTION_LEFT
 
 submarine_rescueowl_room_east:

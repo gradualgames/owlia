@@ -3,6 +3,7 @@
 KRAKEN_EYE_INC = 1
 
 .include "kraken_eye_constants.inc"
+.include "projectile_constants.inc"
 
 define_lohi_tables kraken_eye, \
  {kraken_eye_state_init, \
@@ -118,6 +119,8 @@ kraken_eye_state_slide:
   dec kraken_eye_state_counter,x
   bne do_not_transition_yet
 
+  jsr kraken_eye_fire_projectile
+
   lda #KRAKEN_EYE_STATE_PAUSE_LENGTH
   sta kraken_eye_state_counter,x
 
@@ -171,8 +174,56 @@ do_not_transition_yet:
 
   rts
 
+three_to_five:
+  .byte 3,4,5,3,4,5,3,4
+
 kraken_eye_state_idle:
 
   rts
+
+.proc kraken_eye_fire_projectile
+
+  lda #entity_index_projectile
+  sta b0
+
+  clc
+  lda entity_x_lo,x
+  adc #<KRAKEN_EYE_PROJECTILE_OFFSET_X
+  sta w0
+  lda entity_x_hi,x
+  adc #>KRAKEN_EYE_PROJECTILE_OFFSET_X
+  sta w0+1
+
+  clc
+  lda entity_y_lo,x
+  adc #<KRAKEN_EYE_PROJECTILE_OFFSET_Y
+  sta w1
+  lda entity_y_hi,x
+  adc #>KRAKEN_EYE_PROJECTILE_OFFSET_Y
+  sta w1+1
+
+  jsr entity_spawn
+
+  ;get a random number from 3 to 5
+  lda rand
+  and #%00000111
+  tay
+  lda three_to_five,y
+  sta b0
+
+  ldy spawned_entity
+  lda b0
+  sta projectile_direction,y
+
+  lda #PROJECTILE_MODE_SLOW
+  sta projectile_mode,y
+
+  lda #<KRAKEN_EYE_PROJECTILE_LIFE
+  sta projectile_life_lo,y
+  lda #>KRAKEN_EYE_PROJECTILE_LIFE
+  sta projectile_life_hi,y
+
+  rts
+.endproc
 
 .endif
