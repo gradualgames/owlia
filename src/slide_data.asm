@@ -163,6 +163,7 @@ intro_cut_scene_slide4_sprite_overlays:
   .word intro_cut_scene_mermon_leer_spr_overlay1
   .byte 0, 0
 
+.ifndef NO_ENDING
 end_cut_scene_thanks_for_playing:
   .byte SLIDE_TYPE_STRINGS_ONLY
   .byte 0                                              ; bg_chr_bank .byte
@@ -177,6 +178,23 @@ end_cut_scene_thanks_for_playing:
   .word end_cut_scene_thanks_for_playing_strings       ; strings_address .word
   .word ending_theme                                   ; song_address .word
   .byte 255                                            ; location_index .byte
+.else
+end_cut_scene_thanks_for_playing:
+  .byte SLIDE_TYPE_STRINGS_ONLY
+  .byte 0                                              ; bg_chr_bank .byte
+  .word 0                                              ; bg_chr_address .word
+  .byte 0                                              ; nametable_bank .byte
+  .word 0                                              ; nametable_address .word
+  .word end_cut_scene_text_palette                     ; palette_address .word
+  .byte 0                                              ; conversation_index .byte
+  .byte SLIDE_LENGTH_INFINITE                          ; slide_length .byte
+  .word 0                                              ; sprite_chr_sets_address .word
+  .word 0                                              ; sprite_overlays_address .word
+  .word end_cut_scene_thanks_for_playing_strings       ; strings_address .word
+  .word ending_theme                                   ; song_address .word
+  .byte 255                                            ; location_index .byte
+  .byte LAST_SLIDE
+.endif
 
 end_cut_scene_produced_by:
   .byte SLIDE_TYPE_STRINGS_ONLY
@@ -343,22 +361,6 @@ end_cut_scene_thanks_to:
   .word 0                                              ; song_address .word
   .byte location_index_endless_meadow_silmaran_carried_adlanniel_scene ; location_index .byte
   .byte LAST_SLIDE
-
-; end_cut_scene_slide4:
-  ; .byte SLIDE_TYPE_IMAGE_ONLY
-  ; .byte 27                                             ; bg_chr_bank .byte
-  ; .word end_cut_scene_slide4_chr                       ; bg_chr_address .word
-  ; .byte NAMETABLE_DATA_BANK1                           ; nametable_bank .byte
-  ; .word end_cut_scene_slide4_nametable                 ; nametable_address .word
-  ; .word end_cut_scene_slide4_palette                   ; palette_address .word
-  ; .byte 0                                              ; conversation_index .byte
-  ; .byte SLIDE_LENGTH_INFINITE                          ; slide_length .byte
-  ; .word end_cut_scene_slide4_sprite_chr_sets           ; sprite_chr_sets_address .word
-  ; .word end_cut_scene_slide4_sprite_overlays           ; sprite_overlays_address .word
-  ; .word 0                                              ; strings_address .word
-  ; .word 0                                              ; song_address .word
-  ; .byte 255                                            ; location_index .byte
-  ; .byte LAST_SLIDE
 
 end_cut_scene_slide1_sprite_chr_sets:
   .byte 1
