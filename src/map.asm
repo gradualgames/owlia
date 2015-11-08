@@ -2308,15 +2308,18 @@ done:
   rts
 .endproc
 
-s = 140 ;stationary
-v = 54  ;vertical
-h = 66  ;horizontal
-d = 3   ;diagonal
+s = 178  ;stationary
+v = 159  ;vertical
+h = 163  ;horizontal
+d = 255  ;diagonal
 cycle_pad_lut1:
   .byte s, v, h, d
 
 cycle_pad_lut2:
   .byte s+1, v+1, h, d
+
+cycle_pad_lut3:
+  .byte s+2, v+2, h, d
 
 .proc nametable_and_attribute_update_ppu
 
@@ -2424,7 +2427,8 @@ done:
 
   ;cycle pad this ppu upload routine for the artificial scroll
   ;update hiding bar (see the main module)
-  ldx cycle_pad_lut_index
+  ldy #3
+: ldx cycle_pad_lut_index
   lda cycle_pad_lut1,x
   tax
 : dex
@@ -2434,6 +2438,13 @@ done:
   tax
 : dex
   bne :-
+  ldx cycle_pad_lut_index
+  lda cycle_pad_lut3,x
+  tax
+: dex
+  bne :-
+  dey
+  bne :----
 
   rts
 

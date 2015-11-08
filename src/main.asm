@@ -129,17 +129,6 @@ vblank:
   lda hide_graphics_top
   beq do_not_hide_graphics_top
 
-  ;now wait for a finely tuned amount of CPU cycles to create a 16 pixel
-  ;wide black bar at the top of the screen. Used in conjunction with
-  ;how the scrolling engine works we can hide all scrolling updates this
-  ;way.
-  ldx #177
-: dex
-  bne :-
-  ldx #178
-: dex
-  bne :-
-
   ;turn sprite and background visibility on
   ;set_ppu_2001_bit PPU1_SPRITE_VISIBILITY
   set_ppu_2001_bit PPU1_BACKGROUND_VISIBILITY
