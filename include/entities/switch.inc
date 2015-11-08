@@ -295,8 +295,6 @@ switch_state_idle:
 
 .proc pop_up_other_switches
 
-  ndxDebugBreak
-
   ;start at max switch id
   lda #7
   sta b0
