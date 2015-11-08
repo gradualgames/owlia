@@ -953,7 +953,9 @@ done:
 
 .endproc
 
-.proc ppu_enter_password_state_vblank
+ppu_enter_password_state_vblank_ntsc = ppu_enter_password_state_vblank_pal
+
+.proc ppu_enter_password_state_vblank_pal
 
   jsr sprite_update_all
 

@@ -2,7 +2,8 @@
 PPU_INC = 1
 
 .global ppu_module_init
-.global ppu_vblank_nop
+.global ppu_vblank_nop_ntsc
+.global ppu_vblank_nop_pal
 .global ppu_load_palette
 .global ppu_load_palette_bg
 .global ppu_load_black_palette
@@ -19,7 +20,8 @@ PPU_INC = 1
 .global ppu_advance_palette_cycle
 .global ppu_enable_palette_cycling
 .global ppu_disable_palette_cycling
-.global ppu_upload_dynamic_palette_ppu
+.global ppu_upload_dynamic_palette_ppu_ntsc
+.global ppu_upload_dynamic_palette_ppu_pal
 
 MIN_BRIGHTNESS_LEVEL = 0
 MAX_BRIGHTNESS_LEVEL = 4
@@ -50,6 +52,13 @@ PPU1_BACKGROUND_VISIBILITY = 3
 PPU1_SPRITE_CLIPPING = 2
 PPU1_BACKGROUND_CLIPPING = 1
 PPU1_DISPLAY_TYPE = 0
+
+.enum
+TV_TYPE_NTSC
+TV_TYPE_PAL
+TV_TYPE_DENDY
+TV_TYPE_UNKNOWN
+.endenum
 
 .macro set_ppu_2006 nametable, row, column
 
@@ -163,7 +172,7 @@ wait:
   bit $2002
   bpl wait
 .endscope
-  
+
 .endmacro
 
 .macro wait_vblank_done
@@ -202,10 +211,24 @@ wait:
 
   clear_vblank_done
   wait_vblank_done
-  lda #<address
+
+  .scope
+  lda tv_type
+  cmp #TV_TYPE_PAL
+  beq pal
+ntsc:
+  lda #<.ident(.concat(.string(address), "_ntsc"))
   sta vblank_routine
-  lda #>address
+  lda #>.ident(.concat(.string(address), "_ntsc"))
   sta vblank_routine+1
+  jmp done
+pal:
+  lda #<.ident(.concat(.string(address), "_pal"))
+  sta vblank_routine
+  lda #>.ident(.concat(.string(address), "_pal"))
+  sta vblank_routine+1
+done:
+  .endscope
 
 .endmacro
 

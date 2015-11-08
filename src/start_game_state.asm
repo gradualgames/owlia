@@ -393,7 +393,9 @@ transition_to_enter_password_state:
 
   jmp enter_password_state_init
 
-.proc ppu_start_game_state_vblank
+ppu_start_game_state_vblank_ntsc = ppu_start_game_state_vblank_pal
+
+.proc ppu_start_game_state_vblank_pal
 
   jsr sprite_update_all
 

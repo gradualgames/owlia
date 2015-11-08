@@ -2321,7 +2321,9 @@ cycle_pad_lut2:
 cycle_pad_lut3:
   .byte s+2, v+2, h, d
 
-.proc nametable_and_attribute_update_ppu
+nametable_and_attribute_update_ppu_ntsc = nametable_and_attribute_update_ppu_pal
+
+.proc nametable_and_attribute_update_ppu_pal
 
   .scope
   lda hide_graphics_top

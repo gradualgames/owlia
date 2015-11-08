@@ -87,4 +87,7 @@ ZP_INC = 1
 .globalzp hide_graphics_top
 .globalzp cycle_pad_lut_index
 
+.globalzp tv_type
+.globalzp nmis
+
 .endif

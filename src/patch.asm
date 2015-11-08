@@ -253,10 +253,12 @@ cycle_pad_lut3:
   .byte 0
   .byte 255
 
+patch_nametable_update_ppu_ntsc = patch_nametable_update_ppu_pal
+
 ;This routine uploads a buffer of columns to the
 ;ppu. It only performs nametable updates, and is
 ;used exclusively for monolith animations.
-.proc patch_nametable_update_ppu
+.proc patch_nametable_update_ppu_pal
 
   .scope
   lda hide_graphics_top
