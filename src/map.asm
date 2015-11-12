@@ -2311,7 +2311,7 @@ done:
 s = 178  ;stationary
 v = 159  ;vertical
 h = 163  ;horizontal
-d = 255  ;diagonal
+d = 152  ;diagonal
 cycle_pad_lut1:
   .byte s, v, h, d
 
