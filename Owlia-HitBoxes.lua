@@ -22,9 +22,9 @@ w9 = 0x0022
 camera_x = 0x72B
 camera_y = 0x72D
 
-geotests_rect_in_rect = 0xD2F0
-geotests_rect_in_rect_size = 0xD2BC
-geotests_rect_inside_rect = 0xD27F
+geotests_rect_in_rect = 0xD42B
+geotests_rect_in_rect_size = 0xD386
+geotests_rect_inside_rect = 0xD3BA
 
 -- draw a box and take care of coordinate checking
 local function box(x1,y1,x2,y2,color)

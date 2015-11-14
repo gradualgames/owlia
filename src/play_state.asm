@@ -880,6 +880,24 @@ not_dungeon_entrance:
   lda #$ff
   sta familiar_carried_entity_index
 
+  ;initialize action rect2
+  lda #ENTITY_ACTION_NOP
+  sta entity_action_rect2_action
+  lda #ENTITY_ACTION_FROM_NOBODY
+  sta entity_action_rect2_from
+  lda familiar_x
+  sta entity_action_rect2_x
+  lda familiar_x+1
+  sta entity_action_rect2_x+1
+  lda familiar_y
+  sta entity_action_rect2_y
+  lda familiar_y+1
+  sta entity_action_rect2_y+1
+  lda familiar_width
+  sta entity_action_rect2_width
+  lda familiar_height
+  sta entity_action_rect2_height
+
   ;spawn all non-hero entities in area
   switch_bank_ldy #LOCATIONS_BANK
   ldy #location::entity_instances_address
