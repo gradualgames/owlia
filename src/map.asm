@@ -2311,12 +2311,12 @@ done:
 
 sn = 66   ;stationary
 vn = 47   ;vertical
-hn = 50   ;horizontal
-dn = 39   ;diagonal
+hn = 49   ;horizontal
+dn = 38   ;diagonal
 sp = 178  ;stationary
 vp = 159  ;vertical
-hp = 163  ;horizontal
-dp = 152  ;diagonal
+hp = 161  ;horizontal
+dp = 151  ;diagonal
 cycle_pad_lut1:
   .byte sp, vp, hp, dp, sn, vn, hn, dn
 
@@ -2324,7 +2324,7 @@ cycle_pad_lut2:
   .byte sp+1, vp+1, hp, dp, sn, vn, hn, dn
 
 cycle_pad_lut3:
-  .byte sp+2, vp+2, hp, dp, sn, vn, hn, dn
+  .byte sp+1, vp+2, hp+3, dp+1, sn, vn+1, hn+1, dn+2
 
 .proc nametable_and_attribute_update_ppu
 

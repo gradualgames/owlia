@@ -50,7 +50,7 @@ pal:
   bne :-
   dey
   bne :--
-  ldx #42
+  ldx #40
 : dex
   bne :-
   jmp done
