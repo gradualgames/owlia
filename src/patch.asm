@@ -268,13 +268,13 @@ cycle_pad_lut3:
 ;pal
   .byte 103
   .byte 0
-  .byte 46
+  .byte 45
   .byte 0
   .byte 1
   .byte 0
   .byte 255
   .byte 0
-  .byte 255
+  .byte 249
 ;ntsc
   .byte 1
   .byte 0
