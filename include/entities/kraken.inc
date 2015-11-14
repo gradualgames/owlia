@@ -13,7 +13,8 @@ KRAKEN_HEIGHT = $0f
 define_entity_properties kraken_eye_index,\
                          kraken_tentacle_index,\
                          kraken_tentacle_counter,\
-                         kraken_eye_counter
+                         kraken_eye_counter, \
+                         kraken_eye_and_projectiles_killed
 
 define_lohi_tables porthole_x_locations, \
   {35*16,38*16,41*16,44*16, \
@@ -84,6 +85,9 @@ done:
   ora #1
   sta kraken_eye_counter,x
 
+  lda #0
+  sta kraken_eye_and_projectiles_killed,x
+
   lda #KRAKEN_STATE_MAIN
   sta entity_state,x
 
@@ -92,15 +96,55 @@ done:
 kraken_state_main:
 
   .scope
+  lda kraken_eye_and_projectiles_killed,x
+  bne already_killed_off_eye_and_projectiles
+  ldy kraken_tentacle_index,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq tentacle_not_alive
+  lda entity_state,y
+  cmp #KRAKEN_TENTACLE_STATE_EXPLODE
+  bne tentacle_not_exploding
+
+  ldy kraken_eye_index,x
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq eye_already_dead
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+eye_already_dead:
+
+  ;kill off all projectiles
+  .scope
+  ldy #(MAX_ENTITIES-1)
+next_entity:
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_TEST
+  beq skip_entity
+  lda entity_type,y
+  cmp #entity_index_projectile
+  bne skip_entity
+  lda entity_flags,y
+  and #ENTITY_FLAGS_ALIVE_CLEAR
+  sta entity_flags,y
+skip_entity:
+  dey
+  bpl next_entity
+  .endscope
+  lda #1
+  sta kraken_eye_and_projectiles_killed,x
+
+tentacle_not_alive:
+tentacle_not_exploding:
+already_killed_off_eye_and_projectiles:
+  .endscope
+
+  .scope
   ldy kraken_tentacle_index,x
   lda entity_flags,y
   and #ENTITY_FLAGS_ALIVE_TEST
   bne do_not_kill_kraken_and_eye
-
-  ldy kraken_eye_index,x
-  lda entity_flags,y
-  and #ENTITY_FLAGS_ALIVE_CLEAR
-  sta entity_flags,y
 
   lda entity_flags,x
   and #ENTITY_FLAGS_ALIVE_CLEAR
