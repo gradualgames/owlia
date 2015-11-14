@@ -6,6 +6,7 @@
 .include "controller.inc"
 .include "sprite.inc"
 .include "mapper.inc"
+.include "ndxdebug.h"
 
 .segment "CODE"
 
@@ -2308,22 +2309,24 @@ done:
   rts
 .endproc
 
-s = 178  ;stationary
-v = 159  ;vertical
-h = 163  ;horizontal
-d = 152  ;diagonal
+sn = 66   ;stationary
+vn = 47   ;vertical
+hn = 50   ;horizontal
+dn = 39   ;diagonal
+sp = 178  ;stationary
+vp = 159  ;vertical
+hp = 163  ;horizontal
+dp = 152  ;diagonal
 cycle_pad_lut1:
-  .byte s, v, h, d
+  .byte sp, vp, hp, dp, sn, vn, hn, dn
 
 cycle_pad_lut2:
-  .byte s+1, v+1, h, d
+  .byte sp+1, vp+1, hp, dp, sn, vn, hn, dn
 
 cycle_pad_lut3:
-  .byte s+2, v+2, h, d
+  .byte sp+2, vp+2, hp, dp, sn, vn, hn, dn
 
-nametable_and_attribute_update_ppu_ntsc = nametable_and_attribute_update_ppu_pal
-
-.proc nametable_and_attribute_update_ppu_pal
+.proc nametable_and_attribute_update_ppu
 
   .scope
   lda hide_graphics_top
@@ -2429,6 +2432,10 @@ done:
 
   ;cycle pad this ppu upload routine for the artificial scroll
   ;update hiding bar (see the main module)
+  clc
+  lda cycle_pad_lut_index
+  adc cycle_pad_lut_offset
+  sta cycle_pad_lut_index
   ldy #3
 : ldx cycle_pad_lut_index
   lda cycle_pad_lut1,x

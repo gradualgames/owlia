@@ -291,9 +291,7 @@ inventory_state_exit:
 
   jmp play_state_reload
 
-ppu_inventory_vblank_ntsc = ppu_inventory_vblank_pal
-
-.proc ppu_inventory_vblank_pal
+.proc ppu_inventory_vblank
 
   jsr sprite_update_all
 

@@ -73,7 +73,7 @@ reset:
   ;we are within the second PPU ready window, so we can just
   ;install the routine without ensuring we will not be interrupted
   ;between loading bytes.
-  unsafely_set_vblank_routine ppu_vblank_nop_ntsc
+  unsafely_set_vblank_routine ppu_vblank_nop
 
   ;install default controller read routine
   set_controller_routine controller_read
@@ -230,9 +230,7 @@ notAbove3:
   rts
 .endproc
 
-detectTVSystemNmiRoutine_ntsc = detectTVSystemNmiRoutine_pal
-
-.proc detectTVSystemNmiRoutine_pal
+.proc detectTVSystemNmiRoutine
 
   inc nmis
 

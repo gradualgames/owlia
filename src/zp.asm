@@ -90,6 +90,6 @@ vblank_done_flag: .res 1
 palette_cycling_enabled: .res 1
 hide_graphics_top: .res 1
 cycle_pad_lut_index: .res 1
-
+cycle_pad_lut_offset: .res 1
 tv_type: .res 1
 nmis: .res 1

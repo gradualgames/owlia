@@ -21,10 +21,8 @@
 
 .endproc
 
-ppu_vblank_nop_ntsc = ppu_vblank_nop_pal
-
 ;nmi routine which does nothing except continue music driver
-.proc ppu_vblank_nop_pal
+.proc ppu_vblank_nop
 
   .scope
   lda hide_graphics_top
@@ -544,10 +542,8 @@ palette_cycling_not_enabled:
 
 .endproc
 
-ppu_upload_dynamic_palette_ppu_ntsc = ppu_upload_dynamic_palette_ppu_pal
-
 ;nmi routine for uploading the dynamic palette
-.proc ppu_upload_dynamic_palette_ppu_pal
+.proc ppu_upload_dynamic_palette_ppu
 
   .scope
   lda hide_graphics_top

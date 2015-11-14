@@ -2,8 +2,7 @@
 PPU_INC = 1
 
 .global ppu_module_init
-.global ppu_vblank_nop_ntsc
-.global ppu_vblank_nop_pal
+.global ppu_vblank_nop
 .global ppu_load_palette
 .global ppu_load_palette_bg
 .global ppu_load_black_palette
@@ -20,8 +19,7 @@ PPU_INC = 1
 .global ppu_advance_palette_cycle
 .global ppu_enable_palette_cycling
 .global ppu_disable_palette_cycling
-.global ppu_upload_dynamic_palette_ppu_ntsc
-.global ppu_upload_dynamic_palette_ppu_pal
+.global ppu_upload_dynamic_palette_ppu
 
 MIN_BRIGHTNESS_LEVEL = 0
 MAX_BRIGHTNESS_LEVEL = 4
@@ -212,21 +210,26 @@ wait:
   clear_vblank_done
   wait_vblank_done
 
+  lda #<address
+  sta vblank_routine
+  lda #>address
+  sta vblank_routine+1
+
   .scope
   lda tv_type
   cmp #TV_TYPE_PAL
   beq pal
 ntsc:
-  lda #<.ident(.concat(.string(address), "_ntsc"))
-  sta vblank_routine
-  lda #>.ident(.concat(.string(address), "_ntsc"))
-  sta vblank_routine+1
+  .ifdef .ident(.concat(.string(address), "_ntsc_cycle_pad_lut_offset"))
+  lda #.ident(.concat(.string(address), "_ntsc_cycle_pad_lut_offset"))
+  sta cycle_pad_lut_offset
+  .endif
   jmp done
 pal:
-  lda #<.ident(.concat(.string(address), "_pal"))
-  sta vblank_routine
-  lda #>.ident(.concat(.string(address), "_pal"))
-  sta vblank_routine+1
+  .ifdef .ident(.concat(.string(address), "_pal_cycle_pad_lut_offset"))
+  lda #.ident(.concat(.string(address), "_pal_cycle_pad_lut_offset"))
+  sta cycle_pad_lut_offset
+  .endif
 done:
   .endscope
 
