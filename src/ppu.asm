@@ -39,6 +39,11 @@ do_not_hide_graphics_top:
   set_vblank_done
 
   ;pad CPU cycles for finely tuned graphics hiding
+  .scope
+  lda tv_type
+  cmp #TV_TYPE_NTSC
+  beq ntsc
+pal:
   ldy #7
 : ldx #255
 : dex
@@ -48,6 +53,19 @@ do_not_hide_graphics_top:
   ldx #42
 : dex
   bne :-
+  jmp done
+ntsc:
+  ldy #3
+: ldx #255
+: dex
+  bne :-
+  dey
+  bne :--
+  ldx #50
+: dex
+  bne :-
+done:
+  .endscope
 
   rts
 
@@ -588,6 +606,11 @@ do_not_hide_graphics_top:
   set_vblank_done
 
   ;pad CPU cycles for finely tuned graphics hiding
+  .scope
+  lda tv_type
+  cmp #TV_TYPE_NTSC
+  beq ntsc
+pal:
   ldy #6
 : ldx #255
 : dex
@@ -597,6 +620,19 @@ do_not_hide_graphics_top:
   ldx #51
 : dex
   bne :-
+  jmp done
+ntsc:
+  ldy #2
+: ldx #255
+: dex
+  bne :-
+  dey
+  bne :--
+  ldx #62
+: dex
+  bne :-
+done:
+  .endscope
 
   rts
 .endproc

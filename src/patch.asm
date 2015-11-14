@@ -221,6 +221,7 @@ no_fg_tiles:
 
 ;a cycle pad lut for this ppu routine.
 cycle_pad_lut1:
+;pal
   .byte 255
   .byte 0
   .byte 255
@@ -230,8 +231,19 @@ cycle_pad_lut1:
   .byte 255
   .byte 0
   .byte 255
+;ntsc
+  .byte 205
+  .byte 0
+  .byte 185
+  .byte 0
+  .byte 165
+  .byte 0
+  .byte 147
+  .byte 0
+  .byte 130
 
 cycle_pad_lut2:
+;pal
   .byte 255
   .byte 0
   .byte 255
@@ -241,8 +253,19 @@ cycle_pad_lut2:
   .byte 147
   .byte 0
   .byte 130
+;ntsc
+  .byte 1
+  .byte 0
+  .byte 1
+  .byte 0
+  .byte 2
+  .byte 0
+  .byte 2
+  .byte 0
+  .byte 1
 
 cycle_pad_lut3:
+;pal
   .byte 103
   .byte 0
   .byte 46
@@ -252,6 +275,16 @@ cycle_pad_lut3:
   .byte 255
   .byte 0
   .byte 255
+;ntsc
+  .byte 1
+  .byte 0
+  .byte 1
+  .byte 0
+  .byte 1
+  .byte 0
+  .byte 1
+  .byte 0
+  .byte 1
 
 ;This routine uploads a buffer of columns to the
 ;ppu. It only performs nametable updates, and is
@@ -362,7 +395,10 @@ sprites_not_ready:
 done:
   .endscope
 
-  ldy cycle_pad_lut_index
+  clc
+  lda cycle_pad_lut_index
+  adc cycle_pad_lut_offset
+  tay
   ldx cycle_pad_lut1,y
 : dex
   bne :-
