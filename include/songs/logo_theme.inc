@@ -25,7 +25,7 @@ volume1:
   .byte 0,ENV_STOP
 
 pitch0:
-  .byte 0,0,0,0,0,0,0,0,0,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,ENV_STOP
+  .byte 0,0,0,0,0,0,0,0,0,-1,-1,1,1,1,1,-1,-1,-1,-1,ENV_LOOP,11
 pitch1:
   .byte 0,ENV_STOP
 
@@ -33,19 +33,19 @@ duty0:
   .byte 128,DUTY_ENV_STOP
 
 square1:
-  .byte STV,0,STP,0,SDU,0,STL,24,G2,F2,STL,6,E2,F2,STL,36,G2,STL,96
+  .byte STV,0,STP,0,SDU,0,SLL,24,G2,F2,SLL,6,E2,F2,SLL,36,G2,SLL,96
   .byte C2
   .byte TRM
 
 square2:
-  .byte STV,1,STP,1,STL,6,A0,STV,0,STP,0,SDU,0,STL,24,G2,F2,STL,6
-  .byte E2,F2,STL,36,G2,STL,90,C2
+  .byte STV,1,STP,1,SLL,6,A0,STV,0,STP,0,SDU,0,SLL,24,G2,F2,SLL,6
+  .byte E2,F2,SLL,36,G2,SLL,90,C2
   .byte TRM
 
 triangle:
-  .byte STV,1,STP,1,STL,192,A0
+  .byte STV,1,STP,1,SLL,192,A0
   .byte TRM
 
 noise:
-  .byte STV,1,STP,1,STL,192,A0
+  .byte STV,1,STP,1,SLL,192,A0
   .byte TRM

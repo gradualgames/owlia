@@ -152,20 +152,20 @@ OPCODES_BASE = 94
 
 ;stream control opcodes
 
-;set length
-STL = 0+OPCODES_BASE
+;set length lo byte
+SLL = 0+OPCODES_BASE
+
+;set length hi byte
+SLH = 1+OPCODES_BASE
 
 ;set volume envelope
-STV = 1+OPCODES_BASE
+STV = 2+OPCODES_BASE
 
 ;set pitch envelope
-STP = 2+OPCODES_BASE
+STP = 3+OPCODES_BASE
 
 ;set duty envelope
-SDU = 3+OPCODES_BASE
-
-;set all stream parameters (takes 4 parameters, performs duties of all above opcodes)
-SA =  4+OPCODES_BASE
+SDU = 4+OPCODES_BASE
 
 ;goto
 GOT = 5+OPCODES_BASE
@@ -212,13 +212,10 @@ DEFAULT_TEMPO = 255
 
 .macro advance_stream_read_address
 
-  clc
-  lda stream_read_address_lo,x
-  adc #1
-  sta stream_read_address_lo,x
-  lda stream_read_address_hi,x
-  adc #0
-  sta stream_read_address_hi,x
+  inc stream_read_address_lo,x
+  bne :+
+  inc stream_read_address_hi,x
+:
 
 .endmacro
 

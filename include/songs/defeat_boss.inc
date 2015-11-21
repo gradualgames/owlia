@@ -30,24 +30,24 @@ duty0:
   .byte 128,DUTY_ENV_STOP
 
 square1:
-  .byte STV,0,STP,0,SDU,0,STL,8,DS2,F2,G2,DS2,F2,G2,F2,G2,A2,F2,G2
-  .byte A2,G2,A2,B2,G2,D3,G3,STL,255,G2,STV,1,STL,113,G2
+  .byte STV,0,STP,0,SDU,0,SLL,8,DS2,F2,G2,DS2,F2,G2,F2,G2,A2,F2,G2
+  .byte A2,G2,A2,B2,G2,D3,G3,SLL,255,G2,STV,1,SLL,113,G2
   .byte TRM
   .word square1
 
 square2:
-  .byte STV,0,STP,0,SDU,0,STL,8,G2,A2,AS2,G2,A2,AS2,A2,AS2,C3,A2
-  .byte AS2,C3,B2,C3,D3,B2,G2,D3,STL,255,B3,STV,1,STL,113,B3
+  .byte STV,0,STP,0,SDU,0,SLL,8,G2,A2,AS2,G2,A2,AS2,A2,AS2,C3,A2
+  .byte AS2,C3,B2,C3,D3,B2,G2,D3,SLL,255,B3,STV,1,SLL,113,B3
   .byte TRM
   .word square2
 
 triangle:
-  .byte STV,1,STL,255,A0,A0,STL,2,A0
+  .byte STV,1,SLL,255,A0,A0,SLL,2,A0
   .byte TRM
   .word triangle
 
 noise:
-  .byte STV,1,STL,255,A0,A0,STL,2,A0
+  .byte STV,1,SLL,255,A0,A0,SLL,2,A0
   .byte TRM
   .word noise
 

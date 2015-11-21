@@ -38,7 +38,7 @@ volume5:
   .byte 0,ENV_STOP
 
 pitch0:
-  .byte 0,0,0,0,0,0,0,0,0,0,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,ENV_STOP
+  .byte 0,0,0,0,0,0,0,0,0,0,1,1,-1,-1,-1,-1,1,1,1,1,ENV_LOOP,12
 pitch1:
   .byte 0,ENV_STOP
 
@@ -48,7 +48,7 @@ duty1:
   .byte 128,DUTY_ENV_STOP
 
 square1:
-  .byte STV,1,STP,1,SDU,0,STL,20,D2,A2,D3,A2,D2,A2,C3,G2,D2,A2
+  .byte STV,1,STP,1,SDU,0,SLL,20,D2,A2,D3,A2,D2,A2,C3,G2,D2,A2
   .byte D3,A2,D2,B2,C3,G2,D2,A2,D3,A2,D2,A2,C3,G2,D2,A2,D3,A2,D2
   .byte B2,C3,G2,D2,A2,D3,A2,D2,A2,C3,G2,D2,A2,D3,A2,D2,B2,C3,G2
   .byte AS1,F2,AS2,F2,G1,D2,A2,D2,AS1,F2,AS2,F2,G1,D2,A2,D2
@@ -56,7 +56,7 @@ square1:
   .word square1
 
 square2:
-  .byte STV,4,STP,1,STL,255,D3,STL,65,D3,STV,3,STP,0,SDU,1,STL,10
+  .byte STV,4,STP,1,SLL,64,SLH,1,D3,STV,3,STP,0,SDU,1,SLL,10
   .byte D2,A2,B2,E3,D2,A2,B2,E3,D2,A2,B2,E3,D2,A2,B2,E3,D2,A2,B2
   .byte E3,D2,A2,B2,E3,D2,A2,B2,E3,D2,A2,B2,E3,D2,A2,B2,E3,D2,A2
   .byte B2,E3,D2,A2,B2,E3,D2,A2,B2,E3,D2,A2,B2,E3,D2,A2,B2,E3,D2
@@ -67,16 +67,16 @@ square2:
   .word square2
 
 triangle:
-  .byte STV,4,STP,1,STL,255,D3,STL,65,D3,STL,255,D3,STL,65
-  .byte D3,STV,0,STP,0,SDU,0,STL,10,D4,E4,FS4,A4,STL,40,D4,STL,70
-  .byte E4,STL,10,A3,E4,FS4,A4,B4,STL,40,G4,STL,80,A4,STL,20
-  .byte A4,STL,10,G4,F4,STL,30,E4,STL,10,D4,STL,80,E4,STL,20
-  .byte A4,STL,10,G4,A4,STL,20,C5,A4,STL,40,D5,E5
+  .byte STV,4,STP,1,SLL,64,SLH,1,D3,SLL,64,SLH,1,D3,STV,0,STP,0
+  .byte SDU,0,SLL,10,D4,E4,FS4,A4,SLL,40,D4,SLL,70,E4,SLL,10
+  .byte A3,E4,FS4,A4,B4,SLL,40,G4,SLL,80,A4,SLL,20,A4,SLL,10
+  .byte G4,F4,SLL,30,E4,SLL,10,D4,SLL,80,E4,SLL,20,A4,SLL,10
+  .byte G4,A4,SLL,20,C5,A4,SLL,40,D5,E5
   .byte GOT
   .word triangle
 
 noise:
-  .byte STV,5,STP,1,STL,255,A0,A0,A0,A0,A0,STL,5,A0
+  .byte STV,5,STP,1,SLL,0,SLH,5,A0
   .byte GOT
   .word noise
 

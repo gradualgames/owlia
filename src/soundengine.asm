@@ -31,8 +31,9 @@ apu_data_ready: .res 1
 apu_square_1_old: .res 1
 apu_square_2_old: .res 1
 
-;original song address
 song_address: .res 2
+apu_register_sets: .res 16
+
 sound_zp_end:
 
 .segment "RAM"
@@ -45,10 +46,11 @@ sfx_base_address_volume_envelopes: .res 2
 sfx_base_address_pitch_envelopes: .res 2
 sfx_base_address_duty_envelopes: .res 2
 
-;streams
 stream_active:             .res MAX_STREAMS
-stream_length:             .res MAX_STREAMS
-stream_frame_counter:      .res MAX_STREAMS
+stream_length_lo:          .res MAX_STREAMS
+stream_length_hi:          .res MAX_STREAMS
+stream_frame_counter_lo:   .res MAX_STREAMS
+stream_frame_counter_hi:   .res MAX_STREAMS
 stream_volume_index:       .res MAX_STREAMS
 stream_volume_offset:      .res MAX_STREAMS
 stream_pitch_index:        .res MAX_STREAMS
@@ -68,9 +70,6 @@ stream_read_address_hi:    .res MAX_STREAMS
 stream_tempo_counter:      .res MAX_STREAMS
 stream_tempo_carry:        .res MAX_STREAMS
 stream_tempo:              .res MAX_STREAMS
-
-;five total channels, 4 bytes per channel, so 40 bytes.
-apu_register_sets: .res 40
 sound_ram_end:
 
 .segment "ROM06"
@@ -279,11 +278,11 @@ channel_callback_table_lo: .lobytes channel_callback_table
 channel_callback_table_hi: .hibytes channel_callback_table
 
 .define stream_callback_table \
-  stream_set_length, \
+  stream_set_length_lo, \
+  stream_set_length_hi, \
   stream_set_volume_envelope, \
   stream_set_pitch_envelope, \
   stream_set_duty_envelope, \
-  stream_set_all, \
   stream_goto, \
   stream_terminate
 
@@ -301,12 +300,6 @@ stream_callback_table_hi: .hibytes stream_callback_table
   lda #$08
   sta stream_channel_register_2,x
 
-  ;only load note at the very beginning of a note
-  ;(when length and frame counter are the same,
-  ;it has just been reset at the beginning of a note)
-  lda stream_length,x
-  cmp stream_frame_counter,x
-  bne skip_load_note
   ;load note index
   ldy stream_byte
 
@@ -317,7 +310,6 @@ stream_callback_table_hi: .hibytes stream_callback_table
   ;load high byte of note
   lda note_table_hi,y
   sta stream_channel_register_4,x
-skip_load_note:
 
   ;load volume index
   lda stream_volume_index,x
@@ -339,8 +331,9 @@ skip_load_note:
   cmp #ENV_LOOP
   bne skip_volume_loop
 
-  ;we hit a loop opcode, reset offset and re-load value
-  lda #0
+  ;we hit a loop opcode, advance envelope index and load loop point
+  iny
+  lda (sound_local_word_0),y
   sta stream_volume_offset,x
   tay
 
@@ -380,8 +373,9 @@ volume_stop:
   cmp #ENV_LOOP
   bne skip_pitch_loop
 
-  ;we hit a loop opcode, reset offset and re-load value
-  lda #0
+  ;we hit a loop opcode, advance envelope index and load loop point
+  iny
+  lda (sound_local_word_0),y
   sta stream_pitch_offset,x
   tay
 
@@ -465,12 +459,6 @@ square_2_play_note = square_1_play_note
 
 .proc triangle_play_note
 
-  ;only load note at the very beginning of a note
-  ;(when length and frame counter are the same,
-  ;it has just been reset at the beginning of a note)
-  lda stream_length,x
-  cmp stream_frame_counter,x
-  bne skip_load_note
   ;load note index
   ldy stream_byte
 
@@ -481,7 +469,6 @@ square_2_play_note = square_1_play_note
   ;load high byte of note
   lda note_table_hi,y
   sta stream_channel_register_4,x
-skip_load_note:
 
   ;load volume index
   lda stream_volume_index,x
@@ -503,8 +490,9 @@ skip_load_note:
   cmp #ENV_LOOP
   bne skip_volume_loop
 
-  ;we hit a loop opcode, reset offset and re-load value
-  lda #0
+  ;we hit a loop opcode, advance envelope index and load loop point
+  iny
+  lda (sound_local_word_0),y
   sta stream_volume_offset,x
   tay
 
@@ -538,8 +526,9 @@ volume_stop:
   cmp #ENV_LOOP
   bne skip_pitch_loop
 
-  ;we hit a loop opcode, reset offset and re-load value
-  lda #0
+  ;we hit a loop opcode, advance envelope index and load loop point
+  iny
+  lda (sound_local_word_0),y
   sta stream_pitch_offset,x
   tay
 
@@ -608,8 +597,9 @@ pitch_stop:
   cmp #ENV_LOOP
   bne skip_volume_loop
 
-  ;we hit a loop opcode, reset offset and re-load value
-  lda #0
+  ;we hit a loop opcode, advance envelope index and load loop point
+  iny
+  lda (sound_local_word_0),y
   sta stream_volume_offset,x
   tay
 
@@ -631,56 +621,6 @@ volume_stop:
   ;these callbacks are all stream control and execute in sequence
   ;until exhausted.
   ;****************************************************************
-
-.proc stream_set_all
-
-  ;grab all parameters from right after the opcode
-  lda stream_read_address_lo,x
-  sta sound_local_word_0
-  lda stream_read_address_hi,x
-  sta sound_local_word_0+1
-
-  ;get length parameter
-  ldy #1
-  lda (sound_local_word_0),y
-  sta stream_length,x
-  sta stream_frame_counter,x
-
-  ;get volume envelope index
-  iny
-  lda (sound_local_word_0),y
-  sta stream_volume_index,x
-  lda #0
-  sta stream_volume_offset,x
-
-  ;get pitch envelope index
-  iny
-  lda (sound_local_word_0),y
-  sta stream_pitch_index,x
-  lda #0
-  sta stream_pitch_offset,x
-
-  ;get duty envelope index
-  iny
-  lda (sound_local_word_0),y
-  sta stream_duty_index,x
-  lda #0
-  sta stream_duty_offset,x
-
-  ;now advance the stream read address to point to last parameter.
-  ;all other callbacks have only one parameter---and they are pointing
-  ;to it by the end of the routine. the read address is then advanced to
-  ;the next opcode or note by stream_update.
-  clc
-  lda stream_read_address_lo,x
-  adc #4
-  sta stream_read_address_lo,x
-  lda stream_read_address_hi,x
-  adc #0
-  sta stream_read_address_hi,x
-
-  rts
-.endproc
 
 .proc stream_set_volume_envelope
 
@@ -733,7 +673,7 @@ volume_stop:
   rts
 .endproc
 
-.proc stream_set_length
+.proc stream_set_length_lo
 
   advance_stream_read_address
   ;load byte at read address
@@ -743,8 +683,27 @@ volume_stop:
   sta sound_local_word_0+1
   ldy #0
   lda (sound_local_word_0),y
-  sta stream_length,x
-  sta stream_frame_counter,x
+  sta stream_length_lo,x
+  sta stream_frame_counter_lo,x
+  lda #0
+  sta stream_length_hi,x
+  sta stream_frame_counter_hi,x
+
+  rts
+.endproc
+
+.proc stream_set_length_hi
+
+  advance_stream_read_address
+  ;load byte at read address
+  lda stream_read_address_lo,x
+  sta sound_local_word_0
+  lda stream_read_address_hi,x
+  sta sound_local_word_0+1
+  ldy #0
+  lda (sound_local_word_0),y
+  sta stream_length_hi,x
+  sta stream_frame_counter_hi,x
 
   rts
 .endproc
@@ -1019,10 +978,12 @@ starting_read_address = sound_param_word_0
 
   ;set a default note length (20 frames)
   lda #20
-  sta stream_length,x
-
+  sta stream_length_lo,x
   ;set initial frame counter
-  sta stream_frame_counter,x
+  sta stream_frame_counter_lo,x
+  lda #0
+  sta stream_length_hi,x
+  sta stream_frame_counter_hi,x
 
   ;set initial envelope indices
   lda #0
@@ -1122,12 +1083,24 @@ process_note:
   beq do_not_advance_frame_counter
 
   ;decrement the frame counter. on zero, advance the stream's read address.
-  dec stream_frame_counter,x
+  sec
+  lda stream_frame_counter_lo,x
+  sbc #<1
+  sta stream_frame_counter_lo,x
+  lda stream_frame_counter_hi,x
+  sbc #>1
+  sta stream_frame_counter_hi,x
+
+  lda stream_frame_counter_lo,x
+  ora stream_frame_counter_hi,x
+
   bne frame_counter_not_zero
 
   ;reset the frame counter
-  lda stream_length,x
-  sta stream_frame_counter,x
+  lda stream_length_lo,x
+  sta stream_frame_counter_lo,x
+  lda stream_length_hi,x
+  sta stream_frame_counter_hi,x
 
   ;reset volume, pitch, and duty offsets
   lda #0

@@ -19,6 +19,7 @@ volume:
 pitch:
   .word pitch0
   .word pitch1
+  .word pitch2
 
 duty:
   .word duty0
@@ -40,9 +41,11 @@ volume5:
   .byte 0,ENV_STOP
 
 pitch0:
-  .byte 0,0,0,0,0,0,0,0,0,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,ENV_STOP
+  .byte 0,0,0,0,0,0,0,0,0,-1,-1,1,1,1,1,-1,-1,-1,-1,ENV_LOOP,11
 pitch1:
   .byte 0,0,0,0,0,0,0,0,0,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,-1,-1,1,1,ENV_STOP
+pitch2:
+  .byte 0,ENV_STOP
 
 duty0:
   .byte 128,DUTY_ENV_STOP
@@ -54,34 +57,34 @@ duty3:
   .byte 128,DUTY_ENV_STOP
 
 square1:
-  .byte STV,2,STP,0,SDU,1,STL,20,G3,STL,10,C4,G3,STL,30,D4,STL,10
-  .byte E4,STL,60,D4,STL,20,G4,F4,E4,F4,A4,STL,60,E4,STL,20,F4,D4
-  .byte AS4,STL,80,G4
+  .byte STV,2,STP,0,SDU,1,SLL,20,G3,SLL,10,C4,G3,SLL,30,D4,SLL,10
+  .byte E4,SLL,60,D4,SLL,20,G4,F4,E4,F4,A4,SLL,60,E4,SLL,20
+  .byte F4,D4,AS4,SLL,80,G4
   .byte GOT
   .word square1
 
 square2:
-  .byte STV,3,STP,1,SDU,2,STL,20,C2,STL,10,F2,C2,STL,30,G2,STL,10
-  .byte G2,STL,60,G2,STL,20,C3,AS2,A2,AS2,STL,10,C3,D3,STL,20,A2
-  .byte STL,10,A2,AS2,STL,20,F2,D2,G2,DS2,STL,80,C2
+  .byte STV,3,STP,0,SDU,2,SLL,20,C2,SLL,10,F2,C2,SLL,30,G2,SLL,10
+  .byte G2,SLL,60,G2,SLL,20,C3,AS2,A2,AS2,SLL,10,C3,D3,SLL,20
+  .byte A2,SLL,10,A2,AS2,SLL,20,F2,D2,G2,DS2,SLL,80,C2
   .byte GOT
   .word square2
 
 triangle:
-  .byte STV,4,SDU,3,STL,20,C2,STL,10,C2,C2,STL,20,C2,STL,10,C2,C2
-  .byte STL,20,C2,STL,10,C2,C2,STL,20,C2,STL,10,C2,C2,STL,20,C2,STL,10
-  .byte C2,C2,STL,20,C2,STL,10,C2,C2,STL,20,C2,STL,10,C2,C2,STL,20
-  .byte C2,STL,10,C2,C2,STL,20,C2,STL,10,C2,C2,STL,20,C2,STL,10,C2
-  .byte C2,STL,20,C2,STL,10,C2,C2
+  .byte STV,4,STP,2,SDU,3,SLL,20,C2,SLL,10,C2,C2,SLL,20,C2,SLL,10
+  .byte C2,C2,SLL,20,C2,SLL,10,C2,C2,SLL,20,C2,SLL,10,C2,C2,SLL,20
+  .byte C2,SLL,10,C2,C2,SLL,20,C2,SLL,10,C2,C2,SLL,20,C2,SLL,10
+  .byte C2,C2,SLL,20,C2,SLL,10,C2,C2,SLL,20,C2,SLL,10,C2,C2,SLL,20
+  .byte C2,SLL,10,C2,C2,SLL,20,C2,SLL,10,C2,C2
   .byte GOT
   .word triangle
 
 noise:
-  .byte STV,0,STL,20,$0,STL,10,$0,$0,STL,20,$0,STL,10,$0,STL,5,$0
-  .byte $0,STL,20,$0,STL,10,$0,STL,5,$0,$0,STL,20,$0,STL,10,$0,$0
-  .byte STL,20,$0,STL,10,$0,$0,STL,20,$0,STL,10,$0,$0,STL,20,$0,STL,10
-  .byte $0,$0,STL,20,$0,STL,10,$0,$0,STL,20,$0,STL,5,$0,$0,$0,$0
-  .byte STL,20,$0,$0,$0,STL,10,$0,STL,5,$0,$0
+  .byte STV,0,STP,2,SLL,20,0,SLL,10,0,0,SLL,20,0,SLL,10,0,SLL,5
+  .byte 0,0,SLL,20,0,SLL,10,0,SLL,5,0,0,SLL,20,0,SLL,10,0,0,SLL,20
+  .byte 0,SLL,10,0,0,SLL,20,0,SLL,10,0,0,SLL,20,0,SLL,10,0,0,SLL,20
+  .byte 0,SLL,10,0,0,SLL,20,0,SLL,5,0,0,0,0,SLL,20,0,0,0,SLL,10
+  .byte 0,SLL,5,0,0
   .byte GOT
   .word noise
 
