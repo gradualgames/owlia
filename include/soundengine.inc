@@ -192,6 +192,15 @@ _16TH    = 2*_32ND
 _8TH     = 2*_16TH
 _QUARTER = 2*_8TH
 
+;values for stream flags
+STREAM_ACTIVE_SET    = %00000001
+STREAM_ACTIVE_TEST   = %00000001
+STREAM_ACTIVE_CLEAR  = %11111110
+
+STREAM_SILENCE_SET   = %00000010
+STREAM_SILENCE_TEST  = %00000010
+STREAM_SILENCE_CLEAR = %11111101
+
 ;values to use for x for playing sound effects
 soundeffect_one = 4
 soundeffect_two = 5

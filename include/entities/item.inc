@@ -468,7 +468,7 @@ exceeded_max:
   lda #>sfx_get_item
   sta sound_param_word_0+1
 
-  lda #0
+  lda #1
   sta sound_param_byte_0
 
   lda #soundeffect_one
@@ -488,7 +488,7 @@ exceeded_max:
   lda #>sfx_coins_square1
   sta sound_param_word_0+1
 
-  lda #0
+  lda #1
   sta sound_param_byte_0
 
   lda #soundeffect_one

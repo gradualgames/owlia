@@ -46,7 +46,7 @@ sfx_base_address_volume_envelopes: .res 2
 sfx_base_address_pitch_envelopes: .res 2
 sfx_base_address_duty_envelopes: .res 2
 
-stream_active:             .res MAX_STREAMS
+stream_flags:              .res MAX_STREAMS
 stream_length_lo:          .res MAX_STREAMS
 stream_length_hi:          .res MAX_STREAMS
 stream_frame_counter_lo:   .res MAX_STREAMS
@@ -123,7 +123,7 @@ sound_ram_end:
 loop:
 
   lda #0
-  sta stream_active,x
+  sta stream_flags,x
 
   dex
   bpl loop
@@ -167,7 +167,8 @@ loop:
 song_stream_register_copy_loop:
 
   ;load whether this stream is active
-  lda stream_active,x
+  lda stream_flags,x
+  and #STREAM_ACTIVE_TEST
   beq song_stream_not_active
 
   ;update the stream
@@ -213,7 +214,8 @@ do_not_update_music:
 sfx_stream_register_copy_loop:
 
   ;load whether this stream is active
-  lda stream_active,x
+  lda stream_flags,x
+  and #STREAM_ACTIVE_TEST
   beq sfx_stream_not_active
 
   ;update the stream
@@ -311,6 +313,11 @@ stream_callback_table_hi: .hibytes stream_callback_table
   lda note_table_hi,y
   sta stream_channel_register_4,x
 
+  .scope
+  lda stream_flags,x
+  and #STREAM_SILENCE_TEST
+  bne silence_until_note
+note_not_silenced:
   ;load volume index
   lda stream_volume_index,x
   asl
@@ -352,6 +359,16 @@ skip_volume_loop:
   inc stream_volume_offset,x
 
 volume_stop:
+
+  jmp done
+silence_until_note:
+  lda stream_channel_register_1,x
+  and #%11000000
+  ora #%00110000
+  sta stream_channel_register_1,x
+
+done:
+  .endscope
 
   ;load pitch index
   lda stream_pitch_index,x
@@ -743,7 +760,20 @@ volume_stop:
 
   ;set the current stream to inactive
   lda #0
-  sta stream_active,x
+  sta stream_flags,x
+
+  cpx #soundeffect_one
+  bmi not_sound_effect
+
+  ;load channel this sfx writes to
+  ldy stream_channel,x
+  ;use this as index into streams to tell corresponding music channel
+  ;to silence until the next note.
+  lda stream_flags,y
+  ora #STREAM_SILENCE_SET
+  sta stream_flags,y
+
+not_sound_effect:
 
   ;pop current address off the stack
   pla
@@ -974,7 +1004,7 @@ starting_read_address = sound_param_word_0
 
   ;set stream to be inactive while initializing
   lda #0
-  sta stream_active,x
+  sta stream_flags,x
 
   ;set a default note length (20 frames)
   lda #20
@@ -1012,8 +1042,9 @@ starting_read_address = sound_param_word_0
   sta stream_tempo_carry,x
 
   ;set stream to be active
-  lda #1
-  sta stream_active,x
+  lda stream_flags,x
+  ora #STREAM_ACTIVE_SET
+  sta stream_flags,x
 null_starting_read_address:
 
   dec sound_disable_update
@@ -1032,7 +1063,7 @@ null_starting_read_address:
   inc sound_disable_update
 
   lda #0
-  sta stream_active,x
+  sta stream_flags,x
 
   dec sound_disable_update
 
@@ -1107,6 +1138,11 @@ process_note:
   sta stream_volume_offset,x
   sta stream_pitch_offset,x
   sta stream_duty_offset,x
+
+  ;reset silence until note
+  lda stream_flags,x
+  and #STREAM_SILENCE_CLEAR
+  sta stream_flags,x
 
   ;advance the stream's read address.
   advance_stream_read_address
