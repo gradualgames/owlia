@@ -303,6 +303,8 @@ stream_callback_table_hi: .hibytes stream_callback_table
   sta stream_channel_register_2,x
 
   ;load note index
+  lda stream_pitch_offset,x
+  bne pitch_changing
   ldy stream_byte
 
   ;load low byte of note
@@ -312,6 +314,7 @@ stream_callback_table_hi: .hibytes stream_callback_table
   ;load high byte of note
   lda note_table_hi,y
   sta stream_channel_register_4,x
+pitch_changing:
 
   .scope
   lda stream_flags,x
@@ -477,6 +480,8 @@ square_2_play_note = square_1_play_note
 .proc triangle_play_note
 
   ;load note index
+  lda stream_pitch_offset,x
+  bne pitch_changing
   ldy stream_byte
 
   ;load low byte of note
@@ -486,6 +491,7 @@ square_2_play_note = square_1_play_note
   ;load high byte of note
   lda note_table_hi,y
   sta stream_channel_register_4,x
+pitch_changing:
 
   ;load volume index
   lda stream_volume_index,x
