@@ -18,6 +18,7 @@ pitch:
   .word pitch1
 
 duty:
+  .word duty0
 
 volume0:
   .byte 1,1,2,2,1,1,1,1,0,0,0,0,0,0,0,0,ENV_STOP
@@ -31,6 +32,8 @@ pitch0:
 pitch1:
   .byte 0,ENV_STOP
 
+duty0:
+  .byte 128,DUTY_ENV_STOP
 
 square1:
   .byte STV,2,STP,1,SLL,64,SLH,2,A0
