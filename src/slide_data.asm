@@ -468,7 +468,7 @@ laurie_andrews_string:
   .byte "LAURIE ANDREWS",ES
 
 end_cut_scene_testers_strings:
-  .byte 8
+  .byte 9
   .byte 12, 12
   .word testers_string
   .byte 14,8
@@ -485,6 +485,8 @@ end_cut_scene_testers_strings:
   .word john_white_string
   .byte 20,8
   .word justin_orenich_string
+  .byte 21,8
+  .word manuel_mauron_string
 
 testers_string:
   .byte "TESTERS",ES
@@ -509,6 +511,9 @@ john_white_string:
 
 justin_orenich_string:
   .byte "JUSTIN ORENICH",ES
+
+manuel_mauron_string:
+  .byte "MANUEL MAURON",ES
 
 end_cut_scene_produced_by_strings:
   .byte 2
