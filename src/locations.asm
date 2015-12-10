@@ -1958,7 +1958,7 @@ temple1_entity_instances:
   .byte entity_index_clam, 48, 39, 0, 0
   .byte entity_index_seahorse, 19, 21, 0, 0
   .byte entity_index_seahorse, 47, 13, 0, 0
-  .byte entity_index_dungeon_entrance_statue, 15, 1, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 2, <30000, >30000, ^30000, buttons::_down
+  .byte entity_index_dungeon_entrance_statue, 15, 1, 0, DUNGEON_ENTRANCE_STATUE_PARAMS, 2, <40000, >40000, ^40000, buttons::_down
 
 dungeon4_0_0_entity_instances:
   .byte 4
