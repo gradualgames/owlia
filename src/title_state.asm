@@ -25,8 +25,8 @@
 .segment "ROM01"
 
 gradual_games_logo_palette:
-  .byte $0e,$08,$1a,$18,$0e,$12,$24,$20,$0e,$1a,$18,$20,$0e,$0e,$0e,$0e
-  .byte $0e,$08,$1a,$18,$0e,$12,$24,$20,$0e,$1a,$18,$20,$0e,$0e,$0e,$0e
+  .byte $0e,$08,$18,$20,$0e,$0e,$11,$20,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
+  .byte $0e,$0e,$09,$1a,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e,$0e
 
 title_screen_palette:
   .byte $0e,$18,$00,$20,$0e,$04,$14,$24,$0e,$17,$28,$38,$0e,$17,$12,$20
@@ -53,6 +53,20 @@ title_state_logo:
   sta w0+1
   far_call #TITLE_STATE_BG_CHR_BANK, ppu_load_chr_amount
 
+  ;load chr data for the logo
+  lda #$10
+  sta ppu_2006
+  lda #$00
+  sta ppu_2006+1
+  upload_ppu_2006
+
+  ldx #sprite_chr_group_index_gradual_games_logo
+  lda sprite_chr_group_addresses_lo,x
+  sta w0
+  lda sprite_chr_group_addresses_hi,x
+  sta w0+1
+  far_call #sprite_chr_group_bank_gradual_games_logo, ppu_load_chr_amount
+
   ;load nametable data for title screen
   lda #$20
   sta ppu_2006
@@ -64,6 +78,19 @@ title_state_logo:
   lda #>gradual_games_logo_screen
   sta w0+1
   far_call #TITLE_STATE_BG_NAMETABLE_BANK, ppu_load_nametable
+
+  ;draw overlay sprites
+  lda #$00
+  sta chr_group_offset
+
+  lda #<gradual_games_logo_spr_overlay
+  sta w0
+  lda #>gradual_games_logo_spr_overlay
+  sta w0+1
+
+  far_call #TITLE_STATE_SPRITES_AND_ANIMATIONS_BANK, sprite_draw_overlay
+
+  jsr sprite_update_all
 
   ;reset scroll
   lda #$20
