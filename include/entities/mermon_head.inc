@@ -499,6 +499,20 @@ not_dead_yet:
 
 .proc mermon_head_fire_projectiles
 
+  ;play a sound
+  lda #<sfx_whoosh
+  sta sound_param_word_0
+  lda #>sfx_whoosh
+  sta sound_param_word_0+1
+
+  lda #3
+  sta sound_param_byte_0
+
+  lda #soundeffect_one
+  sta sound_param_byte_1
+
+  far_call #SOUND_BANK, stream_initialize
+
   lda #7
   sta mermon_head_projectile_direction_counter,x
 
