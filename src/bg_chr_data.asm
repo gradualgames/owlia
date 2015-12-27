@@ -137,21 +137,33 @@ dungeon5_main_chr:
 .incbin "dungeon5_main.chr"
 
 end_cut_scene_slide1_chr:
+.ifndef NO_ENDING
 .incbin "end_cut_scene_slide1.chr"
+.endif
 
 end_cut_scene_slide2_chr:
+.ifndef NO_ENDING
 .incbin "end_cut_scene_slide2.chr"
+.endif
 
 end_cut_scene_slide3_chr:
+.ifndef NO_ENDING
 .incbin "end_cut_scene_slide3.chr"
+.endif
 
 .segment "ROM27"
 
 end_cut_scene_slide4_chr:
+.ifndef NO_ENDING
 .incbin "end_cut_scene_slide4.chr"
+.endif
 
 end_cut_scene_slide5_chr:
+.ifndef NO_ENDING
 .incbin "end_cut_scene_slide5.chr"
+.endif
 
 end_cut_scene_slide6_chr:
+.ifndef NO_ENDING
 .incbin "end_cut_scene_slide6.chr"
+.endif

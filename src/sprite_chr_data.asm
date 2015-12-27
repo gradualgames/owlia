@@ -343,27 +343,41 @@ fortress_chr:
 .incbin "fortress.chr"
 
 end_cut_scene_slide1_spr_chr:
+.ifndef NO_ENDING
 .incbin "end_cut_scene_slide1_spr.chr"
+.endif
 
 end_cut_scene_slide2_spr_chr:
+.ifndef NO_ENDING
 .incbin "end_cut_scene_slide2_spr.chr"
+.endif
 
 end_cut_scene_slide3_spr_chr:
+.ifndef NO_ENDING
 .incbin "end_cut_scene_slide3_spr.chr"
+.endif
 
 end_cut_scene_slide4_spr_chr:
+.ifndef NO_ENDING
 .incbin "end_cut_scene_slide4_spr.chr"
+.endif
 
 .segment "ROM28"
 
 end_cut_scene_slide5_spr_chr:
+.ifndef NO_ENDING
 .incbin "end_cut_scene_slide5_spr.chr"
+.endif
 
 end_cut_scene_slide6_spr_chr:
+.ifndef NO_ENDING
 .incbin "end_cut_scene_slide6_spr.chr"
+.endif
 
 silmaran_carry_big_chr:
+.ifndef NO_ENDING
 .incbin "silmaran_carry_big.chr"
+.endif
 
 gradual_games_logo_spr_chr:
 .incbin "gradual_games_logo_spr.chr"
