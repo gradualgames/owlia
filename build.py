@@ -7,7 +7,7 @@ import sys
 nes_file = "owlia.nes"
 linker_cfg_file = "owlia.cfg"
 map_file = "owlia.map"
-debug_file = "owlia.nes.dbg"
+debug_file = "owlia.dbg"
 ndx_file = "owlia.nes.ndx"
 
 src_path = "src"
