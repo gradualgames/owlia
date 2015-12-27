@@ -1,5 +1,5 @@
 song1:
-  .byte 255
+  .byte 210
   .word square1
   .word square2
   .word triangle
