@@ -12,6 +12,7 @@
     npc_housebr, \
     owlia_school_of_falconry, \
     welcome_to_my_house, \
+    welcome_to_my_house_twin_sister, \
     shh, \
     welcome_to_my_library, \
     owlia_history, \
@@ -149,6 +150,12 @@ owlia_school_of_falconry:
 welcome_to_my_house:
   .byte    1, "WELCOME TO MY HOUSE!",WT
   .byte NL,2, "MAKE YOURSELF AT HOME!",WT,EC
+
+welcome_to_my_house_twin_sister:
+  .byte    1, "WELCOME TO MY HOUSE!",TM,30
+  .byte NL,2, "MAKE YOURSELF AT HOME!",TM,30
+  .byte NL,3, "WHAT? MY TWIN SISTER"
+  .byte NL,4, "ALREADY WELCOMED YOU?",WT,EC
 
 shh:
   .byte    1, "SSSSSHHHH!!!!!",WT,EC

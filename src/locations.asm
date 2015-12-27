@@ -800,8 +800,9 @@ housetr_entity_instances:
   .byte entity_index_npc, 9, 18, sprite_chr_group_index_npcwoman, NPC_PARAMS, conversation_index_npc_housetr, NPC_GRAPHICS_SET_WOMAN, 16 * 8, 16 * 2, NPC_MODE_WALK, ENTITY_DIRECTION_DOWN
 
 housel_entity_instances:
-  .byte 1  ;count
+  .byte 2  ;count
   .byte entity_index_npc, 30, 19, sprite_chr_group_index_npcwoman, NPC_PARAMS, conversation_index_welcome_to_my_house, NPC_GRAPHICS_SET_WOMAN, 16 * 8, 16 * 2, NPC_MODE_MOTIONLESS, ENTITY_DIRECTION_LEFT
+  .byte entity_index_npc, 15, 14, sprite_chr_group_index_npcwoman, NPC_PARAMS, conversation_index_welcome_to_my_house_twin_sister, NPC_GRAPHICS_SET_WOMAN, 16 * 2, 16 * 4, NPC_MODE_WALK, ENTITY_DIRECTION_RIGHT
 
 houser_entity_instances:
   .byte 4  ;count
