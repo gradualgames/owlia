@@ -4,6 +4,8 @@ include/start_location.inc
 *.map
 *.nes
 *.dbg
+*.deb
 *.ndx
 *.nl
 workspace.xml
+labels.lua
