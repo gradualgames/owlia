@@ -119,6 +119,8 @@ reset:
   lda #0
   sta nmis
   jsr getTVSystem
+  ;Zero out the bit which would signify Dendy. We want to use NTSC settings (0) for Dendy.
+  and #%11111101
   sta tv_type
 
   ;jump to title state
