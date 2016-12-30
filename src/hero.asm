@@ -314,7 +314,6 @@ skip_spawn_carry_hero:
   .ifndef INFINITE_ITEMS
   lda inventory_bombs
   beq cannot_spawn_bomb
-  dec inventory_bombs
   .endif
 
   ;count bombs, only allow spawning if less than 2
@@ -337,6 +336,10 @@ not_bomb:
   cmp #2
   bpl cannot_spawn_bomb
 
+  .ifndef INFINITE_ITEMS
+  dec inventory_bombs
+  .endif
+
   jsr hero_throw
   far_call #FAMILIAR_BANK, familiar_spawn_carry_bomb
 
@@ -356,11 +359,14 @@ cannot_spawn_bomb:
   .ifndef INFINITE_ITEMS
   lda inventory_lanterns
   beq no_lanterns_left
-  dec inventory_lanterns
   .endif
   lda dynamic_palette_brightness_level_bg
   cmp #MAX_BRIGHTNESS_LEVEL
   beq already_at_max_brightness
+
+  .ifndef INFINITE_ITEMS
+  dec inventory_lanterns
+  .endif
 
   jsr hero_throw
   far_call #FAMILIAR_BANK, familiar_spawn_carry_lantern
