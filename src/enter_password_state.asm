@@ -953,12 +953,15 @@ done:
 
 .endproc
 
+.segment "CODE"
+
 .proc ppu_enter_password_state_vblank
 
   jsr sprite_update_all
 
   lda state_control_params+enter_password_state_control::print_string
   beq :+
+  switch_bank_ldy #ENTER_PASSWORD_STATE_BANK
   jsr print_entered_password
   jsr print_underscores
   lda #0
