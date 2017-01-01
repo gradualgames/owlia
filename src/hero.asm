@@ -228,6 +228,9 @@ tile_y = w8
   bne cannot_pass
 
   jsr prepare_parameters
+
+  rts
+
 cannot_pass:
 no_pit:
 
