@@ -500,9 +500,9 @@ not_start:
   sta state_control_params+enter_password_state_control::entered_character_index
 
   ;generate password string from password field
-  lda #<state_control_params+enter_password_state_control::password_field
+  lda #<(state_control_params+enter_password_state_control::password_field)
   sta w0
-  lda #>state_control_params+enter_password_state_control::password_field
+  lda #>(state_control_params+enter_password_state_control::password_field)
   sta w0+1
 
   lda #<string_buffer
