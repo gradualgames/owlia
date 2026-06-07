@@ -81,7 +81,3 @@ python3 clean.py
 ### Running
 
 The generated ROM can be played in any NES emulator or on compatible NES hardware using a flash cartridge.
-
-## License
-
-See the repository license file for licensing information.
