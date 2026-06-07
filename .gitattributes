@@ -1,0 +1,6 @@
+*.asm linguist-language=Assembly
+*.inc linguist-language=Assembly
+
+*.py linguist-language=Python
+*.lua linguist-language=Lua
+
